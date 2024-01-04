@@ -1,46 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var startX, startY;
-
-    function handleTouchStart(event) {
-        startX = event.touches[0].pageX;
-        startY = event.touches[0].pageY;
+    let touchstartX = 0;
+    let touchendX = 0;
+    
+    function checkDirection() {
+        if (touchendX < touchstartX) navigateToNextSlide();
+        if (touchendX > touchstartX) navigateToPreviousSlide();
     }
 
-    function handleTouchMove(event) {
-        if (!startX || !startY) {
-            return;
-        }
+    document.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+    });
 
-        var currentX = event.touches[0].pageX;
-        var currentY = event.touches[0].pageY;
+    document.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        checkDirection();
+    });
 
-        var diffX = startX - currentX;
-        var diffY = startY - currentY;
-
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            if (diffX > 0) {
-                navigateToNextSlide(); // Swipe left
-            } else {
-                navigateToPreviousSlide(); // Swipe right
-            }
-        }
-        startX = null;
-        startY = null;
-    }
-
-    function handleTap(event) {
-        var tapX = event.clientX;
-        var screenWidth = window.innerWidth;
-
-        if (tapX < screenWidth / 2) {
-            navigateToPreviousSlide(); // Tap on left side
+    document.addEventListener('click', e => {
+        // Assuming the whole window width is divided into two for navigation
+        if (e.clientX < window.innerWidth / 2) {
+            navigateToPreviousSlide();
         } else {
-            navigateToNextSlide(); // Tap on right side
+            navigateToNextSlide();
         }
-    }
-
-    // Adding event listeners
-    document.addEventListener('touchstart', handleTouchStart, false);
-    document.addEventListener('touchmove', handleTouchMove, false);
-    document.addEventListener('click', handleTap, false);
+    });
 });
+
+function navigateToNextSlide() {
+    // Logic to navigate to the next slide
+    // Replace with your actual function call
+}
+
+function navigateToPreviousSlide() {
+    // Logic to navigate to the previous slide
+    // Replace with your actual function call
+}
