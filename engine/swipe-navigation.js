@@ -1,37 +1,54 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let touchstartX = 0;
-    let touchendX = 0;
-    
-    function checkDirection() {
-        if (touchendX < touchstartX) navigateToNextSlide();
-        if (touchendX > touchstartX) navigateToPreviousSlide();
+    let startX, startY;
+
+    function handleGesture() {
+        if (startX === null || startY === null) {
+            return;
+        }
+
+        const xDiff = startX - endX;
+        const yDiff = startY - endY;
+
+        if (Math.abs(xDiff) > Math.abs(yDiff)) { // Horizontal swipe
+            if (xDiff > 0) {
+                // Swipe left - next slide
+                document.querySelector('.navigate-right').click();
+            } else {
+                // Swipe right - previous slide
+                document.querySelector('.navigate-left').click();
+            }
+        } else { // Vertical swipe
+            if (yDiff > 0) {
+                // Swipe up - below slide
+                document.querySelector('.navigate-down').click();
+            } else {
+                // Swipe down - above slide
+                document.querySelector('.navigate-up').click();
+            }
+        }
+
+        // Reset values
+        startX = null;
+        startY = null;
     }
 
     document.addEventListener('touchstart', e => {
-        touchstartX = e.changedTouches[0].screenX;
+        startX = e.changedTouches[0].screenX;
+        startY = e.changedTouches[0].screenY;
     });
 
     document.addEventListener('touchend', e => {
-        touchendX = e.changedTouches[0].screenX;
-        checkDirection();
+        endX = e.changedTouches[0].screenX;
+        endY = e.changedTouches[0].screenY;
+        handleGesture();
     });
 
     document.addEventListener('click', e => {
         // Assuming the whole window width is divided into two for navigation
         if (e.clientX < window.innerWidth / 2) {
-            navigateToPreviousSlide();
+            document.querySelector('.navigate-left').click(); // Tap on left side
         } else {
-            navigateToNextSlide();
+            document.querySelector('.navigate-right').click(); // Tap on right side
         }
     });
 });
-
-function navigateToNextSlide() {
-    // Logic to navigate to the next slide
-    // Replace with your actual function call
-}
-
-function navigateToPreviousSlide() {
-    // Logic to navigate to the previous slide
-    // Replace with your actual function call
-}
