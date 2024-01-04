@@ -338,9 +338,11 @@
     <script src="engine/published.js"></script>
     <script src="engine/hammer.js"></script>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     var element = document.body; // Or any specific element you want to target
     var hammertime = new Hammer(element);
+
+    hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL }); // Enable all swipe directions
 
     hammertime.on('swipeleft', function() {
         document.querySelector('.navigate-right').click();
@@ -348,6 +350,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     hammertime.on('swiperight', function() {
         document.querySelector('.navigate-left').click();
+    });
+
+    hammertime.on('swipeup', function() {
+        // Action for swipe up
+        // Example: document.querySelector('.navigate-up').click();
+    });
+
+    hammertime.on('swipedown', function() {
+        // Action for swipe down
+        // Example: document.querySelector('.navigate-down').click();
     });
 
     hammertime.on('tap', function(e) {
