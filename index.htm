@@ -340,9 +340,15 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
     var element = document.body; // Or any specific element you want to target
-    var hammertime = new Hammer(element);
-
-    hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL }); // Enable all swipe directions
+    var hammertime = new Hammer(element, {
+        recognizers: [
+            [Hammer.Swipe, {
+                direction: Hammer.DIRECTION_ALL,
+                threshold: 10,  // Minimum distance required for swipe (in pixels)
+                velocity: 0.3  // Minimum velocity required for swipe
+            }]
+        ]
+    });
 
     hammertime.on('swipeleft', function() {
         document.querySelector('.navigate-right').click();
@@ -353,11 +359,11 @@
     });
 
     hammertime.on('swipeup', function() {
-        document.querySelector('.navigate-right').click();
+        document.querySelector('.navigate-left').click(); // Modify as needed
     });
 
     hammertime.on('swipedown', function() {
-        document.querySelector('.navigate-left').click();
+        document.querySelector('.navigate-right').click(); // Modify as needed
     });
 
     hammertime.on('tap', function(e) {
@@ -369,6 +375,7 @@
     });
 });
 </script>
+
     <script>
       Reveal.configure({
         progress: true,
