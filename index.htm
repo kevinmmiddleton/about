@@ -331,6 +331,28 @@
     </div>
     <script src="engine/index.js"></script>
     <script src="engine/hammer.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var element = document.body; // Or any specific element you want to target
+    var hammertime = new Hammer(element);
+
+    hammertime.on('swipeleft', function() {
+        document.querySelector('.navigate-right').click();
+    });
+
+    hammertime.on('swiperight', function() {
+        document.querySelector('.navigate-left').click();
+    });
+
+    hammertime.on('tap', function(e) {
+        if (e.center.x < window.innerWidth / 2) {
+            document.querySelector('.navigate-left').click();
+        } else {
+            document.querySelector('.navigate-right').click();
+        }
+    });
+});
+</script>
     <!--<script src="engine/d3v4.min.js" charset="utf-8"></script>
     <script src="engine/charts.min.js" charset="utf-8"></script>
     <script src="engine/billboard.min.js"></script>-->
