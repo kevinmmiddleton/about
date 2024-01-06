@@ -18,13 +18,17 @@ document.addEventListener('DOMContentLoaded', function() {
         currentIndex = index;
     }
 
-    imageLinks.forEach((item, index) => {
-        item.addEventListener('click', event => {
-            event.preventDefault();
-            console.log("Image link clicked: ", index);
-            openModalImage(index);
+    if (imageLinks.length > 0) {
+        imageLinks.forEach((item, index) => {
+            item.addEventListener('click', event => {
+                event.preventDefault();
+                console.log("Image link clicked: ", index);
+                openModalImage(index);
+            });
         });
-    });
+    } else {
+        console.log("No image links found");
+    }
 
     if (prevButton) {
         prevButton.addEventListener('click', () => {
@@ -33,8 +37,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 openModalImage(currentIndex - 1);
             }
         });
+    } else {
+        console.log("Previous button not found");
     }
-    
+
     if (nextButton) {
         nextButton.addEventListener('click', () => {
             console.log("Next button clicked");
@@ -42,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 openModalImage(currentIndex + 1);
             }
         });
+    } else {
+        console.log("Next button not found");
     }
 
     if (closeButton) {
@@ -49,5 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("Close button clicked");
             modal.style.display = "none";
         });
+    } else {
+        console.log("Close button not found");
     }
 });
