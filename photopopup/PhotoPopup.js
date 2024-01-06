@@ -1,5 +1,6 @@
-window.onload = function() {
-    console.log("Window loaded and script running");
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed, script running");
+
     var modal = document.getElementById("myModal");
     var modalImg = document.getElementById("img01");
     var captionText = document.getElementById("caption");
@@ -49,4 +50,4 @@ window.onload = function() {
             modal.style.display = "none";
         });
     }
-};
+});
