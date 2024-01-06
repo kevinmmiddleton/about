@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+window.onload = function() {
     var modal = document.getElementById("myModal");
     var modalImg = document.getElementById("img01");
     var captionText = document.getElementById("caption");
@@ -43,4 +43,4 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.style.display = "none";
         });
     }
-});
+};
