@@ -16,12 +16,6 @@
     <link rel="stylesheet" href="engine/main.css" />
     <link rel="stylesheet" href="theme/sanfrancisco.css" />
     <link rel="stylesheet" href="engine/katex/katex.min.css" />
-      
-    <!-- Shadowbox CSS -->
-    <link rel="stylesheet" href="shadowbox/shadowbox.css">
-
-    <!-- jQuery -->
-    <script type="text/javascript" src="jquery/jquery.js"></script>
 
     <!--<link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -130,13 +124,13 @@
   </div>
 
   <!-- Oracle Image 1 -->
-  <a href="images/Oracle_Engage_v1.png" data-lightbox="oracle1" data-title="Oracle Engage v1">
-    <img src="images/Oracle_Engage_v1.png" class="size-contain position-center-center">
+  <a href="images/Oracle_Engage_v1.png" class="image-link">
+  <img src="images/Oracle_Engage_v1.png" alt="Oracle Engage v1" class="size-contain position-center-center">
   </a>
 
   <!-- Oracle Image 2 -->
-  <a href="images/Oracle-Engage-v2.png" data-lightbox="oracle2" data-title="Oracle Engage v2">
-    <img src="images/Oracle-Engage-v2.png" class="size-contain position-center-center" style="">
+  <a href="images/Oracle-Engage-v2.png" class="image-link">
+  <img src="images/Oracle-Engage-v2.png" alt="Oracle Engage v2" class="size-contain position-center-center">
   </a>
 
 </div>
@@ -373,6 +367,9 @@
                                                    <script src="engine/pfill.js"></script>
     <script src="engine/published.js"></script>
     
+    <!-- PhotoPopup.js -->
+    <script src="photopopup/PhotoPopup.js"></script>
+
     <!-- Hammer JS -->
     <script src="hammer/hammer.js"></script>
    
@@ -416,22 +413,16 @@
 });
 </script>
 
-<!-- Shadowbox Core JS -->
-<script type="text/javascript" src="/shadowbox/core.js"></script>
+<!-- PhotoPopup Modal -->
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <span class="prev">&laquo;</span>
+  <span class="next">&raquo;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
 
-<!-- Shadowbox Adapter for jQuery -->
-<script type="text/javascript" src="/shadowbox/adapters/jquery.js"></script>
-
-
-<!-- Initalize Shadowbox JS -->
-<script type="text/javascript">
-        Shadowbox.init({
-          animate: false,
-          displayCounter: false,
-          displayNav: false,
-          modal: true
-        });
-</script>
+<script src="photopopup/PhotoPopup.js"></script>
 
   </body>
 </html>
