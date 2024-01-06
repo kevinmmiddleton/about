@@ -50338,7 +50338,9 @@
     Promise.all(Array.from(document.querySelectorAll("[data-background-image]")).map((el) => new Promise(function(resolve, reject) {
       const image = new Image();
       image.onload = function() {
-        document.body.removeChild(image);
+        if (document.body.contains(image)) {
+          document.body.removeChild(image);
+        }
         setTimeout(() => resolve(), 200);
       };
       if (el.dataset.backgroundImage) {
