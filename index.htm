@@ -334,11 +334,11 @@
 
 <p>&nbsp;</p>
 
-<p>Add me on <a href="https://www.linkedin.com/in/kevinmiddleton" id="linkedin-profile-link"><strong>LinkedIn</strong></a></p>
+<p>Add me on <a href="https://www.linkedin.com/in/kevinmiddleton" id="linkedin-profile-link" onclick="sendCustomTagToClarity('Link Click', 'LinkedIn Profile')"><strong>LinkedIn</strong></a></p>
 
 <p>&nbsp;</p>
 
-<p>Download my <a href="https://raw.githubusercontent.com/kevinmmiddleton/about/main/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2012-01-2023.pdf" id="resume-download-link"><strong>Resume</strong></a> </p></div>
+<p>Download my <a href="https://raw.githubusercontent.com/kevinmmiddleton/about/main/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2012-01-2023.pdf" id="resume-download-link" onclick="sendCustomTagToClarity('Link Click', 'Resume Download')"><strong>Resume</strong></a> </p></div>
       </div>
       <div class="footnotes"></div>
       <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
@@ -419,6 +419,12 @@
     })(window, document, "clarity", "script", "kix9xdfw7p");
 </script>
 
+<script>
+  function sendCustomTagToClarity(tagName, tagValue) {
+    clarity("set", tagName, tagValue);
+  }
+</script>
+    
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PFN85T46WX"></script>
 <script>
