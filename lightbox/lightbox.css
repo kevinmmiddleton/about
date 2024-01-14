@@ -2,7 +2,7 @@
 .lightbox {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 10000;
     left: 0;
     top: 0;
     width: 100%;
@@ -10,47 +10,11 @@
     background: rgba(0, 0, 0, 0.8);
     align-items: center;
     justify-content: center;
-    text-align: center;
-}
-
-.lightbox.active {
-    display: flex;
 }
 
 .lightbox-image {
     max-width: 80%;
     max-height: 80%;
-    margin: 0 auto;
-}
-
-.close-button, .prev-button, .next-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #fff;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    font-size: 24px;
-}
-
-.close-button {
-    right: 10px;
-    top: 10px;
-    transform: none;
-}
-
-.prev-button {
-    left: 20px;
-}
-
-.next-button {
-    right: 20px;
-}
-
-.caption {
-    color: #fff;
-    padding: 10px 0;
+    object-fit: contain;
 }
 </style>
