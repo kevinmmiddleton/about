@@ -436,18 +436,14 @@
   gtag('config', 'G-PFN85T46WX');
 </script>
     
-    <!-- Image Lightbox -->
-    <script>
+<!-- Image Lightbox -->
+<script>
 document.addEventListener('DOMContentLoaded', function () {
     // Function to insert lightbox HTML
     function addLightboxHtml() {
         const lightboxHtml = `
-            <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-                <button class="close-button">&times;</button>
-                <button class="prev-button">&#10094;</button>
-                <button class="next-button">&#10095;</button>
+            <div id="lightbox" class="lightbox" onclick="closeLightbox()">
                 <img class="lightbox-image" src="" alt="">
-                <div class="caption"></div>
             </div>
         `;
         document.body.insertAdjacentHTML('beforeend', lightboxHtml);
@@ -457,45 +453,24 @@ document.addEventListener('DOMContentLoaded', function () {
     function openLightbox(image) {
         const lightbox = document.getElementById('lightbox');
         const lightboxImage = lightbox.querySelector('.lightbox-image');
-        const caption = lightbox.querySelector('.caption');
 
         lightboxImage.src = image.src;
         lightboxImage.alt = image.alt;
-        caption.textContent = image.alt;
 
-        lightbox.classList.add('active');
+        lightbox.style.display = 'flex';
     }
 
     // Function to close the lightbox
-    window.closeLightbox = function (event) {
-        if (event.target !== event.currentTarget && !event.target.classList.contains('close-button')) {
-            return;
-        }
-        document.getElementById('lightbox').classList.remove('active');
+    window.closeLightbox = function () {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.style.display = 'none';
     }
 
-    // Function to change the image in the lightbox
-    function changeImage(step) {
-        const images = Array.from(document.querySelectorAll('.lightbox-enabled'));
-        const currentImage = document.querySelector('.lightbox-image');
-        let currentIndex = images.findIndex(img => img.src === currentImage.src);
-
-        currentIndex += step;
-        if (currentIndex >= images.length) currentIndex = 0;
-        if (currentIndex < 0) currentIndex = images.length - 1;
-
-        openLightbox(images[currentIndex]);
-    }
-
-    // Attach event listeners to images and navigation buttons
+    // Attach event listeners to images
     function setupLightbox() {
         document.querySelectorAll('.lightbox-enabled').forEach(image => {
-            image.style.cursor = 'pointer';
             image.addEventListener('click', () => openLightbox(image));
         });
-
-        document.querySelector('.prev-button').addEventListener('click', () => changeImage(-1));
-        document.querySelector('.next-button').addEventListener('click', () => changeImage(1));
     }
 
     // Initialize the lightbox
