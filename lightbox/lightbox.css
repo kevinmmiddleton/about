@@ -16,27 +16,3 @@
     max-height: 80%;
     object-fit: contain;
 }
-
-.lightbox-enabled:hover::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 25px; /* Size of the circle part */
-    height: 25px; /* Size of the circle part */
-    border: 2px solid white; /* Border of the circle */
-    border-radius: 50%; /* Makes it a circle */
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3); /* Optional: Adds a subtle glow effect */
-}
-
-.lightbox-enabled:hover::before {
-    content: '';
-    position: absolute;
-    top: 60%;
-    left: 60%;
-    transform: translate(-50%, -50%) rotate(45deg); /* Rotates the handle */
-    width: 15px; /* Length of the handle */
-    height: 4px; /* Thickness of the handle */
-    background: white; /* Color of the handle */
-}
