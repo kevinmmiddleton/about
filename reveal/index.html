@@ -1,107 +1,161 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <title>Kevin Middleton - Product Manager</title>
-    <base href="/reveal/">
-    <meta charset="utf-8">
-    <!-- meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1" / -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Kevin Middleton">
-    <meta property="og:description" content="Welcome! I'm Kevin Middleton, a seasoned Product Manager passionate about SaaS, innovation, and driving growth. Discover my journey, expertise, and insights in the realm of product management.">
-    <meta property="og:url" content="https://middleton.io">
-    <meta property="og:image" content="images/HeyThere.png">
-    <link rel="stylesheet" href="engine/main.css">
-    <link rel="stylesheet" href="theme/sanfrancisco.css">
-    <link rel="stylesheet" href="engine/katex/katex.min.css">
-    <link rel="stylesheet" href="lightbox/lightbox.css">
-    <!--<link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />-->
-    <style>
-      :root {
-        --logo: ;
-        --darkaccent1color: #fff;
-        --lightaccent1color: #fff;
-        --accent2: #43aa8b;
-        --accent3: #f9c74f;
-        --accent4: #90be6d;
-        --accent5: #f8961e;
-        --accent6: #577590;
-        --lighttitletextcolor: #fff;
-        --darktitletextcolor: #fff;
-        --lightbodytextcolor: #fff;
-        --darkbodytextcolor: #fff;
-        --lightbackgroundcolor: transparent;
-        --darkbackgroundcolor: transparent;
-        --bodyfont: ui-monospace;
-        --titlefont: system-ui;
-      }
-    </style>
-    <link rel="stylesheet" type="text/css" href="engine/print.css" media="print">
-  </head>
-  <body class="responsive">
-    <div class="reveal">
-        <div class="slides">
-            <!-- External Markdown file -->
-            <section data-markdown="site.md" data-charset="utf-8">
-            </section>
-        </div>
-    </div>
-	  
-    <script src="engine/index.js"></script>
-    <!--<script src="engine/d3v4.min.js" charset="utf-8"></script><script src="engine/charts.min.js" charset="utf-8"></script><script src="engine/billboard.min.js"></script><script src="engine/pptxgen.min.js"></script><script src="engine/pfill.js"></script>
-																														<!-- script src="engine/published.js"></script>-->
-    <script>
-      Reveal.configure({
-        progress: true,
-        keyboard: true,
-        dependencies: [{
-          src: "engine/highlight.js",
-          sync: true,
-          callback: function() {
-            hljs.initHighlightingOnLoad();
-          },
-        }, ],
-      });
-    </script>
-    <!-- Hammer JS -->
-    <script src="hammer/hammer.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var element = document.body; // Or any specific element you want to target
-        var hammertime = new Hammer(element, {
-          recognizers: [
-            [Hammer.Swipe, {
-              direction: Hammer.DIRECTION_ALL,
-              threshold: 10, // Minimum distance required for swipe (in pixels)
-              velocity: 0.3 // Minimum velocity required for swipe
-            }]
-          ]
-        });
-        hammertime.on('swipeleft', function() {
-          document.querySelector('.navigate-right').click();
-        });
-        hammertime.on('swiperight', function() {
-          document.querySelector('.navigate-left').click();
-        });
-        hammertime.on('swipeup', function() {
-          document.querySelector('.navigate-right').click();
-        });
-        hammertime.on('swipedown', function() {
-          document.querySelector('.navigate-left').click();
-        });
-        hammertime.on('tap', function(e) {
-          if (e.center.x < window.innerWidth / 2) {
-            document.querySelector('.navigate-left').click();
-          } else {
-            document.querySelector('.navigate-right').click();
-          }
-        });
-      });
-    </script>
-  </body>
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Markdown Example</title>
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+
+        <link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+                <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
+                <section data-markdown="site.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+
+                <!-- Slides are separated by three dashes (the default) -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Demo 1
+                        Slide 1
+                        ---
+                        ## Demo 1
+                        Slide 2
+                        ---
+                        ## Demo 1
+                        Slide 3
+                    </script>
+                </section>
+
+                <!-- Slides are separated by regexp matching newline + three dashes + newline, vertical slides identical but two dashes -->
+                <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
+                    <script type="text/template">
+                        ## Demo 2
+                        Slide 1.1
+
+                        --
+
+                        ## Demo 2
+                        Slide 1.2
+
+                        ---
+
+                        ## Demo 2
+                        Slide 2
+                    </script>
+                </section>
+
+                <!-- No "extra" slides, since the separator can't be matched ("---" will become horizontal rulers) -->
+                <section data-markdown data-separator="$x">
+                    <script type="text/template">
+                        A
+
+                        ---
+
+                        B
+
+                        ---
+
+                        C
+                    </script>
+                </section>
+
+                <!-- Slide attributes -->
+                <section data-markdown>
+                    <script type="text/template">
+                        <!-- .slide: data-background="#000000" -->
+                        ## Slide attributes
+                    </script>
+                </section>
+
+                <!-- Element attributes -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Element attributes
+                        - Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
+                        - Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
+                    </script>
+                </section>
+
+                <!-- Code -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ```php [1|3-5]
+                        public function foo()
+                        {
+                            $foo = array(
+                                'bar' => 'bar'
+                            )
+                        }
+                        ```
+                    </script>
+                </section>
+
+                <!-- add optional line count offset, in this case 287 -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ## echo.c
+
+                        ```c [287: 2|4,6]
+                        /* All of the options in this arg are valid, so handle them. */
+                        p = arg + 1;
+                        do {
+                            if (*p == 'n')
+                                nflag = 0;
+                            if (*p == 'e')
+                                eflag = '\\';
+                        } while (*++p); 
+                        ```
+                        [source](https://git.busybox.net/busybox/tree/coreutils/echo.c?h=1_36_stable#n287)
+                    </script>
+                </section>
+
+                <!-- Images -->
+                <section data-markdown>
+                    <script type="text/template">
+                        ![Sample image](https://s3.amazonaws.com/static.slid.es/logo/v2/slides-symbol-512x512.png)
+                    </script>
+                </section>
+
+                <!-- Math -->
+                <section data-markdown>
+					## The Lorenz Equations
+					`\[\begin{aligned}
+					\dot{x} &amp; = \sigma(y-x) \\
+					\dot{y} &amp; = \rho x - y - xz \\
+					\dot{z} &amp; = -\beta z + xy
+					\end{aligned} \]`
+                </section>
+
+            </div>
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+        <script src="../plugin/markdown/markdown.js"></script>
+        <script src="../plugin/highlight/highlight.js"></script>
+        <script src="../plugin/notes/notes.js"></script>
+        <script src="../plugin/math/math.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+
+		</script>
+
+	</body>
 </html>
