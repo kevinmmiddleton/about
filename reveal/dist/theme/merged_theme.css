@@ -1,0 +1,258 @@
+:root {
+    --code-background: rgba(0,0,0,0.45);
+    --code-border: rgba(0,0,0,0.7);
+    --code-text: #F7F7F7;
+    --code-comment: #80878D;
+    --code-type: #EF98A8;
+    --code-include: #C596C9;
+    --code-string: #A59CC7;
+    --code-class-name: #94A5CB;
+    --code-numbers: #E8D670;
+    --code-variables: #77B5E3;
+    --code-functions: #DF8DC0;
+    --code-literal: #F6B99A;
+
+  --dark-code-background: rgba(0,0,0,0.7);
+  --dark-code-border: rgba(0,0,0,0.7);
+  --dark-code-text: #F7F7F7;
+  --dark-code-comment: #80878D;
+  --dark-code-type: #EF98A8;
+  --dark-code-include: #C596C9;
+  --dark-code-string: #A59CC7;
+  --dark-code-class-name: #94A5CB;
+  --dark-code-numbers: #E8D670;
+  --dark-code-variables: #77B5E3;
+  --dark-code-functions: #DF8DC0;
+  --dark-code-literal: #F6B99A;
+}
+
+h1{
+    font-variation-settings: "wght" 1000;
+}
+h2{
+    font-variation-settings: "wght" 800;
+}
+h3{
+    font-variation-settings: "wght" 700;
+}
+h4{
+    font-variation-settings: "wght" 600;
+}
+.hljs{
+    box-shadow:rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+
+table td{
+	font-variation-settings: "wdth" 60;
+}
+
+
+
+section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
+.reveal h1 {
+  white-space: pre;
+  border-collapse: collapse;
+  background: #191919;
+  border: 4px solid var(--r-main-color);
+  border: none;
+  --r-heading-margin: 0 0 20px 0;
+.reveal-viewport {
+.reveal ul ol,
+.reveal blockquote {
+.reveal sup {
+  font-size: 0.6em;
+.reveal .r-frame {
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  --r-block-margin: 20px;
+  --r-overlay-element-fg-color: 0, 0, 0;
+  overflow: auto;
+@import url(./fonts/source-sans-pro/source-sans-pro.css);
+.reveal ul ul {
+ */
+  margin: var(--r-block-margin) auto;
+  --r-link-color-dark: #068de9;
+.reveal h5:last-child,
+ * Frame helper
+  background: var(--r-link-color-dark);
+.reveal h6:last-child {
+.reveal ul ul ul {
+  --r-overlay-element-bg-color: 240, 240, 240;
+  font-size: var(--r-heading4-size);
+  tab-size: 2;
+.reveal table th {
+  color: var(--r-main-color);
+  --r-main-color: #fff;
+  margin: var(--r-heading-margin);
+  --r-heading1-text-shadow: none;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
+    background-color: var(--r-background-color);
+  color: var(--r-heading-color);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: var(--r-heading2-size);
+.reveal table td[align=center] {
+  list-style-type: square;
+  font-family: var(--r-code-font);
+.reveal strong,
+  --r-heading-letter-spacing: normal;
+.reveal {
+.reveal a {
+.reveal table th,
+  --r-main-font-size: 42px;
+  vertical-align: top;
+  font-size: var(--r-heading1-size);
+  --r-heading-text-shadow: none;
+.reveal h1:last-child,
+  padding: 0.2em 0.5em 0.2em 0.5em;
+ * OTHER
+  --r-heading-text-transform: uppercase;
+  max-width: 95%;
+  color: var(--r-link-color-hover);
+  text-shadow: none;
+.reveal table td {
+  position: relative;
+.reveal h4 {
+  display: block;
+.reveal small {
+.reveal ::-moz-selection {
+.reveal .code-wrapper {
+  text-shadow: var(--r-heading-text-shadow);
+  list-style-type: decimal;
+.reveal blockquote p:last-child {
+  font-weight: var(--r-heading-font-weight);
+.reveal pre {
+  border-bottom: none;
+  --r-heading1-size: 2.5em;
+  font-size: var(--r-heading3-size);
+.reveal h1,
+ * Black theme for reveal.js. This is the opposite of the 'white' theme.
+  line-height: var(--r-heading-line-height);
+  --r-link-color: #42affa;
+.reveal h4,
+ * By Hakim El Hattab, http://hakim.se
+.reveal a .r-frame {
+.reveal ::selection {
+  width: 90%;
+  vertical-align: sub;
+  .backgrounds {
+.reveal a:hover {
+.reveal table tbody tr:last-child th,
+.reveal video,
+  font-weight: bold;
+  letter-spacing: var(--r-heading-letter-spacing);
+  --r-selection-background-color: rgba(66, 175, 250, 0.75);
+ * NAVIGATION CONTROLS
+.reveal h2:last-child,
+  word-wrap: normal;
+  text-align: center;
+  border-bottom: 1px solid;
+.reveal img,
+  list-style-type: circle;
+  padding: 5px;
+ *********************************************/
+  --r-heading-color: #fff;
+.reveal code {
+.reveal .slides section,
+.reveal .controls {
+.reveal .progress {
+.reveal h5,
+  text-align: right;
+.reveal .slides section > section {
+.reveal h6 {
+  --r-background-color: #191919;
+  width: 70%;
+.reveal table {
+.reveal ul ul,
+.reveal table td[align=right] {
+  background-color: var(--r-background-color);
+ * LINKS
+.reveal h3,
+.reveal ol ul {
+.reveal pre code {
+  }
+.reveal dd {
+.reveal h4:last-child,
+/* Remove trailing margins after titles */
+  margin: var(--r-block-margin) 0;
+  color: var(--r-selection-color);
+  --r-code-font: monospace;
+  transition: all 0.15s linear;
+ * GLOBAL STYLES
+  --r-selection-color: #fff;
+  line-height: 1.3;
+  font-size: var(--r-main-font-size);
+  display: inline-block;
+.reveal h3 {
+.reveal table th[align=right],
+  background: var(--r-selection-background-color);
+.reveal dl,
+.reveal iframe {
+  color: var(--r-link-color);
+  margin-bottom: 0;
+.reveal em {
+.reveal .roll span:after {
+@media print {
+  margin: auto;
+.reveal blockquote p:first-child,
+  --r-heading-line-height: 1.2;
+ *
+.reveal b {
+  --r-heading4-size: 1em;
+  font-family: var(--r-main-font);
+.reveal table th[align=center],
+  font-weight: inherit;
+  text-transform: none;
+  font-size: smaller;
+  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
+.reveal ul {
+ * PROGRESS BAR
+  text-transform: var(--r-heading-text-transform);
+  word-wrap: break-word;
+  --r-link-color-hover: #8dcffc;
+  font-size: 0.55em;
+  --r-heading-font-weight: 600;
+.reveal sub {
+  max-height: 400px;
+  white-space: normal;
+ * HEADERS
+  font-weight: normal;
+  font-family: var(--r-heading-font);
+.reveal h3:last-child,
+  max-height: 95%;
+.reveal ol {
+  margin-left: 40px;
+ * PRINT BACKGROUND
+.reveal dt {
+  border-spacing: 0;
+.reveal ol,
+  font-style: italic;
+  border-color: var(--r-link-color);
+  background: rgba(0, 0, 0, 0.2);
+  --r-heading2-size: 1.6em;
+.reveal h2 {
+.reveal ol ol,
+  text-decoration: none;
+.reveal a:hover .r-frame {
+/* Ensure certain elements are never larger than the slide itself */
+.reveal p {
+  --r-heading3-size: 1.3em;
+  color: #fff;
+/**
+.reveal img {
+.reveal small * {
+.reveal .code-wrapper code {
+.reveal table tbody tr:last-child td {
+  vertical-align: super;
+.reveal q {
+  transition: color 0.15s ease;
+  --r-heading-font: Source Sans Pro, Helvetica, sans-serif;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  line-height: 1.2em;
+  list-style-type: disc;
+/*********************************************
+  text-shadow: var(--r-heading1-text-shadow);
+  color: #222;
+.reveal h2,
+  margin: 0 0 0 1em;
