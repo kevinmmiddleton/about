@@ -52,6 +52,13 @@ color: #fff;
 font-size: 30px;
 cursor: pointer;
 }
+.mobile-menu {
+    text-align: right;
+    width: auto;
+    max-width: 90vw;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
 </style>
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -113,7 +120,7 @@ Kevin Middleton
 <div class="max-w-4xl mx-auto bg-white bg-opacity-10 rounded-lg shadow-xl p-8 mt-12">
 <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-center text-white whitespace-nowrap overflow-hidden text-ellipsis">Building Enterprise, Platform, and Consumer SaaS Products</h2>
 <p class="text-lg text-white leading-relaxed">
-With over 10 years of experience in product management, I turn complex challenges into smart, data-driven solutions. I'm skilled at building strategies that boost user engagement, improve conversions, and bring teams together around shared goals. Whether it's social media, legal tech, marketing tech, HR tech, EdTech, or HVAC, I focus on creating products that drive real growth and deliver measurable results.
+Welcome to our platform. With over 10 years of experience in product management, I turn complex challenges into smart, data-driven solutions. I'm skilled at building strategies that boost user engagement, improve conversions, and bring teams together around shared goals. Whether it's social media, legal tech, marketing tech, HR tech, EdTech, or HVAC, I focus on creating products that drive real growth and deliver measurable results.
 </p>
 </div>
 <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
@@ -843,6 +850,40 @@ headerName.classList.remove('hidden');
 } else {
 headerName.classList.add('hidden');
 }
+});
+</script>
+<script>
+// Mobile menu toggle functionality
+const menuToggle = document.getElementById('menu-toggle');
+const menu = document.getElementById('menu');
+
+menuToggle.addEventListener('click', () => {
+  menu.classList.toggle('hidden');
+  menu.classList.toggle('flex');
+  menu.classList.toggle('flex-col');
+  menu.classList.toggle('absolute');
+  menu.classList.toggle('top-full');
+  menu.classList.toggle('right-0');
+  menu.classList.toggle('bg-white');
+  menu.classList.toggle('shadow-md');
+  menu.classList.toggle('py-2');
+  menu.classList.toggle('mobile-menu');
+     });
+    
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+    menu.classList.add('hidden');
+    menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
+  }
+});
+
+// Close mobile menu when clicking on a menu item
+menu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    menu.classList.add('hidden');
+    menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
+  });
 });
 </script>
 </body>
