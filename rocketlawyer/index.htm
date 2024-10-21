@@ -7,475 +7,499 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    body {
-        font-family: 'Inter', sans-serif;
-        line-height: 1.6;
-        color: #ffffff;
-        background: linear-gradient(to bottom, #00a8ff, #205aff, #4021ff, #5e00ff);
-        background-attachment: fixed;
-        margin: 0;
-        padding: 0;
-    }
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
-    }
-    h1, h2, h3, h4 {
-        margin-top: 0;
-    }
-    h1 {
-        font-size: 2.5rem;
-        text-align: center;
-        margin-bottom: 0.5rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    h2 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }
-    h3 {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-    }
-    h4 {
-        font-size: 1.25rem;
-        margin-bottom: 0.5rem;
-    }
-    p, ul {
-        margin-bottom: 1rem;
-    }
-    .section {
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        backdrop-filter: blur(10px);
-    }
-    .image-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-top: 1rem;
-        justify-content: center;
-    }
-    .image-container > figure {
-        flex: 1 1 200px;
-        max-width: 300px;
-    }
-    .image-container img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    .lightbox {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.9);
-    }
-    .lightbox-content {
-        margin: auto;
-        display: block;
-        max-width: 90%;
-        max-height: 90%;
-    }
-    .lightbox-close {
-        position: absolute;
-        top: 15px;
-        right: 35px;
-        color: #f1f1f1;
-        font-size: 40px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-    #navigation {
-        position: fixed;
-        top: 50%;
-        right: 20px;
-        transform: translateY(-50%);
-    }
-    .nav-item {
-        display: block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.5);
-        margin: 10px 0;
-        cursor: pointer;
-    }
-    .nav-item.active {
-        background-color: #ffffff;
-    }
-    blockquote {
-        font-style: italic;
-        border-left: 4px solid #ffffff;
-        padding: 1rem;
-        margin: 1rem 0;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 0 8px 8px 0;
-    }
-    #mission-alignment img, #release img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-    }
-    .image-wrapper {
-        max-width: 100%;
-        margin-bottom: 1rem;
-    }
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #ffffff;
+    background: linear-gradient(to bottom, #00a8ff, #205aff, #4021ff, #5e00ff);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+h1, h2, h3, h4 {
+    margin-top: 0;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: calc(1rem + 2vw);
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+p, ul {
+    margin-bottom: 1rem;
+}
+.section {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+}
+.card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+.image-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+.lightbox-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
+}
+.lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#navigation {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+.nav-item {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 10px 0;
+    cursor: pointer;
+}
+.nav-item.active {
+    background-color: #ffffff;
+}
+.subtitle {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: calc(0.75rem + 1vw);
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    text-align: center;
+}
+.icon {
+    margin-right: 0.5rem;
+}
+.back-to-main {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+.back-to-main a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+}
+.back-to-main a:hover {
+    text-decoration: underline;
+}
+blockquote {
+    font-style: italic;
+    border-left: 4px solid #ffffff;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0 8px 8px 0;
+}
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.flex-container > * {
+    flex: 1 1 300px;
+}
+@media (max-width: 768px) {
     .flex-container {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-    }
-    .flex-container > * {
-        flex: 1;
-    }
-    .subtitle {
-        font-size: 1.25rem;
-        text-align: center;
-        margin-bottom: 2rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    figure {
-        margin: 0;
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        width: 100%;
     }
-    figcaption {
-        margin-top: 0.5rem;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #e0e0e0;
-        text-align: center;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-        min-width: 0;
-    }
-    .challenge-grid, .feature-grid, .reflection-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
-    }
-    .challenge-item, .feature-item, .reflection-item {
-        background-color: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
-        padding: 1rem;
-    }
-    .challenge-item h3, .feature-item h4, .reflection-item h3 {
-        margin-top: 0;
-        font-size: 1.2rem;
-    }
-    .icon {
-        margin-right: 0.5rem;
-    }
-    .back-to-main {
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    .back-to-main a {
-        color: #ffffff;
-        text-decoration: none;
-        font-weight: 600;
-    }
-    .back-to-main a:hover {
-        text-decoration: underline;
-    }
+}
 </style>
 <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "kix9xdfw7p");
+(function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "kix9xdfw7p");
 </script>
 </head>
 <body>
 <div class="container">
-    <div class="back-to-main">
-        <a href="https://middleton.io/">← Back to Kevin Middleton's Portfolio</a>
-    </div>
+<div class="back-to-main">
+    <a href="https://middleton.io/">← Back to Kevin Middleton's Portfolio</a>
+</div>
 
-    <h1>🚀 Rocket Lawyer: Co-branded Partner Sites</h1>
-    <div class="subtitle">Expanding Legal Access, Enabling Partners, and Growing Brand Awareness</div>
-    
-    <div id="introduction" class="section">
-        <h2><i class="fas fa-rocket icon"></i>Introduction</h2>
-        <h3><i class="fas fa-compass icon"></i>Overview</h3>
-        <p>Adapting Rocket Lawyer's legal solutions to meet the unique needs of our <strong>partners</strong>, starting with <strong>Covéa</strong>.</p>
-        <h3><i class="fas fa-star icon"></i>My Role</h3>
-        <p>Leading the initiative to develop co-branded partner sites.</p>
-    </div>
+<h1>🚀 Rocket Lawyer: Co-branded Partner Sites</h1>
+<div class="subtitle">Expanding Legal Access, Enabling Partners, and Growing Brand Awareness</div>
 
-    <div id="mission-alignment" class="section">
-        <h2><i class="fas fa-bullseye icon"></i>Mission Alignment</h2>
-        <div class="flex-container">
-            <div>
+<div id="introduction" class="section">
+    <h2><i class="fas fa-rocket icon"></i>Introduction</h2>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fas fa-compass icon"></i>Overview</h3>
+            <p>Adapting Rocket Lawyer's legal solutions to meet the unique needs of our <strong>partners</strong>, starting with <strong>Covéa</strong>.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-star icon"></i>My Role</h3>
+            <p>Leading the initiative to develop co-branded partner sites.</p>
+        </div>
+    </div>
+</div>
+
+<div id="mission-alignment" class="section">
+    <h2><i class="fas fa-bullseye icon"></i>Mission Alignment</h2>
+    <div class="flex-container">
+        <div>
+            <div class="card">
                 <h3><i class="fas fa-bolt icon"></i>Rocket Lawyer's Mission</h3>
                 <p>Everyone deserves affordable and simple legal services.</p>
+            </div>
+            <div class="card">
                 <h3><i class="fas fa-lightbulb icon"></i>Project's Contribution</h3>
                 <p>Expanding Rocket Lawyer's reach in Europe and establishing a new revenue channel.</p>
             </div>
-            <div class="image-wrapper">
-                <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/rocket-lawyer-legal-made-simple-rounded.png" alt="Rocket Lawyer: Legal Made Simple" onclick="openLightbox(this)">
-            </div>
+        </div>
+        <div>
+            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/rocket-lawyer-legal-made-simple-rounded.png" alt="Rocket Lawyer: Legal Made Simple" onclick="openLightbox(this)">
         </div>
     </div>
+</div>
 
-    <div id="challenge" class="section">
-        <h2><i class="fas fa-exclamation-triangle icon"></i>The Challenge</h2>
-        <h3><i class="fas fa-users icon"></i>Users</h3>
-        <ul>
-            <li><strong>Existing</strong>: Individual <strong>consumer</strong> and <strong>company benefit</strong> legal services.</li>
-            <li><strong>New</strong>: Building for <strong>partners</strong>, starting with <strong>Covéa</strong>, an insurance holding company with 3 distinct brands serving <strong>11.5 million members</strong>.</li>
-        </ul>
-        <h3><i class="fas fa-bolt icon"></i>Pain Points Addressed</h3>
-        <p>Providing partner customers with digital legal documents, eSigning, and 'Ask A Lawyer' capabilities.</p>
-    </div>
-
-    <div id="solution" class="section">
-        <h2><i class="fas fa-puzzle-piece icon"></i>Solution</h2>
-        <h3><i class="fas fa-lightbulb icon"></i>Overview</h3>
-        <p>Developed a solution integrating Rocket Lawyer's services with partners. Focused on authentication, co-branding, customized pricing, and partner-exclusive content.</p>
-        <h3><i class="fas fa-list-ul icon"></i>Features</h3>
-        <div class="feature-grid">
-            <div class="feature-item">
-                <h4><i class="fas fa-shield-alt icon"></i>Partner Authentication</h4>
-                <p>OpenID Connect integration.</p>
-            </div>
-            <div class="feature-item">
-                <h4><i class="fas fa-plug icon"></i>Custom Connector</h4>
-                <p>For partner-specific integrations.</p>
-            </div>
-            <div class="feature-item">
-                <h4><i class="fas fa-cogs icon"></i>Partner Config API</h4>
-                <p>Customizable settings and frontend brandability.</p>
-            </div>
-            <div class="feature-item">
-                <h4><i class="fas fa-chart-bar icon"></i>Reporting Capabilities</h4>
-                <p>Enhanced events structure for partner-specific reporting.</p>
-            </div>
-            <div class="feature-item">
-                <h4><i class="fas fa-paint-brush icon"></i>Co-Branding and Partner-Specific Pricing</h4>
-                <p>Customizable for each partner.</p>
-            </div>
-            <div class="feature-item">
-                <h4><i class="fas fa-file-alt icon"></i>Partner-Exclusive Content</h4>
-                <p>Tailored legal solutions and resources.</p>
-            </div>
+<div id="challenge" class="section">
+    <h2><i class="fas fa-exclamation-triangle icon"></i>The Challenge</h2>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fas fa-users icon"></i>Users</h3>
+            <ul>
+                <li><strong>Existing</strong>: Individual <strong>consumer</strong> and <strong>company benefit</strong> legal services.</li>
+                <li><strong>New</strong>: Building for <strong>partners</strong>, starting with <strong>Covéa</strong>, an insurance holding company with 3 distinct brands serving <strong>11.5 million members</strong>.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-bolt icon"></i>Pain Points Addressed</h3>
+            <p>Providing partner customers with digital legal documents, eSigning, and 'Ask A Lawyer' capabilities.</p>
         </div>
     </div>
+</div>
 
-    <div id="technical-challenges" class="section">
-        <h2><i class="fas fa-cogs icon"></i>Technical Challenges</h2>
-        <div class="challenge-grid">
-            <div class="challenge-item">
-                <h3><i class="fas fa-shield-alt icon"></i>Authentication and Connector</h3>
-                <p><strong>Challenge</strong>: Developing a scalable partner authentication system.</p>
-                <p><strong>Solution</strong>: OpenID Connect and custom connector for scalability.</p>
-            </div>
-            
-            <div class="challenge-item">
-                <h3><i class="fas fa-cogs icon"></i>Partner Config API</h3>
-                <p><strong>Challenge</strong>: Creating a system for flexible multi-brand controls.</p>
-                <p><strong>Solution</strong>: Developed Partner Config API for customizable settings and brandability.</p>
-            </div>
-            
-            <div class="challenge-item">
-                <h3><i class="fas fa-chart-bar icon"></i>Reporting Capabilities</h3>
-                <p><strong>Challenge</strong>: Tracking partner usage and supporting usage-based billing.</p>
-                <p><strong>Solution</strong>: Enhanced in-house user events framework for detailed reporting.</p>
-            </div>
+<div id="solution" class="section">
+    <h2><i class="fas fa-puzzle-piece icon"></i>Solution</h2>
+    <h3><i class="fas fa-lightbulb icon"></i>Overview</h3>
+    <p>Developed a solution integrating Rocket Lawyer's services with partners. Focused on authentication, co-branding, customized pricing, and partner-exclusive content.</p>
+    <h3><i class="fas fa-list-ul icon"></i>Features</h3>
+    <div class="grid">
+        <div class="card">
+            <h4><i class="fas fa-shield-alt icon"></i>Partner Authentication</h4>
+            <p>OpenID Connect integration.</p>
+        </div>
+        <div class="card">
+            <h4><i class="fas fa-plug icon"></i>Custom Connector</h4>
+            <p>For partner-specific integrations.</p>
+        </div>
+        <div class="card">
+            <h4><i class="fas fa-cogs icon"></i>Partner Config API</h4>
+            <p>Customizable settings and frontend brandability.</p>
+        </div>
+        <div class="card">
+            <h4><i class="fas fa-chart-bar icon"></i>Reporting Capabilities</h4>
+            <p>Enhanced events structure for partner-specific reporting.</p>
+        </div>
+        <div class="card">
+            <h4><i class="fas fa-paint-brush icon"></i>Co-Branding and Partner-Specific Pricing</h4>
+            <p>Customizable for each partner.</p>
+        </div>
+        <div class="card">
+            <h4><i class="fas fa-file-alt icon"></i>Partner-Exclusive Content</h4>
+            <p>Tailored legal solutions and resources.</p>
         </div>
     </div>
+</div>
 
-    <div id="product-walkthrough" class="section">
-        <h2><i class="fas fa-map icon"></i>Product Walkthrough</h2>
-        <div class="image-container">
-            <figure>
-                <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/Rocket_Lawyer_Partner_User_Flow_Transparent.png" alt="User Flow" onclick="openLightbox(this)">
-                <figcaption>User Flow</figcaption>
-            </figure>
-            <figure>
-                <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-login-screen.png" alt="Sign-Up, Co-Branding, Onboarding" onclick="openLightbox(this)">
-                <figcaption>Sign-Up, Co-Branding, Onboarding</figcaption>
-            </figure>
-            <figure>
-                <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-onboarding-process.png" alt="Onboarding, Co-Branding" onclick="openLightbox(this)">
-                <figcaption>Onboarding, Co-Branding</figcaption>
-            </figure>
-            <figure>
-                <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-document-creation.png" alt="Partner-Specific Pricing, Co-Branding" onclick="openLightbox(this)">
-                <figcaption>Partner-Specific Pricing, Co-Branding</figcaption>
-            </figure>
-            <figure>
-                <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-ask-a-lawyer.png" alt="Ask  a Lawyer, Feature Gating" onclick="openLightbox(this)">
-                <figcaption>Ask a Lawyer, Feature Gating</figcaption>
-            </figure>
+<div id="technical-challenges" class="section">
+    <h2><i class="fas fa-cogs icon"></i>Technical Challenges</h2>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fas fa-shield-alt icon"></i>Authentication and Connector</h3>
+            <p><strong>Challenge</strong>: Developing a scalable partner authentication system.</p>
+            <p><strong>Solution</strong>: OpenID Connect and custom connector for scalability.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-cogs icon"></i>Partner Config API</h3>
+            <p><strong>Challenge</strong>: Creating a system for flexible multi-brand controls.</p>
+            <p><strong>Solution</strong>: Developed Partner Config API for customizable settings and brandability.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-chart-bar icon"></i>Reporting Capabilities</h3>
+            <p><strong>Challenge</strong>: Tracking partner usage and supporting usage-based billing.</p>
+            <p><strong>Solution</strong>: Enhanced in-house user events framework for detailed reporting.</p>
         </div>
     </div>
+</div>
 
-    <div id="reflection" class="section">
-        <h2><i class="fas fa-lightbulb icon"></i>Reflection and Key Decisions</h2>
-        <div class="reflection-grid">
-            <div class="reflection-item">
-                <h3><i class="fas fa-tasks icon"></i>Prioritization</h3>
-                
-                <p>Delivering a slim but impactful Minimum Lovable Product (MLP), prioritizing features that provided the most value to partners.</p>
-            </div>
-            <div class="reflection-item">
-                <h3><i class="fas fa-expand-arrows-alt icon"></i>Building for Scale</h3>
-                <p>Designed solutions with future scalability in mind, ensuring they could be adapted for additional partners and markets.</p>
-            </div>
-            
-            <div class="reflection-item">
-                <h3><i class="fas fa-clock  icon"></i>On-Time Delivery</h3>
-                <p>Ensuring the project met crucial deadlines, including the first partner demo in June, leading to a successful contract signing.</p>
-            </div>
-            <div class="reflection-item">
-                <h3><i class="fas fa-shield-alt icon"></i>Protecting the Team</h3>
-                <p>Taking on tasks like documentation, meetings, and diagram creation from engineers, allowing them to focus.</p>
-            </div>
-            <div class="reflection-item">
-                <h3><i class="fas fa-cut icon"></i>Descoping as Needed</h3>
-                <p>Pulled advanced reporting (did not scale for additional partners).</p>
-            </div>
+<div id="product-walkthrough" class="section">
+    <h2><i class="fas fa-map icon"></i>Product Walkthrough</h2>
+    <div class="image-container">
+        <figure>
+            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/Rocket_Lawyer_Partner_User_Flow_Transparent.png" alt="User Flow" onclick="openLightbox(this)">
+            <figcaption>User Flow</figcaption>
+        </figure>
+        <figure>
+            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-login-screen.png" alt="Sign-Up, Co-Branding, Onboarding" onclick="openLightbox(this)">
+            <figcaption>Sign-Up, Co-Branding, Onboarding</figcaption>
+        </figure>
+        <figure>
+            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-onboarding-process.png" alt="Onboarding, Co-Branding" onclick="openLightbox(this)">
+            <figcaption>Onboarding, Co-Branding</figcaption>
+        </figure>
+        <figure>
+            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-document-creation.png" alt="Partner-Specific Pricing, Co-Branding" onclick="openLightbox(this)">
+            <figcaption>Partner-Specific Pricing, Co-Branding</figcaption>
+        </figure>
+        <figure>
+            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-ask-a-lawyer.png" alt="Ask a Lawyer, Feature Gating" onclick="openLightbox(this)">
+            <figcaption>Ask a Lawyer, Feature Gating</figcaption>
+        </figure>
+    </div>
+</div>
+
+<div id="reflection" class="section">
+    <h2><i class="fas fa-lightbulb icon"></i>Reflection and Key Decisions</h2>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fas fa-tasks icon"></i>Prioritization</h3>
+            <p>Delivering a slim but impactful  Minimum Lovable Product (MLP), prioritizing features that provided the most value to partners.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-expand-arrows-alt icon"></i>Building for Scale</h3>
+            <p>Designed solutions with future scalability in mind, ensuring they could be adapted for additional partners and markets.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-clock icon"></i>On-Time Delivery</h3>
+            <p>Ensuring the project met crucial deadlines, including the first partner demo in June, leading to a successful contract signing.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-shield-alt icon"></i>Protecting the Team</h3>
+            <p>Taking on tasks like documentation, meetings, and diagram creation from engineers, allowing them to focus.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-cut icon"></i>Descoping as Needed</h3>
+            <p>Pulled advanced reporting (did not scale for additional partners).</p>
         </div>
     </div>
+</div>
 
-    <div id="collaboration" class="section">
-        <h2><i class="fas fa-users icon"></i>Collaboration and Execution</h2>
-        <h3><i class="fas fa-puzzle-piece icon"></i>Cross-Functional Teams</h3>
-        <p>Collaboration with engineering, design, marketing, and legal content teams.</p>
-        
-        <h3><i class="fas fa-bullseye icon"></i>Scope Management</h3>
-        <p>Balancing rapid delivery with quality and scalability.</p>
-        
-        <h3><i class="fas fa-handshake icon"></i>Resource Negotiation</h3>
-        <p>Securing additional resources for ecommerce, reporting, and front-end development.</p>
+<div id="collaboration" class="section">
+    <h2><i class="fas fa-users icon"></i>Collaboration and Execution</h2>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fas fa-puzzle-piece icon"></i>Cross-Functional Teams</h3>
+            <p>Collaboration with engineering, design, marketing, and legal content teams.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-bullseye icon"></i>Scope Management</h3>
+            <p>Balancing rapid delivery with quality and scalability.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-handshake icon"></i>Resource Negotiation</h3>
+            <p>Securing additional resources for ecommerce, reporting, and front-end development.</p>
+        </div>
     </div>
+</div>
 
-    <div id="outcomes" class="section">
-        <h2><i class="fas fa-chart-line icon"></i>Outcomes</h2>
-        <h3><i class="fas fa-chart-bar icon"></i>Traffic Increase</h3>
-        <ul>
-            <li><strong>Contributed to 16% of Rocket Lawyer's European traffic following launch</strong>.</li>
-        </ul>
-        <h3><i class="fas fa-trophy icon"></i>Business Outcomes</h3>
-        <ul>
-            <li><strong>Increased online sign-ups and brand awareness</strong> for partners.</li>
-            <li><strong>Successful handoff</strong> to the newly created Enterprise team.</li>
-            <li><strong>New revenue stream</strong>.</li>
-        </ul>
+<div id="outcomes" class="section">
+    <h2><i class="fas fa-chart-line icon"></i>Outcomes</h2>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fas fa-chart-bar icon"></i>Traffic Increase</h3>
+            <ul>
+                <li><strong>Contributed to 16% of Rocket Lawyer's European traffic following launch</strong>.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-trophy icon"></i>Business Outcomes</h3>
+            <ul>
+                <li><strong>Increased online sign-ups and brand awareness</strong> for partners.</li>
+                <li><strong>Successful handoff</strong> to the newly created Enterprise team.</li>
+                <li><strong>New revenue stream</strong>.</li>
+            </ul>
+        </div>
     </div>
+</div>
 
-    <div id="challenges" class="section">
-        <h2><i class="fas fa-exclamation-triangle icon"></i>Challenges</h2>
-        <h3><i class="fas fa-bolt icon"></i>Rapid Project Ramp-Up</h3>
-        <p>Hired in late April, with first partner demo in June leading to contract signing.</p>
-        
-        <h3><i class="fas fa-globe icon"></i>Time Zone Coordination</h3>
-        <p>Working across San Francisco, UK (+8 hours), and France (+9 hours).</p>
-        
-        <h3><i class="fas fa-umbrella-beach icon"></i>Partner Staff Vacation</h3>
-        <p>Navigating Covéa's August vacation period.</p>
-        
-        <h3><i class="fas fa-code icon"></i>Angular Upgrade</h3>
-        <p>Necessary to improve site performance.</p>
+<div id="challenges" class="section">
+    <h2><i class="fas fa-exclamation-triangle icon"></i>Challenges</h2>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fas fa-bolt icon"></i>Rapid Project Ramp-Up</h3>
+            <p>Hired in late April, with first partner demo in June leading to contract signing.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-globe icon"></i>Time Zone Coordination</h3>
+            <p>Working across San Francisco, UK (+8 hours), and France (+9 hours).</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-umbrella-beach icon"></i>Partner Staff Vacation</h3>
+            <p>Navigating Covéa's August vacation period.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-code icon"></i>Angular Upgrade</h3>
+            <p>Necessary to improve site performance.</p>
+        </div>
     </div>
+</div>
 
-    <div id="lessons" class="section">
-        <h2><i class="fas fa-book-open icon"></i>Lessons Learned</h2>
-        <h3><i class="fas fa-users icon"></i>Collaboration and Leadership</h3>
-        <p>My early days and late nights led to the project's success. A close, trusting relationship with my tech lead ensured we stayed on the same page.</p>
-        
-        <h3><i class="fas fa-shield-alt icon"></i>Advocacy and Protection</h3>
-        <p>Advocating for additional resources and protecting my team from extra work were crucial for staying focused and on schedule.</p>
-        
-        <h3><i class="fas fa-expand-arrows-alt icon"></i>Building for Scale</h3>
-        <p>Focusing on scalability, not just for a single customer, but for future partner integrations.</p>
+<div id="lessons" class="section">
+    <h2><i class="fas fa-book-open icon"></i>Lessons Learned</h2>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fas fa-users icon"></i>Collaboration and Leadership</h3>
+            <p>My early days and late nights led to the project's success. A close, trusting relationship with my tech lead ensured we stayed on the same page.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-shield-alt icon"></i>Advocacy and Protection</h3>
+            <p>Advocating for additional resources and protecting my team from extra work were crucial for staying focused and on schedule.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-expand-arrows-alt icon"></i>Building for Scale</h3>
+            <p>Focusing on scalability, not just for a single customer, but for future partner integrations.</p>
+        </div>
     </div>
+</div>
 
-    <div id="release" class="section">
-        <h2><i class="fas fa-rocket icon"></i>Release</h2>
-        <div class="image-wrapper">
+<div id="release" class="section">
+    <h2><i class="fas fa-rocket icon"></i>Release</h2>
+    <div class="flex-container">
+        <div>
             <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-press-release-rounded.png" alt="Covéa Press Release" onclick="openLightbox(this)">
         </div>
-        <blockquote>
-            <p>"We are delighted to partner with Rocket Lawyer to provide new legal solutions to our 11.5 million clients."</p>
-            <footer>- Christophe Bardet, General Manager of Covéa Protection Juridique</footer>
-        </blockquote>
-        <blockquote>
-            <p>"We gave Kevin an extremely complex and strategic partner project  to tackle and he really knocked it out of the park. He quickly onboarded to the product development challenge, understood the breadth of the deliverables, and started to methodically chip away at them. His team was hyper-focused and motivated, thanks mostly to Kevin and his constant energy and attitude."</p>
-            <footer>- Rob Elhardt, VP of Product Management</footer>
-        </blockquote>
+        <div>
+            <blockquote>
+                <p>"We are delighted to partner with Rocket Lawyer to provide new legal solutions to our 11.5 million clients."</p>
+                <footer>- Christophe Bardet, General Manager of Covéa Protection Juridique</footer>
+            </blockquote>
+            <blockquote>
+                <p>"We gave Kevin an extremely complex and strategic partner project  to tackle and he really knocked it out of the park. He quickly onboarded to the product development challenge, understood the breadth of the deliverables, and started to methodically chip away at them. His team was hyper-focused and motivated, thanks mostly to Kevin and his constant energy and attitude."</p>
+                <footer>- Rob Elhardt, VP of Product Management</footer>
+            </blockquote>
+        </div>
     </div>
+</div>
 
-    <div class="back-to-main">
-        <a href="https://middleton.io/">← Back to Kevin Middleton's Portfolio</a>
-    </div>
+<div class="back-to-main">
+    <a href="https://middleton.io/">← Back to Kevin Middleton's Portfolio</a>
+</div>
 </div>
 
 <div id="navigation"></div>
 
 <div id="lightbox" class="lightbox">
-    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-    <img class="lightbox-content" id="lightbox-image">
+<span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+<img class="lightbox-content" id="lightbox-image">
 </div>
 
 <script>
-    function openLightbox(img) {
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-image');
-        lightbox.style.display = 'flex';
-        lightboxImg.src = img.src;
-    }
+function openLightbox(img) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-image');
+    lightbox.style.display = 'flex';
+    lightboxImg.src = img.src;
+}
 
-    function closeLightbox() {
-        document.getElementById('lightbox').style.display = 'none';
-    }
+function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+}
 
-    // Create navigation dots
-    const sections = document.querySelectorAll('.section');
-    const nav = document.getElementById('navigation');
-    sections.forEach((section, index) => {
-        const dot = document.createElement('span');
-        dot.classList.add('nav-item');
-        dot.addEventListener('click', () => {
-            section.scrollIntoView({ behavior: 'smooth' });
-        });
-        nav.appendChild(dot);
+// Create navigation dots
+const sections = document.querySelectorAll('.section');
+const nav = document.getElementById('navigation');
+sections.forEach((section, index) => {
+    const dot = document.createElement('span');
+    dot.classList.add('nav-item');
+    dot.addEventListener('click', () => {
+        section.scrollIntoView({ behavior: 'smooth' });
+    });
+    nav.appendChild(dot);
+});
+
+// Update active navigation dot on scroll
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (pageYOffset >= sectionTop - 60) {
+            current = section.getAttribute('id');
+        }
     });
 
-    // Update active navigation dot on scroll
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 60) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        document.querySelectorAll('.nav-item').forEach((dot, index) => {
-            dot.classList.toggle('active', sections[index].getAttribute('id') === current);
-        });
+    document.querySelectorAll('.nav-item').forEach((dot, index) => {
+        dot.classList.toggle('active', sections[index].getAttribute('id') === current);
     });
+});
 </script>
 </body>
 </html>
