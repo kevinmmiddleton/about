@@ -133,7 +133,7 @@ Kevin Middleton
             <a href="#experience" class="inline-flex items-center justify-center bg-white text-[#00a8ff] px-6 py-3 rounded-full hover:bg-gray-200 transition-colors">See My Work</a>
             <a href="#about" class="inline-flex items-center justify-center bg-transparent text-white border-2 border-white px-6 py-3 rounded-full hover:bg-white hover:text-[#00a8ff] transition-colors">About Me</a>
           </div>
-          <div class="max-w-4xl mx-auto bg-white bg-opacity-10 rounded-lg shadow-xl p-4 sm:p-6 md:p-8 mb-12">
+          <div class="max-w-4xl mx-auto bg-white bg-opacity-10 rounded-lg shadow-xl p-6 sm:p-8 md:p-10 mb-12">
             <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-center text-white">
               <span class="inline-block whitespace-nowrap text-[clamp(0.875rem,2vw,1.875rem)]">Building Consumer, Enterprise, and Platform SaaS Products</span>
             </h2>
@@ -192,7 +192,7 @@ HVAC.COM
 </div>
 </div>
 <p class="text-gray-600 mb-4">2024 — Present | Charlotte, NC</p>
-<p class="text-gray-700 mb-4">Led development of lead generation tools that boosted conversions to HVAC.com’s paid services. Collaborating closely with marketing, engineering, and design teams, I lead efforts that increase homeowner engagement and drive measurable results:</p>
+<p class="text-gray-700 mb-4">Led development of lead generation tools that boosted conversions to HVAC.com's paid services. Collaborating closely with marketing, engineering, and design teams, I lead efforts that increase homeowner engagement and drive measurable results:</p>
 <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
 <li><span class="font-semibold">Calculators:</span> Built and launched a suite of calculators, increasing the conversion rate to our paid product from <strong>0.1%</strong> to <strong>7.3%</strong>.</li>
 <li><span class="font-semibold">QuoteScore:</span> A tool that helps homeowners understand their HVAC quotes, converting at a <strong>6% rate</strong> to our paid offering.</li>
@@ -202,7 +202,7 @@ HVAC.COM
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
 <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Calculators-ugatTWPQjMXKJgaVhpaFvInZcvUTnG.png" alt="HVAC.COM Calculators" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
 <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/QuoteScore%20Landing%20Page-uuM6LcirnsW3dgC9uZ7IvQCkaH4o6t.png" alt="HVAC.COM QuoteScore Landing Page" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/video-CMzSXsw2YKljtBUuFMmwnpd5Vmbk7s.png" alt="HVAC.COM Video Content" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/video-CMzSXsw2YKljtBUuFMmwnpd5Vmbk7s.png" alt="HVAC.COM Video Content" class="rounded-md cursor-pointer  object-cover w-full h-48 lightbox-trigger">
 <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Replace%20Landing%20Page-3KAGV2Ct1GLuZUDCvnSCoy2zNnGaxf.png" alt="HVAC.COM Replace Landing Page" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
 </div>
 </div>
@@ -223,7 +223,7 @@ HURD AI
 </div>
 </div>
 <p class="text-gray-600  mb-4">2023  | Berkeley, CA</p>
-<p class="text-gray-700 mb-4">As a co-founder and product advisor at Hurd AI, I played a pivotal role in shaping the company’s early direction and ensuring the successful launch of AI-powered educational tools, including a Mac app and a web-based chatbot designed to help users capture, tag, and summarize transcripts of lectures and meetings with ease.</p>
+<p class="text-gray-700 mb-4">As a co-founder and product advisor at Hurd AI, I played a pivotal role in shaping the company's early direction and ensuring the successful launch of AI-powered educational tools, including a Mac app and a web-based chatbot designed to help users capture, tag, and summarize transcripts of lectures and meetings with ease.</p>
 <ul class="list-disc list-inside  text-gray-700 space-y-2 mb-4">
 <li><strong>AI-Powered Educational Tools:</strong> Co-led the development and launch of AI-powered educational tools, including a Mac app and web-based chatbot.</li>
 <li><strong>User Growth:</strong> Drove <strong>700% user growth</strong> post-launch.</li>
@@ -878,31 +878,31 @@ const menuToggle = document.getElementById('menu-toggle');
 const menu = document.getElementById('menu');
 
 menuToggle.addEventListener('click', () => {
-  menu.classList.toggle('hidden');
-  menu.classList.toggle('flex');
-  menu.classList.toggle('flex-col');
-  menu.classList.toggle('absolute');
-  menu.classList.toggle('top-full');
-  menu.classList.toggle('right-0');
-  menu.classList.toggle('shadow-md');
-  menu.classList.toggle('py-2');
-  menu.classList.toggle('mobile-menu');
-     });
-    
+menu.classList.toggle('hidden');
+menu.classList.toggle('flex');
+menu.classList.toggle('flex-col');
+menu.classList.toggle('absolute');
+menu.classList.toggle('top-full');
+menu.classList.toggle('right-0');
+menu.classList.toggle('shadow-md');
+menu.classList.toggle('py-2');
+menu.classList.toggle('mobile-menu');
+   });
+  
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
-  if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
     menu.classList.add('hidden');
     menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
-  }
+}
 });
 
 // Close mobile menu when clicking on a menu item
 menu.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
+link.addEventListener('click', () => {
     menu.classList.add('hidden');
     menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
-  });
+});
 });
 </script>
 </body>
