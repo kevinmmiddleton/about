@@ -103,24 +103,6 @@ img {
     font-weight: bold;
     cursor: pointer;
 }
-#navigation {
-    position: fixed;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
-.nav-item {
-    display: block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-    margin: 10px 0;
-    cursor: pointer;
-}
-.nav-item.active {
-    background-color: #ffffff;
-}
 .subtitle {
     text-align: center;
     margin-bottom: 2rem;
@@ -343,6 +325,7 @@ blockquote {
             <h3><i class="fas fa-expand-arrows-alt icon"></i>Building for Scale</h3>
             <p>Designed solutions with future scalability in mind, ensuring they could be adapted for additional partners and markets.</p>
         </div>
+        
         <div class="card">
             <h3><i class="fas fa-clock icon"></i>On-Time Delivery</h3>
             <p>Ensuring the project met crucial deadlines, including the first partner demo in June, leading to a successful contract signing.</p>
@@ -460,8 +443,6 @@ blockquote {
 </div>
 </div>
 
-<div id="navigation"></div>
-
 <div id="lightbox" class="lightbox">
 <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
 <img class="lightbox-content" id="lightbox-image">
@@ -478,33 +459,6 @@ function openLightbox(img) {
 function closeLightbox() {
     document.getElementById('lightbox').style.display = 'none';
 }
-
-// Create navigation dots
-const sections = document.querySelectorAll('.section');
-const nav = document.getElementById('navigation');
-sections.forEach((section, index) => {
-    const dot = document.createElement('span');
-    dot.classList.add('nav-item');
-    dot.addEventListener('click', () => {
-        section.scrollIntoView({ behavior: 'smooth' });
-    });
-    nav.appendChild(dot);
-});
-
-// Update active navigation dot on scroll
-window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (pageYOffset >= sectionTop - 60) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    document.querySelectorAll('.nav-item').forEach((dot, index) => {
-        dot.classList.toggle('active', sections[index].getAttribute('id') === current);
-    });
-});
 </script>
 </body>
 </html>
