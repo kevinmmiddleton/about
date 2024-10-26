@@ -1,942 +1,1343 @@
 <!DOCTYPE html>
-<html lang="en" class="overflow-x-hidden">
+<html lang="en" class="scroll-smooth">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Kevin Middleton - Full Stack Product Manager</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-  position: relative;
-  touch-action: pan-y;
-  -webkit-overflow-scrolling: touch;
-}
-body {
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-}
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', sans-serif;
-}
-.location {
-  font-size: 0.9em;
-  color: #e6f7ff;
-  margin-top: 5px;
-}
-.gradient-bg-1 { background: linear-gradient(to bottom, #00a8ff, #205aff); }
-.gradient-bg-2 { background: linear-gradient(to bottom, #205aff, #4021ff); }
-.gradient-bg-3 { background: linear-gradient(to bottom, #4021ff, #5e00ff); }
-.gradient-bg-4 { background: linear-gradient(to bottom, #5e00ff, #7c00ff); }
-.gradient-bg-5 { background: linear-gradient(to bottom, #7c00ff, #a300ff); }
-.gradient-bg-6 { background: linear-gradient(to bottom, #a300ff, #c800f5); }
-.gradient-bg-7 { background: linear-gradient(to bottom, #c800f5, #e600de); }
-.gradient-bg-8 { background: linear-gradient(to bottom, #e600de, #f705b2); }
-.gradient-bg-9 { background: linear-gradient(to bottom, #f705b2, #ff1c7f); }
-.gradient-bg-10 { background: linear-gradient(to bottom, #ff1c7f, #ff3e4d); }
-.gradient-bg-11 { background: linear-gradient(to bottom, #ff3e4d, #ff6533); }
-.project-card {
-  transition: transform 0.3s ease-in-out;
-}
-.project-card:hover {
-  transform: scale(1.05);
-  transition: transform 0.5s ease-in-out;
-}
-.lightbox {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
-.lightbox-content {
-  max-width: 90%;
-  max-height: 90%;
-}
-.lightbox-content img {
-  max-width: 100%;
-  max-height: 90vh;
-  object-fit: contain;
-}
-.close-lightbox {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #fff;
-  font-size: 30px;
-  cursor: pointer;
-}
-.mobile-menu {
-  text-align: right;
-  width: auto;
-  max-width: 90vw;
-  padding-right: 1rem;
-  padding-left: 1rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(5px);
-}
-.container {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-.headline-container {
-  width: 100%;
-  overflow: hidden;
-  padding: 0 1rem;
-}
-.headline-text {
-  display: inline-block;
-  white-space: nowrap;
-  font-size: clamp(0.875rem, 1.5vw, 1.875rem);
-  max-width: 100%;
-}
-@media (min-width: 1920px) {
-  .headline-container {
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-  .headline-text {
-    font-size: 1.5rem;
-  }
-}
-</style>
-<!-- Favicon -->
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<!-- Open Graph Meta Tags -->
-<meta name="author" content="Kevin Middleton">
-<meta property="og:title" content="Kevin Middleton">
-<meta property="og:description" content="Kevin Middleton is a Full-Stack Product Manager with 10+ years of experience building consumer, enterprise, and platform SaaS products. Passionate about working with cross-functional teams, Kevin excels at solving complex problems and delivering impactful products through thoughtful collaboration. Specializing in data-driven strategies, he drives user engagement, boosts conversions, and fosters measurable growth across industries such as social media, legal tech, marketing tech, and HVAC.">
-<meta property="og:url" content="https://middleton.io">
-<meta property="og:image" name="image" content="https://middleton.io/images/HeyThere.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Kevin Middleton - Full Stack Product Manager</title>
+    <meta name="description"
+        content="Kevin Middleton is a Full-Stack Product Manager with 10+ years of experience building consumer, enterprise, and platform SaaS products.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
 
-<!-- Microsoft Clarity -->
-<script>
-(function(c,l,a,r,i,t,y){
-c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "kix9xdfw7p");
-</script>
+        .gradient-bg-1 {
+            background: linear-gradient(to bottom, #00a8ff, #205aff);
+        }
+
+        .gradient-bg-2 {
+            background: linear-gradient(to bottom, #205aff, #4021ff);
+        }
+
+        .gradient-bg-3 {
+            background: linear-gradient(to bottom, #4021ff, #5e00ff);
+        }
+
+        .gradient-bg-4 {
+            background: linear-gradient(to bottom, #5e00ff, #7c00ff);
+        }
+
+        .gradient-bg-5 {
+            background: linear-gradient(to bottom, #7c00ff, #a300ff);
+        }
+
+        .gradient-bg-6 {
+            background: linear-gradient(to bottom, #a300ff, #c800f5);
+        }
+
+        .gradient-bg-7 {
+            background: linear-gradient(to bottom, #c800f5, #e600de);
+        }
+
+        .gradient-bg-8 {
+            background: linear-gradient(to bottom, #e600de, #f705b2);
+        }
+
+        .gradient-bg-9 {
+            background: linear-gradient(to bottom, #f705b2, #ff1c7f);
+        }
+
+        .gradient-bg-10 {
+            background: linear-gradient(to bottom, #ff1c7f, #ff3e4d);
+        }
+
+        .gradient-bg-11 {
+            background: linear-gradient(to bottom, #ff3e4d, #ff6533);
+        }
+
+        .project-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            text-align: right;
+            width: auto;
+            max-width: 90vw;
+            padding-right: 1rem;
+            padding-left: 1rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .typing-cursor {
+            animation: blink 0.7s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in-text {
+            display: inline-block;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        .text-rotate {
+            display: inline-block;
+            position: relative;
+            width: 200px;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .text-rotate span {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            opacity: 0;
+            animation: rotateWords 6s linear infinite 0s;
+        }
+
+        .text-rotate span:nth-child(2) {
+            animation-delay: 2s;
+        }
+
+        .text-rotate span:nth-child(3) {
+            animation-delay: 4s;
+        }
+
+        @keyframes rotateWords {
+            0% {
+                opacity: 0;
+            }
+
+            2% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            5% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            17% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            20% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            80% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Kevin Middleton - Full Stack Product Manager">
+    <meta property="og:description"
+        content="Kevin Middleton is a Full-Stack Product Manager with 10+ years of experience building consumer, enterprise, and platform SaaS products.">
+    <meta property="og:url" content="https://middleton.io">
+    <meta property="og:image" content="https://middleton.io/images/HeyThere.png">
+    <meta property="og:type" content="website">
+    <!-- Microsoft Clarity -->
+    <script>
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "kix9xdfw7p");
+    </script>
 </head>
+
 <body class="min-h-screen overflow-x-hidden">
-<header class="fixed top-0 left-0 right-0 bg-white bg-opacity-90 shadow-md z-50">
-<nav class="container mx-auto px-6 h-16 flex items-center justify-between">
-<a href="#hero" class="text-xl font-bold text-gray-800">
-<span id="header-name" class="hidden">
-<span class="block">Kevin Middleton</span>
-<span class="block text-sm font-normal">Full Stack Product Manager</span>
-</span>
-</a>
-<div class="md:hidden">
-<button id="menu-toggle" class="text-gray-600 focus:outline-none">
-<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-</svg>
-</button>
-</div>
-<ul id="menu" class="hidden md:flex md:space-x-6">
-<li><a href="#hero" class="text-gray-700 hover:text-gray-900">Home</a></li>
-<li><a href="#about" class="text-gray-700 hover:text-gray-900">About</a></li>
-<li><a href="#experience" class="text-gray-700 hover:text-gray-900">Experience</a></li>
-<li><a href="#projects" class="text-gray-700 hover:text-gray-900">Projects</a></li>
-<li><a href="#skills" class="text-gray-700 hover:text-gray-900">Skills</a></li>
-<li><a href="#connect" class="text-gray-700 hover:text-gray-900">Connect</a></li>
-</ul>
-</nav>
-</header>
-<main class="pt-16 overflow-x-hidden">
-<section id="hero" class="min-h-screen md:min-h-[80vh] flex flex-col items-center justify-start pt-16 md:pt-8 md:justify-center relative gradient-bg-1">
-    <div class="text-center mb-4 md:mb-6">
-      <h1 class="text-4xl font-bold text-white mb-2">Kevin Middleton</h1>
-      <p class="text-xl text-white">Full Stack Product Manager</p>
-      <div class="location">📍 New York City</div>
-    </div>
-    <div class="text-center z-10 px-4 md:px-0 w-full max-w-5xl mx-auto">
-      <div class="flex justify-center space-x-4 items-center mb-4 md:mb-6">
-        <a href="#experience" class="inline-flex items-center justify-center bg-white text-[#00a8ff] px-6 py-3 rounded-full hover:bg-gray-200 transition-colors">See My Work</a>
-        <a href="#about" class="inline-flex items-center justify-center bg-transparent text-white border-2 border-white px-6 py-3 rounded-full hover:bg-white hover:text-[#00a8ff] transition-colors">About Me</a>
-      </div>
-      <div class="max-w-4xl mx-auto bg-white bg-opacity-10 rounded-lg shadow-xl p-3 sm:p-4 md:p-6 mb-8">
-        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-center text-white">
-          <div class="headline-container">
-            <span class="headline-text">Building Consumer, Enterprise, and Platform SaaS Products</span>
-          </div>
-        </h2>
-        <p class="text-sm sm:text-base md:text-lg text-white leading-relaxed">
-          With 10+ years of experience driving product strategies, I turn complex challenges into scalable, data-driven solutions. My work spans diverse industries—social media, legal tech, marketing tech, HR, EdTech, and HVAC—delivering measurable growth and product success.
-        </p>
-      </div>
-      <div class="w-full flex justify-center">
-        <div class="mt-2 md:absolute md:bottom-4 animate-bounce">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
+    <header class="fixed top-0 left-0 right-0 bg-white bg-opacity-90 shadow-md z-50">
+        <nav class="container mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#hero" class="text-xl font-bold text-gray-800 flex items-center">
+                <span id="header-name" class="hidden">
+                    <span class="block">Kevin Middleton</span>
+                    <span class="block text-sm font-normal">Full Stack Product Manager</span>
+                </span>
+            </a>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-gray-600 focus:outline-none" aria-label="Toggle menu">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            <ul id="menu" class="hidden md:flex md:space-x-6">
+                <li><a href="#hero" class="text-gray-700 hover:text-gray-900">Home</a></li>
+                <li><a href="#about" class="text-gray-700 hover:text-gray-900">About</a></li>
+                <li><a href="#experience" class="text-gray-700 hover:text-gray-900">Experience</a></li>
+                <li><a href="#projects" class="text-gray-700 hover:text-gray-900">Projects</a></li>
+                <li><a href="#skills" class="text-gray-700 hover:text-gray-900">Skills</a></li>
+                <li><a href="#connect" class="text-gray-700 hover:text-gray-900">Connect</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="pt-16 overflow-x-hidden">
+        <section id="hero"
+            class="min-h-screen md:min-h-[80vh] flex flex-col items-center justify-start pt-16 md:pt-8 md:justify-center relative gradient-bg-1">
+            <div class="text-center mb-4 md:mb-6">
+                <h1 class="text-4xl font-bold text-white mb-2">Kevin Middleton</h1>
+                <p class="text-xl text-white">Full Stack Product Manager</p>
+                <div class="text-sm text-white mt-2">📍 New York City</div>
+            </div>
+            <div class="text-center z-10 px-4 md:px-0 w-full max-w-5xl mx-auto">
+                <div class="flex justify-center space-x-4 items-center mb-4 md:mb-6">
+                    <a href="#experience"
+                        class="inline-block bg-white text-blue-500 px-6 py-3 rounded-full hover:bg-gray-200 transition-colors">See
+                        My Work</a>
+                    <a href="#about"
+                        class="inline-flex items-center justify-center bg-transparent text-white border-2 border-white px-6 py-3 rounded-full hover:bg-white hover:text-[#00a8ff] transition-colors">About
+                        Me</a>
+                </div>
+                <div class="max-w-4xl mx-auto bg-white bg-opacity-10 rounded-lg shadow-xl p-3 sm:p-4 md:p-6 mb-8">
+                    <h2 class="font-bold mb-4 sm:mb-6 text-center text-white overflow-hidden" style="height: 3rem;">
+                        <span
+                            style="display: inline-block; white-space: nowrap; font-size: 2.5rem; transform-origin: left; transform: scale(var(--scale)); transition: transform 0.3s ease;"
+                            id="hero-title">
+                            Building Consumer, Enterprise, and Platform SaaS Products
+                        </span>
+                    </h2>
+                    <p class="text-sm sm:text-base md:text-lg text-white leading-relaxed">
+                        With 10+ years of experience driving product strategies, I turn complex challenges into
+                        scalable, data-driven solutions. My work spans diverse industries—social media, legal tech,
+                        marketing tech, HR, EdTech, and HVAC—delivering measurable growth and product success.
+                    </p>
+                </div>
+            </div>
+            <div class="w-full flex justify-center">
+                <div class="mt-2 md:absolute md:bottom-4 animate-bounce">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 gradient-bg-2">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">About Me</h2>
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="md:w-1/2 mb-8 md:mb-0">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1617207724987-1-8lbGQWDKOdVPVhNS3iXLfnj2rjI0eK.jpeg"
+                            alt="Kevin Middleton" class="rounded-full w-80 h-80 mx-auto object-cover">
+                    </div>
+                    <div class="md:w-1/2">
+                        <p class="text-lg mb-4 text-white">
+                            I'm a product manager who thrives on collaboration. My focus is on working with
+                            mission-driven teams to create products that make a measurable difference. I bring a
+                            data-driven approach to solving complex challenges and fostering growth.
+                        </p>
+                        <p class="text-lg mb-4 text-white">
+                            I specialize in managing the entire product lifecycle—from strategy to execution—ensuring
+                            that every solution makes an impact, boosts engagement, and aligns with business goals.
+                        </p>
+                        <p class="text-lg text-white">
+                            When I'm not working, you'll find me indulging my inner pop culture nerd with music, movies,
+                            TV, and live shows. I also love experimenting in the kitchen with savory dishes and the
+                            occasional baking project, and I travel when I find the time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-20 gradient-bg-3">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Professional Experience</h2>
+                <div class="space-y-16">
+                    <!-- HVAC.COM -->
+                    <div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
+                        <div class="flex items-center mb-4">
+                            <div
+                                class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hvacdotcom-nWdwl6aMcQl1ikE1sN11xmsnfbsNco.png"
+                                    alt="HVAC.COM logo" class="object-contain">
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
+                                    <a href="https://www.hvac.com" target="_blank" rel="noopener noreferrer"
+                                        class="hover:underline">
+                                        HVAC.COM
+                                    </a>
+                                    <span class="text-sm font-normal text-gray-600 ml-2">(Acquired by Trane Technologies
+                                        May 2024)</span>
+                                </h3>
+                                <h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, Growth</h4>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">2024 — Present | Charlotte, NC</p>
+                        <p class="text-gray-700 mb-4">Led development of lead generation tools that boosted conversions
+                            to HVAC.com's paid services. Collaborating closely with marketing, engineering, and design
+                            teams, I lead efforts that increase homeowner engagement and drive measurable results:</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                            <li><span class="font-semibold">Calculators:</span> Built and launched a suite of
+                                calculators, increasing the conversion rate to our paid product from
+                                <strong>0.1%</strong> to <strong>7.3%</strong>.</li>
+                            <li><span class="font-semibold">QuoteScore:</span> A tool that helps homeowners understand
+                                their HVAC quotes, converting at a <strong>6% rate</strong> to our paid offering.</li>
+                            <li><span class="font-semibold">Video Content:</span> Homeowners who engage with video
+                                content convert to paid products at a <strong>3.4% rate</strong>.</li>
+                            <li><span class="font-semibold">Landing Pages:</span> Optimized landing pages to achieve a
+                                <strong>2.3% conversion rate</strong> to paid products.</li>
+                        </ul>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Calculators-ugatTWPQjMXKJgaVhpaFvInZcvUTnG.png"
+                                alt="HVAC.COM Calculators"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/QuoteScore%20Landing%20Page-uuM6LcirnsW3dgC9uZ7IvQCkaH4o6t.png"
+                                alt="HVAC.COM QuoteScore Landing Page"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/video-CMzSXsw2YKljtBUuFMmwnpd5Vmbk7s.png"
+                                alt="HVAC.COM Video Content"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Replace%20Landing%20Page-3KAGV2Ct1GLuZUDCvnSCoy2zNnGaxf.png"
+                                alt="HVAC.COM Replace Landing Page"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                        </div>
+                    </div>
+
+                    <!-- HURD AI -->
+                    <div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
+                        <div class="flex items-center mb-4">
+                            <div
+                                class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hurd_ai_logo-afkEPW8u7wmqyrcWxbqPFEaD006gfx.png"
+                                    alt="HURD AI logo" class="object-contain">
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
+                                    <a href="https://hurd.ai" target="_blank" rel="noopener noreferrer"
+                                        class="hover:underline">
+                                        HURD AI
+                                    </a>
+                                </h3>
+                                <h4 class="text-xl font-semibold text-gray-700">Co-founder &amp; Product Advisor</h4>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">2023 | Berkeley, CA</p>
+                        <p class="text-gray-700 mb-4">As a co-founder and product advisor at Hurd AI, I played a pivotal
+                            role in shaping the company's early direction and ensuring the successful launch of
+                            AI-powered educational tools, including a Mac app and a web-based chatbot designed to help
+                            users capture, tag, and summarize transcripts of lectures and meetings with ease.</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                            <li><strong>AI-Powered Educational Tools:</strong> Co-led the development and launch of
+                                AI-powered educational tools, including a Mac app and web-based chatbot.</li>
+                            <li><strong>User Growth:</strong> Drove <strong>700% user growth</strong> post-launch.</li>
+                            <li><strong>Cross-Functional Leadership:</strong> Played a key role across multiple
+                                functions—strategy, marketing, user research, and support—to ensure a smooth and
+                                successful launch of Hurd AI.</li>
+                        </ul>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                            <img src="https://middleton.io/images/hurd-ai-search-highlight.gif"
+                                alt="HURD AI search highlight"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://middleton.io/images/hurd-ai-fast-summarization.gif"
+                                alt="HURD AI fast summarization"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://middleton.io/images/hurd-ai-mobile-web-app.webp"
+                                alt="HURD AI mobile web app"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://middleton.io/images/hurd-ai-mobile-web-app-detail.webp"
+                                alt="HURD AI mobile web app detail"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                        </div>
+                    </div>
+
+                    <!-- LEVER -->
+                    <div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
+                        <div class="flex items-center mb-4">
+                            <div
+                                class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/lever-cTlphHdjCLKnZ7ZvFV8b0H6QJTQcWS.webp"
+                                    alt="LEVER logo" class="object-contain">
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
+                                    <a href="https://www.lever.co" target="_blank" rel="noopener noreferrer"
+                                        class="hover:underline">
+                                        LEVER
+                                    </a>
+                                    <span class="text-sm font-normal text-gray-600 ml-2">(Acquired by Employ July
+                                        2022)</span>
+                                </h3>
+                                <h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, HRIS Sync Lead
+                                </h4>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">2021 — 2023 | San Francisco, CA</p>
+                        <p class="text-gray-700 mb-4">Created and drove the HRIS Sync product area from inception to
+                            launch, developing key API endpoints to synchronize Human Resources Information Systems
+                            (HRIS) and Lever. Launched features that improved user profiles and enabled org chart aware
+                            proxy approval for requisitions, postings, and offers.</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                            <li><span class="font-semibold">HRIS Sync Creation &amp; Launch:</span> Created and led the
+                                HRIS Sync product area and 7-member team. Achieved a <strong>37% product engagement
+                                    rate</strong> in the first quarter and drove improvements in Time to Hire and Time
+                                to Fill metrics.</li>
+                            <li><span class="font-semibold">End-to-End Product Discovery:</span> Conducted extensive
+                                user research and quantitative/qualitative analysis to capture and prioritize customer
+                                feedback, ensuring product innovations aligned with company objectives.</li>
+                            <li><span class="font-semibold">Bulk Candidate Importer:</span> A self-serve drag-and-drop
+                                interface for bulk candidate importing, reducing upload times from <strong>days to
+                                    minutes</strong>, freeing up support and implementation teams, and improving user
+                                experience.</li>
+                            <li><span class="font-semibold">Cross-Functional Collaboration:</span> Collaborated closely
+                                with professional services, implementation, customer success, and support teams to
+                                integrate both internal and customer feedback into the product development process.</li>
+                        </ul>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <img src="https://middleton.io/images/lever-hris-user-profile.png"
+                                alt="Lever HRIS user profile"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://middleton.io/images/lever-proxy-approval.png" alt="Lever proxy approval"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://middleton.io/images/lever-bulk-candidate-importer.png"
+                                alt="Lever bulk candidate importer"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                        </div>
+                    </div>
+
+                    <!-- SENDOSO -->
+                    <div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
+                        <div class="flex items-center mb-4">
+                            <div
+                                class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sendoso-6CCvvT2hRYvK6aAECPaXC6LxfXkCIF.png"
+                                    alt="SENDOSO logo" class="object-contain">
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
+                                    <a href="https://www.sendoso.com" target="_blank" rel="noopener noreferrer"
+                                        class="hover:underline">
+                                        SENDOSO
+                                    </a>
+                                </h3>
+                                <h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, Core Platform
+                                    &amp; eGift Global Expansion</h4>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">2021 | San Francisco, CA</p>
+                        <p class="text-gray-700 mb-4">Championed the global expansion of Sendoso's eGift platform,
+                            driving strategic partnerships and market entry initiatives to increase international and
+                            domestic growth. Delivered key features and improvements that enhanced security,
+                            performance, and customer satisfaction:</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                            <li><span class="font-semibold">eGift Platform Expansion:</span> Drove <strong>23%
+                                    U.S.</strong> and <strong>67% international growth</strong> by strengthening
+                                existing vendor relationships and upgrading Sendoso's eGift platform to allow a single
+                                gift card to be mapped to multiple countries, significantly expanding reach.</li>
+                            <li><span class="font-semibold">Square Partnership:</span> Partnered with Square to enable
+                                local eGifting in the U.S., Canada, Australia, and the U.K.</li>
+                            <li><span class="font-semibold">Fraud Prevention:</span> Prevented fraud worth
+                                <strong>hundreds of thousands of dollars</strong> by implementing two-factor
+                                authentication and AI-driven fraud detection, enhancing platform security and improving
+                                customer trust.</li>
+                            <li><span class="font-semibold">Platform Revenue Drivers:</span> Launched feature tiering
+                                capability and user onboarding improvements, contributing to revenue growth and improved
+                                customer experience.</li>
+                            <li><span class="font-semibold">Operational Efficiency:</span> Enhanced internal tools to
+                                simplify eGift deactivation and refund processes, enabling Support to resolve issues
+                                without Engineering intervention, leading to faster issue resolution.</li>
+                        </ul>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                            <img src="https://middleton.io/images/sendoso-egift-demo.gif" alt="Sendoso eGift demo"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <div class="w-full h-48 flex items-center justify-center bg-gray-100 rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="100" width="200" fill="none"
+                                    viewBox="-13.12251 -5.5 113.72842 33">
+                                    <path fill="#3E4348"
+                                        d="M3.6761 0h14.6478a3.6762 3.6762 0 013.6772 3.6761v14.6467c0 2.0309-1.6464 3.6772-3.6772 3.6772H3.6761C1.6457 21.9994 0 20.3533 0 18.3228V3.6761C0 1.6458 1.6458 0 3.6761 0zm13.1673 18.0005c.6408 0 1.1603-.5195 1.1603-1.1603l-.0032-11.6794c0-.6408-.5195-1.1602-1.1603-1.1602H5.1619a1.1603 1.1603 0 00-1.1603 1.1613v11.6783c0 .6408.5195 1.1603 1.1603 1.1603z"
+                                        clip-rule="evenodd" fill-rule="evenodd" />
+                                    <path fill="#3E4348"
+                                        d="M8.6662 13.9828a.666.666 0 01-.6608-.666V8.6544a.666.666 0 01.666-.6692h4.6689a.6673.6673 0 01.666.6692v4.6613a.667.667 0 01-.666.6693zm24.5297-3.9632c-.681-.1857-1.3257-.3608-1.8263-.5838-.9265-.4142-1.3577-.9885-1.3577-1.806 0-1.5457 1.4943-2.2416 2.9823-2.2416 1.4142 0 2.6492.585 3.4786 1.646l.0565.0725 1.1955-.935-.0576-.0726c-1.1026-1.4026-2.7357-2.171-4.6005-2.171-1.2413 0-2.3792.335-3.2021.9445-.9265.6778-1.4154 1.661-1.4154 2.834 0 2.7272 2.5681 3.3921 4.6325 3.9269 2.0889.5508 3.3687.9692 3.3687 2.5617 0 1.568-1.2681 2.581-3.23 2.581-.9702 0-2.7666-.2572-3.8959-1.9821l-.0523-.0812-1.2574.9105.0491.0737c1.0674 1.616 2.9097 2.5436 5.0605 2.5436 2.9214 0 4.8854-1.6492 4.8854-4.102 0-2.8073-2.6706-3.5342-4.8139-4.1191z" />
+                                    <path fill="#3E4348"
+                                        d="M47.5395 9.4528V7.9766h1.4057V21.998h-1.4057V16.52c-.8027 1.1005-2.0067 1.7025-3.4221 1.7025-2.6727 0-4.5407-2.1401-4.5407-5.2302s1.8722-5.2473 4.5407-5.2473c1.4058 0 2.6098.6052 3.4221 1.7078zm-6.4812 3.5224c0 2.8606 1.6384 3.88 3.1722 3.88l.0032.001c2.0078 0 3.3058-1.537 3.3058-3.881s-1.3001-3.8597-3.309-3.8597c-2.3386 0-3.1722 1.9939-3.1722 3.8597z"
+                                        clip-rule="evenodd" fill-rule="evenodd" />
+                                    <path fill="#3E4348"
+                                        d="M58.239 7.9766v5.5344c0 1.9374-1.3268 3.3442-3.1542 3.3442-1.5178 0-2.2564-.9009-2.2564-2.7528V7.9766h-1.4058v6.4129c0 2.4016 1.3054 3.8351 3.4914 3.8351 1.362 0 2.5319-.5774 3.326-1.6331v1.4047h1.4058V7.9766z" />
+                                    <path fill="#3E4348"
+                                        d="M62.293 9.029c1.0364-.8143 2.4432-1.2808 3.8575-1.2808 2.2341 0 3.5672 1.1112 3.563 2.9748v7.2754h-1.4068v-1.1112c-.7099.8891-1.7367 1.3396-3.0581 1.3396-2.153 0-3.4915-1.1774-3.4915-3.0709 0-2.4625 2.3205-2.8489 3.309-3.0133.1611-.0266.3276-.0522.494-.0779h.0002l.006-.0009c1.3505-.2079 2.7446-.4224 2.7446-1.5681 0-1.297-1.6833-1.3972-2.1988-1.3972-.9105 0-2.1967.27-3.0709 1.0278l-.08.0694-.7344-1.1143zm.9318 6.0479c0 1.6054 1.5114 1.7793 2.1615 1.7793h.001c1.4133 0 2.9258-.7535 2.9226-2.8712v-1.4496c-.6857.4331-1.6616.6023-2.5321.7532l-.0147.0026-.4366.0779c-1.394.2583-2.1017.5913-2.1017 1.7078z"
+                                        clip-rule="evenodd" fill-rule="evenodd" />
+                                    <path fill="#3E4348"
+                                        d="M77.8577 8.1655c-.3341-.238-.8603-.38-1.409-.38a3.5908 3.5908 0 00-2.8489 1.4677V7.9723h-1.4057V17.991h1.4057v-5.3583c0-2.376 1.3354-3.4402 2.6578-3.4402a2.5993 2.5993 0 011.1219.238l.095.0502.4451-1.2745z" />
+                                    <path fill="#3E4348"
+                                        d="M78.2697 13.0136c0-3.0997 1.933-5.2654 4.6965-5.2654 2.662 0 4.5225 1.9224 4.5172 4.6794a6.9566 6.9566 0 01-.0395.7173l-.0086.0822h-7.6852c.0352 2.2063 1.3631 3.6291 3.4007 3.6291 1.1678 0 2.1796-.4749 2.8489-1.3385l.0608-.0789 1.0183.9072-.0565.0683c-.6768.8251-1.9107 1.8093-3.9494 1.8093-2.8713 0-4.8032-2.0932-4.8032-5.21zm4.658-3.9162c-1.7174 0-2.9353 1.1303-3.1253 2.8905h6.1952c-.1217-1.4154-.9863-2.8905-3.0699-2.8905z"
+                                        clip-rule="evenodd" fill-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROCKET LAWYER -->
+                    <div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
+                        <div class="flex items-center mb-4">
+                            <div
+                                class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/rocket-lawyer-SRYvnP1gsz47Bj5Hn2FYU6WSkVcltl.png"
+                                    alt="ROCKET LAWYER logo" class="object-contain">
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
+                                    <a href="https://www.rocketlawyer.com" target="_blank" rel="noopener noreferrer"
+                                        class="hover:underline">
+                                        ROCKET LAWYER
+                                    </a>
+                                </h3>
+                                <h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, Core Product
+                                    &amp; Platform</h4>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">2018 — 2021 | San Francisco, CA</p>
+                        <p class="text-gray-700 mb-4">Developed and executed product strategies for Rocket Lawyer's
+                            Platform and Legal Documentation teams, driving innovation and growth. Collaborated closely
+                            with cross-functional teams and C-suite leadership to create and guide initiatives, develop
+                            and maintain product roadmaps.</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                            <li><span class="font-semibold">New Line of Business Launch:</span> Created and launched
+                                co-branded partner sites featuring OpenID Connect authentication and customizable
+                                pricing, content, and features, accounting for <strong>16% of all European
+                                    traffic</strong> and establishing a new revenue channel.</li>
+                            <li><span class="font-semibold">Revenue Growth:</span> Increased mobile gross conversions by
+                                <strong>5%</strong>, driving revenue growth in the legal document product line, which
+                                contributes <strong>90% of U.S. revenue</strong>, through targeted A/B testing and
+                                strategic UX enhancements.</li>
+                            <li><span class="font-semibold">Product Integration:</span> Boosted eSign start rates by
+                                <strong>13%</strong> through the strategic integration of Legal Documents with
+                                RocketSign, enhancing overall user experience and product efficiency.</li>
+                            <li><span class="font-semibold">Data Instrumentation:</span> Achieved record-breaking
+                                conversion rates by developing custom analytics tools to link platform performance with
+                                conversion metrics, coupled with strategic enhancements to the checkout process.</li>
+                            <li><span class="font-semibold">Strategic Planning:</span> Collaborated with
+                                cross-functional teams and C-suite leadership to define and maintain product roadmaps,
+                                ensuring alignment with company objectives and customer needs.</li>
+                        </ul>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                            <img src="https://middleton.io/images/covea-login-screen.png" alt="Covea login screen"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://middleton.io/images/covea-onboarding-process.png"
+                                alt="Covea onboarding process"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://middleton.io/images/covea-document-creation.png"
+                                alt="Covea document creation"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://middleton.io/images/legal-document-interview.png"
+                                alt="Legal document interview"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                        </div>
+                    </div>
+
+                    <!-- ORACLE -->
+                    <div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
+                        <div class="flex items-center mb-4">
+                            <div
+                                class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Oracle-Social-vom4QuVyHBGbeBeevIOqHNqIiVAJQ8.png"
+                                    alt="ORACLE logo" class="object-contain">
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
+                                    <a href="https://www.oracle.com" target="_blank" rel="noopener noreferrer"
+                                        class="hover:underline">
+                                        ORACLE
+                                    </a>
+                                </h3>
+                                <h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, Engage,
+                                    Integrations, &amp; Social Network Expansion</h4>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">2013 — 2018 | San Francisco, CA</p>
+                        <p class="text-gray-700 mb-4">Promoted to lead Oracle Social Cloud's Engage product, managing
+                            cross-functional and international teams, including two scrum teams and three UX/UI
+                            designers. Focused on driving platform innovation, enhancing customer applications, and
+                            facilitating seamless external partner integrations:</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                            <li><span class="font-semibold">Social Network Expansion:</span> Doubled network coverage
+                                for Oracle Social Cloud's suite of apps by integrating LinkedIn, Instagram, Sina Weibo,
+                                and Tumblr, addressing high-priority customer needs.</li>
+                            <li><span class="font-semibold">Product Relaunch:</span> Led a complete overhaul of Oracle's
+                                Social Engage application, launching <strong>32</strong> new features in
+                                <strong>12</strong> months driven by customer feedback and beta testing.</li>
+                            <li><span class="font-semibold">World-Class Cloud Integrations:</span> Managed cross-app and
+                                cross-cloud integrations of Oracle Social's suite of apps with Oracle's Marketing,
+                                Sales, and Service clouds. Managed internationalization efforts across
+                                <strong>30</strong> languages, improving global reach by targeting EMEA and APAC
+                                regions.</li>
+                            <li><span class="font-semibold">Go-To-Market Strategy:</span> Successfully executed
+                                comprehensive product rollouts by coordinating with Customer Success, Marketing, and
+                                Sales teams, ensuring effective market penetration and alignment with strategic business
+                                goals.</li>
+                        </ul>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                            <img src="https://middleton.io/images/oracle-engage-v1.png" alt="Oracle Engage v1"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                            <img src="https://middleton.io/images/oracle-engage-v2.png" alt="Oracle Engage v2"
+                                class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-20 gradient-bg-4">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Sendoso-Orange-DW81MQgtHMRFdWHDeM2VZBzx6NROXq.png"
+                            alt="Sendoso logo" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">eGift Platform Expansion &amp; Square
+                                Partnership</h3>
+                            <p class="text-gray-600 mb-4">Drove <strong>23%</strong> U.S. and <strong>67%</strong>
+                                international growth by expanding Sendoso's eGift platform and partnering with Square to
+                                enable local eGifting in the U.S., Canada, Australia, and the U.K. Strengthened vendor
+                                relationships and enhanced platform security with fraud prevention measures.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Market
+                                    Expansion</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Fraud
+                                    Prevention</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Global
+                                    Partnerships</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
+                        <img src="https://github.com/kevinmmiddleton/about/raw/main/images/Lever-logo.png"
+                            alt="Lever logo" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Org Chart Sync and Self-Serve Bulk Importer
+                            </h3>
+                            <p class="text-gray-600 mb-4">Launched Org Chart Sync for HRIS integration, improving user
+                                profiles and enabling org chart-aware proxy approval for requisitions, postings, and
+                                offers. Achieved a <strong>37% product engagement rate</strong> in the first quarter and
+                                improving Time to Hire and Time to Fill metrics.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">HRIS</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Automation</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Self-Serve</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Workflows</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">User
+                                    Experience</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl overflow-hidden project-card relative">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rocket%20Lawyer-rp4YsC8U09zO3ssfG9J781arqsI8gY.png"
+                            alt="Rocket Lawyer logo" class="w-full h-48 object-cover">
+                        <a href="https://middleton.io/rocketlawyer/" target="_blank" rel="noopener noreferrer"
+                            class="block p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Co-Branded Partner Sites</h3>
+                            <p class="text-gray-600 mb-4">Led the creation and launch of co-branded partner sites for
+                                Rocket Lawyer, integrating OpenID Connect authentication with customizable pricing,
+                                content, and features. This project accounted for <strong>16% of European
+                                    traffic</strong> and opened a new revenue channel.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Growth</span>
+                                <span
+                                    class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Partnerships</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">API
+                                    Development</span>
+                                <span
+                                    class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Authentication</span>
+                                <span
+                                    class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Internationalization</span>
+                            </div>
+                        </a>
+                        <div class="absolute bottom-2 right-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rocket%20Lawyer-rp4YsC8U09zO3ssfG9J781arqsI8gY.png"
+                            alt="Rocket Lawyer logo" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Legal Document Conversion Rates</h3>
+                            <p class="text-gray-600 mb-4">Increased mobile gross conversions by <strong>5%</strong>,
+                                driving revenue growth in the legal document product line, which contributes <strong>90%
+                                    of U.S. revenue</strong>. Achieved this through targeted A/B testing and strategic
+                                UX enhancements across mobile and desktop platforms.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">A/B
+                                    Testing</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Conversion
+                                    Optimization</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Mobile
+                                    Optimization</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Revenue
+                                    Growth</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
+                        <img src="https://github.com/kevinmmiddleton/about/raw/main/images/Oracle%20Logo.png"
+                            alt="Oracle logo" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Engage v2 and New Networks</h3>
+                            <p class="text-gray-600 mb-4">Led the development and launch of Oracle Social Cloud's v2
+                                community management product, integrating LinkedIn, Instagram, Sina Weibo, and Tumblr to
+                                double social network coverage. Launched <strong>36 features</strong> in one year,
+                                meeting customer needs and driving platform adoption.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Product
+                                    Strategy</span>
+                                <span
+                                    class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Integrations</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Cross-Functional
+                                    Leadership</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Customer
+                                    Satisfaction</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Hurd%20AI%20Logo%20-%20black-Kiq9Pg4DoqXhqXSMn56IyIbngXfYd6.png"
+                            alt="Hurd AI logo" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">AI-Powered Learning Platform</h3>
+                            <p class="text-gray-600 mb-4">Led the development of AI-powered educational tools, a Mac app
+                                and a web-based chatbot, to deliver personalized learning experiences. Drove
+                                <strong>700% user growth</strong> post-launch.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">AI</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Product
+                                    Strategy</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">User
+                                    Research</span>
+                                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Growth</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="career-highlights" class="py-20 gradient-bg-5">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Career Highlights</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-lg shadow-xl p-6 flex items-start">
+                        <div class="bg-blue-500 text-white rounded-full p-3 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Enterprise &amp; Consumer SaaS</h3>
+                            <p class="text-gray-600">Extensive experience across both enterprise and consumer markets,
+                                managing the full product lifecycle and aligning strategy with business goals.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6 flex items-start">
+                        <div class="bg-blue-500 text-white rounded-full p-3 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Global Impact</h3>
+                            <p class="text-gray-600">Led internationalization efforts, collaborating with partners and
+                                driving integrations that expanded product reach into new global markets.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6 flex items-start">
+                        <div class="bg-blue-500 text-white rounded-full p-3 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Data-Driven Strategy</h3>
+                            <p class="text-gray-600">Leveraged comprehensive data analysis to inform and drive strategic
+                                decisions that drove user engagement and product growth.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6 flex items-start">
+                        <div class="bg-blue-500 text-white rounded-full p-3 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Diverse Expertise</h3>
+                            <p class="text-gray-600">11+ years of experience leading transformative projects across
+                                industries, including Social Media, Legal Tech, Marketing Tech, HR Tech, EdTech, and
+                                HVAC.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20 gradient-bg-6">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Skills &amp; Expertise</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            Strategic
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Product
+                                Strategy</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Product Roadmap &amp;
+                                Vision</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Competitive
+                                Analysis</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">eCommerce &amp;
+                                Marketplace Strategy</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">B2B</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Customer
+                                Success</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            Leadership
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Cross-Functional
+                                Leadership</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Stakeholder
+                                Management</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Team Building</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Mentorship</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Agile (Scrum,
+                                Kanban)</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path strokeLinecap="round" strokeLinejoin="round"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            Analytical &amp; Research
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Data-Driven</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">User-Centric
+                                Design</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">A/B Testing</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">User Research</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Continuous
+                                Improvement</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                            Technical
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">AI</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">LLM</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">SQL</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">API
+                                Development</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Integration</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Test-Driven
+                                Development (TDD)</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Behavior-Driven
+                                Development (BDD)</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            Tools
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Jira</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Confluence</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Trello</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Slack</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Github</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Pivotal
+                                Tracker</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Airtable</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">InVision</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Figma</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Full Story</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Google
+                                Analytics</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Mixpanel</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Amplitude</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Looker</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Tableau</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Metabase</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">LaunchDarkly</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Optimizely</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Zendesk</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">SurveyMonkey</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">ProductBoard</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">ProductPlan</span>
+                            <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Split.io</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications" class="py-20 gradient-bg-7">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Education &amp; Certifications
+                </h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                                <path
+                                    d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-800">Education</h3>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-lg font-medium text-gray-800">Bachelor of Science in Business Information
+                                Technology</p>
+                            <p class="text-gray-600">Virginia Tech, Blacksburg, VA</p>
+                        </div>
+                        <div>
+                            <h4 class="text-md font-semibold mb-2 flex items-center text-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332-.477-4.5-1.253" />
+                                </svg>
+                                Academic Focus
+                            </h4>
+                            <ul class="list-disc list-inside text-gray-600 text-sm space-y-2">
+                                <li>Specialized in eBusiness Technology</li>
+                                <li>Programming Languages: C++, HTML, Javascript, PHP, SQL</li>
+                                <li>Relevant coursework: Supply Chain Management, E-Commerce, Database Management,
+                                    Software Engineering, User Interface Design</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-800">Certifications</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="text-md font-semibold mb-2 flex items-center text-gray-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-500 mr-2"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                    </svg>
+                                    Product Management &amp; Strategy
+                                </h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="text-gray-600">
+                                        <span class="font-medium">Product-led Certification</span>
+                                        <span class="text-gray-500 text-xs block">Pendo (2023)</span>
+                                    </li>
+                                    <li class="text-gray-600">
+                                        <span class="font-medium">Product-Led Growth Fundamentals Certification</span>
+                                        <span class="text-gray-500 text-xs block">ProductLed (2023)</span>
+                                    </li>
+                                    <li class="text-gray-600">
+                                        <span class="font-medium">Certified Scrum Product Owner (CSPO)</span>
+                                        <span class="text-gray-500 text-xs block">Scrum Alliance (2013)</span>
+                                    </li>
+                                    <li class="text-gray-600">
+                                        <span class="font-medium">Certified ScrumMaster (CSM)</span>
+                                        <span class="text-gray-500 text-xs block">Scrum Alliance (2013)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="text-md font-semibold mb-2 flex items-center text-gray-800">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                        </svg>
+                                        AI &amp; Analytics
+                                    </h4>
+                                    <ul class="space-y-2 text-sm">
+                                        <li class="text-gray-600">
+                                            <span class="font-medium">AI for Product Management</span>
+                                            <span class="text-gray-500 text-xs block">Pendo (2023)</span>
+                                        </li>
+                                        <li class="text-gray-600">
+                                            <span class="font-medium">Introduction to Generative AI</span>
+                                            <span class="text-gray-500 text-xs block">Google (2023)</span>
+                                        </li>
+                                        <li class="text-gray-600">
+                                            <span class="font-medium">Product Analytics Certification</span>
+                                            <span class="text-gray-500 text-xs block">Pendo (2023)</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-md font-semibold mb-2 flex items-center text-gray-800">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        </svg>
+                                        Consulting &amp; Leadership
+                                    </h4>
+                                    <ul class="space-y-2 text-sm">
+                                        <li class="text-gray-600">
+                                            <span class="font-medium">Certified Management Consultant (CMC)</span>
+                                            <span class="text-gray-500 text-xs block">Institute of Management
+                                                Consultants USA (2010)</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recommendations" class="py-20 gradient-bg-8">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Recommendations</h2>
+                <p class="text-center text-lg mb-8 text-white">Don't just take it from me - here's what colleagues and
+                    industry leaders have said about our collaborations:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mb-4" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                        <p class="text-lg mb-4 italic">"Kevin possesses a unique ability to blend the art and science of
+                            Product Management seamlessly, ensuring that every initiative he undertakes is meticulously
+                            executed and driven by creativity and innovation."</p>
+                        <div class="text-right">
+                            <p class="font-semibold">Wesley Barnes</p>
+                            <p class="text-gray-600">Director of Product Management</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mb-4" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                        <p class="text-lg mb-4 italic">"Kevin fought for the best possible experience, and brokered
+                            agreements across PM, UX, and Engineering. His work ethic, attention to detail, and
+                            obsession with delivering great experiences for customers earned my respect."</p>
+                        <div class="text-right">
+                            <p class="font-semibold">Emily Leahy-Thieler</p>
+                            <p class="text-gray-600">Design Leader</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mb-4" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                        <p class="text-lg mb-4 italic">"Kevin is a top-notch PM who fights for quality products and for
+                            his team."</p>
+                        <div class="text-right">
+                            <p class="font-semibold">Christina James</p>
+                            <p class="text-gray-600">Staff Quality Assurance Analyst</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-xl p-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mb-4" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                        <p class="text-lg mb-4 italic">"Kevin is confident and comfortable in all interactions, whether
+                            with executives or across teams."</p>
+                        <div class="text-right">
+                            <p class="font-semibold">Mark Walker</p>
+                            <p class="text-gray-600">Engineering Leader</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 text-center">
+                    <p class="text-lg text-white mb-4">Additional recommendations from colleagues can be found on my
+                        LinkedIn profile.</p>
+                    <a href="https://www.linkedin.com/in/kevinmiddleton/details/recommendations/" target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-block bg-white text-blue-500 px-6 py-3 rounded-full hover:bg-gray-200 transition-colors">
+                        View More on LinkedIn
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section id="connect" class="py-20 gradient-bg-9">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Let's Connect!</h2>
+                <p class="text-center text-lg mb-8 max-w-3xl mx-auto text-white">
+                    Whether it's about product management or just to chat, I'd love to connect with you! Feel free to
+                    reach out via email, LinkedIn, or schedule a call using my Calendly link.
+                </p>
+                <div class="flex justify-center space-x-6">
+                    <a href="mailto:&#107;&#101;&#118;&#105;&#110;&#46;&#109;&#105;&#100;&#100;&#108;&#101;&#116;&#111;&#110;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;?subject=Hello%20Kevin%20%E2%80%93%20Let%E2%80%99s%20Connect"
+                        class="bg-white text-blue-500 rounded-full p-4 hover:bg-gray-200 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener noreferrer"
+                        class="bg-white text-blue-500 rounded-full p-4 hover:bg-gray-200 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener noreferrer"
+                        class="bg-white text-blue-500 rounded-full p-4 hover:bg-gray-200 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                    </a>
+                    <a href="https://calendly.com/kevin-middleton/30min" target="_blank" rel="noopener noreferrer"
+                        class="bg-white text-blue-500 rounded-full p-4 hover:bg-gray-200 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <a href="https://github.com/kevinmmiddleton/about/raw/6190a25ae6258495bdadc7b88083e1b0a79c715b/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2010-13-2024.pdf"
+                download
+                class="inline-block bg-white text-blue-500 px-6 py-3 rounded-full hover:bg-gray-200 transition-colors mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download Resume
+            </a>
+            <p>&copy; 2024 Kevin Middleton. All rights reserved.</p>
         </div>
-      </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-image" src="" alt="Lightbox image">
+        </div>
     </div>
-</section>
-<section id="about" class="py-20 gradient-bg-2">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">About Me</h2>
-<div class="flex flex-col md:flex-row items-center justify-between">
-<div class="md:w-1/2 mb-8 md:mb-0">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1617207724987-1-8lbGQWDKOdVPVhNS3iXLfnj2rjI0eK.jpeg" alt="Kevin Middleton" class="rounded-full w-80 h-80 mx-auto">
-</div>
-<div class="md:w-1/2">
-<p class="text-lg mb-4 text-white">
-I'm a product manager who thrives on collaboration. My focus is on working with mission-driven teams to create products that make a measurable difference. I bring a data-driven approach to solving complex challenges and fostering growth.
-</p>
-<p class="text-lg mb-4 text-white">
-I specialize in managing the entire product lifecycle—from strategy to execution—ensuring that every solution makes an impact, boosts engagement, and aligns with business goals.
-</p>
-<p class="text-lg text-white">
-When I'm not working, you'll find me indulging my inner pop culture nerd with music, movies, TV, and live shows. I also love experimenting in the kitchen with savory dishes and the occasional baking project, and I travel when I find the time.
-</p>
-</div>
-</div>
-</div>
-</section>
 
-<section id="experience" class="py-20 gradient-bg-3">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Professional Experience</h2>
-<div class="space-y-16">
-<div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
-<div class="flex items-center mb-4">
-<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hvacdotcom-nWdwl6aMcQl1ikE1sN11xmsnfbsNco.png" alt="HVAC.COM logo" class="object-contain">
-</div>
-<div>
-<h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
-<a href="https://www.hvac.com" target="_blank" rel="noopener noreferrer" class="hover:underline">
-HVAC.COM
-</a>
-<span class="text-sm font-normal text-gray-600 ml-2">(Acquired by Trane Technologies May 2024)</span>
-</h3>
-<h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, Growth</h4>
-</div>
-</div>
-<p class="text-gray-600 mb-4">2024 — Present | Charlotte, NC</p>
-<p class="text-gray-700 mb-4">Led development of lead generation tools that boosted conversions to HVAC.com's paid services. Collaborating closely with marketing, engineering, and design teams, I lead efforts that increase homeowner engagement and drive measurable results:</p>
-<ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
-<li><span class="font-semibold">Calculators:</span> Built and launched a suite of calculators, increasing the conversion rate to our paid product from <strong>0.1%</strong> to <strong>7.3%</strong>.</li>
-<li><span class="font-semibold">QuoteScore:</span> A tool that helps homeowners understand their HVAC quotes, converting at a <strong>6% rate</strong> to our paid offering.</li>
-<li><span class="font-semibold">Video Content:</span> Homeowners who engage with video content convert to paid products at a <strong>3.4% rate</strong>.</li>
-<li><span class="font-semibold">Landing Pages:</span> Optimized landing pages to achieve a <strong>2.3% conversion rate</strong> to paid products.</li>
-</ul>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Calculators-ugatTWPQjMXKJgaVhpaFvInZcvUTnG.png"   alt="HVAC.COM Calculators" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/QuoteScore%20Landing%20Page-uuM6LcirnsW3dgC9uZ7IvQCkaH4o6t.png" alt="HVAC.COM QuoteScore Landing Page" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/video-CMzSXsw2YKljtBUuFMmwnpd5Vmbk7s.png" alt="HVAC.COM Video Content" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Replace%20Landing%20Page-3KAGV2Ct1GLuZUDCvnSCoy2zNnGaxf.png" alt="HVAC.COM Replace Landing Page" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-</div>
-</div>
+    <script>
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const closeLightbox = document.querySelector('.close-lightbox');
+        const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
 
-<div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
-<div class="flex items-center mb-4">
-<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hurd_ai_logo-afkEPW8u7wmqyrcWxbqPFEaD006gfx.png" alt="HURD AI logo" class="object-contain">
-</div>
+        lightboxTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                lightboxImage.src = trigger.src;
+                lightboxImage.alt = trigger.alt;
+                lightbox.style.display = 'flex';
+            });
+        });
+        closeLightbox.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
 
-<div>
-<h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
-<a href="https://hurd.ai" target="_blank" rel="noopener noreferrer" class="hover:underline">
-HURD AI
-</a>
-</h3>
-<h4 class="text-xl font-semibold text-gray-700">Co-founder &amp; Product Advisor</h4>
-</div>
-</div>
-<p class="text-gray-600  mb-4">2023  | Berkeley, CA</p>
-<p class="text-gray-700 mb-4">As a co-founder and product advisor at Hurd AI, I played a pivotal role in shaping the company's early direction and ensuring the successful launch of AI-powered educational tools, including a Mac app and a web-based chatbot designed to help users capture, tag, and summarize transcripts of lectures and meetings with ease.</p>
-<ul class="list-disc list-inside  text-gray-700 space-y-2 mb-4">
-<li><strong>AI-Powered Educational Tools:</strong> Co-led the development and launch of AI-powered educational tools, including a Mac app and web-based chatbot.</li>
-<li><strong>User Growth:</strong> Drove <strong>700% user growth</strong> post-launch.</li>
-<li><strong>Cross-Functional Leadership:</strong> Played a key role across multiple functions—strategy, marketing, user research, and support—to ensure a smooth and successful launch of Hurd AI.</li>
-</ul>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-<img src="https://middleton.io/images/hurd-ai-search-highlight.gif" alt="HURD AI search  highlight" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://middleton.io/images/hurd-ai-fast-summarization.gif" alt="HURD AI fast summarization" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://middleton.io/images/hurd-ai-mobile-web-app.webp" alt="HURD AI mobile web app" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://middleton.io/images/hurd-ai-mobile-web-app-detail.webp" alt="HURD AI mobile web app detail" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-</div>
-</div>
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
 
-<div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
-<div class="flex items-center mb-4">
-<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/lever-cTlphHdjCLKnZ7ZvFV8b0H6QJTQcWS.webp" alt="LEVER logo" class="object-contain">
-</div>
-<div>
-<h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
-<a href="https://www.lever.co" target="_blank" rel="noopener noreferrer" class="hover:underline">
-LEVER
-</a>
-<span class="text-sm font-normal text-gray-600 ml-2">(Acquired by Employ July 2022)</span>
-</h3>
-<h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, HRIS Sync Lead</h4>
-</div>
-</div>
-<p class="text-gray-600 mb-4">2021 — 2023 | San Francisco, CA</p>
-<p class="text-gray-700 mb-4">Created and drove the HRIS Sync product area from inception to launch, developing key API endpoints to synchronize Human Resources Information Systems (HRIS) and Lever. Launched features that improved user profiles and enabled org chart aware proxy approval for requisitions, postings, and offers.</p>
-<ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
-<li><span class="font-semibold">HRIS Sync Creation &amp; Launch:</span> Created and led the HRIS Sync product area and 7-member team. Achieved a <strong>37% product engagement rate</strong> in the first quarter and drove improvements in Time to Hire and Time to Fill metrics.</li>
-<li><span class="font-semibold">End-to-End Product Discovery:</span> Conducted extensive user research and quantitative/qualitative analysis to capture and prioritize customer feedback, ensuring product innovations aligned with company objectives.</li>
-<li><span class="font-semibold">Bulk Candidate Importer:</span> A self-serve drag-and-drop interface for bulk candidate importing, reducing upload times from <strong>days to minutes</strong>, freeing up support and implementation teams, and improving user experience.</li>
-<li><span class="font-semibold">Cross-Functional Collaboration:</span> Collaborated closely with professional services, implementation, customer success, and support teams to integrate both internal and customer feedback into the product development process.</li>
-</ul>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-<img src="https://middleton.io/images/lever-hris-user-profile.png" alt="Lever HRIS user profile" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://middleton.io/images/lever-proxy-approval.png" alt="Lever proxy approval" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://middleton.io/images/lever-bulk-candidate-importer.png" alt="Lever bulk candidate importer" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-</div>
-</div>
+        // Show/hide header name based on scroll position
+        const headerName = document.getElementById('header-name');
+        const aboutSection = document.getElementById('about');
 
-<div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
-<div class="flex items-center mb-4">
-<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sendoso-6CCvvT2hRYvK6aAECPaXC6LxfXkCIF.png" alt="SENDOSO logo" class="object-contain">
-</div>
-<div>
-<h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
-<a href="https://www.sendoso.com" target="_blank" rel="noopener noreferrer" class="hover:underline">
-SENDOSO
-</a>
-</h3>
-<h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, Core Platform &amp; eGift Global Expansion</h4>
-</div>
-</div>
-<p class="text-gray-600 mb-4">2021 | San Francisco, CA</p>
-<p class="text-gray-700 mb-4">Championed the global expansion of Sendoso's eGift platform, driving strategic partnerships and market entry initiatives to increase international and domestic growth. Delivered key features and improvements that enhanced security, performance, and customer satisfaction:</p>
-<ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
-<li><span class="font-semibold">eGift Platform Expansion:</span> Drove <strong>23% U.S.</strong> and <strong>67% international growth</strong> by strengthening existing vendor relationships and upgrading Sendoso's eGift platform to allow a single gift card to be mapped to multiple countries, significantly expanding reach.</li>
-<li><span class="font-semibold">Square Partnership:</span> Partnered with Square to enable local eGifting in the U.S., Canada, Australia, and the U.K.</li>
-<li><span class="font-semibold">Fraud Prevention:</span> Prevented fraud worth <strong>hundreds of thousands of dollars</strong> by implementing two-factor authentication and AI-driven fraud detection, enhancing platform security and improving customer trust.</li>
-<li><span class="font-semibold">Platform Revenue Drivers:</span> Launched feature tiering capability and user onboarding improvements, contributing to revenue growth and improved customer experience.</li>
-<li><span class="font-semibold">Operational Efficiency:</span> Enhanced internal tools to simplify eGift deactivation and refund processes, enabling Support to resolve issues without Engineering intervention, leading to faster issue resolution.</li>
-</ul>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-<img src="https://middleton.io/images/sendoso-egift-demo.gif" alt="Sendoso eGift demo" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<div class="w-full h-48 flex items-center justify-center bg-gray-100 rounded-md">
-<svg xmlns="http://www.w3.org/2000/svg" height="100" width="200" fill="none" viewBox="-13.12251 -5.5 113.72842 33">
-<path fill="#3E4348" d="M3.6761 0h14.6478a3.6762 3.6762 0 013.6772 3.6761v14.6467c0 2.0309-1.6464 3.6772-3.6772 3.6772H3.6761C1.6457 21.9994 0 20.3533 0 18.3228V3.6761C0 1.6458 1.6458 0 3.6761 0zm13.1673 18.0005c.6408 0 1.1603-.5195 1.1603-1.1603l-.0032-11.6794c0-.6408-.5195-1.1602-1.1603-1.1602H5.1619a1.1603 1.1603 0 00-1.1603 1.1613v11.6783c0 .6408.5195 1.1603 1.1603 1.1603z" clip-rule="evenodd" fill-rule="evenodd"/>
-<path fill="#3E4348" d="M8.6662 13.9828a.666.666 0 01-.6608-.666V8.6544a.666.666 0 01.666-.6692h4.6689a.6673.6673 0 01.666.6692v4.6613a.667.667 0 01-.666.6693zm24.5297-3.9632c-.681-.1857-1.3257-.3608-1.8263-.5838-.9265-.4142-1.3577-.9885-1.3577-1.806 0-1.5457 1.4943-2.2416 2.9823-2.2416 1.4142 0 2.6492.585 3.4786 1.646l.0565.0725 1.1955-.935-.0576-.0726c-1.1026-1.4026-2.7357-2.171-4.6005-2.171-1.2413 0-2.3792.335-3.2021.9445-.9265.6778-1.4154 1.661-1.4154 2.834 0 2.7272 2.5681 3.3921 4.6325 3.9269 2.0889.5508 3.3687.9692 3.3687 2.5617 0 1.568-1.2681 2.581-3.23 2.581-.9702 0-2.7666-.2572-3.8959-1.9821l-.0523-.0812-1.2574.9105.0491.0737c1.0674 1.616 2.9097 2.5436 5.0605 2.5436 2.9214 0 4.8854-1.6492 4.8854-4.102 0-2.8073-2.6706-3.5342-4.8139-4.1191z"/>
-<path fill="#3E4348" d="M47.5395 9.4528V7.9766h1.4057V21.998h-1.4057V16.52c-.8027 1.1005-2.0067 1.7025-3.4221 1.7025-2.6727 0-4.5407-2.1401-4.5407-5.2302s1.8722-5.2473 4.5407-5.2473c1.4058 0 2.6098.6052 3.4221 1.7078zm-6.4812 3.5224c0 2.8606 1.6384 3.88 3.1722 3.88l.0032.001c2.0078 0 3.3058-1.537 3.3058-3.881s-1.3001-3.8597-3.309-3.8597c-2.3386 0-3.1722 1.9939-3.1722 3.8597z" clip-rule="evenodd" fill-rule="evenodd"/>
-<path fill="#3E4348" d="M58.239 7.9766v5.5344c0 1.9374-1.3268 3.3442-3.1542 3.3442-1.5178 0-2.2564-.9009-2.2564-2.7528V7.9766h-1.4058v6.4129c0 2.4016 1.3054 3.8351 3.4914 3.8351 1.362 0 2.5319-.5774 3.326-1.6331v1.4047h1.4058V7.9766z"/>
-<path fill="#3E4348" d="M62.293 9.029c1.0364-.8143 2.4432-1.2808 3.8575-1.2808 2.2341 0 3.5672 1.1112 3.563 2.9748v7.2754h-1.4068v-1.1112c-.7099.8891-1.7367 1.3396-3.0581 1.3396-2.153 0-3.4915-1.1774-3.4915-3.0709 0-2.4625 2.3205-2.8489 3.309-3.0133.1611-.0266.3276-.0522.494-.0779h.0002l.006-.0009c1.3505-.2079 2.7446-.4224 2.7446-1.5681 0-1.297-1.6833-1.3972-2.1988-1.3972-.9105 0-2.1967.27-3.0709 1.0278l-.08.0694-.7344-1.1143zm.9318 6.0479c0 1.6054 1.5114 1.7793 2.1615 1.7793h.001c1.4133 0 2.9258-.7535 2.9226-2.8712v-1.4496c-.6857.4331-1.6616.6023-2.5321.7532l-.0147.0026-.4366.0779c-1.394.2583-2.1017.5913-2.1017 1.7078z" clip-rule="evenodd" fill-rule="evenodd"/>
-<path fill="#3E4348" d="M77.8577 8.1655c-.3341-.238-.8603-.38-1.409-.38a3.5908 3.5908 0 00-2.8489 1.4677V7.9723h-1.4057V17.991h1.4057v-5.3583c0-2.376 1.3354-3.4402 2.6578-3.4402a2.5993 2.5993 0 011.1219.238l.095.0502.4451-1.2745z"/>
-<path fill="#3E4348" d="M78.2697 13.0136c0-3.0997 1.933-5.2654 4.6965-5.2654 2.662 0 4.5225 1.9224 4.5172 4.6794a6.9566 6.9566 0 01-.0395.7173l-.0086.0822h-7.6852c.0352 2.2063 1.3631 3.6291 3.4007 3.6291 1.1678 0 2.1796-.4749 2.8489-1.3385l.0608-.0789 1.0183.9072-.0565.0683c-.6768.8251-1.9107 1.8093-3.9494 1.8093-2.8713 0-4.8032-2.0932-4.8032-5.21zm4.658-3.9162c-1.7174 0-2.9353 1.1303-3.1253 2.8905h6.1952c-.1217-1.4154-.9863-2.8905-3.0699-2.8905z" clip-rule="evenodd" fill-rule="evenodd"/>
-</svg>
-</div>
-</div>
-</div>
+        window.addEventListener('scroll', () => {
+            const aboutSectionTop = aboutSection.offsetTop;
+            const scrollPosition = window.scrollY + window.innerHeight / 2;
 
-<div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
-<div class="flex items-center mb-4">
-<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/rocket-lawyer-SRYvnP1gsz47Bj5Hn2FYU6WSkVcltl.png" alt="ROCKET LAWYER logo" class="object-contain">
-</div>
-<div>
-<h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
-<a href="https://www.rocketlawyer.com" target="_blank" rel="noopener noreferrer" class="hover:underline">
-ROCKET LAWYER
-</a>
-</h3>
-<h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, Core Product &amp; Platform</h4>
-</div>
-</div>
-<p class="text-gray-600 mb-4">2018 — 2021 | San Francisco, CA</p>
-<p class="text-gray-700 mb-4">Developed and executed product strategies for Rocket Lawyer's Platform and Legal Documentation teams, driving innovation and growth. Collaborated closely with cross-functional teams and C-suite leadership to create and guide initiatives, develop and maintain product roadmaps.</p>
-<ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
-<li><span class="font-semibold">New Line of Business Launch:</span> Created and launched co-branded partner sites featuring OpenID Connect authentication and customizable pricing, content, and features, accounting for <strong>16% of all European traffic</strong> and establishing a new revenue channel.</li>
-<li><span class="font-semibold">Revenue Growth:</span> Increased mobile gross conversions by <strong>5%</strong>, driving revenue growth in the legal document product line, which contributes <strong>90% of U.S. revenue</strong>, through targeted A/B testing and strategic UX enhancements.</li>
-<li><span class="font-semibold">Product Integration:</span> Boosted eSign start rates by <strong>13%</strong> through the strategic integration of Legal Documents with RocketSign, enhancing overall user experience and product efficiency.</li>
-<li><span class="font-semibold">Data Instrumentation:</span> Achieved record-breaking conversion rates by developing custom analytics tools to link platform performance with conversion metrics, coupled with strategic enhancements to the checkout process.</li>
-<li><span class="font-semibold">Strategic Planning:</span> Collaborated with cross-functional teams and C-suite leadership to define and maintain product roadmaps, ensuring alignment with company objectives and customer needs.</li>
-</ul>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-<img src="https://middleton.io/images/covea-login-screen.png" alt="Covea login screen" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://middleton.io/images/covea-onboarding-process.png" alt="Covea onboarding process" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://middleton.io/images/covea-document-creation.png" alt="Covea document creation" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://middleton.io/images/legal-document-interview.png" alt="Legal document interview" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-</div>
-</div>
+            if (scrollPosition >= aboutSectionTop) {
+                headerName.classList.remove('hidden');
+            } else {
+                headerName.classList.add('hidden');
+            }
+        });
+    </script>
+    <script>
+        // Mobile menu toggle functionality
+        const menuToggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('menu');
+        menuToggle.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+            menu.classList.toggle('flex-col');
+            menu.classList.toggle('absolute');
+            menu.classList.toggle('top-full');
+            menu.classList.toggle('right-0');
+            menu.classList.toggle('shadow-md');
+            menu.classList.toggle('py-2');
+            menu.classList.toggle('mobile-menu');
+        });
 
-<div class="bg-white rounded-lg shadow-xl p-6 relative overflow-hidden">
-<div class="flex items-center mb-4">
-<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Oracle-Social-vom4QuVyHBGbeBeevIOqHNqIiVAJQ8.png" alt="ORACLE logo" class="object-contain">
-</div>
-<div>
-<h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
-<a href="https://www.oracle.com" target="_blank" rel="noopener noreferrer" class="hover:underline">
-ORACLE
-</a>
-</h3>
-<h4 class="text-xl font-semibold text-gray-700">Senior Product Manager, Engage, Integrations, &amp; Social Network Expansion</h4>
-</div>
-</div>
-<p class="text-gray-600 mb-4">2013 — 2018 | San Francisco, CA</p>
-<p class="text-gray-700 mb-4">Promoted to lead Oracle Social Cloud's Engage product, managing cross-functional and international teams, including two scrum teams and three UX/UI designers. Focused on driving platform innovation, enhancing customer applications, and facilitating seamless external partner integrations:</p>
-<ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
-<li><span class="font-semibold">Social Network Expansion:</span> Doubled network coverage for Oracle Social Cloud's suite of apps by integrating LinkedIn, Instagram, Sina Weibo, and Tumblr, addressing high-priority customer needs.</li>
-<li><span class="font-semibold">Product Relaunch:</span> Led a complete overhaul of Oracle's Social Engage application, launching <strong>32</strong> new features in <strong>12</strong> months driven by customer feedback and beta testing.</li>
-<li><span class="font-semibold">World-Class Cloud Integrations:</span> Managed cross-app and cross-cloud integrations of Oracle Social's suite of apps with Oracle's Marketing, Sales, and Service clouds. Managed internationalization efforts across <strong>30</strong> languages, improving global reach by targeting EMEA and APAC regions.</li>
-<li><span class="font-semibold">Go-To-Market Strategy:</span> Successfully executed comprehensive product rollouts by coordinating with Customer Success, Marketing, and Sales teams, ensuring effective market penetration and alignment with strategic business goals.</li>
-</ul>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-<img src="https://middleton.io/images/oracle-engage-v1.png" alt="Oracle Engage v1" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-<img src="https://middleton.io/images/oracle-engage-v2.png" alt="Oracle Engage v2" class="rounded-md cursor-pointer object-cover w-full h-48 lightbox-trigger">
-</div>
-</div>
-</div>
-</div>
-</section>
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
+            }
+        });
 
-<section id="projects" class="py-20 gradient-bg-4">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Projects</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Sendoso-Orange-DW81MQgtHMRFdWHDeM2VZBzx6NROXq.png" alt="Sendoso logo" class="w-full h-48 object-cover">
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2 text-gray-800">eGift Platform Expansion &amp; Square Partnership</h3>
-<p class="text-gray-600 mb-4">Drove <strong>23%</strong> U.S. and <strong>67%</strong> international growth by expanding Sendoso's eGift platform and partnering with Square to enable local eGifting in the U.S., Canada, Australia, and the U.K. Strengthened vendor relationships and enhanced platform security with fraud prevention measures.</p>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Market Expansion</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Fraud Prevention</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Global Partnerships</span>
-</div>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
-<img src="https://github.com/kevinmmiddleton/about/raw/main/images/Lever-logo.png" alt="Lever logo" class="w-full h-48 object-cover">
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2 text-gray-800">Org Chart Sync and Self-Serve Bulk Importer</h3>
-<p class="text-gray-600 mb-4">Launched Org Chart Sync for HRIS integration, improving user profiles and enabling org chart-aware proxy approval for requisitions, postings, and offers. Achieved a <strong>37% product engagement rate</strong> in the first quarter and improved Time to Hire and Time to Fill metrics, streamlining workflows and enhancing the overall user experience.</p>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">HRIS</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Automation</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Self-Serve</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Workflows</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">User Experience</span>
-</div>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl overflow-hidden project-card relative">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rocket%20Lawyer-rp4YsC8U09zO3ssfG9J781arqsI8gY.png" alt="Rocket Lawyer logo" class="w-full h-48 object-cover">
-<a href="https://middleton.io/rocketlawyer/" target="_blank" rel="noopener noreferrer" class="block p-6">
-<h3 class="text-xl font-bold mb-2 text-gray-800">Co-Branded Partner Sites</h3>
-<p class="text-gray-600 mb-4">Led the creation and launch of co-branded partner sites for Rocket Lawyer, integrating OpenID Connect authentication with customizable pricing, content, and features. This project accounted for <strong>16% of European traffic</strong> and opened a new revenue channel.</p>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Growth</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Partnerships</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">API Development</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Authentication</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Internationalization</span>
-</div>
-</a>
-<div class="absolute bottom-2 right-2">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-</svg>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rocket%20Lawyer-rp4YsC8U09zO3ssfG9J781arqsI8gY.png" alt="Rocket Lawyer logo" class="w-full h-48 object-cover">
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2 text-gray-800">Legal Document Conversion Rates</h3>
-<p class="text-gray-600 mb-4">Increased mobile gross conversions by <strong>5%</strong>, driving revenue growth in the legal document product line, which contributes <strong>90% of U.S. revenue</strong>. Achieved this through targeted A/B testing and strategic UX enhancements across mobile and desktop platforms.</p>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">A/B Testing</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Conversion Optimization</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Mobile Optimization</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Revenue Growth</span>
-</div>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
-<img src="https://github.com/kevinmmiddleton/about/raw/main/images/Oracle%20Logo.png" alt="Oracle logo" class="w-full h-48 object-cover">
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2 text-gray-800">Engage v2 and New Networks</h3>
-<p class="text-gray-600 mb-4">Led the development and launch of Oracle Social Cloud's v2 community management product, integrating LinkedIn, Instagram, Sina Weibo, and Tumblr to expand network coverage. Launched <strong>36 features</strong> in one year and doubled network reach, significantly enhancing customer satisfaction and platform adoption.</p>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Product Strategy</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Integrations</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Cross-Functional Leadership</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Customer Satisfaction</span>
-</div>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
-<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Hurd%20AI%20Logo%20-%20black-Kiq9Pg4DoqXhqXSMn56IyIbngXfYd6.png" alt="Hurd AI logo" class="w-full h-48 object-cover">
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2 text-gray-800">AI-Powered Learning Platform</h3>
-<p class="text-gray-600 mb-4">Led the development of AI-powered educational tools, a Mac app and a web-based chatbot, to deliver personalized learning experiences. Drove <strong>700% user growth</strong> post-launch.</p>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">AI</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Product Strategy</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">User Research</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Growth</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section id="career-highlights" class="py-20 gradient-bg-5">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Career Highlights</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div class="bg-white rounded-lg shadow-xl p-6 flex items-start">
-<div class="bg-blue-500 text-white rounded-full p-3 mr-4">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-</svg>
-</div>
-<div>
-<h3 class="text-xl font-semibold mb-2">Enterprise &amp; Consumer SaaS</h3>
-<p class="text-gray-600">Extensive experience across both enterprise and consumer markets, managing the full product lifecycle and aligning strategy with business goals.</p>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6 flex items-start">
-<div class="bg-blue-500 text-white rounded-full p-3 mr-4">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-</svg>
-</div>
-<div>
-<h3 class="text-xl font-semibold mb-2">Global Impact</h3>
-<p class="text-gray-600">Led internationalization efforts, collaborating with partners and driving integrations that expanded product reach into new global markets.</p>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6 flex items-start">
-<div class="bg-blue-500 text-white rounded-full p-3 mr-4">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-</svg>
-</div>
-<div>
-<h3 class="text-xl font-semibold mb-2">Data-Driven Strategy</h3>
-<p class="text-gray-600">Leveraged comprehensive data analysis to inform and drive strategic decisions that enhanced user engagement and product growth.</p>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6 flex items-start">
-<div class="bg-blue-500 text-white rounded-full p-3 mr-4">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-</svg>
-</div>
-<div>
-<h3 class="text-xl font-semibold mb-2">Diverse Expertise</h3>
-<p class="text-gray-600">11+ years of experience leading transformative projects across industries, including Social Media, Legal Tech, Marketing Tech, HR Tech, EdTech, and HVAC.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section id="skills" class="py-20 gradient-bg-6">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Skills &amp; Expertise</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div class="bg-white rounded-lg shadow-xl p-6">
-<h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-</svg>
-Strategic
-</h3>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Product Strategy</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Product Roadmap &amp; Vision</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Competitive Analysis</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">eCommerce &amp; Marketplace Strategy</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">B2B</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Customer Success</span>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6">
-<h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-</svg>
-Leadership
-</h3>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Cross-Functional Leadership</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Stakeholder Management</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Team Building</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Mentorship</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Agile (Scrum, Kanban)</span>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6">
-<h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-<path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-</svg>
-Analytical &amp; Research
-</h3>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Data-Driven</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">User-Centric Design</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">A/B Testing</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">User Research</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Continuous Improvement</span>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6">
-<h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-</svg>
-Technical
-</h3>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">AI</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">LLM</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">SQL</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">API Development</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Integration</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Test-Driven Development (TDD)</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Behavior-Driven Development (BDD)</span>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6 md:col-span-2">
-<h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-</svg>
-Tools
-</h3>
-<div class="flex flex-wrap gap-2">
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Jira</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Confluence</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Trello</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Slack</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Github</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Pivotal Tracker</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Airtable</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">InVision</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Figma</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Full Story</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Google Analytics</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Mixpanel</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Amplitude</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Looker</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Tableau</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Metabase</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">LaunchDarkly</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Optimizely</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Zendesk</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">SurveyMonkey</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">ProductBoard</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">ProductPlan</span>
-<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Split.io</span>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section id="certifications" class="py-20 gradient-bg-7">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Education &amp; Certifications</h2>
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-<div class="bg-white rounded-lg shadow-xl p-6">
-<div class="flex items-center mb-4">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-<path d="M12 14l9-5-9-5-9 5 9 5z" />
-<path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-<path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-</svg>
-<h3 class="text-xl font-semibold text-gray-800">Education</h3>
-</div>
-<div class="mb-4">
-<p class="text-lg font-medium text-gray-800">Bachelor of Science in Business Information Technology</p>
-<p class="text-gray-600">Virginia Tech, Blacksburg, VA</p>
-</div>
-<div>
-<h4 class="text-md font-semibold mb-2 flex items-center text-gray-800">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332-.477-4.5-1.253" />
-</svg>
-Academic Focus
-</h4>
-<ul class="list-disc list-inside text-gray-600 text-sm space-y-2">
-<li>Specialized in eBusiness Technology</li>
-<li>Programming Languages: C++, HTML, Javascript, PHP, SQL</li>
-<li>Relevant coursework: Supply Chain Management, E-Commerce, Database Management, Software Engineering, User Interface Design</li>
-</ul>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6">
-<div class="flex items-center mb-4">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-</svg>
-<h3 class="text-xl font-semibold text-gray-800">Certifications</h3>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div>
-<h4 class="text-md font-semibold mb-2 flex items-center text-gray-800">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-</svg>
-Product Management &amp; Strategy
-</h4>
-<ul class="space-y-2 text-sm">
-<li class="text-gray-600">
-<span class="font-medium">Product-led Certification</span>
-<span class="text-gray-500 text-xs block">Pendo (2023)</span>
-</li>
-<li class="text-gray-600">
-<span class="font-medium">Product-Led Growth Fundamentals Certification</span>
-<span class="text-gray-500 text-xs block">ProductLed (2023)</span>
-</li>
-<li class="text-gray-600">
-<span class="font-medium">Certified Scrum Product Owner (CSPO)</span>
-<span class="text-gray-500 text-xs block">Scrum Alliance (2013)</span>
-</li>
-<li class="text-gray-600">
-<span class="font-medium">Certified ScrumMaster (CSM)</span>
-<span class="text-gray-500 text-xs block">Scrum Alliance (2013)</span>
-</li>
-</ul>
-</div>
-<div class="space-y-4">
-<div>
-<h4 class="text-md font-semibold mb-2 flex items-center text-gray-800">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-</svg>
-AI &amp; Analytics
-</h4>
-<ul class="space-y-2 text-sm">
-<li class="text-gray-600">
-<span class="font-medium">AI for Product Management</span>
-<span class="text-gray-500 text-xs block">Pendo (2023)</span>
-</li>
-<li class="text-gray-600">
-<span class="font-medium">Introduction to Generative AI</span>
-<span class="text-gray-500 text-xs block">Google (2023)</span>
-</li>
-<li class="text-gray-600">
-<span class="font-medium">Product Analytics Certification</span>
-<span class="text-gray-500 text-xs block">Pendo (2023)</span>
-</li>
-</ul>
-</div>
-<div>
-<h4 class="text-md font-semibold mb-2 flex items-center text-gray-800">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-</svg>
-Consulting &amp; Leadership
-</h4>
-<ul class="space-y-2 text-sm">
-<li class="text-gray-600">
-<span class="font-medium">Certified Management Consultant (CMC)</span>
-<span class="text-gray-500 text-xs block">Institute of Management Consultants USA (2010)</span>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section id="recommendations" class="py-20 gradient-bg-8">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Recommendations</h2>
-<p class="text-center text-lg mb-8 text-white">Don't just take it from me - here's what colleagues and industry leaders have said about our collaborations:</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div class="bg-white rounded-lg shadow-xl p-6">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-</svg>
-<p class="text-lg mb-4 italic">"Kevin possesses a unique ability to blend the art and science of Product Management seamlessly, ensuring that every initiative he undertakes is meticulously executed and driven by creativity and innovation."</p>
-<div class="text-right">
-<p class="font-semibold">Wesley Barnes</p>
-<p class="text-gray-600">Director of Product Management</p>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-</svg>
-<p class="text-lg mb-4 italic">"Kevin fought for the best possible experience, and brokered agreements across PM, UX, and Engineering. His work ethic, attention to detail, and obsession with delivering great experiences for customers earned my respect."</p>
-<div class="text-right">
-<p class="font-semibold">Emily Leahy-Thieler</p>
-<p class="text-gray-600">Design Leader</p>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-</svg>
-<p class="text-lg mb-4 italic">"Kevin is a top-notch PM who fights for quality products and for his team."</p>
-<div class="text-right">
-<p class="font-semibold">Christina James</p>
-<p class="text-gray-600">Staff Quality Assurance Analyst</p>
-</div>
-</div>
-<div class="bg-white rounded-lg shadow-xl p-6">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-</svg>
-<p class="text-lg mb-4 italic">"Kevin is confident and comfortable in all interactions, whether with executives or across teams."</p>
-<div class="text-right">
-<p class="font-semibold">Mark Walker</p>
-<p class="text-gray-600">Engineering Leader</p>
-</div>
-</div>
-</div>
-<div class="mt-12 text-center">
-<p class="text-lg text-white mb-4">Additional recommendations from colleagues can be found on my LinkedIn profile.</p>
-<a href="https://www.linkedin.com/in/kevinmiddleton/details/recommendations/" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-blue-500 px-6 py-3 rounded-full hover:bg-gray-200 transition-colors">
-View More on LinkedIn
-</a>
-</div>
-</div>
-</section>
-
-<section id="connect" class="py-20 gradient-bg-9">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Let's Connect!</h2>
-<p class="text-center text-lg mb-8 max-w-3xl mx-auto text-white">
-Whether it's about product management or just to chat, I'd love to connect with you! Feel free to reach out via email, LinkedIn, or schedule a call using my Calendly link.
-</p>
-<div class="flex justify-center space-x-6">
-<a href="mailto:&#107;&#101;&#118;&#105;&#110;&#46;&#109;&#105;&#100;&#100;&#108;&#101;&#116;&#111;&#110;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;?subject=Hello%20Kevin%20%E2%80%93%20Let%E2%80%99s%20Connect" class="bg-white text-blue-500 rounded-full p-4 hover:bg-gray-200 transition-colors">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-</svg>
-</a>
-<a href="https://www.linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener noreferrer" class="bg-white text-blue-500 rounded-full p-4 hover:bg-gray-200 transition-colors">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-</svg>
-</a>
-<a href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener noreferrer" class="bg-white text-blue-500 rounded-full p-4 hover:bg-gray-200 transition-colors">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-</svg>
-</a>
-<a href="https://calendly.com/kevin-middleton/30min" target="_blank" rel="noopener noreferrer" class="bg-white text-blue-500 rounded-full p-4 hover:bg-gray-200 transition-colors">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-</svg>
-</a>
-</div>
-</div>
-</section>
-</main>
-
-<footer class="bg-gray-800 text-white py-8">
-<div class="container mx-auto px-4 text-center">
-<a href="https://github.com/kevinmmiddleton/about/raw/6190a25ae6258495bdadc7b88083e1b0a79c715b/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2010-13-2024.pdf" download class="inline-block bg-white text-blue-500 px-6 py-3 rounded-full hover:bg-gray-200 transition-colors mb-4">
-<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-</svg>
-Download Resume
-</a>
-<p>&copy; 2024 Kevin Middleton. All rights reserved.</p>
-</div>
-</footer>
-
-<!-- Lightbox -->
-<div id="lightbox" class="lightbox">
-<span class="close-lightbox">&times;</span>
-<div class="lightbox-content">
-<img id="lightbox-image" src="" alt="Lightbox image">
-</div>
-</div>
-
-<script>
-// Lightbox functionality
-const lightbox = document.getElementById('lightbox');
-const lightboxImage = document.getElementById('lightbox-image');
-const closeLightbox = document.querySelector('.close-lightbox');
-const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
-
-lightboxTriggers.forEach(trigger => {
-trigger.addEventListener('click', () => {
-lightboxImage.src = trigger.src;
-lightboxImage.alt = trigger.alt;
-lightbox.style.display = 'flex';
-});
-});
-
-closeLightbox.addEventListener('click', () => {
-lightbox.style.display = 'none';
-});
-
-lightbox.addEventListener('click', (e) => {
-if (e.target === lightbox) {
-lightbox.style.display = 'none';
-}
-});
-
-// Show/hide header name based on scroll position
-const headerName = document.getElementById('header-name');
-const aboutSection = document.getElementById('about');
-
-window.addEventListener('scroll', () => {
-const aboutSectionTop = aboutSection.offsetTop;
-const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-if (scrollPosition >= aboutSectionTop) {
-headerName.classList.remove('hidden');
-} else {
-headerName.classList.add('hidden');
-}
-});
-</script>
-<script>
-// Mobile menu toggle functionality
-const menuToggle = document.getElementById('menu-toggle');
-const menu = document.getElementById('menu');
-
-menuToggle.addEventListener('click', () => {
-menu.classList.toggle('hidden');
-menu.classList.toggle('flex');
-menu.classList.toggle('flex-col');
-menu.classList.toggle('absolute');
-menu.classList.toggle('top-full');
-menu.classList.toggle('right-0');
-menu.classList.toggle('shadow-md');
-menu.classList.toggle('py-2');
-menu.classList.toggle('mobile-menu');
-});
-
-// Close mobile menu when clicking outside
-document.addEventListener('click', (e) => {
-if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
-menu.classList.add('hidden');
-menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
-}
-});
-
-// Close mobile menu when clicking on a menu item
-menu.querySelectorAll('a').forEach(link => {
-link.addEventListener('click', () => {
-menu.classList.add('hidden');
-menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
-});
-});
-</script>
+        // Close mobile menu when clicking on a menu item
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
+            });
+        });
+    </script>
+    <script>
+        function adjustHeroTitle() {
+            const container = document.querySelector('#hero-title').parentElement;
+            const title = document.querySelector('#hero-title');
+            const scale = container.offsetWidth / title.offsetWidth;
+            title.style.setProperty('--scale', Math.min(1, scale));
+        }
+        window.addEventListener('load', adjustHeroTitle);
+        window.addEventListener('resize', adjustHeroTitle);
+    </script>
 </body>
+
 </html>
