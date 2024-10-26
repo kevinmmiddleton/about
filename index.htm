@@ -250,45 +250,36 @@
         </nav>
     </header>
     <main class="pt-16 overflow-x-hidden">
-        <section id="hero"
-            class="min-h-screen md:min-h-[80vh] flex flex-col items-center justify-start pt-16 md:pt-8 md:justify-center relative gradient-bg-1">
-            <div class="text-center mb-4 md:mb-6">
+        <section id="hero" class="min-h-screen md:min-h-[80vh] flex flex-col items-center justify-start pt-8 md:pt-4 md:justify-center relative gradient-bg-1">
+            <div class="text-center mb-8 md:mb-12 -mt-4 md:-mt-8">
                 <h1 class="text-4xl font-bold text-white mb-2">Kevin Middleton</h1>
                 <p class="text-xl text-white">Full Stack Product Manager</p>
                 <div class="text-sm text-white mt-2">📍 New York City</div>
             </div>
             <div class="text-center z-10 px-4 md:px-0 w-full max-w-5xl mx-auto">
-                <div class="flex justify-center space-x-4 items-center mb-4 md:mb-6">
-                    <a href="#experience"
-                        class="inline-block bg-white text-blue-500 px-6 py-3 rounded-full hover:bg-gray-200 transition-colors">See
-                        My Work</a>
-                    <a href="#about" class="inline-block bg-transparent text-white border-2 border-white px-6 py-3 rounded-full hover:bg-white hover:text-blue-500 hover:border-blue-500 transition-colors">
-                        About Me</a>
+                <div class="flex justify-center space-x-4 items-center mb-8 md:mb-12">
+                    <a href="#experience" class="inline-flex items-center justify-center bg-white text-blue-500 px-6 py-3 rounded-full hover:bg-gray-200 transition-colors">See My Work</a>
+                    <a href="#about" class="inline-block bg-transparent text-white border-2 border-white px-6 py-3 rounded-full hover:bg-white hover:text-blue-500 hover:border-blue-500 transition-colors">About Me</a>
                 </div>
                 <div class="max-w-4xl mx-auto bg-white bg-opacity-10 rounded-lg shadow-xl p-3 sm:p-4 md:p-6 mb-8">
-                    <h2 class="font-bold mb-4 sm:mb-6 text-center text-white overflow-hidden" style="height: 3rem;">
-                        <span
-                            style="display: inline-block; white-space: nowrap; font-size: 2.5rem; transform-origin: left; transform: scale(var(--scale)); transition: transform 0.3s ease;"
-                            id="hero-title">
-                            Building Consumer, Enterprise, and Platform SaaS Products
-                        </span>
+                    <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-center text-white whitespace-nowrap overflow-hidden">
+                        <div class="headline-container w-full overflow-hidden">
+                            <span class="headline-text inline-block whitespace-nowrap text-[clamp(0.75rem,2.5vw,2rem)]">
+                                Building Consumer, Enterprise, and Platform SaaS Products
+                            </span>
+                        </div>
                     </h2>
                     <p class="text-sm sm:text-base md:text-lg text-white leading-relaxed">
-                        With 10+ years of experience driving product strategies, I turn complex challenges into
-                        scalable, data-driven solutions. My work spans diverse industries—social media, legal tech,
-                        marketing tech, HR, EdTech, and HVAC—delivering measurable growth and product success.
+                        With 10+ years of experience driving product strategies, I turn complex challenges into scalable, data-driven solutions. My work spans diverse industries—social media, legal tech, marketing tech, HR, EdTech, and HVAC—delivering measurable growth and product success.
                     </p>
                 </div>
-            </div>
-            <div class="w-full flex justify-center">
-                <div class="mt-2 md:absolute md:bottom-4 animate-bounce">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
+                <div class="w-full flex justify-center">
+                    <div class="mt-2 md:absolute md:bottom-16 animate-bounce">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                    </div>
                 </div>
-            </div>
             </div>
         </section>
 
@@ -351,13 +342,15 @@
                         <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
                             <li><span class="font-semibold">Calculators:</span> Built and launched a suite of
                                 calculators, increasing the conversion rate to our paid product from
-                                <strong>0.1%</strong> to <strong>7.3%</strong>.</li>
+                                <strong>0.1%</strong> to <strong>7.3%</strong>.
+                            </li>
                             <li><span class="font-semibold">QuoteScore:</span> A tool that helps homeowners understand
                                 their HVAC quotes, converting at a <strong>6% rate</strong> to our paid offering.</li>
                             <li><span class="font-semibold">Video Content:</span> Homeowners who engage with video
                                 content convert to paid products at a <strong>3.4% rate</strong>.</li>
                             <li><span class="font-semibold">Landing Pages:</span> Optimized landing pages to achieve a
-                                <strong>2.3% conversion rate</strong> to paid products.</li>
+                                <strong>2.3% conversion rate</strong> to paid products.
+                            </li>
                         </ul>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                             <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Calculators-ugatTWPQjMXKJgaVhpaFvInZcvUTnG.png"
@@ -510,7 +503,8 @@
                             <li><span class="font-semibold">Fraud Prevention:</span> Prevented fraud worth
                                 <strong>hundreds of thousands of dollars</strong> by implementing two-factor
                                 authentication and AI-driven fraud detection, enhancing platform security and improving
-                                customer trust.</li>
+                                customer trust.
+                            </li>
                             <li><span class="font-semibold">Platform Revenue Drivers:</span> Launched feature tiering
                                 capability and user onboarding improvements, contributing to revenue growth and improved
                                 customer experience.</li>
@@ -579,10 +573,12 @@
                             <li><span class="font-semibold">Revenue Growth:</span> Increased mobile gross conversions by
                                 <strong>5%</strong>, driving revenue growth in the legal document product line, which
                                 contributes <strong>90% of U.S. revenue</strong>, through targeted A/B testing and
-                                strategic UX enhancements.</li>
+                                strategic UX enhancements.
+                            </li>
                             <li><span class="font-semibold">Product Integration:</span> Boosted eSign start rates by
                                 <strong>13%</strong> through the strategic integration of Legal Documents with
-                                RocketSign, enhancing overall user experience and product efficiency.</li>
+                                RocketSign, enhancing overall user experience and product efficiency.
+                            </li>
                             <li><span class="font-semibold">Data Instrumentation:</span> Achieved record-breaking
                                 conversion rates by developing custom analytics tools to link platform performance with
                                 conversion metrics, coupled with strategic enhancements to the checkout process.</li>
@@ -635,12 +631,14 @@
                                 and Tumblr, addressing high-priority customer needs.</li>
                             <li><span class="font-semibold">Product Relaunch:</span> Led a complete overhaul of Oracle's
                                 Social Engage application, launching <strong>32</strong> new features in
-                                <strong>12</strong> months driven by customer feedback and beta testing.</li>
+                                <strong>12</strong> months driven by customer feedback and beta testing.
+                            </li>
                             <li><span class="font-semibold">World-Class Cloud Integrations:</span> Managed cross-app and
                                 cross-cloud integrations of Oracle Social's suite of apps with Oracle's Marketing,
                                 Sales, and Service clouds. Managed internationalization efforts across
                                 <strong>30</strong> languages, improving global reach by targeting EMEA and APAC
-                                regions.</li>
+                                regions.
+                            </li>
                             <li><span class="font-semibold">Go-To-Market Strategy:</span> Successfully executed
                                 comprehensive product rollouts by coordinating with Customer Success, Marketing, and
                                 Sales teams, ensuring effective market penetration and alignment with strategic business
@@ -780,7 +778,8 @@
                             <h3 class="text-xl font-bold mb-2 text-gray-800">AI-Powered Learning Platform</h3>
                             <p class="text-gray-600 mb-4">Led the development of AI-powered educational tools, a Mac app
                                 and a web-based chatbot, to deliver personalized learning experiences. Drove
-                                <strong>700% user growth</strong> post-launch.</p>
+                                <strong>700% user growth</strong> post-launch.
+                            </p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">AI</span>
                                 <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Product
