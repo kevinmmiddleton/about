@@ -11,197 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        html,
-        body {
-            width: 100%;
-            overflow-x: hidden;
-            position: relative;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .gradient-bg-1 {
-            background: linear-gradient(to bottom, #00a8ff, #205aff);
-        }
-
-        .gradient-bg-2 {
-            background: linear-gradient(to bottom, #205aff, #4021ff);
-        }
-
-        .gradient-bg-3 {
-            background: linear-gradient(to bottom, #4021ff, #5e00ff);
-        }
-
-        .gradient-bg-4 {
-            background: linear-gradient(to bottom, #5e00ff, #7c00ff);
-        }
-
-        .gradient-bg-5 {
-            background: linear-gradient(to bottom, #7c00ff, #a300ff);
-        }
-
-        .gradient-bg-6 {
-            background: linear-gradient(to bottom, #a300ff, #c800f5);
-        }
-
-        .gradient-bg-7 {
-            background: linear-gradient(to bottom, #c800f5, #e600de);
-        }
-
-        .gradient-bg-8 {
-            background: linear-gradient(to bottom, #e600de, #f705b2);
-        }
-
-        .gradient-bg-9 {
-            background: linear-gradient(to bottom, #f705b2, #ff1c7f);
-        }
-
-        .gradient-bg-10 {
-            background: linear-gradient(to bottom, #ff1c7f, #ff3e4d);
-        }
-
-        .gradient-bg-11 {
-            background: linear-gradient(to bottom, #ff3e4d, #ff6533);
-        }
-
-        .project-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        .lightbox-content img {
-            max-width: 100%;
-            max-height: 90vh;
-            object-fit: contain;
-        }
-
-        .close-lightbox {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: #fff;
-            font-size: 30px;
-            cursor: pointer;
-        }
-
-        .mobile-menu {
-            text-align: right;
-            width: auto;
-            max-width: 90vw;
-            padding-right: 1rem;
-            padding-left: 1rem;
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(5px);
-        }
-
-        .typing-cursor {
-            animation: blink 0.7s steps(1) infinite;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .fade-in-text {
-            display: inline-block;
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out forwards;
-        }
-
-        .text-rotate {
-            display: inline-block;
-            position: relative;
-            width: 200px;
-            height: 50px;
-            overflow: hidden;
-        }
-
-        .text-rotate span {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            opacity: 0;
-            animation: rotateWords 6s linear infinite 0s;
-        }
-
-        .text-rotate span:nth-child(2) {
-            animation-delay: 2s;
-        }
-
-        .text-rotate span:nth-child(3) {
-            animation-delay: 4s;
-        }
-
-        @keyframes rotateWords {
-            0% {
-                opacity: 0;
-            }
-
-            2% {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-
-            5% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            17% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            20% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            80% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <!-- Open Graph Meta Tags -->
@@ -295,7 +105,7 @@
         </section>
 
         <section id="about" class="py-20 gradient-bg-2">
-            <div class="container mx-auto px-4">
+            <div class="container content-container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">About Me</h2>
                 <div class="flex flex-col md:flex-row items-center justify-between">
                     <div class="md:w-1/2 mb-8 md:mb-0">
@@ -320,10 +130,22 @@
                     </div>
                 </div>
             </div>
+
+            <div class="container">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Values</h2>
+                <p class="text-center text-lg mb-8 text-white">The values that shape my approach:</p>
+                <div class="ideals-slider" role="region" aria-label="Core Values Slider">
+                    <div class="mask" id="slider-mask">
+                        <!-- Slides will be dynamically inserted here -->
+                    </div>
+                    <div class="slide-nav" id="slide-nav"></div>
+                </div>
+            </div>
+
         </section>
 
         <section id="experience" class="py-20 gradient-bg-3">
-            <div class="container mx-auto px-4">
+            <div class="container content-container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Professional Experience</h2>
                 <div class="space-y-16">
                     <!-- HVAC.COM -->
@@ -667,7 +489,7 @@
         </section>
 
         <section id="projects" class="py-20 gradient-bg-4">
-            <div class="container mx-auto px-4">
+            <div class="container content-container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Projects</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="bg-white rounded-lg shadow-xl overflow-hidden project-card">
@@ -806,7 +628,7 @@
         </section>
 
         <section id="career-highlights" class="py-20 gradient-bg-5">
-            <div class="container mx-auto px-4">
+            <div class="container content-container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Career Highlights</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-white rounded-lg shadow-xl p-6 flex items-start">
@@ -871,7 +693,7 @@
         </section>
 
         <section id="skills" class="py-20 gradient-bg-6">
-            <div class="container mx-auto px-4">
+            <div class="container content-container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Skills &amp; Expertise</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-white rounded-lg shadow-xl p-6">
@@ -1002,7 +824,7 @@
         </section>
 
         <section id="certifications" class="py-20 gradient-bg-7">
-            <div class="container mx-auto px-4">
+            <div class="container content-container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Education &amp; Certifications
                 </h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -1128,7 +950,7 @@
         </section>
 
         <section id="recommendations" class="py-20 gradient-bg-8">
-            <div class="container mx-auto px-4">
+            <div class="container content-container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Recommendations</h2>
                 <p class="text-center text-lg mb-8 text-white">Don't just take it from me - here's what colleagues and
                     industry leaders have said about our collaborations:</p>
@@ -1200,7 +1022,7 @@
             </div>
         </section>
         <section id="connect" class="py-20 gradient-bg-9">
-            <div class="container mx-auto px-4">
+            <div class="container content-container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Let's Connect!</h2>
                 <p class="text-center text-lg mb-8 max-w-3xl mx-auto text-white">
                     Whether it's about product management or just to chat, I'd love to connect with you! Feel free to
@@ -1305,35 +1127,31 @@
             }
         });
     </script>
+    <!-- Replace the existing mobile menu JavaScript with this -->
     <script>
-        // Mobile menu toggle functionality
         const menuToggle = document.getElementById('menu-toggle');
         const menu = document.getElementById('menu');
+
         menuToggle.addEventListener('click', () => {
             menu.classList.toggle('hidden');
             menu.classList.toggle('flex');
-            menu.classList.toggle('flex-col');
-            menu.classList.toggle('absolute');
-            menu.classList.toggle('top-full');
-            menu.classList.toggle('right-0');
-            menu.classList.toggle('shadow-md');
-            menu.classList.toggle('py-2');
-            menu.classList.toggle('mobile-menu');
         });
 
         // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
             if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
                 menu.classList.add('hidden');
-                menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
+                menu.classList.remove('flex');
             }
         });
 
         // Close mobile menu when clicking on a menu item
         menu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-                menu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'right-0', 'bg-white', 'shadow-md', 'py-2', 'mobile-menu');
+                if (window.innerWidth < 768) {
+                    menu.classList.add('hidden');
+                    menu.classList.remove('flex');
+                }
             });
         });
     </script>
@@ -1346,6 +1164,151 @@
         }
         window.addEventListener('load', adjustHeroTitle);
         window.addEventListener('resize', adjustHeroTitle);
+    </script>
+
+    <script>
+        const values = [
+            {
+                title: "Start with an Inventory",
+                description: "Before diving in, understand the current state, gather the facts, and identify available resources.",
+                number: "1",
+                icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+            },
+            {
+                title: "Choose Reality",
+                description: "Stay grounded, even when it’s uncomfortable. Progress begins with honesty about where we stand.",
+                number: "2",
+                icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            },
+            {
+                title: "People First",
+                description: "People are at the heart of everything—whether it's the customer, the team, or stakeholders.",
+                number: "3",
+                icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            },
+            {
+                title: "Collaboration FTW",
+                description: "Nothing great happens in a silo. Prioritize collaboration to generate the best ideas and solutions.",
+                number: "4",
+                icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+            },
+            {
+                title: "Win or Learn as a Team",
+                description: "The team succeeds or grows together, learning from each win and setback.",
+                number: "5",
+                icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+            },
+            {
+                title: "Bias for Action",
+                description: "Moving quickly, test, learn, and improve. Action leads to progress, even if it's not perfect from the start.",
+                number: "6",
+                icon: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
+            },
+            {
+                title: "Fail Fast, Learn Faster",
+                description: "Pivot from failure and apply the learnings. Embrace it as part of growth.",
+                number: "7",
+                icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            },
+            {
+                title: "Follow the Facts",
+                description: "Decisions should be grounded in data but with enough flexibility to adapt as new information emerges.",
+                number: "8",
+                icon: "M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
+            },
+            {
+                title: "Empower Others",
+                description: "Empower others to contribute their best work, fostering autonomy and ownership.",
+                number: "9",
+                icon: "M13 10V3L4 14h7v7l9-11h-7z"
+            },
+            {
+                title: "Work Hard, Have Fun",
+                description: "We can work hard and still have a good time—they’re not mutually exclusive.",
+                number: "10",
+                icon: "M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            }
+        ];
+
+        let currentIndex = 0;
+        const sliderMask = document.getElementById('slider-mask');
+        const slideNav = document.getElementById('slide-nav');
+
+        function createSlides() {
+            sliderMask.innerHTML = values.map((value, index) => `
+    <div class="slide${index === 0 ? ' active' : ''}" data-index="${index}">
+        <div class="ideals-item">
+            <div class="ideals-number">${value.number}</div>
+            <div class="ideals-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="${value.icon}"/>
+                </svg>
+            </div>
+            <h3 class="ideals-title">${value.title}</h3>
+            <div class="ideals-paragraph">${value.description}</div>
+        </div>
+    </div>
+`).join('');
+        }
+
+        function createNavDots() {
+            slideNav.innerHTML = values.map((_, index) => `
+        <div class="w-slider-dot${index === 0 ? ' w-active' : ''}" data-index="${index}"></div>
+    `).join('');
+        }
+
+        function updateSlider() {
+            document.querySelectorAll('.slide').forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentIndex);
+            });
+            document.querySelectorAll('.w-slider-dot').forEach((dot, index) => {
+                dot.classList.toggle('w-active', index === currentIndex);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % values.length;
+            updateSlider();
+        }
+
+        function startAutoScroll() {
+            setInterval(nextSlide, 2000); // Change slide every 5 seconds
+        }
+
+        createSlides();
+        createNavDots();
+        startAutoScroll();
+
+        slideNav.addEventListener('click', (e) => {
+            if (e.target.classList.contains('w-slider-dot')) {
+                currentIndex = parseInt(e.target.getAttribute('data-index'));
+                updateSlider();
+            }
+        });
+
+        sliderMask.addEventListener('click', (e) => {
+            const clickedSlide = e.target.closest('.slide');
+            if (clickedSlide) {
+                nextSlide();
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const nameTitle = document.getElementById("name-title");
+            const aboutSection = document.getElementById("about");
+
+            window.addEventListener("scroll", function () {
+                const sectionPosition = aboutSection.getBoundingClientRect().top;
+                const viewportHeight = window.innerHeight;
+
+                if (sectionPosition < viewportHeight && sectionPosition > 0) {
+                    nameTitle.style.display = "flex"; // Change this based on your layout needs
+                } else {
+                    nameTitle.style.display = "none";
+                }
+            });
+        });
     </script>
 </body>
 
