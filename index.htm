@@ -20,6 +20,7 @@
         content="Kevin Middleton is a Full-Stack Product Manager with 10+ years of experience building consumer, enterprise, and platform SaaS products.">
     <meta property="og:url" content="https://middleton.io">
     <meta property="og:image" content="https://middleton.io/images/HeyThere.png">
+
     <meta property="og:type" content="website">
     <!-- Microsoft Clarity -->
     <script>
@@ -81,7 +82,7 @@
                 <div class="max-w-4xl mx-auto bg-white bg-opacity-10 rounded-lg shadow-xl p-3 sm:p-4 md:p-6 mb-8">
                     <h2 class="font-bold mb-4 sm:mb-6 text-center text-white overflow-hidden" style="height: 3rem;">
                         <span
-                            style="display: inline-block; white-space: nowrap; font-size: 2.5rem; transform-origin: left; transform: scale(var(--scale)); transition: transform 0.3s ease;"
+                            style="display: inline-block; white-space: nowrap; font-size: 2.5rem; transform-origin: left; transform: scale(var(--scale, 0.5)); transition: transform 0.3s ease;"
                             id="hero-title">
                             Building Consumer, Enterprise, and Platform SaaS Products
                         </span>
@@ -1162,8 +1163,18 @@
             const scale = container.offsetWidth / title.offsetWidth;
             title.style.setProperty('--scale', Math.min(1, scale));
         }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', adjustHeroTitle);
+
+        // Run after all resources have loaded
         window.addEventListener('load', adjustHeroTitle);
+
+        // Run on window resize
         window.addEventListener('resize', adjustHeroTitle);
+
+        // Run after a short delay to ensure proper rendering
+        setTimeout(adjustHeroTitle, 100);
     </script>
 
     <script>
