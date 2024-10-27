@@ -116,10 +116,6 @@ nav.container {
     white-space: nowrap;
 }
 
-#menu a:hover {
-    color: #1a202c;
-}
-
 /* Mobile Menu Toggle Button */
 #menu-toggle {
     display: none;
@@ -155,10 +151,6 @@ nav.container {
     text-decoration: none;
 }
 
-.mobile-menu a:hover {
-    color: #f1f1f1;
-}
-
 /* ========== Responsive Menu Setup ========== */
 #menu.flex {
     display: flex;
@@ -171,10 +163,6 @@ nav.container {
     display: block;
     padding: 0.5rem;
     color: #4a5568;
-}
-
-#menu.flex a:hover {
-    background-color: #f7fafc;
 }
 
 nav ul {
@@ -216,10 +204,6 @@ nav ul {
         padding: 0.5rem 1rem;
         color: #4a5568;
         transition: background-color 0.2s ease-in-out;
-    }
-
-    #menu a:hover {
-        background-color: rgba(0, 0, 0, 0.05);
     }
 }
 
