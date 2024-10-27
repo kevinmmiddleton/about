@@ -80,13 +80,11 @@
                     </a>
                 </div>
                 <div class="max-w-4xl mx-auto bg-white bg-opacity-10 rounded-lg shadow-xl p-3 sm:p-4 md:p-6 mb-8">
-                    <h2 class="font-bold mb-4 sm:mb-6 text-center text-white overflow-hidden" style="height: 3rem;">
-                        <span
-                            style="display: inline-block; white-space: nowrap; font-size: 2.5rem; transform-origin: left; transform: scale(var(--scale, 0.5)); transition: transform 0.3s ease;"
-                            id="hero-title">
+                    <div class="hero-title-container font-bold mb-4 sm:mb-6 text-center text-white">
+                        <span id="hero-title" class="hero-title">
                             Building Consumer, Enterprise, and Platform SaaS Products
                         </span>
-                    </h2>
+                    </div>
                     <p class="text-sm sm:text-base md:text-lg text-white leading-relaxed">
                         With 10+ years of experience driving product strategies, I turn complex challenges into
                         scalable, data-driven solutions. My work spans diverse industries—social media, legal tech,
@@ -1158,11 +1156,30 @@
     </script>
     <script>
         function adjustHeroTitle() {
-            const container = document.querySelector('#hero-title').parentElement;
-            const title = document.querySelector('#hero-title');
+            const container = document.querySelector('.hero-title-container');
+            const title = document.getElementById('hero-title');
             const scale = container.offsetWidth / title.offsetWidth;
             title.style.setProperty('--scale', Math.min(1, scale));
+
+            // Add visible class after scaling to fade in the title
+            setTimeout(() => {
+                title.classList.add('visible');
+            }, 50);
         }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const debouncedAdjustHeroTitle = debounce(adjustHeroTitle, 250);
 
         // Run on page load
         document.addEventListener('DOMContentLoaded', adjustHeroTitle);
@@ -1170,11 +1187,14 @@
         // Run after all resources have loaded
         window.addEventListener('load', adjustHeroTitle);
 
-        // Run on window resize
-        window.addEventListener('resize', adjustHeroTitle);
+        // Run on window resize (debounced)
+        window.addEventListener('resize', debouncedAdjustHeroTitle);
 
         // Run after a short delay to ensure proper rendering
         setTimeout(adjustHeroTitle, 100);
+
+        // Adjust on font load
+        document.fonts.ready.then(adjustHeroTitle);
     </script>
 
     <script>
