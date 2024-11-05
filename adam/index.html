@@ -70,20 +70,10 @@
         }
     </style>
     <script type="text/javascript">
-        function decodeEmail(encoded) {
-            return encoded.split('').reverse().join('').replace('TA', '@').replace('TOD', '.');
+        function sendEmail() {
+            window.location.href = 'mailto:' + 'adamschwenk' + '@' + 'gmail.com';
+            return false;
         }
-        
-        function createMailtoLink() {
-            const encoded = 'moc.liamgTAknewchsmada';
-            const decoded = decodeEmail(encoded);
-            const mailtoLinks = document.querySelectorAll('.email-link');
-            mailtoLinks.forEach(link => {
-                link.href = `mailto:${decoded}`;
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', createMailtoLink);
     </script>
 </head>
 <body class="min-h-screen overflow-x-hidden">
@@ -213,13 +203,13 @@
                     <div>
                         <h3 class="text-xl font-semibold mb-4" style="color: var(--color-accent);">Technical Skills</h3>
                         <div>
-                            <span class="skill-pill">Generative  AI</span>
+                            <span class="skill-pill">Generative AI</span>
                             <span class="skill-pill">AI & Machine Learning</span>
                             <span class="skill-pill">SQL</span>
                             <span class="skill-pill">Real-Time Analytics</span>
                             <span class="skill-pill">API Integration</span>
                             <span class="skill-pill">Test-Driven Development (TDD)</span>
-                            <span class="skill-pill">Behavior-Driven Development (BDD)</span>
+                            <span  class="skill-pill">Behavior-Driven Development (BDD)</span>
                         </div>
                     </div>
                     <div>
@@ -283,7 +273,7 @@
             <div class="section-content text-center">
                 <h2 class="text-3xl font-bold mb-8" style="color: var(--color-primary);">Let's Connect!</h2>
                 <div class="flex justify-center space-x-4">
-                    <a href="#" class="btn-primary px-4 py-2 rounded email-link">Email</a>
+                    <a href="#" onclick="return sendEmail();" class="btn-primary px-4 py-2 rounded">Email</a>
                     <a href="https://linkedin.com/in/aschwenk" target="_blank" rel="noopener noreferrer" class="btn-primary px-4 py-2 rounded">LinkedIn</a>
                 </div>
             </div>
