@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Adam Schwenk - Product Manager</title>
     <meta name="description" content="Adam Schwenk is an accomplished product leader with 14 years of experience in fintech, gaming, messaging, and telecom.">
+    <meta property="og:image" content="Adam.png" />
+    <meta property="og:description" content="Delivering high-impact products across gaming, banking, fintech, social media, and telecom." />
+    <meta property="og:title" content="Adam Schwenk - Product Leader" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="adamschwenk.com" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -78,9 +83,9 @@
 </head>
 <body class="min-h-screen overflow-x-hidden">
     <header class="fixed top-0 left-0 right-0 bg-white bg-opacity-90 shadow-md z-50">
-        <nav class="container mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#hero" class="text-xl font-bold" style="color: var(--color-primary);">Adam Schwenk</a>
-            <ul class="hidden md:flex md:space-x-6">
+        <nav class="container mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="#hero" id="adam-name" class="text-xl font-bold" style="color: var(--color-primary);">Adam Schwenk</a>
+            <ul class="hidden md:flex md:space-x-6 md:ml-auto">
                 <li><a href="#hero" class="hover:text-accent" style="color: var(--color-secondary);">Home</a></li>
                 <li><a href="#about" class="hover:text-accent" style="color: var(--color-secondary);">About</a></li>
                 <li><a href="#experience" class="hover:text-accent" style="color: var(--color-secondary);">Experience</a></li>
@@ -108,7 +113,7 @@
                 <div class="flex flex-col md:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
                     <div class="w-48 h-48 md:w-64 md:h-64 flex-shrink-0 mb-4 md:mb-0 flex items-center justify-center">
                         <img 
-                            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1686149808911-9eNMr2dl3u9od1Gcmza0PaAQcEuuI8.jpeg"
+                            src="about.png"
                             alt="Adam Schwenk - Product Manager"
                             class="w-full h-full object-cover rounded-full shadow-lg"
                         >
@@ -209,7 +214,7 @@
                             <span class="skill-pill">Real-Time Analytics</span>
                             <span class="skill-pill">API Integration</span>
                             <span class="skill-pill">Test-Driven Development (TDD)</span>
-                            <span  class="skill-pill">Behavior-Driven Development (BDD)</span>
+                            <span class="skill-pill">Behavior-Driven Development (BDD)</span>
                         </div>
                     </div>
                     <div>
@@ -283,5 +288,26 @@
     <footer class="bg-gray-800 text-white py-8 text-center">
         <p>&copy; 2024 Adam Schwenk. All rights reserved.</p>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('header');
+            const aboutSection = document.getElementById('about');
+            const adamName = document.getElementById('adam-name');
+
+            function updateHeaderOnScroll() {
+                const scrollPosition = window.scrollY;
+                const aboutSectionTop = aboutSection.offsetTop;
+
+                if (scrollPosition >= aboutSectionTop - header.offsetHeight) {
+                    adamName.style.opacity = '1';
+                } else {
+                    adamName.style.opacity = '0';
+                }
+            }
+
+            window.addEventListener('scroll', updateHeaderOnScroll);
+            updateHeaderOnScroll(); // Call once on load
+        });
+    </script>
 </body>
 </html>
