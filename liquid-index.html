@@ -3,131 +3,168 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Liquid Glass Site</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Middleton.io — Liquid Glass</title>
+  <style>
+    /* Base Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #101214, #1a1c1f);
+      color: #ffffff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background blur layer */
+    .glass-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+      z-index: -2;
+      filter: brightness(0.7);
+    }
+
+    .glass-filter {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      backdrop-filter: blur(12px) saturate(160%) contrast(1.2);
+      background-color: rgba(255, 255, 255, 0.04);
+      z-index: -1;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      padding: 0.75rem 2rem;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      display: flex;
+      gap: 1.5rem;
+      z-index: 10;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #8dc7ff;
+    }
+
+    /* Hero Section */
+    header {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2rem;
+      padding: 3rem;
+      max-width: 720px;
+      backdrop-filter: blur(14px) saturate(180%) contrast(1.25);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .hero-card h1 {
+      font-size: 2.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-card p {
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+      color: #e0e0e0;
+    }
+
+    .hero-card button {
+      padding: 0.75rem 2rem;
+      border-radius: 1.5rem;
+      border: none;
+      background: linear-gradient(135deg, #8dc7ff, #76b9ff);
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hero-card button:hover {
+      background: linear-gradient(135deg, #a2d4ff, #92cfff);
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(6px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #aaa;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .hero-card h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="glass glass-nav">
-    <div class="container nav-wrapper">
-      <div id="header-name" class="logo hidden">My Brand</div>
-      <div id="menu-toggle">☰</div>
-      <ul id="menu">
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
+  <div class="glass-bg"></div>
+  <div class="glass-filter"></div>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Projects</a>
+    <a href="#">Blog</a>
+    <a href="#">Contact</a>
   </nav>
 
-  <!-- Hero -->
-  <header id="hero" class="hero-section">
-    <div class="glass hero-content">
-      <h1>Welcome to My Site</h1>
-      <p>Crafting thoughtful digital experiences with purpose and precision.</p>
-      <a href="#projects" class="cta">View My Work</a>
+  <header>
+    <div class="hero-card">
+      <h1>Hello, I'm Kevin Middleton</h1>
+      <p>Exploring tech, design, and the edges of creativity. Let’s build something timeless together.</p>
+      <button>View My Work</button>
     </div>
   </header>
 
-  <!-- Content Sections -->
-  <section id="about">
-    <div class="container">
-      <div class="glass with-depth">
-        <h2>About</h2>
-        <p>Write about yourself here...</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="services">
-    <div class="container">
-      <div class="glass with-depth">
-        <h2>Services</h2>
-        <p>List your offerings here...</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="container">
-      <div class="glass with-depth">
-        <h2>Projects</h2>
-        <div class="project-card glass subtle-hover">
-          <h3>Project Title</h3>
-          <p>Project description...</p>
-        </div>
-        <div class="project-card glass subtle-hover">
-          <h3>Project Title</h3>
-          <p>Project description...</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="container">
-      <div class="glass with-depth">
-        <h2>Contact</h2>
-        <p>Email: your@email.com</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
   <footer>
-    <div class="container">
-      <div class="glass with-depth">
-        <p>&copy; 2025 Your Name. All rights reserved.</p>
-      </div>
-    </div>
+    © 2025 Kevin Middleton. All rights reserved.
   </footer>
-
-  <!-- JS for nav toggle & scroll -->
-  <script>
-  (function () {
-    const btn = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu');
-
-    // Accessibility niceties
-    btn.setAttribute('aria-expanded', 'false');
-    btn.setAttribute('aria-controls', 'menu');
-
-    function openMenu() {
-      menu.classList.add('flex');         // your CSS shows the panel when #menu.flex is present
-      btn.setAttribute('aria-expanded', 'true');
-      document.addEventListener('click', outsideClose);
-      document.addEventListener('keydown', escClose);
-    }
-
-    function closeMenu() {
-      menu.classList.remove('flex');
-      btn.setAttribute('aria-expanded', 'false');
-      document.removeEventListener('click', outsideClose);
-      document.removeEventListener('keydown', escClose);
-    }
-
-    function toggleMenu(e) {
-      e.stopPropagation();
-      if (menu.classList.contains('flex')) closeMenu(); else openMenu();
-    }
-
-    function outsideClose(e) {
-      if (!menu.contains(e.target) && e.target !== btn) closeMenu();
-    }
-
-    function escClose(e) {
-      if (e.key === 'Escape') closeMenu();
-    }
-
-    btn.addEventListener('click', toggleMenu);
-    // Prevent clicks inside the menu from bubbling up and closing it
-    menu.addEventListener('click', e => e.stopPropagation());
-  })();
-</script>
 </body>
 </html>
