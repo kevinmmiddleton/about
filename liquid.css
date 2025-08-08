@@ -1,12 +1,20 @@
 /* ========== Global Settings ========== */
 html,
 body {
-  background: radial-gradient(circle at top left, #1a1a2e, #1f2954 40%, #0f172a);
-  color: #fff;
-  width: 100%;
-  overflow-x: hidden;
-  position: relative;
-  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at 30% 20%, #1e1e2f, #111122 80%);
+  color: #ffffff;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  max-width: 60ch;
+  margin: 0 auto;
 }
 
 /* ========== Layout Containers ========== */
@@ -22,22 +30,21 @@ body {
 
 /* ========== Liquid Glass Utility ========== */
 .glass {
-  --glass-bg: rgba(255, 255, 255, 0.12);
-  --glass-blur: blur(20px);
-  --glass-saturate: saturate(160%);
-  --glass-border: rgba(255, 255, 255, 0.3);
-  --glass-shadow: rgba(0, 0, 0, 0.2);
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 2rem 2.5rem;
+  border-radius: 1.25rem;
+}
 
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur) var(--glass-saturate);
-  -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
-  border-radius: 1rem;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px var(--glass-shadow);
-  padding: 2rem;
-  color: #fff;
-  position: relative;
-  z-index: 1;
+.glass,
+.project-card,
+.ideals-item {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.glass:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
 }
 
 .glass::after {
@@ -77,12 +84,16 @@ body {
 
 /* ========== Navigation ========== */
 .glass-nav {
-  position: sticky;
-  top: 0;
-  backdrop-filter: blur(12px) saturate(150%);
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-  z-index: 999;
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  margin: 0 1rem;
 }
 
 /* ========== CTA Buttons ========== */
