@@ -1,115 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Middleton.io — Liquid Glass with Chrome Rim Effects</title>
-<style>
-/* Base design tokens */
-:root {
-  --accent-0: #8ec5ff;
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-stroke: rgba(255, 255, 255, 0.35);
-  --glass-shadow: rgba(3, 8, 20, 0.5);
-  --motion-fast: 180ms cubic-bezier(.2,.7,.2,1);
-  --motion-med: 420ms cubic-bezier(.2,.7,.2,1);
-}
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: radial-gradient(1200px 800px at 10% 10%, #1a2236 0%, transparent 60%),
-              linear-gradient(130deg, #0e1116, #121623 40%, #0a0d13);
-  color: #eef2f7;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light">
+  <title>Middleton.io — Liquid Glass Stub</title>
+  <style>
+    /* =======================================================
+       LIQUID GLASS: Web implementation (HTML + CSS + JS only)
+       ======================================================= */
 
-/* Nav glass pill */
-.nav-glass {
-  display: flex; gap: 0.9rem; align-items: center;
-  padding: 0.6rem 0.9rem; border-radius: 999px;
-  border: 1px solid var(--glass-stroke);
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px) saturate(140%);
-}
+    /* 1) Design Tokens */
+    :root {
+      --bg-0: #0e1116; --bg-1: #121623; --bg-2: #0a0d13;
+      --accent-0: #8ec5ff; --accent-1: #b6f1ff; --accent-2: #9da8ff;
+      --glass-bg: rgba(255, 255, 255, 0.10);
+      --glass-stroke: rgba(255, 255, 255, 0.35);
+      --glass-inner: rgba(255, 255, 255, 0.14);
+      --glass-shadow: rgba(3, 8, 20, 0.5);
+      --step--1: clamp(0.875rem, 0.83rem + 0.15vw, 0.95rem);
+      --step-0: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+      --step-1: clamp(1.25rem, 1.1rem + 0.8vw, 1.6rem);
+      --step-2: clamp(1.6rem, 1.3rem + 1.4vw, 2.25rem);
+      --step-3: clamp(2.2rem, 1.6rem + 3vw, 3.2rem);
+      --motion-fast: 180ms cubic-bezier(.2,.7,.2,1);
+      --motion-med: 420ms cubic-bezier(.2,.7,.2,1);
+      --maxw: 1200px;
+    }
 
-/* Chrome Rim Button */
-.btn {
-  position: relative; display: inline-flex; align-items: center; justify-content: center;
-  padding: 0.9rem 1.2rem; border-radius: 999px; border: none;
-  font-weight: 600; text-decoration: none; cursor: pointer;
-  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.82));
-  box-shadow: inset 0 .125rem .125rem rgba(0,0,0,.04),
-              inset 0 -.125rem .125rem rgba(255,255,255,.55),
-              0 .25rem .125rem -.125rem rgba(0,0,0,.18),
-              0 0 0 .15rem rgba(255,255,255,.25) inset;
-  transition: transform var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast);
-}
-.btn::after {
-  content: ""; position: absolute; inset: 0; border-radius: 999px; padding: 1px;
-  background: conic-gradient(from var(--angle-1, -80deg), rgba(0,0,0,.45), transparent 5% 40%, rgba(0,0,0,.45) 50%, transparent 60% 95%, rgba(0,0,0,.45)),
-              linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.55));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  pointer-events: none;
-}
-.btn span {
-  position: relative; padding: 0.1rem 0.1rem;
-}
-.btn:hover { transform: translateY(-1px); }
-.btn span::after {
-  content: ""; position: absolute; inset: 2px; border-radius: 999px; pointer-events: none;
-  background: linear-gradient(var(--angle-2, -45deg), transparent 0%, rgba(255,255,255,.55) 40% 55%, transparent 60%);
-  mix-blend-mode: screen; background-size: 200% 200%; background-position: 0% 50%;
-  transition: background-position calc(var(--motion-fast)*1.25) var(--motion-fast);
-}
-.btn:hover span::after { background-position: 25% 50%; }
+    /* 2) Global reset & base */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
 
-/* Chrome Rim Card Hover */
-.card {
-  border-radius: 18px; border: 1px solid var(--glass-stroke);
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px) saturate(150%);
-  box-shadow: 0 20px 50px -20px var(--glass-shadow);
-  position: relative; overflow: hidden; isolation: isolate;
-  transition: transform var(--motion-fast), box-shadow var(--motion-fast);
-}
-.card::before {
-  content: ""; position: absolute; inset: 0; border-radius: 18px; padding: 1px;
-  background: conic-gradient(from var(--c-angle, -60deg), rgba(0,0,0,.35), transparent 5% 40%, rgba(0,0,0,.35) 50%, transparent 60% 95%, rgba(0,0,0,.35)),
-              linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,.45));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  pointer-events: none; opacity: 0; transition: opacity var(--motion-fast);
-}
-.card:hover::before { opacity: 1; }
-.card:hover { transform: translateY(-2px); box-shadow: 0 25px 60px -20px var(--glass-shadow); }
-</style>
+    body {
+      margin: 0;
+      font: 400 var(--step-0) ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+      color: #eef2f7;
+      background: radial-gradient(1200px 800px at 10% 10%, #1a2236 0%, transparent 60%),
+                  radial-gradient(1000px 700px at 85% 20%, #16243f 0%, transparent 55%),
+                  radial-gradient(900px 900px at 50% 120%, #201835 0%, transparent 60%),
+                  linear-gradient(130deg, var(--bg-0), var(--bg-1) 40%, var(--bg-2));
+      overflow-x: hidden;
+    }
+
+    .noise { position: fixed; inset: 0; pointer-events: none; z-index: -1; opacity: .06;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='128' height='128' filter='url(%23n)' opacity='0.6'/></svg>");
+      background-size: 280px 280px; mix-blend-mode: soft-light; }
+
+    .bokeh { position: fixed; inset: -10vmax; pointer-events: none; z-index: -2;
+      background:
+        radial-gradient(80vmax 60vmax at 10% 20%, rgba(150, 210, 255, 0.25), transparent 55%),
+        radial-gradient(65vmax 50vmax at 88% 12%, rgba(110, 150, 255, 0.20), transparent 60%),
+        radial-gradient(50vmax 40vmax at 70% 85%, rgba(180, 120, 255, 0.15), transparent 60%);
+      filter: blur(30px) saturate(130%); transform: translateZ(0); }
+
+    .skip-link { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .skip-link:focus { left:1rem; top:1rem; width:auto; height:auto; padding:.5rem .75rem; border-radius:.75rem; background:#0b1220; outline:2px solid var(--accent-0); }
+
+    /* Navigation */
+    nav[aria-label="Primary"] { position: fixed; inset-inline: 0; top: 1.25rem; display: grid; place-items: center; z-index: 20; padding: 0 1rem; }
+    .nav-glass { display: flex; gap: .9rem; align-items: center; padding: .6rem .9rem; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--glass-stroke), #fff 10%); background: color-mix(in oklab, var(--glass-bg), rgba(30,40,60,.35) 40%); -webkit-backdrop-filter: blur(10px) saturate(140%); backdrop-filter: blur(10px) saturate(140%); box-shadow: 0 8px 30px var(--glass-shadow); }
+    .brand { font-weight: 600; letter-spacing:.2px; padding: .35rem .8rem; border-radius: 999px; background: linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,0)); }
+    .nav-glass a { text-decoration: none; color: #ecf3ff; padding: .5rem .8rem; border-radius: .8rem; line-height: 1; }
+    .nav-glass a:focus-visible { outline: 2px solid var(--accent-0); outline-offset: 2px; }
+    .nav-glass a:hover { background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02)); }
+
+    /* Section shells */
+    .section { max-width: var(--maxw); margin: 0 auto; padding: 4rem 1rem; }
+    .section h2 { font-size: var(--step-2); margin: 0 0 1rem; }
+    .section .kicker { font-size: var(--step--1); letter-spacing:.22em; text-transform: uppercase; color: color-mix(in oklab, #fff 85%, var(--accent-2)); opacity:.9; }
+
+    /* Hero */
+    header.hero { min-height: 92svh; display: grid; place-items: center; padding: 6rem 1rem 3rem; }
+    .glass-card { position: relative; isolation: isolate; width: min(920px, 92vw); padding: clamp(1.5rem, 2vw + 1rem, 3rem); border-radius: 24px; border: 1px solid var(--glass-stroke); background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)) border-box; -webkit-backdrop-filter: blur(16px) saturate(160%) contrast(1.05); backdrop-filter: blur(16px) saturate(160%) contrast(1.05); box-shadow: 0 1px 0 rgba(255,255,255,.15) inset, 0 0 0 1px rgba(255,255,255,.04) inset, 0 30px 80px -20px var(--glass-shadow); }
+    .glass-card::before { content: ""; position: absolute; inset: -1px; border-radius: 24px; pointer-events: none; background: linear-gradient(145deg, rgba(255,255,255,.55), rgba(255,255,255,0) 35%) border-box; mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000); -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000); -webkit-mask-composite: xor; mask-composite: exclude; padding: 1px; opacity: .35; }
+    .glass-card::after { content: ""; position: absolute; inset: 1px; border-radius: 22px; pointer-events: none; background: radial-gradient(100% 120% at 10% 0%, rgba(255,255,255,.18) 0, transparent 55%), radial-gradient(140% 120% at 100% 0%, rgba(150,200,255,.10) 0, transparent 55%); mix-blend-mode: screen; opacity: .6; }
+    .eyebrow { font-size: var(--step--1); letter-spacing: .2em; text-transform: uppercase; opacity: .85; color: color-mix(in oklab, #fff 85%, var(--accent-2)); }
+    h1 { font-size: var(--step-3); line-height: 1.05; margin: .35em 0 .2em; }
+    .lead { font-size: var(--step-1); color: #d7e2f3; max-width: 55ch; }
+    .cta-row { margin-top: 1.4rem; display: flex; gap: .8rem; flex-wrap: wrap; }
+    .btn { position: relative; display: inline-flex; gap: .5rem; align-items: center; justify-content: center; padding: .8rem 1.1rem; border-radius: 14px; border: 1px solid rgba(255,255,255,.35); background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.75)); color: #0a1020; font-weight: 700; text-decoration: none; transition: transform var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast); box-shadow: 0 10px 30px -10px rgba(140,200,255,.45); }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.secondary { background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.08)); color:#e8f2ff; font-weight:600; }
+    .pointer-light { position: absolute; inset: 0; border-radius: 24px; pointer-events: none; overflow: hidden; }
+    .pointer-light::before { content:""; position:absolute; width: 60vmin; height: 60vmin; border-radius: 50%; background: radial-gradient(circle at center, rgba(200,235,255,.35), rgba(140,190,255,.18) 40%, transparent 60%); filter: blur(40px); transform: translate3d(var(--px, -30%), var(--py, -30%), 0); opacity: .55; transition: opacity var(--motion-med); }
+
+    /* Grid and reusable card */
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
+    .card { grid-column: span 4; min-height: 220px; padding: 1.2rem; border-radius: 18px; border: 1px solid var(--glass-stroke); background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06)); -webkit-backdrop-filter: blur(12px) saturate(150%); backdrop-filter: blur(12px) saturate(150%); box-shadow: 0 20px 50px -20px var(--glass-shadow); position: relative; overflow: hidden; isolation: isolate; }
+    .card h3 { font-size: var(--step-1); margin-bottom: .4rem; }
+    .card p { color: #ccdaee; }
+    .card::after { content:""; position:absolute; inset:0; background: radial-gradient(60% 60% at 10% 0%, rgba(255,255,255,.18), transparent 50%); opacity:.4; pointer-events:none; }
+
+    .pill { display:inline-block; padding:.35rem .65rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06)); font-size: var(--step--1); color:#e5f0ff; }
+
+    /* Timelines */
+    .timeline { position:relative; margin-top:2rem; }
+    .timeline::before { content:""; position:absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, rgba(255,255,255,.35), transparent); }
+    .t-item { position:relative; margin-left: 2.5rem; padding-left: 1rem; margin-bottom: 1.25rem; }
+    .t-item::before { content:""; position:absolute; left: -9px; top:.4rem; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(180deg, #fff, #b8d7ff); box-shadow: 0 0 0 3px rgba(255,255,255,.10); }
+
+    /* Lists */
+    .taglist { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.75rem; }
+
+    /* Footer */
+    footer { margin: 4rem auto 2rem; max-width: var(--maxw); padding: 1rem 1.25rem; color: #b8c7e6; display: flex; gap: .75rem; justify-content: space-between; align-items: center; border-radius: 16px; border:1px solid var(--glass-stroke); background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04)); -webkit-backdrop-filter: blur(8px) saturate(130%); backdrop-filter: blur(8px) saturate(130%); }
+
+    /* Fallbacks */
+    @supports not ((-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px))) { .nav-glass, .glass-card, .card, footer { background: rgba(30, 38, 56, .78); } }
+
+    /* Motion preferences */
+    @media (prefers-reduced-motion: reduce) { .bokeh { filter: none; } .pointer-light::before { opacity: 0 !important; } * { animation: none !important; transition: none !important; } }
+
+    /* Responsive */
+    @media (max-width: 1000px) { .card { grid-column: span 6; } }
+    @media (max-width: 640px) { .card { grid-column: span 12; } nav[aria-label="Primary"] { top: .75rem; } }
+  </style>
 </head>
 <body>
-  <nav class="nav-glass">
-    <a href="#">Home</a>
-    <a href="#projects">Projects</a>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="bokeh" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- Navigation mapped to your sections -->
+  <nav aria-label="Primary">
+    <div class="nav-glass" role="menubar">
+      <span class="brand" aria-label="Middleton dot io">middleton.io</span>
+      <a role="menuitem" href="#about">About</a>
+      <a role="menuitem" href="#values">Values</a>
+      <a role="menuitem" href="#experience">Experience</a>
+      <a role="menuitem" href="#projects">Projects</a>
+      <a role="menuitem" href="#highlights">Highlights</a>
+      <a role="menuitem" href="#skills">Skills</a>
+      <a role="menuitem" href="#education">Education</a>
+      <a role="menuitem" href="#recommendations">Recommendations</a>
+      <a role="menuitem" href="#connect">Connect</a>
+    </div>
   </nav>
-  <header>
-    <a class="btn" href="#projects"><span>View Projects</span></a>
+
+  <!-- Hero -->
+  <header id="home" class="hero">
+    <section class="glass-card" aria-labelledby="hero-title">
+      <div class="pointer-light" aria-hidden="true"></div>
+      <p class="eyebrow">Product • Engineering • Design</p>
+      <h1 id="hero-title">Liquid‑glass web shell for middleton.io</h1>
+      <p class="lead">Just the sections — content comes later. Everything is accessible, responsive, and ready for your copy.</p>
+      <div class="cta-row">
+        <a class="btn" href="#projects" aria-label="View projects">Jump to Projects</a>
+        <a class="btn secondary" href="#connect" aria-label="Contact Kevin">Connect</a>
+      </div>
+    </section>
   </header>
-  <main>
-    <section>
-      <div class="card" style="height:200px;">Card 1</div>
-      <div class="card" style="height:200px;">Card 2</div>
-      <div class="card" style="height:200px;">Card 3</div>
+
+  <main id="content" tabindex="-1">
+    <!-- About -->
+    <section id="about" class="section" aria-labelledby="about-h">
+      <p class="kicker">About</p>
+      <h2 id="about-h">About Me</h2>
+      <div class="grid">
+        <article class="card" style="grid-column: span 7; min-height:180px" aria-label="About text placeholder"></article>
+        <aside class="card" style="grid-column: span 5; min-height:180px" aria-label="Portrait or stat block placeholder"></aside>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section id="values" class="section" aria-labelledby="values-h">
+      <p class="kicker">Principles</p>
+      <h2 id="values-h">Values</h2>
+      <div class="grid">
+        <article class="card" aria-label="Value 1"></article>
+        <article class="card" aria-label="Value 2"></article>
+        <article class="card" aria-label="Value 3"></article>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="section" aria-labelledby="exp-h">
+      <p class="kicker">Professional</p>
+      <h2 id="exp-h">Experience</h2>
+      <div class="glass-card" style="padding:1.25rem">
+        <div class="timeline" role="list">
+          <div class="t-item" role="listitem">
+            <h3>Company / Role</h3>
+            <p class="pill">YYYY — YYYY • City</p>
+            <div class="taglist" aria-label="skills"><span class="pill">CRO</span><span class="pill">A/B</span><span class="pill">Leadership</span></div>
+          </div>
+          <div class="t-item" role="listitem">
+            <h3>Company / Role</h3>
+            <p class="pill">YYYY — YYYY • City</p>
+            <div class="taglist"><span class="pill">Integrations</span><span class="pill">APIs</span></div>
+          </div>
+          <div class="t-item" role="listitem">
+            <h3>Company / Role</h3>
+            <p class="pill">YYYY — YYYY • City</p>
+            <div class="taglist"><span class="pill">Growth</span><span class="pill">Data</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section" aria-labelledby="proj-h">
+      <p class="kicker">Selected</p>
+      <h2 id="proj-h">Projects</h2>
+      <div class="grid">
+        <article class="card" aria-label="Project 1 thumbnail"></article>
+        <article class="card" aria-label="Project 2 thumbnail"></article>
+        <article class="card" aria-label="Project 3 thumbnail"></article>
+      </div>
+    </section>
+
+    <!-- Career Highlights -->
+    <section id="highlights" class="section" aria-labelledby="hi-h">
+      <p class="kicker">Impact</p>
+      <h2 id="hi-h">Career Highlights</h2>
+      <div class="grid">
+        <article class="card" style="grid-column: span 6"></article>
+        <article class="card" style="grid-column: span 6"></article>
+      </div>
+    </section>
+
+    <!-- Skills & Expertise -->
+    <section id="skills" class="section" aria-labelledby="skills-h">
+      <p class="kicker">Capabilities</p>
+      <h2 id="skills-h">Skills &amp; Tools</h2>
+      <div class="grid">
+        <article class="card" aria-label="Strategic skills"></article>
+        <article class="card" aria-label="Leadership skills"></article>
+        <article class="card" aria-label="Analytical/Research"></article>
+        <article class="card" aria-label="Technical"></article>
+        <article class="card" aria-label="Tools"></article>
+      </div>
+    </section>
+
+    <!-- Education & Certifications -->
+    <section id="education" class="section" aria-labelledby="edu-h">
+      <p class="kicker">Background</p>
+      <h2 id="edu-h">Education &amp; Certifications</h2>
+      <div class="grid">
+        <article class="card" style="grid-column: span 6" aria-label="Education"></article>
+        <article class="card" style="grid-column: span 6" aria-label="Certifications"></article>
+      </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section id="recommendations" class="section" aria-labelledby="rec-h">
+      <p class="kicker">Social Proof</p>
+      <h2 id="rec-h">Recommendations</h2>
+      <div class="grid">
+        <blockquote class="card" aria-label="Testimonial 1"></blockquote>
+        <blockquote class="card" aria-label="Testimonial 2"></blockquote>
+        <blockquote class="card" aria-label="Testimonial 3"></blockquote>
+      </div>
+    </section>
+
+    <!-- Connect -->
+    <section id="connect" class="section" aria-labelledby="con-h">
+      <p class="kicker">Get in touch</p>
+      <h2 id="con-h">Let's Connect</h2>
+      <div class="grid">
+        <form class="card" style="grid-column: span 7" aria-label="Contact form (stub)">
+          <div class="taglist"><span class="pill">Form placeholder</span></div>
+        </form>
+        <aside class="card" style="grid-column: span 5" aria-label="Links / Calendar / Email"></aside>
+      </div>
     </section>
   </main>
-<script>
-// Auto angle drift for chrome effect
-let angle = -80;
-function animateRims(){
-  angle += 0.2; if(angle>360) angle = 0;
-  document.documentElement.style.setProperty('--angle-1', angle+'deg');
-  document.documentElement.style.setProperty('--angle-2', (angle-45)+'deg');
-  document.documentElement.style.setProperty('--c-angle', (angle-20)+'deg');
-  requestAnimationFrame(animateRims);
-}
-animateRims();
-</script>
+
+  <footer role="contentinfo">
+    <small>© <span id="year"></span> Kevin Middleton</small>
+    <small>Built with HTML, CSS, and a sprinkle of JS — Liquid Glass web style.</small>
+  </footer>
+
+  <script>
+    // ===== Minimal JS for Liquid Glass highlight & UX =====
+    (function(){
+      const card = document.querySelector('.glass-card .pointer-light');
+      const year = document.getElementById('year');
+      year.textContent = new Date().getFullYear();
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!card || reduce) return;
+      let rafId = null; let targetX = 0, targetY = 0, x = 0, y = 0;
+      const onMove = (e) => {
+        const rect = card.parentElement.getBoundingClientRect();
+        const cx = e.clientX - rect.left; const cy = e.clientY - rect.top;
+        targetX = ((cx / rect.width) * 100).toFixed(2);
+        targetY = ((cy / rect.height) * 100).toFixed(2);
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      };
+      const tick = () => { x += (targetX - x) * 0.12; y += (targetY - y) * 0.12; card.style.setProperty('--px', (x - 30) + '%'); card.style.setProperty('--py', (y - 30) + '%'); if (Math.abs(x - targetX) > 0.2 || Math.abs(y - targetY) > 0.2) { rafId = requestAnimationFrame(tick); } else { cancelAnimationFrame(rafId); rafId = null; } };
+      card.parentElement.addEventListener('pointermove', onMove);
+      card.parentElement.addEventListener('pointerleave', () => { targetX = 0; targetY = 0; if (!rafId) rafId = requestAnimationFrame(tick); });
+    })();
+  </script>
 </body>
 </html>
