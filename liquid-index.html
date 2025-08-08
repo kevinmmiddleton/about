@@ -2,169 +2,307 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Middleton.io — Liquid Glass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light">
+  <title>Middleton.io — Liquid Glass Stub</title>
   <style>
-    /* Base Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* =======================================================
+       LIQUID GLASS: Web implementation (HTML + CSS + JS only)
+       - Layered gradients for ambient color + depth
+       - Frosted translucent panels with backdrop blur
+       - Edge highlights, internal glow, soft drop/ambient shadow
+       - Light diffusion ring that tracks pointer (optional JS)
+       - WCAG-friendly contrast & reduced-motion support
+       ======================================================= */
+
+    /* 1) Design Tokens */
+    :root {
+      /* Ambient */
+      --bg-0: #0e1116;
+      --bg-1: #121623;
+      --bg-2: #0a0d13;
+      --accent-0: #8ec5ff;   /* primary electric blue */
+      --accent-1: #b6f1ff;   /* soft cyan highlight */
+      --accent-2: #9da8ff;   /* violet-blue tint */
+
+      /* Glass */
+      --glass-bg: rgba(255, 255, 255, 0.10);  /* panel fill */
+      --glass-stroke: rgba(255, 255, 255, 0.35); /* 1px hairline */
+      --glass-inner: rgba(255, 255, 255, 0.14);  /* inner glow */
+      --glass-shadow: rgba(3, 8, 20, 0.5);       /* soft drop */
+
+      /* Type scale */
+      --step--1: clamp(0.875rem, 0.83rem + 0.15vw, 0.95rem);
+      --step-0: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+      --step-1: clamp(1.25rem, 1.1rem + 0.8vw, 1.6rem);
+      --step-2: clamp(1.6rem, 1.3rem + 1.4vw, 2.25rem);
+      --step-3: clamp(2.2rem, 1.6rem + 3vw, 3.2rem);
+
+      /* Motion */
+      --motion-fast: 180ms cubic-bezier(.2,.7,.2,1);
+      --motion-med: 420ms cubic-bezier(.2,.7,.2,1);
     }
 
-    html, body {
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #101214, #1a1c1f);
-      color: #ffffff;
-      min-height: 100vh;
+    /* 2) Global reset & base */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font: 400 var(--step-0) ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+      color: #eef2f7;
+      background: radial-gradient(1200px 800px at 10% 10%, #1a2236 0%, transparent 60%),
+                  radial-gradient(1000px 700px at 85% 20%, #16243f 0%, transparent 55%),
+                  radial-gradient(900px 900px at 50% 120%, #201835 0%, transparent 60%),
+                  linear-gradient(130deg, var(--bg-0), var(--bg-1) 40%, var(--bg-2));
       overflow-x: hidden;
     }
 
-    /* Background blur layer */
-    .glass-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-      z-index: -2;
-      filter: brightness(0.7);
+    /* 3) Ambient texture: subtle film grain (data-URL SVG) */
+    .noise {
+      position: fixed; inset: 0; pointer-events: none; z-index: -1; opacity: .06;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='128' height='128' filter='url(%23n)' opacity='0.6'/></svg>");
+      background-size: 280px 280px;
+      mix-blend-mode: soft-light;
     }
 
-    .glass-filter {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      backdrop-filter: blur(12px) saturate(160%) contrast(1.2);
-      background-color: rgba(255, 255, 255, 0.04);
-      z-index: -1;
+    /* 4) Bokeh layer for Liquid Glass depth */
+    .bokeh {
+      position: fixed; inset: -10vmax; pointer-events: none; z-index: -2;
+      background:
+        radial-gradient(80vmax 60vmax at 10% 20%, rgba(150, 210, 255, 0.25), transparent 55%),
+        radial-gradient(65vmax 50vmax at 88% 12%, rgba(110, 150, 255, 0.20), transparent 60%),
+        radial-gradient(50vmax 40vmax at 70% 85%, rgba(180, 120, 255, 0.15), transparent 60%);
+      filter: blur(30px) saturate(130%);
+      transform: translateZ(0);
     }
 
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(10px);
-      border-radius: 1rem;
-      padding: 0.75rem 2rem;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      display: flex;
-      gap: 1.5rem;
-      z-index: 10;
+    /* 5) Skip link for a11y */
+    .skip-link { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .skip-link:focus { left:1rem; top:1rem; width:auto; height:auto; padding:.5rem .75rem; border-radius:.75rem; background:#0b1220; outline:2px solid var(--accent-0); }
+
+    /* 6) Navigation: floating frosted pill */
+    nav[aria-label="Primary"] {
+      position: fixed; inset-inline: 0; top: 1.25rem; display: grid; place-items: center; z-index: 20; padding: 0 1rem;
+    }
+    .nav-glass {
+      display: flex; gap: .9rem; align-items: center; padding: .6rem .9rem;
+      border-radius: 999px; border: 1px solid color-mix(in oklab, var(--glass-stroke), #fff 10%);
+      background: color-mix(in oklab, var(--glass-bg), rgba(30,40,60,.35) 40%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
+      backdrop-filter: blur(10px) saturate(140%);
+      box-shadow: 0 8px 30px var(--glass-shadow);
+    }
+    .brand { font-weight: 600; letter-spacing:.2px; padding: .35rem .8rem; border-radius: 999px; background: linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,0)); }
+    .nav-glass a { text-decoration: none; color: #ecf3ff; padding: .5rem .8rem; border-radius: .8rem; line-height: 1; }
+    .nav-glass a:focus-visible { outline: 2px solid var(--accent-0); outline-offset: 2px; }
+    .nav-glass a:hover { background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02)); }
+
+    /* 7) Hero */
+    header.hero { min-height: 92svh; display: grid; place-items: center; padding: 6rem 1rem 3rem; }
+
+    .glass-card {
+      position: relative; isolation: isolate;
+      width: min(920px, 92vw); padding: clamp(1.5rem, 2vw + 1rem, 3rem);
+      border-radius: 24px; border: 1px solid var(--glass-stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)) border-box;
+      -webkit-backdrop-filter: blur(16px) saturate(160%) contrast(1.05);
+      backdrop-filter: blur(16px) saturate(160%) contrast(1.05);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.15) inset,
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 30px 80px -20px var(--glass-shadow);
+    }
+    /* Edge highlight ribbon */
+    .glass-card::before {
+      content: ""; position: absolute; inset: -1px; border-radius: 24px; pointer-events: none;
+      background: linear-gradient(145deg, rgba(255,255,255,.55), rgba(255,255,255,0) 35%) border-box;
+      mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+      -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      padding: 1px; /* creates a 1px edge shimmer */
+      opacity: .35;
+    }
+    /* Inner glow */
+    .glass-card::after {
+      content: ""; position: absolute; inset: 1px; border-radius: 22px; pointer-events: none;
+      background: radial-gradient(100% 120% at 10% 0%, rgba(255,255,255,.18) 0, transparent 55%),
+                  radial-gradient(140% 120% at 100% 0%, rgba(150,200,255,.10) 0, transparent 55%);
+      mix-blend-mode: screen; opacity: .6;
     }
 
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
+    .eyebrow { font-size: var(--step--1); letter-spacing: .2em; text-transform: uppercase; opacity: .85; color: color-mix(in oklab, #fff 85%, var(--accent-2)); }
+    h1 { font-size: var(--step-3); line-height: 1.05; margin: .35em 0 .2em; }
+    .lead { font-size: var(--step-1); color: #d7e2f3; max-width: 55ch; }
+
+    .cta-row { margin-top: 1.4rem; display: flex; gap: .8rem; flex-wrap: wrap; }
+    .btn {
+      position: relative; display: inline-flex; gap: .5rem; align-items: center; justify-content: center;
+      padding: .8rem 1.1rem; border-radius: 14px; border: 1px solid rgba(255,255,255,.35);
+      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.75));
+      color: #0a1020; font-weight: 700; text-decoration: none;
+      transition: transform var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast);
+      box-shadow: 0 10px 30px -10px rgba(140,200,255,.45);
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.secondary { background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.08)); color:#e8f2ff; font-weight:600; }
+
+    /* Pointer-tracked highlight */
+    .pointer-light { position: absolute; inset: 0; border-radius: 24px; pointer-events: none; overflow: hidden; }
+    .pointer-light::before {
+      content:""; position:absolute; width: 60vmin; height: 60vmin; border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(200,235,255,.35), rgba(140,190,255,.18) 40%, transparent 60%);
+      filter: blur(40px);
+      transform: translate3d(var(--px, -30%), var(--py, -30%), 0);
+      opacity: .55; transition: opacity var(--motion-med);
     }
 
-    nav a:hover {
-      color: #8dc7ff;
+    /* 8) Content grid cards */
+    main { padding: 2rem 1rem 6rem; max-width: 1200px; margin: 0 auto; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
+    .card { grid-column: span 4; min-height: 220px; padding: 1.2rem; border-radius: 18px;
+      border: 1px solid var(--glass-stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      backdrop-filter: blur(12px) saturate(150%);
+      box-shadow: 0 20px 50px -20px var(--glass-shadow);
+      position: relative; overflow: hidden; isolation: isolate;
+    }
+    .card h3 { font-size: var(--step-1); margin-bottom: .4rem; }
+    .card p { color: #ccdaee; }
+    .card::after { content:""; position:absolute; inset:0; background: radial-gradient(60% 60% at 10% 0%, rgba(255,255,255,.18), transparent 50%); opacity:.4; pointer-events:none; }
+
+    /* Responsive grid */
+    @media (max-width: 1000px) {
+      .card { grid-column: span 6; }
+    }
+    @media (max-width: 640px) {
+      .card { grid-column: span 12; }
+      nav[aria-label="Primary"] { top: .75rem; }
     }
 
-    /* Hero Section */
-    header {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .hero-card {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 2rem;
-      padding: 3rem;
-      max-width: 720px;
-      backdrop-filter: blur(14px) saturate(180%) contrast(1.25);
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .hero-card h1 {
-      font-size: 2.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero-card p {
-      font-size: 1.125rem;
-      margin-bottom: 2rem;
-      color: #e0e0e0;
-    }
-
-    .hero-card button {
-      padding: 0.75rem 2rem;
-      border-radius: 1.5rem;
-      border: none;
-      background: linear-gradient(135deg, #8dc7ff, #76b9ff);
-      color: #000;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .hero-card button:hover {
-      background: linear-gradient(135deg, #a2d4ff, #92cfff);
-      transform: scale(1.05);
-    }
-
-    /* Footer */
+    /* 9) Footer */
     footer {
-      position: relative;
-      bottom: 0;
-      width: 100%;
-      padding: 1.5rem 2rem;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(6px);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: #aaa;
+      margin: 4rem auto 2rem; max-width: 1200px; padding: 1rem 1.25rem; color: #b8c7e6;
+      display: flex; gap: .75rem; justify-content: space-between; align-items: center;
+      border-radius: 16px; border:1px solid var(--glass-stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      -webkit-backdrop-filter: blur(8px) saturate(130%);
+      backdrop-filter: blur(8px) saturate(130%);
     }
 
-    /* Responsive */
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-        gap: 0.75rem;
+    /* 10) Fallbacks */
+    @supports not ((-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px))) {
+      .nav-glass, .glass-card, .card, footer {
+        background: rgba(30, 38, 56, .78); /* graceful opaque fallback */
       }
+    }
 
-      .hero-card h1 {
-        font-size: 2rem;
-      }
+    /* 11) Motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      .bokeh { filter: none; }
+      .pointer-light::before { opacity: 0 !important; }
+      * { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
-  <div class="glass-bg"></div>
-  <div class="glass-filter"></div>
+  <a class="skip-link" href="#content">Skip to content</a>
 
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Projects</a>
-    <a href="#">Blog</a>
-    <a href="#">Contact</a>
+  <!-- Ambient layers -->
+  <div class="bokeh" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav aria-label="Primary">
+    <div class="nav-glass" role="menubar">
+      <span class="brand" aria-label="Middleton dot io">middleton.io</span>
+      <a role="menuitem" href="#home">Home</a>
+      <a role="menuitem" href="#projects">Projects</a>
+      <a role="menuitem" href="#blog">Blog</a>
+      <a role="menuitem" href="#contact">Contact</a>
+    </div>
   </nav>
 
-  <header>
-    <div class="hero-card">
-      <h1>Hello, I'm Kevin Middleton</h1>
-      <p>Exploring tech, design, and the edges of creativity. Let’s build something timeless together.</p>
-      <button>View My Work</button>
-    </div>
+  <!-- Hero -->
+  <header id="home" class="hero">
+    <section class="glass-card" aria-labelledby="hero-title">
+      <div class="pointer-light" aria-hidden="true"></div>
+      <p class="eyebrow">Product • Engineering • Design</p>
+      <h1 id="hero-title">Kevin Middleton — building timeless, human‑centered software</h1>
+      <p class="lead">Liquid‑glass UI on the open web: translucent depth, soft highlights, and motion that respects accessibility. This is a beautiful stub — ready to grow.</p>
+      <div class="cta-row">
+        <a class="btn" href="#projects" aria-label="View projects">View Projects</a>
+        <a class="btn secondary" href="#contact" aria-label="Contact Kevin">Contact</a>
+      </div>
+    </section>
   </header>
 
-  <footer>
-    © 2025 Kevin Middleton. All rights reserved.
+  <!-- Content -->
+  <main id="content" tabindex="-1">
+    <div class="grid" aria-label="Highlights">
+      <article id="projects" class="card" aria-labelledby="c1">
+        <h3 id="c1">Projects</h3>
+        <p>Showcase select builds: systems, micro‑tools, and interface craft. Replace this stub with your best three.</p>
+      </article>
+      <article class="card" aria-labelledby="c2">
+        <h3 id="c2">Writing</h3>
+        <p>Short notes on product decisions, architecture, and developer UX. Pop in links when ready.</p>
+      </article>
+      <article id="blog" class="card" aria-labelledby="c3">
+        <h3 id="c3">Now</h3>
+        <p>What you’re exploring this month. Learning logs, experiments, and open questions.</p>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <small>© <span id="year"></span> Kevin Middleton</small>
+    <small>Built with HTML, CSS, and a sprinkle of JS — Liquid Glass web style.</small>
   </footer>
+
+  <script>
+    // ===== Minimal JS for Liquid Glass highlight & UX =====
+    (function(){
+      const root = document.documentElement;
+      const card = document.querySelector('.glass-card .pointer-light');
+      const year = document.getElementById('year');
+      year.textContent = new Date().getFullYear();
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!card || reduce) return;
+
+      let rafId = null;
+      let targetX = 0, targetY = 0, x = 0, y = 0;
+
+      const onMove = (e) => {
+        const rect = card.parentElement.getBoundingClientRect();
+        const cx = e.clientX - rect.left;
+        const cy = e.clientY - rect.top;
+        targetX = ((cx / rect.width) * 100).toFixed(2);
+        targetY = ((cy / rect.height) * 100).toFixed(2);
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      };
+
+      const tick = () => {
+        // ease toward pointer for buttery motion
+        x += (targetX - x) * 0.12;
+        y += (targetY - y) * 0.12;
+        card.style.setProperty('--px', (x - 30) + '%');
+        card.style.setProperty('--py', (y - 30) + '%');
+        if (Math.abs(x - targetX) > 0.2 || Math.abs(y - targetY) > 0.2) {
+          rafId = requestAnimationFrame(tick);
+        } else {
+          cancelAnimationFrame(rafId); rafId = null;
+        }
+      };
+
+      card.parentElement.addEventListener('pointermove', onMove);
+      card.parentElement.addEventListener('pointerleave', () => {
+        targetX = 0; targetY = 0; if (!rafId) rafId = requestAnimationFrame(tick);
+      });
+    })();
+  </script>
 </body>
 </html>
