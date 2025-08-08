@@ -1,151 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Middleton.io – Liquid Glass</title>
-    <link rel="stylesheet" href="liquid.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <!-- Navigation -->
-    <nav class="glass glass-nav">
-      <div class="container nav-wrapper">
-        <div id="header-name">
-          <a href="#" class="logo">Middleton.io</a>
-        </div>
-        <div id="menu-toggle">☰</div>
-        <ul id="menu">
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#ideals">Values</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </div>
-    </nav>
+<script>
+  (function () {
+    const menu = document.getElementById('menu');
+    const toggle = document.getElementById('menu-toggle');
+    const headerName = document.getElementById('header-name');
+    const hero = document.getElementById('hero');
 
-    <!-- Hero Section -->
-    <header class="hero">
-      <div class="glass">
-        <h1>Welcome to Middleton.io</h1>
-        <p>Crafting thoughtful digital experiences with purpose and precision.</p>
-        <a href="#projects" class="cta">View My Work</a>
-      </div>
-    </header>
+    // Toggle mobile menu
+    function openMenu() {
+      menu.classList.add('flex');          // your CSS uses #menu.flex
+      toggle.setAttribute('aria-expanded', 'true');
+      document.addEventListener('click', onOutsideClick);
+      document.addEventListener('keydown', onEsc);
+    }
+    function closeMenu() {
+      menu.classList.remove('flex');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.removeEventListener('click', onOutsideClick);
+      document.removeEventListener('keydown', onEsc);
+    }
+    function onOutsideClick(e) {
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu();
+    }
+    function onEsc(e) {
+      if (e.key === 'Escape') closeMenu();
+    }
 
-    <!-- Intro Banner -->
-    <section id="site-intro">
-      <div class="container">
-        <div class="glass" style="max-width: 800px; margin: 0 auto; text-align: center;">
-          <h2>Building Consumer, Enterprise, and Platform SaaS Products</h2>
-          <p>
-            With 10+ years of experience driving product strategies, I turn complex challenges into scalable, data-driven solutions.
-            My work spans diverse industries—social media, legal tech, marketing tech, HR, EdTech, and HVAC—delivering measurable growth and product success.
-          </p>
-        </div>
-      </div>
-    </section>
+    toggle.setAttribute('aria-controls', 'menu');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.addEventListener('click', () => {
+      menu.classList.contains('flex') ? closeMenu() : openMenu();
+    });
 
-    <!-- About Section -->
-    <section id="about">
-      <div class="container">
-        <div class="glass with-depth">
-          <h2>About Me</h2>
-          <p>I'm Kevin Middleton — a multidisciplinary designer and developer focused on crafting intuitive, elegant digital interfaces. I specialize in building systems that scale, with a strong emphasis on accessibility, performance, and user experience.</p>
-        </div>
-      </div>
-    </section>
+    // Close menu when a link is clicked (useful on mobile)
+    menu.querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => closeMenu())
+    );
 
-    <!-- Experience Section -->
-    <section id="experience">
-      <div class="container">
-        <div class="glass with-depth">
-          <h2>Experience</h2>
-          <div class="project-card glass subtle-hover">
-            <h3>Principal Designer, ThoughtWorks</h3>
-            <p>Led design strategy and system implementation across large-scale client platforms.</p>
-          </div>
-          <div class="project-card glass subtle-hover">
-            <h3>Lead UX Engineer, Freelance</h3>
-            <p>Collaborated with cross-functional teams to ship modern web apps for health, education, and tech sectors.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    // Show name in header after hero is scrolled past
+    const heroBottom = () => (hero ? hero.offsetTop + hero.offsetHeight : 120);
+    function onScroll() {
+      if (window.scrollY > heroBottom() - 80) {
+        headerName.classList.remove('hidden');
+      } else {
+        headerName.classList.add('hidden');
+      }
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
 
-    <!-- Core Values / Ideals Section -->
-    <section id="ideals">
-      <div class="container">
-        <div class="glass with-depth">
-          <h2>Core Values</h2>
-          <div class="ideals-slider">
-            <div class="mask">
-              <div class="slide active">
-                <div class="ideals-item glass light-glow">
-                  <div class="ideals-icon">💡</div>
-                  <div class="ideals-title">Clarity</div>
-                  <div class="ideals-paragraph">Good design simplifies complexity. I strive for interfaces that make sense without explanation.</div>
-                  <div class="ideals-number">01</div>
-                </div>
-              </div>
-              <div class="slide">
-                <div class="ideals-item glass light-glow">
-                  <div class="ideals-icon">⚙️</div>
-                  <div class="ideals-title">Precision</div>
-                  <div class="ideals-paragraph">I obsess over details — spacing, contrast, and flow matter as much as functionality.</div>
-                  <div class="ideals-number">02</div>
-                </div>
-              </div>
-              <div class="slide">
-                <div class="ideals-item glass light-glow">
-                  <div class="ideals-icon">🚀</div>
-                  <div class="ideals-title">Momentum</div>
-                  <div class="ideals-paragraph">Great work happens iteratively. I move fast, but thoughtfully — balancing speed with craft.</div>
-                  <div class="ideals-number">03</div>
-                </div>
-              </div>
-            </div>
-            <div class="slide-nav">
-              <div class="w-slider-dot w-active"></div>
-              <div class="w-slider-dot"></div>
-              <div class="w-slider-dot"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    // Fix state on resize (e.g., going from mobile to desktop)
+    let lastIsMobile = window.innerWidth < 768;
+    window.addEventListener('resize', () => {
+      const isMobile = window.innerWidth < 768;
+      if (lastIsMobile !== isMobile) {
+        closeMenu(); // reset menu state
+        lastIsMobile = isMobile;
+      }
+    });
 
-    <!-- Projects Section -->
-    <section id="projects">
-      <div class="container">
-        <div class="glass with-depth">
-          <h2>Featured Projects</h2>
-          <div class="project-card glass subtle-hover">
-            <h3>Design System</h3>
-            <p>A scalable design system built for cross-platform consistency and rapid iteration.</p>
-          </div>
-          <div class="project-card glass subtle-hover">
-            <h3>Data Dashboard</h3>
-            <p>Custom analytics interface for realtime decision making in logistics.</p>
-          </div>
-          <div class="project-card glass subtle-hover">
-            <h3>Interactive Learning</h3>
-            <p>Built a responsive, WCAG-compliant education tool for students and teachers.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <div class="glass with-depth">
-          <p>&copy; 2025 Kevin M. Middleton. Built with purpose, clarity, and coffee.</p>
-        </div>
-      </div>
-    </footer>
-  </body>
-</html>
+    // Optional: smooth-scroll offset for fixed header
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        const id = link.getAttribute('href');
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        const headerHeight = document.querySelector('header')?.offsetHeight || 64;
+        const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 8;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      });
+    });
+  })();
+</script>
