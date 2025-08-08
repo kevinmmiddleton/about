@@ -96,6 +96,12 @@ nav a {
   margin: 0 1rem;
 }
 
+/* keep menu above content when opened on mobile */
+#menu.flex { z-index: 60; }
+
+/* make the toggle a11y-friendly */
+#menu-toggle { cursor: pointer; }
+
 /* ========== CTA Buttons ========== */
 .cta {
   display: inline-block;
