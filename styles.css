@@ -45,6 +45,9 @@
   --text-primary: var(--gray-900);
   --text-secondary: var(--gray-600);
 
+  /* ===== Case Study Dark Mode Strong Text ===== */
+  --text-primary-darkmode-strong: #dfe6ea;
+
   /* ===== Surfaces ===== */
   --bg: #f4f4f7;
   --surface: #ebedf3;
@@ -54,6 +57,87 @@
   --tint-blue-20: rgba(108, 140, 255, 0.20);
   --tint-purple-20: rgba(164, 140, 249, 0.20);
   --tint-pink-20: rgba(244, 138, 193, 0.20);
+
+  /* ===== Full Tint Variables for Case Study Sections ===== */
+  --tint-blue: rgba(108, 140, 255, 0.35);
+  --tint-purple: rgba(164, 140, 249, 0.35);
+  --tint-mint: rgba(150, 255, 210, 0.32);
+  --tint-peach: rgba(255, 205, 170, 0.34);
+  --tint-yellow: rgba(255, 235, 140, 0.36);
+
+  /* ===== Case Study Section Gradient Stops (Light Mode) ===== */
+  --cs-grad-intro-start: rgba(108, 140, 255, 0.18);
+  --cs-grad-intro: rgba(108, 140, 255, 0.35);
+  --cs-grad-challenge: rgba(164, 140, 249, 0.22);
+  --cs-grad-strategy: rgba(164, 140, 249, 0.35);
+  --cs-grad-platform: rgba(180, 140, 255, 0.38);
+  --cs-grad-execution: rgba(164, 140, 249, 0.32);
+  --cs-grad-outcomes: rgba(150, 255, 210, 0.32);
+  --cs-grad-challenges: rgba(255, 205, 170, 0.34);
+  --cs-grad-lessons: rgba(255, 235, 140, 0.36);
+  --cs-grad-testimonials: rgba(150, 255, 210, 0.28);
+
+  /* ===== Case Study Card Accent Colors (Light Mode) ===== */
+  --cs-card-border-blue: rgba(108, 140, 255, 0.22);
+  --cs-card-glow-blue: rgba(108, 140, 255, 0.06);
+  --cs-card-border-purple-light: rgba(140, 130, 255, 0.22);
+  --cs-card-glow-purple-light: rgba(140, 130, 255, 0.06);
+  --cs-card-border-purple: rgba(164, 140, 249, 0.22);
+  --cs-card-glow-purple: rgba(164, 140, 249, 0.06);
+  --cs-card-border-purple-deep: rgba(180, 140, 255, 0.22);
+  --cs-card-glow-purple-deep: rgba(180, 140, 255, 0.06);
+  --cs-card-border-mint: rgba(150, 255, 210, 0.20);
+  --cs-card-glow-mint: rgba(150, 255, 210, 0.06);
+  --cs-card-border-peach: rgba(255, 205, 170, 0.20);
+  --cs-card-glow-peach: rgba(255, 205, 170, 0.06);
+  --cs-card-border-yellow: rgba(255, 235, 140, 0.18);
+  --cs-card-glow-yellow: rgba(255, 235, 140, 0.05);
+  --cs-card-border-neutral: rgba(255, 255, 255, 0.12);
+  --cs-card-glow-neutral: rgba(255, 255, 255, 0.03);
+
+  /* Card hover states (Light Mode) */
+  --cs-card-border-blue-hover: rgba(108, 140, 255, 0.35);
+  --cs-card-glow-blue-hover: rgba(108, 140, 255, 0.10);
+  --cs-card-border-purple-light-hover: rgba(140, 130, 255, 0.35);
+  --cs-card-glow-purple-light-hover: rgba(140, 130, 255, 0.10);
+  --cs-card-border-purple-hover: rgba(164, 140, 249, 0.35);
+  --cs-card-glow-purple-hover: rgba(164, 140, 249, 0.10);
+  --cs-card-border-purple-deep-hover: rgba(180, 140, 255, 0.35);
+  --cs-card-glow-purple-deep-hover: rgba(180, 140, 255, 0.10);
+  --cs-card-border-mint-hover: rgba(150, 255, 210, 0.32);
+  --cs-card-glow-mint-hover: rgba(150, 255, 210, 0.10);
+  --cs-card-border-peach-hover: rgba(255, 205, 170, 0.32);
+  --cs-card-glow-peach-hover: rgba(255, 205, 170, 0.10);
+  --cs-card-border-yellow-hover: rgba(255, 235, 140, 0.30);
+  --cs-card-glow-yellow-hover: rgba(255, 235, 140, 0.08);
+  --cs-card-border-neutral-hover: rgba(255, 255, 255, 0.18);
+  --cs-card-glow-neutral-hover: rgba(255, 255, 255, 0.05);
+
+  /* Timeline accent (Challenges section) */
+  --cs-timeline-line: rgba(75, 85, 99, 0.35);
+  --cs-timeline-dot: rgba(164, 140, 249, 0.55);
+  --cs-timeline-dot-glow: rgba(255, 255, 255, 0.35);
+
+  /* === Additional Tint/Surface Variables Needed for Case Study Blending === */
+  --surface-rgb: 235, 237, 243;
+  --surface-alt-rgb: 225, 227, 234;
+
+  /* RGB versions of tint colors */
+  --tint-blue-rgb: 108, 140, 255;
+  --tint-purple-rgb: 164, 140, 249;
+  --tint-mint-rgb: 150, 255, 210;
+  --tint-peach-rgb: 255, 205, 170;
+  --tint-yellow-rgb: 255, 235, 140;
+
+  /* 20% opacity variants for missing tints */
+  --tint-mint-20: rgba(150, 255, 210, 0.20);
+  --tint-peach-20: rgba(255, 205, 170, 0.20);
+  --tint-yellow-20: rgba(255, 235, 140, 0.20);
+
+  /* Fallback + fade helpers */
+  --section-tint-default: var(--surface);
+  --section-fade-start: var(--section-tint);
+  --section-fade-end: transparent;
 
   /* ===== Glass Layers ===== */
   --glass-95: rgba(var(--white-rgb), 0.95);
@@ -108,6 +192,19 @@
   --surface-toggle-active: #e6e6ee;
   --overlay: rgba(var(--black-rgb), 0.9);
   --icon-on-warm-bg: var(--gray-800);
+
+
+  /* Unified glow for section gradients */
+  --section-glow: rgba(var(--white-rgb), 0.22);
+
+  /* Timeline line rgb token */
+  --gray-600-rgb: 75, 85, 99;
+
+  /* Deep neutral/purple backdrop for transparent PNGs */
+  --color-purple-900: var(--gray-900);
+
+  /* Helper for fade transitions */
+  --section-fade-end: transparent;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -120,6 +217,7 @@
   }
 
   :root {
+    --text-primary-darkmode-strong: #dfe6ea;
     --text-primary: var(--gray-50);
     --text-secondary: var(--gray-300);
 
@@ -142,6 +240,63 @@
     --tools-silver-bg: var(--gray-600);
     --tools-silver-border: var(--gray-500);
     --icon-on-silver-bg: var(--white);
+
+    --section-glow: rgba(var(--white-rgb), 0.12);
+
+    /* ===== Case Study Section Gradient Stops (Dark Mode) ===== */
+    /* Much lower opacity for dark backgrounds */
+    --cs-grad-intro-start: rgba(108, 140, 255, 0.04);
+    --cs-grad-intro: rgba(108, 140, 255, 0.08);
+    --cs-grad-challenge: rgba(164, 140, 249, 0.05);
+    --cs-grad-strategy: rgba(164, 140, 249, 0.07);
+    --cs-grad-platform: rgba(180, 140, 255, 0.08);
+    --cs-grad-execution: rgba(164, 140, 249, 0.06);
+    --cs-grad-outcomes: rgba(150, 255, 210, 0.06);
+    --cs-grad-challenges: rgba(255, 205, 170, 0.06);
+    --cs-grad-lessons: rgba(255, 235, 140, 0.05);
+    --cs-grad-testimonials: rgba(150, 255, 210, 0.05);
+
+    /* ===== Case Study Card Accent Colors (Dark Mode) ===== */
+    /* Slightly stronger borders/glows to pop against dark */
+    --cs-card-border-blue: rgba(108, 140, 255, 0.25);
+    --cs-card-glow-blue: rgba(108, 140, 255, 0.08);
+    --cs-card-border-purple-light: rgba(140, 130, 255, 0.25);
+    --cs-card-glow-purple-light: rgba(140, 130, 255, 0.08);
+    --cs-card-border-purple: rgba(164, 140, 249, 0.25);
+    --cs-card-glow-purple: rgba(164, 140, 249, 0.08);
+    --cs-card-border-purple-deep: rgba(180, 140, 255, 0.28);
+    --cs-card-glow-purple-deep: rgba(180, 140, 255, 0.08);
+    --cs-card-border-mint: rgba(150, 255, 210, 0.22);
+    --cs-card-glow-mint: rgba(150, 255, 210, 0.07);
+    --cs-card-border-peach: rgba(255, 205, 170, 0.22);
+    --cs-card-glow-peach: rgba(255, 205, 170, 0.07);
+    --cs-card-border-yellow: rgba(255, 235, 140, 0.20);
+    --cs-card-glow-yellow: rgba(255, 235, 140, 0.06);
+    --cs-card-border-neutral: rgba(255, 255, 255, 0.12);
+    --cs-card-glow-neutral: rgba(255, 255, 255, 0.04);
+
+    /* Card hover states (Dark Mode) */
+    --cs-card-border-blue-hover: rgba(108, 140, 255, 0.40);
+    --cs-card-glow-blue-hover: rgba(108, 140, 255, 0.14);
+    --cs-card-border-purple-light-hover: rgba(140, 130, 255, 0.40);
+    --cs-card-glow-purple-light-hover: rgba(140, 130, 255, 0.14);
+    --cs-card-border-purple-hover: rgba(164, 140, 249, 0.40);
+    --cs-card-glow-purple-hover: rgba(164, 140, 249, 0.14);
+    --cs-card-border-purple-deep-hover: rgba(180, 140, 255, 0.42);
+    --cs-card-glow-purple-deep-hover: rgba(180, 140, 255, 0.14);
+    --cs-card-border-mint-hover: rgba(150, 255, 210, 0.35);
+    --cs-card-glow-mint-hover: rgba(150, 255, 210, 0.12);
+    --cs-card-border-peach-hover: rgba(255, 205, 170, 0.35);
+    --cs-card-glow-peach-hover: rgba(255, 205, 170, 0.12);
+    --cs-card-border-yellow-hover: rgba(255, 235, 140, 0.32);
+    --cs-card-glow-yellow-hover: rgba(255, 235, 140, 0.10);
+    --cs-card-border-neutral-hover: rgba(255, 255, 255, 0.20);
+    --cs-card-glow-neutral-hover: rgba(255, 255, 255, 0.06);
+
+    /* Timeline accent (Dark Mode - peach for challenges) */
+    --cs-timeline-line: rgba(255, 205, 170, 0.25);
+    --cs-timeline-dot: rgba(255, 205, 170, 0.65);
+    --cs-timeline-dot-glow: rgba(255, 205, 170, 0.15);
   }
 
   /* HEADER — DARK MODE OVERRIDES */
