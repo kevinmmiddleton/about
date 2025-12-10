@@ -1,464 +1,811 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rocket Lawyer: Co-branded Partner Sites - Kevin Middleton</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-body {
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    color: #ffffff;
-    background: linear-gradient(to bottom, #00a8ff, #205aff, #4021ff, #5e00ff);
-    background-attachment: fixed;
-    margin: 0;
-    padding: 0;
-}
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-h1, h2, h3, h4 {
-    margin-top: 0;
-}
-h1 {
-    text-align: center;
-    margin-bottom: 0.5rem;
-    font-size: calc(1rem + 2vw);
-    line-height: 1.2;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-}
-h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-h4 {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-}
-p, ul {
-    margin-bottom: 1rem;
-}
-.section {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    backdrop-filter: blur(10px);
-}
-.card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
-.image-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-}
-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.lightbox {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-}
-.lightbox-content {
-    margin: auto;
-    display: block;
-    max-width: 90%;
-    max-height: 90%;
-}
-.lightbox-close {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.subtitle {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: calc(0.75rem + 1vw);
-    line-height: 1.2;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-}
-figure {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-figcaption {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #e0e0e0;
-    text-align: center;
-}
-.icon {
-    margin-right: 0.5rem;
-}
-.back-to-main {
-    text-align: left;
-    margin-bottom: 1rem;
-}
-.back-to-main a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 600;
-}
-.back-to-main a:hover {
-    text-decoration: underline;
-}
-blockquote {
-    font-style: italic;
-    border-left: 4px solid #ffffff;
-    padding: 1rem;
-    margin: 1rem 0;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 0 8px 8px 0;
-}
-.flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-.flex-container > * {
-    flex: 1 1 300px;
-}
-@media (max-width: 768px) {
-    .flex-container {
-        flex-direction: column;
-    }
-}
-</style>
-<script type="text/javascript">
-(function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "kix9xdfw7p");
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocket Lawyer Case Study</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="case-study.css">
 </head>
-<body>
-<div class="container">
-<div class="back-to-main">
-    <a href="https://middleton.io/">← Back to Kevin Middleton's Portfolio</a>
-</div>
 
-<h1>🚀 Rocket Lawyer: Co-branded Partner Sites</h1>
-<div class="subtitle">Expanding Legal Access, Enabling Partners, and Growing Brand Awareness</div>
-
-<div id="introduction" class="section">
-    <h2><i class="fas fa-rocket icon"></i>Introduction</h2>
-    <div class="grid">
-        <div class="card">
-            <h3><i class="fas fa-compass icon"></i>Overview</h3>
-            <p>Adapting Rocket Lawyer's legal solutions to meet the unique needs of our <strong>partners</strong>, starting with <strong>Covéa</strong>.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-star icon"></i>My Role</h3>
-            <p>Leading the initiative to develop co-branded partner sites.</p>
-        </div>
-    </div>
-</div>
-
-<div id="mission-alignment" class="section">
-    <h2><i class="fas fa-bullseye icon"></i>Mission Alignment</h2>
-    <div class="flex-container">
-        <div>
-            <div class="card">
-                <h3><i class="fas fa-bolt icon"></i>Rocket Lawyer's Mission</h3>
-                <p>Everyone deserves affordable and simple legal services.</p>
+<body class="case-study">
+    <!-- HERO -->
+    <div class="section cs-section">
+        <div class="container cs-hero">
+            <div class="back-to-main" style="margin-bottom: var(--spacing-lg);">
+                <a href="https://middleton.io/">← Back to Portfolio</a>
             </div>
-            <div class="card">
-                <h3><i class="fas fa-lightbulb icon"></i>Project's Contribution</h3>
-                <p>Expanding Rocket Lawyer's reach in Europe and establishing a new revenue channel.</p>
+
+            <header class="cs-hero-header">
+                <p class="cs-case-label">Case Study · Rocket Lawyer</p>
+
+                <h1 class="section-title">Co‑Branded Partner Sites</h1>
+
+                <p class="cs-hero-subtitle">
+                    One integration. Six months. How we launched Rocket Lawyer's first enterprise partnership and built
+                    a platform for the next ten.
+                </p>
+
+                <div class="glass-card cs-hero-metrics">
+                    <div class="cs-hero-metrics-grid">
+                        <div>
+                            <p class="cs-metric-value">11.5M+</p>
+                            <p class="cs-metric-label">Partner Customers</p>
+                        </div>
+                        <div>
+                            <p class="cs-metric-value">16%</p>
+                            <p class="cs-metric-label">EU Traffic Driven</p>
+                        </div>
+                        <div>
+                            <p class="cs-metric-value">New Channel</p>
+                            <p class="cs-metric-label">Enterprise Revenue</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="cs-hero-meta">
+                    <strong>Role:</strong> Senior Product Manager &nbsp;·&nbsp;
+                    <strong>Partner:</strong> Covéa &nbsp;·&nbsp;
+                    <strong>Timeline:</strong> April → October Launch
+                </p>
+            </header>
+        </div>
+    </div>
+
+    <!-- STATIC TOP TOC (shown before scroll on desktop) -->
+    <nav class="cs-toc cs-toc-top">
+        <div class="cs-toc-grid">
+            <a href="#introduction" class="cs-toc-item" data-section="introduction">Introduction</a>
+            <a href="#challenge" class="cs-toc-item" data-section="challenge">Challenge</a>
+            <a href="#strategy" class="cs-toc-item" data-section="strategy">Strategy &amp; Solution</a>
+            <a href="#platform" class="cs-toc-item" data-section="platform">Platform Capabilities</a>
+            <a href="#walkthrough" class="cs-toc-item" data-section="walkthrough">Product Walkthrough</a>
+            <a href="#execution" class="cs-toc-item" data-section="execution">Execution &amp; Decisions</a>
+            <a href="#outcomes" class="cs-toc-item" data-section="outcomes">Outcomes</a>
+            <a href="#tradeoffs" class="cs-toc-item" data-section="tradeoffs">Tradeoffs</a>
+            <a href="#lessons" class="cs-toc-item" data-section="lessons">Lessons Learned</a>
+            <a href="#testimonials" class="cs-toc-item" data-section="testimonials">Testimonials</a>
+        </div>
+    </nav>
+
+    <div class="section cs-section cs-toc-section">
+        <div class="container cs-section-body">
+            <!-- Floating TOC -->
+            <nav class="cs-toc cs-toc--floating">
+                <div class="cs-toc-grid">
+                    <a href="#introduction" class="cs-toc-item" data-section="introduction">Introduction</a>
+                    <a href="#challenge" class="cs-toc-item" data-section="challenge">Challenge</a>
+                    <a href="#strategy" class="cs-toc-item" data-section="strategy">Strategy &amp; Solution</a>
+                    <a href="#platform" class="cs-toc-item" data-section="platform">Platform Capabilities</a>
+                    <a href="#walkthrough" class="cs-toc-item" data-section="walkthrough">Product Walkthrough</a>
+                    <a href="#execution" class="cs-toc-item" data-section="execution">Execution &amp; Decisions</a>
+                    <a href="#outcomes" class="cs-toc-item" data-section="outcomes">Outcomes</a>
+                    <a href="#tradeoffs" class="cs-toc-item" data-section="tradeoffs">Tradeoffs</a>
+                    <a href="#lessons" class="cs-toc-item" data-section="lessons">Lessons Learned</a>
+                    <a href="#testimonials" class="cs-toc-item" data-section="testimonials">Testimonials</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- INTRO + MISSION -->
+    <div class="section cs-section" id="introduction">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🎯 Introduction</h2>
+                <p class="cs-section-eyebrow">Context & mission</p>
+                <p class="cs-section-intro">Rocket Lawyer was entering a new phase: expanding beyond direct-to-consumer
+                    and proving an enterprise distribution model across Europe. Covéa, an insurer with 11.5M customers,
+                    was the first major test. What we built for this launch would determine whether Rocket Lawyer could
+                    scale its legal services through partners, unlock new revenue channels, and support future deals
+                    already in the pipeline. If we missed here, Rocket Lawyer’s shift into enterprise distribution would
+                    stall, and future partner deals already in motion would lose momentum.</p>
+            </div>
+
+            <div class="cs-two-col cs-content-grid">
+                <div>
+                    <h3 class="cs-h3">Overview</h3>
+                    <p>
+                        Covéa's scale and complexity meant the work had to support multiple identity flows, distinct
+                        brand requirements, and usage tracking at the partner level. A one-off integration wouldn't be
+                        enough. We built toward a model that could support future partners, new markets, and more
+                        advanced commercial structures.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="cs-h3">Mission Alignment</h3>
+                    <p>
+                        This work extended Rocket Lawyer's mission—affordable, accessible legal help—to millions of
+                        insurance customers who previously had limited access to digital legal services.
+                    </p>
+                </div>
             </div>
         </div>
-        <div>
-            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/rocket-lawyer-legal-made-simple-rounded.png" alt="Rocket Lawyer: Legal Made Simple" onclick="openLightbox(this)">
+    </div>
+
+    <!-- USERS & PROBLEM -->
+    <div class="section cs-section" id="challenge">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">👥 The Challenge</h2>
+                <p class="cs-section-eyebrow">Who we were serving and what they needed</p>
+                <p class="cs-section-intro">We were building for customers who would enter Rocket Lawyer through Covéa's
+                    ecosystem. The experience needed to feel native, secure, trustworthy, and co-branded while still
+                    delivering Rocket Lawyer's full value.</p>
+            </div>
+
+            <div class="cs-two-col cs-content-grid">
+                <div>
+                    <h3 class="cs-h3">Users & Stakeholders</h3>
+                    <ul class="cs-list">
+                        <li>Covéa's 11.5M insurance customers across multiple brands</li>
+                        <li>Existing Rocket Lawyer EU users</li>
+                        <li>Product, engineering, design, legal, content, marketing, enterprise sales</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="cs-h3">Key Problems to Solve</h3>
+                    <ul class="cs-list">
+                        <li>Integrate legal services directly into partner journeys</li>
+                        <li>Authenticate users at scale without exposing complexity</li>
+                        <li>Balance Covéa's brands with Rocket Lawyer's product identity</li>
+                        <li>Track usage and value for reporting, billing, and expansion discussions</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="challenge" class="section">
-    <h2><i class="fas fa-exclamation-triangle icon"></i>The Challenge</h2>
-    <div class="grid">
-        <div class="card">
-            <h3><i class="fas fa-users icon"></i>Users</h3>
-            <ul>
-                <li><strong>Existing</strong>: Individual <strong>consumer</strong> and <strong>company benefit</strong> legal services.</li>
-                <li><strong>New</strong>: Building for <strong>partners</strong>, starting with <strong>Covéa</strong>, an insurance holding company with 3 distinct brands serving <strong>11.5 million members</strong>.</li>
-            </ul>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-bolt icon"></i>Pain Points Addressed</h3>
-            <strong>Providing partner customers with:</strong>
-            <ul>
-                <li>Digital Legal Documents</li>
-                <li>eSigning</li>
-                <li>'Ask A Lawyer'</li>
-            </ul>
+    <!-- STRATEGY & SOLUTION -->
+    <div class="section cs-section" id="strategy">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🧠 Strategy & Solution</h2>
+                <p class="cs-section-eyebrow">Designing for partners, not one-offs</p>
+                <p class="cs-section-intro">We framed Covéa as the first of many enterprise integrations. Every decision optimized for durability over convenience, knowing future integrations would benefit.</p>
+            </div>
+
+            <div class="cs-feature-grid cs-feature-grid--two cs-content-grid">
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Authentication</h3>
+                    <p>Anchoring on OpenID Connect set us up for long-term partner scalability, but meant absorbing short-term complexity to support Covéa's existing identity system. We built a custom connector to isolate edge-case logic while keeping future integrations predictable.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Configurability</h3>
+                    <p>Runtime control over branding, pricing, features, and content—no release cycles required. The Partner Config API became the single surface for partner onboarding, letting us iterate without engineering bottlenecks.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Co-Branding</h3>
+                    <p>A flexible UI and pricing framework that adapted to partner value propositions while preserving Rocket Lawyer's product integrity. Partner-exclusive content and workflows coexisted with the core catalog.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Scalability</h3>
+                    <p>Partner-aware reporting and analytics drove billing accuracy and business insights. The unified integration layer was designed from day one to support additional partners without rearchitecting.</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="solution" class="section">
-    <h2><i class="fas fa-puzzle-piece icon"></i>Solution</h2>
-    <h3><i class="fas fa-lightbulb icon"></i>Overview</h3>
-    <p>Developed a solution integrating Rocket Lawyer's services with partners. Focused on authentication, co-branding, customized pricing, and partner-exclusive content.</p>
-    <h3><i class="fas fa-list-ul icon"></i>Features</h3>
-    <div class="grid">
-        <div class="card">
-            <h4><i class="fas fa-shield-alt icon"></i>Partner Authentication</h4>
-            <p>OpenID Connect integration.</p>
-        </div>
-        <div class="card">
-            <h4><i class="fas fa-plug icon"></i>Custom Connector</h4>
-            <p>For partner-specific integrations.</p>
-        </div>
-        <div class="card">
-            <h4><i class="fas fa-cogs icon"></i>Partner Config API</h4>
-            <p>Customizable settings and frontend brandability.</p>
-        </div>
-        <div class="card">
-            <h4><i class="fas fa-chart-bar icon"></i>Reporting Capabilities</h4>
-            <p>Enhanced events structure for partner-specific reporting.</p>
-        </div>
-        <div class="card">
-            <h4><i class="fas fa-paint-brush icon"></i>Co-Branding and Partner-Specific Pricing</h4>
-            <p>Customizable for each partner.</p>
-        </div>
-        <div class="card">
-            <h4><i class="fas fa-file-alt icon"></i>Partner-Exclusive Content</h4>
-            <p>Tailored legal solutions and resources.</p>
+    <!-- ARCHITECTURE & CAPABILITIES -->
+    <div class="section cs-section" id="platform">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">⚙️ Platform Capabilities</h2>
+                <p class="cs-section-eyebrow">What we actually shipped</p>
+                <p class="cs-section-intro">These became the reusable building blocks for partner expansion:</p>
+            </div>
+
+            <div class="cs-feature-grid cs-content-grid">
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Partner Authentication</h3>
+                    <p>
+                        Enabled partner customers to access Rocket Lawyer without creating new accounts. Built on OpenID
+                        Connect to keep identity ownership with the partner and reduce sign-up friction.
+                    </p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Custom Connector</h3>
+                    <p>
+                        An integration layer that handled partner-system exceptions (like Covéa’s non-OIDC setup)
+                        without breaking platform principles. It isolated edge‑case logic while keeping future partner
+                        integrations predictable and scalable.
+                    </p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Partner Config API</h3>
+                    <p>A single surface for controlling branding, pricing, features, and content at runtime. This
+                        removed the need for release cycles, accelerating partner onboarding and iteration.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Co-Branding & Pricing</h3>
+                    <p>A flexible UI and pricing framework that adapted to partner value propositions while preserving
+                        Rocket Lawyer’s product integrity. It set the foundation for differentiated models across
+                        partners.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Partner-Exclusive Content</h3>
+                    <p>A curated set of partner-specific documents and workflows colocated with Rocket Lawyer’s legal
+                        tools. This gave customers a single, coherent place to complete partner and legal tasks, and let
+                        each partner maintain a distinct document library.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Reporting & Billing</h3>
+                    <p>Partner-aware event tracking that powered dashboards, billing, and performance reviews,
+                        supporting expansion opportunities and strengthening Rocket Lawyer’s enterprise story.</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="technical-challenges" class="section">
-    <h2><i class="fas fa-cogs icon"></i>Technical Challenges</h2>
-    <div class="grid">
-        <div class="card">
-            <h3><i class="fas fa-shield-alt icon"></i>Authentication and Connector</h3>
-            <p><strong>Challenge</strong>: Developing a scalable partner authentication system.</p>
-            <p><strong>Solution</strong>: OpenID Connect and custom connector for scalability.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-cogs icon"></i>Partner Config API</h3>
-            <p><strong>Challenge</strong>: Creating a system for flexible multi-brand controls.</p>
-            <p><strong>Solution</strong>: Developed Partner Config API for customizable settings and brandability.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-chart-bar icon"></i>Reporting Capabilities</h3>
-            <p><strong>Challenge</strong>: Tracking partner usage and supporting usage-based billing.</p>
-            <p><strong>Solution</strong>: Enhanced in-house user events framework for detailed reporting.</p>
+    <!-- PRODUCT WALKTHROUGH -->
+    <div class="section cs-section" id="walkthrough">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🛠️ Product Walkthrough</h2>
+                <p class="cs-section-eyebrow">Key moments in the partner journey</p>
+                <p class="cs-section-intro">
+                    The partner experience had to feel familiar, fast, and trustworthy inside a non-Rocket Lawyer
+                    environment. Each moment in the flow carried real product weight. Authentication had to work without
+                    friction, co-branding had to feel natural, pricing had to adjust in real time, and legal help needed
+                    to stay clear and actionable. This walkthrough highlights the key interactions we shaped and why
+                    they mattered for partner customers.
+                </p>
+            </div>
+
+            <!-- NEW SLIDESHOW -->
+            <div id="slideshow-lightbox" class="slideshow-lightbox">
+                <div class="slideshow-lightbox-content">
+                    <img id="lightbox-image" src="" alt="">
+                    <div id="lightbox-caption" class="lightbox-caption"></div>
+                </div>
+            </div>
+            <div class="slideshow-wrapper">
+                <div class="slideshow-frame aspect-16-10">
+                    <!-- SLIDE 1 -->
+                    <div class="slide active transparent-bg" data-caption="1. Partner Login &amp; Identity Flow">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/Rocket_Lawyer_Partner_User_Flow_Transparent.png"
+                            data-caption="Partner users begin on the partner site and authenticate securely into Rocket Lawyer's co-branded experience.">
+                            <img class="slide-img"
+                                src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/Rocket_Lawyer_Partner_User_Flow_Transparent.png"
+                                alt="User flow diagram">
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2 -->
+                    <div class="slide" data-caption="2. Partner User Login">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-login-screen.png"
+                            data-caption="New users complete setup. Returning users pass through automatically.">
+                            <img class="slide-img"
+                                src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-login-screen.png"
+                                alt="Covéa login screen">
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3 -->
+                    <div class="slide" data-caption="3. Co‑Branded Onboarding">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-onboarding-process.png"
+                            data-caption="A tailored welcome explains what's included and how customers can use their partner benefits.">
+                            <img class="slide-img"
+                                src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-onboarding-process.png"
+                                alt="Onboarding and co-branding">
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4 -->
+                    <div class="slide" data-caption="4. Document Creation &amp; Partner Pricing">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-document-creation.png"
+                            data-caption="Pricing and feature access update in real time based on partner rules, enabling fine-grained control across brands.">
+                            <img class="slide-img"
+                                src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-document-creation.png"
+                                alt="Document creation and partner pricing">
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5 -->
+                    <div class="slide" data-caption="5. Ask‑A‑Lawyer">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-ask-a-lawyer.png"
+                            data-caption="Rocket Lawyer's legal advice service within the partner-branded experience.">
+                            <img class="slide-img"
+                                src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-ask-a-lawyer.png"
+                                alt="Ask‑A‑Lawyer flow">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shared caption under the frame -->
+                <div id="slideshow-caption" class="slideshow-caption">1. Partner Login &amp; Identity Flow</div>
+
+                <!-- CONTROLS -->
+                <div class="slideshow-controls">
+                    <button class="prev-slide">←</button>
+                    <button class="next-slide">→</button>
+                </div>
+            </div>
+
+            <!-- SLIDESHOW SCRIPT -->
+            <script>
+                // --------------------- FLOATING TOC VISIBILITY (SCROLL-Y OFFSET VERSION) ---------------------
+                const staticToc = document.querySelector(".cs-toc-top");
+                const floatingToc = document.querySelector(".cs-toc--floating");
+
+                let triggerY = 0;
+
+                // Compute trigger from static TOC position + height - buffer
+                function computeTrigger() {
+                    if (!staticToc) return;
+
+                    const rect = staticToc.getBoundingClientRect();
+                    const absoluteTop = window.scrollY + rect.top;
+                    const buffer = 80; // early handoff
+
+                    triggerY = absoluteTop + rect.height - buffer;
+                }
+
+                function updateTocStates() {
+                    const isDesktop = window.innerWidth >= 1100;
+
+                    if (!isDesktop) {
+                        floatingToc.classList.remove("visible");
+                        return;
+                    }
+
+                    // Show floating TOC once you scroll past static TOC zone
+                    if (window.scrollY >= triggerY) {
+                        floatingToc.classList.add("visible");
+                    } else {
+                        floatingToc.classList.remove("visible");
+                    }
+                }
+
+                // Init
+                window.addEventListener("load", () => {
+                    computeTrigger();
+                    updateTocStates();
+                });
+
+                window.addEventListener("resize", () => {
+                    computeTrigger();
+                    updateTocStates();
+                });
+
+                window.addEventListener("scroll", updateTocStates);
+                // --------------------- CORE SELECTORS ---------------------
+                const slides = document.querySelectorAll(".slide");
+                const captionEl = document.getElementById("slideshow-caption");
+                const prevBtn = document.querySelector(".prev-slide");
+                const nextBtn = document.querySelector(".next-slide");
+                const frame = document.querySelector(".slideshow-frame");
+
+                // Lightbox
+                const lightbox = document.getElementById("slideshow-lightbox");
+                const lightboxImg = document.getElementById("lightbox-image");
+                const lightboxCaption = document.getElementById("lightbox-caption");
+
+                let index = 0;
+
+                // --------------------- SHOW SLIDE ---------------------
+                function showSlide(i) {
+                    slides.forEach(s => s.classList.remove("active"));
+                    slides[i].classList.add("active");
+
+                    const caption = slides[i].getAttribute("data-caption") || "";
+                    captionEl.textContent = caption;
+                }
+
+                // --------------------- BUTTON STATE ---------------------
+                function updateButtonState() {
+                    prevBtn.classList.toggle("disabled", index === 0);
+                    nextBtn.classList.toggle("disabled", index === slides.length - 1);
+                }
+
+                // --------------------- BOUNCE EFFECT ---------------------
+                function bounce(reverse = false) {
+                    frame.classList.remove("slide-bounce", "slide-bounce-reverse");
+                    void frame.offsetWidth;
+                    frame.classList.add(reverse ? "slide-bounce-reverse" : "slide-bounce");
+
+                    setTimeout(() => {
+                        frame.classList.remove("slide-bounce", "slide-bounce-reverse");
+                    }, 400);
+                }
+
+                // --------------------- NAV BUTTONS ---------------------
+                prevBtn.addEventListener("click", () => {
+                    if (index === 0) {
+                        bounce(true);
+                        return;
+                    }
+                    index -= 1;
+                    showSlide(index);
+                    updateButtonState();
+                });
+
+                nextBtn.addEventListener("click", () => {
+                    if (index === slides.length - 1) {
+                        bounce(false);
+                        return;
+                    }
+                    index += 1;
+                    showSlide(index);
+                    updateButtonState();
+                });
+
+                // --------------------- LIGHTBOX CONTROL ---------------------
+                function openLightbox(i) {
+                    const trigger = slides[i].querySelector(".slide-image-trigger");
+                    const fullSrc = trigger.getAttribute("data-fullsrc");
+                    const caption = trigger.getAttribute("data-caption");
+
+                    if (trigger.classList.contains("transparent-bg")) {
+                        lightboxImg.classList.add("lightbox-dark-bg");
+                    } else {
+                        lightboxImg.classList.remove("lightbox-dark-bg");
+                    }
+
+                    lightboxImg.src = fullSrc;
+                    lightboxCaption.textContent = caption;
+                    lightbox.classList.add("active");
+                }
+
+                slides.forEach((slide, i) => {
+                    const trigger = slide.querySelector(".slide-image-trigger");
+                    trigger.addEventListener("click", () => {
+                        index = i;
+                        showSlide(index);
+                        updateButtonState();
+                        openLightbox(index);
+                    });
+                });
+
+                lightboxImg.addEventListener("click", () => {
+                    if (index === slides.length - 1) {
+                        bounce(false);
+                        return;
+                    }
+                    index += 1;
+                    showSlide(index);
+                    updateButtonState();
+                    openLightbox(index);
+                });
+
+                lightbox.addEventListener("click", (e) => {
+                    if (e.target === lightbox) {
+                        lightbox.classList.remove("active");
+                        lightboxImg.src = "";
+                        lightboxImg.classList.remove("lightbox-dark-bg");
+                    }
+                });
+
+                function adjustSlideshowHeight() {
+                    const w = frame.offsetWidth;
+                    const h = w * 0.625;
+                    frame.style.height = h + "px";
+                }
+
+                window.addEventListener("load", adjustSlideshowHeight);
+                window.addEventListener("resize", adjustSlideshowHeight);
+
+                showSlide(0);
+                updateButtonState();
+            </script>
+            <script>
+                // --------------------- ACTIVE TOC HIGHLIGHT ON SCROLL ---------------------
+                document.addEventListener("scroll", () => {
+                    const sections = document.querySelectorAll(".section[id]");
+                    const tocItems = document.querySelectorAll(".cs-toc-item");
+
+                    let current = "";
+
+                    sections.forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        if (rect.top < 200 && rect.bottom > 200) {
+                            current = section.id;
+                        }
+                    });
+
+                    tocItems.forEach(item => {
+                        item.classList.toggle("active", item.dataset.section === current);
+                    });
+                });
+            </script>
+
         </div>
     </div>
-</div>
 
-<div id="product-walkthrough" class="section">
-    <h2><i class="fas fa-map icon"></i>Product Walkthrough</h2>
-    <div class="image-container">
-        <figure>
-            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/Rocket_Lawyer_Partner_User_Flow_Transparent.png" alt="User Flow" onclick="openLightbox(this)">
-            <figcaption>User Flow</figcaption>
-        </figure>
-        <figure>
-            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-login-screen.png" alt="Sign-Up, Co-Branding, Onboarding" onclick="openLightbox(this)">
-            <figcaption>Sign-Up, Co-Branding, Onboarding</figcaption>
-        </figure>
-        <figure>
-            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-onboarding-process.png" alt="Onboarding, Co-Branding" onclick="openLightbox(this)">
-            <figcaption>Onboarding, Co-Branding</figcaption>
-        </figure>
-        <figure>
-            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-document-creation.png" alt="Partner-Specific Pricing, Co-Branding" onclick="openLightbox(this)">
-            <figcaption>Partner-Specific Pricing, Co-Branding</figcaption>
-        </figure>
-        <figure>
-            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-ask-a-lawyer.png" alt="Ask a Lawyer, Feature Gating" onclick="openLightbox(this)">
-            <figcaption>Ask a Lawyer, Feature Gating</figcaption>
-        </figure>
-    </div>
-</div>
+    <!-- EXECUTION & DECISIONS -->
+    <div class="section cs-section" id="execution">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🤝 Execution & Key Decisions</h2>
+                <p class="cs-section-eyebrow">Launching with a major partner required disciplined sequencing and tight
+                    coordination. I focused on unblocking engineering early, resolving dependencies ahead of time, and
+                    structuring milestones so each one supported the next. Here are the decisions that kept the build
+                    predictable.</p>
+            </div>
 
-<div id="reflection" class="section">
-    <h2><i class="fas fa-lightbulb icon"></i>Reflection and Key Decisions</h2>
-    <div class="grid">
-        <div class="card">
-            <h3><i class="fas fa-tasks icon"></i>Prioritization</h3>
-            <p>Delivering a slim but impactful  Minimum Lovable Product (MLP), prioritizing features that provided the most value to partners.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-expand-arrows-alt icon"></i>Building for Scale</h3>
-            <p>Designed solutions with future scalability in mind, ensuring they could be adapted for additional partners and markets.</p>
-        </div>
-        
-        <div class="card">
-            <h3><i class="fas fa-clock icon"></i>On-Time Delivery</h3>
-            <p>Ensuring the project met crucial deadlines, including the first partner demo in June, leading to a successful contract signing.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-shield-alt icon"></i>Protecting the Team</h3>
-            <p>Taking on tasks like documentation, meetings, and diagram creation from engineers, allowing them to focus.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-cut icon"></i>Descoping as Needed</h3>
-            <p>Pulled advanced reporting (did not scale for additional partners).</p>
+            <div class="cs-execution-grid">
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">🎯 Scoping for Speed and Predictability</h3>
+                    <p>
+                        We cut anything that didn't support the partner launch and built around minimum capabilities:
+                        authentication, pricing, onboarding, and partner-specific content. This kept engineering focused
+                        and avoided late-stage rework.
+                    </p>
+                </div>
+                <div class="glass-card cs-content-block hero-card">
+                    <h3 class="cs-h3">🏗️ Designing for Reuse, Not One-Offs</h3>
+                    <p>
+                        Every architectural decision supported Covéa while keeping the path open for future partners. We
+                        built the Partner Config API, defined consistent integration patterns, and isolated edge-case
+                        logic so it wouldn't leak into the core product.
+                    </p>
+                </div>
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">🤝 Clearing Dependencies Before They Blocked Us</h3>
+                    <p>
+                        I worked ahead of engineering to resolve open questions with Covéa, align legal and content
+                        teams, confirm pricing rules, and prepare the design system for co-branding. This let
+                        engineering maintain momentum, even during partner downtime.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="collaboration" class="section">
-    <h2><i class="fas fa-users icon"></i>Collaboration and Execution</h2>
-    <div class="grid">
-        <div class="card">
-            <h3><i class="fas fa-puzzle-piece icon"></i>Cross-Functional Teams</h3>
-            <p>Collaboration with engineering, design, marketing, and legal content teams.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-bullseye icon"></i>Scope Management</h3>
-            <p>Balancing rapid delivery with quality and scalability.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-handshake icon"></i>Resource Negotiation</h3>
-            <p>Securing additional resources for ecommerce, reporting, and front-end development.</p>
+    <!-- OUTCOMES -->
+    <div class="section cs-section" id="outcomes">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">📈 Outcomes</h2>
+                <p class="cs-section-eyebrow">What changed after launch</p>
+            </div>
+
+            <div class="cs-feature-grid cs-feature-grid--two cs-content-grid">
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Meaningful Partner Traffic</h3>
+                    <p>16% of Rocket Lawyer’s EU traffic came from partner channels shortly after launch, proving that
+                        enterprise distribution could meaningfully extend reach.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">A New Revenue Path</h3>
+                    <p>The launch created a net-new enterprise revenue stream and strengthened the case for partner-led
+                        growth across Europe.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Faster Future Integrations</h3>
+                    <p>The reusable architecture, documentation, and integration pattern reduced the cost and time
+                        required to onboard the next wave of partners.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Validated Platform Model</h3>
+                    <p>The success of this launch validated Rocket Lawyer’s partner platform approach, de-risking future
+                        deals and giving teams a clear blueprint for expansion.</p>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 
-<div id="outcomes" class="section">
-    <h2><i class="fas fa-chart-line icon"></i>Outcomes</h2>
-    <div class="grid">
-        <div class="card">
-            <h3><i class="fas fa-chart-bar icon"></i>Traffic Increase</h3>
-            <ul>
-                <li><strong>Contributed to 16% of Rocket Lawyer's European traffic following launch</strong>.</li>
-            </ul>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-trophy icon"></i>Business Outcomes</h3>
-            <ul>
-                <li><strong>Increased online sign-ups and brand awareness</strong> for partners.</li>
-                <li><strong>Successful handoff</strong> to the newly created Enterprise team.</li>
-                <li><strong>New revenue stream</strong>.</li>
-            </ul>
+    <!-- CHALLENGES -->
+    <div class="section cs-section" id="tradeoffs">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">⚖️ Tradeoffs</h2>
+                <p class="cs-section-eyebrow">Where the work was hardest</p>
+                <p class="cs-section-intro">Every phase forced hard choices. Here's how the project evolved and what we
+                    navigated along the way.</p>
+            </div>
+
+            <div class="cs-challenges">
+                <div class="cs-challenges-timeline">
+                    <div class="cs-challenge-item">
+                        <div class="cs-challenge-dot"></div>
+                        <div class="cs-challenge-card">
+                            <p class="cs-challenge-date">April → June</p>
+                            <h3 class="cs-h3">Foundations</h3>
+                            <p>I ramped quickly on Rocket Lawyer’s business model and platform architecture so early
+                                decisions would hold up through launch. In parallel, we defined the integration model,
+                                selected OpenID Connect, and created the Partner Config API. We built early partner
+                                flows and established the core architecture needed for the early June authentication
+                                demo.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="cs-challenge-item">
+                        <div class="cs-challenge-dot"></div>
+                        <div class="cs-challenge-card">
+                            <p class="cs-challenge-date">June → July</p>
+                            <h3 class="cs-h3">Demos + Feedback</h3>
+                            <p>Following the June authentication demo, we delivered an early preview of the broader
+                                partner experience: co-branding, onboarding designs, and document access. We also built
+                                the first version of the Custom Connector for Covéa, which let us support their existing
+                                identity system while keeping the platform anchored to OpenID Connect for long-term
+                                scalability.</p>
+                        </div>
+                    </div>
+
+                    <div class="cs-challenge-item">
+                        <div class="cs-challenge-dot"></div>
+                        <div class="cs-challenge-card">
+                            <p class="cs-challenge-date">July → August</p>
+                            <h3 class="cs-h3">Working Ahead of Partner Availability</h3>
+                            <p>I front-loaded decisions and closed open questions before Covéa’s August vacation. This
+                                unblocked engineering to maintain steady progress while partner teams were offline.
+                                During this time, we completed onboarding, pricing logic, and feature-gating controls.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="cs-challenge-item">
+                        <div class="cs-challenge-dot"></div>
+                        <div class="cs-challenge-card">
+                            <p class="cs-challenge-date">August → September</p>
+                            <h3 class="cs-h3">Bringing the Experience Together</h3>
+                            <p>I demoed authentication, co-branding, pricing, Ask-A-Lawyer, and partner-exclusive
+                                content as a unified walkthrough. We also stabilized the Custom Connector and Config API
+                                so the demo reflected the real platform, not a stitched-together prototype.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="cs-challenge-item">
+                        <div class="cs-challenge-dot"></div>
+                        <div class="cs-challenge-card">
+                            <p class="cs-challenge-date">September → Launch</p>
+                            <h3 class="cs-h3">Technical Debt & Performance</h3>
+                            <p>We prioritized a long-delayed Angular upgrade without disrupting partner deliverables.
+                                Moving to ahead-of-time compilation significantly improved load times for customers in
+                                France, where lower-bandwidth connections made performance a real risk. The upgrade
+                                strengthened speed and stability across Rocket Lawyer’s entire EU platform, not just the
+                                partner experience.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="challenges" class="section">
-    <h2><i class="fas fa-exclamation-triangle icon"></i>Challenges</h2>
-    <div class="grid">
-        <div class="card">
-            <h3><i class="fas fa-bolt icon"></i>Rapid Project Ramp-Up</h3>
-            <p>Hired in late April, with first partner demo in June leading to contract signing.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-globe icon"></i>Time Zone Coordination</h3>
-            <p>Working across San Francisco, UK (+8 hours), and France (+9 hours).</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-umbrella-beach icon"></i>Partner Staff Vacation</h3>
-            <p>Navigating Covéa's August vacation period.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-code icon"></i>Angular Upgrade</h3>
-            <p>Necessary to improve site performance.</p>
+    <!-- LESSONS LEARNED -->
+    <div class="section cs-section" id="lessons">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">💡 Lessons Learned</h2>
+                <p class="cs-section-eyebrow">How this shaped my approach to future work</p>
+            </div>
+
+            <div class="cs-feature-grid cs-feature-grid--two cs-content-grid">
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Lead With Systems Thinking</h3>
+                    <p>Designing Covéa as the first instance of a platform shaped decisions that paid off immediately
+                        during later enterprise work.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Platform Thinking Requires Intentional Tradeoffs</h3>
+                    <p>Balancing launch speed with long-term flexibility meant making crisp, explicit decisions early.
+                    </p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Protecting Engineering Time Is a Product Skill</h3>
+                    <p>Absorbing churn, communication, and ambiguity enabled engineers to stay in flow—one of the
+                        biggest drivers of predictable delivery.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Design for Partners as End Users</h3>
+                    <p>The best co-branded experiences feel native to the partner and trustworthy to their customers.
+                        That principle guided every decision.</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="lessons" class="section">
-    <h2><i class="fas fa-book-open icon"></i>Lessons Learned</h2>
-    <div class="grid">
-        <div class="card">
-            <h3><i class="fas fa-users icon"></i>Collaboration and Leadership</h3>
-            <p>My early days and late nights led to the project's success. A close, trusting relationship with my tech lead ensured we stayed on the same page.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-shield-alt icon"></i>Advocacy and Protection</h3>
-            <p>Advocating for additional resources and protecting my team from extra work were crucial for staying focused and on schedule.</p>
-        </div>
-        <div class="card">
-            <h3><i class="fas fa-expand-arrows-alt icon"></i>Building for Scale</h3>
-            <p>Focusing on scalability, not just for a single customer, but for future partner integrations.</p>
+    <!-- TESTIMONIALS -->
+    <div class="section cs-section" id="testimonials">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">💬 What People Said</h2>
+                <p class="cs-section-eyebrow">External and internal validation</p>
+                <p class="cs-section-intro">Feedback from Covéa and Rocket Lawyer leadership on the strategic and
+                    execution impact.</p>
+            </div>
+
+            <div class="cs-testimonials">
+                <div class="cs-testimonials-layout">
+                    <!-- Row 1: Press Release Image + First Quote -->
+                    <div class="cs-testimonials-media">
+                        <a href="https://www.rocketlawyer.com/newsroom/rocket-lawyer-covea-deliver-legal-benefits-to-insurance-customers"
+                            target="_blank" rel="noopener noreferrer" class="cs-press-release-link">
+                            <img src="https://raw.githubusercontent.com/kevinmmiddleton/about/main/rocketlawyer/images/covea-press-release-rounded.png"
+                                alt="Rocket Lawyer and Covéa Press Release" class="cs-press-release-img" />
+                            <span class="cs-press-release-caption">View Press Release →</span>
+                        </a>
+                    </div>
+
+                    <div class="glass-card rec-card">
+                        <div class="glass-card-inner">
+                            <p class="rec-text">
+                                "We are delighted to partner with Rocket Lawyer to provide new legal solutions to our
+                                11.5 million clients."
+                            </p>
+                            <div class="rec-meta">
+                                <p class="rec-author">Christophe Bardet</p>
+                                <p class="rec-role">General Manager, Covéa Protection Juridique</p>
+                            </div>
+                            <div class="rec-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11 7.5V12c0 2.5-1.5 4.5-4 5.5l-.5-1c1.5-.7 2.5-2 2.5-3.5H6V7.5h5zm8 0V12c0 2.5-1.5 4.5-4 5.5l-.5-1c1.5-.7 2.5-2 2.5-3.5h-3V7.5h5z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Rob's Quote (full width) -->
+                    <div class="glass-card rec-card rec-card--wide">
+                        <div class="glass-card-inner">
+                            <p class="rec-text">
+                                "We gave Kevin an extremely complex and strategic partner project to tackle and he
+                                really knocked it out of the park. He quickly onboarded to the product development
+                                challenge, understood the breadth of the deliverables, and started to methodically chip
+                                away at them. His team was hyper-focused and motivated, thanks mostly to Kevin and his
+                                constant energy and attitude."
+                            </p>
+                            <div class="rec-meta">
+                                <p class="rec-author">Rob Elhardt</p>
+                                <p class="rec-role">VP Product, Rocket Lawyer Europe</p>
+                            </div>
+                            <div class="rec-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11 7.5V12c0 2.5-1.5 4.5-4 5.5l-.5-1c1.5-.7 2.5-2 2.5-3.5H6V7.5h5zm8 0V12c0 2.5-1.5 4.5-4 5.5l-.5-1c1.5-.7 2.5-2 2.5-3.5h-3V7.5h5z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="release" class="section">
-    <h2><i class="fas fa-rocket icon"></i>Release</h2>
-    <div class="flex-container">
-        <div>
-            <img src="https://github.com/kevinmmiddleton/about/raw/main/rocketlawyer/images/covea-press-release-rounded.png" alt="Covéa Press Release" onclick="openLightbox(this)">
-        </div>
-        <div>
-            <blockquote>
-                <p>"We are delighted to partner with Rocket Lawyer to provide new legal solutions to our 11.5 million clients."</p>
-            </blockquote>
-            <footer>- Christophe Bardet, General Manager of Covéa Protection Juridique</footer>
-            <blockquote>
-                <p>"We gave Kevin an extremely complex and strategic partner project  to tackle and he really knocked it out of the park. He quickly onboarded to the product development challenge, understood the breadth of the deliverables, and started to methodically chip away at them. His team was hyper-focused and motivated, thanks mostly to Kevin and his constant energy and attitude."</p>
-            </blockquote>
-            <footer>- Rob Elhardt, VP of Product Management</footer>
+    <!-- FOOTER -->
+    <!-- FOOTER -->
+    <div class="section cs-section" id="footer">
+        <div class="container cs-section-body cs-footer">
+            <div class="cs-footer-back">
+                <a href="https://middleton.io/" style="font-size: 1rem; text-decoration: none;">
+                    ← Back to Portfolio
+                </a>
+            </div>
+
+            <div class="cs-footer-meta">
+                <p>Case Study · Rocket Lawyer</p>
+            </div>
         </div>
     </div>
-</div>
-
-<div class="back-to-main">
-    <a href="https://middleton.io/">← Back to Kevin Middleton's Portfolio</a>
-</div>
-</div>
-
-<div id="lightbox" class="lightbox">
-<span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-<img class="lightbox-content" id="lightbox-image">
-</div>
-
-<script>
-function openLightbox(img) {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-image');
-    lightbox.style.display = 'flex';
-    lightboxImg.src = img.src;
-}
-
-function closeLightbox() {
-    document.getElementById('lightbox').style.display = 'none';
-}
-</script>
 </body>
+
 </html>
