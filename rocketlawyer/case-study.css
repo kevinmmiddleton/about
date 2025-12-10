@@ -293,8 +293,8 @@ body.case-study {
 #outcomes .cs-content-block,
 #lessons .glass-card,
 #lessons .cs-content-block,
-#tradeoffs .glass-card,
-#tradeoffs .cs-content-block {
+#challenges .glass-card,
+#challenges .cs-content-block {
   background: rgba(var(--white-rgb), 0.72);
   border: 1px solid rgba(var(--white-rgb), 0.55);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -587,7 +587,7 @@ body.case-study {
 .cs-toc-item[data-section="strategy"],
 .cs-toc-item[data-section="platform"],
 .cs-toc-item[data-section="execution"],
-.cs-toc-item[data-section="tradeoffs"] {
+.cs-toc-item[data-section="challenges"] {
   background: rgba(var(--white-rgb), 0.22);
   border-color: rgba(var(--white-rgb), 0.28);
 }
@@ -1230,7 +1230,8 @@ body.case-study {
 
   /* --- DARK MODE: Base glass card styling --- */
   .case-study .glass-card,
-  .case-study .cs-content-block {
+  .case-study .cs-content-block,
+  .case-study .cs-challenge-card {
     background: rgba(25, 28, 35, 0.70) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     backdrop-filter: saturate(160%) blur(22px) !important;
@@ -1243,7 +1244,8 @@ body.case-study {
   }
 
   .case-study .glass-card:hover,
-  .case-study .cs-content-block:hover {
+  .case-study .cs-content-block:hover,
+  .case-study .cs-challenge-card:hover {
     transform: translateY(-2px) !important;
     border-color: rgba(255, 255, 255, 0.15) !important;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35) !important;
@@ -1258,11 +1260,11 @@ body.case-study {
   }
 
   /* --- DARK MODE: Challenges timeline styling --- */
-  #tradeoffs .cs-challenges-timeline::before {
+  #challenges .cs-challenges-timeline::before {
     background: rgba(255, 205, 170, 0.3) !important;
   }
 
-  #tradeoffs .cs-challenge-dot {
+  #challenges .cs-challenge-dot {
     background: rgba(255, 205, 170, 0.7) !important;
     box-shadow: 0 0 0 4px rgba(255, 205, 170, 0.15) !important;
   }
@@ -1320,8 +1322,8 @@ body.case-study {
     border-top: 2px solid rgba(108, 140, 255, 0.5) !important;
   }
 
-  #challenge .glass-card,
-  #challenge .cs-content-block {
+  #problem .glass-card,
+  #problem .cs-content-block {
     border-top: 2px solid rgba(140, 130, 255, 0.5) !important;
   }
 
@@ -1369,9 +1371,9 @@ body.case-study {
     border-top: 2px solid rgba(150, 255, 210, 0.5) !important;
   }
 
-  #tradeoffs .glass-card,
-  #tradeoffs .cs-content-block,
-  #tradeoffs .cs-challenge-card {
+  #challenges .glass-card,
+  #challenges .cs-content-block,
+  #challenges .cs-challenge-card {
     border-top: 2px solid rgba(255, 205, 170, 0.5) !important;
   }
 
