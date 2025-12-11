@@ -8,6 +8,25 @@
 .case-study.dark #product-walkthrough {
   --section-text-color: var(--text-primary-darkmode);
 }
+
+/* ================================
+   CASE STUDY — GRADIENT COLOR DEFINITIONS
+   These define the section tint colors for the full-page gradient
+   Using stronger opacity values to match the tint system in styles.css
+   ================================ */
+body.case-study {
+  --cs-grad-intro-start: rgba(108, 140, 255, 0.22);   /* Light blue */
+  --cs-grad-intro: rgba(108, 140, 255, 0.32);         /* Blue */
+  --cs-grad-challenge: rgba(140, 130, 255, 0.30);     /* Blue-purple */
+  --cs-grad-strategy: rgba(164, 140, 249, 0.28);      /* Light purple */
+  --cs-grad-platform: rgba(180, 140, 255, 0.28);      /* Purple */
+  --cs-grad-execution: rgba(164, 140, 249, 0.32);     /* Deeper purple */
+  --cs-grad-outcomes: rgba(150, 255, 210, 0.30);      /* Mint */
+  --cs-grad-challenges: rgba(255, 205, 170, 0.32);    /* Peach */
+  --cs-grad-lessons: rgba(255, 235, 140, 0.34);       /* Yellow */
+  --cs-grad-testimonials: rgba(150, 255, 210, 0.28);  /* Mint */
+}
+
 /* ================================
    CASE STUDY — COLOR STORY GRADIENT
    Full-page gradient that maps semantic tints to each section:
@@ -583,14 +602,6 @@ body.case-study {
   position: relative;
   z-index: 20;
 }
-/* ---------------- TOC ITEM TINTS ---------------- */
-.cs-toc-item[data-section="strategy"],
-.cs-toc-item[data-section="platform"],
-.cs-toc-item[data-section="execution"],
-.cs-toc-item[data-section="challenges"] {
-  background: rgba(var(--white-rgb), 0.22);
-  border-color: rgba(var(--white-rgb), 0.28);
-}
 
 .cs-toc-grid {
   display: grid;
@@ -608,9 +619,11 @@ body.case-study {
   color: var(--text-primary);
   padding: var(--spacing-sm) var(--spacing-xs);
   border-radius: var(--radius-md);
-  background: rgba(var(--white-rgb), 0.28);
-  border: 1px solid rgba(var(--white-rgb), 0.20);
-  backdrop-filter: saturate(135%) blur(14px);
+  background: rgba(var(--white-rgb), 0.72);
+  border: 1px solid rgba(var(--white-rgb), 0.45);
+  backdrop-filter: saturate(150%) blur(18px);
+  -webkit-backdrop-filter: saturate(150%) blur(18px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   text-wrap: balance;
   min-height: 44px;
@@ -820,6 +833,40 @@ body:has(.slideshow-lightbox.active) .slideshow-wrapper {
   text-align: center;
 }
 
+.lightbox-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.lightbox-prev,
+.lightbox-next {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  font-size: 1.25rem;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+.lightbox-prev:active,
+.lightbox-next:active {
+  transform: scale(0.95);
+}
+
 /* -------------------------------------------------------------------------- */
 /* SLIDESHOW + LIGHTBOX ANIMATIONS — FADE + BOUNCE                            */
 /* -------------------------------------------------------------------------- */
@@ -960,10 +1007,12 @@ body:has(.slideshow-lightbox.active) .slideshow-wrapper {
 
 @media (max-width: 800px) {
   .cs-challenges-timeline {
-    padding-left: 1.25rem;
+    padding-left: 0;
   }
+  /* Hide timeline flourish on mobile/tablet */
+  .cs-challenges-timeline::before,
   .cs-challenge-dot {
-    left: -0.05rem;
+    display: none;
   }
 }
 
