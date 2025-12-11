@@ -73,6 +73,16 @@
   --tint-peach-rgb: 255, 205, 170;
   --tint-yellow-rgb: 255, 235, 140;
 
+  /* Additional color blends */
+  --tint-blue-purple-rgb: 140, 130, 255;
+  --tint-deep-purple-rgb: 180, 140, 255;
+
+  /* Dark mode surface colors */
+  --dark-surface-rgb: 25, 28, 35;
+  --dark-surface-light-rgb: 30, 33, 40;
+  --dark-surface-hover-rgb: 40, 44, 52;
+  --dark-surface-deep-rgb: 20, 22, 28;
+
   /* 20% opacity variants for missing tints */
   --tint-mint-20: rgba(150, 255, 210, 0.20);
   --tint-peach-20: rgba(255, 205, 170, 0.20);
