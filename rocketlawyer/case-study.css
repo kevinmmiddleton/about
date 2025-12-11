@@ -68,6 +68,11 @@ body.case-study {
   display: block;
 }
 
+/* Make sections transparent so body gradient shows through */
+.case-study .section {
+  background: transparent;
+}
+
 .case-study .cs-hero {
   position: relative;
   margin-top: 0 !important;
@@ -266,8 +271,8 @@ body.case-study {
   }
 }
 
-/* Lessons Learned grid: force 1:1 aspect ratio on cards */
-#lessons .cs-feature-grid--three .glass-card {
+/* Square cards: force 1:1 aspect ratio - apply .cs-cards--square to section */
+.cs-cards--square .cs-feature-grid--three .glass-card {
   aspect-ratio: 1 / 1 !important;
   height: auto !important;
   display: flex;
@@ -279,7 +284,7 @@ body.case-study {
     .cs-feature-grid--three {
         grid-template-columns: 1fr;
     }
-  #lessons .cs-feature-grid--three .glass-card {
+  .cs-cards--square .cs-feature-grid--three .glass-card {
     aspect-ratio: auto !important;
   }
 }
@@ -306,17 +311,12 @@ body.case-study {
 }
 
 /* Stronger card backgrounds for sections with colored gradients */
-#execution .glass-card,
-#execution .cs-content-block,
-#outcomes .glass-card,
-#outcomes .cs-content-block,
-#lessons .glass-card,
-#lessons .cs-content-block,
-#challenges .glass-card,
-#challenges .cs-content-block {
+/* Apply .cs-section--strong-cards to sections needing more contrast */
+.cs-section--strong-cards .glass-card,
+.cs-section--strong-cards .cs-content-block {
   background: rgba(var(--white-rgb), 0.72);
   border: 1px solid rgba(var(--white-rgb), 0.55);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(var(--black-rgb), 0.04);
 }
 
 .case-study .glass-card h3,
@@ -390,6 +390,48 @@ body.case-study {
     font-size: 0.85rem;
     color: var(--text-secondary);
     text-align: center;
+}
+
+/* ============================================================================ */
+/* SECTION COLOR THEMES                                                         */
+/* Apply these classes to .cs-section for consistent theming                    */
+/* Example: <div class="section cs-section cs-section--blue" id="intro">        */
+/* ============================================================================ */
+
+/* Base section theme - sets up the custom property for child elements */
+.cs-section--blue { --section-accent-rgb: var(--primary-rgb); }
+.cs-section--blue-purple { --section-accent-rgb: var(--tint-blue-purple-rgb); }
+.cs-section--purple { --section-accent-rgb: var(--purple-rgb); }
+.cs-section--deep-purple { --section-accent-rgb: var(--tint-deep-purple-rgb); }
+.cs-section--mint { --section-accent-rgb: var(--tint-mint-rgb); }
+.cs-section--peach { --section-accent-rgb: var(--tint-peach-rgb); }
+.cs-section--yellow { --section-accent-rgb: var(--tint-yellow-rgb); }
+
+/* Multi-color card grids - apply to parent, cards get sequential colors */
+.cs-section--rainbow .glass-card:nth-child(1),
+.cs-section--rainbow .cs-content-block:nth-child(1) { --card-accent-rgb: var(--primary-rgb); }
+.cs-section--rainbow .glass-card:nth-child(2),
+.cs-section--rainbow .cs-content-block:nth-child(2) { --card-accent-rgb: var(--tint-blue-purple-rgb); }
+.cs-section--rainbow .glass-card:nth-child(3),
+.cs-section--rainbow .cs-content-block:nth-child(3) { --card-accent-rgb: var(--purple-rgb); }
+.cs-section--rainbow .glass-card:nth-child(4),
+.cs-section--rainbow .cs-content-block:nth-child(4) { --card-accent-rgb: var(--tint-deep-purple-rgb); }
+.cs-section--rainbow .glass-card:nth-child(5),
+.cs-section--rainbow .cs-content-block:nth-child(5) { --card-accent-rgb: var(--tint-mint-rgb); }
+.cs-section--rainbow .glass-card:nth-child(6),
+.cs-section--rainbow .cs-content-block:nth-child(6) { --card-accent-rgb: var(--tint-peach-rgb); }
+
+/* Timeline theme - for sections with .cs-challenges-timeline */
+.cs-section--peach .cs-challenges-timeline::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--tint-peach-rgb), 0.6),
+    rgba(var(--tint-peach-rgb), 0.3)
+  );
+}
+.cs-section--peach .cs-challenge-dot {
+  background: rgba(var(--tint-peach-rgb), 0.9);
+  box-shadow: 0 0 0 3px rgba(var(--tint-peach-rgb), 0.3);
 }
 
 /* ---------------- TESTIMONIALS ---------------- */
@@ -1308,16 +1350,6 @@ body.case-study {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
   }
 
-  /* --- DARK MODE: Challenges timeline styling --- */
-  #challenges .cs-challenges-timeline::before {
-    background: rgba(255, 205, 170, 0.3) !important;
-  }
-
-  #challenges .cs-challenge-dot {
-    background: rgba(255, 205, 170, 0.7) !important;
-    box-shadow: 0 0 0 4px rgba(255, 205, 170, 0.15) !important;
-  }
-
   /* --- DARK MODE: TOC styling --- */
   .cs-toc-item {
     background: rgba(30, 33, 40, 0.75) !important;
@@ -1363,78 +1395,88 @@ body.case-study {
       ) !important;
   }
 
-  /* --- DARK MODE: Card top-border color accents --- */
-  /* Each section's cards get a colored top border to express the color story */
+  /* --- DARK MODE: Card top-border color accents via theme classes --- */
+  /* Apply .cs-section--[color] to sections for automatic card theming */
   
-  #introduction .glass-card,
-  #introduction .cs-content-block {
-    border-top: 2px solid rgba(108, 140, 255, 0.5) !important;
+  /* Single-color sections - cards inherit section accent */
+  .cs-section--blue .glass-card,
+  .cs-section--blue .cs-content-block,
+  .cs-section--blue .cs-challenge-card,
+  .cs-section--blue .rec-card {
+    border-top: 2px solid rgba(var(--primary-rgb), 0.5) !important;
   }
 
-  #problem .glass-card,
-  #problem .cs-content-block {
-    border-top: 2px solid rgba(140, 130, 255, 0.5) !important;
+  .cs-section--blue-purple .glass-card,
+  .cs-section--blue-purple .cs-content-block,
+  .cs-section--blue-purple .cs-challenge-card {
+    border-top: 2px solid rgba(var(--tint-blue-purple-rgb), 0.5) !important;
   }
 
-  /* Strategy & Solution - 4 cards, 4 colors */
-  #strategy .cs-feature-grid .glass-card:nth-child(1) {
-    border-top: 2px solid rgba(108, 140, 255, 0.6) !important;  /* Blue */
-  }
-  #strategy .cs-feature-grid .glass-card:nth-child(2) {
-    border-top: 2px solid rgba(140, 130, 255, 0.6) !important;  /* Blue-Purple */
-  }
-  #strategy .cs-feature-grid .glass-card:nth-child(3) {
-    border-top: 2px solid rgba(164, 140, 249, 0.6) !important;  /* Purple */
-  }
-  #strategy .cs-feature-grid .glass-card:nth-child(4) {
-    border-top: 2px solid rgba(180, 140, 255, 0.6) !important;  /* Deep Purple */
+  .cs-section--purple .glass-card,
+  .cs-section--purple .cs-content-block,
+  .cs-section--purple .cs-challenge-card {
+    border-top: 2px solid rgba(var(--purple-rgb), 0.5) !important;
   }
 
-  /* Platform Capabilities - 6 cards, 6 colors */
-  #platform .cs-feature-grid .glass-card:nth-child(1) {
-    border-top: 2px solid rgba(108, 140, 255, 0.6) !important;  /* Blue */
-  }
-  #platform .cs-feature-grid .glass-card:nth-child(2) {
-    border-top: 2px solid rgba(164, 140, 249, 0.6) !important;  /* Purple */
-  }
-  #platform .cs-feature-grid .glass-card:nth-child(3) {
-    border-top: 2px solid rgba(180, 140, 255, 0.6) !important;  /* Deep Purple */
-  }
-  #platform .cs-feature-grid .glass-card:nth-child(4) {
-    border-top: 2px solid rgba(150, 255, 210, 0.55) !important; /* Mint */
-  }
-  #platform .cs-feature-grid .glass-card:nth-child(5) {
-    border-top: 2px solid rgba(255, 205, 170, 0.55) !important; /* Peach */
-  }
-  #platform .cs-feature-grid .glass-card:nth-child(6) {
-    border-top: 2px solid rgba(255, 235, 140, 0.55) !important; /* Yellow */
+  .cs-section--deep-purple .glass-card,
+  .cs-section--deep-purple .cs-content-block {
+    border-top: 2px solid rgba(var(--tint-deep-purple-rgb), 0.5) !important;
   }
 
-  #execution .glass-card,
-  #execution .cs-content-block {
-    border-top: 2px solid rgba(164, 140, 249, 0.5) !important;
+  .cs-section--mint .glass-card,
+  .cs-section--mint .cs-content-block,
+  .cs-section--mint .rec-card {
+    border-top: 2px solid rgba(var(--tint-mint-rgb), 0.5) !important;
   }
 
-  #outcomes .glass-card,
-  #outcomes .cs-content-block {
-    border-top: 2px solid rgba(150, 255, 210, 0.5) !important;
+  .cs-section--peach .glass-card,
+  .cs-section--peach .cs-content-block,
+  .cs-section--peach .cs-challenge-card {
+    border-top: 2px solid rgba(var(--tint-peach-rgb), 0.5) !important;
   }
 
-  #challenges .glass-card,
-  #challenges .cs-content-block,
-  #challenges .cs-challenge-card {
-    border-top: 2px solid rgba(255, 205, 170, 0.5) !important;
+  .cs-section--yellow .glass-card,
+  .cs-section--yellow .cs-content-block {
+    border-top: 2px solid rgba(var(--tint-yellow-rgb), 0.5) !important;
   }
 
-  #lessons .glass-card,
-  #lessons .cs-content-block {
-    border-top: 2px solid rgba(255, 235, 140, 0.5) !important;
+  /* Rainbow sections - each card gets a different color */
+  .cs-section--rainbow .glass-card:nth-child(1),
+  .cs-section--rainbow .cs-content-block:nth-child(1) {
+    border-top: 2px solid rgba(var(--primary-rgb), 0.6) !important;
+  }
+  .cs-section--rainbow .glass-card:nth-child(2),
+  .cs-section--rainbow .cs-content-block:nth-child(2) {
+    border-top: 2px solid rgba(var(--tint-blue-purple-rgb), 0.6) !important;
+  }
+  .cs-section--rainbow .glass-card:nth-child(3),
+  .cs-section--rainbow .cs-content-block:nth-child(3) {
+    border-top: 2px solid rgba(var(--purple-rgb), 0.6) !important;
+  }
+  .cs-section--rainbow .glass-card:nth-child(4),
+  .cs-section--rainbow .cs-content-block:nth-child(4) {
+    border-top: 2px solid rgba(var(--tint-deep-purple-rgb), 0.6) !important;
+  }
+  .cs-section--rainbow .glass-card:nth-child(5),
+  .cs-section--rainbow .cs-content-block:nth-child(5) {
+    border-top: 2px solid rgba(var(--tint-mint-rgb), 0.55) !important;
+  }
+  .cs-section--rainbow .glass-card:nth-child(6),
+  .cs-section--rainbow .cs-content-block:nth-child(6) {
+    border-top: 2px solid rgba(var(--tint-peach-rgb), 0.55) !important;
   }
 
-  #testimonials .glass-card,
-  #testimonials .cs-content-block,
-  #testimonials .rec-card {
-    border-top: 2px solid rgba(150, 255, 210, 0.45) !important;
+  /* Peach timeline styling */
+  .cs-section--peach .cs-challenges-timeline::before {
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--tint-peach-rgb), 0.6),
+      rgba(var(--tint-peach-rgb), 0.3)
+    ) !important;
+  }
+  .cs-section--peach .cs-challenge-dot {
+    background: rgba(var(--tint-peach-rgb), 0.9) !important;
+    box-shadow: 0 0 0 3px rgba(var(--tint-peach-rgb), 0.3) !important;
   }
 
 }
