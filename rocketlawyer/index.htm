@@ -268,6 +268,10 @@
                 <div class="slideshow-lightbox-content">
                     <img id="lightbox-image" src="" alt="">
                     <div id="lightbox-caption" class="lightbox-caption"></div>
+                    <div class="lightbox-controls">
+                        <button class="lightbox-prev" aria-label="Previous slide">←</button>
+                        <button class="lightbox-next" aria-label="Next slide">→</button>
+                    </div>
                 </div>
             </div>
             <div class="slideshow-wrapper">
@@ -396,6 +400,8 @@
                 const lightbox = document.getElementById("slideshow-lightbox");
                 const lightboxImg = document.getElementById("lightbox-image");
                 const lightboxCaption = document.getElementById("lightbox-caption");
+                const lightboxPrev = document.querySelector(".lightbox-prev");
+                const lightboxNext = document.querySelector(".lightbox-next");
 
                 let index = 0;
 
@@ -408,42 +414,15 @@
                     captionEl.textContent = caption;
                 }
 
-                // --------------------- BUTTON STATE ---------------------
-                function updateButtonState() {
-                    prevBtn.classList.toggle("disabled", index === 0);
-                    nextBtn.classList.toggle("disabled", index === slides.length - 1);
-                }
-
-                // --------------------- BOUNCE EFFECT ---------------------
-                function bounce(reverse = false) {
-                    frame.classList.remove("slide-bounce", "slide-bounce-reverse");
-                    void frame.offsetWidth;
-                    frame.classList.add(reverse ? "slide-bounce-reverse" : "slide-bounce");
-
-                    setTimeout(() => {
-                        frame.classList.remove("slide-bounce", "slide-bounce-reverse");
-                    }, 400);
-                }
-
-                // --------------------- NAV BUTTONS ---------------------
+                // --------------------- NAV BUTTONS (with looping) ---------------------
                 prevBtn.addEventListener("click", () => {
-                    if (index === 0) {
-                        bounce(true);
-                        return;
-                    }
-                    index -= 1;
+                    index = (index - 1 + slides.length) % slides.length;
                     showSlide(index);
-                    updateButtonState();
                 });
 
                 nextBtn.addEventListener("click", () => {
-                    if (index === slides.length - 1) {
-                        bounce(false);
-                        return;
-                    }
-                    index += 1;
+                    index = (index + 1) % slides.length;
                     showSlide(index);
-                    updateButtonState();
                 });
 
                 // --------------------- LIGHTBOX CONTROL ---------------------
@@ -468,19 +447,29 @@
                     trigger.addEventListener("click", () => {
                         index = i;
                         showSlide(index);
-                        updateButtonState();
                         openLightbox(index);
                     });
                 });
 
+                // Click image to advance (with looping)
                 lightboxImg.addEventListener("click", () => {
-                    if (index === slides.length - 1) {
-                        bounce(false);
-                        return;
-                    }
-                    index += 1;
+                    index = (index + 1) % slides.length;
                     showSlide(index);
-                    updateButtonState();
+                    openLightbox(index);
+                });
+
+                // Lightbox prev/next buttons
+                lightboxPrev.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    index = (index - 1 + slides.length) % slides.length;
+                    showSlide(index);
+                    openLightbox(index);
+                });
+
+                lightboxNext.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    index = (index + 1) % slides.length;
+                    showSlide(index);
                     openLightbox(index);
                 });
 
@@ -502,7 +491,6 @@
                 window.addEventListener("resize", adjustSlideshowHeight);
 
                 showSlide(0);
-                updateButtonState();
             </script>
             <script>
                 // --------------------- ACTIVE TOC HIGHLIGHT ON SCROLL ---------------------
@@ -533,10 +521,8 @@
         <div class="container cs-section-body">
             <div class="cs-section-header">
                 <h2 class="value-title iconized">🤝 Execution & Key Decisions</h2>
-                <p class="cs-section-eyebrow">Launching with a major partner required disciplined sequencing and tight
-                    coordination. I focused on unblocking engineering early, resolving dependencies ahead of time, and
-                    structuring milestones so each one supported the next. Here are the decisions that kept the build
-                    predictable.</p>
+                <p class="cs-section-eyebrow">How we stayed on track</p>
+                <p class="cs-section-intro">Launching with a major partner required disciplined sequencing and tight coordination. I focused on unblocking engineering early, resolving dependencies ahead of time, and structuring milestones so each one supported the next. Here are the decisions that kept the build predictable.</p>
             </div>
 
             <div class="cs-execution-grid">
