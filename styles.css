@@ -1589,6 +1589,12 @@ img {
   color: var(--text-secondary);
 }
 
+@media (max-width: 768px) {
+  .fullstack-callout {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 /* ===== Modern Minimalist Hero (Option B) ===== */
 
