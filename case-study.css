@@ -213,6 +213,11 @@ body.case-study {
     margin-bottom: 0.5rem;
 }
 
+/* When eyebrow is the last child (no intro paragraph), add more bottom margin */
+.cs-section-header > .cs-section-eyebrow:last-child {
+    margin-bottom: var(--spacing-lg);
+}
+
 .cs-section-intro {
   max-width: 720px;
   margin: var(--spacing-sm) auto var(--spacing-md);
