@@ -196,16 +196,17 @@
 .nyc-cta {
   margin-top: var(--spacing-2xl);
   padding-top: var(--spacing-2xl);
+  padding-bottom: var(--spacing-xl);
   border-top: 2px solid var(--text-primary);
   text-align: left;
 }
 
-.nyc-cta h3 {
+.nyc-cta h4 {
   font-family: var(--font-heading);
   font-size: clamp(2rem, 5vw, 2.75rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: 2rem;
   color: var(--text-primary);
 }
 
