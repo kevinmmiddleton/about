@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocket Lawyer Mobile Conversion Case Study</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../case-study.css">
+    <script src="../case-study.js" defer></script>
+</head>
+
+<body class="case-study">
+    <!-- HERO -->
+    <div class="section cs-section">
+        <div class="container cs-hero">
+            <div class="back-to-main" style="margin-bottom: var(--spacing-lg);">
+                <a href="https://middleton.io/">← Back to Portfolio</a>
+            </div>
+
+            <header class="cs-hero-header">
+                <p class="cs-case-label">Case Study · Rocket Lawyer</p>
+
+                <h1 class="section-title">Mobile Conversion Optimization</h1>
+
+                <p class="cs-hero-subtitle">
+                    Failed fast on desktop. Won big on mobile.
+                </p>
+
+                <div class="glass-card cs-hero-metrics">
+                    <div class="cs-hero-metrics-grid">
+                        <div>
+                            <p class="cs-metric-value">5%</p>
+                            <p class="cs-metric-label">Mobile Conversion Lift</p>
+                        </div>
+                        <div>
+                            <p class="cs-metric-value">2.34%</p>
+                            <p class="cs-metric-label">Peak Checkout Rate</p>
+                        </div>
+                        <div>
+                            <p class="cs-metric-value">90%</p>
+                            <p class="cs-metric-label">of U.S. Revenue</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="cs-hero-meta">
+                    <strong>Role:</strong> Senior Product Manager, Legal Docs Team
+                </p>
+            </header>
+        </div>
+    </div>
+
+    <!-- STATIC TOP TOC (shown before scroll on desktop) -->
+    <nav class="cs-toc cs-toc-top">
+        <div class="cs-toc-grid" style="display: grid !important; grid-template-columns: repeat(4, 1fr); flex-wrap: unset;">
+            <a href="#introduction" class="cs-toc-item" data-section="introduction">Introduction</a>
+            <a href="#problem" class="cs-toc-item" data-section="problem">Problem</a>
+            <a href="#strategy" class="cs-toc-item" data-section="strategy">Strategy &amp; Solution</a>
+            <a href="#walkthrough" class="cs-toc-item" data-section="walkthrough">Product Walkthrough</a>
+            <a href="#execution" class="cs-toc-item" data-section="execution">Execution &amp; Decisions</a>
+            <a href="#outcomes" class="cs-toc-item" data-section="outcomes">Outcomes</a>
+            <a href="#challenges" class="cs-toc-item" data-section="challenges">Challenges</a>
+            <a href="#lessons" class="cs-toc-item" data-section="lessons">Lessons Learned</a>
+        </div>
+    </nav>
+
+    <div class="section cs-section cs-toc-section">
+        <div class="container cs-section-body">
+            <!-- Floating TOC -->
+            <nav class="cs-toc cs-toc--floating">
+                <div class="cs-toc-grid">
+                    <a href="#introduction" class="cs-toc-item" data-section="introduction">Introduction</a>
+                    <a href="#problem" class="cs-toc-item" data-section="problem">Problem</a>
+                    <a href="#strategy" class="cs-toc-item" data-section="strategy">Strategy &amp; Solution</a>
+                    <a href="#walkthrough" class="cs-toc-item" data-section="walkthrough">Product Walkthrough</a>
+                    <a href="#execution" class="cs-toc-item" data-section="execution">Execution &amp; Decisions</a>
+                    <a href="#outcomes" class="cs-toc-item" data-section="outcomes">Outcomes</a>
+                    <a href="#challenges" class="cs-toc-item" data-section="challenges">Challenges</a>
+                    <a href="#lessons" class="cs-toc-item" data-section="lessons">Lessons Learned</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- INTRO + MISSION -->
+    <div class="section cs-section cs-section--blue" id="introduction">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🚀 Introduction</h2>
+                <p class="cs-section-eyebrow">Context & mission</p>
+                <p class="cs-section-intro">Rocket Lawyer's Legal Documents product line was the company's core revenue engine, contributing 90% of U.S. revenue. Even small improvements to conversion rates here had outsized business impact. My mission was to find and unlock those gains through systematic A/B testing and data-driven optimization.</p>
+            </div>
+
+            <div class="cs-two-col cs-content-grid">
+                <div>
+                    <h3 class="cs-h3">Overview</h3>
+                    <p>
+                        The document creation flow (where users answer questions to generate legal documents like NDAs, leases, and wills) was the primary conversion funnel. Improving gross conversion rates (GCR) here meant more users completing documents and entering the checkout flow, directly driving revenue growth.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="cs-h3">Mission Alignment</h3>
+                    <p>
+                        This work advanced Rocket Lawyer's mission to make legal services affordable and accessible. By reducing friction in the document creation experience, we helped more people successfully complete the legal tasks they came to accomplish.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- USERS & PROBLEM -->
+    <div class="section cs-section cs-section--blue-purple" id="problem">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🎯 The Problem</h2>
+                <p class="cs-section-eyebrow">Where to focus for maximum impact</p>
+                <p class="cs-section-intro">Conversion rates had room to grow, but the question was where to focus. Desktop vs. mobile? UX changes vs. performance improvements? We needed a systematic approach to identify the highest-leverage opportunities.</p>
+            </div>
+
+            <div class="cs-two-col cs-content-grid">
+                <div>
+                    <h3 class="cs-h3">Users & Stakeholders</h3>
+                    <ul class="cs-list">
+                        <li>Consumers creating legal documents (NDAs, leases, wills, etc.)</li>
+                        <li>Mobile users with different needs than desktop</li>
+                        <li>Design, engineering, marketing, and leadership teams</li>
+                        <li>Enterprise partners relying on the document platform</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="cs-h3">Key Problems to Solve</h3>
+                    <ul class="cs-list">
+                        <li>Identify which changes would actually move conversion rates</li>
+                        <li>Understand differences between desktop and mobile behavior</li>
+                        <li>Quantify the impact of site performance on conversions</li>
+                        <li>Build a repeatable testing methodology for continuous improvement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STRATEGY & SOLUTION -->
+    <div class="section cs-section cs-section--rainbow cs-section--strong-cards" id="strategy">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🧠 Strategy & Solution</h2>
+                <p class="cs-section-eyebrow">Test, learn, pivot, win</p>
+                <p class="cs-section-intro">We developed a structured A/B testing methodology and ran experiments across the document creation funnel. When our initial desktop hypothesis failed, we pivoted to mobile and found the win we were looking for.</p>
+            </div>
+
+            <div class="cs-feature-grid cs-feature-grid--two cs-content-grid">
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">A/B Testing Methodology</h3>
+                    <p>Established a repeatable process: ideation → pitch → brief → experiment → launch. Great ideas could come from anyone: customers, stakeholders, teams. Briefs captured impact, theme alignment, user journeys, and designs before experiments ran.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Desktop Experiment → Learning</h3>
+                    <p>We hypothesized that hiding the document preview on shorter documents would increase conversions (suspecting users were copying content). The control won by 10%, teaching us that the preview builds trust, shows real-time updates, and demonstrates value before checkout.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">"Frictionless" Mobile Experience</h3>
+                    <p>The site was responsive but not optimized for mobile. We designed a "frictionless" mobile interview, removing distractions and streamlining the experience. This variant outperformed control by 5% and was productionized.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Performance as a Lever</h3>
+                    <p>Built custom analytics tools to link site performance with conversion performance. This revealed that speed improvements in the document funnel directly impacted checkout rates, leading to our highest recorded conversion rate of 2.34%.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT WALKTHROUGH -->
+    <div class="section cs-section" id="walkthrough">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🛠️ Product Walkthrough</h2>
+                <p class="cs-section-eyebrow">From hypothesis to winning experiment</p>
+                <p class="cs-section-intro">
+                    The document interview flow guides users through questions to generate their legal document. We tested UX changes on desktop first, learned from the failure, then adapted for mobile where we found the conversion lift.
+                </p>
+            </div>
+
+            <!-- SLIDESHOW LIGHTBOX -->
+            <div id="slideshow-lightbox" class="slideshow-lightbox">
+                <div class="slideshow-lightbox-content">
+                    <img id="lightbox-image" src="" alt="">
+                    <div id="lightbox-caption" class="lightbox-caption"></div>
+                    <div class="lightbox-controls">
+                        <button class="lightbox-prev" aria-label="Previous slide">←</button>
+                        <button class="lightbox-next" aria-label="Next slide">→</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slideshow-wrapper">
+                <div class="slideshow-frame aspect-16-10">
+                    <!-- SLIDE 1: Homepage -->
+                    <div class="slide active" data-caption="1. Rocket Lawyer Homepage">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://middleton.io/rocketlawyer/images/rocket-lawyer-homepage.png"
+                            data-caption="Rocket Lawyer's homepage, the starting point for users seeking legal documents. The Legal Docs product line drove 90% of U.S. revenue.">
+                            <img class="slide-img"
+                                src="https://middleton.io/rocketlawyer/images/rocket-lawyer-homepage.png"
+                                alt="Rocket Lawyer homepage">
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Confluence Planning -->
+                    <div class="slide" data-caption="2. Initiatives Backlog & Planning">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://middleton.io/rocketlawyer/images/rocket-lawyer-confluence-initiatives-backlog.png"
+                            data-caption="The 'Increase Document GCR' initiative backlog in Confluence, tracking needle movers, backlog items, and new experiment ideas across checkout, landing pages, performance, and UX.">
+                            <img class="slide-img"
+                                src="https://middleton.io/rocketlawyer/images/rocket-lawyer-confluence-initiatives-backlog.png"
+                                alt="Confluence initiatives backlog">
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Desktop with Preview (Control - Won) -->
+                    <div class="slide" data-caption="3. Desktop Control: Show Preview (Won)">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://middleton.io/rocketlawyer/images/rocket-lawyer-desktop-document-interview-with-preview.png"
+                            data-caption="The desktop control with live document preview. We tested hiding this on shorter documents, hypothesizing users were copying content. Control won by 10%. The preview builds trust and shows value before checkout.">
+                            <img class="slide-img"
+                                src="https://middleton.io/rocketlawyer/images/rocket-lawyer-desktop-document-interview-with-preview.png"
+                                alt="Desktop document interview with preview">
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Desktop Without Preview (Variant - Lost) -->
+                    <div class="slide" data-caption="4. Desktop Variant: Hide Preview (Lost)">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://middleton.io/rocketlawyer/images/rocket-lawyer-desktop-document-interview.png"
+                            data-caption="The desktop variant with preview hidden on shorter documents. This underperformed by 10%. Users valued seeing the document update in real time more than we expected.">
+                            <img class="slide-img"
+                                src="https://middleton.io/rocketlawyer/images/rocket-lawyer-desktop-document-interview.png"
+                                alt="Desktop document interview without preview">
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Mobile (Winner) -->
+                    <div class="slide" data-caption="5. Mobile: Frictionless Experience (Won)">
+                        <div class="slide-image-trigger"
+                            data-fullsrc="https://middleton.io/rocketlawyer/images/rocket-lawyer-mobile-document-interview.png"
+                            data-caption="The 'frictionless' mobile interview with distractions removed and experience streamlined. This variant outperformed control by 5% and was productionized.">
+                            <img class="slide-img" style="max-height: 580px; width: auto;"
+                                src="https://middleton.io/rocketlawyer/images/rocket-lawyer-mobile-document-interview.png"
+                                alt="Mobile document interview optimized">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shared caption under the frame -->
+                <div id="slideshow-caption" class="slideshow-caption">1. Rocket Lawyer Homepage</div>
+
+                <!-- CONTROLS -->
+                <div class="slideshow-controls">
+                    <button class="prev-slide">←</button>
+                    <button class="next-slide">→</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- EXECUTION & DECISIONS -->
+    <div class="section cs-section cs-section--purple cs-section--strong-cards" id="execution">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🤝 Execution & Key Decisions</h2>
+                <p class="cs-section-eyebrow">How we found the win</p>
+                <p class="cs-section-intro">The path to results wasn't linear. We had to be willing to let data guide our decisions, even when it meant abandoning our initial hypothesis and pivoting to a different platform.</p>
+            </div>
+
+            <div class="cs-execution-grid">
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">🎯 Learning from "Failure"</h3>
+                    <p>
+                        We hypothesized that users were copying content from the preview on shorter documents and not converting. But hiding the preview backfired: control won by 10%. The data taught us that the preview builds trust and shows value before checkout.
+                    </p>
+                </div>
+                <div class="glass-card cs-content-block hero-card">
+                    <h3 class="cs-h3">🏗️ Platform-Specific Thinking</h3>
+                    <p>
+                        The site was responsive but not truly optimized for mobile. Instead of treating mobile as smaller desktop, we designed a "frictionless" experience by removing distractions and streamlining the flow for mobile-specific constraints.
+                    </p>
+                </div>
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">🤝 Performance Investment</h3>
+                    <p>
+                        Building custom analytics to link site speed with conversion data wasn't glamorous work, but it revealed a clear opportunity. Performance improvements in the document funnel directly lifted checkout rates to an all-time high.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OUTCOMES -->
+    <div class="section cs-section cs-section--mint cs-section--strong-cards" id="outcomes">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">📈 Outcomes</h2>
+                <p class="cs-section-eyebrow">What we delivered</p>
+            </div>
+
+            <div class="cs-feature-grid cs-feature-grid--two cs-content-grid">
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">5% Mobile Conversion Lift</h3>
+                    <p>The mobile-optimized document interview drove a 5% increase in gross conversions, a significant win for a product line contributing 90% of U.S. revenue.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Record Checkout Rate</h3>
+                    <p>Performance optimization work pushed checkout rates to 2.34%, the highest recorded conversion rate, by linking site speed improvements directly to conversion outcomes.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Repeatable Testing Framework</h3>
+                    <p>The A/B testing methodology (ideation → pitch → brief → experiment → launch) became a lasting asset for the team to continuously identify and validate conversion improvements.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Custom Analytics Tooling</h3>
+                    <p>The performance-to-conversion analytics tools enabled ongoing optimization by making the relationship between site speed and business outcomes visible and actionable.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- CHALLENGES -->
+    <div class="section cs-section cs-section--peach cs-section--strong-cards" id="challenges">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">🚧 Challenges</h2>
+                <p class="cs-section-eyebrow">Where the work was hardest</p>
+                <p class="cs-section-intro">Finding conversion wins required navigating failed experiments, shifting priorities, and building alignment across teams.</p>
+            </div>
+
+            <div class="cs-challenges">
+                <div class="cs-challenges-timeline">
+                    <div class="cs-challenge-item">
+                        <div class="cs-challenge-dot"></div>
+                        <div class="cs-challenge-card">
+                            <p class="cs-challenge-date">Initial Hypothesis</p>
+                            <h3 class="cs-h3">Desktop Experiment Backfired</h3>
+                            <p>We suspected users were copying content from the preview on shorter documents and not converting. We tested hiding the preview, but control won by 10%. Users valued the preview more than we expected.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="cs-challenge-item">
+                        <div class="cs-challenge-dot"></div>
+                        <div class="cs-challenge-card">
+                            <p class="cs-challenge-date">The Insight</p>
+                            <h3 class="cs-h3">Preview Builds Trust</h3>
+                            <p>The "failed" experiment taught us something valuable: the preview builds trust in the product, shows real-time document updates, and demonstrates value before checkout. This informed future product decisions.</p>
+                        </div>
+                    </div>
+
+                    <div class="cs-challenge-item">
+                        <div class="cs-challenge-dot"></div>
+                        <div class="cs-challenge-card">
+                            <p class="cs-challenge-date">New Approach</p>
+                            <h3 class="cs-h3">Mobile Was Underserved</h3>
+                            <p>The site was responsive but not truly optimized for mobile. We saw an opportunity to remove distractions and streamline the experience. The "frictionless" mobile interview became our next experiment.</p>
+                        </div>
+                    </div>
+
+                    <div class="cs-challenge-item">
+                        <div class="cs-challenge-dot"></div>
+                        <div class="cs-challenge-card">
+                            <p class="cs-challenge-date">Parallel Track</p>
+                            <h3 class="cs-h3">Performance Visibility</h3>
+                            <p>We suspected site performance was impacting conversions but had no way to prove it. Building custom analytics to link performance metrics with conversion data required cross-functional investment but unlocked a new optimization lever.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LESSONS LEARNED -->
+    <div class="section cs-section cs-section--yellow cs-section--strong-cards cs-cards--square" id="lessons">
+        <div class="container cs-section-body">
+            <div class="cs-section-header">
+                <h2 class="value-title iconized">💡 Lessons Learned</h2>
+                <p class="cs-section-eyebrow">How this shaped my approach to future work</p>
+            </div>
+
+            <div class="cs-feature-grid cs-feature-grid--two cs-content-grid">
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Negative Results Are Still Results</h3>
+                    <p>The desktop experiment "failed" but taught us that the preview builds trust and shows value. That insight was worth more than if we'd simply not run the test.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Responsive ≠ Optimized</h3>
+                    <p>A responsive site isn't the same as a mobile-optimized experience. Designing "frictionless" meant removing distractions and streamlining for mobile-specific constraints, not just shrinking desktop.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Performance Is a Conversion Lever</h3>
+                    <p>Site speed isn't just a technical metric. It directly impacts business outcomes. Making that relationship visible enabled targeted optimizations with measurable results.</p>
+                </div>
+
+                <div class="glass-card cs-content-block">
+                    <h3 class="cs-h3">Process Enables Continuous Improvement</h3>
+                    <p>Ideation → pitch → brief → experiment → launch. A repeatable methodology isn't overhead. It's how you find wins consistently and learn from losses.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="section cs-section" id="footer">
+        <div class="container cs-section-body cs-footer">
+            <div class="cs-footer-back">
+                <a href="https://middleton.io/" style="font-size: 1rem; text-decoration: none;">
+                    ← Back to Portfolio
+                </a>
+            </div>
+
+            <div class="cs-footer-meta">
+                <p>Case Study · Rocket Lawyer</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
