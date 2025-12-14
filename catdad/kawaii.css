@@ -304,7 +304,8 @@
   line-height: 1.6;
 }
 
-.section-divider .nowrap {
+/* Keep kaomoji together */
+.nowrap {
   white-space: nowrap;
   display: inline-block;
 }
@@ -614,11 +615,6 @@
   .section-divider {
     font-size: 0.65rem;
     letter-spacing: -0.02em;
-  }
-  
-  .section-divider .nowrap {
-    font-size: 0.7rem;
-    transform: scale(0.9);
   }
   
   .final-divider {
