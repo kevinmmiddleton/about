@@ -677,6 +677,23 @@
     padding: var(--spacing-lg);
   }
 
+  /* Post-it note text scaling for mobile */
+  .oh-card-highlight {
+    padding: var(--spacing-md);
+  }
+
+  .oh-card-highlight h2 {
+    font-size: 1.2rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .oh-card-highlight .oh-list li {
+    font-size: 1.05rem;
+    line-height: 1.4;
+    margin-bottom: 0.2rem;
+    padding-left: 1.5rem;
+  }
+
   .oh-steps {
     flex-direction: column;
   }
