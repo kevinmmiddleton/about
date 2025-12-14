@@ -290,6 +290,7 @@
   font-weight: 700;
   color: var(--kawaii-accent);
   letter-spacing: 0.02em;
+  word-wrap: break-word;
 }
 
 /* ---------- SECTION DIVIDERS ---------- */
@@ -300,10 +301,17 @@
   color: var(--kawaii-text-soft);
   margin: var(--spacing-xl) 0;
   opacity: 0.7;
-  line-height: 1.4;
+  line-height: 1.6;
+}
+
+.section-divider .nowrap {
   white-space: nowrap;
-  overflow: visible;
-  padding: 0 var(--spacing-md);
+  display: inline-block;
+}
+
+/* Hide mobile breaks on desktop */
+.mobile-break {
+  display: none;
 }
 
 .final-divider {
@@ -604,12 +612,25 @@
   }
 
   .section-divider {
-    font-size: 0.75rem;
-    transform: scale(0.85);
+    font-size: 0.65rem;
+    letter-spacing: -0.02em;
+  }
+  
+  .section-divider .nowrap {
+    font-size: 0.7rem;
+    transform: scale(0.9);
   }
   
   .final-divider {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
+  }
+  
+  .kawaii-hero .meta {
+    font-size: 0.8rem;
+  }
+  
+  .mobile-break {
+    display: block;
   }
 }
 
