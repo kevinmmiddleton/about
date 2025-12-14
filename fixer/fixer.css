@@ -1,0 +1,570 @@
+/* ================================
+   FIXER PAGE - QUIET RELIEF
+   Calm. Private. Non-judgmental.
+   Legal pad on oak desk aesthetic.
+   ================================ */
+
+/* Warm neutral palette */
+.fixer-page {
+  --fixer-paper: #fff;
+  --fixer-text: #3d3d3d;
+  --fixer-text-soft: #6b6b6b;
+  --fixer-accent: #7a9e8a;
+  --fixer-accent-hover: #6b8e7a;
+  --fixer-card-shadow: rgba(0, 0, 0, 0.12);
+  --fixer-blue-line: #a8d4e6;
+  --fixer-red-line: #e07070;
+}
+
+@media (prefers-color-scheme: dark) {
+  .fixer-page {
+    --fixer-paper: #2a2825;
+    --fixer-text: #e8e6e3;
+    --fixer-text-soft: #a8a6a3;
+    --fixer-accent: #8fb89e;
+    --fixer-accent-hover: #a0c9af;
+    --fixer-card-shadow: rgba(0, 0, 0, 0.4);
+    --fixer-blue-line: #3d5a66;
+    --fixer-red-line: #8b4545;
+  }
+  
+  .desk-surface {
+    filter: brightness(0.3) saturate(0.8);
+  }
+}
+
+.fixer-page {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* ---------- DESK SURFACE ---------- */
+
+.desk-surface {
+  min-height: 100vh;
+  padding: var(--spacing-2xl);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--spacing-xl);
+  position: relative;
+  
+  /* Oak desk texture */
+  background: 
+    url('https://www.ikea.com/us/en/images/products/moellekulla-countertop-oak-veneer__0866651_pe643051_s5.jpg') center center / cover no-repeat fixed;
+}
+
+/* Subtle vignette */
+.desk-surface::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0,0,0,0.15) 100%
+  );
+}
+
+/* ---------- LEGAL PAD ---------- */
+
+.legal-pad {
+  width: 100%;
+  max-width: 560px;
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 
+    0 2px 4px rgba(0,0,0,0.1),
+    0 8px 24px rgba(0,0,0,0.2),
+    0 24px 48px rgba(0,0,0,0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* Chipboard header with wood grain texture */
+.legal-pad-header {
+  height: 48px;
+  flex-shrink: 0;
+  background: 
+    /* Wood grain texture */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      rgba(0,0,0,0.03) 1px,
+      transparent 2px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      95deg,
+      transparent 0px,
+      rgba(0,0,0,0.02) 0.5px,
+      transparent 1px,
+      transparent 12px
+    ),
+    /* Base gradient */
+    linear-gradient(
+      180deg,
+      #a07820 0%,
+      #8b6914 20%,
+      #7a5a10 50%,
+      #6b4d0e 80%,
+      #5a4010 100%
+    );
+  position: relative;
+  border-bottom: 1px solid #4a3510;
+}
+
+/* Torn edge effect at bottom of chipboard */
+.legal-pad-header::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      var(--fixer-paper) 0px,
+      var(--fixer-paper) 2px,
+      transparent 2px,
+      transparent 3px,
+      var(--fixer-paper) 3px,
+      var(--fixer-paper) 6px,
+      transparent 6px,
+      transparent 7px
+    );
+  opacity: 0.5;
+}
+
+/* The paper itself */
+.legal-pad-paper {
+  flex: 1;
+  background: var(--fixer-paper);
+  position: relative;
+  
+  /* Blue ruled lines */
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 27px,
+      var(--fixer-blue-line) 27px,
+      var(--fixer-blue-line) 28px
+    );
+  background-size: 100% 28px;
+  background-position: 0 16px;
+}
+
+/* Double red margin lines */
+.legal-pad-paper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 72px;
+  width: 4px;
+  background: 
+    linear-gradient(
+      90deg,
+      var(--fixer-red-line) 0px,
+      var(--fixer-red-line) 1px,
+      transparent 1px,
+      transparent 3px,
+      var(--fixer-red-line) 3px,
+      var(--fixer-red-line) 4px
+    );
+  opacity: 0.6;
+}
+
+/* Subtle paper texture */
+.legal-pad-paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Page content area - aligned to ruled lines */
+.page-inner {
+  padding: 44px var(--spacing-xl) var(--spacing-2xl) 96px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Use Caveat for handwritten feel on legal pad */
+.legal-pad-paper {
+  font-family: 'Caveat', cursive;
+}
+
+/* ---------- DIVIDERS ---------- */
+
+.fixer-divider {
+  text-align: left;
+  font-size: 1rem;
+  color: var(--fixer-text-soft);
+  opacity: 0.25;
+  line-height: 28px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  user-select: none;
+}
+
+/* ---------- HERO ---------- */
+
+.fixer-hero {
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.fixer-hero h1 {
+  font-family: 'Caveat', cursive;
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: 0;
+  color: var(--fixer-text);
+  margin-bottom: 28px;
+  padding-top: 0;
+}
+
+.fixer-hero .subline {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--fixer-text-soft);
+  line-height: 28px;
+}
+
+/* ---------- SECTIONS ---------- */
+
+.fixer-section {
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.fixer-section p {
+  font-family: 'Caveat', cursive;
+  font-size: 1.4rem;
+  line-height: 28px;
+  color: var(--fixer-text);
+  max-width: 50ch;
+  margin: 0;
+}
+
+.fixer-section p + p {
+  margin-top: 28px;
+}
+
+/* ---------- PRESCRIPTION PAD CTA (SIDE BY SIDE ON DESKTOP) ---------- */
+
+.fixer-cta {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding-top: 80px;
+}
+
+.fixer-cta-card {
+  background: linear-gradient(180deg, #fffef9 0%, #f8f6f0 100%);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0;
+  text-align: left;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.1),
+    0 12px 32px rgba(0,0,0,0.15);
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  transform: rotate(-3.5deg);
+  overflow: hidden;
+}
+
+/* Prescription header */
+.fixer-rx-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: linear-gradient(180deg, #e8f4ec 0%, #dceee2 100%);
+  border-bottom: 1px solid #c5dcc9;
+}
+
+.fixer-rx-logo {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--fixer-accent);
+}
+
+.fixer-rx-info {
+  font-size: 0.65rem;
+  color: var(--fixer-text-soft);
+  text-align: right;
+  line-height: 1.4;
+}
+
+.fixer-rx-body {
+  padding: var(--spacing-lg);
+}
+
+.rx-headline {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--fixer-text);
+  margin-bottom: var(--spacing-md);
+}
+
+.rx-handwriting {
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  font-style: normal;
+  color: var(--fixer-text);
+}
+
+.fixer-cta-card h2 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--fixer-text);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.01em;
+}
+
+.fixer-rx-line {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 6px;
+  margin-bottom: var(--spacing-sm);
+  font-size: 0.9rem;
+  color: var(--fixer-text);
+}
+
+.fixer-rx-line span {
+  font-weight: 600;
+}
+
+.fixer-btn {
+  display: inline-block;
+  background: var(--fixer-accent);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.7rem 1.4rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+  margin-top: var(--spacing-xs);
+}
+
+.fixer-btn:hover {
+  background: var(--fixer-accent-hover);
+  transform: translateY(-2px);
+}
+
+.fixer-cta .cta-note {
+  margin: var(--spacing-sm) var(--spacing-lg) var(--spacing-lg);
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  color: var(--fixer-text-soft);
+  font-style: normal;
+  text-align: center;
+}
+
+/* Signature line */
+.fixer-rx-sig {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid #ddd;
+}
+
+.rx-signature-img {
+  height: 40px;
+  width: auto;
+  opacity: 0.85;
+}
+
+/* ---------- G2 PEN ---------- */
+
+.g2-pen {
+  width: 180px;
+  height: auto;
+  transform: rotate(15deg);
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
+  position: absolute;
+  bottom: 60px;
+  right: -100px;
+}
+
+/* ---------- DESK PROPS ---------- */
+
+.desk-plant {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 220px;
+  height: auto;
+  filter: drop-shadow(4px 8px 12px rgba(0,0,0,0.3));
+  z-index: 10;
+  pointer-events: none;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.desk-phone {
+  position: fixed;
+  bottom: 40px;
+  left: 50px;
+  width: 160px;
+  height: auto;
+  transform: rotate(-8deg);
+  filter: drop-shadow(4px 8px 12px rgba(0,0,0,0.25));
+  z-index: 10;
+  pointer-events: none;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.desk-clip {
+  position: fixed;
+  top: 280px;
+  left: 60px;
+  width: 50px;
+  height: auto;
+  transform: rotate(-15deg);
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+  z-index: 10;
+  pointer-events: none;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* Slide desk props out when viewport gets too narrow */
+@media (max-width: 1050px) {
+  .desk-plant {
+    transform: translate(-300px, -100px);
+    opacity: 0;
+  }
+  
+  .desk-phone {
+    transform: translate(-300px, 100px) rotate(-8deg);
+    opacity: 0;
+  }
+  
+  .desk-clip {
+    transform: translate(-200px, 0) rotate(-15deg);
+    opacity: 0;
+  }
+}
+
+/* Slide desk props out when viewport is too short */
+@media (max-height: 700px) {
+  .desk-plant {
+    transform: translate(-100px, -300px);
+    opacity: 0;
+  }
+  
+  .desk-phone {
+    transform: translate(-100px, 300px) rotate(-8deg);
+    opacity: 0;
+  }
+  
+  .desk-clip {
+    transform: translate(-200px, 0) rotate(-15deg);
+    opacity: 0;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 960px) {
+  .desk-surface {
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .legal-pad {
+    max-width: 100%;
+    min-height: auto;
+  }
+
+  .legal-pad-header {
+    height: 40px;
+  }
+
+  .legal-pad-paper::before {
+    left: 52px;
+  }
+
+  .page-inner {
+    padding: 44px var(--spacing-md) var(--spacing-xl) 68px;
+  }
+
+  .fixer-hero h1 {
+    font-size: 2rem;
+    line-height: 28px;
+    margin-bottom: 28px;
+  }
+
+  .fixer-hero .subline {
+    font-size: 1.3rem;
+    line-height: 28px;
+  }
+
+  .fixer-section p {
+    font-size: 1.2rem;
+    line-height: 28px;
+  }
+
+  .fixer-section p + p {
+    margin-top: 28px;
+  }
+
+  .fixer-divider {
+    height: 56px;
+    line-height: 28px;
+  }
+
+  .fixer-cta {
+    padding-top: var(--spacing-lg);
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .fixer-cta-card {
+    max-width: 100%;
+    transform: none;
+  }
+
+  /* Hide pen and desk props on mobile */
+  .g2-pen,
+  .desk-plant,
+  .desk-phone {
+    display: none;
+  }
+
+  .fixer-rx-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .fixer-rx-body {
+    padding: var(--spacing-md);
+  }
+}
+
