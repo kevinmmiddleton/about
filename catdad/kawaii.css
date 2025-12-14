@@ -1,0 +1,299 @@
+/* ================================
+   KAWAII PAGE — SOFT, PLAYFUL, REAL
+   Pastels + personality
+   ================================ */
+
+/* Custom properties for kawaii palette */
+.kawaii-page {
+  --kawaii-pink: #FFB7C5;
+  --kawaii-lavender: #E0BBE4;
+  --kawaii-mint: #BAFFC9;
+  --kawaii-blue: #BAE1FF;
+  --kawaii-peach: #FFDFBA;
+  --kawaii-yellow: #FFFFBA;
+  --kawaii-bg: linear-gradient(135deg, #fdf6f9 0%, #f5f0ff 50%, #f0f7ff 100%);
+  --kawaii-card: rgba(255, 255, 255, 0.7);
+  --kawaii-border: rgba(224, 187, 228, 0.4);
+  --kawaii-text: #4a4458;
+  --kawaii-text-soft: #7d7589;
+  --kawaii-accent: #9b7bb8;
+}
+
+@media (prefers-color-scheme: dark) {
+  .kawaii-page {
+    --kawaii-bg: linear-gradient(135deg, #1a1520 0%, #1e1a24 50%, #191d24 100%);
+    --kawaii-card: rgba(40, 35, 50, 0.7);
+    --kawaii-border: rgba(155, 123, 184, 0.25);
+    --kawaii-text: #e8e4ed;
+    --kawaii-text-soft: #a8a0b4;
+    --kawaii-accent: #c9a0dc;
+  }
+}
+
+.kawaii-page {
+  background: var(--kawaii-bg);
+  min-height: 100vh;
+  padding-top: calc(60px + var(--spacing-xl));
+  padding-bottom: var(--spacing-2xl);
+}
+
+.kawaii-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* ---------- HERO ---------- */
+
+.kawaii-hero {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-2xl);
+}
+
+.kawaii-hero-img {
+  margin-bottom: var(--spacing-lg);
+}
+
+.kawaii-hero-img img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--kawaii-lavender);
+  box-shadow: 0 8px 32px rgba(155, 123, 184, 0.2);
+}
+
+.kawaii-hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 7vw, 3.5rem);
+  font-weight: 800;
+  color: var(--kawaii-text);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.02em;
+}
+
+.kawaii-hero .subline {
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  line-height: 1.7;
+  color: var(--kawaii-text-soft);
+  max-width: 50ch;
+  margin: 0 auto;
+}
+
+.kawaii-hero .subline em {
+  font-style: italic;
+  color: var(--kawaii-accent);
+}
+
+.kawaii-hero .meta {
+  margin-top: var(--spacing-lg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--kawaii-accent);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- SECTIONS ---------- */
+
+.kawaii-section {
+  background: var(--kawaii-card);
+  border: 1px solid var(--kawaii-border);
+  border-radius: 24px;
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.kawaii-section h2 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--kawaii-text);
+  margin-bottom: var(--spacing-md);
+}
+
+.kawaii-section p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--kawaii-text);
+}
+
+.kawaii-section p + p {
+  margin-top: var(--spacing-sm);
+}
+
+/* ---------- LISTS ---------- */
+
+.kawaii-list {
+  margin: var(--spacing-md) 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kawaii-list li {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+  padding-left: 1.75rem;
+  position: relative;
+  color: var(--kawaii-text);
+}
+
+.kawaii-list li::before {
+  content: "♡";
+  position: absolute;
+  left: 0;
+  color: var(--kawaii-pink);
+  font-size: 0.9rem;
+}
+
+.kawaii-list.cat-list li::before {
+  content: "🐱";
+}
+
+.kawaii-list li strong {
+  color: var(--kawaii-accent);
+}
+
+/* ---------- CALLOUT ---------- */
+
+.kawaii-callout {
+  background: linear-gradient(135deg, rgba(224, 187, 228, 0.15) 0%, rgba(186, 225, 255, 0.15) 100%);
+  border-color: var(--kawaii-lavender);
+}
+
+.kawaii-closer {
+  font-size: 1rem;
+  font-weight: 600;
+  font-style: italic;
+  margin-top: var(--spacing-md) !important;
+  color: var(--kawaii-accent);
+}
+
+/* ---------- LINKS ---------- */
+
+.kawaii-link {
+  color: var(--kawaii-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.kawaii-link:hover {
+  color: var(--kawaii-pink);
+}
+
+/* ---------- CTA ---------- */
+
+.kawaii-cta {
+  text-align: center;
+  margin-top: var(--spacing-2xl);
+  padding: var(--spacing-2xl);
+  background: var(--kawaii-card);
+  border: 2px solid var(--kawaii-lavender);
+  border-radius: 32px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.kawaii-cta h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  font-weight: 800;
+  color: var(--kawaii-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.kawaii-cta .cta-subline {
+  font-size: 1.1rem;
+  color: var(--kawaii-text-soft);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+}
+
+.kawaii-cta .cta-whisper {
+  font-size: 0.95rem;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.kawaii-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--kawaii-lavender) 0%, var(--kawaii-pink) 100%);
+  color: #fff !important;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: 9999px;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(224, 187, 228, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kawaii-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(224, 187, 228, 0.5);
+}
+
+.kawaii-cta .cta-note {
+  margin-top: var(--spacing-md);
+  font-size: 0.9rem;
+  color: var(--kawaii-text-soft);
+  font-style: italic;
+}
+
+/* ---------- SPARKLE ACCENTS ---------- */
+
+.kawaii-hero::before,
+.kawaii-hero::after {
+  content: "✨";
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.kawaii-hero {
+  position: relative;
+}
+
+.kawaii-hero::before {
+  top: 10%;
+  left: 5%;
+}
+
+.kawaii-hero::after {
+  top: 20%;
+  right: 8%;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 640px) {
+  .kawaii-hero-img img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .kawaii-section {
+    padding: var(--spacing-lg);
+    border-radius: 20px;
+  }
+
+  .kawaii-cta {
+    padding: var(--spacing-xl);
+  }
+
+  .kawaii-container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .kawaii-hero::before,
+  .kawaii-hero::after {
+    display: none;
+  }
+}
