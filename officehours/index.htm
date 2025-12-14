@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Office Hours · Kevin Middleton</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Permanent+Marker&family=Caveat:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="officehours.css">
+</head>
+
+<body>
+  <main class="oh-page">
+    <!-- Floating elements -->
+    <div class="oh-floats" aria-hidden="true">
+      <span class="oh-float" style="--delay: 0s; --x: 10%; --y: 15%;">✦</span>
+      <span class="oh-float" style="--delay: 1.5s; --x: 85%; --y: 20%;">✧</span>
+      <span class="oh-float" style="--delay: 0.8s; --x: 75%; --y: 70%;">✦</span>
+      <span class="oh-float" style="--delay: 2s; --x: 15%; --y: 75%;">✧</span>
+    </div>
+
+    <div class="oh-container">
+
+      <!-- HERO -->
+      <section class="oh-hero">
+        <div class="oh-badge">Free & Weekly</div>
+        <h1><span class="oh-icon">📅</span> Product Office Hours</h1>
+        <p class="subline">Bring a messy problem.<br>Leave with a clearer head.</p>
+      </section>
+
+      <!-- WHAT HAPPENS -->
+      <section class="oh-section oh-whiteboard">
+        <div class="oh-whiteboard-frame">
+          <div class="oh-whiteboard-surface">
+            <h2>What happens</h2>
+            <ul class="oh-list oh-list-marker">
+              <li class="marker-blue">You talk through what's stuck</li>
+              <li class="marker-green">We think out loud together</li>
+              <li class="marker-red">You leave with a next step (or three)</li>
+            </ul>
+          </div>
+          <div class="oh-whiteboard-tray">
+            <span class="oh-marker marker-blue-cap"></span>
+            <span class="oh-marker marker-green-cap"></span>
+            <span class="oh-marker marker-red-cap"></span>
+            <span class="oh-eraser"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHAT DOESN'T HAPPEN -->
+      <section class="oh-section oh-card">
+        <h2>What doesn't happen</h2>
+        <ul class="oh-list oh-list-no">
+          <li>No pitch</li>
+          <li>No recruiting</li>
+          <li>No judgment</li>
+        </ul>
+      </section>
+
+      <!-- GOOD FIT -->
+      <section class="oh-section oh-card oh-card-highlight">
+        <h2>Good problems to bring</h2>
+        <ul class="oh-list oh-list-check">
+          <li>Scope creep you can't untangle</li>
+          <li>Stakeholder confusion</li>
+          <li>Prioritization paralysis</li>
+          <li>A roadmap that doesn't feel right</li>
+          <li>"I don't know where to start"</li>
+        </ul>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="oh-section">
+        <div class="oh-steps">
+          <div class="oh-step">
+            <div class="oh-step-num">1</div>
+            <div class="oh-step-text">Book a slot</div>
+          </div>
+          <div class="oh-step-arrow">→</div>
+          <div class="oh-step">
+            <div class="oh-step-num">2</div>
+            <div class="oh-step-text">Show up with a problem</div>
+          </div>
+          <div class="oh-step-arrow">→</div>
+          <div class="oh-step">
+            <div class="oh-step-num">3</div>
+            <div class="oh-step-text">Think together</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="oh-cta">
+        <div class="oh-cta-card">
+          <div class="oh-scissors">✂</div>
+          
+          <p class="oh-cta-headline">Come as you are.</p>
+          <a href="https://calendly.com/kevin-middleton/15min" class="btn oh-btn" target="_blank">
+            <span>Join Office Hours</span>
+            <span class="oh-btn-arrow">→</span>
+          </a>
+          <p class="oh-cta-note">30 minutes · Real problems · Calm thinking</p>
+        </div>
+      </section>
+
+      <!-- FOOTER NOTE -->
+      <section class="oh-footer">
+        <p>Questions? <a class="js-email" href="#" data-user="kevin" data-domain="middleton.io" aria-label="Email Kevin">Just ask</a>. No forms, no funnels.</p>
+        <noscript><p>Questions? kevin [at] middleton [dot] io. No forms, no funnels.</p></noscript>
+      </section>
+
+    </div>
+  </main>
+  <script>
+    (function () {
+      var link = document.querySelector('.js-email');
+      if (!link) return;
+
+      var user = link.getAttribute('data-user');
+      var domain = link.getAttribute('data-domain');
+      if (!user || !domain) return;
+
+      var addr = user + '@' + domain;
+
+      // Avoid putting the raw address in the HTML source.
+      link.addEventListener('click', function (e) {
+        // Let users open their mail client.
+        link.setAttribute('href', 'mailto:' + addr);
+      }, { once: true });
+
+      // Optional: improve accessibility tooltip without exposing the email in markup.
+      link.setAttribute('title', 'Email ' + user);
+    })();
+  </script>
+</body>
+</html>

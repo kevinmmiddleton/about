@@ -1,0 +1,695 @@
+/* ================================
+   OFFICE HOURS PAGE — GENEROUS & WELCOMING
+   Fun but focused on the visitor.
+   ================================ */
+
+/* Warm, friendly palette */
+.oh-page {
+  --oh-bg: #fffaf5;
+  --oh-bg-card: #ffffff;
+  --oh-bg-highlight: linear-gradient(135deg, #fff8f0 0%, #fff0f5 100%);
+  --oh-postit: #fff9b1;
+  --oh-postit-shadow: rgba(200, 180, 100, 0.3);
+  --oh-text: #2d2a26;
+  --oh-text-soft: #6b635a;
+  --oh-accent: #e07455;
+  --oh-accent-hover: #c9614a;
+  --oh-accent-soft: #f4a261;
+  --oh-purple: #8b7ec7;
+  --oh-green: #6a9e78;
+  --oh-border: #e8e2dc;
+  --oh-card-shadow: 0 4px 24px rgba(45, 42, 38, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  .oh-page {
+    --oh-bg: #1c1a18;
+    --oh-bg-card: #262320;
+    --oh-bg-highlight: linear-gradient(135deg, #2a2520 0%, #2a2028 100%);
+    --oh-postit: #e8dc8c;
+    --oh-postit-shadow: rgba(180, 160, 80, 0.4);
+    --oh-text: #f0ebe5;
+    --oh-text-soft: #a8a098;
+    --oh-accent: #e8916f;
+    --oh-accent-hover: #f0a080;
+    --oh-accent-soft: #d4956a;
+    --oh-purple: #a99be0;
+    --oh-green: #8bc99a;
+    --oh-border: #3d3835;
+    --oh-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.oh-page {
+  font-family: 'Nunito', var(--font-body), sans-serif;
+  background: var(--oh-bg);
+  min-height: 100vh;
+  padding-top: calc(60px + var(--spacing-2xl));
+  padding-bottom: var(--spacing-2xl);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.oh-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- FLOATING ELEMENTS ---------- */
+
+.oh-floats {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.oh-float {
+  position: absolute;
+  font-size: 1.25rem;
+  color: var(--oh-accent-soft);
+  opacity: 0.4;
+  left: var(--x);
+  top: var(--y);
+  animation: ohFloat 4s ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes ohFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(10deg); }
+}
+
+/* ---------- HERO ---------- */
+
+.oh-hero {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.oh-badge {
+  display: inline-block;
+  background: var(--oh-accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  margin-bottom: var(--spacing-md);
+}
+
+.oh-hero h1 {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+  color: var(--oh-text);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: var(--spacing-md);
+}
+
+.oh-icon {
+  display: inline-block;
+  animation: ohWiggle 2s ease-in-out infinite;
+}
+
+@keyframes ohWiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.oh-hero .subline {
+  font-size: clamp(1.15rem, 3vw, 1.4rem);
+  color: var(--oh-text-soft);
+  line-height: 1.6;
+}
+
+/* ---------- WHITEBOARD ---------- */
+
+.oh-whiteboard {
+  margin-bottom: var(--spacing-lg);
+}
+
+.oh-whiteboard-frame {
+  background: linear-gradient(180deg, #c0c0c0 0%, #a8a8a8 100%);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 
+    0 4px 12px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.oh-whiteboard-surface {
+  background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
+  border-radius: 4px;
+  padding: var(--spacing-xl);
+  min-height: 200px;
+  position: relative;
+  /* Subtle dry-erase texture */
+  background-image: 
+    linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(200, 200, 200, 0.03) 2px,
+      rgba(200, 200, 200, 0.03) 4px
+    );
+}
+
+/* Ghost text / eraser smudge effect */
+.oh-whiteboard-surface::before {
+  content: "ideas";
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.5rem;
+  color: rgba(100, 150, 200, 0.08);
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+
+.oh-whiteboard h2 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #2a2a2a;
+  margin-bottom: var(--spacing-md);
+  text-transform: none;
+  letter-spacing: 0;
+  /* Marker underline */
+  display: inline-block;
+  border-bottom: 3px solid #e85050;
+  padding-bottom: 4px;
+}
+
+.oh-list-marker {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.oh-list-marker li {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.oh-list-marker li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  font-family: 'Permanent Marker', cursive;
+}
+
+.oh-list-marker li.marker-blue {
+  color: #2563eb;
+}
+.oh-list-marker li.marker-blue::before {
+  color: #2563eb;
+}
+
+.oh-list-marker li.marker-green {
+  color: #16a34a;
+}
+.oh-list-marker li.marker-green::before {
+  color: #16a34a;
+}
+
+.oh-list-marker li.marker-red {
+  color: #dc2626;
+}
+.oh-list-marker li.marker-red::before {
+  color: #dc2626;
+}
+
+/* Marker tray at bottom */
+.oh-whiteboard-tray {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 8px 16px;
+  background: linear-gradient(180deg, #707070 0%, #505050 100%);
+  border-radius: 4px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.oh-marker {
+  width: 48px;
+  height: 12px;
+  border-radius: 6px 2px 2px 6px;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Marker tip */
+.oh-marker::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: inherit;
+  filter: brightness(0.85);
+}
+
+/* Marker cap */
+.oh-marker::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -1px;
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.marker-blue-cap {
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.marker-green-cap {
+  background: linear-gradient(180deg, #22c55e 0%, #15803d 100%);
+}
+
+.marker-red-cap {
+  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+}
+
+.oh-eraser {
+  width: 48px;
+  height: 20px;
+  background: linear-gradient(180deg, #f5f5f5 0%, #d0d0d0 100%);
+  border-radius: 3px;
+  margin-left: 12px;
+  border: 1px solid #aaa;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+/* Eraser felt bottom */
+.oh-eraser::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 2px;
+  right: 2px;
+  height: 4px;
+  background: #888;
+  border-radius: 0 0 2px 2px;
+}
+
+/* ---------- CARDS ---------- */
+
+.oh-card {
+  background: #fffff8;
+  border: 1px solid #d0d0d0;
+  border-radius: 2px;
+  padding: 0;
+  box-shadow: 2px 3px 0 rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+  transform: rotate(0.8deg);
+  /* 5:3 aspect ratio (US standard index card) */
+  aspect-ratio: 5 / 3;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  /* Blue ruled lines starting below the red header line */
+  background-image: 
+    linear-gradient(#fffff8 39px, #e89090 39px, #e89090 40px, #fffff8 40px),
+    repeating-linear-gradient(
+      #fffff8,
+      #fffff8 31px,
+      #a8d4e6 31px,
+      #a8d4e6 32px
+    );
+  background-position: 0 0, 0 40px;
+  background-size: 100% 40px, 100% 100%;
+  background-repeat: no-repeat, repeat;
+}
+
+/* Pushpin */
+.oh-card::before {
+  content: "📌";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  z-index: 3;
+}
+
+/* Card content wrapper */
+.oh-card h2,
+.oh-card .oh-list {
+  padding-left: 24px;
+  padding-right: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.oh-card h2 {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #2a2a2a;
+  margin: 0;
+  padding-top: 12px;
+  padding-bottom: 0;
+  line-height: 28px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.oh-card .oh-list {
+  margin: 0;
+  padding-top: 8px;
+  padding-bottom: 16px;
+}
+
+.oh-card .oh-list li {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.15rem;
+  line-height: 32px;
+  margin-bottom: 0;
+  padding-left: 28px;
+  color: #2a2a2a;
+}
+
+/* Stylistic X for "no" list on index card */
+.oh-card .oh-list-no li::before {
+  content: "✗";
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.3rem;
+  color: #c53030;
+  font-weight: 700;
+}
+
+.oh-card-highlight {
+  background-color: var(--oh-postit);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: 4px 4px 0 var(--oh-postit-shadow);
+  transform: rotate(-1.5deg) translateX(-8px);
+  padding: var(--spacing-lg);
+  /* 3:2 aspect ratio landscape (Super Sticky Large Notes 6x4) */
+  aspect-ratio: 3 / 2;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.oh-card-highlight::before {
+  display: none;
+}
+
+.oh-card-highlight h2,
+.oh-card-highlight .oh-list {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.oh-card-highlight h2 {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-top: 0;
+  height: auto;
+  display: block;
+  line-height: 1.4;
+  margin-bottom: var(--spacing-md);
+  text-transform: none;
+  color: #2a2a2a;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.oh-card-highlight .oh-list li {
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin-bottom: 0.4rem;
+  padding-left: 2rem;
+  color: #2a2a2a;
+}
+
+/* Stylistic checkmarks for post-it */
+.oh-list-check li::before {
+  content: "✓";
+  font-family: 'Caveat', cursive;
+  font-size: 1.4rem;
+  color: #2e7d32;
+  font-weight: 700;
+}
+
+/* ---------- SECTIONS ---------- */
+
+.oh-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.oh-section h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--oh-text-soft);
+  margin-bottom: var(--spacing-md);
+}
+
+/* ---------- LISTS ---------- */
+
+.oh-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.oh-list li {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--oh-text);
+  padding-left: 2rem;
+  margin-bottom: 0.6rem;
+  position: relative;
+}
+
+.oh-list li::before {
+  position: absolute;
+  left: 0;
+  font-weight: 600;
+}
+
+.oh-list-yes li::before {
+  content: "→";
+  color: var(--oh-green);
+}
+
+.oh-list-no li::before {
+  content: "✕";
+  color: var(--oh-accent);
+  font-size: 0.9rem;
+}
+
+.oh-list-sparkle li::before {
+  content: "✦";
+  color: var(--oh-purple);
+}
+
+/* ---------- STEPS ---------- */
+
+.oh-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  padding: var(--spacing-lg) 0;
+}
+
+.oh-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.oh-step-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--oh-accent);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.oh-step-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--oh-text);
+  text-align: center;
+  max-width: 120px;
+}
+
+.oh-step-arrow {
+  font-size: 1.5rem;
+  color: var(--oh-border);
+  font-weight: 300;
+}
+
+/* ---------- CTA ---------- */
+
+.oh-cta {
+  margin-top: var(--spacing-2xl);
+}
+
+.oh-cta-card {
+  position: relative;
+  background: var(--oh-bg-card);
+  border: 2px dashed var(--oh-accent);
+  border-radius: 20px;
+  padding: var(--spacing-2xl);
+  text-align: center;
+  box-shadow: var(--oh-card-shadow);
+}
+
+/* Scissors on the dotted line */
+.oh-scissors {
+  position: absolute;
+  top: -2px;
+  left: 24px;
+  font-size: 1.75rem;
+  transform: translateY(-50%) rotate(0deg);
+  padding: 0 4px;
+  color: var(--oh-text-soft);
+}
+
+.oh-cta-headline {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--oh-text);
+  margin-bottom: var(--spacing-lg);
+}
+
+.oh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--oh-accent);
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease, gap 0.2s ease;
+}
+
+.oh-btn:hover {
+  background: var(--oh-accent-hover);
+  transform: translateY(-2px);
+  gap: 0.75rem;
+}
+
+.oh-btn-arrow {
+  transition: transform 0.2s ease;
+}
+
+.oh-btn:hover .oh-btn-arrow {
+  transform: translateX(4px);
+}
+
+.oh-cta-note {
+  margin-top: var(--spacing-lg);
+  font-size: 0.9rem;
+  color: var(--oh-text-soft);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- FOOTER ---------- */
+
+.oh-footer {
+  margin-top: var(--spacing-2xl);
+  text-align: center;
+}
+
+.oh-footer p {
+  font-size: 0.95rem;
+  color: var(--oh-text-soft);
+}
+
+.oh-footer a {
+  color: var(--oh-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  transition: color 0.15s ease;
+}
+
+.oh-footer a:hover {
+  color: var(--oh-accent-hover);
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 640px) {
+  .oh-page {
+    padding-top: calc(40px + var(--spacing-xl));
+  }
+
+  .oh-container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .oh-hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .oh-card {
+    padding: var(--spacing-lg);
+  }
+
+  .oh-steps {
+    flex-direction: column;
+  }
+
+  .oh-step-arrow {
+    transform: rotate(90deg);
+  }
+
+  .oh-cta-card {
+    padding: var(--spacing-xl);
+  }
+
+  .oh-float {
+    display: none;
+  }
+}
