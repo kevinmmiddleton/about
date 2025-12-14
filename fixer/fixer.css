@@ -215,7 +215,7 @@
   color: var(--fixer-text-soft);
   opacity: 0.25;
   line-height: 28px;
-  height: 56px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -226,7 +226,7 @@
 
 .fixer-hero {
   text-align: left;
-  margin-bottom: 0;
+  margin-bottom: 0; /* let the divider own the spacing */
 }
 
 .fixer-hero h1 {
@@ -236,7 +236,7 @@
   line-height: 28px;
   letter-spacing: 0;
   color: var(--fixer-text);
-  margin-bottom: 28px;
+  margin-bottom: 0;
   padding-top: 0;
 }
 
@@ -244,8 +244,10 @@
   font-family: 'Caveat', cursive;
   font-size: 1.5rem;
   font-weight: 400;
-  color: var(--fixer-text-soft);
+  color: var(--fixer-text) !important;
   line-height: 28px;
+  margin-top: 28px;  /* ONE ruled line between H1 and subline */
+  margin-bottom: 0;  /* avoid double-spacing before the first divider */
 }
 
 /* ---------- SECTIONS ---------- */
@@ -567,4 +569,3 @@
     padding: var(--spacing-md);
   }
 }
-
