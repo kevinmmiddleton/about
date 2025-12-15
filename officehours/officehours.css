@@ -135,35 +135,29 @@
 }
 
 .oh-whiteboard-frame {
-  background: linear-gradient(180deg, #c0c0c0 0%, #a8a8a8 100%);
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 
-    0 4px 12px rgba(0,0,0,0.15),
-    inset 0 1px 0 rgba(255,255,255,0.3);
+  position: relative;
+  aspect-ratio: 1248 / 936;
+  max-width: 624px;
+  margin: 0 auto;
+  background: url('https://middleton.io/officehours/images/whiteboard.png') center center / contain no-repeat;
 }
 
 .oh-whiteboard-surface {
-  background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
-  border-radius: 4px;
-  padding: var(--spacing-xl);
-  min-height: 200px;
-  position: relative;
-  /* Subtle dry-erase texture */
-  background-image: 
-    linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(200, 200, 200, 0.03) 2px,
-      rgba(200, 200, 200, 0.03) 4px
-    );
+  position: absolute;
+  /* Position content area inside the whiteboard image */
+  top: 8%;
+  left: 6%;
+  right: 6%;
+  bottom: 12%;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Ghost text / eraser smudge effect */
 .oh-whiteboard-surface::before {
-  content: "ideas";
+  content: "wash me";
   position: absolute;
   top: 20px;
   right: 30px;
@@ -232,86 +226,9 @@
   color: #dc2626;
 }
 
-/* Marker tray at bottom */
+/* Hide the CSS marker tray since it's in the image */
 .oh-whiteboard-tray {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 8px;
-  padding: 8px 16px;
-  background: linear-gradient(180deg, #707070 0%, #505050 100%);
-  border-radius: 4px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-}
-
-.oh-marker {
-  width: 48px;
-  height: 12px;
-  border-radius: 6px 2px 2px 6px;
-  position: relative;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-}
-
-/* Marker tip */
-.oh-marker::before {
-  content: "";
-  position: absolute;
-  left: -6px;
-  top: 2px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: inherit;
-  filter: brightness(0.85);
-}
-
-/* Marker cap */
-.oh-marker::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: -1px;
-  width: 14px;
-  height: 14px;
-  background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
-  border-radius: 2px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-}
-
-.marker-blue-cap {
-  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
-}
-
-.marker-green-cap {
-  background: linear-gradient(180deg, #22c55e 0%, #15803d 100%);
-}
-
-.marker-red-cap {
-  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
-}
-
-.oh-eraser {
-  width: 48px;
-  height: 20px;
-  background: linear-gradient(180deg, #f5f5f5 0%, #d0d0d0 100%);
-  border-radius: 3px;
-  margin-left: 12px;
-  border: 1px solid #aaa;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  position: relative;
-}
-
-/* Eraser felt bottom */
-.oh-eraser::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 2px;
-  right: 2px;
-  height: 4px;
-  background: #888;
-  border-radius: 0 0 2px 2px;
+  display: none;
 }
 
 /* ---------- CARDS ---------- */
@@ -523,7 +440,7 @@
 
 .oh-steps {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: var(--spacing-md);
   flex-wrap: wrap;
@@ -562,6 +479,7 @@
   font-size: 1.5rem;
   color: var(--oh-border);
   font-weight: 300;
+  margin-top: 12px; /* Align with center of 48px circles */
 }
 
 /* ---------- CTA ---------- */
@@ -696,10 +614,12 @@
 
   .oh-steps {
     flex-direction: column;
+    align-items: center;
   }
 
   .oh-step-arrow {
     transform: rotate(90deg);
+    margin-top: 0;
   }
 
   .oh-cta-card {
