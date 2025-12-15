@@ -16,23 +16,6 @@
   --fixer-red-line: #e07070;
 }
 
-@media (prefers-color-scheme: dark) {
-  .fixer-page {
-    --fixer-paper: #2a2825;
-    --fixer-text: #e8e6e3;
-    --fixer-text-soft: #a8a6a3;
-    --fixer-accent: #8fb89e;
-    --fixer-accent-hover: #a0c9af;
-    --fixer-card-shadow: rgba(0, 0, 0, 0.4);
-    --fixer-blue-line: #3d5a66;
-    --fixer-red-line: #8b4545;
-  }
-  
-  .desk-surface {
-    filter: brightness(0.3) saturate(0.8);
-  }
-}
-
 .fixer-page {
   min-height: 100vh;
   padding: 0;
