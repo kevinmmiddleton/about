@@ -16,6 +16,23 @@
   --fixer-red-line: #e07070;
 }
 
+@media (prefers-color-scheme: dark) {
+  .fixer-page {
+    --fixer-paper: #2a2825;
+    --fixer-text: #e8e6e3;
+    --fixer-text-soft: #a8a6a3;
+    --fixer-accent: #8fb89e;
+    --fixer-accent-hover: #a0c9af;
+    --fixer-card-shadow: rgba(0, 0, 0, 0.4);
+    --fixer-blue-line: #3d5a66;
+    --fixer-red-line: #8b4545;
+  }
+  
+  .desk-surface {
+    filter: brightness(0.3) saturate(0.8);
+  }
+}
+
 .fixer-page {
   min-height: 100vh;
   padding: 0;
@@ -285,7 +302,7 @@
 .fixer-rx-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   padding: var(--spacing-md) var(--spacing-lg);
   background: linear-gradient(180deg, #e8f4ec 0%, #dceee2 100%);
   border-bottom: 1px solid #c5dcc9;
@@ -300,8 +317,10 @@
 }
 
 .fixer-rx-info {
-  font-size: 0.65rem;
-  color: var(--fixer-text-soft);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--fixer-text);
   text-align: right;
   line-height: 1.4;
 }
@@ -397,6 +416,7 @@
   position: absolute;
   bottom: 60px;
   right: -100px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 /* ---------- DESK PROPS ---------- */
@@ -455,6 +475,11 @@
     transform: translate(-200px, 0) rotate(-15deg);
     opacity: 0;
   }
+  
+  .g2-pen {
+    transform: translate(200px, 0) rotate(15deg);
+    opacity: 0;
+  }
 }
 
 /* Slide desk props out when viewport is too short */
@@ -471,6 +496,11 @@
   
   .desk-clip {
     transform: translate(-200px, 0) rotate(-15deg);
+    opacity: 0;
+  }
+  
+  .g2-pen {
+    transform: translate(200px, 0) rotate(15deg);
     opacity: 0;
   }
 }
