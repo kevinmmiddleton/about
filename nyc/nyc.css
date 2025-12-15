@@ -172,7 +172,7 @@
 
 .nyc-logos {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: var(--spacing-xl);
   margin-top: var(--spacing-lg);
   align-items: center;
@@ -184,6 +184,8 @@
   opacity: 0.7;
   filter: grayscale(100%);
   transition: opacity 0.2s ease, filter 0.2s ease;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .nyc-logos img:hover {
@@ -256,5 +258,13 @@
 
   .nyc-container {
     padding: 0 var(--spacing-md);
+  }
+
+  .nyc-logos {
+    gap: var(--spacing-md);
+  }
+
+  .nyc-logos img {
+    max-height: 28px;
   }
 }
