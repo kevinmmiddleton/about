@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kevin Middleton · ✨🐱✨</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Seriously unserious product thinking." />
+  <meta property="og:description"
+    content="Product manager. Cat dad. Believes great work comes from teams that actually like working together." />
+  <meta property="og:url" content="https://middleton.io/catdad" />
+  <meta property="og:image" content="https://middleton.io/catdad/images/catdad.png" />
+  <meta property="og:image:alt"
+    content="Illustrated portrait of Kevin with a cat on a pastel background. Seriously unserious product thinking." />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Seriously unserious product thinking." />
+  <meta name="twitter:description" content="Product, people, and a little humanity. Also cats." />
+  <meta name="twitter:image" content="https://middleton.io/catdad/images/catdad.png" />
+
   <link rel="stylesheet" href="../styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="kawaii.css">
 </head>
 
@@ -43,7 +63,8 @@
         </div>
         <h1 class="gradient-text">Hi, I'm Kevin. <span class="nowrap">(｡◕‿◕｡)</span></h1>
         <p class="subline">
-          Product manager. Cat dad. Believes the best ideas come from teams that actually <em>like</em> talking to each other.
+          Product manager. Cat dad. Believes the best ideas come from teams that actually <em>like</em> talking to each
+          other.
         </p>
         <div class="meta">NYC · 3 cats<br class="mobile-break"> Strong opinions, loosely held ✧</div>
       </section>
@@ -54,10 +75,12 @@
       <section class="kawaii-section rainbow-border">
         <h2>✨ The vibe</h2>
         <p>
-          It's software, not magic. And we're not curing cancer. <span class="handwritten">(Though if you are, that's super serious, you guys!)</span>
+          It's software, not magic. And we're not curing cancer. <span class="handwritten">(Though if you are, that's
+            super serious, you guys!)</span>
         </p>
         <p>
-          I love doing great work with great people. Give me a hard problem, a team that collaborates for real, and an environment where everyone feels safe to speak up. That's when I'm happy~ ♡
+          I love doing great work with great people. Give me a hard problem, a team that collaborates for real, and an
+          environment where everyone feels safe to speak up. That's when I'm happy~ ♡
         </p>
       </section>
 
@@ -81,7 +104,8 @@
       <section class="kawaii-section kawaii-callout rainbow-border">
         <h2>💬 On speaking up</h2>
         <p>
-          I'm not afraid to speak my mind, when I feel safe. And I want to build that same environment for you. Teams do their best work when people can say the honest thing without fear~
+          I'm not afraid to speak my mind, when I feel safe. And I want to build that same environment for you. Teams do
+          their best work when people can say the honest thing without fear~
         </p>
         <p class="kawaii-closer">If your team has that energy, we'll get along great! (◕ᴗ◕✿)</p>
       </section>
@@ -93,7 +117,8 @@
         <h2 class="gradient-text">🐱 The Fur Babies</h2>
         <p>Yes, there are three. They're part of the deal~ ♡</p>
         <div class="cats-photo wiggle-hover">
-          <img src="https://middleton.io/catdad/images/blue_scarlet_luna.png" alt="Blue, Scarlet, and Luna, the three cats">
+          <img src="https://middleton.io/catdad/images/blue_scarlet_luna.png"
+            alt="Blue, Scarlet, and Luna, the three cats">
         </div>
         <ul class="kawaii-list cat-list">
           <li><strong>Blue</strong>: The lawyer. Always advocating for the group. Very professional. ⚖️</li>
@@ -123,7 +148,7 @@
       <section class="kawaii-section rainbow-border">
         <h2>💼 The Serious Stuff</h2>
         <p>
-          12+ years building products at Oracle, Rocket Lawyer, Lever, Sendoso, and more~ 
+          12+ years building products at Oracle, Rocket Lawyer, Lever, Sendoso, and more~
           Enterprise platforms, complex integrations, conversion optimization, and systems that teams actually rely on!
         </p>
         <p class="handwritten" style="margin-top: var(--spacing-md); font-size: 1.3rem;">
@@ -139,7 +164,8 @@
       <!-- CTA -->
       <section class="kawaii-cta rainbow-border">
         <h3 class="gradient-text">Want to chat? <span class="nowrap">(=^･ω･^=)</span></h3>
-        <p class="cta-subline">15 minutes. I promise not to make cat puns.<br><span class="cta-whisper handwritten">(I might make cat puns.)</span></p>
+        <p class="cta-subline">15 minutes. I promise not to make cat puns.<br><span class="cta-whisper handwritten">(I
+            might make cat puns.)</span></p>
         <button class="btn kawaii-btn boing" id="ctaBtn" onclick="handleCTA()">Let's talk ✨🐱✨</button>
         <p class="cta-note">I'll tell Blue you said hi~ ♡</p>
       </section>
@@ -147,7 +173,7 @@
       <div class="section-divider final-divider">
         ∧,,,∧<br>
         ( ̳• · • ̳)<br>
-        /    づ♡ thanks for visiting~
+        / づ♡ thanks for visiting~
       </div>
 
     </div>
@@ -176,12 +202,12 @@
     const cursorCat = document.getElementById('cursorCat');
     let mouseX = 0, mouseY = 0;
     let catX = 0, catY = 0;
-    
+
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
     });
-    
+
     function animateCat() {
       catX += (mouseX - catX - 15) * 0.1;
       catY += (mouseY - catY - 15) * 0.1;
@@ -197,7 +223,7 @@
       const img = document.querySelector('.kawaii-hero-img');
       img.classList.add('meow-wiggle');
       setTimeout(() => img.classList.remove('meow-wiggle'), 500);
-      
+
       // Show meow text
       const meowText = document.createElement('div');
       meowText.className = 'meow-text';
@@ -210,7 +236,7 @@
     function createConfetti() {
       const container = document.getElementById('confettiContainer');
       const emojis = ['🎉', '✨', '💖', '🐱', '⭐', '💫', '🌟', '😺', '💕', '🎀'];
-      
+
       for (let i = 0; i < 50; i++) {
         const confetti = document.createElement('span');
         confetti.className = 'confetti';
@@ -219,7 +245,7 @@
         confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
         confetti.style.animationDelay = Math.random() * 0.5 + 's';
         container.appendChild(confetti);
-        
+
         setTimeout(() => confetti.remove(), 4000);
       }
     }
@@ -235,7 +261,7 @@
     // Konami code easter egg
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     let konamiIndex = 0;
-    
+
     document.addEventListener('keydown', (e) => {
       if (e.key === konamiCode[konamiIndex]) {
         konamiIndex++;
@@ -306,4 +332,5 @@
     audioPlayer.addEventListener('play', () => setPlayingState(true));
   </script>
 </body>
+
 </html>
