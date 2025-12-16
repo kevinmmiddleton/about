@@ -62,6 +62,35 @@
   color: var(--text-secondary);
 }
 
+/* Hero CTAs */
+.nyc-hero-ctas {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.nyc-hero-link {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.nyc-hero-link:hover {
+  color: var(--color-primary);
+}
+
+.nyc-hero-link.secondary {
+  color: var(--text-secondary);
+}
+
+.nyc-hero-link.secondary:hover {
+  color: var(--text-primary);
+}
+
 /* ---------- SECTIONS ---------- */
 
 .nyc-section {
