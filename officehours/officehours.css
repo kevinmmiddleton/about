@@ -128,6 +128,28 @@
   line-height: 1.6;
 }
 
+/* Hero CTAs */
+.oh-hero-ctas {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  justify-content: center;
+  align-items: center;
+}
+
+.oh-hero-link {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--oh-text-soft);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.oh-hero-link:hover {
+  color: var(--oh-accent);
+}
+
 /* ---------- WHITEBOARD ---------- */
 
 .oh-whiteboard {
