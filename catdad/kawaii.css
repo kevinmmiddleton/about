@@ -168,8 +168,8 @@
 
 .kawaii-hero {
   text-align: center;
-  margin-bottom: var(--spacing-2xl);
-  padding-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
   position: relative;
 }
 
@@ -285,12 +285,53 @@
 }
 
 .kawaii-hero .meta {
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-md);
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--kawaii-accent);
   letter-spacing: 0.02em;
-  word-wrap: break-word;
+}
+
+/* Hero CTA */
+.hero-cta-text {
+  margin-top: var(--spacing-lg);
+  font-size: 1.1rem;
+  color: var(--kawaii-text);
+  line-height: 1.5;
+  max-width: 40ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta-buttons {
+  margin-top: var(--spacing-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  align-items: center;
+}
+
+.kawaii-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--kawaii-accent);
+  background: transparent;
+  border: 2px solid var(--kawaii-lavender);
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.kawaii-btn-ghost:hover {
+  background: var(--kawaii-lavender);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
 /* ---------- SECTION DIVIDERS ---------- */
@@ -318,8 +359,16 @@
 .final-divider {
   margin-top: var(--spacing-2xl);
   font-size: 0.9rem;
-  line-height: 1.3;
-  white-space: pre-line;
+  line-height: 1.4;
+}
+
+.final-cat {
+  font-family: monospace;
+  font-size: 1rem;
+  line-height: 1.1;
+  margin-bottom: var(--spacing-sm);
+  white-space: pre;
+  display: inline-block;
 }
 
 /* ---------- SECTIONS ---------- */
@@ -413,7 +462,7 @@
   content: "♡";
   position: absolute;
   left: 0;
-  color: var(--kawaii-pink);
+  color: var(--kawaii-text);
   font-size: 0.9rem;
   animation: heartBeat 1.5s ease infinite;
 }
