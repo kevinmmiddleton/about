@@ -220,10 +220,24 @@ if (sliderContainer) {
   sliderContainer.addEventListener("mouseleave", startSlider)
 }
 
+// ========== Experience Accordion Toggle ==========
+document.querySelectorAll('.exp-header').forEach(header => {
+  header.addEventListener('click', (e) => {
+    // Don't toggle if clicking on a link
+    if (e.target.tagName === 'A') return;
+    
+    header.classList.toggle('expanded');
+    const content = header.nextElementSibling;
+    if (content && content.classList.contains('exp-content')) {
+      content.classList.toggle('expanded');
+    }
+  });
+});
+
 // ========== Experience Mode Toggle ==========
 const toggleInput = document.getElementById("experienceModeToggle")
 const journeyPreamble = document.getElementById("journey-preamble")
-const experienceGrid = document.querySelector(".experience-grid")
+const experienceList = document.querySelector(".experience-list")
 
 if (journeyPreamble) {
   journeyPreamble.style.display = "none";
@@ -251,21 +265,18 @@ const storyOrder = [
 ]
 
 function reorderExperience(mode) {
+  if (!experienceList) return;
   const order = mode === "story" ? storyOrder : resumeOrder
   order.forEach((id) => {
     const card = document.getElementById(id)
-    if (card) experienceGrid.appendChild(card)
+    if (card) experienceList.appendChild(card)
   })
 }
 
-if (toggleInput && experienceGrid) {
+if (toggleInput) {
   toggleInput.addEventListener("change", () => {
     if (journeyPreamble) {
-      if (toggleInput.checked) {
-        journeyPreamble.style.display = "block";
-      } else {
-        journeyPreamble.style.display = "none";
-      }
+      journeyPreamble.style.display = toggleInput.checked ? "block" : "none";
     }
     const mode = toggleInput.checked ? "story" : "resume"
     reorderExperience(mode)
