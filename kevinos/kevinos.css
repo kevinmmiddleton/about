@@ -102,6 +102,7 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
     gap: 2px;
     padding: 12px 8px;
     overflow-y: auto;
+    z-index: 1;
 }
 
 .desktop-icons-left { order: 1; }
@@ -150,7 +151,7 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow: visible;
     z-index: 10;
 }
 
