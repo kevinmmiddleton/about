@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HVAC.com Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="case-study.css">
+</head>
+<body>
+    <!-- Window Chrome Header -->
+    <header class="window-chrome">
+        <div class="window-dots">
+            <span class="window-dot red"></span>
+            <span class="window-dot yellow"></span>
+            <span class="window-dot green"></span>
+        </div>
+        <div class="window-title" data-kevinos-title="hvac-calculators-conversion.md" data-portfolio-title="HVAC.com · Turning Traffic Into Intent">
+            <img src="https://middleton.io/images/hvac-com-logo-stacked-white.png" alt="HVAC.com">
+            HVAC.com · Turning Traffic Into Intent
+        </div>
+        <a href="https://middleton.io" class="back-link">← Back to Portfolio</a>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <p class="hero-label">Case Study · HVAC.com</p>
+        <h1>Turning Traffic Into Intent:<br>Calculators & Conversion</h1>
+        <p class="hero-subtitle">Built high-intent tools from scratch that converted at 50x the site baseline, turning a high-traffic homeowner platform into a lead generation engine.</p>
+        
+        <div class="hero-metrics">
+            <div class="metric">
+                <p class="metric-value">50×</p>
+                <p class="metric-label">Conversion Lift (Calculators)</p>
+            </div>
+            <div class="metric">
+                <p class="metric-value">~2M</p>
+                <p class="metric-label">Annual Visitors</p>
+            </div>
+            <div class="metric">
+                <p class="metric-value">4</p>
+                <p class="metric-label">Tools Launched</p>
+            </div>
+        </div>
+
+        <div class="hero-meta-list">
+            <span class="hero-meta-item"><strong>Role:</strong> Senior Product Manager, HVAC.com and Branded Sites</span>
+        </div>
+    </section>
+
+    <!-- Static TOC Navigation -->
+    <nav class="toc-static" id="tocStatic">
+        <div class="toc-grid">
+            <a href="#introduction" class="toc-item" data-section="introduction">Introduction</a>
+            <a href="#problem" class="toc-item" data-section="problem">Problem</a>
+            <a href="#strategy" class="toc-item" data-section="strategy">Strategy</a>
+            <a href="#platform" class="toc-item" data-section="platform">Platform</a>
+            <a href="#walkthrough" class="toc-item" data-section="walkthrough">Walkthrough</a>
+            <a href="#execution" class="toc-item" data-section="execution">Execution</a>
+            <a href="#outcomes" class="toc-item" data-section="outcomes">Outcomes</a>
+            <a href="#challenges" class="toc-item" data-section="challenges">Challenges</a>
+            <a href="#lessons" class="toc-item" data-section="lessons">Lessons</a>
+        </div>
+    </nav>
+
+    <!-- Floating TOC -->
+    <nav class="toc-floating" id="tocFloating">
+        <div class="toc-grid">
+            <a href="#introduction" class="toc-item" data-section="introduction">Introduction</a>
+            <a href="#problem" class="toc-item" data-section="problem">Problem</a>
+            <a href="#strategy" class="toc-item" data-section="strategy">Strategy</a>
+            <a href="#platform" class="toc-item" data-section="platform">Platform</a>
+            <a href="#walkthrough" class="toc-item" data-section="walkthrough">Walkthrough</a>
+            <a href="#execution" class="toc-item" data-section="execution">Execution</a>
+            <a href="#outcomes" class="toc-item" data-section="outcomes">Outcomes</a>
+            <a href="#challenges" class="toc-item" data-section="challenges">Challenges</a>
+            <a href="#lessons" class="toc-item" data-section="lessons">Lessons</a>
+        </div>
+    </nav>
+
+    <!-- Introduction -->
+    <section class="section section--blue" id="introduction">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">Context & Mission</p>
+                <h2>🚀 Introduction</h2>
+                <p class="section-intro">I owned product strategy, UX, and growth for HVAC.com, a homeowner platform with ~2M annual visits that connects consumers to trusted HVAC dealers nationwide. I owned the full digital funnel, from first touch to dealer handoff, driving measurable conversion gains and shaping Trane's broader digital strategy.</p>
+            </div>
+
+            <div class="two-col">
+                <div>
+                    <h3>What I Inherited</h3>
+                    <p>HVAC.com had QuoteScore (a tool to validate HVAC quotes) and a Replace funnel that guided homeowners through questions to receive a quote. I inherited and continued to iterate on both, running experiments to improve conversion at every step. But the site lacked middle-funnel tools and had no Repair experience.</p>
+                </div>
+                <div>
+                    <h3>What I Built</h3>
+                    <p>I launched the Repair experience from scratch, created three interactive calculators, and redesigned the blog to drive traffic into our funnels. No material change shipped without an A/B test. I ran dozens of experiments across all parts of the site, building a culture of data-driven iteration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem -->
+    <section class="section section--purple" id="problem">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">What needed to change</p>
+                <h2>🎯 The Problem</h2>
+                <p class="section-intro">Two million annual visitors, but only 0.1% were converting. The gap between "I'm researching HVAC" and "I'm ready for a quote" was too wide, with nothing in between to capture intent and build trust.</p>
+            </div>
+
+            <div class="card-grid grid-2">
+                <div class="card card--blue">
+                    <h3>The Traffic Problem</h3>
+                    <ul>
+                        <li>~2M annual visitors, mostly informational intent</li>
+                        <li>Homeowners researching, not ready to commit</li>
+                        <li>High bounce rates on content pages</li>
+                        <li>No middle-funnel engagement tools</li>
+                        <li>0.1% baseline conversion rate</li>
+                    </ul>
+                </div>
+                <div class="card card--purple">
+                    <h3>The User Problem</h3>
+                    <ul>
+                        <li>"Should I repair or replace?" - no clear answer</li>
+                        <li>"What size system do I need?" - required professional assessment</li>
+                        <li>"How much will I save with a better system?" - hard to quantify</li>
+                        <li>Homeowners felt unprepared to request quotes</li>
+                        <li>No "aha moments" to build confidence</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strategy -->
+    <section class="section section--mint" id="strategy">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">Meeting homeowners where they are</p>
+                <h2>🧠 Strategy & Solution</h2>
+                <p class="section-intro">The insight was simple: if we give high-intent homeowners engaging tools that deliver "aha moments," they'll stick around to see what we can do for them. Instead of asking for commitment upfront, we'd provide value first, then offer a natural next step.</p>
+            </div>
+
+            <div class="card-grid grid-3">
+                <div class="card card--blue">
+                    <h3>SEO-Driven Discovery</h3>
+                    <p>Partnered with SEO to understand what homeowners were actually searching for. The questions were clear: repair vs replace, system sizing, energy savings. These became our calculator roadmap.</p>
+                </div>
+                <div class="card card--purple">
+                    <h3>Value-First Engagement</h3>
+                    <p>Each calculator delivered a personalized answer to a real question. By the time users finished, they'd invested time, received value, and were primed to take the next step.</p>
+                </div>
+                <div class="card card--mint">
+                    <h3>Funnel Integration</h3>
+                    <p>Every calculator ended with a contextual path to our replacement funnel. Users who just learned they should replace their unit could immediately get a quote, pre-qualified and motivated.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Capabilities -->
+    <section class="section section--peach" id="platform">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">What we shipped</p>
+                <h2>⚙️ Platform Capabilities</h2>
+                <p class="section-intro">I expanded the product surface area significantly, launching new experiences while continuously improving inherited tools through rigorous A/B testing.</p>
+            </div>
+
+            <div class="card-grid grid-3">
+                <div class="card card--blue">
+                    <h3>🆕 Repair Experience</h3>
+                    <p>Launched from scratch. A new funnel for homeowners needing HVAC repairs, expanding beyond replacement-only to capture a broader audience.</p>
+                </div>
+                <div class="card card--purple">
+                    <h3>🆕 Interactive Calculators</h3>
+                    <p>Built three calculators from Excel prototype to production: Repair/Replace, HVAC Load, and SEER Savings. Each delivered "aha moments" that drove users to our funnels.</p>
+                </div>
+                <div class="card card--mint">
+                    <h3>🆕 Redesigned Blog</h3>
+                    <p>Improved the blog experience to increase depth, engagement, and lead volume, creating clear paths from educational content into conversion funnels.</p>
+                </div>
+            </div>
+
+            <div class="card-grid grid-3" style="margin-top: 16px;">
+                <div class="card card--peach">
+                    <h3>📈 Replace Funnel Iteration</h3>
+                    <p>Inherited and continuously optimized the replacement funnel through dozens of A/B tests on step order, copy, and flow.</p>
+                </div>
+                <div class="card card--yellow">
+                    <h3>📈 QuoteScore Support</h3>
+                    <p>Inherited and supported QuoteScore, which validated homeowner quotes and converted at 6% by capturing high-intent users.</p>
+                </div>
+                <div class="card card--pink">
+                    <h3>⚙️ Split.io Controls</h3>
+                    <p>Introduced feature flags and toggles for banners, funnel step order, and step text, enabling rapid iteration without engineering deploys.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Walkthrough -->
+    <section class="section section--blue" id="walkthrough">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">The tools in action</p>
+                <h2>🛠️ Product Walkthrough</h2>
+                <p class="section-intro">From calculator entry points to the replacement funnel, each touchpoint was designed to build confidence and guide homeowners toward action.</p>
+            </div>
+
+            <div class="walkthrough-grid walkthrough-4">
+                <div class="walkthrough-item">
+                    <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/hvac-calculators.png', 'HVAC.com Calculator Hub')">
+                        <img src="https://middleton.io/images/hvac-calculators.png" alt="HVAC.com Calculator Hub">
+                    </div>
+                    <div class="walkthrough-caption">1. Calculator Hub: Entry point for all tools</div>
+                </div>
+                <div class="walkthrough-item">
+                    <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/hvac-quotescore.png', 'QuoteScore Landing Page')">
+                        <img src="https://middleton.io/images/hvac-quotescore.png" alt="QuoteScore Landing Page">
+                    </div>
+                    <div class="walkthrough-caption">2. QuoteScore: Validate your HVAC quote</div>
+                </div>
+                <div class="walkthrough-item">
+                    <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/hvac-replace-landing.png', 'Replacement Landing Page')">
+                        <img src="https://middleton.io/images/hvac-replace-landing.png" alt="Replacement Landing Page">
+                    </div>
+                    <div class="walkthrough-caption">3. Replacement Landing: High-intent entry</div>
+                </div>
+                <div class="walkthrough-item">
+                    <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/hvac-quote-step1-address.png', 'Replacement Funnel Step 1')">
+                        <img src="https://middleton.io/images/hvac-quote-step1-address.png" alt="Replacement Funnel Step 1">
+                    </div>
+                    <div class="walkthrough-caption">4. Quote Funnel: Address entry step</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Execution -->
+    <section class="section section--purple" id="execution">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">How we delivered</p>
+                <h2>🤝 Execution & Key Decisions</h2>
+                <p class="section-intro">Data-driven execution meant no material change shipped without an A/B test. I ran dozens of experiments across all parts of the site while aligning cross-functional teams around a clear roadmap.</p>
+            </div>
+
+            <div class="card-grid grid-3">
+                <div class="card card--blue">
+                    <h3>🧪 Relentless A/B Testing</h3>
+                    <p>Dozens of tests across the entire site. Every material change was validated. This built confidence in decisions and created a culture of experimentation.</p>
+                </div>
+                <div class="card card--purple">
+                    <h3>📊 Behavioral Analytics</h3>
+                    <p>Used session-to-install data, user paths, and behavioral analytics to identify friction points and refine the homeowner journey for better lead quality.</p>
+                </div>
+                <div class="card card--mint">
+                    <h3>🎛️ No-Code Controls</h3>
+                    <p>Built Split.io toggles for banners, funnel step order, and copy changes. This gave us control to iterate rapidly without waiting for engineering deploys.</p>
+                </div>
+            </div>
+
+            <div class="card-grid grid-3" style="margin-top: 16px;">
+                <div class="card card--peach">
+                    <h3>📐 Excel Prototyping</h3>
+                    <p>Built calculator logic in Excel first to validate formulas and test edge cases before engineering work began. De-risked development and accelerated alignment.</p>
+                </div>
+                <div class="card card--yellow">
+                    <h3>☀️ Seasonal Timing</h3>
+                    <p>Launched calculators aggressively over summer to capture peak HVAC replacement season. Homeowners with broken AC in July don't wait.</p>
+                </div>
+                <div class="card card--pink">
+                    <h3>🤝 Cross-Functional Alignment</h3>
+                    <p>Aligned engineering, SEO, marketing, design, and sales ops around a clear roadmap, accelerating delivery across the organization.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Outcomes -->
+    <section class="section section--mint" id="outcomes">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">What we delivered</p>
+                <h2>📈 Outcomes</h2>
+                <p class="section-intro">Each initiative materially lifted the 0.1% baseline conversion rate, proving that high-intent tools and data-driven iteration could transform a high-traffic site into a lead generation engine.</p>
+            </div>
+
+            <div class="card-grid grid-4">
+                <div class="card card--blue">
+                    <h3>Calculators: 7.3%</h3>
+                    <p>Peaked at 7.3%, settled to ~5%. A 50x sustained lift over the 0.1% baseline, proving value-first tools drive conversion.</p>
+                </div>
+                <div class="card card--purple">
+                    <h3>QuoteScore: 6%</h3>
+                    <p>Inherited tool converting at 6%, capturing homeowners who already had quotes and were ready to validate and act.</p>
+                </div>
+                <div class="card card--mint">
+                    <h3>Video Content: 3.4%</h3>
+                    <p>Video-driven pages converted at 3.4%, proving educational content drives action when paired with clear CTAs.</p>
+                </div>
+                <div class="card card--peach">
+                    <h3>Landing Pages: 2.3%</h3>
+                    <p>Optimized landing pages lifted conversion to 2.3%, 23x the baseline through targeted messaging and streamlined paths.</p>
+                </div>
+            </div>
+
+            <div class="card-grid grid-2" style="margin-top: 16px;">
+                <div class="card card--yellow">
+                    <h3>Platform Expansion</h3>
+                    <p>Expanded product surface area with HVAC Repair services, three interactive calculators, and a redesigned blog that increased depth, engagement, and lead volume.</p>
+                </div>
+                <div class="card card--pink">
+                    <h3>Trane Integration & Impact</h3>
+                    <p>Insights from HVAC.com informed Trane's System Recommender Tool pilot in Florida, later expanded to the Southeast, Arizona, and Texas. Fresh ideas shaped the foundation for Trane's 2025 roadmap.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges -->
+    <section class="section section--peach" id="challenges">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">Where the work was hardest</p>
+                <h2>🚧 Challenges</h2>
+                <p class="section-intro">Building high-impact tools on a tight timeline while navigating an acquisition required focus, flexibility, and trust-building across teams.</p>
+            </div>
+
+            <div class="timeline timeline--peach">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-date">Early Phase</p>
+                        <h3>Validating Calculator Logic</h3>
+                        <p>HVAC sizing and savings calculations needed to be accurate enough to be useful, but simple enough for homeowners to complete. Excel prototyping helped us find the right balance before committing to development.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-date">Mid Phase</p>
+                        <h3>Racing the Season</h3>
+                        <p>Summer is peak HVAC replacement season. We had a narrow window to launch calculators and capture high-intent traffic. This meant aggressive timelines and ruthless prioritization.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-date">Late Phase</p>
+                        <h3>Trane Acquisition Integration</h3>
+                        <p>Integrating into a larger organization mid-project required adapting to new processes while maintaining momentum. I brought fresh ideas to annual planning that helped shape the 2025 roadmap.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-date">Ongoing</p>
+                        <h3>Proving Value Across Teams</h3>
+                        <p>Demonstrating that calculator insights could inform Trane's broader product strategy required building trust and translating HVAC.com learnings into enterprise context.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lessons -->
+    <section class="section section--yellow" id="lessons">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">How this shaped my approach</p>
+                <h2>💡 Lessons Learned</h2>
+            </div>
+
+            <div class="lessons-grid">
+                <div class="lesson-card">
+                    <h3>Test Everything</h3>
+                    <p>No material change without an A/B test. Dozens of experiments built confidence in decisions and created a culture where data won arguments.</p>
+                </div>
+                <div class="lesson-card">
+                    <h3>Value First, Commitment Second</h3>
+                    <p>High-intent tools that deliver "aha moments" convert dramatically better than generic CTAs. Give users something useful before asking for their information.</p>
+                </div>
+                <div class="lesson-card">
+                    <h3>Build Controls, Not Just Features</h3>
+                    <p>Split.io toggles for banners, step order, and copy enabled rapid iteration without engineering deploys. Operational flexibility multiplies impact.</p>
+                </div>
+                <div class="lesson-card">
+                    <h3>Small Teams Can Inform Big Roadmaps</h3>
+                    <p>Insights from HVAC.com directly influenced Trane's System Recommender Tool and 2025 planning. Focused work can shape enterprise strategy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="https://middleton.io" class="back-link" style="font-size: 14px;">← Back to Portfolio</a>
+        <p class="footer-meta" style="margin-top: 16px;">Case Study · HVAC.com · Kevin Middleton</p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <script src="case-study.js"></script>
+</body>
+</html>
