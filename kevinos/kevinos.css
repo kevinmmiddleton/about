@@ -521,6 +521,8 @@ body { font-family: var(--font-sans); background: var(--bg); color: var(--text);
 .project-card.lever .project-img { background: #000000; }
 .project-card.hurd .project-img { background: #000000; }
 .project-card.oracle .project-img { background: #FFFFFF; }
+.project-card.hvac .project-img { background: #000000; }
+.project-card.hvac .project-img img { max-width: 25% !important; max-height: 35% !important; }
 
 /* ===================
    SKILLS
