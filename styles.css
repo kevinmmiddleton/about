@@ -590,6 +590,22 @@ img {
   line-height: 1.6;
 }
 
+.hero-side-project {
+    margin-top: var(--spacing-md);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.hero-side-project a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.hero-side-project a:hover {
+    text-decoration: underline;
+}
+
 .scroll-indicator {
   animation: bounce 2s infinite;
 }
