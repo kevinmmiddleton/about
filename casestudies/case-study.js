@@ -4,6 +4,47 @@
    =================== */
 
 // ===================
+// CONTEXT-AWARE BACK LINKS & TITLE
+// ===================
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    const fromKevinOS = params.get('from') === 'kevinos';
+    
+    // Update back links
+    const backLinks = document.querySelectorAll('.back-link');
+    backLinks.forEach(link => {
+        if (fromKevinOS) {
+            link.href = 'https://middleton.io/kevinos';
+            link.textContent = '← Back to KevinOS';
+        } else {
+            link.href = 'https://middleton.io';
+            link.textContent = '← Back to Portfolio';
+        }
+    });
+    
+    // Update window title
+    const windowTitle = document.querySelector('.window-title');
+    if (windowTitle) {
+        const kevinosTitle = windowTitle.dataset.kevinosTitle;
+        const portfolioTitle = windowTitle.dataset.portfolioTitle;
+        
+        if (fromKevinOS && kevinosTitle) {
+            windowTitle.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                    node.textContent = '\n            ' + kevinosTitle + '\n        ';
+                }
+            });
+        } else if (!fromKevinOS && portfolioTitle) {
+            windowTitle.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                    node.textContent = '\n            ' + portfolioTitle + '\n        ';
+                }
+            });
+        }
+    }
+})();
+
+// ===================
 // LIGHTBOX
 // ===================
 function openLightbox(src, alt) {
