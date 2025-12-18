@@ -1260,6 +1260,12 @@ img {
   border-radius: var(--radius-lg);
 }
 
+.project-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: contents;
+}
+
 /* Project image wrapper */
 .project-image-wrap {
   display: block;
