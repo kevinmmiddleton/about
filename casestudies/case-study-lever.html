@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lever Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="case-study.css">
+</head>
+<body>
+    <!-- Window Chrome Header -->
+    <header class="window-chrome">
+        <div class="window-dots">
+            <span class="window-dot red"></span>
+            <span class="window-dot yellow"></span>
+            <span class="window-dot green"></span>
+        </div>
+        <div class="window-title">
+            <img src="https://middleton.io/images/lever-logo.webp" alt="Lever">
+            lever-hris-sync.md
+        </div>
+        <a href="kevin-os-v2.html" class="back-link">← Back to KevinOS</a>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <p class="hero-label">Case Study · Lever</p>
+        <h1>Moving Lever Upmarket:<br>Bulk Import & HRIS Sync</h1>
+        <p class="hero-subtitle">How we proved Lever could operate at enterprise scale. First by eliminating implementation friction, then by building enterprise-grade user management.</p>
+        
+        <div class="hero-metrics">
+            <div class="metric">
+                <p class="metric-value">37%</p>
+                <p class="metric-label">Q1 Engagement</p>
+            </div>
+            <div class="metric">
+                <p class="metric-value">Days → Min</p>
+                <p class="metric-label">Migration Time</p>
+            </div>
+            <div class="metric">
+                <p class="metric-value">12+</p>
+                <p class="metric-label">CAB Customers</p>
+            </div>
+        </div>
+
+        <div class="hero-meta-list">
+            <span class="hero-meta-item"><strong>Role:</strong> Senior Product Manager, HRIS Sync Lead</span>
+            <span class="hero-meta-item"><strong>Teams:</strong> Top of Funnel & Platform</span>
+        </div>
+    </section>
+
+    <!-- Static TOC Navigation (Desktop only) -->
+    <nav class="toc-static" id="tocStatic">
+        <div class="toc-grid">
+            <a href="#introduction" class="toc-item" data-section="introduction">Introduction</a>
+            <a href="#problem" class="toc-item" data-section="problem">Problem</a>
+            <a href="#strategy" class="toc-item" data-section="strategy">Strategy</a>
+            <a href="#platform" class="toc-item" data-section="platform">Platform</a>
+            <a href="#walkthrough" class="toc-item" data-section="walkthrough">Walkthrough</a>
+            <a href="#execution" class="toc-item" data-section="execution">Execution</a>
+            <a href="#outcomes" class="toc-item" data-section="outcomes">Outcomes</a>
+            <a href="#challenges" class="toc-item" data-section="challenges">Challenges</a>
+            <a href="#lessons" class="toc-item" data-section="lessons">Lessons</a>
+        </div>
+    </nav>
+
+    <!-- Floating TOC (Desktop only, appears on scroll) -->
+    <nav class="toc-floating" id="tocFloating">
+        <div class="toc-grid">
+            <a href="#introduction" class="toc-item" data-section="introduction">Introduction</a>
+            <a href="#problem" class="toc-item" data-section="problem">Problem</a>
+            <a href="#strategy" class="toc-item" data-section="strategy">Strategy</a>
+            <a href="#platform" class="toc-item" data-section="platform">Platform</a>
+            <a href="#walkthrough" class="toc-item" data-section="walkthrough">Walkthrough</a>
+            <a href="#execution" class="toc-item" data-section="execution">Execution</a>
+            <a href="#outcomes" class="toc-item" data-section="outcomes">Outcomes</a>
+            <a href="#challenges" class="toc-item" data-section="challenges">Challenges</a>
+            <a href="#lessons" class="toc-item" data-section="lessons">Lessons</a>
+        </div>
+    </nav>
+
+    <!-- Introduction -->
+    <section class="section section--blue" id="introduction">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">Context & Mission</p>
+                <h2>🚀 Introduction</h2>
+                <p class="section-intro">Lever was moving upmarket. Enterprise customers expected automatic HRIS integration, self-serve data migration, and workflows that didn't break when managers were unavailable. But Lever required manual provisioning, Support-dependent candidate uploads that took days, and workarounds for basic approval flows. This friction blocked deals, frustrated IT admins, and created operational overhead. If we couldn't prove Lever could operate at enterprise scale, the upmarket expansion would stall.</p>
+            </div>
+
+            <div class="two-col">
+                <div>
+                    <h3>The Operational Gap</h3>
+                    <p>Enterprise implementations were bottlenecked by manual data migration. Customers emailed bulk candidate files to Support, who queued uploads in Amazon S3. Turnaround time: 3-4 business days. Errors in files meant additional back-and-forth, stretching timelines to weeks.</p>
+                </div>
+                <div>
+                    <h3>The Product Gap</h3>
+                    <p>Enterprise customers needed Lever to work like the rest of their IT stack: automatic provisioning via SCIM, real-time sync with HRIS, and org-aware workflows. Instead, they faced manual user creation, stale data, and broken approval chains.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem -->
+    <section class="section section--purple" id="problem">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">Who we were serving</p>
+                <h2>🎯 The Problem</h2>
+                <p class="section-intro">We were building for multiple stakeholders across implementation, IT infrastructure, and recruiting operations, each facing different bottlenecks but all blocked by the same core issue: Lever wasn't built for enterprise scale.</p>
+            </div>
+
+            <!-- 3 items: 1x3 -->
+            <div class="card-grid grid-3">
+                <div class="card card--blue">
+                    <h3>Implementation Teams</h3>
+                    <ul>
+                        <li>Manually uploaded bulk candidate data via backend processes</li>
+                        <li>Fielded error-handling requests requiring technical troubleshooting</li>
+                        <li>Spent days on tasks customers could handle in minutes</li>
+                        <li>Wanted to focus on strategic onboarding, not data entry</li>
+                    </ul>
+                </div>
+                <div class="card card--purple">
+                    <h3>IT Admins</h3>
+                    <ul>
+                        <li>Expected SCIM support across their entire IT stack</li>
+                        <li>Needed Lever to auto-sync with HRIS without manual intervention</li>
+                        <li>Required clear documentation and enterprise readiness</li>
+                        <li>Responsible for provisioning, compliance, and security</li>
+                    </ul>
+                </div>
+                <div class="card card--mint">
+                    <h3>Recruiting Teams</h3>
+                    <ul>
+                        <li>Lost time when managers were OOO and approvals stalled</li>
+                        <li>Manually reassigned approvals or worked around Lever</li>
+                        <li>Needed accurate org structure to route requisitions correctly</li>
+                        <li>Cared most about Time to Hire and Time to Fill metrics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 48px; margin-bottom: 24px;">Key Problems to Solve</h3>
+
+            <!-- 3 items: 1x3 -->
+            <div class="card-grid grid-3">
+                <div class="card">
+                    <h4>Support-Dependent Data Migration</h4>
+                    <p>Customers emailed bulk files to Support, who used backend processes to upload via Amazon S3. Turnaround: 3-4 days. Errors extended timelines to weeks.</p>
+                </div>
+                <div class="card">
+                    <h4>Manual Provisioning at Scale</h4>
+                    <p>IT admins manually created and updated 50+ users per month. User data went stale between HRIS and Lever. No SCIM support meant Lever didn't meet enterprise security standards.</p>
+                </div>
+                <div class="card">
+                    <h4>Broken Approval Workflows</h4>
+                    <p>When managers were OOO, approvals stalled or required manual reassignment. Teams worked around Lever by routing approvals outside the system.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strategy -->
+    <section class="section section--mint" id="strategy">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">Building for enterprise scale</p>
+                <h2>🧠 Strategy & Solution</h2>
+                <p class="section-intro">We approached Lever's upmarket challenge in two phases: first, prove we could operate efficiently at scale by eliminating implementation friction. Then, prove the product itself could integrate like enterprise infrastructure.</p>
+            </div>
+
+            <div class="two-col">
+                <div>
+                    <h3>Phase 1: Operational Efficiency</h3>
+                    <p>We started by eliminating the biggest implementation bottleneck: manual data migration. I partnered with the Top of Funnel team to build a self-serve bulk importer. Drag-and-drop CSV upload, real-time validation, specific error messages for failed rows. This cut migration time from days to minutes.</p>
+                </div>
+                <div>
+                    <h3>Phase 2: Platform Capabilities</h3>
+                    <p>With implementation efficiency proven, we built HRIS Sync to solve the product integration gap. I built the Orion platform team from scratch (0 → 7 people) and led deep discovery with 12+ CAB customers. We anchored on SCIM as the industry standard and launched with Proxy Approval.</p>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 48px; margin-bottom: 24px;">Key Decisions</h3>
+
+            <!-- 3 items: 1x3 -->
+            <div class="card-grid grid-3">
+                <div class="card">
+                    <h4>Why Self-Serve First?</h4>
+                    <p>Implementation bottlenecks were blocking enterprise deals immediately. Building the bulk importer delivered fast value and bought time to build the deeper HRIS Sync platform work.</p>
+                </div>
+                <div class="card">
+                    <h4>Why SCIM?</h4>
+                    <p>We evaluated Merge.dev but chose SCIM for long-term flexibility. Every enterprise IT stack supported it. Customers could self-implement. We retained full control.</p>
+                </div>
+                <div class="card">
+                    <h4>Why Proxy Approval First?</h4>
+                    <p>Recruiting teams cared about Time to Hire and Time to Fill. Approval bottlenecks hurt both. Launching with manager approval proved HRIS Sync solved real workflow problems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Capabilities -->
+    <section class="section section--peach" id="platform">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">What we shipped</p>
+                <h2>⚙️ Platform Capabilities</h2>
+                <p class="section-intro">These became the reusable building blocks for Lever's enterprise readiness, proving we could operate efficiently and integrate seamlessly.</p>
+            </div>
+
+            <!-- 4 items: 2x2 -->
+            <div class="card-grid grid-4">
+                <div class="card card--blue">
+                    <h3>Self-Serve Bulk Importer</h3>
+                    <p>Drag-and-drop CSV upload with real-time validation and specific error messages for failed rows. Customers could migrate candidates in minutes instead of waiting days for Support.</p>
+                </div>
+                <div class="card card--purple">
+                    <h3>SCIM User Provisioning</h3>
+                    <p>IT admins configured SCIM once and user data, name, email, job title, manager, synced automatically from HRIS to Lever. No manual provisioning, no stale data.</p>
+                </div>
+                <div class="card card--mint">
+                    <h3>Enriched User Profiles</h3>
+                    <p>Synced HRIS fields like job title, manager, department, and location, giving recruiting teams better context and enabling org-aware workflows.</p>
+                </div>
+                <div class="card card--peach">
+                    <h3>Proxy Approval</h3>
+                    <p>Managers could approve requisitions, offers, and postings on behalf of unavailable direct reports. The system automatically routed approvals up the org chart when needed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Walkthrough -->
+    <section class="section section--blue" id="walkthrough">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">See it in action</p>
+                <h2>📸 Product Walkthrough</h2>
+                <p class="section-intro">Click any image to view full size.</p>
+            </div>
+
+            <div class="walkthrough-grid walkthrough-4">
+                <div class="walkthrough-item">
+                    <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/lever-bulk-candidate-importer.png', 'Bulk Candidate Importer')">
+                        <img src="https://middleton.io/images/lever-bulk-candidate-importer.png" alt="Bulk Candidate Importer">
+                    </div>
+                    <div class="walkthrough-caption">Bulk Candidate Importer</div>
+                </div>
+                <div class="walkthrough-item">
+                    <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/lever-scim-user-provisioning.png', 'SCIM User Provisioning')">
+                        <img src="https://middleton.io/images/lever-scim-user-provisioning.png" alt="SCIM User Provisioning">
+                    </div>
+                    <div class="walkthrough-caption">SCIM User Provisioning</div>
+                </div>
+                <div class="walkthrough-item">
+                    <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/lever-hris-user-profile.png', 'HRIS User Profile')">
+                        <img src="https://middleton.io/images/lever-hris-user-profile.png" alt="HRIS User Profile">
+                    </div>
+                    <div class="walkthrough-caption">HRIS User Profile</div>
+                </div>
+                <div class="walkthrough-item">
+                    <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/lever-proxy-approval.png', 'Proxy Approval')">
+                        <img src="https://middleton.io/images/lever-proxy-approval.png" alt="Proxy Approval">
+                    </div>
+                    <div class="walkthrough-caption">Proxy Approval</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Execution -->
+    <section class="section section--purple" id="execution">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">How we stayed on track</p>
+                <h2>🤝 Execution & Key Decisions</h2>
+                <p class="section-intro">Moving Lever upmarket required partnering across teams, building new capabilities from scratch, and sequencing work to deliver value early.</p>
+            </div>
+
+            <!-- 4 items: 2x2 -->
+            <div class="card-grid grid-4">
+                <div class="card">
+                    <h3>🤝 Partnering on Bulk Import</h3>
+                    <p>I partnered with the Top of Funnel team to build the self-serve bulk importer. This wasn't my direct team, but the work was critical. I helped shape requirements, worked with implementation teams, and ensured smooth integration.</p>
+                </div>
+                <div class="card">
+                    <h3>🏗️ Building the Orion Team</h3>
+                    <p>I started HRIS Sync with zero dedicated resources. I led discovery with 12+ CAB customers while simultaneously building the Orion platform team. By Fall 2022, we had grown to 7 people.</p>
+                </div>
+                <div class="card">
+                    <h3>🔄 Iterating with CAB Customers</h3>
+                    <p>We worked closely with 12+ CAB customers throughout development. This helped us understand edge cases, validate SCIM decisions, and ensure the product worked for both IT and recruiters.</p>
+                </div>
+                <div class="card">
+                    <h3>🎯 Prioritizing Manager Approval</h3>
+                    <p>Within HRIS Sync, Proxy Approval was the most direct path to measurable impact. By launching it first, we proved HRIS Sync could solve real workflow problems immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Outcomes -->
+    <section class="section section--mint" id="outcomes">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">What changed after launch</p>
+                <h2>📈 Outcomes</h2>
+            </div>
+
+            <!-- 4 items: 2x2 -->
+            <div class="card-grid grid-4">
+                <div class="card">
+                    <h3>Self-Serve Migration at Scale</h3>
+                    <p>The Bulk Importer cut candidate upload time from days to minutes, freeing Support and Implementation teams for strategic work.</p>
+                </div>
+                <div class="card">
+                    <h3>Strong HRIS Sync Adoption</h3>
+                    <p>37% of eligible customers engaged with HRIS Sync features in Q1 following launch, proving immediate value for enterprise workflows.</p>
+                </div>
+                <div class="card">
+                    <h3>Faster Approvals, Better Metrics</h3>
+                    <p>Proxy Approval eliminated manual reassignment when managers were OOO, directly improving Time to Hire and Time to Fill.</p>
+                </div>
+                <div class="card">
+                    <h3>Platform Foundation</h3>
+                    <p>HRIS Sync created the foundation for future capabilities, headcount planning, internal mobility, that depended on reliable org data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges -->
+    <section class="section section--peach" id="challenges">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">Where the work was hardest</p>
+                <h2>🚧 Challenges</h2>
+            </div>
+
+            <div class="timeline timeline--peach">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-date">Early 2022</p>
+                        <h3>Partnering Without Direct Authority</h3>
+                        <p>The Bulk Importer was built by the Top of Funnel team, not my direct reports. I had to influence without authority, shaping requirements and coordinating with implementation teams while letting them own execution.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-date">Spring 2022</p>
+                        <h3>Building a Team While Doing Discovery</h3>
+                        <p>I started HRIS Sync with no dedicated resources. I conducted deep discovery with 12+ CAB customers while simultaneously building the Orion platform team from 0 to 7 people.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-date">Summer 2022</p>
+                        <h3>Choosing SCIM Over Easier Alternatives</h3>
+                        <p>SCIM was the right long-term choice for universal compatibility. Both small and large orgs can use SCIM, and it gave us full control while aligning with enterprise IT standards.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <p class="timeline-date">Fall 2022 → Spring 2023</p>
+                        <h3>Balancing Enterprise Needs with SMB Experience</h3>
+                        <p>HRIS Sync was built for enterprise, but Lever served SMB too. We had to ensure features didn't add unnecessary complexity for smaller teams.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lessons Learned -->
+    <section class="section section--yellow" id="lessons">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">How this shaped my approach</p>
+                <h2>💡 Lessons Learned</h2>
+            </div>
+
+            <div class="lessons-grid">
+                <div class="lesson-card">
+                    <h3>Sequence for Quick Wins, Then Deep Capabilities</h3>
+                    <p>Starting with the Bulk Importer delivered fast value and built confidence before tackling the longer HRIS Sync work. Enterprise transformation doesn't have to be all-or-nothing.</p>
+                </div>
+                <div class="lesson-card">
+                    <h3>Lead with Value, Not Compliance</h3>
+                    <p>SCIM was table stakes for IT, but Proxy Approval was what recruiting teams cared about. Starting with manager approval proved HRIS Sync solved real workflow problems.</p>
+                </div>
+                <div class="lesson-card">
+                    <h3>Self-Service Unlocks Scale</h3>
+                    <p>The Bulk Importer freed Support and Implementation teams for strategic work. Every workflow we could shift to self-service paid compound dividends.</p>
+                </div>
+                <div class="lesson-card">
+                    <h3>Influence Without Authority Is a Skill</h3>
+                    <p>The Bulk Importer wasn't my team, but it was critical. Partnering across teams required building trust and coordinating without slowing execution.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="kevin-os-v2.html" class="back-link" style="font-size: 14px;">← Back to KevinOS</a>
+        <p class="footer-meta" style="margin-top: 16px;">Case Study · Lever · Kevin Middleton</p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <script src="case-study.js"></script>
+</body>
+</html>
