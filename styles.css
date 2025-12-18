@@ -404,6 +404,7 @@ img {
 }
 
 .nav-container {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -461,6 +462,24 @@ img {
 .nav-menu {
   display: flex;
   gap: var(--spacing-md);
+}
+
+/* Desktop: center nav when name is hidden, slide right when name appears */
+@media (min-width: 769px) {
+  .nav-menu {
+    position: absolute;
+    transition: left 0.4s ease, transform 0.4s ease;
+  }
+  
+  .header:not(.name-visible) .nav-menu {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .header.name-visible .nav-menu {
+    left: calc(100% - var(--spacing-md));
+    transform: translateX(-100%);
+  }
 }
 
 .nav-menu a {

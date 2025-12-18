@@ -20,8 +20,10 @@ window.addEventListener("scroll", () => {
 
     if (scrollPosition >= aboutTop && headerName) {
       headerName.classList.add("visible")
+      header.classList.add("name-visible")
     } else if (headerName) {
       headerName.classList.remove("visible")
+      header.classList.remove("name-visible")
     }
   }
 })
