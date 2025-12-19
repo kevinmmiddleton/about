@@ -936,7 +936,6 @@
             <div class="virus-text">
                 <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
                 <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
-                <p class="virus-warning">ALL FILES WILL BE DELETED IN <span id="virusCountdown">5</span>...</p>
             </div>
         </div>
     </div>
@@ -1236,7 +1235,6 @@
                         <div class="virus-text">
                             <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
                             <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
-                            <p class="virus-warning">ALL FILES WILL BE DELETED IN <span id="virusCountdown">5</span>...</p>
                         </div>
                     </div>
                 `;
@@ -1259,7 +1257,7 @@
 
             const interval = setInterval(() => {
                 countdown--;
-                countdownEl.textContent = countdown;
+                if (countdownEl) countdownEl.textContent = countdown;
 
                 // Glitch effect intensifies
                 document.body.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
@@ -1272,29 +1270,64 @@
                         setTimeout(() => {
                             document.body.style.filter = '';  // Clear all filters
                             setTimeout(() => {
-                                // Show recovery button
+                                // Show recovery options
                                 const recoveryDiv = document.createElement('div');
                                 recoveryDiv.className = 'recovery-hint';
                                 recoveryDiv.innerHTML = `
-                                    <div>💡 Don't panic! Click below to recover:</div>
-                                    <button class="recovery-btn" id="recoveryBtn">🗑️ Open Recycle Bin</button>
+                                    <div class="recovery-title">👾 uh oh.</div>
+                                    <div class="recovery-subtitle">Unusual activity detected.</div>
+                                    <div class="recovery-buttons">
+                                        <button class="recovery-btn" id="wipeBtn">💾 Wipe</button>
+                                        <button class="recovery-btn" id="antivirusBtn">🛡️ Antivirus</button>
+                                        <button class="recovery-btn" id="ignoreBtn">🙈 Ignore</button>
+                                    </div>
                                 `;
                                 overlay.appendChild(recoveryDiv);
 
-                                // Make recovery button work
-                                document.getElementById('recoveryBtn').addEventListener('click', () => {
+                                // Wipe - full page reload
+                                document.getElementById('wipeBtn').addEventListener('click', () => {
+                                    location.reload();
+                                });
+
+                                // Antivirus - clean recovery
+                                document.getElementById('antivirusBtn').addEventListener('click', () => {
                                     overlay.classList.remove('active');
                                     overlay.innerHTML = `
                                         <div class="virus-screen">
                                             <div class="virus-text">
                                                 <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
                                                 <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
-                                                <p class="virus-warning">ALL FILES WILL BE DELETED IN <span id="virusCountdown">5</span>...</p>
                                             </div>
                                         </div>
                                     `;
                                     document.body.style.filter = '';
-                                    alert('🗑️ System restored! Files recovered from Recycle Bin. 🎉');
+                                    recoveryDiv.remove();
+                                });
+
+                                // Ignore - make it worse, then auto-recover
+                                document.getElementById('ignoreBtn').addEventListener('click', () => {
+                                    recoveryDiv.remove();
+                                    let chaos = 0;
+                                    const chaosInterval = setInterval(() => {
+                                        chaos++;
+                                        document.body.style.filter = `hue-rotate(${Math.random() * 360}deg) blur(${Math.random() * 3}px)`;
+                                        document.body.style.transform = `rotate(${(Math.random() - 0.5) * 10}deg) scale(${1 + Math.random() * 0.1})`;
+                                        if (chaos > 15) {
+                                            clearInterval(chaosInterval);
+                                            document.body.style.filter = '';
+                                            document.body.style.transform = '';
+                                            overlay.classList.remove('active');
+                                            overlay.innerHTML = `
+                                                <div class="virus-screen">
+                                                    <div class="virus-text">
+                                                        <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
+                                                        <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
+                                                       <p class="virus-warning"><span id="virusCountdown">5</span>...</p>
+                                                    </div>
+                                                </div>
+                                            `;
+                                        }
+                                    }, 100);
                                 });
                             }, 500);
                         }, 300);
