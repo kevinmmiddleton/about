@@ -1909,6 +1909,22 @@ img {
   max-width: 640px;
 }
 
+.pill-row-with-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+}
+
+.pill-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+}
+
 /* Alignment fix for Looking For section */
 .looking-for-text {
   max-width: 640px;
