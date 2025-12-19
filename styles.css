@@ -2335,6 +2335,22 @@ body.journey-mode .experience-mode-description.journey-mode {
   .hero-inner {
     padding: 0 var(--spacing-sm);
   }
+
+  /* Looking For pills - shrink to fit on mobile */
+  .looking-for-pills .role-pill,
+  .looking-for-section .role-pill {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .role-pill-row {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .pill-label {
+    font-size: 0.7rem;
+  }
 }
 
 
