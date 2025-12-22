@@ -1177,5 +1177,6 @@ body {
     .hero-metrics { flex-direction: column; gap: 16px; padding: 20px; }
     .window-chrome { position: relative; }
     .window-dots { display: none; }
+    .window-title { font-size: 0; }
     .back-link { white-space: nowrap; }
 }
