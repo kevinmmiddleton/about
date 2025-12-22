@@ -15,9 +15,26 @@
 }
 
 .nyc-page {
+  --color-primary: #7c3aed;
   padding-top: calc(90px + var(--spacing-xl));
   padding-bottom: var(--spacing-2xl);
   min-height: 100vh;
+}
+
+@media (prefers-color-scheme: dark) {
+  .nyc-page {
+    --color-primary: #00ff88;
+  }
+}
+
+.nyc-page .btn-primary {
+  color: #fff !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .nyc-page .btn-primary {
+    color: #000 !important;
+  }
 }
 
 .nyc-container {
@@ -42,7 +59,12 @@
   letter-spacing: -0.035em;
   margin-bottom: var(--spacing-lg);
   text-wrap: balance;
+  text-transform: uppercase;
   color: var(--text-primary);
+}
+
+.nyc-hero h1 .highlight {
+  color: var(--color-primary);
 }
 
 .nyc-hero .subline {
