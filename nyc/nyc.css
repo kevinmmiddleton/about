@@ -92,6 +92,11 @@
   color: var(--text-secondary);
 }
 
+.nyc-hero .meta.status {
+  color: var(--color-primary);
+  margin-top: var(--spacing-sm);
+}
+
 /* Hero CTAs */
 .nyc-hero-ctas {
   margin-top: var(--spacing-lg);
