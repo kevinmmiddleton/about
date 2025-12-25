@@ -259,6 +259,7 @@
   text-decoration: none;
   position: relative;
   display: inline-block;
+  font-weight: 700;
 }
 
 .fixer-hero-link.primary:hover {
@@ -543,7 +544,8 @@
   .desk-surface {
     flex-direction: column;
     align-items: center;
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+    min-height: auto;
   }
 
   .legal-pad {
@@ -589,21 +591,72 @@
   }
 
   .fixer-cta {
-    padding-top: var(--spacing-lg);
+    padding-top: 0;
     flex-direction: column;
     align-items: center;
   }
 
   .fixer-cta-card {
     max-width: 100%;
-    transform: none;
+    transform: rotate(-1deg);
   }
 
-  /* Hide pen and desk props on mobile */
-  .g2-pen,
-  .desk-plant,
+  /* Reposition desk props to peek from edges on mobile — mirror desktop layout */
+  
+  /* Plant: top-left, scrolls with page, same orientation as desktop */
+  .desk-plant {
+    display: block !important;
+    position: absolute !important;
+    top: 80px !important;
+    bottom: auto !important;
+    left: -100px !important;
+    right: auto !important;
+    width: 150px !important;
+    transform: none !important;
+    opacity: 0.8 !important;
+    z-index: 10 !important;
+  }
+
+  /* Clip: mid-left, scrolls with page */
+  .desk-clip {
+    display: block !important;
+    position: absolute !important;
+    top: 400px !important;
+    bottom: auto !important;
+    left: -15px !important;
+    right: auto !important;
+    width: 40px !important;
+    transform: rotate(-25deg) !important;
+    opacity: 0.9 !important;
+    z-index: 10 !important;
+  }
+
+  /* Phone: left of pad, scrolls with pad, same orientation as desktop */
   .desk-phone {
-    display: none;
+    display: block !important;
+    position: absolute !important;
+    top: 1000px !important;
+    bottom: auto !important;
+    left: -40px !important;
+    right: auto !important;
+    width: 130px !important;
+    transform: rotate(-8deg) !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+  }
+
+  /* Pen: right side near prescription pad, scrolls with pad */
+  .g2-pen {
+    display: block !important;
+    position: absolute !important;
+    top: 1050px !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: -40px !important;
+    width: 140px !important;
+    transform: rotate(15deg) !important;
+    opacity: 0.85 !important;
+    z-index: 10 !important;
   }
 
   .fixer-rx-header {
@@ -613,4 +666,31 @@
   .fixer-rx-body {
     padding: var(--spacing-md);
   }
+}
+
+/* ---------- FOOTER ---------- */
+
+.fixer-footer {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.fixer-footer p {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.fixer-footer a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.fixer-footer a:hover {
+  color: #fff;
 }
