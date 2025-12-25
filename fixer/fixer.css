@@ -549,7 +549,7 @@
   }
 
   .legal-pad {
-    max-width: 100%;
+    max-width: 560px;
     min-height: auto;
   }
 
@@ -562,7 +562,7 @@
   }
 
   .page-inner {
-    padding: 44px var(--spacing-md) var(--spacing-xl) 68px;
+    padding: 16px var(--spacing-md) var(--spacing-xl) 68px;
   }
 
   .fixer-hero h1 {
@@ -586,7 +586,7 @@
   }
 
   .fixer-divider {
-    height: 56px;
+    height: 28px;
     line-height: 28px;
   }
 
@@ -665,6 +665,13 @@
 
   .fixer-rx-body {
     padding: var(--spacing-md);
+  }
+
+  .fixer-btn {
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
