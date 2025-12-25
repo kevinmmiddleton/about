@@ -334,13 +334,17 @@
   color: #2a2a2a;
 }
 
-/* Stylistic stars for index card */
+/* Stylistic asterisks for index card */
 .oh-card .oh-list-star li::before {
-  content: "✦";
-  font-family: 'Patrick Hand', cursive;
-  font-size: 1.1rem;
-  color: #d97706;
-  font-weight: 700;
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: url('https://middleton.io/officehours/images/asterisk.png') center center / contain no-repeat;
+  display: inline-block;
+  opacity: 0.8;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .oh-card-highlight {
@@ -617,6 +621,10 @@
     padding: var(--spacing-lg);
   }
 
+  .oh-whiteboard-frame {
+    /* Keep aspect ratio from desktop */
+  }
+
   /* Post-it note scaling for mobile */
   .oh-card-highlight {
     padding: var(--spacing-md);
@@ -624,8 +632,9 @@
   }
 
   .oh-card-highlight h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin-bottom: var(--spacing-xs);
+    white-space: nowrap;
   }
 
   .oh-card-highlight .oh-list li {
@@ -653,13 +662,43 @@
     display: none;
   }
 
-  /* Larger section headers on mobile */
+  /* Scale text to fit containers on mobile */
   .oh-whiteboard h2 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
+    white-space: nowrap;
+  }
+
+  .oh-whiteboard-surface {
+    padding: var(--spacing-md);
+    align-items: flex-start;
+  }
+
+  .oh-whiteboard h2 {
+    text-align: left;
+  }
+
+  .oh-card h2,
+  .oh-card .oh-list {
+    text-align: left;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .oh-list-marker li {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 0.3rem;
   }
 
   .oh-card h2 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     padding-top: 12px;
+    margin-bottom: 0;
+  }
+
+  .oh-card .oh-list li {
+    font-size: 0.95rem;
+    line-height: 32px;
+    text-align: left;
   }
 }
