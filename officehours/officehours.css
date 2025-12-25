@@ -668,12 +668,13 @@
     white-space: nowrap;
   }
 
-  .oh-whiteboard-surface {
+ .oh-whiteboard-surface {
     padding: var(--spacing-md);
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
   }
 
-  .oh-whiteboard h2 {
+  .oh-list-marker {
     text-align: left;
   }
 
