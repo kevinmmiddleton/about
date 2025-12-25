@@ -15,26 +15,31 @@
 }
 
 .nyc-page {
-  --color-primary: #7c3aed;
+  /* Force dark mode */
+  --color-primary: #00ff88;
+  --text-primary: var(--gray-50);
+  --text-secondary: var(--gray-300);
+  --bg: #0f1115;
+  --surface: #1a1c22;
+  --surface-alt: #20232a;
+  color-scheme: dark;
+  background: var(--bg);
+  
   padding-top: calc(90px + var(--spacing-xl));
   padding-bottom: var(--spacing-2xl);
   min-height: 100vh;
 }
 
-@media (prefers-color-scheme: dark) {
-  .nyc-page {
-    --color-primary: #00ff88;
-  }
-}
-
 .nyc-page .btn-primary {
-  color: #fff !important;
+  background: var(--color-primary);
+  color: #000 !important;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  .nyc-page .btn-primary {
-    color: #000 !important;
-  }
+.nyc-page .btn-primary:hover {
+  background: var(--text-primary);
+  color: #000 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .nyc-container {
@@ -65,6 +70,9 @@
 
 .nyc-hero h1 .highlight {
   color: var(--color-primary);
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: var(--color-primary);
 }
 
 .nyc-hero .subline {
@@ -96,13 +104,13 @@
   font-family: var(--font-heading);
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--color-primary);
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
 .nyc-hero-link:hover {
-  color: var(--color-primary);
+  color: var(--text-primary);
 }
 
 .nyc-hero-link.secondary {
@@ -118,13 +126,7 @@
 .nyc-section {
   margin-bottom: var(--spacing-2xl);
   padding-bottom: var(--spacing-xl);
-  border-bottom: 1px solid rgba(var(--black-rgb), 0.1);
-}
-
-@media (prefers-color-scheme: dark) {
-  .nyc-section {
-    border-bottom-color: rgba(var(--white-rgb), 0.1);
-  }
+  border-bottom: 1px solid rgba(var(--white-rgb), 0.1);
 }
 
 .nyc-section:last-of-type {
@@ -193,18 +195,12 @@
 /* ---------- TEAM CALLOUT ---------- */
 
 .nyc-team {
-  background: rgba(var(--black-rgb), 0.03);
+  background: rgba(var(--white-rgb), 0.04);
   border: none;
   border-left: 4px solid var(--text-primary);
   border-radius: 0;
   padding: var(--spacing-xl);
   margin-bottom: var(--spacing-2xl);
-}
-
-@media (prefers-color-scheme: dark) {
-  .nyc-team {
-    background: rgba(var(--white-rgb), 0.04);
-  }
 }
 
 .nyc-team h2 {
@@ -233,7 +229,7 @@
   max-height: 40px;
   width: auto;
   opacity: 0.7;
-  filter: grayscale(100%);
+  filter: grayscale(100%) invert(1) brightness(2);
   transition: opacity 0.2s ease, filter 0.2s ease;
   flex-shrink: 1;
   min-width: 0;
@@ -241,7 +237,7 @@
 
 .nyc-logos img:hover {
   opacity: 1;
-  filter: grayscale(0%);
+  filter: invert(1) brightness(2);
 }
 
 /* ---------- CTA ---------- */
