@@ -334,12 +334,12 @@
   color: #2a2a2a;
 }
 
-/* Stylistic X for "no" list on index card */
-.oh-card .oh-list-no li::before {
-  content: "✗";
+/* Stylistic stars for index card */
+.oh-card .oh-list-star li::before {
+  content: "✦";
   font-family: 'Patrick Hand', cursive;
-  font-size: 1.3rem;
-  color: #c53030;
+  font-size: 1.1rem;
+  color: #d97706;
   font-weight: 700;
 }
 
