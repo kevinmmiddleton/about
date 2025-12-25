@@ -6,19 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Product Office Hours · Kevin Middleton</title>
 
-   <!-- Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Free Product Help. No Strings." />
   <meta property="og:description"
     content="30 minutes. Real problems. Calm thinking." />
   <meta property="og:url" content="https://middleton.io/officehours" />
   <meta property="og:image" content="https://middleton.io/officehours/images/officehours.png" />
-  <meta property="og:image:alt" content="Product Office Hours. Free product help. No strings." />
-  
+  <meta property="og:image:alt" content="Product Office Hours. Bring a messy problem. Leave with a clearer head." />
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Free Product Help. No Strings." />
-  <meta name="twitter:description" content="30 minutes. Real problems. Calm thinking." />
+  <meta name="twitter:description" content="Office hours for product problems that don’t fit in a deck." />
   <meta name="twitter:image" content="https://middleton.io/officehours/images/officehours.png" />
 
   <link rel="stylesheet" href="../styles.css">
@@ -83,16 +83,6 @@
         </div>
       </section>
 
-      <!-- WHAT DOESN'T HAPPEN -->
-      <section class="oh-section oh-card">
-        <h2>What doesn't happen</h2>
-        <ul class="oh-list oh-list-no">
-          <li>No pitch</li>
-          <li>No recruiting</li>
-          <li>No judgment</li>
-        </ul>
-      </section>
-
       <!-- GOOD FIT -->
       <section class="oh-section oh-card oh-card-highlight">
         <h2>Good problems to bring</h2>
@@ -105,24 +95,15 @@
         </ul>
       </section>
 
-      <!-- HOW IT WORKS -->
-      <section class="oh-section">
-        <div class="oh-steps">
-          <div class="oh-step">
-            <div class="oh-step-num">1</div>
-            <div class="oh-step-text">Book a slot</div>
-          </div>
-          <div class="oh-step-arrow">→</div>
-          <div class="oh-step">
-            <div class="oh-step-num">2</div>
-            <div class="oh-step-text">Show up with a problem</div>
-          </div>
-          <div class="oh-step-arrow">→</div>
-          <div class="oh-step">
-            <div class="oh-step-num">3</div>
-            <div class="oh-step-text">Think together</div>
-          </div>
-        </div>
+      <!-- WHAT TO EXPECT -->
+      <section class="oh-section oh-card">
+        <h2>What to expect</h2>
+        <ul class="oh-list oh-list-star">
+          <li>You don't need to prepare anything</li>
+          <li>I won't follow up unless you want me to</li>
+          <li>There's no "too small" problem</li>
+          <li>This is genuinely free — I'm staying sharp while job searching</li>
+        </ul>
       </section>
 
       <!-- CTA -->
@@ -135,42 +116,18 @@
             <span>Join Office Hours</span>
             <span class="oh-btn-arrow">→</span>
           </a>
-          <p class="oh-cta-note">15 minutes · Real problems · Calm thinking</p>
+          <p class="oh-cta-note">30 minutes · Real problems · Calm thinking</p>
         </div>
       </section>
 
       <!-- FOOTER NOTE -->
       <section class="oh-footer">
-        <p>Questions? <a class="js-email" href="#" data-user="kevin" data-domain="middleton.io"
-            aria-label="Email Kevin">Just ask</a>. No forms, no funnels.</p>
-        <noscript>
-          <p>Questions? kevin [at] middleton [dot] io. No forms, no funnels.</p>
-        </noscript>
+        <p>Come as you are. Questions? <a href="https://www.linkedin.com/in/kevinmiddleton/" target="_blank" rel="noopener noreferrer">DM me on LinkedIn</a>.</p>
       </section>
 
     </div>
   </main>
-  <script>
-    (function () {
-      var link = document.querySelector('.js-email');
-      if (!link) return;
-
-      var user = link.getAttribute('data-user');
-      var domain = link.getAttribute('data-domain');
-      if (!user || !domain) return;
-
-      var addr = user + '@' + domain;
-
-      // Avoid putting the raw address in the HTML source.
-      link.addEventListener('click', function (e) {
-        // Let users open their mail client.
-        link.setAttribute('href', 'mailto:' + addr);
-      }, { once: true });
-
-      // Optional: improve accessibility tooltip without exposing the email in markup.
-      link.setAttribute('title', 'Email ' + user);
-    })();
-  </script>
+  
 </body>
 
 </html>
