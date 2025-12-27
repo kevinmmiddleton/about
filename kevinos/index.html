@@ -37,30 +37,21 @@
 </head>
 
 <body>
-    <!-- Desktop Environment -->
+   <!-- Desktop Environment -->
     <div class="desktop">
 
-        <!-- Left Icons -->
-        <nav class="desktop-icons desktop-icons-left">
-            <button class="desktop-icon active" data-window="readme">
-                <span class="icon-emoji">📄</span>
-                <span class="icon-label">README.md</span>
+        <!-- Desktop Icons (Fun/Utility) - Right Side -->
+        <nav class="desktop-icons desktop-icons-right">
+            <!-- Theme Toggle -->
+            <button class="desktop-icon" id="themeToggle">
+                <span class="icon-emoji" id="themeIcon">☀️</span>
+                <span class="icon-label">theme.sh</span>
             </button>
-            <button class="desktop-icon" data-window="seeking">
-                <span class="icon-emoji">🔍</span>
-                <span class="icon-label">seeking.query</span>
-            </button>
-            <button class="desktop-icon" data-window="about">
-                <span class="icon-emoji">👤</span>
-                <span class="icon-label">profile.yaml</span>
-            </button>
-            <button class="desktop-icon" data-window="values">
-                <span class="icon-emoji">⚙️</span>
-                <span class="icon-label">.values</span>
-            </button>
-            <button class="desktop-icon" data-window="experience">
-                <span class="icon-emoji">📁</span>
-                <span class="icon-label">experience/</span>
+
+            <!-- Music Player Icon -->
+            <button class="desktop-icon" id="musicIcon">
+                <span class="icon-emoji">🎵</span>
+                <span class="icon-label">music.app</span>
             </button>
 
             <!-- Spacer -->
@@ -75,53 +66,54 @@
                 <span class="icon-emoji">💀</span>
                 <span class="icon-label">do_not_click.exe</span>
             </button>
-        </nav>
-
-        <!-- Right Icons -->
-        <nav class="desktop-icons desktop-icons-right">
-            <button class="desktop-icon" data-window="projects">
-                <span class="icon-emoji">📊</span>
-                <span class="icon-label">projects/</span>
-            </button>
-            <button class="desktop-icon" data-window="skills">
-                <span class="icon-emoji">💻</span>
-                <span class="icon-label">skills.config</span>
-            </button>
-            <button class="desktop-icon" data-window="recommendations">
-                <span class="icon-emoji">💬</span>
-                <span class="icon-label">reviews.log</span>
-            </button>
-            <button class="desktop-icon" data-window="connect">
-                <span class="icon-emoji">📧</span>
-                <span class="icon-label">connect.sh</span>
-            </button>
-            <a class="desktop-icon plausible-event-name=Resume+Download"
-                href="https://raw.githubusercontent.com/kevinmmiddleton/about/96b1aea8639f4a1f00122703cec10f14507f4fac/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2012-18-2025.pdf"
-                download>
-                <span class="icon-emoji">📥</span>
-                <span class="icon-label">resume.pdf</span>
-            </a>
-
-            <!-- Spacer to push items to bottom -->
-            <div class="icon-spacer"></div>
-
-            <!-- Theme Toggle -->
-            <button class="desktop-icon" id="themeToggle">
-                <span class="icon-emoji" id="themeIcon">☀️</span>
-                <span class="icon-label">theme.sh</span>
-            </button>
-
-            <!-- Music Player Icon -->
-            <button class="desktop-icon" id="musicIcon">
-                <span class="icon-emoji">🎵</span>
-                <span class="icon-label">music.app</span>
-            </button>
 
             <!-- Recycle Bin -->
             <button class="desktop-icon" id="recycleBin">
                 <span class="icon-emoji">🗑️</span>
                 <span class="icon-label">Recycle Bin</span>
             </button>
+        </nav>
+
+        <!-- macOS-style Dock -->
+        <nav class="dock" id="dock">
+            <button class="dock-item active" data-window="readme" data-tooltip="README.md">
+                <span class="dock-emoji">📄</span>
+            </button>
+            <button class="dock-item" data-window="seeking" data-tooltip="seeking.query">
+                <span class="dock-emoji">🔍</span>
+            </button>
+            <button class="dock-item" data-window="about" data-tooltip="profile.yaml">
+                <span class="dock-emoji">👤</span>
+            </button>
+            <button class="dock-item" data-window="values" data-tooltip=".values">
+                <span class="dock-emoji">⚙️</span>
+            </button>
+            <button class="dock-item" data-window="experience" data-tooltip="experience/">
+                <span class="dock-emoji">📁</span>
+            </button>
+            
+            <div class="dock-divider"></div>
+            
+            <button class="dock-item" data-window="projects" data-tooltip="projects/">
+                <span class="dock-emoji">📊</span>
+            </button>
+            <button class="dock-item" data-window="skills" data-tooltip="skills.config">
+                <span class="dock-emoji">💻</span>
+            </button>
+            <button class="dock-item" data-window="recommendations" data-tooltip="reviews.log">
+                <span class="dock-emoji">💬</span>
+            </button>
+            
+            <div class="dock-divider"></div>
+            
+            <button class="dock-item" data-window="connect" data-tooltip="connect.sh">
+                <span class="dock-emoji">📧</span>
+            </button>
+            <a class="dock-item plausible-event-name=Resume+Download" data-tooltip="resume.pdf"
+                href="https://raw.githubusercontent.com/kevinmmiddleton/about/96b1aea8639f4a1f00122703cec10f14507f4fac/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2012-18-2025.pdf"
+                download>
+                <span class="dock-emoji">📥</span>
+            </a>
         </nav>
 
         <!-- Floating Music Player -->
@@ -928,10 +920,10 @@
                                 class="term-cmd">echo "Reach out anytime"<span class="cursor">▋</span></span></div>
                     </div>
                     <div class="connect-btns">
-                        <a href="mailto:kevin@middleton.io" class="connect-btn plausible-event-name=Contact+Email">📧</a>
-                        <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="connect-btn plausible-event-name=Contact+LinkedIn">💼</a>
-                        <a href="https://github.com/kevinmmiddleton" target="_blank" class="connect-btn plausible-event-name=GitHub+Click">🐙</a>
-                        <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="connect-btn plausible-event-name=Calendly+Click">📅</a>
+                        <a href="/cdn-cgi/l/email-protection#432826352a2d032e2a27272f26372c2d6d2a2c" class="connect-btn plausible-event-name=Contact+Email"><span class="connect-icon">📧</span> Email</a>
+                        <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="connect-btn plausible-event-name=Contact+LinkedIn"><span class="connect-icon">💼</span> LinkedIn</a>
+                        <a href="https://github.com/kevinmmiddleton" target="_blank" class="connect-btn plausible-event-name=GitHub+Click"><span class="connect-icon">🐙</span> GitHub</a>
+                        <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="connect-btn plausible-event-name=Calendly+Click"><span class="connect-icon">📅</span> Book a call</a>
                     </div>
                 </div>
             </section>
@@ -983,42 +975,60 @@
 
     <script>
         let zIndex = 10;
+        let isFirstLoad = true;
         const windows = document.querySelectorAll('.window');
         const icons = document.querySelectorAll('.desktop-icon[data-window]');
+        const dockItems = document.querySelectorAll('.dock-item[data-window]');
+        const allNavItems = document.querySelectorAll('.desktop-icon[data-window], .dock-item[data-window]');
+
+        // Position README window at top center on load
+        const readmeWindow = document.getElementById('readme');
+        if (readmeWindow) {
+            readmeWindow.style.top = '80px';
+            readmeWindow.style.left = '50%';
+            readmeWindow.style.transform = 'translateX(-50%)';
+        }
 
         function openWindow(id) {
+            // On first load, close README if opening a different window
+            if (isFirstLoad && id !== 'readme') {
+                closeWindow('readme');
+                isFirstLoad = false;
+            }
             const win = document.querySelector(`.window[data-window="${id}"]`);
             if (!win) return;
             zIndex++;
             win.style.zIndex = zIndex;
             win.classList.add('window-open');
             win.classList.remove('window-minimized');
-            icons.forEach(i => i.classList.toggle('active', i.dataset.window === id));
+            allNavItems.forEach(i => i.classList.toggle('active', i.dataset.window === id));
         }
 
         function closeWindow(id) {
             const win = document.querySelector(`.window[data-window="${id}"]`);
             if (!win) return;
             win.classList.remove('window-open');
-            const icon = document.querySelector(`.desktop-icon[data-window="${id}"]`);
-            if (icon) icon.classList.remove('active');
+            allNavItems.forEach(i => {
+                if (i.dataset.window === id) i.classList.remove('active');
+            });
         }
 
         function minimizeWindow(id) {
             const win = document.querySelector(`.window[data-window="${id}"]`);
             if (!win) return;
             win.classList.add('window-minimized');
-            const icon = document.querySelector(`.desktop-icon[data-window="${id}"]`);
-            if (icon) icon.classList.remove('active');
+            allNavItems.forEach(i => {
+                if (i.dataset.window === id) i.classList.remove('active');
+            });
         }
 
-        icons.forEach(icon => icon.addEventListener('click', () => openWindow(icon.dataset.window)));
+        allNavItems.forEach(item => item.addEventListener('click', () => openWindow(item.dataset.window)));
 
         windows.forEach(win => {
             win.addEventListener('mousedown', () => {
                 zIndex++;
                 win.style.zIndex = zIndex;
-                icons.forEach(i => i.classList.toggle('active', i.dataset.window === win.dataset.window));
+                allNavItems.forEach(i => i.classList.toggle('active', i.dataset.window === win.dataset.window));
             });
             win.querySelectorAll('.window-dot').forEach(dot => {
                 dot.addEventListener('click', e => {
@@ -1061,6 +1071,54 @@
             });
         });
 
+        // ===================
+        // DOCK MAGNIFICATION
+        // ===================
+        const dock = document.getElementById('dock');
+        const dockItemsAll = dock.querySelectorAll('.dock-item');
+        let dockPositions = [];
+        
+        function cacheDockPositions() {
+            // Reset transforms before measuring
+            dockItemsAll.forEach(item => item.style.transform = '');
+            // Cache center positions
+            dockPositions = Array.from(dockItemsAll).map(item => {
+                const rect = item.getBoundingClientRect();
+                return rect.left + rect.width / 2;
+            });
+        }
+        
+        dock.addEventListener('mouseenter', cacheDockPositions);
+        
+        dock.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            
+            dockItemsAll.forEach((item, index) => {
+                const itemCenterX = dockPositions[index];
+                if (!itemCenterX) return;
+                
+                const distance = Math.abs(mouseX - itemCenterX);
+                const maxDistance = 100;
+                
+                if (distance < maxDistance) {
+                    const factor = 1 - (distance / maxDistance);
+                    const scale = 1 + factor * 0.35;
+                    const translateY = factor * -8;
+                    item.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+                } else {
+                    item.style.transform = 'scale(1) translateY(0)';
+                }
+            });
+        });
+        
+        dock.addEventListener('mouseleave', () => {
+            dockItemsAll.forEach(item => {
+                item.style.transform = '';
+            });
+        });
+
+        // Handle data-open buttons - open window on desktop, scroll on mobile
+
         // Handle data-open buttons - open window on desktop, scroll on mobile
         document.querySelectorAll('[data-open]').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -1075,6 +1133,11 @@
                 } else {
                     // On desktop, open the window
                     e.preventDefault();
+                    // Close README on first load if clicking from within it
+                    if (isFirstLoad) {
+                        closeWindow('readme');
+                        isFirstLoad = false;
+                    }
                     openWindow(btn.dataset.open);
                 }
             });
