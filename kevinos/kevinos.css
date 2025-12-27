@@ -127,6 +127,126 @@ body {
 
 .desktop-icons-right {
     order: 3;
+    margin-left: auto;
+}
+
+/* ===================
+   macOS DOCK
+   =================== */
+.dock {
+    position: fixed;
+    bottom: calc(var(--taskbar) + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 18px;
+    z-index: 100;
+}
+
+[data-theme="light"] .dock {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .dock {
+        background: rgba(255, 255, 255, 0.7);
+        border-color: rgba(0, 0, 0, 0.1);
+    }
+}
+
+.dock-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.15s ease-out;
+    position: relative;
+    text-decoration: none;
+    will-change: transform;
+    transform-origin: bottom center;
+}
+
+.dock-item:hover {
+    transform: translateY(-8px);
+}
+
+.dock-emoji {
+    font-size: 32px;
+    line-height: 1;
+    transition: font-size 0.15s ease-out;
+}
+
+/* Active indicator dot */
+.dock-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--text);
+    border-radius: 50%;
+}
+
+/* Tooltip on hover */
+.dock-item::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: rgba(30, 30, 40, 0.95);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+[data-theme="light"] .dock-item::before {
+    background: rgba(50, 50, 60, 0.95);
+}
+
+.dock-item:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* Dock divider */
+.dock-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 6px;
+    align-self: center;
+}
+
+[data-theme="light"] .dock-divider {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .dock-divider {
+        background: rgba(0, 0, 0, 0.15);
+    }
 }
 
 .desktop-icon {
@@ -1196,16 +1316,22 @@ body {
 }
 
 .connect-btn {
-    width: 48px;
-    height: 48px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.04);
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--surface-2);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 22px;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
     text-decoration: none;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.connect-icon {
+    font-size: 18px;
 }
 
 .connect-btn:hover {
@@ -1275,7 +1401,7 @@ body {
    =================== */
 .music-player {
     position: fixed;
-    bottom: 70px;
+    bottom: 140px;
     right: 110px;
     width: 280px;
     background: rgba(30, 30, 40, 0.7);
@@ -1454,6 +1580,10 @@ body {
     }
 
     .desktop-icons {
+        display: none;
+    }
+
+    .dock {
         display: none;
     }
 
