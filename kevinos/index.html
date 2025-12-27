@@ -54,12 +54,6 @@
                 <span class="icon-label">music.app</span>
             </button>
 
-            <!-- Games Folder -->
-            <button class="desktop-icon" data-window="games">
-                <span class="icon-emoji">🎮</span>
-                <span class="icon-label">games/</span>
-            </button>
-
             <!-- Spacer -->
             <div class="icon-spacer"></div>
 
@@ -79,76 +73,6 @@
                 <span class="icon-label">Recycle Bin</span>
             </button>
         </nav>
-
-        <!-- macOS-style Dock -->
-        <nav class="dock" id="dock">
-            <button class="dock-item active" data-window="readme" data-tooltip="README.md">
-                <span class="dock-emoji">📄</span>
-            </button>
-            <button class="dock-item" data-window="seeking" data-tooltip="seeking.query">
-                <span class="dock-emoji">🔍</span>
-            </button>
-            <button class="dock-item" data-window="about" data-tooltip="profile.yaml">
-                <span class="dock-emoji">👤</span>
-            </button>
-            <button class="dock-item" data-window="values" data-tooltip=".values">
-                <span class="dock-emoji">⚙️</span>
-            </button>
-            <button class="dock-item" data-window="experience" data-tooltip="experience/">
-                <span class="dock-emoji">📁</span>
-            </button>
-            
-            <div class="dock-divider"></div>
-            
-            <button class="dock-item" data-window="projects" data-tooltip="projects/">
-                <span class="dock-emoji">📊</span>
-            </button>
-            <button class="dock-item" data-window="skills" data-tooltip="skills.config">
-                <span class="dock-emoji">💻</span>
-            </button>
-            <button class="dock-item" data-window="recommendations" data-tooltip="reviews.log">
-                <span class="dock-emoji">💬</span>
-            </button>
-            
-            <div class="dock-divider"></div>
-            
-            <button class="dock-item" data-window="connect" data-tooltip="connect.sh">
-                <span class="dock-emoji">📧</span>
-            </button>
-            <a class="dock-item plausible-event-name=Resume+Download" data-tooltip="resume.pdf"
-                href="https://raw.githubusercontent.com/kevinmmiddleton/about/96b1aea8639f4a1f00122703cec10f14507f4fac/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2012-18-2025.pdf"
-                download>
-                <span class="dock-emoji">📥</span>
-            </a>
-        </nav>
-
-        <!-- Floating Music Player -->
-        <div class="music-player" id="musicPlayer" style="display: none;">
-            <div class="player-header">
-                <div class="player-dots">
-                    <button class="player-dot red" id="closePlayer"></button>
-                    <span class="player-dot yellow"></span>
-                    <span class="player-dot green"></span>
-                </div>
-                <div class="player-drag-area"></div>
-            </div>
-            <div class="player-info">
-                <div class="player-title">Select a track</div>
-                <div class="player-artist"></div>
-            </div>
-            <div class="player-progress-container">
-                <span class="player-time current">0:00</span>
-                <div class="player-progress">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-                <span class="player-time remaining">-0:00</span>
-            </div>
-            <div class="player-controls">
-                <button class="player-btn" id="prevBtn">⏮</button>
-                <button class="player-btn play-btn" id="playBtn">▶</button>
-                <button class="player-btn" id="nextBtn">⏭</button>
-            </div>
-        </div>
 
         <!-- Windows Container -->
         <main class="windows-area">
@@ -1424,6 +1348,79 @@
             </section>
 
         </main>
+    </div>
+
+    <!-- macOS-style Dock (outside desktop for party mode) -->
+    <nav class="dock" id="dock">
+        <button class="dock-item active" data-window="readme" data-tooltip="README.md">
+            <span class="dock-emoji">📄</span>
+        </button>
+        <button class="dock-item" data-window="seeking" data-tooltip="seeking.query">
+            <span class="dock-emoji">🔍</span>
+        </button>
+        <button class="dock-item" data-window="about" data-tooltip="profile.yaml">
+            <span class="dock-emoji">👤</span>
+        </button>
+        <button class="dock-item" data-window="values" data-tooltip=".values">
+            <span class="dock-emoji">⚙️</span>
+        </button>
+        <button class="dock-item" data-window="experience" data-tooltip="experience/">
+            <span class="dock-emoji">📁</span>
+        </button>
+        
+        <div class="dock-divider"></div>
+        
+        <button class="dock-item" data-window="projects" data-tooltip="projects/">
+            <span class="dock-emoji">📊</span>
+        </button>
+        <button class="dock-item" data-window="skills" data-tooltip="skills.config">
+            <span class="dock-emoji">💻</span>
+        </button>
+        <button class="dock-item" data-window="recommendations" data-tooltip="reviews.log">
+            <span class="dock-emoji">💬</span>
+        </button>
+        <button class="dock-item" data-window="games" data-tooltip="games/">
+            <span class="dock-emoji">🎮</span>
+        </button>
+        
+        <div class="dock-divider"></div>
+        
+        <button class="dock-item" data-window="connect" data-tooltip="connect.sh">
+            <span class="dock-emoji">📧</span>
+        </button>
+        <a class="dock-item plausible-event-name=Resume+Download" data-tooltip="resume.pdf"
+            href="https://raw.githubusercontent.com/kevinmmiddleton/about/96b1aea8639f4a1f00122703cec10f14507f4fac/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2012-18-2025.pdf"
+            download>
+            <span class="dock-emoji">📥</span>
+        </a>
+    </nav>
+
+    <!-- Floating Music Player (outside desktop for party mode) -->
+    <div class="music-player" id="musicPlayer" style="display: none;">
+        <div class="player-header">
+            <div class="player-dots">
+                <button class="player-dot red" id="closePlayer"></button>
+                <span class="player-dot yellow"></span>
+                <span class="player-dot green"></span>
+            </div>
+            <div class="player-drag-area"></div>
+        </div>
+        <div class="player-info">
+            <div class="player-title">Select a track</div>
+            <div class="player-artist"></div>
+        </div>
+        <div class="player-progress-container">
+            <span class="player-time current">0:00</span>
+            <div class="player-progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <span class="player-time remaining">-0:00</span>
+        </div>
+        <div class="player-controls">
+            <button class="player-btn" id="prevBtn">⏮</button>
+            <button class="player-btn play-btn" id="playBtn">▶</button>
+            <button class="player-btn" id="nextBtn">⏭</button>
+        </div>
     </div>
 
     <!-- Photo Viewer Container (for dynamically created photo windows) -->

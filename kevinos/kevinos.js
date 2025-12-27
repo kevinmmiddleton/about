@@ -445,7 +445,7 @@ document.getElementById('partyBtn').addEventListener('click', () => {
         for (let i = 0; i < 5; i++) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
-            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.left = Math.random() * 98 + '%';
             confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
             confetti.style.animationDelay = Math.random() * 0.5 + 's';
@@ -711,6 +711,7 @@ document.querySelectorAll('.see-all-games').forEach(btn => {
 // ===================
 const urlParams = new URLSearchParams(window.location.search);
 const gameParam = urlParams.get('game');
+const openParam = urlParams.get('open');
 
 const validGames = ['invaders', 'tetris', 'bugsquash', 'runner', 'snake', 'standup'];
 
@@ -730,6 +731,29 @@ if (gameParam && validGames.includes(gameParam)) {
             gameWin.style.top = '60px';
             gameWin.style.left = '50%';
             gameWin.style.transform = 'translateX(-50%)';
+        }
+    }
+} else if (openParam === 'games') {
+    // Open games folder
+    closeWindow('readme');
+    isFirstLoad = false;
+    
+    if (isMobile()) {
+        // On mobile, scroll to games folder
+        const gamesFolder = document.getElementById('games');
+        if (gamesFolder) {
+            setTimeout(() => {
+                gamesFolder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    } else {
+        // On desktop, open and center the games folder
+        openWindow('games');
+        const gamesWin = document.getElementById('games');
+        if (gamesWin) {
+            gamesWin.style.top = '60px';
+            gamesWin.style.left = '50%';
+            gamesWin.style.transform = 'translateX(-50%)';
         }
     }
 }
