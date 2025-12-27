@@ -37,7 +37,7 @@
 </head>
 
 <body>
-   <!-- Desktop Environment -->
+    <!-- Desktop Environment -->
     <div class="desktop">
 
         <!-- Desktop Icons (Fun/Utility) - Right Side -->
@@ -52,6 +52,12 @@
             <button class="desktop-icon" id="musicIcon">
                 <span class="icon-emoji">🎵</span>
                 <span class="icon-label">music.app</span>
+            </button>
+
+            <!-- Games Folder -->
+            <button class="desktop-icon" data-window="games">
+                <span class="icon-emoji">🎮</span>
+                <span class="icon-label">games/</span>
             </button>
 
             <!-- Spacer -->
@@ -928,6 +934,495 @@
                 </div>
             </section>
 
+            <!-- games/ folder -->
+            <section class="window" id="games" data-window="games">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">🎮</span>
+                        games/
+                    </div>
+                    <span class="window-path">~/kevin/</span>
+                </header>
+                <div class="window-content folder-content">
+                    <div class="folder-grid" id="gamesFolderGrid">
+                        <button class="folder-item" data-window="invaders">
+                            <span class="folder-icon">👾</span>
+                            <span class="folder-label">invaders.app</span>
+                        </button>
+                        <button class="folder-item" data-window="tetris">
+                            <span class="folder-icon">🧱</span>
+                            <span class="folder-label">tetris.app</span>
+                        </button>
+                        <button class="folder-item" data-window="bugsquash">
+                            <span class="folder-icon">🐛</span>
+                            <span class="folder-label">bugsquash.app</span>
+                        </button>
+                        <button class="folder-item" data-window="runner">
+                            <span class="folder-icon">🏃</span>
+                            <span class="folder-label">runner.app</span>
+                        </button>
+                        <button class="folder-item" data-window="snake">
+                            <span class="folder-icon">🐍</span>
+                            <span class="folder-label">snake.app</span>
+                        </button>
+                        <button class="folder-item" data-window="standup">
+                            <span class="folder-icon">⌨️</span>
+                            <span class="folder-label">standup.app</span>
+                        </button>
+                    </div>
+                    <!-- Mobile: games load here instead of separate windows -->
+                    <div class="games-embed" id="gamesEmbed" style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- invaders.app (SCOPE CREEP game) -->
+            <section class="window game-window" id="invaders" data-window="invaders">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">👾</span>
+                        SCOPE CREEP
+                        <span class="file-badge app">APP</span>
+                    </div>
+                    <span class="window-path">~/kevin/games/</span>
+                </header>
+                <div class="window-content game-content">
+                    <div class="game-container" id="gameContainer">
+                        <!-- Start Screen -->
+                        <div class="game-screen game-start" id="gameStart">
+                            <button class="game-btn-link see-all-games game-back-link mobile-only" data-action="see-all-games">← See All Games</button>
+                            <div class="game-title">👾 SCOPE CREEP 👾</div>
+                            <div class="game-subtitle">Stakeholders are adding features. Your roadmap is doomed.</div>
+                            <div class="game-flavor">Every 👾 is a feature request. Every 💥 is you saying "no."</div>
+                            <div class="game-instructions">
+                                <p class="desktop-only">← → move · SPACE shoot</p>
+                                <p class="mobile-only">◀ ▶ move · AUTOFIRE on</p>
+                                <p class="game-powerups">⚡ rapid fire · 🛡️ shield · ❤️ extra life</p>
+                            </div>
+                            <button class="game-btn" id="startGameBtn">DEFEND THE ROADMAP</button>
+                            <div class="game-credit">
+                                <div class="game-credit-title">A KevinOS Game by Kevin Middleton</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-credit-tagline">I can help reduce your scope creep IRL →</a>
+                            </div>
+                        </div>
+                        <!-- Game Canvas -->
+                        <canvas id="gameCanvas" width="480" height="400" style="display: none;"></canvas>
+                        <!-- Game HUD -->
+                        <div class="game-hud" id="gameHud" style="display: none;">
+                            <span>SCORE: <span id="gameScore">0</span></span>
+                            <span>WAVE: <span id="gameWave">1</span></span>
+                            <span>LIVES: <span id="gameLives">🚀🚀🚀</span></span>
+                        </div>
+                        <!-- Mobile Touch Controls -->
+                        <div class="touch-controls" id="touchControls" style="display: none;">
+                            <button class="touch-btn touch-left" id="touchLeft">◀</button>
+                            <div class="touch-autofire">AUTOFIRE ON</div>
+                            <button class="touch-btn touch-right" id="touchRight">▶</button>
+                        </div>
+                        <!-- Game Over Screen -->
+                        <div class="game-screen game-over" id="gameOver" style="display: none;">
+                            <div class="game-title">GAME OVER</div>
+                            <div class="game-final-score">Score: <span id="finalScore">0</span></div>
+                            <div class="game-final-wave">Wave: <span id="finalWave">1</span></div>
+                            <div class="game-message" id="gameMessage">The scope crept. It always does.</div>
+                            <div class="game-over-btns">
+                                <button class="game-btn" id="playAgainBtn">🔄 Play Again</button>
+                                <button class="game-btn game-btn-secondary" id="whoAmIBtn">👤 Meet the PM</button>
+                            </div>
+                            <div class="game-over-cta">
+                                <div class="game-over-bio">Made by a PM who's been in the trenches for 12 years.<br>I bring this energy to product work.</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-btn game-btn-cta" id="letsConnectBtn">I'm looking for my next team →</a>
+                                <div class="game-share">Beat my score? Screenshot and tag me on <a href="https://linkedin.com/in/kevinmiddleton" target="_blank">LinkedIn</a></div>
+                                <button class="game-btn-link see-all-games mobile-only" data-action="see-all-games">← See All Games</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- tetris.app (BACKLOG TETRIS game) -->
+            <section class="window game-window" id="tetris" data-window="tetris">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">🧱</span>
+                        BACKLOG TETRIS
+                        <span class="file-badge app">APP</span>
+                    </div>
+                    <span class="window-path">~/kevin/games/</span>
+                </header>
+                <div class="window-content game-content">
+                    <div class="game-container" id="tetrisContainer">
+                        <!-- Start Screen -->
+                        <div class="game-screen game-start" id="tetrisStart">
+                            <button class="game-btn-link see-all-games game-back-link mobile-only" data-action="see-all-games">← See All Games</button>
+                            <div class="game-title">🧱 BACKLOG TETRIS 🧱</div>
+                            <div class="game-subtitle">The backlog never ends. Ship what you can.</div>
+                            <div class="game-flavor">Each block is a user story. Complete rows to ship.</div>
+                            <div class="game-instructions">
+                                <p class="desktop-only">← → move · ↑ rotate · ↓ soft drop · SPACE hard drop</p>
+                                <p class="mobile-only">◀ ▶ move · 🔄 rotate · ⬇ drop</p>
+                            </div>
+                            <button class="game-btn" id="startTetrisBtn">START SPRINT</button>
+                            <div class="game-credit">
+                                <div class="game-credit-title">A KevinOS Game by Kevin Middleton</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-credit-tagline">I ship features IRL too →</a>
+                            </div>
+                        </div>
+                        <!-- Game Canvas -->
+                        <canvas id="tetrisCanvas" width="240" height="480" style="display: none;"></canvas>
+                        <!-- Game HUD -->
+                        <div class="game-hud tetris-hud" id="tetrisHud" style="display: none;">
+                            <span>SCORE: <span id="tetrisScore">0</span></span>
+                            <span>SPRINT: <span id="tetrisSprint">1</span></span>
+                            <span>SHIPPED: <span id="tetrisRows">0</span></span>
+                        </div>
+                        <!-- Mobile Touch Controls -->
+                        <div class="touch-controls tetris-touch" id="tetrisTouchControls" style="display: none;">
+                            <button class="touch-btn touch-left" id="tetrisTouchLeft">◀</button>
+                            <button class="touch-btn touch-rotate" id="tetrisTouchRotate">🔄</button>
+                            <button class="touch-btn touch-drop" id="tetrisTouchDrop">⬇</button>
+                            <button class="touch-btn touch-right" id="tetrisTouchRight">▶</button>
+                        </div>
+                        <!-- Game Over Screen -->
+                        <div class="game-screen game-over" id="tetrisOver" style="display: none;">
+                            <div class="game-title">SPRINT FAILED</div>
+                            <div class="game-final-score">Score: <span id="tetrisFinalScore">0</span></div>
+                            <div class="game-final-wave">Stories Shipped: <span id="tetrisFinalRows">0</span></div>
+                            <div class="game-message" id="tetrisMessage">The backlog won. It always does.</div>
+                            <div class="game-over-btns">
+                                <button class="game-btn" id="tetrisPlayAgainBtn">🔄 New Sprint</button>
+                                <button class="game-btn game-btn-secondary" id="tetrisWhoAmIBtn">👤 Meet the PM</button>
+                            </div>
+                            <div class="game-over-cta">
+                                <div class="game-over-bio">Made by a PM who's been in the trenches for 12 years.<br>I bring this energy to product work.</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-btn game-btn-cta">I'm looking for my next team →</a>
+                                <div class="game-share">Beat my score? Screenshot and tag me on <a href="https://linkedin.com/in/kevinmiddleton" target="_blank">LinkedIn</a></div>
+                                <button class="game-btn-link see-all-games mobile-only" data-action="see-all-games">← See All Games</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- bugsquash.app (BUG SQUASH game) -->
+            <section class="window game-window" id="bugsquash" data-window="bugsquash">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">🐛</span>
+                        BUG SQUASH
+                        <span class="file-badge app">APP</span>
+                    </div>
+                    <span class="window-path">~/kevin/games/</span>
+                </header>
+                <div class="window-content game-content">
+                    <div class="game-container" id="bugSquashContainer">
+                        <!-- Start Screen -->
+                        <div class="game-screen game-start" id="bugSquashStart">
+                            <button class="game-btn-link see-all-games game-back-link mobile-only" data-action="see-all-games">← See All Games</button>
+                            <div class="game-title">🐛 BUG SQUASH 🐛</div>
+                            <div class="game-subtitle">Ship it, they said. It'll be fine, they said.</div>
+                            <div class="game-flavor">Squash bugs, protect features. Click a feature = 2 more bugs spawn.</div>
+                            <div class="game-instructions">
+                                <p>🐛 Squash bugs! · ✨ Don't click features!</p>
+                                <p class="game-powerups">🔥 hotfix = clear all · 🧪 coverage = slow spawns</p>
+                            </div>
+                            <button class="game-btn" id="startBugSquashBtn">START DEBUGGING</button>
+                            <div class="game-credit">
+                                <div class="game-credit-title">A KevinOS Game by Kevin Middleton</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-credit-tagline">I squash bugs IRL too →</a>
+                            </div>
+                        </div>
+                        <!-- Game Area -->
+                        <div class="bug-grid" id="bugGrid" style="display: none;">
+                            <div class="bug-spot" data-spot="0"></div>
+                            <div class="bug-spot" data-spot="1"></div>
+                            <div class="bug-spot" data-spot="2"></div>
+                            <div class="bug-spot" data-spot="3"></div>
+                            <div class="bug-spot" data-spot="4"></div>
+                            <div class="bug-spot" data-spot="5"></div>
+                            <div class="bug-spot" data-spot="6"></div>
+                            <div class="bug-spot" data-spot="7"></div>
+                            <div class="bug-spot" data-spot="8"></div>
+                            <div class="bug-spot" data-spot="9"></div>
+                            <div class="bug-spot" data-spot="10"></div>
+                            <div class="bug-spot" data-spot="11"></div>
+                        </div>
+                        <!-- Game HUD -->
+                        <div class="game-hud" id="bugSquashHud" style="display: none;">
+                            <span>SQUASHED: <span id="bugScore">0</span></span>
+                            <span>ESCAPED: <span id="bugEscaped">0</span>/10</span>
+                            <span>ACTIVE: <span id="bugActive">0</span></span>
+                        </div>
+                        <!-- Game Over Screen -->
+                        <div class="game-screen game-over" id="bugSquashOver" style="display: none;">
+                            <div class="game-title">BUILD FAILED</div>
+                            <div class="game-final-score">Bugs Squashed: <span id="bugFinalScore">0</span></div>
+                            <div class="game-message" id="bugMessage">Too many bugs escaped. QA is not happy.</div>
+                            <div class="game-over-btns">
+                                <button class="game-btn" id="bugPlayAgainBtn">🔄 Debug Again</button>
+                                <button class="game-btn game-btn-secondary" id="bugWhoAmIBtn">👤 Meet the PM</button>
+                            </div>
+                            <div class="game-over-cta">
+                                <div class="game-over-bio">Made by a PM who's been in the trenches for 12 years.<br>I bring this energy to product work.</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-btn game-btn-cta">I'm looking for my next team →</a>
+                                <div class="game-share">Beat my score? Screenshot and tag me on <a href="https://linkedin.com/in/kevinmiddleton" target="_blank">LinkedIn</a></div>
+                                <button class="game-btn-link see-all-games mobile-only" data-action="see-all-games">← See All Games</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- runner.app (ROADMAP RUNNER game) -->
+            <section class="window game-window" id="runner" data-window="runner">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">🏃</span>
+                        ROADMAP RUNNER
+                        <span class="file-badge app">APP</span>
+                    </div>
+                    <span class="window-path">~/kevin/games/</span>
+                </header>
+                <div class="window-content game-content">
+                    <div class="game-container" id="runnerContainer">
+                        <!-- Start Screen -->
+                        <div class="game-screen game-start" id="runnerStart">
+                            <button class="game-btn-link see-all-games game-back-link mobile-only" data-action="see-all-games">← See All Games</button>
+                            <div class="game-title">🏃 ROADMAP RUNNER 🏃</div>
+                            <div class="game-subtitle">Stay on track. Ship features. Dodge blockers.</div>
+                            <div class="game-flavor">Jump blockers, slide under red tape, collect wins.</div>
+                            <div class="game-instructions">
+                                <p class="desktop-only">SPACE/↑ jump over 🚧📋💀 · ↓ slide under 🔴</p>
+                                <p class="mobile-only">JUMP over 🚧📋💀 · SLIDE under 🔴</p>
+                                <p class="game-powerups">Collect: ✅ +10 · ⭐ +25</p>
+                            </div>
+                            <button class="game-btn" id="startRunnerBtn">START RUNNING</button>
+                            <div class="game-credit">
+                                <div class="game-credit-title">A KevinOS Game by Kevin Middleton</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-credit-tagline">I stay on track IRL too →</a>
+                            </div>
+                        </div>
+                        <!-- Game Canvas -->
+                        <canvas id="runnerCanvas" width="480" height="200" style="display: none;"></canvas>
+                        <!-- Game HUD -->
+                        <div class="game-hud" id="runnerHud" style="display: none;">
+                            <span>SCORE: <span id="runnerScore">0</span></span>
+                            <span>DISTANCE: <span id="runnerDistance">0</span>m</span>
+                        </div>
+                        <!-- Mobile Touch Controls -->
+                        <div class="touch-controls runner-touch" id="runnerTouchControls" style="display: none;">
+                            <button class="touch-btn runner-jump" id="runnerTouchJump">⬆️ JUMP</button>
+                            <button class="touch-btn runner-slide" id="runnerTouchSlide">⬇️ SLIDE</button>
+                        </div>
+                        <!-- Game Over Screen -->
+                        <div class="game-screen game-over" id="runnerOver" style="display: none;">
+                            <div class="game-title">OFF TRACK</div>
+                            <div class="game-final-score">Score: <span id="runnerFinalScore">0</span></div>
+                            <div class="game-final-wave">Distance: <span id="runnerFinalDistance">0</span>m</div>
+                            <div class="game-message" id="runnerMessage">The roadmap had other plans.</div>
+                            <div class="game-over-btns">
+                                <button class="game-btn" id="runnerPlayAgainBtn">🔄 Run Again</button>
+                                <button class="game-btn game-btn-secondary" id="runnerWhoAmIBtn">👤 Meet the PM</button>
+                            </div>
+                            <div class="game-over-cta">
+                                <div class="game-over-bio">Made by a PM who's been in the trenches for 12 years.<br>I bring this energy to product work.</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-btn game-btn-cta">I'm looking for my next team →</a>
+                                <div class="game-share">Beat my score? Screenshot and tag me on <a href="https://linkedin.com/in/kevinmiddleton" target="_blank">LinkedIn</a></div>
+                                <button class="game-btn-link see-all-games mobile-only" data-action="see-all-games">← See All Games</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- snake.app (STAKEHOLDER SNAKE game) -->
+            <section class="window game-window" id="snake" data-window="snake">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">🐍</span>
+                        STAKEHOLDER SNAKE
+                        <span class="file-badge app">APP</span>
+                    </div>
+                    <span class="window-path">~/kevin/games/</span>
+                </header>
+                <div class="window-content game-content">
+                    <div class="game-container" id="snakeContainer">
+                        <!-- Start Screen -->
+                        <div class="game-screen game-start" id="snakeStart">
+                            <button class="game-btn-link see-all-games game-back-link mobile-only" data-action="see-all-games">← See All Games</button>
+                            <div class="game-title">🐍 STAKEHOLDER SNAKE 🐍</div>
+                            <div class="game-subtitle">Just one more feature... and another... and another.</div>
+                            <div class="game-flavor">Collect requirements. Watch your backlog grow. Don't crash into it.</div>
+                            <div class="game-instructions">
+                                <p class="desktop-only">Arrow keys to move</p>
+                                <p class="mobile-only">Swipe or use d-pad to move</p>
+                                <p class="game-powerups">💡🎯⭐📧📊 = +10 pts & +1 backlog</p>
+                            </div>
+                            <button class="game-btn" id="startSnakeBtn">START COLLECTING</button>
+                            <div class="game-credit">
+                                <div class="game-credit-title">A KevinOS Game by Kevin Middleton</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-credit-tagline">I manage scope IRL too →</a>
+                            </div>
+                        </div>
+                        <!-- Game Canvas -->
+                        <canvas id="snakeCanvas" width="320" height="320" style="display: none;"></canvas>
+                        <!-- Game HUD -->
+                        <div class="game-hud" id="snakeHud" style="display: none;">
+                            <span>SCORE: <span id="snakeScore">0</span></span>
+                            <span>BACKLOG: <span id="snakeLength">3</span></span>
+                        </div>
+                        <!-- Mobile Touch Controls -->
+                        <div class="touch-controls snake-touch" id="snakeTouchControls" style="display: none;">
+                            <div class="snake-dpad">
+                                <button class="touch-btn snake-up" id="snakeTouchUp">▲</button>
+                                <div class="snake-dpad-middle">
+                                    <button class="touch-btn snake-left" id="snakeTouchLeft">◀</button>
+                                    <button class="touch-btn snake-right" id="snakeTouchRight">▶</button>
+                                </div>
+                                <button class="touch-btn snake-down" id="snakeTouchDown">▼</button>
+                            </div>
+                        </div>
+                        <!-- Game Over Screen -->
+                        <div class="game-screen game-over" id="snakeOver" style="display: none;">
+                            <div class="game-title">SCOPE COLLISION</div>
+                            <div class="game-final-score">Score: <span id="snakeFinalScore">0</span></div>
+                            <div class="game-final-wave">Backlog Size: <span id="snakeFinalLength">0</span></div>
+                            <div class="game-message" id="snakeMessage">The backlog consumed itself.</div>
+                            <div class="game-over-btns">
+                                <button class="game-btn" id="snakePlayAgainBtn">🔄 New Backlog</button>
+                                <button class="game-btn game-btn-secondary" id="snakeWhoAmIBtn">👤 Meet the PM</button>
+                            </div>
+                            <div class="game-over-cta">
+                                <div class="game-over-bio">Made by a PM who's been in the trenches for 12 years.<br>I bring this energy to product work.</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-btn game-btn-cta">I'm looking for my next team →</a>
+                                <div class="game-share">Beat my score? Screenshot and tag me on <a href="https://linkedin.com/in/kevinmiddleton" target="_blank">LinkedIn</a></div>
+                                <button class="game-btn-link see-all-games mobile-only" data-action="see-all-games">← See All Games</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- standup.app (STANDUP SPEEDRUN game) -->
+            <section class="window game-window" id="standup" data-window="standup">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">⌨️</span>
+                        STANDUP SPEEDRUN
+                        <span class="file-badge app">APP</span>
+                    </div>
+                    <span class="window-path">~/kevin/games/</span>
+                </header>
+                <div class="window-content game-content">
+                    <div class="game-container" id="standupContainer">
+                        <!-- Start Screen -->
+                        <div class="game-screen game-start" id="standupStart">
+                            <button class="game-btn-link see-all-games game-back-link mobile-only" data-action="see-all-games">← See All Games</button>
+                            <div class="game-title">⌨️ STANDUP SPEEDRUN ⌨️</div>
+                            <div class="game-subtitle">Yesterday. Today. Blockers. Go.</div>
+                            <div class="game-flavor">Type your status updates before time runs out. No typos allowed.</div>
+                            <div class="game-instructions">
+                                <p class="desktop-only">Type the prompt exactly · 3 strikes you're out</p>
+                                <p class="mobile-only">Tap words in order · 3 strikes you're out</p>
+                                <p class="game-powerups">Speed + Accuracy = Score</p>
+                            </div>
+                            <button class="game-btn" id="startStandupBtn">JOIN STANDUP</button>
+                            <div class="game-credit">
+                                <div class="game-credit-title">A KevinOS Game by Kevin Middleton</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-credit-tagline">I type fast IRL too →</a>
+                            </div>
+                        </div>
+                        <!-- Game Area -->
+                        <div class="standup-game" id="standupGame" style="display: none;">
+                            <div class="standup-slack">
+                                <div class="slack-header">
+                                    <span class="slack-channel"># daily-standup</span>
+                                    <span class="slack-lives" id="standupLives">❤️❤️❤️</span>
+                                    <span class="slack-time" id="standupTimer">15.0s</span>
+                                </div>
+                                <div class="slack-messages" id="slackMessages">
+                                    <div class="slack-message">
+                                        <span class="slack-avatar">🤖</span>
+                                        <div class="slack-content">
+                                            <span class="slack-username">StandupBot</span>
+                                            <span class="slack-text">What's your status update?</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slack-prompt">
+                                    <div class="prompt-label"><span class="desktop-only">TYPE THIS:</span><span class="mobile-only">BUILD THIS:</span></div>
+                                    <div class="prompt-text" id="standupPrompt">Shipped the login fix</div>
+                                </div>
+                                <div class="slack-input-area desktop-only">
+                                    <span class="slack-avatar-small">👨🏻‍💻</span>
+                                    <input type="text" class="slack-input" id="standupInput" placeholder="Type here..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                                </div>
+                                <div class="slack-scramble mobile-only" id="standupScramble">
+                                    <div class="scramble-built" id="scrambleBuilt"></div>
+                                    <div class="scramble-words" id="scrambleWords"></div>
+                                </div>
+                            </div>
+                            <div class="standup-stats">
+                                <span>SCORE: <span id="standupScore">0</span></span>
+                                <span>STREAK: <span id="standupStreak">0</span>🔥</span>
+                                <span>UPDATES: <span id="standupCount">0</span></span>
+                            </div>
+                        </div>
+                        <!-- Game Over Screen -->
+                        <div class="game-screen game-over" id="standupOver" style="display: none;">
+                            <div class="game-title">STANDUP OVER</div>
+                            <div class="game-final-score">Score: <span id="standupFinalScore">0</span></div>
+                            <div class="game-final-wave">Updates Sent: <span id="standupFinalCount">0</span></div>
+                            <div class="game-message" id="standupMessage">Meeting adjourned.</div>
+                            <div class="game-over-btns">
+                                <button class="game-btn" id="standupPlayAgainBtn">🔄 Another Standup</button>
+                                <button class="game-btn game-btn-secondary" id="standupWhoAmIBtn">👤 Meet the PM</button>
+                            </div>
+                            <div class="game-over-cta">
+                                <div class="game-over-bio">Made by a PM who's been in the trenches for 12 years.<br>I bring this energy to product work.</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-btn game-btn-cta">I'm looking for my next team →</a>
+                                <div class="game-share">Beat my score? Screenshot and tag me on <a href="https://linkedin.com/in/kevinmiddleton" target="_blank">LinkedIn</a></div>
+                                <button class="game-btn-link see-all-games mobile-only" data-action="see-all-games">← See All Games</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
@@ -973,650 +1468,16 @@
         <div class="taskbar-right"><span class="taskbar-time" id="time"></span></div>
     </footer>
 
-    <script>
-        let zIndex = 10;
-        let isFirstLoad = true;
-        const windows = document.querySelectorAll('.window');
-        const icons = document.querySelectorAll('.desktop-icon[data-window]');
-        const dockItems = document.querySelectorAll('.dock-item[data-window]');
-        const allNavItems = document.querySelectorAll('.desktop-icon[data-window], .dock-item[data-window]');
-
-        // Position README window at top center on load
-        const readmeWindow = document.getElementById('readme');
-        if (readmeWindow) {
-            readmeWindow.style.top = '80px';
-            readmeWindow.style.left = '50%';
-            readmeWindow.style.transform = 'translateX(-50%)';
-        }
-
-        function openWindow(id) {
-            // On first load, close README if opening a different window
-            if (isFirstLoad && id !== 'readme') {
-                closeWindow('readme');
-                isFirstLoad = false;
-            }
-            const win = document.querySelector(`.window[data-window="${id}"]`);
-            if (!win) return;
-            zIndex++;
-            win.style.zIndex = zIndex;
-            win.classList.add('window-open');
-            win.classList.remove('window-minimized');
-            allNavItems.forEach(i => i.classList.toggle('active', i.dataset.window === id));
-        }
-
-        function closeWindow(id) {
-            const win = document.querySelector(`.window[data-window="${id}"]`);
-            if (!win) return;
-            win.classList.remove('window-open');
-            allNavItems.forEach(i => {
-                if (i.dataset.window === id) i.classList.remove('active');
-            });
-        }
-
-        function minimizeWindow(id) {
-            const win = document.querySelector(`.window[data-window="${id}"]`);
-            if (!win) return;
-            win.classList.add('window-minimized');
-            allNavItems.forEach(i => {
-                if (i.dataset.window === id) i.classList.remove('active');
-            });
-        }
-
-        allNavItems.forEach(item => item.addEventListener('click', () => openWindow(item.dataset.window)));
-
-        windows.forEach(win => {
-            win.addEventListener('mousedown', () => {
-                zIndex++;
-                win.style.zIndex = zIndex;
-                allNavItems.forEach(i => i.classList.toggle('active', i.dataset.window === win.dataset.window));
-            });
-            win.querySelectorAll('.window-dot').forEach(dot => {
-                dot.addEventListener('click', e => {
-                    e.stopPropagation();
-                    if (dot.dataset.action === 'close') closeWindow(win.dataset.window);
-                    if (dot.dataset.action === 'minimize') minimizeWindow(win.dataset.window);
-                });
-            });
-
-            // Dragging
-            const header = win.querySelector('.window-header');
-            let isDragging = false;
-            let startX, startY, startLeft, startTop;
-
-            header.addEventListener('mousedown', e => {
-                if (e.target.classList.contains('window-dot')) return;
-                isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                const rect = win.getBoundingClientRect();
-                startLeft = rect.left;
-                startTop = rect.top;
-                win.style.transition = 'none';
-            });
-
-            document.addEventListener('mousemove', e => {
-                if (!isDragging) return;
-                const dx = e.clientX - startX;
-                const dy = e.clientY - startY;
-                win.style.left = (startLeft + dx) + 'px';
-                win.style.top = (startTop + dy) + 'px';
-                win.style.transform = 'none';
-            });
-
-            document.addEventListener('mouseup', () => {
-                if (isDragging) {
-                    isDragging = false;
-                    win.style.transition = '';
-                }
-            });
-        });
-
-        // ===================
-        // DOCK MAGNIFICATION
-        // ===================
-        const dock = document.getElementById('dock');
-        const dockItemsAll = dock.querySelectorAll('.dock-item');
-        let dockPositions = [];
-        
-        function cacheDockPositions() {
-            // Reset transforms before measuring
-            dockItemsAll.forEach(item => item.style.transform = '');
-            // Cache center positions
-            dockPositions = Array.from(dockItemsAll).map(item => {
-                const rect = item.getBoundingClientRect();
-                return rect.left + rect.width / 2;
-            });
-        }
-        
-        dock.addEventListener('mouseenter', cacheDockPositions);
-        
-        dock.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX;
-            
-            dockItemsAll.forEach((item, index) => {
-                const itemCenterX = dockPositions[index];
-                if (!itemCenterX) return;
-                
-                const distance = Math.abs(mouseX - itemCenterX);
-                const maxDistance = 100;
-                
-                if (distance < maxDistance) {
-                    const factor = 1 - (distance / maxDistance);
-                    const scale = 1 + factor * 0.35;
-                    const translateY = factor * -8;
-                    item.style.transform = `scale(${scale}) translateY(${translateY}px)`;
-                } else {
-                    item.style.transform = 'scale(1) translateY(0)';
-                }
-            });
-        });
-        
-        dock.addEventListener('mouseleave', () => {
-            dockItemsAll.forEach(item => {
-                item.style.transform = '';
-            });
-        });
-
-        // Handle data-open buttons - open window on desktop, scroll on mobile
-
-        // Handle data-open buttons - open window on desktop, scroll on mobile
-        document.querySelectorAll('[data-open]').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const isMobile = window.innerWidth <= 768;
-                if (isMobile) {
-                    // On mobile, scroll to the section
-                    const target = document.getElementById(btn.dataset.open);
-                    if (target) {
-                        e.preventDefault();
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                } else {
-                    // On desktop, open the window
-                    e.preventDefault();
-                    // Close README on first load if clicking from within it
-                    if (isFirstLoad) {
-                        closeWindow('readme');
-                        isFirstLoad = false;
-                    }
-                    openWindow(btn.dataset.open);
-                }
-            });
-        });
-
-        // ===================
-        // MUSIC PLAYER
-        // ===================
-        const playlist = [
-            { file: 'Abracadabra - Lady Gaga.mp3', title: 'Abracadabra', artist: 'Lady Gaga' },
-            { file: 'Toxic - Britney Spears.mp3', title: 'Toxic', artist: 'Britney Spears' },
-            { file: 'Telephone - Lady Gaga + Beyonce.mp3', title: 'Telephone', artist: 'Lady Gaga + Beyoncé' },
-            { file: 'Baby One More Time - Britney Spears.mp3', title: 'Baby One More Time', artist: 'Britney Spears' },
-            { file: 'Paparazzi - Lady Gaga.mp3', title: 'Paparazzi', artist: 'Lady Gaga' },
-            { file: 'Shadow of a Man - Lady Gaga.mp3', title: 'Shadow of a Man', artist: 'Lady Gaga' },
-            { file: 'Good Form - Nicki Minaj + Lil Wayne.mp3', title: 'Good Form', artist: 'Nicki Minaj + Lil Wayne' },
-            { file: 'Venus - Lady Gaga.mp3', title: 'Venus', artist: 'Lady Gaga' }
-        ];
-
-        const musicBase = 'https://middleton.io/music/';
-        let currentTrack = 0;
-        let isPlaying = false;
-        const audio = new Audio();
-
-        const playerTitle = document.querySelector('.player-title');
-        const playerArtist = document.querySelector('.player-artist');
-        const playBtn = document.getElementById('playBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const progressBar = document.getElementById('progressBar');
-        const currentTime = document.querySelector('.player-time.current');
-        const remainingTime = document.querySelector('.player-time.remaining');
-
-        function formatTime(seconds) {
-            if (isNaN(seconds)) return '0:00';
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return mins + ':' + (secs < 10 ? '0' : '') + secs;
-        }
-
-        function loadTrack(index) {
-            const track = playlist[index];
-            playerTitle.textContent = track.title;
-            playerArtist.textContent = track.artist;
-            audio.src = musicBase + encodeURIComponent(track.file);
-            progressBar.style.width = '0%';
-            currentTime.textContent = '0:00';
-            remainingTime.textContent = '-0:00';
-        }
-
-        function togglePlay() {
-            if (isPlaying) {
-                audio.pause();
-                playBtn.textContent = '▶';
-            } else {
-                audio.play();
-                playBtn.textContent = '⏸';
-            }
-            isPlaying = !isPlaying;
-        }
-
-        function nextTrack() {
-            currentTrack = (currentTrack + 1) % playlist.length;
-            loadTrack(currentTrack);
-            if (isPlaying) audio.play();
-        }
-
-        function prevTrack() {
-            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-            loadTrack(currentTrack);
-            if (isPlaying) audio.play();
-        }
-
-        playBtn.addEventListener('click', togglePlay);
-        nextBtn.addEventListener('click', nextTrack);
-        prevBtn.addEventListener('click', prevTrack);
-
-        audio.addEventListener('timeupdate', () => {
-            if (audio.duration) {
-                progressBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
-                currentTime.textContent = formatTime(audio.currentTime);
-                remainingTime.textContent = '-' + formatTime(audio.duration - audio.currentTime);
-            }
-        });
-
-        audio.addEventListener('ended', nextTrack);
-
-        // Load first track
-        loadTrack(0);
-
-        // Debug: log what we're trying to load
-        audio.addEventListener('error', (e) => {
-            console.error('Audio error:', audio.error);
-            console.log('Attempted URL:', audio.src);
-        });
-
-        audio.addEventListener('canplay', () => {
-            console.log('Audio ready to play:', audio.src);
-        });
-
-        // Player dragging
-        const musicPlayer = document.getElementById('musicPlayer');
-        const playerHeader = document.querySelector('.player-header');
-        let playerDragging = false;
-        let playerStartX, playerStartY, playerStartLeft, playerStartTop;
-
-        playerHeader.addEventListener('mousedown', e => {
-            playerDragging = true;
-            playerStartX = e.clientX;
-            playerStartY = e.clientY;
-            const rect = musicPlayer.getBoundingClientRect();
-            playerStartLeft = rect.left;
-            playerStartTop = rect.top;
-            musicPlayer.style.transition = 'none';
-        });
-
-        document.addEventListener('mousemove', e => {
-            if (!playerDragging) return;
-            const dx = e.clientX - playerStartX;
-            const dy = e.clientY - playerStartY;
-            musicPlayer.style.right = 'auto';
-            musicPlayer.style.bottom = 'auto';
-            musicPlayer.style.left = (playerStartLeft + dx) + 'px';
-            musicPlayer.style.top = (playerStartTop + dy) + 'px';
-        });
-
-        document.addEventListener('mouseup', () => {
-            if (playerDragging) {
-                playerDragging = false;
-                musicPlayer.style.transition = '';
-            }
-        });
-
-        // Close player button
-        document.getElementById('closePlayer').addEventListener('click', (e) => {
-            e.stopPropagation();
-            musicPlayer.style.display = 'none';
-            audio.pause();
-            isPlaying = false;
-            playBtn.textContent = '▶';
-            document.getElementById('musicIcon').classList.remove('active');
-        });
-
-        // Music icon toggle
-        document.getElementById('musicIcon').addEventListener('click', () => {
-            const player = document.getElementById('musicPlayer');
-            const icon = document.getElementById('musicIcon');
-            if (player.style.display === 'none') {
-                player.style.display = 'block';
-                icon.classList.add('active');
-            } else {
-                player.style.display = 'none';
-                audio.pause();
-                isPlaying = false;
-                playBtn.textContent = '▶';
-                icon.classList.remove('active');
-            }
-        });
-
-        // ===================
-        // RECYCLE BIN - Recovery after virus
-        // ===================
-        document.getElementById('recycleBin').addEventListener('click', () => {
-            const virusOverlay = document.getElementById('virusOverlay');
-            if (virusOverlay.classList.contains('active')) {
-                // Full recovery
-                virusOverlay.classList.remove('active');
-                virusOverlay.innerHTML = `
-                    <div class="virus-screen">
-                        <div class="virus-text">
-                            <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
-                            <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
-                        </div>
-                    </div>
-                `;
-                document.body.style.filter = '';
-                alert('🗑️ System restored! Files recovered from Recycle Bin. 🎉');
-            } else {
-                alert('🗑️ The bin is empty... for now. 👀');
-            }
-        });
-
-        // ===================
-        // VIRUS EASTER EGG
-        // ===================
-        document.getElementById('virusBtn').addEventListener('click', () => {
-            const overlay = document.getElementById('virusOverlay');
-            overlay.classList.add('active');
-
-            let countdown = 5;
-            const countdownEl = document.getElementById('virusCountdown');
-
-            const interval = setInterval(() => {
-                countdown--;
-                if (countdownEl) countdownEl.textContent = countdown;
-
-                // Glitch effect intensifies
-                document.body.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
-
-                if (countdown <= 0) {
-                    clearInterval(interval);
-                    // "Delete" effect - screen goes crazy then shows recovery
-                    setTimeout(() => {
-                        document.body.style.filter = 'invert(1)';
-                        setTimeout(() => {
-                            document.body.style.filter = '';  // Clear all filters
-                            setTimeout(() => {
-                                // Show recovery options
-                                const recoveryDiv = document.createElement('div');
-                                recoveryDiv.className = 'recovery-hint';
-                                recoveryDiv.innerHTML = `
-                                    <div class="recovery-title">👾 uh oh.</div>
-                                    <div class="recovery-subtitle">Unusual activity detected.</div>
-                                    <div class="recovery-buttons">
-                                        <button class="recovery-btn" id="wipeBtn">💾 Wipe</button>
-                                        <button class="recovery-btn" id="antivirusBtn">🛡️ Antivirus</button>
-                                        <button class="recovery-btn" id="ignoreBtn">🙈 Ignore</button>
-                                    </div>
-                                `;
-                                overlay.appendChild(recoveryDiv);
-
-                                // Wipe - full page reload
-                                document.getElementById('wipeBtn').addEventListener('click', () => {
-                                    location.reload();
-                                });
-
-                                // Antivirus - clean recovery
-                                document.getElementById('antivirusBtn').addEventListener('click', () => {
-                                    overlay.classList.remove('active');
-                                    overlay.innerHTML = `
-                                        <div class="virus-screen">
-                                            <div class="virus-text">
-                                                <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
-                                                <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
-                                            </div>
-                                        </div>
-                                    `;
-                                    document.body.style.filter = '';
-                                    recoveryDiv.remove();
-                                });
-
-                                // Ignore - make it worse, then auto-recover
-                                document.getElementById('ignoreBtn').addEventListener('click', () => {
-                                    recoveryDiv.remove();
-                                    let chaos = 0;
-                                    const chaosInterval = setInterval(() => {
-                                        chaos++;
-                                        document.body.style.filter = `hue-rotate(${Math.random() * 360}deg) blur(${Math.random() * 3}px)`;
-                                        document.body.style.transform = `rotate(${(Math.random() - 0.5) * 10}deg) scale(${1 + Math.random() * 0.1})`;
-                                        if (chaos > 15) {
-                                            clearInterval(chaosInterval);
-                                            document.body.style.filter = '';
-                                            document.body.style.transform = '';
-                                            overlay.classList.remove('active');
-                                            overlay.innerHTML = `
-                                                <div class="virus-screen">
-                                                    <div class="virus-text">
-                                                        <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
-                                                        <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
-                                                       <p class="virus-warning"><span id="virusCountdown">5</span>...</p>
-                                                    </div>
-                                                </div>
-                                            `;
-                                        }
-                                    }, 100);
-                                });
-                            }, 500);
-                        }, 300);
-                    }, 500);
-                }
-            }, 1000);
-        });
-
-        // ===================
-        // PARTY MODE
-        // ===================
-        let partyMode = false;
-        document.getElementById('partyBtn').addEventListener('click', () => {
-            const overlay = document.getElementById('partyOverlay');
-            const container = document.getElementById('confettiContainer');
-
-            if (partyMode) {
-                overlay.classList.remove('active');
-                container.innerHTML = '';
-                document.body.classList.remove('party-mode');
-                partyMode = false;
-                return;
-            }
-
-            partyMode = true;
-            overlay.classList.add('active');
-            document.body.classList.add('party-mode');
-
-            // Create confetti
-            const colors = ['#ff6eb4', '#5c8aff', '#4ae0a0', '#ffc048', '#a078ff', '#ff9f6a'];
-
-            function createConfetti() {
-                if (!partyMode) return;
-
-                for (let i = 0; i < 5; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + 'vw';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                    container.appendChild(confetti);
-
-                    setTimeout(() => confetti.remove(), 4000);
-                }
-
-                setTimeout(createConfetti, 200);
-            }
-
-            createConfetti();
-
-            // Auto-stop after 10 seconds
-            setTimeout(() => {
-                if (partyMode) {
-                    overlay.classList.remove('active');
-                    container.innerHTML = '';
-                    document.body.classList.remove('party-mode');
-                    partyMode = false;
-                }
-            }, 10000);
-        });
-
-        // ===================
-        // PHOTO VIEWER
-        // ===================
-        let photoZIndex = 100;
-
-        document.querySelectorAll('[data-photo]').forEach(img => {
-            img.style.cursor = 'pointer';
-            img.addEventListener('click', () => {
-                const src = img.dataset.photoSrc;
-                const title = img.dataset.photoTitle;
-                const id = 'photo-' + img.dataset.photo;
-
-                // Check if already open
-                if (document.getElementById(id)) {
-                    const existing = document.getElementById(id);
-                    photoZIndex++;
-                    existing.style.zIndex = photoZIndex;
-                    return;
-                }
-
-                // Create photo window
-                const photoWin = document.createElement('div');
-                photoWin.className = 'photo-window';
-                photoWin.id = id;
-                photoZIndex++;
-                photoWin.style.zIndex = photoZIndex;
-
-                photoWin.innerHTML = `
-                    <div class="photo-header">
-                        <div class="window-dots">
-                            <button class="window-dot red photo-close"></button>
-                            <span class="window-dot yellow"></span>
-                            <span class="window-dot green"></span>
-                        </div>
-                        <span class="photo-title">${title}</span>
-                    </div>
-                    <div class="photo-body">
-                        <img src="${src}" alt="${title}">
-                    </div>
-                `;
-
-                document.getElementById('photoWindows').appendChild(photoWin);
-
-                // Position randomly but visible
-                const maxX = window.innerWidth - 350;
-                const maxY = window.innerHeight - 350;
-                photoWin.style.left = (100 + Math.random() * Math.max(0, maxX - 200)) + 'px';
-                photoWin.style.top = (80 + Math.random() * Math.max(0, maxY - 200)) + 'px';
-
-                // Close button
-                photoWin.querySelector('.photo-close').addEventListener('click', () => {
-                    photoWin.remove();
-                });
-
-                // Bring to front on click
-                photoWin.addEventListener('mousedown', () => {
-                    photoZIndex++;
-                    photoWin.style.zIndex = photoZIndex;
-                });
-
-                // Dragging
-                const header = photoWin.querySelector('.photo-header');
-                let isDragging = false;
-                let startX, startY, startLeft, startTop;
-
-                header.addEventListener('mousedown', e => {
-                    if (e.target.classList.contains('photo-close')) return;
-                    isDragging = true;
-                    startX = e.clientX;
-                    startY = e.clientY;
-                    const rect = photoWin.getBoundingClientRect();
-                    startLeft = rect.left;
-                    startTop = rect.top;
-                });
-
-                document.addEventListener('mousemove', e => {
-                    if (!isDragging) return;
-                    photoWin.style.left = (startLeft + e.clientX - startX) + 'px';
-                    photoWin.style.top = (startTop + e.clientY - startY) + 'px';
-                });
-
-                document.addEventListener('mouseup', () => {
-                    isDragging = false;
-                });
-            });
-        });
-
-        // ===================
-        // EXPERIENCE IMAGE LIGHTBOX
-        // ===================
-        function openLightbox(src, alt) {
-            const overlay = document.getElementById('lightboxOverlay');
-            const img = document.getElementById('lightboxImage');
-            const title = document.getElementById('lightboxTitle');
-
-            img.src = src;
-            img.alt = alt;
-            title.textContent = alt;
-            overlay.classList.add('active');
-
-            // Close on escape key
-            document.addEventListener('keydown', closeLightboxOnEscape);
-        }
-
-        function closeLightbox() {
-            const overlay = document.getElementById('lightboxOverlay');
-            overlay.classList.remove('active');
-            document.removeEventListener('keydown', closeLightboxOnEscape);
-        }
-
-        function closeLightboxOnEscape(e) {
-            if (e.key === 'Escape') closeLightbox();
-        }
-
-        // ===================
-        // THEME TOGGLE
-        // ===================
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        const root = document.documentElement;
-
-        // Check system preference
-        function getSystemTheme() {
-            return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        }
-
-        // Apply theme
-        function applyTheme(theme) {
-            root.dataset.theme = theme;
-            themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
-        }
-
-        // On load: always start with system preference
-        applyTheme(getSystemTheme());
-
-        // Listen for system preference changes - always follow system
-        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
-            applyTheme(e.matches ? 'light' : 'dark');
-        });
-
-        // Toggle button - temporary override until system changes again
-        themeToggle.addEventListener('click', () => {
-            const current = root.dataset.theme;
-            applyTheme(current === 'light' ? 'dark' : 'light');
-        });
-
-        function updateTime() {
-            document.getElementById('time').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-        }
-        updateTime();
-        setInterval(updateTime, 60000);
-    </script>
+    <!-- Mobile Sticky Contact Bar -->
+    <div class="mobile-contact-bar">
+        <a href="/cdn-cgi/l/email-protection#432826352a2d032e2a27272f26372c2d6d2a2c" class="mobile-contact-btn"><span class="mobile-btn-icon">📧</span><span class="mobile-btn-label">Email</span></a>
+        <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="mobile-contact-btn"><span class="mobile-btn-icon">💼</span><span class="mobile-btn-label">LinkedIn</span></a>
+        <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="mobile-contact-btn mobile-contact-cta"><span class="mobile-btn-icon">📅</span><span class="mobile-btn-label">Let's Talk</span></a>
+    </div>
+
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="kevinos.js"></script>
 </body>
 
 </html>

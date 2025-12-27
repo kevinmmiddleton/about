@@ -172,11 +172,9 @@ body {
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    transition: transform 0.15s ease-out;
+    transition: transform 0.15s ease-out, margin 0.15s ease-out;
     position: relative;
     text-decoration: none;
-    will-change: transform;
-    transform-origin: bottom center;
 }
 
 .dock-item:hover {
@@ -1310,6 +1308,7 @@ body {
 
 .connect-btns {
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     justify-content: center;
     margin-top: 18px;
@@ -1320,23 +1319,25 @@ body {
     align-items: center;
     gap: 8px;
     padding: 10px 16px;
-    background: var(--surface-2);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 10px;
     font-family: var(--font-mono);
     font-size: 13px;
     color: var(--text);
     text-decoration: none;
-    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-}
-
-.connect-icon {
-    font-size: 18px;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
 .connect-btn:hover {
     background: rgba(92, 138, 255, 0.1);
     border-color: var(--blue);
+    transform: translateY(-2px);
+}
+
+.connect-icon {
+    font-size: 18px;
+    line-height: 1;
 }
 
 /* ===================
@@ -1401,7 +1402,7 @@ body {
    =================== */
 .music-player {
     position: fixed;
-    bottom: 140px;
+    bottom: 70px;
     right: 110px;
     width: 280px;
     background: rgba(30, 30, 40, 0.7);
@@ -1559,6 +1560,23 @@ body {
     transform: scale(1.08);
 }
 
+/* Hide mobile-only elements on desktop */
+.mobile-contact-bar {
+    display: none;
+}
+
+.touch-controls {
+    display: none;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: block;
+}
+
 /* ===================
    MOBILE FALLBACK
    =================== */
@@ -1594,6 +1612,19 @@ body {
         overflow: visible;
     }
 
+    #connect {
+        display: none !important;
+    }
+
+    #games {
+        order: 90;
+    }
+
+    /* Game windows should be full width like other windows */
+    .game-window {
+        width: 100%;
+    }
+
     .window {
         position: relative !important;
         width: 100% !important;
@@ -1602,6 +1633,245 @@ body {
         transform: none !important;
         top: auto !important;
         left: auto !important;
+    }
+
+    /* Hide individual game windows from mobile scroll - they load inside games folder */
+    /* MUST come after .window display:flex rule to override it */
+    #invaders,
+    #tetris,
+    #bugsquash,
+    #runner,
+    #snake,
+    #standup {
+        display: none !important;
+    }
+    
+    /* When a game is active on mobile, show it */
+    #invaders.mobile-active-game,
+    #tetris.mobile-active-game,
+    #bugsquash.mobile-active-game,
+    #runner.mobile-active-game,
+    #snake.mobile-active-game,
+    #standup.mobile-active-game {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Hide window dots on active mobile games */
+    .mobile-active-game .window-dots {
+        display: none !important;
+    }
+    
+    /* Hide games folder when a game is active */
+    .mobile-hidden {
+        display: none !important;
+    }
+    
+    /* Reset games folder max-width on mobile */
+    #games {
+        max-width: 100% !important;
+    }
+
+    /* Mobile game styling */
+    .game-window {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .game-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #gameCanvas {
+        width: 100%;
+        height: auto;
+        max-width: 480px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    #tetrisCanvas {
+        width: 100%;
+        height: auto;
+        max-width: 240px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    #runnerCanvas {
+        width: 100%;
+        height: auto;
+        max-width: 480px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    #snakeCanvas {
+        width: 100%;
+        height: auto;
+        max-width: 320px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .runner-touch .touch-btn {
+        border-radius: 12px;
+        height: 60px;
+        font-size: 16px;
+    }
+
+    .game-screen {
+        padding: 30px 16px;
+        min-height: 350px;
+    }
+
+    .game-title {
+        font-size: 22px;
+    }
+
+    .game-subtitle {
+        font-size: 12px;
+    }
+
+    .game-flavor {
+        font-size: 11px;
+    }
+
+    .game-instructions {
+        font-size: 11px;
+    }
+
+    .game-over-cta {
+        padding: 16px 8px;
+    }
+
+    .game-over-bio {
+        font-size: 11px;
+    }
+
+    /* Touch Controls */
+    .touch-controls {
+        display: none;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+    }
+
+    .touch-controls.visible {
+        display: flex !important;
+    }
+
+    .touch-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+        background: var(--surface-2);
+        border: 2px solid var(--border);
+        border-radius: 50%;
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+        transition: background 0.1s, border-color 0.1s;
+    }
+
+    .touch-btn:active {
+        background: var(--blue);
+        border-color: var(--blue);
+    }
+
+    .touch-autofire {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--mint);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Mobile Sticky Contact Bar */
+    .mobile-contact-bar {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(18, 18, 26, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 10px 12px;
+        gap: 8px;
+        justify-content: center;
+        align-items: stretch;
+        z-index: 1001;
+    }
+
+    .mobile-contact-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 8px 12px;
+        background: rgba(30, 30, 45, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        text-decoration: none;
+        transition: background 0.15s, border-color 0.15s;
+    }
+
+    .mobile-btn-icon {
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .mobile-btn-label {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .mobile-contact-btn:active {
+        background: rgba(92, 138, 255, 0.2);
+        border-color: var(--blue);
+    }
+
+    .mobile-contact-cta {
+        background: var(--blue);
+        border-color: var(--blue);
+    }
+
+    .mobile-contact-cta .mobile-btn-label {
+        color: #fff;
+    }
+
+    /* Adjust desktop padding for sticky bar */
+    .desktop {
+        padding-bottom: calc(var(--taskbar) + 90px) !important;
+    }
+
+    /* Hide taskbar on mobile */
+    .taskbar {
+        display: none;
+    }
+
+    /* Show/hide based on device */
+    .mobile-only {
+        display: block !important;
+    }
+
+    .desktop-only {
+        display: none !important;
     }
 
     .hero-ascii {
@@ -2011,4 +2281,793 @@ body {
     text-decoration: none;
     color: inherit;
     display: contents;
+}
+
+/* ===================
+   FOLDER CONTENT
+   =================== */
+.folder-content {
+    padding: 20px;
+}
+
+/* Games folder - compact width on desktop */
+#games {
+    max-width: 420px;
+}
+
+.folder-grid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 12px;
+    justify-content: center;
+    padding: 16px;
+}
+
+.folder-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.folder-icon {
+    font-size: 36px;
+    line-height: 1;
+}
+
+.folder-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+}
+
+@media (max-width: 768px) {
+    .folder-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding: 12px;
+    }
+    
+    .folder-icon {
+        font-size: 32px;
+    }
+    
+    .folder-label {
+        font-size: 9px;
+    }
+    
+    .folder-item {
+        padding: 8px 4px;
+    }
+}
+
+/* ===================
+   GAME WINDOW
+   =================== */
+.game-window {
+    width: min(520px, calc(100% - 40px));
+}
+
+.game-content {
+    padding: 0 !important;
+    background: #0a0a0f;
+}
+
+.game-container {
+    position: relative;
+    width: 480px;
+    min-height: 400px;
+    margin: 0 auto;
+}
+
+#gameCanvas {
+    display: block;
+    background: #0a0a0f;
+}
+
+/* Game Screens */
+.game-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    min-height: 400px;
+}
+
+.game-title {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--mint);
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+}
+
+.game-subtitle {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+}
+
+.game-instructions {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+}
+
+.game-instructions p {
+    margin: 4px 0;
+}
+
+.game-btn {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 32px;
+    background: var(--mint);
+    color: #0a0a0f;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.game-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(74, 224, 160, 0.3);
+}
+
+.game-btn-secondary {
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.game-btn-secondary:hover {
+    box-shadow: 0 4px 20px rgba(92, 138, 255, 0.2);
+}
+
+/* Game HUD */
+.game-hud {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+/* Tetris specific */
+#tetris .game-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tetrisCanvas {
+    display: block;
+    margin: 0 auto;
+    border: 2px solid var(--border);
+}
+
+.tetris-touch {
+    justify-content: center;
+    gap: 16px;
+}
+
+.touch-rotate {
+    background: var(--surface-2);
+}
+
+.touch-drop {
+    background: var(--mint);
+    color: #0a0a0f;
+    border-color: var(--mint);
+}
+
+/* Runner Game */
+#runnerCanvas {
+    display: block;
+    margin: 0 auto;
+    border: 2px solid var(--border);
+    background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 100%);
+}
+
+.runner-touch {
+    justify-content: center;
+    gap: 20px;
+}
+
+.runner-jump,
+.runner-slide {
+    flex: 1;
+    max-width: 150px;
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+}
+
+.runner-jump {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+}
+
+.runner-slide {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: #fff;
+}
+
+/* Snake Game */
+#snakeCanvas {
+    display: block;
+    margin: 0 auto;
+    border: 2px solid var(--border);
+    background: #0a0a0f;
+}
+
+.snake-touch {
+    justify-content: center;
+    padding: 12px;
+}
+
+.snake-dpad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.snake-dpad-middle {
+    display: flex;
+    gap: 50px;
+}
+
+.snake-touch .touch-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 12px;
+}
+
+.snake-up, .snake-down {
+    background: var(--surface-2);
+}
+
+.snake-left, .snake-right {
+    background: var(--surface-2);
+}
+
+/* Standup Speedrun Game */
+.standup-game {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    max-height: 400px;
+}
+
+@media (max-width: 768px) {
+    .standup-game {
+        height: auto;
+        max-height: none;
+        min-height: 400px;
+    }
+    
+    .slack-messages {
+        max-height: 120px;
+    }
+    
+    .slack-scramble {
+        display: block !important;
+        padding: 16px;
+    }
+    
+    .scramble-words {
+        padding-bottom: 8px;
+    }
+}
+
+.standup-slack {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #1a1a2e;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 12px;
+    min-height: 0;
+}
+
+.slack-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #0f0f1a;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.slack-channel {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--text);
+}
+
+.slack-lives {
+    font-size: 16px;
+}
+
+.slack-time {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--mint);
+}
+
+.slack-time.urgent {
+    color: var(--pink);
+    animation: pulse-urgent 0.5s ease-in-out infinite;
+}
+
+@keyframes pulse-urgent {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.slack-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.slack-message {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.slack-avatar {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.slack-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.slack-username {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.slack-text {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.slack-text.user-message {
+    color: var(--text);
+}
+
+.slack-text.success {
+    color: var(--mint);
+}
+
+.slack-text.error {
+    color: var(--pink);
+}
+
+.slack-prompt {
+    padding: 16px;
+    background: rgba(74, 224, 160, 0.1);
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.prompt-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mint);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.prompt-text {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+}
+
+.slack-input-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #0f0f1a;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.slack-avatar-small {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.slack-input {
+    flex: 1;
+    background: #2a2a3e;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.slack-input:focus {
+    border-color: var(--blue);
+}
+
+.slack-input.correct {
+    border-color: var(--mint);
+    background: rgba(74, 224, 160, 0.1);
+}
+
+.slack-input.incorrect {
+    border-color: var(--pink);
+    background: rgba(255, 110, 180, 0.1);
+}
+
+.standup-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+/* Word Scramble Mode (Mobile) */
+.slack-scramble {
+    padding: 12px 16px;
+    background: #0f0f1a;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.scramble-built {
+    min-height: 40px;
+    padding: 10px 12px;
+    background: #2a2a3e;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.scramble-built:empty::before {
+    content: "Tap words in order...";
+    color: var(--text-dim);
+}
+
+.scramble-built .built-word {
+    background: var(--blue);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.scramble-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.scramble-word {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.scramble-word:active {
+    transform: scale(0.95);
+}
+
+.scramble-word.correct {
+    background: var(--mint);
+    color: #0a0a0f;
+    border-color: var(--mint);
+}
+
+.scramble-word.wrong {
+    background: var(--pink);
+    color: #fff;
+    border-color: var(--pink);
+    animation: shake 0.3s ease-in-out;
+}
+
+.scramble-word.used {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Bug Squash Game */
+.bug-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
+    padding: 20px;
+    background: #0a0a0f;
+    min-height: 300px;
+}
+
+.bug-spot {
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    cursor: pointer;
+    transition: background 0.1s, transform 0.1s, border-color 0.1s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+}
+
+.bug-spot:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.bug-spot.has-bug {
+    border-color: var(--pink);
+    background: rgba(255, 110, 180, 0.1);
+    animation: bug-wobble 0.3s ease-in-out infinite;
+}
+
+.bug-spot.has-powerup {
+    border-color: var(--mint);
+    background: rgba(74, 224, 160, 0.1);
+    animation: powerup-pulse 0.5s ease-in-out infinite;
+}
+
+.bug-spot.has-feature {
+    border-color: var(--blue);
+    background: rgba(92, 138, 255, 0.1);
+    animation: feature-glow 0.8s ease-in-out infinite;
+}
+
+@keyframes feature-glow {
+    0%, 100% { box-shadow: 0 0 10px rgba(92, 138, 255, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(92, 138, 255, 0.5); }
+}
+
+.bug-spot.squashed {
+    animation: squash-pop 0.2s ease-out;
+}
+
+@keyframes bug-wobble {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+}
+
+@keyframes powerup-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes squash-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); opacity: 0.5; }
+}
+
+.bug-emoji {
+    pointer-events: none;
+}
+
+/* Game Over */
+.game-over {
+    background: rgba(10, 10, 15, 0.95);
+}
+
+.game-final-score {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.game-final-wave {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+}
+
+.game-message {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--pink);
+    font-style: italic;
+    margin-bottom: 32px;
+}
+
+.game-over-btns {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+/* Intro screen additions */
+.game-flavor {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.game-powerups {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.game-credit {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.game-credit-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+}
+
+.game-credit-tagline {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--mint);
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.game-credit-tagline:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Game over screen additions */
+.game-over-cta {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.game-over-bio {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.game-btn-cta {
+    background: var(--blue);
+    color: #fff;
+    display: inline-block;
+    text-decoration: none;
+    margin-bottom: 16px;
+}
+
+.game-btn-cta:hover {
+    box-shadow: 0 4px 20px rgba(92, 138, 255, 0.4);
+}
+
+.game-share {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.game-share a {
+    color: var(--blue);
+    text-decoration: none;
+}
+
+.game-share a:hover {
+    text-decoration: underline;
+}
+
+.game-btn-link {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 8px 0;
+    margin-top: 12px;
+    transition: color 0.15s;
+}
+
+.game-btn-link:hover {
+    color: var(--mint);
+}
+
+/* Back link at top of game start screens */
+.game-back-link {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    margin: 0;
+    padding: 4px 8px;
+    font-size: 11px;
+}
+
+/* Make game-start relative for absolute positioning */
+.game-start {
+    position: relative;
+}
+
+/* Mobile games embed container */
+.games-embed {
+    min-height: 400px;
+}
+
+.games-embed .game-container {
+    height: 100%;
 }
