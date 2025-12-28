@@ -1123,6 +1123,7 @@ body {
 
 .project-card.oracle .project-img {
     background: #FFFFFF;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .project-card.hvac .project-img {
@@ -1277,15 +1278,15 @@ body {
 }
 
 .term-prompt {
-    color: var(--mint);
+    color: #4ae0a0;
 }
 
 .term-cmd {
-    color: var(--text);
+    color: #e0e0e8;
 }
 
 .term-output {
-    color: var(--text-dim);
+    color: #c0c0cc;
     padding-left: 18px;
     margin-bottom: 12px;
 }
@@ -1320,7 +1321,7 @@ body {
     align-items: center;
     gap: 8px;
     padding: 10px 16px;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
     font-family: var(--font-mono);
@@ -1328,12 +1329,27 @@ body {
     color: var(--text);
     text-decoration: none;
     transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .connect-btn:hover {
     background: rgba(92, 138, 255, 0.1);
     border-color: var(--blue);
     transform: translateY(-2px);
+}
+
+[data-theme="light"] .connect-btn {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .connect-btn {
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
 }
 
 .connect-icon {
@@ -2391,6 +2407,10 @@ body {
     padding: 40px 20px;
     text-align: center;
     min-height: 400px;
+    /* Force light text inside dark game screens regardless of theme */
+    --text: #e8e8f0;
+    --text-dim: #a0a0b8;
+    --text-muted: #888899;
 }
 
 .game-title {
@@ -2439,12 +2459,13 @@ body {
 }
 
 .game-btn-secondary {
-    background: var(--surface-2);
-    color: var(--text);
-    border: 1px solid var(--border);
+    background: #2a2a3e;
+    color: #e8e8f0;
+    border: 1px solid #3a3a4e;
 }
 
 .game-btn-secondary:hover {
+    background: #3a3a4e;
     box-shadow: 0 4px 20px rgba(92, 138, 255, 0.2);
 }
 
@@ -2453,11 +2474,11 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 10px 16px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
+    background: #1a1a24;
+    border-top: 1px solid #2a2a3e;
     font-family: var(--font-mono);
     font-size: 12px;
-    color: var(--text-dim);
+    color: #a0a0b8;
 }
 
 /* Tetris specific */
@@ -2470,7 +2491,7 @@ body {
 #tetrisCanvas {
     display: block;
     margin: 0 auto;
-    border: 2px solid var(--border);
+    border: 2px solid #2a2a3e;
 }
 
 .tetris-touch {
@@ -2479,7 +2500,7 @@ body {
 }
 
 .touch-rotate {
-    background: var(--surface-2);
+    background: #2a2a3e;
 }
 
 .touch-drop {
@@ -2492,7 +2513,7 @@ body {
 #runnerCanvas {
     display: block;
     margin: 0 auto;
-    border: 2px solid var(--border);
+    border: 2px solid #2a2a3e;
     background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 100%);
 }
 
@@ -2526,7 +2547,7 @@ body {
 #snakeCanvas {
     display: block;
     margin: 0 auto;
-    border: 2px solid var(--border);
+    border: 2px solid #2a2a3e;
     background: #0a0a0f;
 }
 
@@ -2555,11 +2576,11 @@ body {
 }
 
 .snake-up, .snake-down {
-    background: var(--surface-2);
+    background: #2a2a3e;
 }
 
 .snake-left, .snake-right {
-    background: var(--surface-2);
+    background: #2a2a3e;
 }
 
 /* Standup Speedrun Game */
@@ -2600,6 +2621,9 @@ body {
     overflow: hidden;
     margin: 12px;
     min-height: 0;
+    /* Force light text inside dark game regardless of theme */
+    --text: #e8e8f0;
+    --text-dim: #9999b0;
 }
 
 .slack-header {
@@ -2608,7 +2632,7 @@ body {
     align-items: center;
     padding: 12px 16px;
     background: #0f0f1a;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid #2a2a3e;
     flex-shrink: 0;
 }
 
@@ -2690,7 +2714,7 @@ body {
 .slack-prompt {
     padding: 16px;
     background: rgba(74, 224, 160, 0.1);
-    border-top: 1px solid var(--border);
+    border-top: 1px solid #2a2a3e;
     flex-shrink: 0;
 }
 
@@ -2716,7 +2740,7 @@ body {
     gap: 12px;
     padding: 12px 16px;
     background: #0f0f1a;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid #2a2a3e;
     flex-shrink: 0;
 }
 
@@ -2728,7 +2752,7 @@ body {
 .slack-input {
     flex: 1;
     background: #2a2a3e;
-    border: 1px solid var(--border);
+    border: 1px solid #3a3a4e;
     border-radius: 6px;
     padding: 10px 14px;
     font-family: var(--font-mono);
@@ -2756,26 +2780,30 @@ body {
     display: flex;
     justify-content: space-around;
     padding: 12px 16px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
+    background: #1a1a24;
+    border-top: 1px solid #2a2a3e;
     font-family: var(--font-mono);
     font-size: 12px;
-    color: var(--text-dim);
+    color: #a0a0b8;
 }
 
 /* Word Scramble Mode (Mobile) */
 .slack-scramble {
     padding: 12px 16px;
     background: #0f0f1a;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid #2a2a3e;
     flex-shrink: 0;
+    /* Force dark theme colors inside scramble area */
+    --text: #e8e8f0;
+    --text-dim: #9999b0;
+    --surface-2: #2a2a3e;
 }
 
 .scramble-built {
     min-height: 40px;
     padding: 10px 12px;
     background: #2a2a3e;
-    border: 1px solid var(--border);
+    border: 1px solid #3a3a4e;
     border-radius: 6px;
     margin-bottom: 12px;
     font-family: var(--font-mono);
@@ -2808,7 +2836,7 @@ body {
 
 .scramble-word {
     background: var(--surface-2);
-    border: 1px solid var(--border);
+    border: 1px solid #3a3a4e;
     border-radius: 6px;
     padding: 10px 16px;
     font-family: var(--font-mono);
@@ -2928,6 +2956,9 @@ body {
 /* Game Over */
 .game-over {
     background: rgba(10, 10, 15, 0.95);
+    /* Force light text inside dark game-over screen regardless of theme */
+    --text: #e8e8f0;
+    --text-dim: #a0a0b8;
 }
 
 .game-final-score {
@@ -2941,7 +2972,8 @@ body {
 .game-final-wave {
     font-family: var(--font-mono);
     font-size: 16px;
-    color: var(--text-dim);
+    color: var(--text);
+    opacity: 0.8;
     margin-bottom: 24px;
 }
 
@@ -2977,13 +3009,13 @@ body {
 .game-credit {
     margin-top: 32px;
     padding-top: 20px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid #2a2a3e;
 }
 
 .game-credit-title {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--text-dim);
+    color: #a0a0b8;
     margin-bottom: 4px;
 }
 
@@ -3005,14 +3037,14 @@ body {
 .game-over-cta {
     margin-top: 24px;
     padding-top: 20px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid #2a2a3e;
     text-align: center;
 }
 
 .game-over-bio {
     font-family: var(--font-mono);
     font-size: 12px;
-    color: var(--text-dim);
+    color: #a0a0b8;
     line-height: 1.6;
     margin-bottom: 16px;
 }
@@ -3032,11 +3064,11 @@ body {
 .game-share {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--text-muted);
+    color: #888899;
 }
 
 .game-share a {
-    color: var(--blue);
+    color: #5c8aff;
     text-decoration: none;
 }
 
@@ -3047,7 +3079,7 @@ body {
 .game-btn-link {
     background: transparent;
     border: none;
-    color: var(--text-dim);
+    color: #a0a0b8;
     font-family: var(--font-mono);
     font-size: 12px;
     cursor: pointer;
@@ -3057,7 +3089,7 @@ body {
 }
 
 .game-btn-link:hover {
-    color: var(--mint);
+    color: #4ae0a0;
 }
 
 /* Back link at top of game start screens */

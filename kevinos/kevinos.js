@@ -33,6 +33,24 @@ function closeWindow(id) {
     const win = document.querySelector(`.window[data-window="${id}"]`);
     if (!win) return;
     win.classList.remove('window-open');
+    
+    // Also clean up mobile state if this was a mobile-active game
+    if (win.classList.contains('mobile-active-game')) {
+        win.classList.remove('mobile-active-game');
+        win.style.display = '';
+        
+        // Show games folder again
+        const gamesWin = document.getElementById('games');
+        if (gamesWin) {
+            gamesWin.classList.remove('mobile-hidden');
+        }
+    }
+    
+    // Clear mobileActiveGame if it matches
+    if (typeof mobileActiveGame !== 'undefined' && mobileActiveGame === id) {
+        mobileActiveGame = null;
+    }
+    
     allNavItems.forEach(i => {
         if (i.dataset.window === id) i.classList.remove('active');
     });
@@ -1390,7 +1408,7 @@ document.addEventListener('keydown', (e) => {
     
     // Only handle game controls if game window is active
     const invadersWindow = document.getElementById('invaders');
-    if (!invadersWindow.classList.contains('window-open')) return;
+    if (!invadersWindow.classList.contains('window-open') && !invadersWindow.classList.contains('mobile-active-game')) return;
     
     if (e.key === ' ' && gameRunning) {
         e.preventDefault();
@@ -1822,7 +1840,7 @@ function endTetris() {
 // Tetris keyboard controls
 document.addEventListener('keydown', (e) => {
     const tetrisWindow = document.getElementById('tetris');
-    if (!tetrisWindow || !tetrisWindow.classList.contains('window-open')) return;
+    if (!tetrisWindow || (!tetrisWindow.classList.contains('window-open') && !tetrisWindow.classList.contains('mobile-active-game'))) return;
     if (!tetrisRunning) return;
     
     switch (e.key) {
@@ -2415,30 +2433,39 @@ function checkCollision(a, b) {
 function drawRunner() {
     if (!runnerCtx) return;
     
-    // Clear canvas
-    const gradient = runnerCtx.createLinearGradient(0, 0, 0, runnerCanvas.height);
-    gradient.addColorStop(0, '#1a1a2e');
-    gradient.addColorStop(1, '#16213e');
-    runnerCtx.fillStyle = gradient;
-    runnerCtx.fillRect(0, 0, runnerCanvas.width, runnerCanvas.height);
+    // Draw gradient sky (darker at top, lighter toward horizon)
+    const skyGradient = runnerCtx.createLinearGradient(0, 0, 0, RUNNER_GROUND);
+    skyGradient.addColorStop(0, '#0a0a12');    // Dark at top
+    skyGradient.addColorStop(0.6, '#12121f');  // Mid
+    skyGradient.addColorStop(1, '#1a1a2e');    // Lighter at horizon
+    runnerCtx.fillStyle = skyGradient;
+    runnerCtx.fillRect(0, 0, runnerCanvas.width, RUNNER_GROUND);
     
-    // Draw ground
-    runnerCtx.fillStyle = '#0f3460';
+    // Draw road (gray asphalt)
+    runnerCtx.fillStyle = '#2a2a35';
     runnerCtx.fillRect(0, RUNNER_GROUND, runnerCanvas.width, 40);
     
-    // Draw ground line
+    // Draw road top edge (darker border)
+    runnerCtx.fillStyle = '#1a1a22';
+    runnerCtx.fillRect(0, RUNNER_GROUND, runnerCanvas.width, 3);
+    
+    // Draw road bottom edge (darker border)
+    runnerCtx.fillStyle = '#1a1a22';
+    runnerCtx.fillRect(0, RUNNER_GROUND + 37, runnerCanvas.width, 3);
+    
+    // Draw teal accent line on road surface
     runnerCtx.strokeStyle = '#4ae0a0';
     runnerCtx.lineWidth = 2;
     runnerCtx.beginPath();
-    runnerCtx.moveTo(0, RUNNER_GROUND);
-    runnerCtx.lineTo(runnerCanvas.width, RUNNER_GROUND);
+    runnerCtx.moveTo(0, RUNNER_GROUND + 2);
+    runnerCtx.lineTo(runnerCanvas.width, RUNNER_GROUND + 2);
     runnerCtx.stroke();
     
-    // Draw moving ground markers
-    runnerCtx.fillStyle = '#1a1a2e';
+    // Draw moving road dashes (center line)
+    runnerCtx.fillStyle = '#4a4a55';
     const markerOffset = (runnerDistance * 5) % 40;
     for (let x = -markerOffset; x < runnerCanvas.width; x += 40) {
-        runnerCtx.fillRect(x, RUNNER_GROUND + 10, 20, 4);
+        runnerCtx.fillRect(x, RUNNER_GROUND + 18, 20, 4);
     }
     
     // Draw obstacles
@@ -2530,7 +2557,7 @@ function endRunner() {
 // Runner keyboard controls
 document.addEventListener('keydown', (e) => {
     const runnerWindow = document.getElementById('runner');
-    if (!runnerWindow || !runnerWindow.classList.contains('window-open')) return;
+    if (!runnerWindow || (!runnerWindow.classList.contains('window-open') && !runnerWindow.classList.contains('mobile-active-game'))) return;
     if (!runnerRunning) return;
     
     if (e.key === ' ' || e.key === 'ArrowUp') {
@@ -2592,7 +2619,7 @@ let snakeDirection = { x: 1, y: 0 };
 let snakeNextDirection = { x: 1, y: 0 };
 let snakeFood = null;
 let snakeGameInterval = null;
-let snakeSpeed = 150;
+let snakeSpeed = 200;
 
 const FOOD_EMOJIS = ['💡', '🎯', '⭐', '📧', '📊'];
 
@@ -2602,7 +2629,7 @@ function getRandomFoodEmoji() {
 
 function initSnake() {
     snakeScore = 0;
-    snakeSpeed = 150;
+    snakeSpeed = 200;
     snakeDirection = { x: 1, y: 0 };
     snakeNextDirection = { x: 1, y: 0 };
     
@@ -2670,7 +2697,7 @@ function moveSnake() {
         spawnSnakeFood();
         
         // Speed up every 5 foods
-        if (snake.length % 5 === 0 && snakeSpeed > 80) {
+        if (snake.length % 5 === 0 && snakeSpeed > 120) {
             snakeSpeed -= 10;
             clearInterval(snakeGameInterval);
             snakeGameInterval = setInterval(moveSnake, snakeSpeed);
@@ -2798,7 +2825,7 @@ function endSnake() {
 // Snake keyboard controls
 document.addEventListener('keydown', (e) => {
     const snakeWindow = document.getElementById('snake');
-    if (!snakeWindow || !snakeWindow.classList.contains('window-open')) return;
+    if (!snakeWindow || (!snakeWindow.classList.contains('window-open') && !snakeWindow.classList.contains('mobile-active-game'))) return;
     if (!snakeRunning) return;
     
     switch (e.key) {
