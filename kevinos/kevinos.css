@@ -19,6 +19,7 @@
     --purple: #a078ff;
     --pink: #ff6eb4;
     --mint: #4ae0a0;
+    --mint-hover: #3cc890;
     --yellow: #ffc048;
     --peach: #ff9f6a;
     --font-mono: 'JetBrains Mono', monospace;
@@ -26,6 +27,19 @@
     --radius: 12px;
     --taskbar: 48px;
     --desktop-bg: url('https://middleton.io/images/darkmode-bg.png');
+
+    /* Game colors (always dark, theme-independent) */
+    --game-bg: #0a0a0f;
+    --game-bg-deep: #0a0a12;
+    --game-surface: #1a1a24;
+    --game-surface-2: #2a2a3e;
+    --game-border: #2a2a3e;
+    --game-border-light: #3a3a4e;
+    --game-text: #e8e8f0;
+    --game-text-dim: #a0a0b8;
+    --game-text-muted: #888899;
+    --game-text-faint: #666677;
+    --game-text-inverse: #0a0a0f;
 }
 
 /* Light mode values */
@@ -42,6 +56,7 @@
         --purple: #7c3aed;
         --pink: #db2777;
         --mint: #059669;
+        --mint-hover: #047857;
         --yellow: #d97706;
         --peach: #ea580c;
         --desktop-bg: url('https://middleton.io/images/lightmode-bg.png');
@@ -61,6 +76,7 @@
     --purple: #7c3aed;
     --pink: #db2777;
     --mint: #059669;
+    --mint-hover: #047857;
     --yellow: #d97706;
     --peach: #ea580c;
     --desktop-bg: url('https://middleton.io/images/lightmode-bg.png');
@@ -78,6 +94,7 @@
     --purple: #a078ff;
     --pink: #ff6eb4;
     --mint: #4ae0a0;
+    --mint-hover: #3cc890;
     --yellow: #ffc048;
     --peach: #ff9f6a;
     --desktop-bg: url('https://middleton.io/images/darkmode-bg.png');
@@ -1264,7 +1281,7 @@ body {
    TERMINAL / CONNECT
    =================== */
 .terminal {
-    background: #0a0a0f;
+    background: var(--game-bg);
     border-radius: 8px;
     padding: 16px;
     font-family: var(--font-mono);
@@ -1278,7 +1295,7 @@ body {
 }
 
 .term-prompt {
-    color: #4ae0a0;
+    color: var(--mint);
 }
 
 .term-cmd {
@@ -1488,7 +1505,7 @@ body {
     font-family: var(--font-sans);
     font-size: 13px;
     font-weight: 600;
-    color: #e8e8f0;
+    color: var(--game-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1554,7 +1571,7 @@ body {
     background: rgba(255, 255, 255, 0.08);
     border: none;
     border-radius: 50%;
-    color: #e8e8f0;
+    color: var(--game-text);
     font-size: 12px;
     cursor: pointer;
     display: flex;
@@ -1571,7 +1588,7 @@ body {
 .player-btn.play-btn {
     width: 40px;
     height: 40px;
-    background: #e8e8f0;
+    background: var(--game-text);
     color: #12121a;
     font-size: 14px;
 }
@@ -2383,7 +2400,7 @@ body {
 
 .game-content {
     padding: 0 !important;
-    background: #0a0a0f;
+    background: var(--game-bg);
 }
 
 .game-container {
@@ -2395,7 +2412,7 @@ body {
 
 #gameCanvas {
     display: block;
-    background: #0a0a0f;
+    background: var(--game-bg);
 }
 
 /* Game Screens */
@@ -2408,9 +2425,9 @@ body {
     text-align: center;
     min-height: 400px;
     /* Force light text inside dark game screens regardless of theme */
-    --text: #e8e8f0;
-    --text-dim: #a0a0b8;
-    --text-muted: #888899;
+    --text: var(--game-text);
+    --text-dim: var(--game-text-dim);
+    --text-muted: var(--game-text-muted);
 }
 
 .game-title {
@@ -2446,7 +2463,7 @@ body {
     font-weight: 600;
     padding: 12px 32px;
     background: var(--mint);
-    color: #0a0a0f;
+    color: var(--game-text-inverse);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -2459,13 +2476,13 @@ body {
 }
 
 .game-btn-secondary {
-    background: #2a2a3e;
-    color: #e8e8f0;
-    border: 1px solid #3a3a4e;
+    background: var(--game-surface-2);
+    color: var(--game-text);
+    border: 1px solid var(--game-border-light);
 }
 
 .game-btn-secondary:hover {
-    background: #3a3a4e;
+    background: var(--game-border-light);
     box-shadow: 0 4px 20px rgba(92, 138, 255, 0.2);
 }
 
@@ -2474,11 +2491,11 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 10px 16px;
-    background: #1a1a24;
-    border-top: 1px solid #2a2a3e;
+    background: var(--game-surface);
+    border-top: 1px solid var(--game-border);
     font-family: var(--font-mono);
     font-size: 12px;
-    color: #a0a0b8;
+    color: var(--game-text-dim);
 }
 
 /* Tetris specific */
@@ -2491,7 +2508,7 @@ body {
 #tetrisCanvas {
     display: block;
     margin: 0 auto;
-    border: 2px solid #2a2a3e;
+    border: 2px solid var(--game-border);
 }
 
 .tetris-touch {
@@ -2500,12 +2517,12 @@ body {
 }
 
 .touch-rotate {
-    background: #2a2a3e;
+    background: var(--game-surface-2);
 }
 
 .touch-drop {
     background: var(--mint);
-    color: #0a0a0f;
+    color: var(--game-text-inverse);
     border-color: var(--mint);
 }
 
@@ -2513,7 +2530,7 @@ body {
 #runnerCanvas {
     display: block;
     margin: 0 auto;
-    border: 2px solid #2a2a3e;
+    border: 2px solid var(--game-border);
     background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 100%);
 }
 
@@ -2547,8 +2564,8 @@ body {
 #snakeCanvas {
     display: block;
     margin: 0 auto;
-    border: 2px solid #2a2a3e;
-    background: #0a0a0f;
+    border: 2px solid var(--game-border);
+    background: var(--game-bg);
 }
 
 .snake-touch {
@@ -2576,11 +2593,11 @@ body {
 }
 
 .snake-up, .snake-down {
-    background: #2a2a3e;
+    background: var(--game-surface-2);
 }
 
 .snake-left, .snake-right {
-    background: #2a2a3e;
+    background: var(--game-surface-2);
 }
 
 /* Standup Speedrun Game */
@@ -2622,8 +2639,8 @@ body {
     margin: 12px;
     min-height: 0;
     /* Force light text inside dark game regardless of theme */
-    --text: #e8e8f0;
-    --text-dim: #9999b0;
+    --text: var(--game-text);
+    --text-dim: var(--game-text-dim);
 }
 
 .slack-header {
@@ -2631,8 +2648,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
-    background: #0f0f1a;
-    border-bottom: 1px solid #2a2a3e;
+    background: var(--game-bg);
+    border-bottom: 1px solid var(--game-border);
     flex-shrink: 0;
 }
 
@@ -2714,7 +2731,7 @@ body {
 .slack-prompt {
     padding: 16px;
     background: rgba(74, 224, 160, 0.1);
-    border-top: 1px solid #2a2a3e;
+    border-top: 1px solid var(--game-border);
     flex-shrink: 0;
 }
 
@@ -2739,8 +2756,8 @@ body {
     align-items: center;
     gap: 12px;
     padding: 12px 16px;
-    background: #0f0f1a;
-    border-top: 1px solid #2a2a3e;
+    background: var(--game-bg);
+    border-top: 1px solid var(--game-border);
     flex-shrink: 0;
 }
 
@@ -2751,8 +2768,8 @@ body {
 
 .slack-input {
     flex: 1;
-    background: #2a2a3e;
-    border: 1px solid #3a3a4e;
+    background: var(--game-surface-2);
+    border: 1px solid var(--game-border-light);
     border-radius: 6px;
     padding: 10px 14px;
     font-family: var(--font-mono);
@@ -2780,30 +2797,30 @@ body {
     display: flex;
     justify-content: space-around;
     padding: 12px 16px;
-    background: #1a1a24;
-    border-top: 1px solid #2a2a3e;
+    background: var(--game-surface);
+    border-top: 1px solid var(--game-border);
     font-family: var(--font-mono);
     font-size: 12px;
-    color: #a0a0b8;
+    color: var(--game-text-dim);
 }
 
 /* Word Scramble Mode (Mobile) */
 .slack-scramble {
     padding: 12px 16px;
-    background: #0f0f1a;
-    border-top: 1px solid #2a2a3e;
+    background: var(--game-bg);
+    border-top: 1px solid var(--game-border);
     flex-shrink: 0;
     /* Force dark theme colors inside scramble area */
-    --text: #e8e8f0;
-    --text-dim: #9999b0;
-    --surface-2: #2a2a3e;
+    --text: var(--game-text);
+    --text-dim: var(--game-text-dim);
+    --surface-2: var(--game-surface-2);
 }
 
 .scramble-built {
     min-height: 40px;
     padding: 10px 12px;
-    background: #2a2a3e;
-    border: 1px solid #3a3a4e;
+    background: var(--game-surface-2);
+    border: 1px solid var(--game-border-light);
     border-radius: 6px;
     margin-bottom: 12px;
     font-family: var(--font-mono);
@@ -2836,7 +2853,7 @@ body {
 
 .scramble-word {
     background: var(--surface-2);
-    border: 1px solid #3a3a4e;
+    border: 1px solid var(--game-border-light);
     border-radius: 6px;
     padding: 10px 16px;
     font-family: var(--font-mono);
@@ -2853,7 +2870,7 @@ body {
 
 .scramble-word.correct {
     background: var(--mint);
-    color: #0a0a0f;
+    color: var(--game-text-inverse);
     border-color: var(--mint);
 }
 
@@ -2882,7 +2899,7 @@ body {
     grid-template-rows: repeat(3, 1fr);
     gap: 12px;
     padding: 20px;
-    background: #0a0a0f;
+    background: var(--game-bg);
     min-height: 300px;
 }
 
@@ -2957,8 +2974,8 @@ body {
 .game-over {
     background: rgba(10, 10, 15, 0.95);
     /* Force light text inside dark game-over screen regardless of theme */
-    --text: #e8e8f0;
-    --text-dim: #a0a0b8;
+    --text: var(--game-text);
+    --text-dim: var(--game-text-dim);
 }
 
 .game-final-score {
@@ -3009,13 +3026,13 @@ body {
 .game-credit {
     margin-top: 32px;
     padding-top: 20px;
-    border-top: 1px solid #2a2a3e;
+    border-top: 1px solid var(--game-border);
 }
 
 .game-credit-title {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: #a0a0b8;
+    color: var(--game-text-dim);
     margin-bottom: 4px;
 }
 
@@ -3037,14 +3054,14 @@ body {
 .game-over-cta {
     margin-top: 24px;
     padding-top: 20px;
-    border-top: 1px solid #2a2a3e;
+    border-top: 1px solid var(--game-border);
     text-align: center;
 }
 
 .game-over-bio {
     font-family: var(--font-mono);
     font-size: 12px;
-    color: #a0a0b8;
+    color: var(--game-text-dim);
     line-height: 1.6;
     margin-bottom: 16px;
 }
@@ -3064,11 +3081,11 @@ body {
 .game-share {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: #888899;
+    color: var(--game-text-muted);
 }
 
 .game-share a {
-    color: #5c8aff;
+    color: var(--blue);
     text-decoration: none;
 }
 
@@ -3078,13 +3095,13 @@ body {
 
 .share-divider {
     margin: 0 6px;
-    color: #666677;
+    color: var(--game-text-faint);
 }
 
 .game-btn-link {
     background: transparent;
     border: none;
-    color: #a0a0b8;
+    color: var(--mint);
     font-family: var(--font-mono);
     font-size: 12px;
     cursor: pointer;
@@ -3094,7 +3111,7 @@ body {
 }
 
 .game-btn-link:hover {
-    color: #4ae0a0;
+    color: var(--mint-hover);
 }
 
 /* Back link at top of game start screens */
