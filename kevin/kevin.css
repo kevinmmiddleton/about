@@ -1,0 +1,411 @@
+/* ================================
+   KEVIN PAGE — WEEKEND UPDATE
+   Graphic. Bold. Poster-like.
+   ================================ */
+
+/* Subtle scan lines for TV effect */
+.kevin-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.02;
+  z-index: 1000;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.3) 2px,
+    rgba(0, 0, 0, 0.3) 4px
+  );
+}
+
+.kevin-page {
+  /* Weekend Update palette */
+  --kevin-bg: #1a1c2e;
+  --kevin-surface: #252840;
+  --kevin-text: #f0f0f5;
+  --kevin-text-soft: #9a9ab5;
+  --kevin-accent: #5b8def;
+  --kevin-accent-hover: #7aa3f5;
+  --kevin-gold: #d4a855;
+  --kevin-gold-bright: #f0c866;
+  --kevin-highlight: #ff6b6b;
+  
+  color-scheme: dark;
+  background: linear-gradient(180deg, #0d0f1a 0%, var(--kevin-bg) 30%, #12141f 100%);
+  min-height: 100vh;
+  padding: var(--spacing-2xl) var(--spacing-lg);
+}
+
+.kevin-container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ---------- HERO UNIT ---------- */
+
+.kevin-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
+}
+
+/* Stefon image with gold outline */
+.kevin-hero-image {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.kevin-hero-image img {
+  width: 280px;
+  height: auto;
+  display: block;
+  /* Outline is baked into the PNG */
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5));
+}
+
+/* Hero text */
+.kevin-hero-text {
+  text-align: left;
+}
+
+.kevin-hero-intro {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--kevin-text-soft);
+  margin-bottom: var(--spacing-xs);
+  line-height: 1.3;
+}
+
+.kevin-hero-name {
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  color: var(--kevin-gold);
+  text-shadow: 
+    0 0 40px rgba(212, 168, 85, 0.5),
+    0 4px 0 rgba(0, 0, 0, 0.4);
+  transform: rotate(-1deg);
+}
+
+/* ---------- MONOLOGUE ---------- */
+
+.kevin-monologue {
+  max-width: 700px;
+  margin: 0 auto var(--spacing-2xl);
+}
+
+.kevin-origin {
+  font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--kevin-text-soft);
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+/* "This guy has everything" */
+.kevin-everything {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--kevin-text);
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* The list */
+.kevin-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.kevin-list li {
+  font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--kevin-text);
+  padding-left: 2rem;
+  position: relative;
+}
+
+.kevin-list li::before {
+  content: "\2192";
+  position: absolute;
+  left: 0;
+  color: var(--kevin-gold);
+  font-weight: 700;
+}
+
+/* Highlighted list item - inline emphasis */
+.kevin-list li.kevin-highlight {
+  color: var(--kevin-gold);
+  font-weight: 700;
+}
+
+/* ---------- SETH INTERRUPTION ---------- */
+
+.kevin-seth {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin: var(--spacing-2xl) auto;
+  max-width: 500px;
+}
+
+.kevin-seth-image {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--kevin-accent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.kevin-seth-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kevin-speech-bubble {
+  position: relative;
+  background: var(--kevin-surface);
+  border: 2px solid var(--kevin-accent);
+  border-radius: 20px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Speech bubble tail */
+.kevin-speech-bubble::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 24px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 12px solid var(--kevin-accent);
+}
+
+.kevin-speech-bubble::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 26px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid var(--kevin-surface);
+}
+
+.kevin-question {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--kevin-text);
+  margin: 0;
+}
+
+/* ---------- THE ANSWER ---------- */
+
+.kevin-answer {
+  max-width: 650px;
+  margin: 0 auto var(--spacing-xl);
+  text-align: center;
+}
+
+.kevin-answer-text {
+  font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+  line-height: 1.7;
+  color: var(--kevin-text);
+  margin-bottom: var(--spacing-md);
+}
+
+.kevin-answer-text .highlight {
+  color: var(--kevin-gold);
+  font-weight: 600;
+}
+
+/* Meme */
+.kevin-meme {
+  max-width: 500px;
+  margin: var(--spacing-lg) auto 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(212, 168, 85, 0.4);
+}
+
+.kevin-meme img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.kevin-meme-caption {
+  font-size: 0.85rem;
+  color: var(--kevin-text-soft);
+  text-align: center;
+  padding: var(--spacing-sm);
+  background: rgba(0, 0, 0, 0.4);
+  font-style: italic;
+}
+
+/* ---------- SERIOUS SECTION ---------- */
+
+.kevin-serious {
+  max-width: 550px;
+  margin: var(--spacing-2xl) auto 0;
+  background: var(--kevin-surface);
+  border-radius: 16px;
+  padding: var(--spacing-xl);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.kevin-serious-headline {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--kevin-text-soft);
+  margin-bottom: var(--spacing-md);
+}
+
+.kevin-serious-body {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--kevin-text);
+  margin-bottom: var(--spacing-lg);
+}
+
+.kevin-btn {
+  display: inline-block;
+  background: var(--kevin-accent);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.kevin-btn:hover {
+  background: var(--kevin-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* ---------- FOOTER ---------- */
+
+.kevin-footer {
+  margin-top: var(--spacing-2xl);
+  text-align: center;
+}
+
+.kevin-footer p {
+  font-size: 0.85rem;
+  color: var(--kevin-text-soft);
+}
+
+.kevin-footer a {
+  color: var(--kevin-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.kevin-footer a:hover {
+  color: var(--kevin-accent-hover);
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 768px) {
+  .kevin-page {
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .kevin-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .kevin-hero-image img {
+    width: 200px;
+  }
+
+  .kevin-hero-text {
+    text-align: center;
+  }
+
+  .kevin-hero-name {
+    font-size: clamp(3.5rem, 18vw, 5rem);
+  }
+
+  .kevin-seth {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .kevin-speech-bubble::before,
+  .kevin-speech-bubble::after {
+    display: none;
+  }
+
+  .kevin-speech-bubble {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kevin-hero-image img {
+    width: 160px;
+  }
+
+  .kevin-hero-name {
+    font-size: 3rem;
+  }
+
+  .kevin-origin {
+    font-size: 1rem;
+  }
+
+  .kevin-everything {
+    font-size: 1.25rem;
+  }
+
+  .kevin-list li {
+    font-size: 1rem;
+  }
+
+  .kevin-seth-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .kevin-serious {
+    padding: var(--spacing-lg);
+  }
+}
