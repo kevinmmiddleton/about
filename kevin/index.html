@@ -10,7 +10,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="New York City's Hottest Product Manager is KEVIN?!" />
   <meta property="og:description"
-    content="This guy has everything: Spreadsheets that feel like violence. Cats with distinct legal representation. A QR code obsession that borders on psychological." />
+    content="This place has everything: Spreadsheets that feel like violence. Cats with distinct legal representation. A QR code obsession that borders on psychological." />
   <meta property="og:url" content="https://middleton.io/kevin" />
   <meta property="og:image" content="https://middleton.io/kevin/images/kevin-og.png" />
   <meta property="og:image:alt"
@@ -19,7 +19,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="New York City's Hottest Product Manager is KEVIN?!" />
-  <meta name="twitter:description" content="This guy has everything. Spreadsheets that feel like violence. Human Jira boards." />
+  <meta name="twitter:description" content="This place has everything. Spreadsheets that feel like violence. Human Jira boards." />
   <meta name="twitter:image" content="https://middleton.io/kevin/images/kevin-og.png" />
 
   <!-- Base site styles -->
@@ -34,12 +34,17 @@
   <main class="kevin-page">
     <div class="kevin-container">
 
+      <!-- Top nav -->
+      <nav class="kevin-nav">
+        <a href="https://middleton.io">Back to reality →</a>
+      </nav>
+
       <!-- HERO: Stefon + KEVIN?! as one unit -->
       <header class="kevin-hero">
-        <div class="kevin-hero-image">
+        <div class="kevin-hero-image clickable" data-audio="spicy">
           <img src="https://middleton.io/kevin/images/stefon.png" alt="Stefon">
         </div>
-        <div class="kevin-hero-text">
+        <div class="kevin-hero-text clickable" data-audio="kevin">
           <p class="kevin-hero-intro">New York City's Hottest<br>Product Manager is</p>
           <h1 class="kevin-hero-name">...KEVIN?!</h1>
         </div>
@@ -51,9 +56,9 @@
           Located somewhere in New York City, this 12-year PM is the creation of a mass layoff and an unhinged sticker campaign.
         </p>
 
-        <p class="kevin-everything">This guy has everything:</p>
+        <p class="kevin-everything clickable" data-audio="everything">Needless to say, this place has everything:</p>
 
-        <ul class="kevin-list">
+        <ul class="kevin-list clickable" data-audio="yes">
           <li>Spreadsheets that feel like violence</li>
           <li>Cats with distinct legal representation</li>
           <li>A QR code obsession that borders on psychological</li>
@@ -67,8 +72,8 @@
         <div class="kevin-seth-image">
           <img src="https://middleton.io/kevin/images/seth-meyers.png" alt="Seth Meyers">
         </div>
-        <div class="kevin-speech-bubble">
-          <p class="kevin-question">I'm sorry, what's a human Jira board?</p>
+        <div class="kevin-speech-bubble clickable" data-audio="whats-a">
+          <p class="kevin-question">I'm sorry... for those of us who don't know, what's a human Jira board?</p>
         </div>
       </div>
 
@@ -80,18 +85,20 @@
 
         <div class="kevin-meme">
           <img src="https://middleton.io/kevin/images/pepe-silvia.jpg" alt="Charlie from It's Always Sunny explaining Pepe Silvia conspiracy">
-          <p class="kevin-meme-caption">Actual footage</p>
         </div>
       </section>
 
+      <!-- TRANSITION -->
+      <p class="kevin-transition clickable" data-audio="come-on-down">So come on down.</p>
+
       <!-- THE SERIOUS BIT -->
       <div class="kevin-serious">
-        <p class="kevin-serious-headline">Okay, for real</p>
+        <p class="kevin-serious-headline clickable" data-audio="password-yes">And the password is YES</p>
         <p class="kevin-serious-body">
           I'm a senior PM who builds systems that help product teams not lose their minds. 12 years across consumer, enterprise, and platform. Currently looking for my next thing.
         </p>
-        <a href="https://calendly.com/kevin-middleton/15min" target="_blank" rel="noopener noreferrer"
-          class="kevin-btn plausible-event-name=Calendly+Click">Let's talk →</a>
+        <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" rel="noopener noreferrer"
+          class="kevin-btn">Let's talk →</a>
       </div>
 
       <!-- FOOTER -->
@@ -101,6 +108,18 @@
 
     </div>
   </main>
+
+  <!-- Audio elements -->
+  <audio id="audio-kevin" src="https://middleton.io/kevin/audio/kevin.mp3" preload="auto"></audio>
+  <audio id="audio-spicy" src="https://middleton.io/kevin/audio/spicy.mp3" preload="auto"></audio>
+  <audio id="audio-yes" src="https://middleton.io/kevin/audio/yes.mp3" preload="auto"></audio>
+  <audio id="audio-everything" src="https://middleton.io/kevin/audio/needless%20to%20say%20this%20place%20has%20everything.mp3" preload="auto"></audio>
+  <audio id="audio-whats-a" src="https://middleton.io/kevin/audio/for%20those%20of%20us%20who%20dont%20know%20what%20is%20a.mp3" preload="auto"></audio>
+  <audio id="audio-come-on-down" src="https://middleton.io/kevin/audio/so%20come%20on%20down.mp3" preload="auto"></audio>
+  <audio id="audio-password-yes" src="https://middleton.io/kevin/audio/password%20is%20yes.mp3" preload="auto"></audio>
+
+  <!-- Kevin page scripts -->
+  <script src="kevin.js"></script>
 </body>
 
 </html>

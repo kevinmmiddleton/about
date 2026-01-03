@@ -44,6 +44,24 @@
   margin: 0 auto;
 }
 
+/* ---------- TOP NAV ---------- */
+
+.kevin-nav {
+  text-align: right;
+  margin-bottom: var(--spacing-lg);
+}
+
+.kevin-nav-link {
+  font-size: 0.9rem;
+  color: var(--kevin-text-soft);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.kevin-nav-link:hover {
+  color: var(--kevin-gold);
+}
+
 /* ---------- HERO UNIT ---------- */
 
 .kevin-hero {
@@ -66,11 +84,42 @@
   display: block;
   /* Outline is baked into the PNG */
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5));
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  animation: stefon-pulse 3s ease-in-out infinite;
+}
+
+@keyframes stefon-pulse {
+  0%, 100% { filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5)); }
+  50% { filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 15px rgba(212, 168, 85, 0.3)); }
+}
+
+.kevin-hero-image:hover img {
+  transform: scale(1.03);
+  filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 20px rgba(212, 168, 85, 0.3));
+  animation: none;
 }
 
 /* Hero text */
 .kevin-hero-text {
   text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.kevin-hero-text:hover {
+  transform: scale(1.02);
+}
+
+.kevin-hero-text:hover .kevin-hero-intro {
+  color: var(--kevin-text);
+}
+
+.kevin-hero-text:hover .kevin-hero-name {
+  text-shadow: 
+    0 0 60px rgba(212, 168, 85, 0.8),
+    0 0 100px rgba(212, 168, 85, 0.4),
+    0 4px 0 rgba(0, 0, 0, 0.4);
 }
 
 .kevin-hero-intro {
@@ -82,6 +131,7 @@
   color: var(--kevin-text-soft);
   margin-bottom: var(--spacing-xs);
   line-height: 1.3;
+  transition: color 0.2s ease;
 }
 
 .kevin-hero-name {
@@ -95,6 +145,31 @@
     0 0 40px rgba(212, 168, 85, 0.5),
     0 4px 0 rgba(0, 0, 0, 0.4);
   transform: rotate(-1deg);
+  transition: text-shadow 0.2s ease;
+  animation: kevin-pulse 3s ease-in-out infinite;
+}
+
+@keyframes kevin-pulse {
+  0%, 100% { 
+    text-shadow: 
+      0 0 40px rgba(212, 168, 85, 0.5),
+      0 4px 0 rgba(0, 0, 0, 0.4);
+  }
+  50% { 
+    text-shadow: 
+      0 0 60px rgba(212, 168, 85, 0.7),
+      0 0 80px rgba(212, 168, 85, 0.3),
+      0 4px 0 rgba(0, 0, 0, 0.4);
+  }
+}
+
+.kevin-hero-text:hover .kevin-hero-name {
+  animation: none;
+}
+
+/* Audio hint for hero text */
+.kevin-hero-text::after {
+  display: none;
 }
 
 /* ---------- MONOLOGUE ---------- */
@@ -113,6 +188,11 @@
   margin-bottom: var(--spacing-xl);
 }
 
+@keyframes subtle-pulse {
+  0%, 100% { text-shadow: 0 0 0 transparent; }
+  50% { text-shadow: 0 0 20px rgba(212, 168, 85, 0.6), 0 0 40px rgba(212, 168, 85, 0.3); }
+}
+
 /* "This guy has everything" */
 .kevin-everything {
   font-family: var(--font-heading);
@@ -121,6 +201,15 @@
   color: var(--kevin-text);
   text-align: center;
   margin-bottom: var(--spacing-lg);
+  cursor: pointer;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+  animation: subtle-pulse 3s ease-in-out infinite;
+}
+
+.kevin-everything:hover {
+  color: var(--kevin-gold);
+  text-shadow: 0 0 20px rgba(212, 168, 85, 0.6), 0 0 40px rgba(212, 168, 85, 0.3);
+  animation: none;
 }
 
 /* The list */
@@ -139,6 +228,23 @@
   color: var(--kevin-text);
   padding-left: 2rem;
   position: relative;
+  cursor: pointer;
+  transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
+  animation: subtle-pulse 3s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.4s);
+}
+
+.kevin-list li:nth-child(1) { --i: 0; }
+.kevin-list li:nth-child(2) { --i: 1; }
+.kevin-list li:nth-child(3) { --i: 2; }
+.kevin-list li:nth-child(4) { --i: 3; }
+.kevin-list li:nth-child(5) { --i: 4; }
+
+.kevin-list li:hover {
+  color: var(--kevin-gold);
+  text-shadow: 0 0 20px rgba(212, 168, 85, 0.6), 0 0 40px rgba(212, 168, 85, 0.3);
+  transform: translateX(4px);
+  animation: none;
 }
 
 .kevin-list li::before {
@@ -147,12 +253,22 @@
   left: 0;
   color: var(--kevin-gold);
   font-weight: 700;
+  transition: transform 0.2s ease;
+}
+
+.kevin-list li:hover::before {
+  transform: translateX(2px);
 }
 
 /* Highlighted list item - inline emphasis */
 .kevin-list li.kevin-highlight {
   color: var(--kevin-gold);
   font-weight: 700;
+}
+
+.kevin-list li.kevin-highlight::before {
+  content: "\2192";
+  color: var(--kevin-gold);
 }
 
 /* ---------- SETH INTERRUPTION ---------- */
@@ -189,6 +305,21 @@
   border-radius: 20px;
   padding: var(--spacing-md) var(--spacing-lg);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  animation: bubble-pulse 3s ease-in-out infinite;
+}
+
+@keyframes bubble-pulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); }
+  50% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 20px rgba(91, 141, 239, 0.3); }
+}
+
+.kevin-speech-bubble:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3), 0 0 30px rgba(91, 141, 239, 0.4);
+  border-color: var(--kevin-accent-hover);
+  animation: none;
 }
 
 /* Speech bubble tail */
@@ -202,6 +333,11 @@
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-right: 12px solid var(--kevin-accent);
+  transition: border-color 0.2s ease;
+}
+
+.kevin-speech-bubble:hover::before {
+  border-right-color: var(--kevin-accent-hover);
 }
 
 .kevin-speech-bubble::after {
@@ -259,13 +395,60 @@
   display: block;
 }
 
-.kevin-meme-caption {
-  font-size: 0.85rem;
-  color: var(--kevin-text-soft);
-  text-align: center;
-  padding: var(--spacing-sm);
-  background: rgba(0, 0, 0, 0.4);
+/* ---------- STEFON TRANSITION ---------- */
+
+.kevin-transition {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: 600;
   font-style: italic;
+  color: var(--kevin-gold);
+  text-align: center;
+  margin: var(--spacing-2xl) 0;
+  cursor: pointer;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.kevin-transition:hover {
+  color: var(--kevin-gold-bright);
+  text-shadow: 0 0 20px rgba(212, 168, 85, 0.6), 0 0 40px rgba(212, 168, 85, 0.3);
+}
+
+/* ---------- AUDIO PLAYING STATE ---------- */
+
+.audio-playing {
+  animation: none !important;
+  text-shadow: 0 0 30px rgba(212, 168, 85, 0.8), 0 0 60px rgba(212, 168, 85, 0.5) !important;
+}
+
+.kevin-speech-bubble.audio-playing {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3), 0 0 40px rgba(91, 141, 239, 0.5) !important;
+}
+
+.kevin-hero-image.audio-playing img {
+  animation: none !important;
+  filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(212, 168, 85, 0.5)) !important;
+}
+
+/* ---------- STEFON RAIN ---------- */
+
+.stefon-rain {
+  position: fixed;
+  top: -100px;
+  pointer-events: none;
+  z-index: 9999;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
 }
 
 /* ---------- SERIOUS SECTION ---------- */
@@ -289,6 +472,16 @@
   letter-spacing: 0.1em;
   color: var(--kevin-text-soft);
   margin-bottom: var(--spacing-md);
+}
+
+.kevin-serious-headline.clickable {
+  cursor: pointer;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.kevin-serious-headline.clickable:hover {
+  color: var(--kevin-gold);
+  text-shadow: 0 0 20px rgba(212, 168, 85, 0.6);
 }
 
 .kevin-serious-body {
@@ -347,45 +540,60 @@
   }
 
   .kevin-hero {
-    flex-direction: column;
-    text-align: center;
+    gap: var(--spacing-md);
   }
 
   .kevin-hero-image img {
-    width: 200px;
-  }
-
-  .kevin-hero-text {
-    text-align: center;
+    width: 140px;
   }
 
   .kevin-hero-name {
-    font-size: clamp(3.5rem, 18vw, 5rem);
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+
+  .kevin-hero-intro {
+    font-size: 0.85rem;
   }
 
   .kevin-seth {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    text-align: center;
+    gap: var(--spacing-sm);
   }
 
-  .kevin-speech-bubble::before,
-  .kevin-speech-bubble::after {
-    display: none;
+  .kevin-seth-image {
+    width: 50px;
+    height: 50px;
   }
 
   .kevin-speech-bubble {
     border-radius: 16px;
   }
+
+  .kevin-speech-bubble::before {
+    top: 16px;
+  }
+
+  .kevin-speech-bubble::after {
+    top: 18px;
+  }
 }
 
 @media (max-width: 480px) {
+  .kevin-hero {
+    gap: var(--spacing-sm);
+  }
+
   .kevin-hero-image img {
-    width: 160px;
+    width: 100px;
   }
 
   .kevin-hero-name {
-    font-size: 3rem;
+    font-size: 2rem;
+  }
+
+  .kevin-hero-intro {
+    font-size: 0.75rem;
   }
 
   .kevin-origin {
@@ -401,8 +609,16 @@
   }
 
   .kevin-seth-image {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .kevin-speech-bubble {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .kevin-question {
+    font-size: 0.95rem;
   }
 
   .kevin-serious {
