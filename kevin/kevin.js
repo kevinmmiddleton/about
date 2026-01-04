@@ -43,23 +43,48 @@ document.querySelectorAll('.clickable[data-audio]').forEach(el => {
   });
 });
 
-// Special handling for Human Jira boards - plays Seth's question and highlights Seth
+// Special handling for Human Jira boards - plays Seth's question, then Stefon's answer
 const highlightItem = document.querySelector('.kevin-highlight[data-audio]');
 const sethSection = document.querySelector('.kevin-seth');
+const answerSection = document.querySelector('.kevin-answer');
+const sethAudio = document.getElementById('audio-whats-a');
+const answerAudio = document.getElementById('audio-its-that-thing');
 
-if (highlightItem) {
+if (highlightItem && sethAudio) {
   highlightItem.addEventListener('click', (e) => {
     e.stopPropagation(); // Don't trigger parent list's "yes yes yes"
-    const audioId = highlightItem.dataset.audio;
-    playAudio(audioId);
     
-    // Flash highlight on Seth section
+    // Play Seth's question and highlight
+    playAudio('whats-a');
     if (sethSection) {
       sethSection.classList.add('seth-flash');
-      setTimeout(() => {
-        sethSection.classList.remove('seth-flash');
-      }, 1500);
     }
+    
+    // When Seth's audio ends, play answer and shift highlight
+    sethAudio.addEventListener('ended', () => {
+      // Remove Seth highlight
+      if (sethSection) {
+        sethSection.classList.remove('seth-flash');
+      }
+      
+      // Play answer audio and highlight answer section
+      if (answerAudio) {
+        playAudio('its-that-thing');
+        if (answerSection) {
+          answerSection.classList.add('answer-flash');
+          
+          // Remove highlight when answer audio ends (or after timeout)
+          answerAudio.addEventListener('ended', () => {
+            answerSection.classList.remove('answer-flash');
+          }, { once: true });
+          
+          // Fallback timeout
+          setTimeout(() => {
+            answerSection.classList.remove('answer-flash');
+          }, 5000);
+        }
+      }
+    }, { once: true });
   });
 }
 

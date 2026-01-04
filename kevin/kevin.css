@@ -374,6 +374,15 @@
   max-width: 650px;
   margin: 0 auto var(--spacing-xl);
   text-align: center;
+  padding: var(--spacing-md);
+  border-radius: 16px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Flash highlight when answer is playing */
+.kevin-answer.answer-flash {
+  background-color: rgba(212, 168, 85, 0.15);
+  box-shadow: 0 0 40px rgba(212, 168, 85, 0.3), 0 0 80px rgba(212, 168, 85, 0.15);
 }
 
 .kevin-answer-text {
