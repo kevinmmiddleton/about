@@ -280,6 +280,15 @@
   gap: var(--spacing-md);
   margin: var(--spacing-2xl) auto;
   max-width: 500px;
+  padding: var(--spacing-md);
+  border-radius: 16px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Flash highlight when Human Jira boards is clicked */
+.kevin-seth.seth-flash {
+  background-color: rgba(91, 141, 239, 0.25);
+  box-shadow: 0 0 40px rgba(91, 141, 239, 0.4), 0 0 80px rgba(91, 141, 239, 0.2);
 }
 
 .kevin-seth-image {

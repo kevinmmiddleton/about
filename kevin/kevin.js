@@ -35,10 +35,33 @@ document.querySelectorAll('.clickable[data-audio]').forEach(el => {
     // Don't trigger audio if clicking the CTA button (it uses hover)
     if (el.classList.contains('kevin-btn')) return;
     
+    // Don't trigger if a child element with its own audio was clicked
+    if (e.target.dataset.audio && e.target !== el) return;
+    
     const audioId = el.dataset.audio;
     playAudio(audioId);
   });
 });
+
+// Special handling for Human Jira boards - plays Seth's question and highlights Seth
+const highlightItem = document.querySelector('.kevin-highlight[data-audio]');
+const sethSection = document.querySelector('.kevin-seth');
+
+if (highlightItem) {
+  highlightItem.addEventListener('click', (e) => {
+    e.stopPropagation(); // Don't trigger parent list's "yes yes yes"
+    const audioId = highlightItem.dataset.audio;
+    playAudio(audioId);
+    
+    // Flash highlight on Seth section
+    if (sethSection) {
+      sethSection.classList.add('seth-flash');
+      setTimeout(() => {
+        sethSection.classList.remove('seth-flash');
+      }, 1500);
+    }
+  });
+}
 
 // CTA button plays audio on hover, links normally on click
 const ctaBtn = document.querySelector('.kevin-btn');
