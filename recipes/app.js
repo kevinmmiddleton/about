@@ -241,12 +241,14 @@ function renderDetail(recipe) {
     <h2>Instructions</h2>
     ${instructionsHtml}
     ${recipe.notes ? `<div class="notes"><strong>Notes:</strong> ${recipe.notes}</div>` : ''}
+    <button class="back-btn-bottom">${backIcon} Back to recipes</button>
   `;
 
-  detail.querySelector('.back-btn').addEventListener('click', () => {
-    renderList();
-    // Smooth scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  detail.querySelectorAll('.back-btn, .back-btn-bottom').forEach(btn => {
+    btn.addEventListener('click', () => {
+      renderList();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   });
   
   window.scrollTo({ top: 0, behavior: 'smooth' });
