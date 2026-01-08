@@ -3304,15 +3304,12 @@ async function loadKevinRecipes() {
         const md = await response.text();
         kevinRecipes = parseKevinRecipes(md);
         
-        // Initialize both views
+        // Initialize DB view
         renderDbView();
-        renderCookbookView();
     } catch (error) {
         console.error('Failed to load recipes:', error);
         const dbRows = document.getElementById('dbRecipeRows');
-        const cookbookGrid = document.getElementById('cookbookGrid');
         if (dbRows) dbRows.innerHTML = '<tr><td colspan="5" class="db-loading">Failed to load recipes</td></tr>';
-        if (cookbookGrid) cookbookGrid.innerHTML = '<div class="cookbook-loading">Failed to load recipes</div>';
     }
 }
 
@@ -3405,18 +3402,6 @@ function parseRecipeInstructions(raw) {
     return '<ol>' + lines.map(l => `<li>${l.replace(/^\d+\.\s*/, '')}</li>`).join('') + '</ol>';
 }
 
-function getRecipeEmoji(title, tags) {
-    const t = title.toLowerCase();
-    if (t.includes('muffin')) return '🫐';
-    if (t.includes('soup')) return '🥦';
-    if (t.includes('quiche')) return '🧀';
-    if (t.includes('schnitzel')) return '🐖';
-    if (t.includes('teriyaki')) return '🍯';
-    if (t.includes('egg')) return '🥚';
-    if (tags.includes('chicken')) return '🍗';
-    return '📄';
-}
-
 
 /* ==========================================
    RECIPES.DB - Database View
@@ -3506,90 +3491,6 @@ if (dbBackBtn) {
 }
 
 
-/* ==========================================
-   COOKBOOK.APP - File Browser View
-   ========================================== */
-
-function renderCookbookView() {
-    const grid = document.getElementById('cookbookGrid');
-    
-    if (!grid) return;
-    
-    grid.innerHTML = kevinRecipes.map(recipe => `
-        <div class="cookbook-file" data-recipe-id="${recipe.id}">
-            <span class="cookbook-file-icon">${getRecipeEmoji(recipe.title, recipe.tags)}</span>
-            <span class="cookbook-file-name">${recipeSlugify(recipe.title)}.md</span>
-        </div>
-    `).join('');
-    
-    // Add click handlers
-    grid.querySelectorAll('.cookbook-file').forEach(file => {
-        file.addEventListener('click', () => {
-            const id = parseInt(file.dataset.recipeId);
-            showCookbookDetail(id);
-        });
-    });
-}
-
-function recipeSlugify(text) {
-    return text
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
-}
-
-function showCookbookDetail(id) {
-    const recipe = kevinRecipes.find(r => r.id === id);
-    if (!recipe) return;
-    
-    const browser = document.getElementById('cookbookBrowser');
-    const detail = document.getElementById('cookbookDetail');
-    const pathEl = document.getElementById('cookbookDetailPath');
-    const content = document.getElementById('cookbookDetailContent');
-    
-    // Hide browser, show detail
-    browser.style.display = 'none';
-    detail.style.display = 'block';
-    pathEl.textContent = `${recipeSlugify(recipe.title)}.md`;
-    
-    const ingredientsHtml = parseRecipeIngredients(recipe.ingredientsRaw);
-    const instructionsHtml = parseRecipeInstructions(recipe.instructionsRaw);
-    
-    content.innerHTML = `
-        <div class="cookbook-recipe-header">
-            ${recipe.photo ? `<img class="cookbook-recipe-img" src="${recipe.photo}" alt="${recipe.title}">` : `<span class="cookbook-recipe-icon">${getRecipeEmoji(recipe.title, recipe.tags)}</span>`}
-            <div class="cookbook-recipe-info">
-                <h2 class="cookbook-recipe-title">${recipe.title}</h2>
-                <div class="cookbook-recipe-meta">
-                    ${recipe.servings ? `Serves ${recipe.servings}` : ''}
-                    ${recipe.source ? ` · <a href="${recipe.source}" target="_blank">Source</a>` : ''}
-                </div>
-                <div class="cookbook-recipe-tags">
-                    ${recipe.tags.map(t => `<span class="cookbook-tag">${t}</span>`).join('')}
-                </div>
-            </div>
-        </div>
-        ${recipe.intro ? `<div class="cookbook-recipe-intro">${recipe.intro}</div>` : ''}
-        <h3 class="cookbook-section-title">Ingredients</h3>
-        ${ingredientsHtml}
-        <h3 class="cookbook-section-title">Instructions</h3>
-        ${instructionsHtml}
-        ${recipe.notes ? `<div class="cookbook-recipe-notes"><strong>Notes:</strong> ${recipe.notes}</div>` : ''}
-    `;
-}
-
-// Cookbook Back button handler
-const cookbookBackBtn = document.getElementById('cookbookBackBtn');
-if (cookbookBackBtn) {
-    cookbookBackBtn.addEventListener('click', () => {
-        const browser = document.getElementById('cookbookBrowser');
-        const detail = document.getElementById('cookbookDetail');
-        
-        browser.style.display = 'block';
-        detail.style.display = 'none';
-    });
-}
-
 // Load recipes on page load
 loadKevinRecipes();
 
@@ -3598,8 +3499,21 @@ loadKevinRecipes();
     const params = new URLSearchParams(window.location.search);
     const windowToOpen = params.get('open');
     if (windowToOpen === 'recipes' || windowToOpen === 'recipesdb') {
+        const recipesWindow = document.getElementById('recipesdb');
+        // On mobile, override the display:none !important
+        if (recipesWindow && window.innerWidth <= 768) {
+            recipesWindow.style.setProperty('display', 'flex', 'important');
+        }
         setTimeout(() => openWindow('recipesdb'), 100);
-    } else if (windowToOpen === 'cookbook') {
-        setTimeout(() => openWindow('cookbook'), 100);
     }
 })();
+
+// Clear recipes inline style when resizing to desktop (so close button works)
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+        const recipesWindow = document.getElementById('recipesdb');
+        if (recipesWindow) {
+            recipesWindow.style.removeProperty('display');
+        }
+    }
+});

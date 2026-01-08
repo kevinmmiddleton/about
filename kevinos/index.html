@@ -1425,40 +1425,6 @@
                 </div>
             </section>
 
-            <!-- ==========================================
-                 cookbook.app (File browser aesthetic)
-                 ========================================== -->
-            <section class="window" id="cookbook" data-window="cookbook">
-                <header class="window-header">
-                    <div class="window-dots">
-                        <button class="window-dot red" data-action="close"></button>
-                        <button class="window-dot yellow" data-action="minimize"></button>
-                        <button class="window-dot green" data-action="maximize"></button>
-                    </div>
-                    <div class="window-title">
-                        <span class="window-icon">🍳</span>
-                        cookbook.app
-                        <span class="file-badge app">APP</span>
-                    </div>
-                    <span class="window-path">~/kevin/kitchen/</span>
-                </header>
-                <div class="window-content">
-                    <div class="cookbook-browser" id="cookbookBrowser">
-                        <div class="folder-path">~/kevin/kitchen/recipes</div>
-                        <div class="cookbook-grid" id="cookbookGrid">
-                            <div class="cookbook-loading">Loading recipes...</div>
-                        </div>
-                    </div>
-                    <div class="cookbook-detail" id="cookbookDetail" style="display: none;">
-                        <div class="folder-path">
-                            <button class="cookbook-back-btn" id="cookbookBackBtn">← recipes/</button>
-                            <span id="cookbookDetailPath">recipe.md</span>
-                        </div>
-                        <div class="cookbook-detail-content" id="cookbookDetailContent"></div>
-                    </div>
-                </div>
-            </section>
-
         </main>
     </div>
 
@@ -1494,11 +1460,8 @@
         <button class="dock-item" data-window="games" data-tooltip="games/">
             <span class="dock-emoji">🎮</span>
         </button>
-        <button class="dock-item" data-window="recipesdb" data-tooltip="recipes.db">
+        <button class="dock-item desktop-only" data-window="recipesdb" data-tooltip="recipes.db">
             <span class="dock-emoji">🗃️</span>
-        </button>
-        <button class="dock-item" data-window="cookbook" data-tooltip="cookbook.app">
-            <span class="dock-emoji">🍳</span>
         </button>
         
         <div class="dock-divider"></div>
