@@ -1,12 +1,13 @@
 # Broccoli Potato Cheddar Soup
 
 ---
-tags: vegetarian, main, quick
+tags: vegetarian, main, weeknight
 servings: 4
 photo: https://middleton.io/recipes/images/potato-brocolli-cheddar-soup.jpg
+notes: Better the next day.
 ---
 
-Comfort food that comes together fast in the Instant Pot.
+The Instant Pot earns its counter space with this one.
 
 ## Ingredients
 
@@ -41,10 +42,13 @@ Comfort food that comes together fast in the Instant Pot.
 # Sausage and Cheese Quiche
 
 ---
-tags: eggs, pork, breakfast, main, weekend-project
+tags: eggs, pork, breakfast, main, project
 servings: 6-8 slices
 photo: https://middleton.io/recipes/images/sausag-cheese-quiche.jpg
+notes: Blind bake the crust or the bottom will be soggy. I mean it.
 ---
+
+The ratio here is forgiving. More cheese, different sausage, whatever. It'll work.
 
 ## Ingredients
 
@@ -68,7 +72,7 @@ photo: https://middleton.io/recipes/images/sausag-cheese-quiche.jpg
 
 ## Instructions
 
-1. Preheat oven to 175°C / 350°F.
+1. Preheat oven to 350°F / 175°C.
 2. Brown the sausage in a skillet, breaking into crumbles. Drain excess fat.
 3. Whisk together eggs, milk, melted butter, and all spices.
 4. Layer sausage and cheese into the blind-baked crust.
@@ -81,13 +85,14 @@ photo: https://middleton.io/recipes/images/sausag-cheese-quiche.jpg
 # Chick-fil-A Style Chicken
 
 ---
-tags: chicken, main, weekend-project
+tags: chicken, main, project
 servings: 2-3
 source: https://jasonfarmer.com/chick-fil-a-chicken-sandwich/
 photo: https://middleton.io/recipes/images/chicken.jpg
+notes: The milk powder in the breading is doing a lot of work, don't skip it. The pickle brine theory has been disproven. The secret ingredient is the ground mustard.
 ---
 
-Modified version with no sugar and extra cayenne.
+I spent too long on this. It's close. Close enough.
 
 ## Ingredients
 
@@ -99,7 +104,7 @@ Modified version with no sugar and extra cayenne.
 - 67g Morton's coarse kosher salt
 - 12g MSG
 - 6g paprika
-- 1g black pepper, coarse
+- 0.5g black pepper, coarse
 - 5g mustard powder
 - 1g cayenne
 
@@ -109,11 +114,11 @@ Modified version with no sugar and extra cayenne.
 
 ### For the Seasoned Coater
 - 120g all-purpose flour
-- 5g Morton's coarse kosher salt
+- 4.5g Morton's coarse kosher salt
 - 4g MSG
 - 11g nonfat milk powder
-- 3g baking powder
-- 1g white pepper
+- 3.5g baking powder
+- 0.5g white pepper
 - 5g mustard powder
 - 1g cayenne
 
@@ -122,7 +127,7 @@ Modified version with no sugar and extra cayenne.
 1. Mix brine dry ingredients into room temperature water until dissolved. Brine tenders 2-4 hours (breasts 6-8 hours).
 2. Whisk milk and eggs together for the milk wash.
 3. Mix and sift all coater ingredients. Drizzle in 2 tbsp milk wash and crumble through with your hands before breading.
-4. Heat peanut oil to 163°C / 325°F.
+4. Heat peanut oil to 325°F / 163°C.
 5. Pull chicken from brine, pat dry.
 6. Dip in milk wash, shake off excess.
 7. Press into seasoned coater.
@@ -134,10 +139,13 @@ Modified version with no sugar and extra cayenne.
 # Honey-Teriyaki Chicken Thighs
 
 ---
-tags: chicken, main, asian, quick
+tags: chicken, main, asian, weeknight
 servings: 3-4
 photo: https://middleton.io/recipes/images/teriyaki-chicken.jpg
+notes: Thighs are a forgiving cut, which is why they work well here. Let the sauce reduce longer than you think. It should coat the chicken, not pool around it.
 ---
+
+Sticky, slightly sweet, dead simple. Good over rice, obviously.
 
 ## Ingredients
 
@@ -163,16 +171,19 @@ photo: https://middleton.io/recipes/images/teriyaki-chicken.jpg
 # Crispy Pork Schnitzel
 
 ---
-tags: pork, main, quick
+tags: pork, main, weeknight
 servings: 2
 photo: https://middleton.io/recipes/images/schnitzel.jpg
+notes: Pound the cutlets thinner than you think. If they're uneven, they cook uneven.
 ---
+
+Pounded thin, fried fast. Perfect with a lemon wedge or your favorite sauce.
 
 ## Ingredients
 
 - 450g pork cutlets, pounded thin
 - 60g all-purpose flour
-- 2 large eggs
+- 2 large eggs (about 100g)
 - 90g panko breadcrumbs
 - 5g salt
 - 2g black pepper
@@ -184,21 +195,23 @@ photo: https://middleton.io/recipes/images/schnitzel.jpg
 1. Season pork with salt, pepper, and onion powder.
 2. Set up dredge station: flour, beaten eggs, panko.
 3. Coat pork fully, pressing crumbs in.
-4. Heat oil to 175°C / 350°F.
+4. Heat oil to 350°F / 175°C.
 5. Fry 2-3 minutes per side until golden.
-6. Drain on wire rack or paper towel and rest 2 minutes before serving.
+6. Drain on wire rack and rest 2 minutes before serving.
 
 ---
 
 # Slow-Cooked Creamy Scrambled Eggs
 
 ---
-tags: eggs, breakfast, quick
+tags: eggs, breakfast, weeknight
 servings: 2
 photo: https://middleton.io/recipes/images/eggs.jpg
+source: https://www.gordonramsayrestaurants.com/recipes/scrambled-eggs/
+notes: Pull them off the heat when they still look slightly underdone. They'll finish on the plate.
 ---
 
-Low and slow is the secret. Remove from heat just before they're done.
+The Gordon Ramsay method, minus the crème fraîche because I'm not buying crème fraîche for eggs.
 
 ## Ingredients
 
@@ -220,12 +233,13 @@ Low and slow is the secret. Remove from heat just before they're done.
 # Costco-Style Blueberry Muffins
 
 ---
-tags: vegetarian, breakfast, snack, weekend-project
+tags: vegetarian, breakfast, snack, project
 servings: 8 large muffins
 photo: https://middleton.io/recipes/images/blueberry-muffins.jpg
+notes: Don't skip the two-temp bake. Start hot for the dome, drop for the finish. I tried skipping it. No dome.
 ---
 
-The two-temperature bake gives you those big domed tops.
+These taste like the Costco muffins, which is the whole point.
 
 ## Ingredients
 
@@ -241,11 +255,11 @@ The two-temperature bake gives you those big domed tops.
 
 ## Instructions
 
-1. Heat oven to 205°C / 400°F. Line or grease a muffin tin.
+1. Heat oven to 400°F / 205°C. Line or grease a muffin tin.
 2. Whisk 300g flour, sugar, baking powder, and salt.
 3. Whisk melted butter, eggs, milk, and vanilla in a separate bowl.
 4. Fold wet into dry until just combined.
 5. Toss blueberries with 10g flour, then gently fold into batter.
 6. Fill cups almost to the top.
-7. Bake 5 minutes at 205°C, then reduce to 175°C / 350°F and bake 18-22 minutes more.
+7. Bake 5 minutes at 400°F / 205°C, then reduce to 350°F / 175°C and bake 18-22 minutes more.
 8. Cool 10 minutes before removing.

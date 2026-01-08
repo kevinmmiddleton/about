@@ -6,37 +6,60 @@
   <title>Kevin's Recipe Book</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Kevin's Recipe Book</h1>
-    <p class="subtitle">A small collection of things I actually cook.</p>
-    
-    <details class="preamble">
-      <summary>Why does this exist?</summary>
-      <div class="preamble-content">
-        <p>I got tired of scrolling through my notes app looking for recipes I'd tweaked to my taste. So I built this—a simple place to keep the stuff I actually make, with gram measurements (because I'm that guy) and no life stories before the ingredients.</p>
-        <p>These aren't original recipes. They're borrowed, adapted, and adjusted based on what I like and what I have on hand. If there's a source, I've linked it.</p>
+  <div class="page-wrapper">
+    <header>
+      <div class="header-title">
+        <span class="header-icon">🍳</span>
+        <div>
+          <h1>Kevin's Recipe Book</h1>
+          <p class="subtitle">A small collection of things I actually cook.</p>
+        </div>
       </div>
-    </details>
+      
+      <details class="preamble">
+        <summary>
+          <span class="preamble-icon">✦</span>
+          Why does this exist?
+        </summary>
+        <div class="preamble-content">
+          <p>I use a food scale for everything. I don't want to scroll past someone's childhood memories to find the ingredient list. I tweak recipes until they work for me, then forget what I changed.</p>
+          <p>This is the fix: my actual recipes, in grams, with no preamble. Some of these are original, some borrowed, adapted, adjusted, and written down so I stop texting myself.</p>
+        </div>
+      </details>
 
-    <div class="controls">
-      <div class="search-wrapper">
-        <input type="text" id="search" placeholder="Search recipes..." autocomplete="off">
+      <div class="controls">
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21L16.65 16.65"/>
+          </svg>
+          <input type="text" id="search" placeholder="Search recipes..." autocomplete="off">
+        </div>
+        <div class="filters-wrapper">
+          <div class="filters" id="filters"></div>
+          <button class="clear-filters" id="clear-filters">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+            Clear
+          </button>
+        </div>
       </div>
-      <div class="filters-wrapper">
-        <div class="filters" id="filters"></div>
-        <button class="clear-filters" id="clear-filters">Clear filters</button>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <main>
-    <div class="recipe-list" id="recipe-list"></div>
-    <div class="recipe-detail" id="recipe-detail"></div>
-  </main>
+    <main>
+      <div class="recipe-list" id="recipe-list"></div>
+      <div class="recipe-detail" id="recipe-detail"></div>
+    </main>
+
+    <footer>
+      <p>Made using a food scale by a picky eater.</p>
+    </footer>
+  </div>
 
   <script src="app.js"></script>
 </body>

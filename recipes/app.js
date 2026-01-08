@@ -4,7 +4,6 @@ let recipes = [];
 let allTags = new Set();
 let activeFilters = new Set();
 let searchQuery = '';
-let sortBy = 'alpha';
 
 async function init() {
   const md = await fetch(RECIPES_URL).then(r => r.text());
@@ -41,6 +40,7 @@ function parseRecipes(md) {
     let servings = '';
     let source = '';
     let photo = '';
+    let notes = '';
 
     if (fmStart !== -1 && fmEnd !== -1) {
       const fm = lines.slice(fmStart + 1, fmEnd);
@@ -55,6 +55,8 @@ function parseRecipes(md) {
           source = val;
         } else if (key.trim() === 'photo') {
           photo = val;
+        } else if (key.trim() === 'notes') {
+          notes = val;
         }
       });
     }
@@ -77,6 +79,7 @@ function parseRecipes(md) {
       servings,
       source,
       photo,
+      notes,
       intro,
       ingredientsRaw,
       instructionsRaw
@@ -185,7 +188,7 @@ function renderList() {
   }
 
   container.innerHTML = filtered.map((r, i) => `
-    <div class="recipe-card" data-index="${recipes.indexOf(r)}">
+    <div class="recipe-card" data-index="${recipes.indexOf(r)}" style="animation-delay: ${i * 0.05}s">
       <div class="card-content">
         <h2>${r.title}</h2>
         <div class="meta">${r.servings ? `Serves ${r.servings}` : ''}</div>
@@ -217,8 +220,10 @@ function renderDetail(recipe) {
   const ingredientsHtml = parseIngredients(recipe.ingredientsRaw);
   const instructionsHtml = parseInstructions(recipe.instructionsRaw);
 
+  const backIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>`;
+
   detail.innerHTML = `
-    <button class="back-btn">← Back to recipes</button>
+    <button class="back-btn">${backIcon} Back to recipes</button>
     <div class="detail-header">
       <div class="detail-header-content">
         <h1>${recipe.title}</h1>
@@ -235,10 +240,16 @@ function renderDetail(recipe) {
     ${ingredientsHtml}
     <h2>Instructions</h2>
     ${instructionsHtml}
+    ${recipe.notes ? `<div class="notes"><strong>Notes:</strong> ${recipe.notes}</div>` : ''}
   `;
 
-  detail.querySelector('.back-btn').addEventListener('click', renderList);
-  window.scrollTo(0, 0);
+  detail.querySelector('.back-btn').addEventListener('click', () => {
+    renderList();
+    // Smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function parseIngredients(raw) {
