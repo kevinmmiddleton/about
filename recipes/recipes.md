@@ -6,7 +6,7 @@ servings: 4
 photo: https://middleton.io/recipes/images/potato-brocolli-cheddar-soup.jpg
 ---
 
-Comfort food that comes together fast in the Instant Pot. Partially blend at the end if you want it creamier.
+Comfort food that comes together fast in the Instant Pot.
 
 ## Ingredients
 
@@ -35,7 +35,6 @@ Comfort food that comes together fast in the Instant Pot. Partially blend at the
 6. Stir in 400g whole milk.
 7. Add cheddar a handful at a time, stirring until melted.
 8. Taste and adjust seasoning.
-9. Optionally blend partially for a creamier texture.
 
 ---
 
@@ -100,7 +99,7 @@ Modified version with no sugar and extra cayenne.
 - 67g Morton's coarse kosher salt
 - 12g MSG
 - 6g paprika
-- 0.5g black pepper, coarse
+- 1g black pepper, coarse
 - 5g mustard powder
 - 1g cayenne
 
@@ -110,11 +109,11 @@ Modified version with no sugar and extra cayenne.
 
 ### For the Seasoned Coater
 - 120g all-purpose flour
-- 4.5g Morton's coarse kosher salt
+- 5g Morton's coarse kosher salt
 - 4g MSG
 - 11g nonfat milk powder
-- 3.5g baking powder
-- 0.5g white pepper
+- 3g baking powder
+- 1g white pepper
 - 5g mustard powder
 - 1g cayenne
 
@@ -173,7 +172,7 @@ photo: https://middleton.io/recipes/images/schnitzel.jpg
 
 - 450g pork cutlets, pounded thin
 - 60g all-purpose flour
-- 2 large eggs (about 100g)
+- 2 large eggs
 - 90g panko breadcrumbs
 - 5g salt
 - 2g black pepper
@@ -187,7 +186,7 @@ photo: https://middleton.io/recipes/images/schnitzel.jpg
 3. Coat pork fully, pressing crumbs in.
 4. Heat oil to 175°C / 350°F.
 5. Fry 2-3 minutes per side until golden.
-6. Drain on wire rack and rest 2 minutes before serving.
+6. Drain on wire rack or paper towel and rest 2 minutes before serving.
 
 ---
 
