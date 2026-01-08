@@ -1377,6 +1377,88 @@
                 </div>
             </section>
 
+            <!-- ==========================================
+                 recipes.db (Database-style view)
+                 ========================================== -->
+            <section class="window" id="recipesdb" data-window="recipesdb">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">🗃️</span>
+                        recipes.db
+                        <span class="file-badge db">DB</span>
+                    </div>
+                    <span class="window-path">~/kevin/kitchen/</span>
+                </header>
+                <div class="window-content">
+                    <div class="db-toolbar">
+                        <span class="db-query">SELECT * FROM recipes ORDER BY title ASC;</span>
+                        <span class="db-count" id="dbRecipeCount">0 rows</span>
+                    </div>
+                    <div class="db-table-wrapper">
+                        <table class="db-table">
+                            <thead>
+                                <tr>
+                                    <th class="db-col-id">#</th>
+                                    <th class="db-col-title">title</th>
+                                    <th class="db-col-tags">tags</th>
+                                    <th class="db-col-servings">servings</th>
+                                    <th class="db-col-action"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="dbRecipeRows">
+                                <tr><td colspan="5" class="db-loading">Loading recipes...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="db-detail" id="dbRecipeDetail" style="display: none;">
+                        <div class="db-detail-header">
+                            <button class="db-back-btn" id="dbBackBtn">← Back to results</button>
+                            <span class="db-detail-query">SELECT * FROM recipes WHERE id = <span id="dbDetailId">1</span>;</span>
+                        </div>
+                        <div class="db-detail-content" id="dbDetailContent"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 cookbook.app (File browser aesthetic)
+                 ========================================== -->
+            <section class="window" id="cookbook" data-window="cookbook">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">🍳</span>
+                        cookbook.app
+                        <span class="file-badge app">APP</span>
+                    </div>
+                    <span class="window-path">~/kevin/kitchen/</span>
+                </header>
+                <div class="window-content">
+                    <div class="cookbook-browser" id="cookbookBrowser">
+                        <div class="folder-path">~/kevin/kitchen/recipes</div>
+                        <div class="cookbook-grid" id="cookbookGrid">
+                            <div class="cookbook-loading">Loading recipes...</div>
+                        </div>
+                    </div>
+                    <div class="cookbook-detail" id="cookbookDetail" style="display: none;">
+                        <div class="folder-path">
+                            <button class="cookbook-back-btn" id="cookbookBackBtn">← recipes/</button>
+                            <span id="cookbookDetailPath">recipe.md</span>
+                        </div>
+                        <div class="cookbook-detail-content" id="cookbookDetailContent"></div>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
@@ -1411,6 +1493,12 @@
         </button>
         <button class="dock-item" data-window="games" data-tooltip="games/">
             <span class="dock-emoji">🎮</span>
+        </button>
+        <button class="dock-item" data-window="recipesdb" data-tooltip="recipes.db">
+            <span class="dock-emoji">🗃️</span>
+        </button>
+        <button class="dock-item" data-window="cookbook" data-tooltip="cookbook.app">
+            <span class="dock-emoji">🍳</span>
         </button>
         
         <div class="dock-divider"></div>

@@ -428,6 +428,11 @@ body {
     color: var(--yellow);
 }
 
+.file-badge.app {
+    background: rgba(255, 159, 106, 0.2);
+    color: var(--peach);
+}
+
 .window-path {
     font-family: var(--font-mono);
     font-size: 10px;
@@ -3136,4 +3141,528 @@ body {
 
 .games-embed .game-container {
     height: 100%;
+}
+/* ==========================================
+   RECIPES.DB - Database Style
+   ========================================== */
+
+/* DB Badge */
+.file-badge.db {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: var(--bg);
+}
+
+/* Toolbar */
+.db-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+}
+
+.db-query {
+    color: var(--accent);
+    opacity: 0.8;
+}
+
+.db-count {
+    color: var(--text-secondary);
+}
+
+/* Table */
+.db-table-wrapper {
+    overflow-x: auto;
+}
+
+.db-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.db-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.db-table thead tr {
+    background: var(--surface-2);
+}
+
+.db-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--border);
+    background: var(--surface-2);
+}
+
+.db-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.db-table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.db-table tbody tr:hover {
+    background: var(--surface-2);
+}
+
+.db-col-id {
+    width: 40px;
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+}
+
+.db-col-title {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.db-col-tags {
+    max-width: 200px;
+}
+
+.db-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    margin: 2px 4px 2px 0;
+    background: var(--surface);
+    border-radius: 10px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.db-col-servings {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.db-col-action {
+    width: 30px;
+    text-align: center;
+}
+
+.db-view-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+}
+
+.db-table tbody tr:hover .db-view-btn {
+    opacity: 1;
+}
+
+.db-loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Detail View */
+.db-detail {
+    padding: 0;
+}
+
+.db-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+}
+
+.db-back-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 0;
+}
+
+.db-back-btn:hover {
+    text-decoration: underline;
+}
+
+.db-detail-query {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.db-detail-content {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.db-detail-header-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+.db-detail-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.db-detail-header-info {
+    flex: 1;
+}
+
+.db-detail-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: var(--text-primary);
+}
+
+.db-detail-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.db-detail-meta a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.db-detail-meta a:hover {
+    text-decoration: underline;
+}
+
+.db-detail-intro {
+    font-style: italic;
+    color: var(--text-secondary);
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 3px solid var(--accent);
+}
+
+.db-detail h3 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin: 24px 0 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.db-detail h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 16px 0 8px 0;
+}
+
+.db-detail ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-secondary);
+}
+
+.db-detail ul li {
+    margin-bottom: 6px;
+    line-height: 1.5;
+}
+
+.db-detail ol {
+    margin: 0;
+    padding-left: 24px;
+    color: var(--text-secondary);
+}
+
+.db-detail ol li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.db-detail-notes {
+    margin-top: 24px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05));
+    border-left: 3px solid #f59e0b;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.db-detail-notes strong {
+    color: var(--text-primary);
+}
+
+
+/* ==========================================
+   COOKBOOK.APP - File Browser Style
+   ========================================== */
+
+.cookbook-browser {
+    padding: 0;
+}
+
+.cookbook-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.cookbook-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.cookbook-file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 12px;
+    background: var(--surface-2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.cookbook-file:hover {
+    background: var(--surface);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.cookbook-file-icon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.cookbook-file-name {
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--text-primary);
+    word-break: break-word;
+    line-height: 1.3;
+}
+
+.cookbook-file-meta {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* Detail View */
+.cookbook-detail {
+    display: none;
+}
+
+.cookbook-detail .folder-path {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cookbook-back-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+}
+
+.cookbook-back-btn:hover {
+    text-decoration: underline;
+}
+
+.cookbook-detail-content {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.cookbook-recipe-header {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.cookbook-recipe-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.cookbook-recipe-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.cookbook-recipe-info {
+    flex: 1;
+}
+
+.cookbook-recipe-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+    color: var(--text-primary);
+}
+
+.cookbook-recipe-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.cookbook-recipe-meta a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.cookbook-recipe-meta a:hover {
+    text-decoration: underline;
+}
+
+.cookbook-recipe-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.cookbook-tag {
+    padding: 3px 10px;
+    background: var(--surface);
+    border-radius: 12px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.cookbook-recipe-intro {
+    font-style: italic;
+    color: var(--text-secondary);
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.cookbook-section-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin: 24px 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.cookbook-detail h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 16px 0 8px 0;
+}
+
+.cookbook-detail ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-secondary);
+}
+
+.cookbook-detail ul li {
+    margin-bottom: 6px;
+    line-height: 1.5;
+}
+
+.cookbook-detail ol {
+    margin: 0;
+    padding-left: 24px;
+    color: var(--text-secondary);
+}
+
+.cookbook-detail ol li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.cookbook-recipe-notes {
+    margin-top: 24px;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.cookbook-recipe-notes strong {
+    color: var(--text-primary);
+}
+
+/* Mobile adjustments for recipes */
+@media (max-width: 768px) {
+    .cookbook-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 12px;
+        padding: 16px;
+    }
+    
+    .cookbook-file {
+        padding: 12px 8px;
+    }
+    
+    .cookbook-file-icon {
+        font-size: 2rem;
+    }
+    
+    .db-table-wrapper {
+        font-size: 0.8rem;
+    }
+    
+    .db-col-tags {
+        display: none;
+    }
+    
+    .db-toolbar {
+        flex-direction: column;
+        gap: 4px;
+        align-items: flex-start;
+    }
 }

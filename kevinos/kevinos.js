@@ -3290,3 +3290,316 @@ if (standupInput) {
 if (startStandupBtn) startStandupBtn.addEventListener('click', startStandup);
 if (standupPlayAgainBtn) standupPlayAgainBtn.addEventListener('click', startStandup);
 if (standupWhoAmIBtn) standupWhoAmIBtn.addEventListener('click', () => openWindow('readme'));
+
+/* ==========================================
+   RECIPES - Shared Data & Parsing
+   ========================================== */
+
+const RECIPES_MD_URL = 'https://middleton.io/recipes/recipes.md';
+let kevinRecipes = [];
+
+async function loadKevinRecipes() {
+    try {
+        const response = await fetch(RECIPES_MD_URL);
+        const md = await response.text();
+        kevinRecipes = parseKevinRecipes(md);
+        
+        // Initialize both views
+        renderDbView();
+        renderCookbookView();
+    } catch (error) {
+        console.error('Failed to load recipes:', error);
+        const dbRows = document.getElementById('dbRecipeRows');
+        const cookbookGrid = document.getElementById('cookbookGrid');
+        if (dbRows) dbRows.innerHTML = '<tr><td colspan="5" class="db-loading">Failed to load recipes</td></tr>';
+        if (cookbookGrid) cookbookGrid.innerHTML = '<div class="cookbook-loading">Failed to load recipes</div>';
+    }
+}
+
+function parseKevinRecipes(md) {
+    const blocks = md.split(/^# /m).filter(b => b.trim());
+    return blocks.map((block, index) => {
+        const lines = block.split('\n');
+        const title = lines[0].trim();
+
+        const fmStart = lines.findIndex(l => l.trim() === '---');
+        const fmEnd = lines.findIndex((l, i) => i > fmStart && l.trim() === '---');
+
+        let tags = [];
+        let servings = '';
+        let source = '';
+        let photo = '';
+        let notes = '';
+
+        if (fmStart !== -1 && fmEnd !== -1) {
+            const fm = lines.slice(fmStart + 1, fmEnd);
+            fm.forEach(line => {
+                const [key, ...rest] = line.split(':');
+                const val = rest.join(':').trim();
+                if (key.trim() === 'tags') {
+                    tags = val.replace(/[\[\]]/g, '').split(',').map(t => t.trim()).filter(Boolean);
+                } else if (key.trim() === 'servings') {
+                    servings = val;
+                } else if (key.trim() === 'source') {
+                    source = val;
+                } else if (key.trim() === 'photo') {
+                    photo = val;
+                } else if (key.trim() === 'notes') {
+                    notes = val;
+                }
+            });
+        }
+
+        const contentStart = fmEnd !== -1 ? fmEnd + 1 : 1;
+        const content = lines.slice(contentStart).join('\n').trim();
+
+        const firstHeading = content.search(/^## /m);
+        const intro = firstHeading > 0 ? content.slice(0, firstHeading).trim() : '';
+
+        const ingredientsMatch = content.match(/## Ingredients\n([\s\S]*?)(?=\n## |$)/);
+        const ingredientsRaw = ingredientsMatch ? ingredientsMatch[1].trim() : '';
+
+        const instructionsMatch = content.match(/## Instructions\n([\s\S]*?)(?=\n## |$)/);
+        const instructionsRaw = instructionsMatch ? instructionsMatch[1].trim() : '';
+
+        return {
+            id: index + 1,
+            title,
+            tags,
+            servings,
+            source,
+            photo,
+            notes,
+            intro,
+            ingredientsRaw,
+            instructionsRaw
+        };
+    });
+}
+
+function parseRecipeIngredients(raw) {
+    const lines = raw.split('\n');
+    let html = '';
+    let inList = false;
+
+    lines.forEach(line => {
+        if (line.startsWith('### ')) {
+            if (inList) html += '</ul>';
+            html += `<h4>${line.slice(4)}</h4>`;
+            inList = false;
+        } else if (line.startsWith('- ')) {
+            if (!inList) {
+                html += '<ul>';
+                inList = true;
+            }
+            html += `<li>${line.slice(2)}</li>`;
+        }
+    });
+
+    if (inList) html += '</ul>';
+    return html;
+}
+
+function parseRecipeInstructions(raw) {
+    const lines = raw.split('\n').filter(l => l.match(/^\d+\./));
+    return '<ol>' + lines.map(l => `<li>${l.replace(/^\d+\.\s*/, '')}</li>`).join('') + '</ol>';
+}
+
+function getRecipeEmoji(title, tags) {
+    const t = title.toLowerCase();
+    if (t.includes('muffin')) return '🫐';
+    if (t.includes('soup')) return '🥦';
+    if (t.includes('quiche')) return '🧀';
+    if (t.includes('schnitzel')) return '🐖';
+    if (t.includes('teriyaki')) return '🍯';
+    if (t.includes('egg')) return '🥚';
+    if (tags.includes('chicken')) return '🍗';
+    return '📄';
+}
+
+
+/* ==========================================
+   RECIPES.DB - Database View
+   ========================================== */
+
+function renderDbView() {
+    const tbody = document.getElementById('dbRecipeRows');
+    const countEl = document.getElementById('dbRecipeCount');
+    
+    if (!tbody) return;
+    
+    // Sort by title ASC
+    const sortedRecipes = [...kevinRecipes].sort((a, b) => a.title.localeCompare(b.title));
+    
+    countEl.textContent = `${sortedRecipes.length} rows`;
+    
+    tbody.innerHTML = sortedRecipes.map((recipe, index) => `
+        <tr data-recipe-id="${recipe.id}">
+            <td class="db-col-id">${index + 1}</td>
+            <td class="db-col-title">${recipe.title}</td>
+            <td class="db-col-tags">${recipe.tags.map(t => `<span class="db-tag">${t}</span>`).join('')}</td>
+            <td class="db-col-servings">${recipe.servings || '—'}</td>
+            <td class="db-col-action"><span class="db-view-btn">→</span></td>
+        </tr>
+    `).join('');
+    
+    // Add click handlers
+    tbody.querySelectorAll('tr').forEach(row => {
+        row.addEventListener('click', () => {
+            const id = parseInt(row.dataset.recipeId);
+            showDbDetail(id);
+        });
+    });
+}
+
+function showDbDetail(id) {
+    const recipe = kevinRecipes.find(r => r.id === id);
+    if (!recipe) return;
+    
+    const tableWrapper = document.querySelector('#recipesdb .db-table-wrapper');
+    const toolbar = document.querySelector('#recipesdb .db-toolbar');
+    const detail = document.getElementById('dbRecipeDetail');
+    const detailId = document.getElementById('dbDetailId');
+    const content = document.getElementById('dbDetailContent');
+    
+    // Hide table, show detail
+    tableWrapper.style.display = 'none';
+    toolbar.style.display = 'none';
+    detail.style.display = 'block';
+    detailId.textContent = id;
+    
+    const ingredientsHtml = parseRecipeIngredients(recipe.ingredientsRaw);
+    const instructionsHtml = parseRecipeInstructions(recipe.instructionsRaw);
+    
+    content.innerHTML = `
+        <div class="db-detail-header-row">
+            ${recipe.photo ? `<img class="db-detail-img" src="${recipe.photo}" alt="${recipe.title}">` : ''}
+            <div class="db-detail-header-info">
+                <h2 class="db-detail-title">${recipe.title}</h2>
+                <div class="db-detail-meta">
+                    ${recipe.servings ? `Serves ${recipe.servings}` : ''}
+                    ${recipe.source ? ` · <a href="${recipe.source}" target="_blank">Source</a>` : ''}
+                </div>
+            </div>
+        </div>
+        ${recipe.intro ? `<div class="db-detail-intro">${recipe.intro}</div>` : ''}
+        <h3>Ingredients</h3>
+        ${ingredientsHtml}
+        <h3>Instructions</h3>
+        ${instructionsHtml}
+        ${recipe.notes ? `<div class="db-detail-notes"><strong>Notes:</strong> ${recipe.notes}</div>` : ''}
+    `;
+}
+
+// DB Back button handler
+const dbBackBtn = document.getElementById('dbBackBtn');
+if (dbBackBtn) {
+    dbBackBtn.addEventListener('click', () => {
+        const tableWrapper = document.querySelector('#recipesdb .db-table-wrapper');
+        const toolbar = document.querySelector('#recipesdb .db-toolbar');
+        const detail = document.getElementById('dbRecipeDetail');
+        
+        tableWrapper.style.display = 'block';
+        toolbar.style.display = 'flex';
+        detail.style.display = 'none';
+    });
+}
+
+
+/* ==========================================
+   COOKBOOK.APP - File Browser View
+   ========================================== */
+
+function renderCookbookView() {
+    const grid = document.getElementById('cookbookGrid');
+    
+    if (!grid) return;
+    
+    grid.innerHTML = kevinRecipes.map(recipe => `
+        <div class="cookbook-file" data-recipe-id="${recipe.id}">
+            <span class="cookbook-file-icon">${getRecipeEmoji(recipe.title, recipe.tags)}</span>
+            <span class="cookbook-file-name">${recipeSlugify(recipe.title)}.md</span>
+        </div>
+    `).join('');
+    
+    // Add click handlers
+    grid.querySelectorAll('.cookbook-file').forEach(file => {
+        file.addEventListener('click', () => {
+            const id = parseInt(file.dataset.recipeId);
+            showCookbookDetail(id);
+        });
+    });
+}
+
+function recipeSlugify(text) {
+    return text
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+}
+
+function showCookbookDetail(id) {
+    const recipe = kevinRecipes.find(r => r.id === id);
+    if (!recipe) return;
+    
+    const browser = document.getElementById('cookbookBrowser');
+    const detail = document.getElementById('cookbookDetail');
+    const pathEl = document.getElementById('cookbookDetailPath');
+    const content = document.getElementById('cookbookDetailContent');
+    
+    // Hide browser, show detail
+    browser.style.display = 'none';
+    detail.style.display = 'block';
+    pathEl.textContent = `${recipeSlugify(recipe.title)}.md`;
+    
+    const ingredientsHtml = parseRecipeIngredients(recipe.ingredientsRaw);
+    const instructionsHtml = parseRecipeInstructions(recipe.instructionsRaw);
+    
+    content.innerHTML = `
+        <div class="cookbook-recipe-header">
+            ${recipe.photo ? `<img class="cookbook-recipe-img" src="${recipe.photo}" alt="${recipe.title}">` : `<span class="cookbook-recipe-icon">${getRecipeEmoji(recipe.title, recipe.tags)}</span>`}
+            <div class="cookbook-recipe-info">
+                <h2 class="cookbook-recipe-title">${recipe.title}</h2>
+                <div class="cookbook-recipe-meta">
+                    ${recipe.servings ? `Serves ${recipe.servings}` : ''}
+                    ${recipe.source ? ` · <a href="${recipe.source}" target="_blank">Source</a>` : ''}
+                </div>
+                <div class="cookbook-recipe-tags">
+                    ${recipe.tags.map(t => `<span class="cookbook-tag">${t}</span>`).join('')}
+                </div>
+            </div>
+        </div>
+        ${recipe.intro ? `<div class="cookbook-recipe-intro">${recipe.intro}</div>` : ''}
+        <h3 class="cookbook-section-title">Ingredients</h3>
+        ${ingredientsHtml}
+        <h3 class="cookbook-section-title">Instructions</h3>
+        ${instructionsHtml}
+        ${recipe.notes ? `<div class="cookbook-recipe-notes"><strong>Notes:</strong> ${recipe.notes}</div>` : ''}
+    `;
+}
+
+// Cookbook Back button handler
+const cookbookBackBtn = document.getElementById('cookbookBackBtn');
+if (cookbookBackBtn) {
+    cookbookBackBtn.addEventListener('click', () => {
+        const browser = document.getElementById('cookbookBrowser');
+        const detail = document.getElementById('cookbookDetail');
+        
+        browser.style.display = 'block';
+        detail.style.display = 'none';
+    });
+}
+
+// Load recipes on page load
+loadKevinRecipes();
+
+// Handle URL parameters to open specific windows
+(function handleUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const windowToOpen = params.get('open');
+    if (windowToOpen === 'recipes' || windowToOpen === 'recipesdb') {
+        setTimeout(() => openWindow('recipesdb'), 100);
+    } else if (windowToOpen === 'cookbook') {
+        setTimeout(() => openWindow('cookbook'), 100);
+    }
+})();
