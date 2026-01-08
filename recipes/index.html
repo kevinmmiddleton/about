@@ -13,7 +13,24 @@
   <header>
     <h1>Kevin's Recipe Book</h1>
     <p class="subtitle">A small collection of things I actually cook.</p>
-    <div class="filters" id="filters"></div>
+    
+    <details class="preamble">
+      <summary>Why does this exist?</summary>
+      <div class="preamble-content">
+        <p>I got tired of scrolling through my notes app looking for recipes I'd tweaked to my taste. So I built this—a simple place to keep the stuff I actually make, with gram measurements (because I'm that guy) and no life stories before the ingredients.</p>
+        <p>These aren't original recipes. They're borrowed, adapted, and adjusted based on what I like and what I have on hand. If there's a source, I've linked it.</p>
+      </div>
+    </details>
+
+    <div class="controls">
+      <div class="search-wrapper">
+        <input type="text" id="search" placeholder="Search recipes..." autocomplete="off">
+      </div>
+      <div class="filters-wrapper">
+        <div class="filters" id="filters"></div>
+        <button class="clear-filters" id="clear-filters">Clear filters</button>
+      </div>
+    </div>
   </header>
 
   <main>

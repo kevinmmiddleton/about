@@ -3,12 +3,28 @@ const RECIPES_URL = 'recipes.md';
 let recipes = [];
 let allTags = new Set();
 let activeFilters = new Set();
+let searchQuery = '';
+let sortBy = 'alpha';
 
 async function init() {
   const md = await fetch(RECIPES_URL).then(r => r.text());
   recipes = parseRecipes(md);
   allTags = new Set(recipes.flatMap(r => r.tags));
+  
   renderFilters();
+  setupSearch();
+  setupClearFilters();
+  
+  // Check for hash on load
+  if (window.location.hash) {
+    const slug = window.location.hash.slice(1);
+    const recipe = recipes.find(r => slugify(r.title) === slug);
+    if (recipe) {
+      renderDetail(recipe);
+      return;
+    }
+  }
+  
   renderList();
 }
 
@@ -68,6 +84,40 @@ function parseRecipes(md) {
   });
 }
 
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+function setupSearch() {
+  const searchInput = document.getElementById('search');
+  searchInput.addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    renderList();
+  });
+}
+
+function setupClearFilters() {
+  const clearBtn = document.getElementById('clear-filters');
+  clearBtn.addEventListener('click', () => {
+    activeFilters.clear();
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    updateClearButton();
+    renderList();
+  });
+}
+
+function updateClearButton() {
+  const clearBtn = document.getElementById('clear-filters');
+  if (activeFilters.size > 0) {
+    clearBtn.classList.add('visible');
+  } else {
+    clearBtn.classList.remove('visible');
+  }
+}
+
 function renderFilters() {
   const container = document.getElementById('filters');
   const sortedTags = [...allTags].sort();
@@ -86,9 +136,33 @@ function renderFilters() {
         activeFilters.add(tag);
         e.target.classList.add('active');
       }
+      updateClearButton();
       renderList();
     }
   });
+}
+
+function getFilteredRecipes() {
+  let filtered = recipes;
+
+  // Apply tag filters
+  if (activeFilters.size > 0) {
+    filtered = filtered.filter(r => [...activeFilters].every(f => r.tags.includes(f)));
+  }
+
+  // Apply search
+  if (searchQuery) {
+    filtered = filtered.filter(r => 
+      r.title.toLowerCase().includes(searchQuery) ||
+      r.tags.some(t => t.toLowerCase().includes(searchQuery)) ||
+      r.ingredientsRaw.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  // Sort alphabetically
+  filtered = filtered.sort((a, b) => a.title.localeCompare(b.title));
+
+  return filtered;
 }
 
 function renderList() {
@@ -97,21 +171,27 @@ function renderList() {
 
   detail.classList.remove('visible');
   container.classList.remove('hidden');
+  
+  // Clear hash when returning to list
+  if (window.location.hash) {
+    history.pushState(null, '', window.location.pathname);
+  }
 
-  const filtered = activeFilters.size === 0
-    ? recipes
-    : recipes.filter(r => [...activeFilters].every(f => r.tags.includes(f)));
+  const filtered = getFilteredRecipes();
 
   if (filtered.length === 0) {
-    container.innerHTML = '<p class="no-results">No recipes match those filters.</p>';
+    container.innerHTML = '<p class="no-results">No recipes match your search.</p>';
     return;
   }
 
   container.innerHTML = filtered.map((r, i) => `
     <div class="recipe-card" data-index="${recipes.indexOf(r)}">
-      <h2>${r.title}</h2>
-      <div class="meta">${r.servings ? `Serves ${r.servings}` : ''}</div>
-      <div class="tags">${r.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="card-content">
+        <h2>${r.title}</h2>
+        <div class="meta">${r.servings ? `Serves ${r.servings}` : ''}</div>
+        <div class="tags">${r.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+      ${r.photo ? `<img class="card-thumb" src="${r.photo}" alt="${r.title}">` : ''}
     </div>
   `).join('');
 
@@ -130,17 +210,25 @@ function renderDetail(recipe) {
   container.classList.add('hidden');
   detail.classList.add('visible');
 
+  // Update URL hash
+  const slug = slugify(recipe.title);
+  history.pushState(null, '', `#${slug}`);
+
   const ingredientsHtml = parseIngredients(recipe.ingredientsRaw);
   const instructionsHtml = parseInstructions(recipe.instructionsRaw);
 
   detail.innerHTML = `
     <button class="back-btn">← Back to recipes</button>
-    ${recipe.photo ? `<img class="photo" src="${recipe.photo}" alt="${recipe.title}">` : ''}
-    <h1>${recipe.title}</h1>
-    <hr class="title-rule">
-    <div class="meta">
-      ${recipe.servings ? `Serves ${recipe.servings}` : ''}
-      ${recipe.source ? ` · <a href="${recipe.source}" target="_blank">Adapted from source</a>` : ''}
+    <div class="detail-header">
+      <div class="detail-header-content">
+        <h1>${recipe.title}</h1>
+        <hr class="title-rule">
+        <div class="meta">
+          ${recipe.servings ? `Serves ${recipe.servings}` : ''}
+          ${recipe.source ? ` · <a href="${recipe.source}" target="_blank">Adapted from source</a>` : ''}
+        </div>
+      </div>
+      ${recipe.photo ? `<img class="detail-thumb" src="${recipe.photo}" alt="${recipe.title}">` : ''}
     </div>
     ${recipe.intro ? `<p class="intro">${recipe.intro}</p>` : ''}
     <h2>Ingredients</h2>
@@ -180,5 +268,18 @@ function parseInstructions(raw) {
   const lines = raw.split('\n').filter(l => l.match(/^\d+\./));
   return '<ol>' + lines.map(l => `<li>${l.replace(/^\d+\.\s*/, '')}</li>`).join('') + '</ol>';
 }
+
+// Handle browser back/forward
+window.addEventListener('popstate', () => {
+  if (window.location.hash) {
+    const slug = window.location.hash.slice(1);
+    const recipe = recipes.find(r => slugify(r.title) === slug);
+    if (recipe) {
+      renderDetail(recipe);
+      return;
+    }
+  }
+  renderList();
+});
 
 document.addEventListener('DOMContentLoaded', init);

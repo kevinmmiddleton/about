@@ -3,6 +3,7 @@
 ---
 tags: vegetarian, main, quick
 servings: 4
+photo: https://middleton.io/recipes/images/potato-brocolli-cheddar-soup.jpg
 ---
 
 Comfort food that comes together fast in the Instant Pot. Partially blend at the end if you want it creamier.
@@ -43,6 +44,7 @@ Comfort food that comes together fast in the Instant Pot. Partially blend at the
 ---
 tags: eggs, pork, breakfast, main, weekend-project
 servings: 6-8 slices
+photo: https://middleton.io/recipes/images/sausag-cheese-quiche.jpg
 ---
 
 ## Ingredients
@@ -83,6 +85,7 @@ servings: 6-8 slices
 tags: chicken, main, weekend-project
 servings: 2-3
 source: https://jasonfarmer.com/chick-fil-a-chicken-sandwich/
+photo: https://middleton.io/recipes/images/chicken.jpg
 ---
 
 Modified version with no sugar and extra cayenne.
@@ -134,6 +137,7 @@ Modified version with no sugar and extra cayenne.
 ---
 tags: chicken, main, asian, quick
 servings: 3-4
+photo: https://middleton.io/recipes/images/teriyaki-chicken.jpg
 ---
 
 ## Ingredients
@@ -162,6 +166,7 @@ servings: 3-4
 ---
 tags: pork, main, quick
 servings: 2
+photo: https://middleton.io/recipes/images/schnitzel.jpg
 ---
 
 ## Ingredients
@@ -191,6 +196,7 @@ servings: 2
 ---
 tags: eggs, breakfast, quick
 servings: 2
+photo: https://middleton.io/recipes/images/eggs.jpg
 ---
 
 Low and slow is the secret. Remove from heat just before they're done.
@@ -217,6 +223,7 @@ Low and slow is the secret. Remove from heat just before they're done.
 ---
 tags: vegetarian, breakfast, snack, weekend-project
 servings: 8 large muffins
+photo: https://middleton.io/recipes/images/blueberry-muffins.jpg
 ---
 
 The two-temperature bake gives you those big domed tops.
