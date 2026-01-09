@@ -321,12 +321,16 @@ document.getElementById('musicIcon').addEventListener('click', () => {
 });
 
 // ===================
-// RECYCLE BIN - Recovery after virus
+// RECYCLE BIN
 // ===================
+const recycleWindow = document.getElementById('recycleWindow');
+const notepadWindow = document.getElementById('notepadWindow');
+const recycleNote = document.getElementById('recycleNote');
+let recycleZIndex = 600;
+
 document.getElementById('recycleBin').addEventListener('click', () => {
     const virusOverlay = document.getElementById('virusOverlay');
     if (virusOverlay.classList.contains('active')) {
-        // Full recovery
         virusOverlay.classList.remove('active');
         virusOverlay.innerHTML = `
             <div class="virus-screen">
@@ -339,9 +343,94 @@ document.getElementById('recycleBin').addEventListener('click', () => {
         document.body.style.filter = '';
         alert('🗑️ System restored! Files recovered from Recycle Bin. 🎉');
     } else {
-        alert('🗑️ The bin is empty... for now. 👀');
+        recycleZIndex++;
+        recycleWindow.style.zIndex = recycleZIndex;
+        recycleWindow.style.display = 'block';
     }
 });
+
+if (recycleNote) {
+    recycleNote.addEventListener('click', () => {
+        recycleZIndex++;
+        notepadWindow.style.zIndex = recycleZIndex;
+        notepadWindow.style.display = 'block';
+    });
+}
+
+document.getElementById('closeRecycle').addEventListener('click', () => {
+    recycleWindow.style.display = 'none';
+});
+
+document.getElementById('closeNotepad').addEventListener('click', () => {
+    notepadWindow.style.display = 'none';
+});
+
+recycleWindow.addEventListener('mousedown', () => {
+    recycleZIndex++;
+    recycleWindow.style.zIndex = recycleZIndex;
+});
+
+notepadWindow.addEventListener('mousedown', () => {
+    recycleZIndex++;
+    notepadWindow.style.zIndex = recycleZIndex;
+});
+
+const recycleHeader = document.querySelector('.recycle-header');
+let recycleDragging = false;
+let recycleStartX, recycleStartY, recycleStartLeft, recycleStartTop;
+
+recycleHeader.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('window-dot')) return;
+    recycleDragging = true;
+    recycleStartX = e.clientX;
+    recycleStartY = e.clientY;
+    const rect = recycleWindow.getBoundingClientRect();
+    recycleStartLeft = rect.left;
+    recycleStartTop = rect.top;
+    recycleWindow.style.transition = 'none';
+});
+
+document.addEventListener('mousemove', e => {
+    if (!recycleDragging) return;
+    recycleWindow.style.left = (recycleStartLeft + e.clientX - recycleStartX) + 'px';
+    recycleWindow.style.top = (recycleStartTop + e.clientY - recycleStartY) + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+    if (recycleDragging) {
+        recycleDragging = false;
+        recycleWindow.style.transition = '';
+    }
+});
+
+const notepadHeader = document.querySelector('.notepad-header');
+let notepadDragging = false;
+let notepadStartX, notepadStartY, notepadStartLeft, notepadStartTop;
+
+notepadHeader.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('window-dot')) return;
+    notepadDragging = true;
+    notepadStartX = e.clientX;
+    notepadStartY = e.clientY;
+    const rect = notepadWindow.getBoundingClientRect();
+    notepadStartLeft = rect.left;
+    notepadStartTop = rect.top;
+    notepadWindow.style.transition = 'none';
+});
+
+document.addEventListener('mousemove', e => {
+    if (!notepadDragging) return;
+    notepadWindow.style.left = (notepadStartLeft + e.clientX - notepadStartX) + 'px';
+    notepadWindow.style.top = (notepadStartTop + e.clientY - notepadStartY) + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+    if (notepadDragging) {
+        notepadDragging = false;
+        notepadWindow.style.transition = '';
+    }
+});
+
 
 // ===================
 // VIRUS EASTER EGG

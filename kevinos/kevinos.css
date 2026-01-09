@@ -428,11 +428,6 @@ body {
     color: var(--yellow);
 }
 
-.file-badge.app {
-    background: rgba(255, 159, 106, 0.2);
-    color: var(--peach);
-}
-
 .window-path {
     font-family: var(--font-mono);
     font-size: 10px;
@@ -1655,8 +1650,7 @@ body {
         overflow: visible;
     }
 
-    #connect,
-    #recipesdb {
+    #connect {
         display: none !important;
     }
 
@@ -1915,10 +1909,6 @@ body {
     }
 
     .desktop-only {
-        display: none !important;
-    }
-    
-    .dock-item.desktop-only {
         display: none !important;
     }
 
@@ -3299,11 +3289,12 @@ body {
 .db-back-btn {
     background: none;
     border: none;
-    color: var(--accent);
+    color: var(--blue);
     font-size: 0.85rem;
     cursor: pointer;
     font-weight: 500;
     padding: 0;
+    font-family: var(--font-mono);
 }
 
 .db-back-btn:hover {
@@ -3354,7 +3345,7 @@ body {
 }
 
 .db-detail-meta a {
-    color: var(--accent);
+    color: var(--blue);
     text-decoration: none;
 }
 
@@ -3369,7 +3360,7 @@ body {
     background: var(--surface-2);
     border-radius: 8px;
     margin-bottom: 20px;
-    border-left: 3px solid var(--accent);
+    border-left: 3px solid var(--blue);
 }
 
 .db-detail h3 {
@@ -3377,7 +3368,7 @@ body {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--accent);
+    color: var(--blue);
     margin: 24px 0 12px 0;
     font-family: 'JetBrains Mono', monospace;
 }
@@ -3425,7 +3416,6 @@ body {
     color: var(--text-primary);
 }
 
-
 /* Mobile adjustments for recipes */
 @media (max-width: 768px) {
     .db-table-wrapper {
@@ -3440,5 +3430,214 @@ body {
         flex-direction: column;
         gap: 4px;
         align-items: flex-start;
+    }
+}
+
+/* ===================
+   RECYCLE BIN WINDOW
+   =================== */
+.recycle-window {
+    position: fixed;
+    top: 100px;
+    right: 120px;
+    width: 280px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
+    z-index: 600;
+    overflow: hidden;
+}
+
+.recycle-header {
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 14px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: grab;
+    user-select: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.recycle-header:active {
+    cursor: grabbing;
+}
+
+.recycle-title {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-dim);
+}
+
+.recycle-content {
+    padding: 20px;
+    min-height: 80px;
+}
+
+.recycle-file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    width: fit-content;
+}
+
+.recycle-file:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.recycle-file-icon {
+    font-size: 32px;
+}
+
+.recycle-file-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+}
+
+/* ===================
+   NOTEPAD WINDOW
+   =================== */
+.notepad-window {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(480px, calc(100% - 40px));
+    background: #fffef8;
+    border: 1px solid #d4d0c4;
+    border-radius: var(--radius);
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.4);
+    z-index: 650;
+}
+
+.notepad-header {
+    background: linear-gradient(180deg, #f6f4ec 0%, #e8e6dc 100%);
+    border-bottom: 1px solid #d4d0c4;
+    padding: 0 14px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: grab;
+    user-select: none;
+}
+
+.notepad-header:active {
+    cursor: grabbing;
+}
+
+.notepad-title {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #5a5a50;
+}
+
+.notepad-content {
+    padding: 24px 28px;
+    font-family: 'Georgia', serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #2a2a28;
+    background: #fffef8;
+    background-image: 
+        repeating-linear-gradient(
+            #fffef8 0px,
+            #fffef8 27px,
+            #e8e6dc 28px
+        );
+    background-size: 100% 28px;
+    background-position: 0 12px;
+}
+
+.notepad-content p {
+    margin: 0 0 28px 0;
+    position: relative;
+}
+
+.notepad-heading {
+    font-weight: 600;
+    font-size: 17px;
+    color: #1a1a18;
+}
+
+.notepad-signature {
+    font-style: italic;
+    color: #4a4a48;
+    margin-top: 28px !important;
+}
+
+.notepad-cta {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #2563eb;
+    text-decoration: none;
+    padding: 8px 16px;
+    background: rgba(37, 99, 235, 0.08);
+    border-radius: 6px;
+    transition: background 0.15s, transform 0.15s;
+}
+
+.notepad-cta:hover {
+    background: rgba(37, 99, 235, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Dark mode adjustments for notepad */
+[data-theme="dark"] .notepad-window {
+    background: #2a2a28;
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .notepad-header {
+    background: linear-gradient(180deg, #3a3a38 0%, #2a2a28 100%);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .notepad-title {
+    color: var(--text-dim);
+}
+
+[data-theme="dark"] .notepad-content {
+    background: #2a2a28;
+    background-image: 
+        repeating-linear-gradient(
+            #2a2a28 0px,
+            #2a2a28 27px,
+            #3a3a38 28px
+        );
+    color: #e8e8e0;
+}
+
+[data-theme="dark"] .notepad-heading {
+    color: #f8f8f0;
+}
+
+[data-theme="dark"] .notepad-signature {
+    color: #a8a8a0;
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .notepad-window {
+        background: #fffef8;
+        border-color: #d4d0c4;
+    }
+}
+
+/* Hide recycle/notepad on mobile */
+@media (max-width: 768px) {
+    .recycle-window,
+    .notepad-window {
+        display: none !important;
     }
 }

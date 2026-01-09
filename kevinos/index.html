@@ -54,13 +54,19 @@
                 <span class="icon-label">music.app</span>
             </button>
 
+            <!-- Recipes Icon (desktop only easter egg) -->
+            <button class="desktop-icon desktop-only" data-window="recipesdb">
+                <span class="icon-emoji">🗃️</span>
+                <span class="icon-label">recipes.db</span>
+            </button>
+
             <!-- Spacer -->
             <div class="icon-spacer"></div>
 
             <!-- Easter Eggs -->
             <button class="desktop-icon" id="partyBtn">
                 <span class="icon-emoji">🪩</span>
-                <span class="icon-label">party.exe</span>
+                <span class="icon-label">party.app</span>
             </button>
             <button class="desktop-icon virus-icon" id="virusBtn">
                 <span class="icon-emoji">💀</span>
@@ -1377,9 +1383,7 @@
                 </div>
             </section>
 
-            <!-- ==========================================
-                 recipes.db (Database-style view)
-                 ========================================== -->
+            <!-- recipes.db (Database-style view) -->
             <section class="window" id="recipesdb" data-window="recipesdb">
                 <header class="window-header">
                     <div class="window-dots">
@@ -1460,9 +1464,6 @@
         <button class="dock-item" data-window="games" data-tooltip="games/">
             <span class="dock-emoji">🎮</span>
         </button>
-        <button class="dock-item desktop-only" data-window="recipesdb" data-tooltip="recipes.db">
-            <span class="dock-emoji">🗃️</span>
-        </button>
         
         <div class="dock-divider"></div>
         
@@ -1506,6 +1507,45 @@
 
     <!-- Photo Viewer Container (for dynamically created photo windows) -->
     <div id="photoWindows"></div>
+
+    <!-- Recycle Bin Window -->
+    <div class="recycle-window" id="recycleWindow" style="display: none;">
+        <div class="recycle-header">
+            <div class="window-dots">
+                <button class="window-dot red" id="closeRecycle"></button>
+                <span class="window-dot yellow"></span>
+                <span class="window-dot green"></span>
+            </div>
+            <div class="recycle-title">🗑️ Recycle Bin</div>
+        </div>
+        <div class="recycle-content">
+            <div class="recycle-file" id="recycleNote">
+                <span class="recycle-file-icon">📝</span>
+                <span class="recycle-file-name">note-to-you.txt</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notepad Window (inside recycle bin) -->
+    <div class="notepad-window" id="notepadWindow" style="display: none;">
+        <div class="notepad-header">
+            <div class="window-dots">
+                <button class="window-dot red" id="closeNotepad"></button>
+                <span class="window-dot yellow"></span>
+                <span class="window-dot green"></span>
+            </div>
+            <div class="notepad-title">📝 note-to-you.txt</div>
+        </div>
+        <div class="notepad-content">
+            <p class="notepad-heading">🗑️ You found the trash.</p>
+            <p>Most people don't look here. I like that you did.</p>
+            <p>Here's what I threw away while building this: about 40 hours of self-doubt, a few drafts that tried too hard, and the voice that said "this is too much." I kept the parts that felt like me.</p>
+            <p>Sometimes the best stuff is in the bin: old ideas, weird experiments, the things that didn't fit anywhere else.</p>
+            <p>You're curious. I like that. You're probably the type I'd want to work with.</p>
+            <p class="notepad-signature">— Kevin</p>
+            <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="notepad-cta">Let's talk →</a>
+        </div>
+    </div>
 
     <!-- Virus Overlay -->
     <div class="virus-overlay" id="virusOverlay">
