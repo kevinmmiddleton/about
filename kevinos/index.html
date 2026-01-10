@@ -37,17 +37,61 @@
 </head>
 
 <body>
+    <!-- Boot Loader -->
+    <div class="boot-loader" id="bootLoader">
+        <pre class="boot-logo">
+██╗  ██╗███████╗██╗   ██╗██╗███╗   ██╗ ██████╗ ███████╗
+██║ ██╔╝██╔════╝██║   ██║██║████╗  ██║██╔═══██╗██╔════╝
+█████╔╝ █████╗  ██║   ██║██║██╔██╗ ██║██║   ██║███████╗
+██╔═██╗ ██╔══╝  ╚██╗ ██╔╝██║██║╚██╗██║██║   ██║╚════██║
+██║  ██╗███████╗ ╚████╔╝ ██║██║ ╚████║╚██████╔╝███████║
+╚═╝  ╚═╝╚══════╝  ╚═══╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝
+        </pre>
+        <div class="boot-progress">
+            <div class="boot-progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- macOS Menu Bar -->
+    <header class="menubar">
+        <div class="menubar-left">
+            <span class="menubar-apple"></span>
+            <span class="menubar-app">KevinOS</span>
+            <span class="menubar-menu">File</span>
+            <span class="menubar-menu">Edit</span>
+            <span class="menubar-menu">View</span>
+            <span class="menubar-menu">Window</span>
+            <span class="menubar-menu">Help</span>
+        </div>
+        <div class="menubar-right">
+            <span class="menubar-status">● Open to Work</span>
+            <span class="menubar-icon" id="launchpadBtn" title="Launchpad">⊞</span>
+            <span class="menubar-icon" id="missionControlBtn" title="Mission Control">☰</span>
+            <span class="menubar-icon" id="spotlightBtn" title="Search (⌘K)">🔍</span>
+            <span class="menubar-icon" id="menubarThemeToggle">☀️</span>
+            <span class="menubar-time" id="menubarTime">9:41 AM</span>
+        </div>
+    </header>
+
     <!-- Desktop Environment -->
     <div class="desktop">
 
+        <!-- Desktop Widget (Top Left) -->
+        <div class="desktop-widget">
+            <div class="desktop-widget-row">
+                <span class="desktop-widget-name">Kevin Middleton</span>
+                <div class="desktop-widget-weather">
+                    <span class="desktop-weather-icon" id="desktopWeatherIcon">--</span>
+                    <span class="desktop-weather-temp" id="desktopWeatherTemp">--°</span>
+                </div>
+            </div>
+            <div class="desktop-widget-title">Full-Stack Product Manager</div>
+            <div class="desktop-widget-location">New York, NY</div>
+            <div class="desktop-widget-tagline">"I make complex work feel simple."</div>
+        </div>
+
         <!-- Desktop Icons (Fun/Utility) - Right Side -->
         <nav class="desktop-icons desktop-icons-right">
-            <!-- Theme Toggle -->
-            <button class="desktop-icon" id="themeToggle">
-                <span class="icon-emoji" id="themeIcon">☀️</span>
-                <span class="icon-label">theme.sh</span>
-            </button>
-
             <!-- Music Player Icon -->
             <button class="desktop-icon" id="musicIcon">
                 <span class="icon-emoji">🎵</span>
@@ -83,40 +127,6 @@
         <!-- Windows Container -->
         <main class="windows-area">
 
-            <!-- README.md -->
-            <section class="window window-open" id="readme" data-window="readme">
-                <header class="window-header">
-                    <div class="window-dots">
-                        <button class="window-dot red" data-action="close"></button>
-                        <button class="window-dot yellow" data-action="minimize"></button>
-                        <button class="window-dot green" data-action="maximize"></button>
-                    </div>
-                    <div class="window-title">
-                        <span class="window-icon">📄</span>
-                        README.md
-                        <span class="file-badge md">MD</span>
-                    </div>
-                    <span class="window-path">~/kevin/</span>
-                </header>
-                <div class="window-content hero-content">
-                    <pre class="hero-ascii">
-██╗  ██╗███████╗██╗   ██╗██╗███╗   ██╗ ██████╗ ███████╗
-██║ ██╔╝██╔════╝██║   ██║██║████╗  ██║██╔═══██╗██╔════╝
-█████╔╝ █████╗  ██║   ██║██║██╔██╗ ██║██║   ██║███████╗
-██╔═██╗ ██╔══╝  ╚██╗ ██╔╝██║██║╚██╗██║██║   ██║╚════██║
-██║  ██╗███████╗ ╚████╔╝ ██║██║ ╚████║╚██████╔╝███████║
-╚═╝  ╚═╝╚══════╝  ╚═══╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝</pre>
-                    <h1 class="hero-name">Kevin Middleton</h1>
-                    <p class="hero-title">Full-Stack Product Manager · New York, NY</p>
-                    <p class="hero-tagline">I make complex work feel simple.</p>
-                    <div class="hero-btns">
-                        <a href="#experience" class="btn btn-primary hero-link" data-open="experience">📁 Browse
-                            Experience</a>
-                        <a href="#about" class="btn btn-secondary hero-link" data-open="about">👤 View Profile</a>
-                    </div>
-                </div>
-            </section>
-
             <!-- seeking.query -->
             <section class="window" id="seeking" data-window="seeking">
                 <header class="window-header">
@@ -126,8 +136,9 @@
                         <button class="window-dot green" data-action="maximize"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🔍</span>
-                        seeking.query
+                        <span class="window-icon">🎯</span>
+                        ideal_match.sql
+                        <span class="file-badge sql">SQL</span>
                     </div>
                     <span class="window-path">~/kevin/</span>
                 </header>
@@ -145,6 +156,38 @@
                     </div>
                     <p class="query-note">I thrive in teams that care about thoughtful collaboration and steady
                         momentum.</p>
+
+                    <!-- Mobile-only enhanced content -->
+                    <div class="seeking-mobile-content">
+                        <div class="seeking-header">
+                            <h2>What I'm Looking For</h2>
+                            <p>Work that spans people, process, and product.</p>
+                        </div>
+
+                        <div class="seeking-section">
+                            <h3>Primary</h3>
+                            <div class="seeking-tags">
+                                <span class="seeking-tag primary">Product Management</span>
+                                <span class="seeking-tag primary">Internal Tools</span>
+                                <span class="seeking-tag primary">Platforms</span>
+                            </div>
+                        </div>
+
+                        <div class="seeking-section">
+                            <h3>Also</h3>
+                            <div class="seeking-tags">
+                                <span class="seeking-tag secondary">Product Operations</span>
+                                <span class="seeking-tag secondary">Marketing Operations</span>
+                                <span class="seeking-tag secondary">Consulting</span>
+                            </div>
+                        </div>
+
+                        <div class="seeking-footer">
+                            <p>I thrive in teams that care about thoughtful collaboration and steady momentum.</p>
+                        </div>
+
+                        <a href="mailto:kevin@middleton.io" class="seeking-cta">Get in Touch</a>
+                    </div>
                 </div>
             </section>
 
@@ -158,8 +201,8 @@
                     </div>
                     <div class="window-title">
                         <span class="window-icon">👤</span>
-                        profile.yaml
-                        <span class="file-badge yaml">YAML</span>
+                        kevin.vcf
+                        <span class="file-badge vcf">VCF</span>
                     </div>
                     <span class="window-path">~/kevin/</span>
                 </header>
@@ -175,7 +218,7 @@
                                     <img src="https://middleton.io/images/cat-illustration.png" alt="Cat illustration"
                                         class="profile-thumb" data-photo="cat-illustration"
                                         data-photo-src="https://middleton.io/images/cat-illustration.png"
-                                        data-photo-title="The Cats (Illustrated)">
+                                        data-photo-title="Cat + Dad">
                                     <img src="https://middleton.io/images/carne-asada-fries-homemade.jpg"
                                         alt="Homemade carne asada fries" class="profile-thumb" data-photo="carne-asada"
                                         data-photo-src="https://middleton.io/images/carne-asada-fries-homemade.jpg"
@@ -216,9 +259,9 @@
                         <button class="window-dot green" data-action="maximize"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">⚙️</span>
-                        .values
-                        <span class="file-badge config">CONFIG</span>
+                        <span class="window-icon">🧭</span>
+                        values.json
+                        <span class="file-badge json">JSON</span>
                     </div>
                     <span class="window-path">~/kevin/</span>
                 </header>
@@ -266,7 +309,7 @@
                         <button class="window-dot green" data-action="maximize"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">📁</span>
+                        <span class="window-icon">👨🏻‍💻</span>
                         experience/
                     </div>
                     <span class="window-path">~/kevin/</span>
@@ -731,7 +774,7 @@
                         <button class="window-dot green" data-action="maximize"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">💻</span>
+                        <span class="window-icon">⚙️</span>
                         skills.config
                         <span class="file-badge config">CONFIG</span>
                     </div>
@@ -823,7 +866,7 @@
                         <p class="log-quote">"Kevin brings structure without killing creativity, clarity without slowing
                             momentum, and a rare ability to help teams move faster together."</p>
                         <div class="log-author"><span class="log-name">Matt Triplett</span><span
-                                class="log-badge">Manager</span><span class="log-role">— Product Leader</span></div>
+                                class="log-badge">Former Manager</span><span class="log-role">— Product Leader</span></div>
                     </div>
                     <div class="log-footer"><a
                             href="https://www.linkedin.com/in/kevinmiddleton/details/recommendations/"
@@ -840,7 +883,7 @@
                         <button class="window-dot green" data-action="maximize"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">📧</span>
+                        <span class="window-icon">📟</span>
                         connect.sh
                         <span class="file-badge sh">SH</span>
                     </div>
@@ -1398,11 +1441,18 @@
                     </div>
                     <span class="window-path">~/kevin/kitchen/</span>
                 </header>
+                <!-- Mobile header for iOS-style navigation -->
+                <header class="recipes-mobile-header">
+                    <button class="recipes-mobile-close" onclick="closeWindow('recipesdb')">✕</button>
+                    <h1 class="recipes-mobile-title">Recipes</h1>
+                    <span class="recipes-mobile-spacer"></span>
+                </header>
                 <div class="window-content">
                     <div class="db-toolbar">
                         <span class="db-query">SELECT * FROM recipes ORDER BY title ASC;</span>
                         <span class="db-count" id="dbRecipeCount">0 rows</span>
                     </div>
+                    <!-- Desktop: Table view -->
                     <div class="db-table-wrapper">
                         <table class="db-table">
                             <thead>
@@ -1419,9 +1469,12 @@
                             </tbody>
                         </table>
                     </div>
+                    <!-- Mobile: Photos-style grid -->
+                    <div class="recipes-photo-grid" id="recipesPhotoGrid"></div>
+                    <!-- Detail view (shared) -->
                     <div class="db-detail" id="dbRecipeDetail" style="display: none;">
                         <div class="db-detail-header">
-                            <button class="db-back-btn" id="dbBackBtn">← Back to results</button>
+                            <button class="db-back-btn" id="dbBackBtn">← Back</button>
                             <span class="db-detail-query">SELECT * FROM recipes WHERE id = <span id="dbDetailId">1</span>;</span>
                         </div>
                         <div class="db-detail-content" id="dbDetailContent"></div>
@@ -1430,24 +1483,183 @@
             </section>
 
         </main>
+
+        <!-- Mobile Icon Grid (visible only on mobile) -->
+        <header class="mobile-header">
+            <span class="mobile-time" id="mobileTime">9:41</span>
+            <button class="mobile-theme-toggle" id="mobileThemeToggle">
+                <span class="toggle-knob">
+                    <span class="theme-icon" id="mobileThemeIcon">☀️</span>
+                </span>
+            </button>
+        </header>
+
+        <!-- iOS-style Widget -->
+        <div class="mobile-widget">
+            <div class="widget-row">
+                <div class="widget-left">
+                    <div class="widget-status">
+                        <span class="widget-badge">Open to Work</span>
+                        <span class="widget-location">New York, NY</span>
+                    </div>
+                    <div class="widget-name">Kevin Middleton</div>
+                    <div class="widget-title">Full-Stack Product Manager</div>
+                </div>
+                <div class="widget-weather" id="widgetWeather">
+                    <span class="weather-icon" id="weatherIcon">--</span>
+                    <span class="weather-temp" id="weatherTemp">--°</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="mobile-icon-grid">
+            <!-- Primary: Who I am -->
+            <button class="mobile-grid-icon" data-mobile-open="about">
+                <span class="icon-emoji">👤</span>
+                <span class="icon-label">Profile</span>
+            </button>
+            <button class="mobile-grid-icon" data-mobile-open="seeking">
+                <span class="icon-emoji">🎯</span>
+                <span class="icon-label">Seeking</span>
+            </button>
+            <button class="mobile-grid-icon" data-mobile-open="values">
+                <span class="icon-emoji">🧭</span>
+                <span class="icon-label">Values</span>
+            </button>
+            <!-- Secondary: What I've done -->
+            <button class="mobile-grid-icon" data-mobile-open="experience">
+                <span class="icon-emoji">👨🏻‍💻</span>
+                <span class="icon-label">Experience</span>
+            </button>
+            <button class="mobile-grid-icon" data-mobile-open="projects">
+                <span class="icon-emoji">📊</span>
+                <span class="icon-label">Projects</span>
+            </button>
+            <button class="mobile-grid-icon" data-mobile-open="skills">
+                <span class="icon-emoji">⚙️</span>
+                <span class="icon-label">Skills</span>
+            </button>
+            <button class="mobile-grid-icon" data-mobile-open="recommendations">
+                <span class="icon-emoji">💬</span>
+                <span class="icon-label">Reviews</span>
+            </button>
+            <!-- Apps folder opens popup -->
+            <button class="mobile-grid-icon" id="springboardAppsFolder">
+                <span class="icon-emoji apps-folder-icon"><span class="folder-mini-grid"><span>🎮</span><span>🎵</span><span>🍳</span><span></span></span></span>
+                <span class="icon-label">Apps</span>
+            </button>
+        </nav>
+
+        <!-- Recycle Bin Window -->
+        <div class="recycle-window" id="recycleWindow" style="display: none;">
+            <div class="recycle-header">
+                <div class="window-dots">
+                    <button class="window-dot red" id="closeRecycle"></button>
+                    <span class="window-dot yellow"></span>
+                    <span class="window-dot green"></span>
+                </div>
+                <div class="recycle-title">🗑️ Recycle Bin</div>
+            </div>
+            <div class="recycle-content">
+                <div class="recycle-file" id="recycleNote">
+                    <span class="recycle-file-icon">📝</span>
+                    <span class="recycle-file-name">note-to-you.txt</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notepad Window (inside recycle bin) -->
+        <div class="notepad-window" id="notepadWindow" style="display: none;">
+            <div class="notepad-header">
+                <div class="window-dots">
+                    <button class="window-dot red" id="closeNotepad"></button>
+                    <span class="window-dot yellow"></span>
+                    <span class="window-dot green"></span>
+                </div>
+                <div class="notepad-title">📝 note-to-you.txt</div>
+            </div>
+            <div class="notepad-content">
+                <p class="notepad-heading">🗑️ You found the trash.</p>
+                <p>Most people don't look here. I like that you did.</p>
+                <p>Here's what I threw away while building this: about 40 hours of self-doubt, a few drafts that tried too hard, and the voice that said "this is too much." I kept the parts that felt like me.</p>
+                <p>Sometimes the best stuff is in the bin: old ideas, weird experiments, the things that didn't fit anywhere else.</p>
+                <p>You're curious. I like that. You're probably the type I'd want to work with.</p>
+                <p class="notepad-signature">— Kevin</p>
+                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="notepad-cta">Let's talk →</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Apps folder popup - iPhone style -->
+    <div class="mobile-folder-backdrop" id="mobileAppsBackdrop"></div>
+    <div class="mobile-folder-popup" id="mobileAppsFolder">
+        <div class="mobile-folder-header">
+            <span class="mobile-folder-title">Apps</span>
+        </div>
+        <div class="mobile-folder-grid">
+            <button class="mobile-folder-item" id="mobileGamesBtn">
+                <span class="icon-emoji">🎮</span>
+                <span class="icon-label">Games</span>
+            </button>
+            <button class="mobile-folder-item" id="mobileMusicBtn">
+                <span class="icon-emoji">🎵</span>
+                <span class="icon-label">Music</span>
+            </button>
+            <button class="mobile-folder-item" data-window="recipesdb">
+                <span class="icon-emoji">🍳</span>
+                <span class="icon-label">Recipes</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Games sub-folder (nested) -->
+    <div class="mobile-folder-backdrop" id="mobileGamesBackdrop"></div>
+    <div class="mobile-folder-popup" id="mobileGamesFolder">
+        <div class="mobile-folder-header">
+            <span class="mobile-folder-title">Games</span>
+        </div>
+        <div class="mobile-folder-grid">
+            <button class="mobile-folder-item" data-game="invaders">
+                <span class="icon-emoji">👾</span>
+                <span class="icon-label">Invaders</span>
+            </button>
+            <button class="mobile-folder-item" data-game="tetris">
+                <span class="icon-emoji">🧱</span>
+                <span class="icon-label">Tetris</span>
+            </button>
+            <button class="mobile-folder-item" data-game="bugsquash">
+                <span class="icon-emoji">🐛</span>
+                <span class="icon-label">Bug Squash</span>
+            </button>
+            <button class="mobile-folder-item" data-game="runner">
+                <span class="icon-emoji">🏃</span>
+                <span class="icon-label">Runner</span>
+            </button>
+            <button class="mobile-folder-item" data-game="snake">
+                <span class="icon-emoji">🐍</span>
+                <span class="icon-label">Snake</span>
+            </button>
+            <button class="mobile-folder-item" data-game="standup">
+                <span class="icon-emoji">⌨️</span>
+                <span class="icon-label">Standup</span>
+            </button>
+        </div>
     </div>
 
     <!-- macOS-style Dock (outside desktop for party mode) -->
     <nav class="dock" id="dock">
-        <button class="dock-item active" data-window="readme" data-tooltip="README.md">
-            <span class="dock-emoji">📄</span>
-        </button>
-        <button class="dock-item" data-window="seeking" data-tooltip="seeking.query">
-            <span class="dock-emoji">🔍</span>
-        </button>
-        <button class="dock-item" data-window="about" data-tooltip="profile.yaml">
+        <button class="dock-item" data-window="about" data-tooltip="kevin.vcf">
             <span class="dock-emoji">👤</span>
         </button>
-        <button class="dock-item" data-window="values" data-tooltip=".values">
-            <span class="dock-emoji">⚙️</span>
+        <button class="dock-item" data-window="seeking" data-tooltip="ideal_match.sql">
+            <span class="dock-emoji">🎯</span>
+        </button>
+        <button class="dock-item" data-window="values" data-tooltip="values.json">
+            <span class="dock-emoji">🧭</span>
         </button>
         <button class="dock-item" data-window="experience" data-tooltip="experience/">
-            <span class="dock-emoji">📁</span>
+            <span class="dock-emoji">👨🏻‍💻</span>
         </button>
         
         <div class="dock-divider"></div>
@@ -1456,38 +1668,51 @@
             <span class="dock-emoji">📊</span>
         </button>
         <button class="dock-item" data-window="skills" data-tooltip="skills.config">
-            <span class="dock-emoji">💻</span>
+            <span class="dock-emoji">⚙️</span>
         </button>
         <button class="dock-item" data-window="recommendations" data-tooltip="reviews.log">
             <span class="dock-emoji">💬</span>
         </button>
-        <button class="dock-item" data-window="games" data-tooltip="games/">
+        <button class="dock-item desktop-only" data-window="games" data-tooltip="games/">
             <span class="dock-emoji">🎮</span>
         </button>
-        
+        <!-- Mobile Apps folder trigger -->
+        <button class="dock-item mobile-only" id="dockAppsFolder" data-tooltip="Apps">
+            <span class="dock-emoji dock-folder-icon">
+                <span class="folder-mini-grid">
+                    <span>🎮</span>
+                    <span>🎵</span>
+                    <span>🍳</span>
+                    <span></span>
+                </span>
+            </span>
+        </button>
+
         <div class="dock-divider"></div>
         
         <button class="dock-item" data-window="connect" data-tooltip="connect.sh">
-            <span class="dock-emoji">📧</span>
+            <span class="dock-emoji">📟</span>
         </button>
         <a class="dock-item plausible-event-name=Resume+Download" data-tooltip="resume.pdf"
             href="https://raw.githubusercontent.com/kevinmmiddleton/about/main/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2001-06-2026.pdf"
             download>
-            <span class="dock-emoji">📥</span>
+            <span class="dock-emoji">📄</span>
         </a>
     </nav>
 
     <!-- Floating Music Player (outside desktop for party mode) -->
     <div class="music-player" id="musicPlayer" style="display: none;">
+        <button class="mobile-dismiss" id="mobileClosePlayer">−</button>
         <div class="player-header">
             <div class="player-dots">
                 <button class="player-dot red" id="closePlayer"></button>
-                <span class="player-dot yellow"></span>
+                <button class="player-dot yellow" id="minimizePlayer"></button>
                 <span class="player-dot green"></span>
             </div>
             <div class="player-drag-area"></div>
         </div>
         <div class="player-info">
+            <div class="player-now-playing">NOW PLAYING</div>
             <div class="player-title">Select a track</div>
             <div class="player-artist"></div>
         </div>
@@ -1507,45 +1732,6 @@
 
     <!-- Photo Viewer Container (for dynamically created photo windows) -->
     <div id="photoWindows"></div>
-
-    <!-- Recycle Bin Window -->
-    <div class="recycle-window" id="recycleWindow" style="display: none;">
-        <div class="recycle-header">
-            <div class="window-dots">
-                <button class="window-dot red" id="closeRecycle"></button>
-                <span class="window-dot yellow"></span>
-                <span class="window-dot green"></span>
-            </div>
-            <div class="recycle-title">🗑️ Recycle Bin</div>
-        </div>
-        <div class="recycle-content">
-            <div class="recycle-file" id="recycleNote">
-                <span class="recycle-file-icon">📝</span>
-                <span class="recycle-file-name">note-to-you.txt</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notepad Window (inside recycle bin) -->
-    <div class="notepad-window" id="notepadWindow" style="display: none;">
-        <div class="notepad-header">
-            <div class="window-dots">
-                <button class="window-dot red" id="closeNotepad"></button>
-                <span class="window-dot yellow"></span>
-                <span class="window-dot green"></span>
-            </div>
-            <div class="notepad-title">📝 note-to-you.txt</div>
-        </div>
-        <div class="notepad-content">
-            <p class="notepad-heading">🗑️ You found the trash.</p>
-            <p>Most people don't look here. I like that you did.</p>
-            <p>Here's what I threw away while building this: about 40 hours of self-doubt, a few drafts that tried too hard, and the voice that said "this is too much." I kept the parts that felt like me.</p>
-            <p>Sometimes the best stuff is in the bin: old ideas, weird experiments, the things that didn't fit anywhere else.</p>
-            <p>You're curious. I like that. You're probably the type I'd want to work with.</p>
-            <p class="notepad-signature">— Kevin</p>
-            <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="notepad-cta">Let's talk →</a>
-        </div>
-    </div>
 
     <!-- Virus Overlay -->
     <div class="virus-overlay" id="virusOverlay">
@@ -1579,20 +1765,83 @@
         </div>
     </div>
 
-    <!-- Taskbar -->
-    <footer class="taskbar">
-        <div class="taskbar-logo">💻 KevinOS</div>
-        <div class="taskbar-center"><span class="taskbar-status">● Open to Work</span></div>
-        <div class="taskbar-right"><span class="taskbar-time" id="time"></span></div>
-    </footer>
 
     <!-- Mobile Sticky Contact Bar -->
     <div class="mobile-contact-bar">
         <a href="/cdn-cgi/l/email-protection#432826352a2d032e2a27272f26372c2d6d2a2c" class="mobile-contact-btn"><span class="mobile-btn-icon">📧</span><span class="mobile-btn-label">Email</span></a>
-        <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="mobile-contact-btn"><span class="mobile-btn-icon">💼</span><span class="mobile-btn-label">LinkedIn</span></a>
+        <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="mobile-contact-btn"><span class="mobile-btn-icon">🤝</span><span class="mobile-btn-label">LinkedIn</span></a>
+        <a href="https://raw.githubusercontent.com/kevinmmiddleton/about/main/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2001-06-2026.pdf" download class="mobile-contact-btn plausible-event-name=Resume+Download"><span class="mobile-btn-icon">📄</span><span class="mobile-btn-label">Resume</span></a>
         <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="mobile-contact-btn mobile-contact-cta"><span class="mobile-btn-icon">📅</span><span class="mobile-btn-label">Let's Talk</span></a>
     </div>
 
+
+    <!-- Click Ripple Effect -->
+    <div class="click-ripple" id="clickRipple"></div>
+
+    <!-- Spotlight Search -->
+    <div class="spotlight-overlay" id="spotlightOverlay">
+        <div class="spotlight-container">
+            <div class="spotlight-search">
+                <span class="spotlight-icon">🔍</span>
+                <input type="text" class="spotlight-input" id="spotlightInput" placeholder="Search KevinOS..." autocomplete="off">
+                <span class="spotlight-shortcut">ESC</span>
+            </div>
+            <div class="spotlight-results" id="spotlightResults"></div>
+        </div>
+    </div>
+
+    <!-- Notification Center -->
+    <div class="notification-center" id="notificationCenter">
+        <div class="nc-header">
+            <span class="nc-title">Notifications</span>
+            <button class="nc-close" id="ncClose">×</button>
+        </div>
+        <div class="nc-content">
+            <div class="nc-widget">
+                <div class="nc-widget-header">Weather</div>
+                <div class="nc-weather">
+                    <span class="nc-weather-icon" id="ncWeatherIcon">--</span>
+                    <div class="nc-weather-details">
+                        <span class="nc-weather-temp" id="ncWeatherTemp">--°F</span>
+                        <span class="nc-weather-loc">New York, NY</span>
+                    </div>
+                </div>
+            </div>
+            <div class="nc-widget">
+                <div class="nc-widget-header">Quick Links</div>
+                <div class="nc-links">
+                    <a href="mailto:kevin@middleton.io" class="nc-link">📧 Email Me</a>
+                    <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="nc-link">💼 LinkedIn</a>
+                    <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="nc-link">📅 Schedule a Call</a>
+                </div>
+            </div>
+            <div class="nc-widget">
+                <div class="nc-widget-header">About Me</div>
+                <div class="nc-fact">
+                    <p>12+ years building consumer, enterprise, and platform SaaS products.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nc-backdrop" id="ncBackdrop"></div>
+
+    <!-- Launchpad -->
+    <div class="launchpad-overlay" id="launchpadOverlay">
+        <div class="launchpad-search">
+            <input type="text" class="launchpad-input" id="launchpadInput" placeholder="Search...">
+        </div>
+        <div class="launchpad-grid" id="launchpadGrid"></div>
+        <div class="launchpad-close-hint">Click anywhere or press ESC to close</div>
+    </div>
+
+    <!-- Mission Control -->
+    <div class="mission-control" id="missionControl">
+        <div class="mc-header">
+            <span class="mc-title">Mission Control</span>
+            <span class="mc-hint">Click a window to focus, or press ESC to exit</span>
+        </div>
+        <div class="mc-windows" id="mcWindows"></div>
+    </div>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="kevinos.js"></script>

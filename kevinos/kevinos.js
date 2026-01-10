@@ -1,56 +1,90 @@
-let zIndex = 10;
-let isFirstLoad = true;
+// ===================
+// BOOT LOADER
+// ===================
+window.addEventListener('load', () => {
+    const bootLoader = document.getElementById('bootLoader');
+    if (bootLoader) {
+        // Wait for progress bar animation to complete, then fade out
+        setTimeout(() => {
+            bootLoader.classList.add('hidden');
+        }, 1300);
+    }
+});
+
+let zIndex = 500;
+let currentlyDraggingWindow = null; // Track window being dragged for snap detection
 const windows = document.querySelectorAll('.window');
 const icons = document.querySelectorAll('.desktop-icon[data-window]');
 const dockItems = document.querySelectorAll('.dock-item[data-window]');
 const allNavItems = document.querySelectorAll('.desktop-icon[data-window], .dock-item[data-window]');
 
-// Position README window at top center on load
-const readmeWindow = document.getElementById('readme');
-if (readmeWindow) {
-    readmeWindow.style.top = '80px';
-    readmeWindow.style.left = '50%';
-    readmeWindow.style.transform = 'translateX(-50%)';
-}
 
 function openWindow(id) {
-    // On first load, close README if opening a different window
-    if (isFirstLoad && id !== 'readme') {
-        closeWindow('readme');
-        isFirstLoad = false;
-    }
     const win = document.querySelector(`.window[data-window="${id}"]`);
     if (!win) return;
     zIndex++;
     win.style.zIndex = zIndex;
+
     win.classList.add('window-open');
     win.classList.remove('window-minimized');
-    // Update active state on both icons and dock items
-    allNavItems.forEach(i => i.classList.toggle('active', i.dataset.window === id));
+    // Mark this window's dock/icon as active (don't remove others)
+    allNavItems.forEach(i => {
+        if (i.dataset.window === id) {
+            i.classList.add('active');
+        }
+    });
+    // Set focus on the opened window
+    if (typeof setWindowFocus === 'function') {
+        setWindowFocus(win);
+    }
 }
 
 function closeWindow(id) {
     const win = document.querySelector(`.window[data-window="${id}"]`);
     if (!win) return;
     win.classList.remove('window-open');
-    
+
     // Also clean up mobile state if this was a mobile-active game
     if (win.classList.contains('mobile-active-game')) {
         win.classList.remove('mobile-active-game');
         win.style.display = '';
-        
+
         // Show games folder again
         const gamesWin = document.getElementById('games');
         if (gamesWin) {
             gamesWin.classList.remove('mobile-hidden');
         }
     }
-    
+
+    // Clean up mobile recipes state if closing recipes on mobile
+    if (id === 'recipesdb' && window.innerWidth <= 768) {
+        const windowsArea = document.querySelector('.windows-area');
+        if (windowsArea && windowsArea.classList.contains('mobile-recipes-open')) {
+            windowsArea.style.removeProperty('display');
+            windowsArea.style.removeProperty('position');
+            windowsArea.style.removeProperty('inset');
+            windowsArea.style.removeProperty('z-index');
+            windowsArea.style.removeProperty('background');
+            windowsArea.classList.remove('mobile-recipes-open');
+            // Restore other windows' display
+            windowsArea.querySelectorAll('.window').forEach(w => {
+                w.style.removeProperty('display');
+            });
+            win.style.removeProperty('position');
+            win.style.removeProperty('inset');
+            win.style.removeProperty('width');
+            win.style.removeProperty('height');
+            win.style.removeProperty('max-height');
+            win.style.removeProperty('border-radius');
+            win.style.removeProperty('z-index');
+        }
+    }
+
     // Clear mobileActiveGame if it matches
     if (typeof mobileActiveGame !== 'undefined' && mobileActiveGame === id) {
         mobileActiveGame = null;
     }
-    
+
     allNavItems.forEach(i => {
         if (i.dataset.window === id) i.classList.remove('active');
     });
@@ -68,17 +102,57 @@ function minimizeWindow(id) {
 // Click handlers for both icons and dock items
 allNavItems.forEach(item => item.addEventListener('click', () => openWindow(item.dataset.window)));
 
+// Focus management for windows
+function setWindowFocus(focusedWin) {
+    windows.forEach(w => {
+        if (w === focusedWin) {
+            w.classList.add('window-focused');
+            w.classList.remove('window-inactive');
+        } else if (w.classList.contains('window-open')) {
+            w.classList.remove('window-focused');
+            w.classList.add('window-inactive');
+        }
+    });
+}
+
 windows.forEach(win => {
     win.addEventListener('mousedown', () => {
-        zIndex++;
-        win.style.zIndex = zIndex;
-        allNavItems.forEach(i => i.classList.toggle('active', i.dataset.window === win.dataset.window));
+        zIndex = Math.min(zIndex + 1, 549);
+        win.style.setProperty('z-index', zIndex, 'important');
+
+        // Always push recycle/notepad to back when any window is clicked
+        const recycleWin = document.getElementById('recycleWindow');
+        const notepadWin = document.getElementById('notepadWindow');
+        if (recycleWin) recycleWin.style.setProperty('z-index', '1', 'important');
+        if (notepadWin) notepadWin.style.setProperty('z-index', '1', 'important');
+
+        // Only add active class to this window's nav items (don't remove from others - they stay active while open)
+        allNavItems.forEach(i => {
+            if (i.dataset.window === win.dataset.window) i.classList.add('active');
+        });
+        setWindowFocus(win);
     });
     win.querySelectorAll('.window-dot').forEach(dot => {
         dot.addEventListener('click', e => {
             e.stopPropagation();
             if (dot.dataset.action === 'close') closeWindow(win.dataset.window);
             if (dot.dataset.action === 'minimize') minimizeWindow(win.dataset.window);
+            if (dot.dataset.action === 'maximize') {
+                // Toggle between maximized and normal size
+                if (win.classList.contains('snapped-top')) {
+                    win.classList.remove('snapped-top');
+                    win.style.top = '';
+                    win.style.left = '';
+                    win.style.width = '';
+                    win.style.height = '';
+                } else {
+                    win.classList.remove('snapped-left', 'snapped-right');
+                    win.classList.add('snapped-top');
+                    // Set initial position for maximized window
+                    win.style.top = '28px';
+                    win.style.left = '0px';
+                }
+            }
         });
     });
 
@@ -89,6 +163,7 @@ windows.forEach(win => {
 
     header.addEventListener('mousedown', e => {
         if (e.target.classList.contains('window-dot')) return;
+        e.preventDefault();
         isDragging = true;
         startX = e.clientX;
         startY = e.clientY;
@@ -96,6 +171,8 @@ windows.forEach(win => {
         startLeft = rect.left;
         startTop = rect.top;
         win.style.transition = 'none';
+        // Track this window for snap detection
+        currentlyDraggingWindow = win;
     });
 
     document.addEventListener('mousemove', e => {
@@ -147,21 +224,56 @@ dock.addEventListener('mouseleave', () => {
     });
 });
 
-// Handle data-open buttons - open window on desktop, scroll on mobile
+// Dock bounce animation on click
+dockItemsAll.forEach(item => {
+    item.addEventListener('click', () => {
+        item.classList.add('bouncing');
+        setTimeout(() => item.classList.remove('bouncing'), 500);
+    });
+});
+
+// ===================
+// DESKTOP ICON SELECTION
+// ===================
+let selectedIcon = null;
+
+icons.forEach(icon => {
+    // Single click to select
+    icon.addEventListener('click', (e) => {
+        // Remove selection from all icons
+        icons.forEach(i => i.classList.remove('selected'));
+        // Select this icon
+        icon.classList.add('selected');
+        selectedIcon = icon;
+    });
+
+    // Double click to open (in addition to existing behavior)
+    icon.addEventListener('dblclick', () => {
+        if (icon.dataset.window) {
+            openWindow(icon.dataset.window);
+        }
+    });
+});
+
+// Click on desktop to deselect icons
+document.querySelector('.desktop').addEventListener('click', (e) => {
+    if (e.target.classList.contains('desktop') || e.target.closest('.windows-area')) {
+        icons.forEach(i => i.classList.remove('selected'));
+        selectedIcon = null;
+    }
+});
+
+// Handle data-open buttons - open window on desktop, open overlay on mobile
 document.querySelectorAll('[data-open]').forEach(btn => {
     btn.addEventListener('click', (e) => {
-        const isMobile = window.innerWidth <= 768;
-        if (isMobile) {
-            // On mobile, scroll to the section
-            const target = document.getElementById(btn.dataset.open);
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
+        e.preventDefault();
+        const windowId = btn.dataset.open;
+        if (isMobile()) {
+            // On mobile, open the overlay
+            openMobileOverlay(windowId);
         } else {
             // On desktop, open the window
-            e.preventDefault();
-            openWindow(btn.dataset.open);
+            openWindow(windowId);
         }
     });
 });
@@ -176,7 +288,6 @@ const playlist = [
     { file: 'Baby One More Time - Britney Spears.mp3', title: 'Baby One More Time', artist: 'Britney Spears' },
     { file: 'Paparazzi - Lady Gaga.mp3', title: 'Paparazzi', artist: 'Lady Gaga' },
     { file: 'Shadow of a Man - Lady Gaga.mp3', title: 'Shadow of a Man', artist: 'Lady Gaga' },
-    { file: 'Good Form - Nicki Minaj + Lil Wayne.mp3', title: 'Good Form', artist: 'Nicki Minaj + Lil Wayne' },
     { file: 'Venus - Lady Gaga.mp3', title: 'Venus', artist: 'Lady Gaga' }
 ];
 
@@ -294,7 +405,7 @@ document.addEventListener('mouseup', () => {
     }
 });
 
-// Close player button
+// Close player button (desktop)
 document.getElementById('closePlayer').addEventListener('click', (e) => {
     e.stopPropagation();
     musicPlayer.style.display = 'none';
@@ -303,6 +414,28 @@ document.getElementById('closePlayer').addEventListener('click', (e) => {
     playBtn.textContent = '▶';
     document.getElementById('musicIcon').classList.remove('active');
 });
+
+// Minimize player button (desktop) - also closes
+document.getElementById('minimizePlayer').addEventListener('click', (e) => {
+    e.stopPropagation();
+    musicPlayer.style.display = 'none';
+    audio.pause();
+    isPlaying = false;
+    playBtn.textContent = '▶';
+    document.getElementById('musicIcon').classList.remove('active');
+});
+
+// Mobile dismiss button
+const mobileClosePlayer = document.getElementById('mobileClosePlayer');
+if (mobileClosePlayer) {
+    mobileClosePlayer.addEventListener('click', (e) => {
+        e.stopPropagation();
+        musicPlayer.style.display = 'none';
+        audio.pause();
+        isPlaying = false;
+        playBtn.textContent = '▶';
+    });
+}
 
 // Music icon toggle
 document.getElementById('musicIcon').addEventListener('click', () => {
@@ -326,7 +459,17 @@ document.getElementById('musicIcon').addEventListener('click', () => {
 const recycleWindow = document.getElementById('recycleWindow');
 const notepadWindow = document.getElementById('notepadWindow');
 const recycleNote = document.getElementById('recycleNote');
-let recycleZIndex = 600;
+
+// Helper to get next z-index (capped below mission control/launchpad at 550)
+function getNextZIndex() {
+    zIndex = Math.min(zIndex + 1, 549);
+    return zIndex;
+}
+
+// Bring a window to front (works for any window element)
+function bringToFront(winElement) {
+    winElement.style.zIndex = getNextZIndex();
+}
 
 document.getElementById('recycleBin').addEventListener('click', () => {
     const virusOverlay = document.getElementById('virusOverlay');
@@ -343,16 +486,14 @@ document.getElementById('recycleBin').addEventListener('click', () => {
         document.body.style.filter = '';
         alert('🗑️ System restored! Files recovered from Recycle Bin. 🎉');
     } else {
-        recycleZIndex++;
-        recycleWindow.style.zIndex = recycleZIndex;
+        recycleWindow.style.zIndex = getNextZIndex();
         recycleWindow.style.display = 'block';
     }
 });
 
 if (recycleNote) {
     recycleNote.addEventListener('click', () => {
-        recycleZIndex++;
-        notepadWindow.style.zIndex = recycleZIndex;
+        notepadWindow.style.zIndex = getNextZIndex();
         notepadWindow.style.display = 'block';
     });
 }
@@ -365,22 +506,14 @@ document.getElementById('closeNotepad').addEventListener('click', () => {
     notepadWindow.style.display = 'none';
 });
 
-recycleWindow.addEventListener('mousedown', () => {
-    recycleZIndex++;
-    recycleWindow.style.zIndex = recycleZIndex;
-});
-
-notepadWindow.addEventListener('mousedown', () => {
-    recycleZIndex++;
-    notepadWindow.style.zIndex = recycleZIndex;
-});
-
 const recycleHeader = document.querySelector('.recycle-header');
 let recycleDragging = false;
 let recycleStartX, recycleStartY, recycleStartLeft, recycleStartTop;
 
 recycleHeader.addEventListener('mousedown', e => {
     if (e.target.classList.contains('window-dot')) return;
+    e.preventDefault();
+    recycleWindow.style.zIndex = getNextZIndex();
     recycleDragging = true;
     recycleStartX = e.clientX;
     recycleStartY = e.clientY;
@@ -409,6 +542,8 @@ let notepadStartX, notepadStartY, notepadStartLeft, notepadStartTop;
 
 notepadHeader.addEventListener('mousedown', e => {
     if (e.target.classList.contains('window-dot')) return;
+    e.preventDefault();
+    notepadWindow.style.zIndex = getNextZIndex();
     notepadDragging = true;
     notepadStartX = e.clientX;
     notepadStartY = e.clientY;
@@ -694,8 +829,6 @@ function closeLightboxOnEscape(e) {
 // ===================
 // THEME TOGGLE
 // ===================
-const themeToggle = document.getElementById('themeToggle');
-const themeIcon = document.getElementById('themeIcon');
 const root = document.documentElement;
 
 // Check system preference
@@ -706,7 +839,17 @@ function getSystemTheme() {
 // Apply theme
 function applyTheme(theme) {
     root.dataset.theme = theme;
-    themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+    const icon = theme === 'light' ? '🌙' : '☀️';
+    // Update mobile theme icon
+    const mobileThemeIcon = document.getElementById('mobileThemeIcon');
+    if (mobileThemeIcon) {
+        mobileThemeIcon.textContent = icon;
+    }
+    // Update menubar theme icon
+    const menubarThemeToggle = document.getElementById('menubarThemeToggle');
+    if (menubarThemeToggle) {
+        menubarThemeToggle.textContent = icon;
+    }
 }
 
 // On load: always start with system preference
@@ -717,14 +860,252 @@ window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e
     applyTheme(e.matches ? 'light' : 'dark');
 });
 
-// Toggle button - temporary override until system changes again
-themeToggle.addEventListener('click', () => {
-    const current = root.dataset.theme;
-    applyTheme(current === 'light' ? 'dark' : 'light');
+// Mobile theme toggle
+const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+if (mobileThemeToggle) {
+    mobileThemeToggle.addEventListener('click', () => {
+        const current = root.dataset.theme;
+        applyTheme(current === 'light' ? 'dark' : 'light');
+    });
+}
+
+// Menubar theme toggle
+const menubarThemeToggle = document.getElementById('menubarThemeToggle');
+if (menubarThemeToggle) {
+    menubarThemeToggle.addEventListener('click', () => {
+        const current = root.dataset.theme;
+        applyTheme(current === 'light' ? 'dark' : 'light');
+    });
+}
+
+// Mobile party button
+const mobilePartyBtn = document.getElementById('mobilePartyBtn');
+if (mobilePartyBtn) {
+    mobilePartyBtn.addEventListener('click', () => {
+        // Trigger the same party mode as desktop
+        document.getElementById('partyBtn').click();
+        // Close the folder after triggering party
+        closeMobileSecretFolder();
+    });
+}
+
+// Mobile secret folder toggle
+const mobileSecretBtn = document.getElementById('mobileSecretBtn');
+const mobileHiddenFolder = document.getElementById('mobileHiddenFolder');
+const mobileHiddenBackdrop = document.getElementById('mobileHiddenBackdrop');
+
+function openMobileSecretFolder() {
+    if (mobileHiddenFolder && mobileHiddenBackdrop) {
+        mobileHiddenBackdrop.classList.add('active');
+        mobileHiddenFolder.classList.add('open');
+    }
+}
+
+function closeMobileSecretFolder() {
+    if (mobileHiddenFolder && mobileHiddenBackdrop) {
+        mobileHiddenBackdrop.classList.remove('active');
+        mobileHiddenFolder.classList.remove('open');
+    }
+}
+
+if (mobileSecretBtn) {
+    mobileSecretBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (mobileHiddenFolder && mobileHiddenFolder.classList.contains('open')) {
+            closeMobileSecretFolder();
+        } else {
+            openMobileSecretFolder();
+        }
+    });
+}
+
+if (mobileHiddenBackdrop) {
+    mobileHiddenBackdrop.addEventListener('click', closeMobileSecretFolder);
+}
+
+// Close folder after theme toggle too
+if (mobileThemeToggle) {
+    mobileThemeToggle.addEventListener('click', () => {
+        closeMobileSecretFolder();
+    });
+}
+
+// Mobile Apps folder (iPhone-style popup)
+const dockAppsFolder = document.getElementById('dockAppsFolder');
+const mobileAppsFolder = document.getElementById('mobileAppsFolder');
+const mobileAppsBackdrop = document.getElementById('mobileAppsBackdrop');
+
+// Mobile Games sub-folder
+const mobileGamesBtn = document.getElementById('mobileGamesBtn');
+const mobileMusicBtn = document.getElementById('mobileMusicBtn');
+const mobileGamesFolder = document.getElementById('mobileGamesFolder');
+const mobileGamesBackdrop = document.getElementById('mobileGamesBackdrop');
+
+function openMobileAppsFolder() {
+    if (mobileAppsFolder && mobileAppsBackdrop) {
+        mobileAppsBackdrop.classList.add('active');
+        mobileAppsFolder.classList.add('open');
+    }
+}
+
+function closeMobileAppsFolder() {
+    if (mobileAppsFolder && mobileAppsBackdrop) {
+        mobileAppsBackdrop.classList.remove('active');
+        mobileAppsFolder.classList.remove('open');
+    }
+}
+
+function openMobileGamesFolder() {
+    // Close apps folder first
+    closeMobileAppsFolder();
+    if (mobileGamesFolder && mobileGamesBackdrop) {
+        setTimeout(() => {
+            mobileGamesBackdrop.classList.add('active');
+            mobileGamesFolder.classList.add('open');
+        }, 100);
+    }
+}
+
+function closeMobileGamesFolder() {
+    if (mobileGamesFolder && mobileGamesBackdrop) {
+        mobileGamesBackdrop.classList.remove('active');
+        mobileGamesFolder.classList.remove('open');
+    }
+}
+
+// Dock Apps folder trigger (desktop dock - unused on mobile)
+if (dockAppsFolder) {
+    dockAppsFolder.addEventListener('click', (e) => {
+        e.preventDefault();
+        openMobileAppsFolder();
+    });
+}
+
+// Mobile contact bar Apps folder trigger
+const mobileAppsFolderBtn = document.getElementById('mobileAppsFolderBtn');
+if (mobileAppsFolderBtn) {
+    mobileAppsFolderBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openMobileAppsFolder();
+    });
+}
+
+// Springboard Apps folder trigger
+const springboardAppsFolder = document.getElementById('springboardAppsFolder');
+if (springboardAppsFolder) {
+    springboardAppsFolder.addEventListener('click', (e) => {
+        e.preventDefault();
+        openMobileAppsFolder();
+    });
+}
+
+// Apps folder backdrop closes it
+if (mobileAppsBackdrop) {
+    mobileAppsBackdrop.addEventListener('click', closeMobileAppsFolder);
+}
+
+// Games button opens games sub-folder
+if (mobileGamesBtn) {
+    mobileGamesBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openMobileGamesFolder();
+    });
+}
+
+// Music button opens music player
+if (mobileMusicBtn) {
+    mobileMusicBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeMobileAppsFolder();
+        setTimeout(() => {
+            if (musicPlayer) {
+                musicPlayer.style.display = 'block';
+            }
+        }, 100);
+    });
+}
+
+// Games folder backdrop closes it
+if (mobileGamesBackdrop) {
+    mobileGamesBackdrop.addEventListener('click', closeMobileGamesFolder);
+}
+
+// Open recipes on mobile with proper fullscreen handling
+function openMobileRecipes() {
+    const recipesWindow = document.getElementById('recipesdb');
+    const windowsArea = document.querySelector('.windows-area');
+
+    if (window.innerWidth <= 768) {
+        // First, prepare everything while hidden
+        if (recipesWindow) {
+            // Add class for mobile state before showing
+            recipesWindow.classList.add('mobile-fullscreen-ready');
+            recipesWindow.style.setProperty('opacity', '0', 'important');
+        }
+
+        if (windowsArea) {
+            windowsArea.style.setProperty('display', 'block', 'important');
+            windowsArea.style.setProperty('position', 'fixed', 'important');
+            windowsArea.style.setProperty('inset', '0', 'important');
+            windowsArea.style.setProperty('z-index', '1000', 'important');
+            windowsArea.style.setProperty('background', 'var(--bg)', 'important');
+            windowsArea.classList.add('mobile-recipes-open');
+
+            // Hide all other windows
+            windowsArea.querySelectorAll('.window').forEach(win => {
+                if (win.id !== 'recipesdb') {
+                    win.style.setProperty('display', 'none', 'important');
+                }
+            });
+        }
+
+        if (recipesWindow) {
+            recipesWindow.style.setProperty('display', 'flex', 'important');
+            recipesWindow.style.setProperty('position', 'fixed', 'important');
+            recipesWindow.style.setProperty('inset', '0', 'important');
+            recipesWindow.style.setProperty('width', '100%', 'important');
+            recipesWindow.style.setProperty('height', '100%', 'important');
+            recipesWindow.style.setProperty('max-height', '100%', 'important');
+            recipesWindow.style.setProperty('border-radius', '0', 'important');
+            recipesWindow.style.setProperty('z-index', '1001', 'important');
+            recipesWindow.classList.add('window-open');
+
+            // Now reveal after everything is set up
+            requestAnimationFrame(() => {
+                recipesWindow.style.setProperty('opacity', '1', 'important');
+                recipesWindow.classList.remove('mobile-fullscreen-ready');
+            });
+        }
+    } else {
+        openWindow('recipesdb');
+    }
+}
+
+// Handle Recipes click in Apps folder
+document.querySelectorAll('#mobileAppsFolder .mobile-folder-item[data-window="recipesdb"]').forEach(item => {
+    item.addEventListener('click', () => {
+        closeMobileAppsFolder();
+        setTimeout(() => openMobileRecipes(), 100);
+    });
+});
+
+// Handle game item clicks in the folder
+document.querySelectorAll('.mobile-folder-item[data-game]').forEach(item => {
+    item.addEventListener('click', () => {
+        const gameId = item.dataset.game;
+        closeMobileGamesFolder();
+        // Small delay for folder close animation, then open game
+        setTimeout(() => openGameOverlay(gameId), 150);
+    });
 });
 
 function updateTime() {
-    document.getElementById('time').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    const now = new Date();
+    // Menu bar time (macOS format: "9:41 AM")
+    const menubarTime = document.getElementById('menubarTime');
+    if (menubarTime) {
+        menubarTime.textContent = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    }
 }
 updateTime();
 setInterval(updateTime, 60000);
@@ -801,7 +1182,11 @@ document.querySelectorAll('.folder-item[data-window]').forEach(item => {
 document.querySelectorAll('.see-all-games').forEach(btn => {
     btn.addEventListener('click', () => {
         if (isMobile()) {
-            returnToGamesFolder();
+            // Close the current game and return to games folder popup
+            const gameWindow = btn.closest('.game-window');
+            if (gameWindow) {
+                closeGameOverlay(gameWindow.id);
+            }
         } else {
             // On desktop, close current game and open games folder
             const gameWindow = btn.closest('.game-window');
@@ -3499,69 +3884,99 @@ function parseRecipeInstructions(raw) {
 function renderDbView() {
     const tbody = document.getElementById('dbRecipeRows');
     const countEl = document.getElementById('dbRecipeCount');
-    
+    const photoGrid = document.getElementById('recipesPhotoGrid');
+
     if (!tbody) return;
-    
+
     // Sort by title ASC
     const sortedRecipes = [...kevinRecipes].sort((a, b) => a.title.localeCompare(b.title));
-    
+
     countEl.textContent = `${sortedRecipes.length} rows`;
-    
+
+    // Desktop table view
     tbody.innerHTML = sortedRecipes.map((recipe, index) => `
         <tr data-recipe-id="${recipe.id}">
-            <td class="db-col-id">${index + 1}</td>
+            <td class="db-col-id">${recipe.id}</td>
             <td class="db-col-title">${recipe.title}</td>
             <td class="db-col-tags">${recipe.tags.map(t => `<span class="db-tag">${t}</span>`).join('')}</td>
             <td class="db-col-servings">${recipe.servings || '—'}</td>
             <td class="db-col-action"><span class="db-view-btn">→</span></td>
         </tr>
     `).join('');
-    
-    // Add click handlers
+
+    // Add click handlers for table
     tbody.querySelectorAll('tr').forEach(row => {
         row.addEventListener('click', () => {
             const id = parseInt(row.dataset.recipeId);
             showDbDetail(id);
         });
     });
+
+    // Mobile photo grid view - Pinterest style
+    if (photoGrid) {
+        photoGrid.innerHTML = sortedRecipes.map(recipe => `
+            <div class="recipe-photo-item" data-recipe-id="${recipe.id}">
+                ${recipe.photo
+                    ? `<img src="${recipe.photo}" alt="${recipe.title}" loading="lazy">`
+                    : `<div class="recipe-photo-placeholder">🍽️</div>`
+                }
+                <div class="recipe-photo-title">${recipe.title}</div>
+            </div>
+        `).join('');
+
+        // Add click handlers for photo grid
+        photoGrid.querySelectorAll('.recipe-photo-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const id = parseInt(item.dataset.recipeId);
+                showDbDetail(id);
+            });
+        });
+    }
 }
 
 function showDbDetail(id) {
     const recipe = kevinRecipes.find(r => r.id === id);
     if (!recipe) return;
-    
+
     const tableWrapper = document.querySelector('#recipesdb .db-table-wrapper');
     const toolbar = document.querySelector('#recipesdb .db-toolbar');
+    const photoGrid = document.getElementById('recipesPhotoGrid');
+    const mobileHeader = document.querySelector('#recipesdb .recipes-mobile-header');
     const detail = document.getElementById('dbRecipeDetail');
     const detailId = document.getElementById('dbDetailId');
     const content = document.getElementById('dbDetailContent');
-    
-    // Hide table, show detail
+
+    // Hide table/grid, show detail
     tableWrapper.style.display = 'none';
     toolbar.style.display = 'none';
+    if (photoGrid) photoGrid.style.display = 'none';
+    if (mobileHeader) mobileHeader.style.display = 'none';
     detail.style.display = 'block';
     detailId.textContent = id;
     
     const ingredientsHtml = parseRecipeIngredients(recipe.ingredientsRaw);
     const instructionsHtml = parseRecipeInstructions(recipe.instructionsRaw);
     
+    // Build meta line only if there's content
+    const metaParts = [];
+    if (recipe.servings) metaParts.push(`Serves ${recipe.servings}`);
+    if (recipe.source) metaParts.push(`<a href="${recipe.source}" target="_blank">Source</a>`);
+    const metaHtml = metaParts.length ? `<div class="db-detail-meta">${metaParts.join(' · ')}</div>` : '';
+
     content.innerHTML = `
         <div class="db-detail-header-row">
             ${recipe.photo ? `<img class="db-detail-img" src="${recipe.photo}" alt="${recipe.title}">` : ''}
             <div class="db-detail-header-info">
                 <h2 class="db-detail-title">${recipe.title}</h2>
-                <div class="db-detail-meta">
-                    ${recipe.servings ? `Serves ${recipe.servings}` : ''}
-                    ${recipe.source ? ` · <a href="${recipe.source}" target="_blank">Source</a>` : ''}
-                </div>
+                ${metaHtml}
             </div>
         </div>
-        ${recipe.intro ? `<div class="db-detail-intro">${recipe.intro}</div>` : ''}
+        ${recipe.intro ? `<p class="db-detail-intro">${recipe.intro}</p>` : ''}
         <h3>Ingredients</h3>
         ${ingredientsHtml}
         <h3>Instructions</h3>
         ${instructionsHtml}
-        ${recipe.notes ? `<div class="db-detail-notes"><strong>Notes:</strong> ${recipe.notes}</div>` : ''}
+        ${recipe.notes ? `<div class="db-detail-notes"><strong>Notes</strong>${recipe.notes}</div>` : ''}
     `;
 }
 
@@ -3571,10 +3986,15 @@ if (dbBackBtn) {
     dbBackBtn.addEventListener('click', () => {
         const tableWrapper = document.querySelector('#recipesdb .db-table-wrapper');
         const toolbar = document.querySelector('#recipesdb .db-toolbar');
+        const photoGrid = document.getElementById('recipesPhotoGrid');
+        const mobileHeader = document.querySelector('#recipesdb .recipes-mobile-header');
         const detail = document.getElementById('dbRecipeDetail');
-        
-        tableWrapper.style.display = 'block';
-        toolbar.style.display = 'flex';
+
+        // Show table (desktop) or photo grid (mobile)
+        tableWrapper.style.display = '';
+        toolbar.style.display = '';
+        if (photoGrid) photoGrid.style.display = '';
+        if (mobileHeader) mobileHeader.style.display = '';
         detail.style.display = 'none';
     });
 }
@@ -3583,17 +4003,140 @@ if (dbBackBtn) {
 // Load recipes on page load
 loadKevinRecipes();
 
-// Handle URL parameters to open specific windows
+// Handle URL parameters to open specific windows/games
 (function handleUrlParams() {
     const params = new URLSearchParams(window.location.search);
     const windowToOpen = params.get('open');
+
+    // Handle recipes
     if (windowToOpen === 'recipes' || windowToOpen === 'recipesdb') {
-        const recipesWindow = document.getElementById('recipesdb');
-        // On mobile, override the display:none !important
-        if (recipesWindow && window.innerWidth <= 768) {
-            recipesWindow.style.setProperty('display', 'flex', 'important');
+        setTimeout(() => openMobileRecipes(), 100);
+        return;
+    }
+
+    // Handle games - open the games folder or specific game
+    const validGames = ['invaders', 'tetris', 'bugsquash', 'runner', 'snake', 'standup'];
+    if (windowToOpen === 'games') {
+        // On mobile, open the games folder popup
+        if (window.innerWidth <= 768) {
+            setTimeout(() => openMobileGamesFolder(), 100);
+        } else {
+            setTimeout(() => openWindow('games'), 100);
         }
-        setTimeout(() => openWindow('recipesdb'), 100);
+        return;
+    }
+
+    // Handle specific game by name
+    if (validGames.includes(windowToOpen)) {
+        if (window.innerWidth <= 768) {
+            setTimeout(() => openGameOverlay(windowToOpen), 100);
+        } else {
+            setTimeout(() => {
+                openWindow('games');
+                // Also load the specific game
+                const gameBtn = document.querySelector(`[data-game="${windowToOpen}"]`);
+                if (gameBtn) gameBtn.click();
+            }, 100);
+        }
+        return;
+    }
+
+    // Handle other windows normally
+    if (windowToOpen) {
+        setTimeout(() => openWindow(windowToOpen), 100);
+        return;
+    }
+
+    // No URL param - open default windows on desktop
+    if (window.innerWidth > 768) {
+        setTimeout(() => {
+            // Set positions for cascading layout
+            const aboutWin = document.querySelector('[data-window="about"]');
+            const valuesWin = document.querySelector('[data-window="values"]');
+            const expWin = document.querySelector('[data-window="experience"]');
+
+            // Profile (about) - left side, below widget, full width
+            if (aboutWin) {
+                aboutWin.style.left = '30px';
+                aboutWin.style.top = '190px';
+                aboutWin.style.width = '680px';
+            }
+
+            // Experience - middle
+            if (expWin) {
+                expWin.style.left = '690px';
+                expWin.style.top = '40px';
+                expWin.style.width = '420px';
+            }
+
+            // Values - right side, stacked layout for initial load
+            if (valuesWin) {
+                valuesWin.style.left = '1120px';
+                valuesWin.style.top = '90px';
+                valuesWin.style.width = '300px';
+                // Add stacked class for 1-column layout on initial load
+                const valuesGrid = valuesWin.querySelector('.values-grid');
+                if (valuesGrid) valuesGrid.classList.add('stacked');
+            }
+
+            // Mark these windows as having initial load positioning
+            if (expWin) expWin.dataset.initialLoad = 'true';
+            if (valuesWin) valuesWin.dataset.initialLoad = 'true';
+
+            // Open windows in order (last one gets focus)
+            openWindow('about');
+            openWindow('values');
+            openWindow('experience');
+        }, 150);
+    }
+})();
+
+// Reset experience and values windows when reopened after close
+(function() {
+    // Watch for experience window being reopened
+    const expWin = document.querySelector('[data-window="experience"]');
+    const valuesWin = document.querySelector('[data-window="values"]');
+
+    if (expWin) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    const isOpen = expWin.classList.contains('window-open');
+                    // If reopening after initial load was cleared
+                    if (isOpen && expWin.dataset.initialLoad === 'false') {
+                        // Reset to default width
+                        expWin.style.width = '';
+                    }
+                    // Mark initial load as done when closed
+                    if (!isOpen && expWin.dataset.initialLoad === 'true') {
+                        expWin.dataset.initialLoad = 'false';
+                    }
+                }
+            });
+        });
+        observer.observe(expWin, { attributes: true });
+    }
+
+    if (valuesWin) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    const isOpen = valuesWin.classList.contains('window-open');
+                    // If reopening after initial load was cleared
+                    if (isOpen && valuesWin.dataset.initialLoad === 'false') {
+                        // Reset to default width and remove stacked class
+                        valuesWin.style.width = '';
+                        const valuesGrid = valuesWin.querySelector('.values-grid');
+                        if (valuesGrid) valuesGrid.classList.remove('stacked');
+                    }
+                    // Mark initial load as done when closed
+                    if (!isOpen && valuesWin.dataset.initialLoad === 'true') {
+                        valuesWin.dataset.initialLoad = 'false';
+                    }
+                }
+            });
+        });
+        observer.observe(valuesWin, { attributes: true });
     }
 })();
 
@@ -3601,8 +4144,976 @@ loadKevinRecipes();
 window.addEventListener('resize', () => {
     if (window.innerWidth > 768) {
         const recipesWindow = document.getElementById('recipesdb');
+        const windowsArea = document.querySelector('.windows-area');
         if (recipesWindow) {
             recipesWindow.style.removeProperty('display');
+            recipesWindow.style.removeProperty('position');
+            recipesWindow.style.removeProperty('inset');
+            recipesWindow.style.removeProperty('width');
+            recipesWindow.style.removeProperty('height');
+            recipesWindow.style.removeProperty('max-height');
+            recipesWindow.style.removeProperty('border-radius');
+            recipesWindow.style.removeProperty('z-index');
+        }
+        if (windowsArea) {
+            windowsArea.style.removeProperty('display');
+            windowsArea.style.removeProperty('position');
+            windowsArea.style.removeProperty('inset');
+            windowsArea.style.removeProperty('z-index');
+            windowsArea.style.removeProperty('background');
+            windowsArea.classList.remove('mobile-recipes-open');
+            // Restore other windows
+            windowsArea.querySelectorAll('.window').forEach(win => {
+                win.style.removeProperty('display');
+            });
         }
     }
 });
+
+// ===================
+// MOBILE ICON GRID OVERLAY SYSTEM
+// ===================
+
+// Window title configuration for mobile overlays (iOS-style clean titles)
+const mobileWindowConfig = {
+    readme: { title: 'README' },
+    seeking: { title: 'Seeking' },
+    about: { title: 'Profile' },
+    values: { title: 'Values' },
+    experience: { title: 'Experience' },
+    projects: { title: 'Projects' },
+    skills: { title: 'Skills' },
+    recommendations: { title: 'Reviews' },
+    games: { title: 'Games' }
+};
+
+let activeMobileOverlay = null;
+
+function createMobileOverlay(windowId) {
+    const sourceWindow = document.getElementById(windowId);
+    if (!sourceWindow) return null;
+
+    const config = mobileWindowConfig[windowId] || { title: windowId };
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'mobile-window-overlay';
+    overlay.id = `mobile-overlay-${windowId}`;
+
+    // Create header
+    const header = document.createElement('div');
+    header.className = 'mobile-overlay-header';
+
+    const title = document.createElement('div');
+    title.className = 'mobile-overlay-title';
+    title.textContent = config.title;
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'mobile-close-btn';
+    closeBtn.textContent = 'Done';
+    closeBtn.addEventListener('click', closeMobileOverlay);
+
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+
+    // Create content container
+    const contentContainer = document.createElement('div');
+    contentContainer.className = 'mobile-overlay-content';
+
+    // Clone the window content
+    const windowContent = sourceWindow.querySelector('.window-content');
+    if (windowContent) {
+        const clonedContent = windowContent.cloneNode(true);
+        contentContainer.appendChild(clonedContent);
+    }
+
+    overlay.appendChild(header);
+    overlay.appendChild(contentContainer);
+
+    return overlay;
+}
+
+function openMobileOverlay(windowId) {
+    // Special handling for games - open as overlay with the games folder content
+    if (windowId === 'games') {
+        openGamesOverlay();
+        return;
+    }
+
+    // Close any existing overlay
+    if (activeMobileOverlay) {
+        closeMobileOverlay();
+    }
+
+    // Check if overlay already exists
+    let overlay = document.getElementById(`mobile-overlay-${windowId}`);
+
+    if (!overlay) {
+        overlay = createMobileOverlay(windowId);
+        if (!overlay) return;
+        document.body.appendChild(overlay);
+        setupSwipeToDismiss(overlay);
+    }
+
+    // Trigger animation on next frame
+    requestAnimationFrame(() => {
+        overlay.classList.add('active');
+    });
+
+    activeMobileOverlay = overlay;
+    document.body.style.overflow = 'hidden';
+
+    // Track with Plausible if available
+    if (window.plausible) {
+        plausible('Mobile Overlay Open', { props: { window: windowId } });
+    }
+}
+
+function closeMobileOverlay() {
+    if (!activeMobileOverlay) return;
+
+    const overlayToClose = activeMobileOverlay;
+    overlayToClose.classList.remove('active');
+    document.body.style.overflow = '';
+    activeMobileOverlay = null;
+}
+
+// Swipe-to-dismiss for mobile overlays
+let touchStartY = 0;
+let touchCurrentY = 0;
+let isDraggingOverlay = false;
+
+function setupSwipeToDismiss(overlay) {
+    const header = overlay.querySelector('.mobile-overlay-header');
+    if (!header) return;
+
+    header.addEventListener('touchstart', (e) => {
+        // Only start drag if at top of scroll
+        if (overlay.scrollTop <= 0) {
+            touchStartY = e.touches[0].clientY;
+            isDraggingOverlay = true;
+            overlay.style.transition = 'none';
+        }
+    }, { passive: true });
+
+    header.addEventListener('touchmove', (e) => {
+        if (!isDraggingOverlay) return;
+
+        touchCurrentY = e.touches[0].clientY;
+        const deltaY = touchCurrentY - touchStartY;
+
+        if (deltaY > 0) {
+            // Dragging down - apply transform with resistance
+            const resistance = 0.5;
+            overlay.style.transform = `translateY(${deltaY * resistance}px)`;
+        }
+    }, { passive: true });
+
+    header.addEventListener('touchend', () => {
+        if (!isDraggingOverlay) return;
+        isDraggingOverlay = false;
+
+        const deltaY = touchCurrentY - touchStartY;
+        overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+
+        if (deltaY > 100) {
+            // Dismiss if dragged more than 100px
+            closeMobileOverlay();
+        } else {
+            // Snap back
+            overlay.style.transform = 'translateY(0)';
+        }
+
+        touchStartY = 0;
+        touchCurrentY = 0;
+    });
+}
+
+// Games overlay handling - use simpler approach
+// Games folder shows as overlay, individual games use the existing mobile-active-game system
+
+function openGamesOverlay() {
+    // Close any existing overlay
+    if (activeMobileOverlay) {
+        closeMobileOverlay();
+    }
+
+    // Create games overlay
+    let overlay = document.getElementById('mobile-overlay-games');
+
+    if (!overlay) {
+        const gamesWindow = document.getElementById('games');
+        if (!gamesWindow) return;
+
+        overlay = document.createElement('div');
+        overlay.className = 'mobile-window-overlay';
+        overlay.id = 'mobile-overlay-games';
+
+        // Create header
+        const header = document.createElement('div');
+        header.className = 'mobile-overlay-header';
+
+        const title = document.createElement('div');
+        title.className = 'mobile-overlay-title';
+        title.textContent = 'Games';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'mobile-close-btn';
+        closeBtn.textContent = 'Done';
+        closeBtn.addEventListener('click', closeMobileOverlay);
+
+        header.appendChild(title);
+        header.appendChild(closeBtn);
+
+        // Create content container with game grid
+        const contentContainer = document.createElement('div');
+        contentContainer.className = 'mobile-overlay-content';
+
+        // Clone the games folder content
+        const windowContent = gamesWindow.querySelector('.window-content');
+        if (windowContent) {
+            const clonedContent = windowContent.cloneNode(true);
+            contentContainer.appendChild(clonedContent);
+
+            // Re-attach click handlers for game items in the clone
+            clonedContent.querySelectorAll('.folder-item[data-window]').forEach(item => {
+                item.addEventListener('click', () => {
+                    const gameId = item.dataset.window;
+                    if (gameInfo[gameId]) {
+                        // Close games overlay and open individual game overlay
+                        closeMobileOverlay();
+                        setTimeout(() => openGameOverlay(gameId), 100);
+                    }
+                });
+            });
+        }
+
+        overlay.appendChild(header);
+        overlay.appendChild(contentContainer);
+        document.body.appendChild(overlay);
+        setupSwipeToDismiss(overlay);
+    }
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+        overlay.classList.add('active');
+    });
+
+    activeMobileOverlay = overlay;
+    document.body.style.overflow = 'hidden';
+}
+
+// Store original parent for game windows
+const gameWindowParents = {};
+
+function openGameOverlay(gameId) {
+    const gameWindow = document.getElementById(gameId);
+    if (!gameWindow) return;
+
+    const config = gameInfo[gameId] || { icon: '🎮', title: gameId };
+
+    // Store original parent so we can restore later
+    if (!gameWindowParents[gameId]) {
+        gameWindowParents[gameId] = gameWindow.parentElement;
+    }
+
+    // Move to body to escape hidden .windows-area parent
+    document.body.appendChild(gameWindow);
+
+    // Use the existing game window but show it as a full-screen overlay
+    gameWindow.classList.add('mobile-active-game');
+    gameWindow.style.display = 'flex';
+    gameWindow.style.position = 'fixed';
+    gameWindow.style.inset = '0';
+    gameWindow.style.zIndex = '1005';
+    gameWindow.style.maxHeight = '100vh';
+    gameWindow.style.borderRadius = '0';
+
+    // Add close button to game window header if not present
+    let backBtn = gameWindow.querySelector('.mobile-game-back-btn');
+    if (!backBtn) {
+        const header = gameWindow.querySelector('.window-header');
+        if (header) {
+            backBtn = document.createElement('button');
+            backBtn.className = 'mobile-game-back-btn mobile-close-btn';
+            backBtn.textContent = 'Close';
+            backBtn.addEventListener('click', () => closeGameOverlay(gameId));
+            header.style.position = 'relative';
+            header.appendChild(backBtn);
+        }
+    } else {
+        backBtn.style.display = 'block';
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    // Track with Plausible
+    if (window.plausible) {
+        plausible('Mobile Game Open', { props: { game: gameId } });
+    }
+}
+
+function closeGameOverlay(gameId) {
+    const gameWindow = document.getElementById(gameId);
+    if (!gameWindow) return;
+
+    // Reset game window styles
+    gameWindow.classList.remove('mobile-active-game');
+    gameWindow.style.display = '';
+    gameWindow.style.position = '';
+    gameWindow.style.inset = '';
+    gameWindow.style.zIndex = '';
+    gameWindow.style.maxHeight = '';
+    gameWindow.style.borderRadius = '';
+
+    // Hide back button
+    const backBtn = gameWindow.querySelector('.mobile-game-back-btn');
+    if (backBtn) {
+        backBtn.style.display = 'none';
+    }
+
+    // Restore to original parent
+    if (gameWindowParents[gameId]) {
+        gameWindowParents[gameId].appendChild(gameWindow);
+    }
+
+    document.body.style.overflow = '';
+
+    // Return to games folder popup
+    setTimeout(() => openMobileGamesFolder(), 100);
+}
+
+// Initialize mobile icon grid handlers
+function initMobileIconGrid() {
+    const mobileGridIcons = document.querySelectorAll('.mobile-grid-icon[data-mobile-open]');
+
+    mobileGridIcons.forEach(icon => {
+        icon.addEventListener('click', (e) => {
+            e.preventDefault();
+            const windowId = icon.dataset.mobileOpen;
+            openMobileOverlay(windowId);
+        });
+    });
+
+    // Widget click handler
+    const widget = document.querySelector('.mobile-widget[data-mobile-open]');
+    if (widget) {
+        widget.addEventListener('click', () => {
+            const windowId = widget.dataset.mobileOpen;
+            openMobileOverlay(windowId);
+        });
+    }
+
+    // Update mobile time
+    function updateMobileTime() {
+        const timeEl = document.getElementById('mobileTime');
+        if (timeEl) {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeEl.textContent = `${hours}:${minutes}`;
+        }
+    }
+    updateMobileTime();
+    setInterval(updateMobileTime, 60000);
+}
+
+// Handle back button/swipe to close overlay
+window.addEventListener('popstate', () => {
+    if (activeMobileOverlay) {
+        closeMobileOverlay();
+    }
+});
+
+// Initialize on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileIconGrid);
+} else {
+    initMobileIconGrid();
+}
+
+// ===================
+// WEATHER WIDGET
+// ===================
+async function fetchWeather() {
+    const weatherIcon = document.getElementById('weatherIcon');
+    const weatherTemp = document.getElementById('weatherTemp');
+    const desktopWeatherIcon = document.getElementById('desktopWeatherIcon');
+    const desktopWeatherTemp = document.getElementById('desktopWeatherTemp');
+
+    // Need at least one set of elements
+    if (!weatherIcon && !desktopWeatherIcon) return;
+
+    try {
+        // NYC coordinates
+        const lat = 40.7128;
+        const lon = -74.0060;
+
+        const response = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`
+        );
+
+        if (!response.ok) throw new Error('Weather fetch failed');
+
+        const data = await response.json();
+        const temp = Math.round(data.current.temperature_2m);
+        const code = data.current.weather_code;
+
+        // Map weather codes to emojis
+        const weatherEmojis = {
+            0: '☀️',      // Clear sky
+            1: '🌤️',     // Mainly clear
+            2: '⛅',      // Partly cloudy
+            3: '☁️',      // Overcast
+            45: '🌫️',    // Foggy
+            48: '🌫️',    // Depositing rime fog
+            51: '🌧️',    // Light drizzle
+            53: '🌧️',    // Moderate drizzle
+            55: '🌧️',    // Dense drizzle
+            61: '🌧️',    // Slight rain
+            63: '🌧️',    // Moderate rain
+            65: '🌧️',    // Heavy rain
+            71: '🌨️',    // Slight snow
+            73: '🌨️',    // Moderate snow
+            75: '❄️',     // Heavy snow
+            77: '🌨️',    // Snow grains
+            80: '🌦️',    // Slight rain showers
+            81: '🌦️',    // Moderate rain showers
+            82: '🌧️',    // Violent rain showers
+            85: '🌨️',    // Slight snow showers
+            86: '🌨️',    // Heavy snow showers
+            95: '⛈️',    // Thunderstorm
+            96: '⛈️',    // Thunderstorm with slight hail
+            99: '⛈️',    // Thunderstorm with heavy hail
+        };
+
+        const emoji = weatherEmojis[code] || '🌡️';
+        const tempStr = `${temp}°F`;
+
+        // Update mobile widget
+        if (weatherIcon) weatherIcon.textContent = emoji;
+        if (weatherTemp) weatherTemp.textContent = tempStr;
+
+        // Update desktop widget
+        if (desktopWeatherIcon) desktopWeatherIcon.textContent = emoji;
+        if (desktopWeatherTemp) desktopWeatherTemp.textContent = tempStr;
+
+    } catch (error) {
+        console.log('Weather fetch error:', error);
+        // Leave as default --
+    }
+}
+
+// Fetch weather on load
+fetchWeather();
+// Refresh every 30 minutes
+setInterval(fetchWeather, 30 * 60 * 1000);
+
+// ===================
+// CLICK RIPPLE EFFECT
+// ===================
+const clickRipple = document.getElementById('clickRipple');
+
+document.addEventListener('click', (e) => {
+    if (!clickRipple) return;
+    clickRipple.style.left = e.clientX + 'px';
+    clickRipple.style.top = e.clientY + 'px';
+    clickRipple.classList.remove('active');
+    void clickRipple.offsetWidth; // Force reflow
+    clickRipple.classList.add('active');
+});
+
+// ===================
+// SPOTLIGHT SEARCH
+// ===================
+const spotlightOverlay = document.getElementById('spotlightOverlay');
+const spotlightInput = document.getElementById('spotlightInput');
+const spotlightResults = document.getElementById('spotlightResults');
+const spotlightBtn = document.getElementById('spotlightBtn');
+
+// Searchable items
+const searchableItems = [
+    { type: 'window', id: 'about', icon: '👤', title: 'Profile', subtitle: 'profile.yaml' },
+    { type: 'window', id: 'seeking', icon: '🔍', title: 'Seeking', subtitle: 'seeking.query' },
+    { type: 'window', id: 'values', icon: '🧭', title: 'Values', subtitle: '.values' },
+    { type: 'window', id: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
+    { type: 'window', id: 'projects', icon: '📊', title: 'Projects', subtitle: 'projects/' },
+    { type: 'window', id: 'skills', icon: '⚙️', title: 'Skills', subtitle: 'skills.config' },
+    { type: 'window', id: 'recommendations', icon: '💬', title: 'Recommendations', subtitle: 'reviews.log' },
+    { type: 'window', id: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
+    { type: 'window', id: 'connect', icon: '📧', title: 'Connect', subtitle: 'connect.sh' },
+    { type: 'action', id: 'theme', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
+    { type: 'action', id: 'launchpad', icon: '⊞', title: 'Launchpad', subtitle: 'View all apps' },
+    { type: 'action', id: 'mission', icon: '☰', title: 'Mission Control', subtitle: 'View all windows' },
+    { type: 'link', id: 'email', icon: '📧', title: 'Email Kevin', subtitle: 'kevin@middleton.io', url: 'mailto:kevin@middleton.io' },
+    { type: 'link', id: 'linkedin', icon: '💼', title: 'LinkedIn', subtitle: 'linkedin.com/in/kevinmiddleton', url: 'https://linkedin.com/in/kevinmiddleton' },
+    { type: 'link', id: 'calendly', icon: '📅', title: 'Schedule a Call', subtitle: 'calendly.com', url: 'https://calendly.com/kevin-middleton/let-s-talk' },
+];
+
+let selectedIndex = 0;
+
+function openSpotlight() {
+    // Close other overlays first
+    closeLaunchpad();
+    closeMissionControl();
+
+    spotlightOverlay.classList.add('active');
+    spotlightInput.value = '';
+    spotlightInput.focus();
+    renderSpotlightResults('');
+}
+
+function closeSpotlight() {
+    spotlightOverlay.classList.remove('active');
+}
+
+function renderSpotlightResults(query) {
+    const filtered = query.trim() === ''
+        ? searchableItems.slice(0, 8)
+        : searchableItems.filter(item =>
+            item.title.toLowerCase().includes(query.toLowerCase()) ||
+            item.subtitle.toLowerCase().includes(query.toLowerCase())
+        );
+
+    selectedIndex = 0;
+
+    if (filtered.length === 0) {
+        spotlightResults.innerHTML = '<div class="spotlight-empty">No results found</div>';
+        return;
+    }
+
+    const grouped = {
+        window: filtered.filter(i => i.type === 'window'),
+        action: filtered.filter(i => i.type === 'action'),
+        link: filtered.filter(i => i.type === 'link'),
+    };
+
+    let html = '';
+
+    if (grouped.window.length > 0) {
+        html += '<div class="spotlight-section"><div class="spotlight-section-title">Windows</div>';
+        grouped.window.forEach((item, i) => {
+            html += `<div class="spotlight-item${i === 0 ? ' selected' : ''}" data-type="${item.type}" data-id="${item.id}">
+                <span class="spotlight-item-icon">${item.icon}</span>
+                <div class="spotlight-item-info">
+                    <div class="spotlight-item-title">${item.title}</div>
+                    <div class="spotlight-item-subtitle">${item.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (grouped.action.length > 0) {
+        html += '<div class="spotlight-section"><div class="spotlight-section-title">Actions</div>';
+        grouped.action.forEach(item => {
+            html += `<div class="spotlight-item" data-type="${item.type}" data-id="${item.id}">
+                <span class="spotlight-item-icon">${item.icon}</span>
+                <div class="spotlight-item-info">
+                    <div class="spotlight-item-title">${item.title}</div>
+                    <div class="spotlight-item-subtitle">${item.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (grouped.link.length > 0) {
+        html += '<div class="spotlight-section"><div class="spotlight-section-title">Links</div>';
+        grouped.link.forEach(item => {
+            html += `<div class="spotlight-item" data-type="${item.type}" data-id="${item.id}" data-url="${item.url}">
+                <span class="spotlight-item-icon">${item.icon}</span>
+                <div class="spotlight-item-info">
+                    <div class="spotlight-item-title">${item.title}</div>
+                    <div class="spotlight-item-subtitle">${item.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    spotlightResults.innerHTML = html;
+
+    // Add click handlers
+    spotlightResults.querySelectorAll('.spotlight-item').forEach(item => {
+        item.addEventListener('click', () => executeSpotlightItem(item));
+    });
+}
+
+function executeSpotlightItem(item) {
+    const type = item.dataset.type;
+    const id = item.dataset.id;
+
+    closeSpotlight();
+
+    if (type === 'window') {
+        // Delay to let overlay fade out, then bring window to top
+        setTimeout(() => openWindow(id), 200);
+    } else if (type === 'action') {
+        if (id === 'theme') {
+            applyTheme(root.dataset.theme === 'light' ? 'dark' : 'light');
+        } else if (id === 'launchpad') {
+            openLaunchpad();
+        } else if (id === 'mission') {
+            openMissionControl();
+        }
+    } else if (type === 'link') {
+        window.open(item.dataset.url, '_blank');
+    }
+}
+
+// Keyboard navigation
+spotlightInput?.addEventListener('input', (e) => {
+    renderSpotlightResults(e.target.value);
+});
+
+spotlightInput?.addEventListener('keydown', (e) => {
+    const items = spotlightResults.querySelectorAll('.spotlight-item');
+
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+        updateSpotlightSelection(items);
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = Math.max(selectedIndex - 1, 0);
+        updateSpotlightSelection(items);
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (items[selectedIndex]) {
+            executeSpotlightItem(items[selectedIndex]);
+        }
+    }
+});
+
+function updateSpotlightSelection(items) {
+    items.forEach((item, i) => {
+        item.classList.toggle('selected', i === selectedIndex);
+    });
+}
+
+// Open/close handlers
+spotlightBtn?.addEventListener('click', openSpotlight);
+spotlightOverlay?.addEventListener('click', (e) => {
+    if (e.target === spotlightOverlay) closeSpotlight();
+});
+
+// Keyboard shortcut (Cmd+K or Ctrl+K)
+document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        if (spotlightOverlay.classList.contains('active')) {
+            closeSpotlight();
+        } else {
+            openSpotlight();
+        }
+    }
+    if (e.key === 'Escape') {
+        if (spotlightOverlay?.classList.contains('active')) closeSpotlight();
+        if (launchpadOverlay?.classList.contains('active')) closeLaunchpad();
+        if (missionControl?.classList.contains('active')) closeMissionControl();
+        if (notificationCenter?.classList.contains('active')) closeNotificationCenter();
+    }
+});
+
+// ===================
+// NOTIFICATION CENTER
+// ===================
+const notificationCenter = document.getElementById('notificationCenter');
+const ncBackdrop = document.getElementById('ncBackdrop');
+const ncClose = document.getElementById('ncClose');
+const menubarTime = document.getElementById('menubarTime');
+
+function openNotificationCenter() {
+    notificationCenter.classList.add('active');
+    ncBackdrop.classList.add('active');
+
+    // Update weather in NC
+    const ncWeatherIcon = document.getElementById('ncWeatherIcon');
+    const ncWeatherTemp = document.getElementById('ncWeatherTemp');
+    const desktopIcon = document.getElementById('desktopWeatherIcon');
+    const desktopTemp = document.getElementById('desktopWeatherTemp');
+
+    if (ncWeatherIcon && desktopIcon) ncWeatherIcon.textContent = desktopIcon.textContent;
+    if (ncWeatherTemp && desktopTemp) ncWeatherTemp.textContent = desktopTemp.textContent;
+}
+
+function closeNotificationCenter() {
+    notificationCenter.classList.remove('active');
+    ncBackdrop.classList.remove('active');
+}
+
+menubarTime?.addEventListener('click', () => {
+    if (notificationCenter.classList.contains('active')) {
+        closeNotificationCenter();
+    } else {
+        openNotificationCenter();
+    }
+});
+
+ncClose?.addEventListener('click', closeNotificationCenter);
+ncBackdrop?.addEventListener('click', closeNotificationCenter);
+
+// ===================
+// LAUNCHPAD
+// ===================
+const launchpadOverlay = document.getElementById('launchpadOverlay');
+const launchpadGrid = document.getElementById('launchpadGrid');
+const launchpadInput = document.getElementById('launchpadInput');
+const launchpadBtn = document.getElementById('launchpadBtn');
+
+const launchpadApps = [
+    { id: 'about', icon: '👤', label: 'Profile' },
+    { id: 'seeking', icon: '🔍', label: 'Seeking' },
+    { id: 'values', icon: '🧭', label: 'Values' },
+    { id: 'experience', icon: '📁', label: 'Experience' },
+    { id: 'projects', icon: '📊', label: 'Projects' },
+    { id: 'skills', icon: '⚙️', label: 'Skills' },
+    { id: 'recommendations', icon: '💬', label: 'Reviews' },
+    { id: 'games', icon: '🎮', label: 'Games' },
+    { id: 'connect', icon: '📧', label: 'Connect' },
+    { id: 'recipesdb', icon: '🗃️', label: 'Recipes' },
+];
+
+function openLaunchpad() {
+    // Close other overlays first
+    closeSpotlight();
+    closeMissionControl();
+
+    renderLaunchpadGrid('');
+    launchpadOverlay.classList.add('active');
+    launchpadInput.value = '';
+    launchpadInput.focus();
+}
+
+function closeLaunchpad() {
+    launchpadOverlay.classList.remove('active');
+}
+
+function renderLaunchpadGrid(filter) {
+    const filtered = filter.trim() === ''
+        ? launchpadApps
+        : launchpadApps.filter(app => app.label.toLowerCase().includes(filter.toLowerCase()));
+
+    launchpadGrid.innerHTML = filtered.map(app => `
+        <div class="launchpad-item" data-window="${app.id}">
+            <div class="launchpad-icon">${app.icon}</div>
+            <div class="launchpad-label">${app.label}</div>
+        </div>
+    `).join('');
+
+    launchpadGrid.querySelectorAll('.launchpad-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const windowId = item.dataset.window;
+            closeLaunchpad();
+            // Delay to let overlay fade out, then bring window to top
+            setTimeout(() => openWindow(windowId), 300);
+        });
+    });
+}
+
+launchpadBtn?.addEventListener('click', openLaunchpad);
+launchpadInput?.addEventListener('input', (e) => renderLaunchpadGrid(e.target.value));
+launchpadOverlay?.addEventListener('click', (e) => {
+    if (e.target === launchpadOverlay) closeLaunchpad();
+});
+
+// ===================
+// MISSION CONTROL
+// ===================
+const missionControl = document.getElementById('missionControl');
+const mcWindows = document.getElementById('mcWindows');
+const missionControlBtn = document.getElementById('missionControlBtn');
+
+function openMissionControl() {
+    // Close other overlays first
+    closeSpotlight();
+    closeLaunchpad();
+
+    // Get all open windows
+    const openWindows = document.querySelectorAll('.window.window-open');
+
+    mcWindows.innerHTML = '';
+
+    openWindows.forEach(win => {
+        const icon = win.querySelector('.window-icon')?.textContent || '📄';
+        // Get title text without the icon - clone and remove icon to get clean text
+        const titleEl = win.querySelector('.window-title');
+        let title = win.dataset.window;
+        if (titleEl) {
+            const clone = titleEl.cloneNode(true);
+            const iconEl = clone.querySelector('.window-icon');
+            if (iconEl) iconEl.remove();
+            title = clone.textContent?.trim() || win.dataset.window;
+        }
+
+        const mcWin = document.createElement('div');
+        mcWin.className = 'mc-window';
+        mcWin.dataset.window = win.dataset.window;
+        mcWin.innerHTML = `
+            <div class="mc-window-header">
+                <span class="mc-window-icon">${icon}</span>
+                <span class="mc-window-title">${title}</span>
+            </div>
+            <div class="mc-window-preview">${icon}</div>
+        `;
+        mcWin.addEventListener('click', () => {
+            const windowId = win.dataset.window;
+            closeMissionControl();
+            // Delay to let overlay fade out, then bring window to top
+            setTimeout(() => openWindow(windowId), 300);
+        });
+        mcWindows.appendChild(mcWin);
+    });
+
+    if (openWindows.length === 0) {
+        mcWindows.innerHTML = '<div style="color: rgba(255,255,255,0.5); text-align: center; padding: 40px;">No windows open</div>';
+    }
+
+    missionControl.classList.add('active');
+}
+
+function closeMissionControl() {
+    missionControl.classList.remove('active');
+}
+
+missionControlBtn?.addEventListener('click', openMissionControl);
+missionControl?.addEventListener('click', (e) => {
+    if (e.target === missionControl) closeMissionControl();
+});
+
+// ===================
+// WINDOW SNAPPING
+// ===================
+let snapPreview = null;
+
+function createSnapPreview() {
+    if (snapPreview) return;
+    snapPreview = document.createElement('div');
+    snapPreview.className = 'window-snap-preview';
+    document.body.appendChild(snapPreview);
+}
+
+function showSnapPreview(zone) {
+    if (!snapPreview) createSnapPreview();
+
+    const menubarHeight = 28;
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight - menubarHeight;
+
+    if (zone === 'left') {
+        snapPreview.style.top = menubarHeight + 'px';
+        snapPreview.style.left = '0';
+        snapPreview.style.width = '50%';
+        snapPreview.style.height = screenHeight + 'px';
+    } else if (zone === 'right') {
+        snapPreview.style.top = menubarHeight + 'px';
+        snapPreview.style.left = '50%';
+        snapPreview.style.width = '50%';
+        snapPreview.style.height = screenHeight + 'px';
+    } else if (zone === 'top') {
+        snapPreview.style.top = menubarHeight + 'px';
+        snapPreview.style.left = '0';
+        snapPreview.style.width = '100%';
+        snapPreview.style.height = screenHeight + 'px';
+    }
+
+    snapPreview.classList.add('active');
+}
+
+function hideSnapPreview() {
+    if (snapPreview) {
+        snapPreview.classList.remove('active');
+    }
+}
+
+function getSnapZone(x, y) {
+    const threshold = 20;
+    const screenWidth = window.innerWidth;
+
+    if (x <= threshold) return 'left';
+    if (x >= screenWidth - threshold) return 'right';
+    if (y <= 28 + threshold) return 'top';
+    return null;
+}
+
+// Enhance window dragging with snap detection
+// (This hooks into the existing drag code - needs to be integrated)
+document.addEventListener('mousemove', (e) => {
+    // Only show snap preview when dragging a window
+    const draggedWindow = document.querySelector('.window-header:active')?.closest('.window');
+    if (!draggedWindow) {
+        hideSnapPreview();
+        return;
+    }
+
+    const zone = getSnapZone(e.clientX, e.clientY);
+    if (zone) {
+        showSnapPreview(zone);
+    } else {
+        hideSnapPreview();
+    }
+});
+
+document.addEventListener('mouseup', (e) => {
+    const zone = getSnapZone(e.clientX, e.clientY);
+
+    // Snap the window that was being dragged
+    if (currentlyDraggingWindow && zone) {
+        const win = currentlyDraggingWindow;
+        win.classList.remove('snapped-left', 'snapped-right', 'snapped-top');
+        win.classList.add('snapped-' + zone);
+
+        // Set position based on snap zone
+        if (zone === 'left') {
+            win.style.top = '28px';
+            win.style.left = '0px';
+        } else if (zone === 'right') {
+            win.style.top = '28px';
+            win.style.left = '50%';
+        } else if (zone === 'top') {
+            win.style.top = '28px';
+            win.style.left = '0px';
+        }
+    }
+
+    currentlyDraggingWindow = null;
+    hideSnapPreview();
+});
+
+// Double-click title bar to maximize/restore
+windows.forEach(win => {
+    const header = win.querySelector('.window-header');
+    header?.addEventListener('dblclick', (e) => {
+        if (e.target.classList.contains('window-dot')) return;
+
+        if (win.classList.contains('snapped-top')) {
+            win.classList.remove('snapped-top');
+            win.style.top = '';
+            win.style.left = '';
+            win.style.width = '';
+            win.style.height = '';
+        } else {
+            win.classList.remove('snapped-left', 'snapped-right');
+            win.classList.add('snapped-top');
+            // Set initial position for maximized window
+            win.style.top = '28px';
+            win.style.left = '0px';
+        }
+    });
+});
+
+// ===================
+// LOADING STATES
+// ===================
+const originalOpenWindow = openWindow;
+window.openWindow = function(id) {
+    const win = document.querySelector(`.window[data-window="${id}"]`);
+    if (win && !win.classList.contains('window-open')) {
+        win.classList.add('loading');
+        setTimeout(() => {
+            win.classList.remove('loading');
+        }, 300);
+    }
+    originalOpenWindow(id);
+};
