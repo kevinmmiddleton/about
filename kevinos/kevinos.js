@@ -3,12 +3,44 @@
 // ===================
 window.addEventListener('load', () => {
     const bootLoader = document.getElementById('bootLoader');
-    if (bootLoader) {
-        // Wait for progress bar animation to complete, then fade out
-        setTimeout(() => {
-            bootLoader.classList.add('hidden');
-        }, 1300);
-    }
+    if (!bootLoader) return;
+
+    // Critical assets to preload during boot
+    const criticalAssets = [
+        // Backgrounds
+        'https://middleton.io/images/darkmode-bg.png',
+        'https://middleton.io/images/lightmode-bg.png',
+        // Profile & photos
+        'https://middleton.io/images/profile-picture.jpg',
+        'https://middleton.io/images/cat-illustration.png',
+        'https://middleton.io/images/cats-photo.jpg',
+        'https://middleton.io/images/carne-asada-fries-homemade.jpg',
+        // Company logos (visible on initial load)
+        'https://middleton.io/images/gridstrong-logo.png',
+        'https://middleton.io/images/hvac-com-logo-stacked-white.png',
+        'https://middleton.io/images/hurd-ai-logo.png',
+        'https://middleton.io/images/lever-logo.webp',
+        'https://middleton.io/images/sendoso-logo.png',
+        'https://middleton.io/images/rocket-lawyer-logo.png',
+        'https://middleton.io/images/oracle-logo.png',
+    ];
+
+    // Preload all critical images
+    const preloadPromises = criticalAssets.map(src => {
+        return new Promise(resolve => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = resolve; // Don't block on failed loads
+            img.src = src;
+        });
+    });
+
+    // Wait for both: minimum boot animation time AND assets loaded
+    const minBootTime = new Promise(resolve => setTimeout(resolve, 1500));
+
+    Promise.all([minBootTime, ...preloadPromises]).then(() => {
+        bootLoader.classList.add('hidden');
+    });
 });
 
 let zIndex = 500;
@@ -1101,10 +1133,10 @@ document.querySelectorAll('.mobile-folder-item[data-game]').forEach(item => {
 
 function updateTime() {
     const now = new Date();
-    // Menu bar time (macOS format: "9:41 AM")
+    // Menu bar time - uses system locale for 12/24 hour format
     const menubarTime = document.getElementById('menubarTime');
     if (menubarTime) {
-        menubarTime.textContent = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        menubarTime.textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     }
 }
 updateTime();
@@ -4284,85 +4316,87 @@ function closeMobileOverlay() {
     document.body.style.overflow = '';
 }
 
-// Swipe-to-dismiss for mobile overlays
+// Swipe-to-dismiss for mobile overlays (Safari only - other browsers trigger pull-to-refresh)
 let touchStartY = 0;
 let touchCurrentY = 0;
 let isDraggingOverlay = false;
+
+// Detect Safari (but not Chrome on iOS which also has Safari in UA)
+function isSafariBrowser() {
+    const ua = navigator.userAgent;
+    const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua) && !/CriOS/.test(ua) && !/FxiOS/.test(ua);
+    return isSafari;
+}
 
 function setupSwipeToDismiss(overlay) {
     const header = overlay.querySelector('.mobile-overlay-header');
     if (!header) return;
 
-    // Track if we started on the header (for swipe to dismiss)
-    let startedOnHeader = false;
+    // Only enable swipe-to-dismiss on Safari to avoid pull-to-refresh conflicts
+    if (isSafariBrowser()) {
+        let startedOnHeader = false;
 
-    overlay.addEventListener('touchstart', (e) => {
-        // Check if touch started on or near the header
-        const headerRect = header.getBoundingClientRect();
-        const touchY = e.touches[0].clientY;
-        startedOnHeader = touchY <= headerRect.bottom + 50; // 50px grace area below header
+        overlay.addEventListener('touchstart', (e) => {
+            const headerRect = header.getBoundingClientRect();
+            const touchY = e.touches[0].clientY;
+            startedOnHeader = touchY <= headerRect.bottom + 50;
 
-        // Only start drag if at top of scroll and started on header area
-        if (overlay.scrollTop <= 0 && startedOnHeader) {
-            touchStartY = e.touches[0].clientY;
-            touchCurrentY = touchStartY;
-            isDraggingOverlay = true;
-            overlay.style.transition = 'none';
-        }
-    }, { passive: true });
+            if (overlay.scrollTop <= 0 && startedOnHeader) {
+                touchStartY = e.touches[0].clientY;
+                touchCurrentY = touchStartY;
+                isDraggingOverlay = true;
+                overlay.style.transition = 'none';
+            }
+        }, { passive: true });
 
-    overlay.addEventListener('touchmove', (e) => {
-        if (!isDraggingOverlay) return;
+        overlay.addEventListener('touchmove', (e) => {
+            if (!isDraggingOverlay) return;
 
-        touchCurrentY = e.touches[0].clientY;
-        const deltaY = touchCurrentY - touchStartY;
+            touchCurrentY = e.touches[0].clientY;
+            const deltaY = touchCurrentY - touchStartY;
 
-        if (deltaY > 0) {
-            // Dragging down - apply transform with less resistance for easier dismiss
-            const resistance = 0.7;
-            overlay.style.transform = `translateY(${deltaY * resistance}px)`;
-        }
-    }, { passive: true });
+            if (deltaY > 0) {
+                const resistance = 0.7;
+                overlay.style.transform = `translateY(${deltaY * resistance}px)`;
+            }
+        }, { passive: true });
 
-    overlay.addEventListener('touchend', () => {
-        if (!isDraggingOverlay) return;
-        isDraggingOverlay = false;
+        overlay.addEventListener('touchend', () => {
+            if (!isDraggingOverlay) return;
+            isDraggingOverlay = false;
 
-        const deltaY = touchCurrentY - touchStartY;
+            const deltaY = touchCurrentY - touchStartY;
 
-        // Lower threshold (60px) for easier dismiss
-        if (deltaY > 60) {
-            // Animate to fully dismissed, then clean up
-            overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
-            overlay.style.transform = 'translateY(100%)';
+            if (deltaY > 60) {
+                overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+                overlay.style.transform = 'translateY(100%)';
 
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                overlay.style.transform = '';
-                overlay.style.transition = '';
-                document.body.style.overflow = '';
-                if (activeMobileOverlay === overlay) {
-                    activeMobileOverlay = null;
-                }
-            }, 300);
-            activeMobileOverlay = null; // Clear immediately to prevent double-close
-        } else {
-            // Snap back
-            overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
-            overlay.style.transform = 'translateY(0)';
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    overlay.style.transform = '';
+                    overlay.style.transition = '';
+                    document.body.style.overflow = '';
+                    if (activeMobileOverlay === overlay) {
+                        activeMobileOverlay = null;
+                    }
+                }, 300);
+                activeMobileOverlay = null;
+            } else {
+                overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+                overlay.style.transform = 'translateY(0)';
 
-            // Clean up transition after snap back
-            setTimeout(() => {
-                overlay.style.transition = '';
-            }, 300);
-        }
+                setTimeout(() => {
+                    overlay.style.transition = '';
+                }, 300);
+            }
 
-        touchStartY = 0;
-        touchCurrentY = 0;
-        startedOnHeader = false;
-    });
+            touchStartY = 0;
+            touchCurrentY = 0;
+            startedOnHeader = false;
+        });
+    }
 
-    // Also close when tapping the close button area or drag handle
+    // Tapping the drag handle area closes the overlay (works on all browsers)
     header.addEventListener('click', (e) => {
         // If clicked on the drag handle area (top part of header), close
         const headerRect = header.getBoundingClientRect();
@@ -4548,14 +4582,12 @@ function initMobileIconGrid() {
         });
     }
 
-    // Update mobile time
+    // Update mobile time - uses system locale for 12/24 hour format
     function updateMobileTime() {
         const timeEl = document.getElementById('mobileTime');
         if (timeEl) {
             const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            timeEl.textContent = `${hours}:${minutes}`;
+            timeEl.textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         }
     }
     updateMobileTime();
