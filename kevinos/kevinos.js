@@ -4273,9 +4273,15 @@ function closeMobileOverlay() {
     if (!activeMobileOverlay) return;
 
     const overlayToClose = activeMobileOverlay;
+    activeMobileOverlay = null;
+
+    // Reset any inline transform/transition from dragging, let CSS handle the close animation
+    overlayToClose.style.transition = '';
+    overlayToClose.style.transform = '';
+
+    // Remove active class - CSS will animate it down
     overlayToClose.classList.remove('active');
     document.body.style.overflow = '';
-    activeMobileOverlay = null;
 }
 
 // Swipe-to-dismiss for mobile overlays
@@ -4287,45 +4293,83 @@ function setupSwipeToDismiss(overlay) {
     const header = overlay.querySelector('.mobile-overlay-header');
     if (!header) return;
 
-    header.addEventListener('touchstart', (e) => {
-        // Only start drag if at top of scroll
-        if (overlay.scrollTop <= 0) {
+    // Track if we started on the header (for swipe to dismiss)
+    let startedOnHeader = false;
+
+    overlay.addEventListener('touchstart', (e) => {
+        // Check if touch started on or near the header
+        const headerRect = header.getBoundingClientRect();
+        const touchY = e.touches[0].clientY;
+        startedOnHeader = touchY <= headerRect.bottom + 50; // 50px grace area below header
+
+        // Only start drag if at top of scroll and started on header area
+        if (overlay.scrollTop <= 0 && startedOnHeader) {
             touchStartY = e.touches[0].clientY;
+            touchCurrentY = touchStartY;
             isDraggingOverlay = true;
             overlay.style.transition = 'none';
         }
     }, { passive: true });
 
-    header.addEventListener('touchmove', (e) => {
+    overlay.addEventListener('touchmove', (e) => {
         if (!isDraggingOverlay) return;
 
         touchCurrentY = e.touches[0].clientY;
         const deltaY = touchCurrentY - touchStartY;
 
         if (deltaY > 0) {
-            // Dragging down - apply transform with resistance
-            const resistance = 0.5;
+            // Dragging down - apply transform with less resistance for easier dismiss
+            const resistance = 0.7;
             overlay.style.transform = `translateY(${deltaY * resistance}px)`;
         }
     }, { passive: true });
 
-    header.addEventListener('touchend', () => {
+    overlay.addEventListener('touchend', () => {
         if (!isDraggingOverlay) return;
         isDraggingOverlay = false;
 
         const deltaY = touchCurrentY - touchStartY;
-        overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
 
-        if (deltaY > 100) {
-            // Dismiss if dragged more than 100px
-            closeMobileOverlay();
+        // Lower threshold (60px) for easier dismiss
+        if (deltaY > 60) {
+            // Animate to fully dismissed, then clean up
+            overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+            overlay.style.transform = 'translateY(100%)';
+
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                overlay.style.transform = '';
+                overlay.style.transition = '';
+                document.body.style.overflow = '';
+                if (activeMobileOverlay === overlay) {
+                    activeMobileOverlay = null;
+                }
+            }, 300);
+            activeMobileOverlay = null; // Clear immediately to prevent double-close
         } else {
             // Snap back
+            overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
             overlay.style.transform = 'translateY(0)';
+
+            // Clean up transition after snap back
+            setTimeout(() => {
+                overlay.style.transition = '';
+            }, 300);
         }
 
         touchStartY = 0;
         touchCurrentY = 0;
+        startedOnHeader = false;
+    });
+
+    // Also close when tapping the close button area or drag handle
+    header.addEventListener('click', (e) => {
+        // If clicked on the drag handle area (top part of header), close
+        const headerRect = header.getBoundingClientRect();
+        const clickY = e.clientY - headerRect.top;
+        if (clickY < 30) { // Top 30px is the drag handle area
+            closeMobileOverlay();
+        }
     });
 }
 
