@@ -134,6 +134,20 @@ function minimizeWindow(id) {
 // Click handlers for both icons and dock items
 allNavItems.forEach(item => item.addEventListener('click', () => openWindow(item.dataset.window)));
 
+// Profile "Let's Connect" button handler
+const profileConnectBtn = document.getElementById('profileConnectBtn');
+if (profileConnectBtn) {
+    profileConnectBtn.addEventListener('click', () => {
+        if (isMobile()) {
+            closeMobileOverlay();
+            setTimeout(() => openMobileOverlay('connect'), 150);
+        } else {
+            closeWindow('about');
+            openWindow('connect');
+        }
+    });
+}
+
 // Focus management for windows
 function setWindowFocus(focusedWin) {
     windows.forEach(w => {
@@ -691,6 +705,46 @@ document.getElementById('virusBtn').addEventListener('click', () => {
 });
 
 // ===================
+// VIDEO EASTER EGG (Rickroll)
+// ===================
+const videosBtn = document.getElementById('videosBtn');
+const videoWindow = document.getElementById('videoWindow');
+const closeVideo = document.getElementById('closeVideo');
+const mobileVideoTab = document.getElementById('mobileVideoTab');
+const mobileVideoPlayer = document.getElementById('mobileVideoPlayer');
+
+// Desktop - open video window
+if (videosBtn && videoWindow) {
+    videosBtn.addEventListener('click', () => {
+        videoWindow.style.display = 'block';
+        videoWindow.style.zIndex = getNextZIndex();
+    });
+}
+
+// Desktop - close video window
+if (closeVideo && videoWindow) {
+    closeVideo.addEventListener('click', () => {
+        videoWindow.style.display = 'none';
+    });
+}
+
+// Mobile - open video player from tab
+if (mobileVideoTab && mobileVideoPlayer) {
+    mobileVideoTab.addEventListener('click', () => {
+        mobileVideoTab.style.display = 'none';
+        mobileVideoPlayer.classList.add('active');
+    });
+}
+
+// Mobile - close video player by tapping
+if (mobileVideoPlayer) {
+    mobileVideoPlayer.addEventListener('click', () => {
+        mobileVideoPlayer.classList.remove('active');
+        mobileVideoTab.style.display = 'block';
+    });
+}
+
+// ===================
 // PARTY MODE
 // ===================
 let partyMode = false;
@@ -1154,12 +1208,12 @@ const gamesWindow = document.getElementById('games');
 
 // Game info for header updates
 const gameInfo = {
-    invaders: { icon: '👾', title: 'SCOPE CREEP' },
-    tetris: { icon: '🧱', title: 'BACKLOG TETRIS' },
-    bugsquash: { icon: '🐛', title: 'BUG SQUASH' },
-    runner: { icon: '🏃', title: 'ROADMAP RUNNER' },
-    snake: { icon: '🐍', title: 'STAKEHOLDER SNAKE' },
-    standup: { icon: '⌨️', title: 'STANDUP SPEEDRUN' }
+    invaders: { icon: '👾', title: 'invaders.app' },
+    tetris: { icon: '🧱', title: 'tetris.app' },
+    bugsquash: { icon: '🐛', title: 'bugsquash.app' },
+    runner: { icon: '🏃', title: 'runner.app' },
+    snake: { icon: '🐍', title: 'snake.app' },
+    standup: { icon: '⌨️', title: 'standup.app' }
 };
 
 function showMobileGame(gameId) {
@@ -1229,58 +1283,6 @@ document.querySelectorAll('.see-all-games').forEach(btn => {
         }
     });
 });
-
-// ===================
-// URL PARAMETER HANDLING
-// ===================
-const urlParams = new URLSearchParams(window.location.search);
-const gameParam = urlParams.get('game');
-const openParam = urlParams.get('open');
-
-const validGames = ['invaders', 'tetris', 'bugsquash', 'runner', 'snake', 'standup'];
-
-if (gameParam && validGames.includes(gameParam)) {
-    // Close README and open game instead
-    closeWindow('readme');
-    isFirstLoad = false;
-    
-    if (isMobile()) {
-        // On mobile, use the mobile game display
-        showMobileGame(gameParam);
-    } else {
-        // On desktop, open and center the game window
-        openWindow(gameParam);
-        const gameWin = document.getElementById(gameParam);
-        if (gameWin) {
-            gameWin.style.top = '60px';
-            gameWin.style.left = '50%';
-            gameWin.style.transform = 'translateX(-50%)';
-        }
-    }
-} else if (openParam === 'games') {
-    // Open games folder
-    closeWindow('readme');
-    isFirstLoad = false;
-    
-    if (isMobile()) {
-        // On mobile, scroll to games folder
-        const gamesFolder = document.getElementById('games');
-        if (gamesFolder) {
-            setTimeout(() => {
-                gamesFolder.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-        }
-    } else {
-        // On desktop, open and center the games folder
-        openWindow('games');
-        const gamesWin = document.getElementById('games');
-        if (gamesWin) {
-            gamesWin.style.top = '60px';
-            gamesWin.style.left = '50%';
-            gamesWin.style.transform = 'translateX(-50%)';
-        }
-    }
-}
 
 // ===================
 // SCOPE CREEP GAME
@@ -1941,7 +1943,15 @@ setInterval(() => {
 startGameBtn.addEventListener('click', startGame);
 playAgainBtn.addEventListener('click', startGame);
 whoAmIBtn.addEventListener('click', () => {
-    openWindow('readme');
+    // Close the game, games folder, and open the about window
+    if (isMobile()) {
+        closeGameOverlay('invaders', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('invaders');
+        closeWindow('games');
+        openWindow('about');
+    }
 });
 
 // Touch controls
@@ -2378,7 +2388,16 @@ document.addEventListener('keydown', (e) => {
 // Tetris button handlers
 if (startTetrisBtn) startTetrisBtn.addEventListener('click', startTetris);
 if (tetrisPlayAgainBtn) tetrisPlayAgainBtn.addEventListener('click', startTetris);
-if (tetrisWhoAmIBtn) tetrisWhoAmIBtn.addEventListener('click', () => openWindow('readme'));
+if (tetrisWhoAmIBtn) tetrisWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('tetris', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('tetris');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
 
 // Tetris touch controls
 const tetrisTouchLeft = document.getElementById('tetrisTouchLeft');
@@ -2733,7 +2752,16 @@ document.querySelectorAll('.bug-spot').forEach(spot => {
 // Button handlers
 if (startBugSquashBtn) startBugSquashBtn.addEventListener('click', startBugSquash);
 if (bugPlayAgainBtn) bugPlayAgainBtn.addEventListener('click', startBugSquash);
-if (bugWhoAmIBtn) bugWhoAmIBtn.addEventListener('click', () => openWindow('readme'));
+if (bugWhoAmIBtn) bugWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('bugsquash', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('bugsquash');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
 
 // ===================
 // ROADMAP RUNNER GAME
@@ -3079,7 +3107,16 @@ document.addEventListener('keydown', (e) => {
 // Button handlers
 if (startRunnerBtn) startRunnerBtn.addEventListener('click', startRunner);
 if (runnerPlayAgainBtn) runnerPlayAgainBtn.addEventListener('click', startRunner);
-if (runnerWhoAmIBtn) runnerWhoAmIBtn.addEventListener('click', () => openWindow('readme'));
+if (runnerWhoAmIBtn) runnerWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('runner', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('runner');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
 
 // Runner touch controls
 const runnerTouchJump = document.getElementById('runnerTouchJump');
@@ -3357,7 +3394,16 @@ document.addEventListener('keydown', (e) => {
 // Button handlers
 if (startSnakeBtn) startSnakeBtn.addEventListener('click', startSnake);
 if (snakePlayAgainBtn) snakePlayAgainBtn.addEventListener('click', startSnake);
-if (snakeWhoAmIBtn) snakeWhoAmIBtn.addEventListener('click', () => openWindow('readme'));
+if (snakeWhoAmIBtn) snakeWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('snake', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('snake');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
 
 // Snake touch controls
 const snakeTouchUp = document.getElementById('snakeTouchUp');
@@ -3795,7 +3841,16 @@ if (standupInput) {
 // Button handlers
 if (startStandupBtn) startStandupBtn.addEventListener('click', startStandup);
 if (standupPlayAgainBtn) standupPlayAgainBtn.addEventListener('click', startStandup);
-if (standupWhoAmIBtn) standupWhoAmIBtn.addEventListener('click', () => openWindow('readme'));
+if (standupWhoAmIBtn) standupWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('standup', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('standup');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
 
 /* ==========================================
    RECIPES - Shared Data & Parsing
@@ -4039,17 +4094,39 @@ loadKevinRecipes();
 (function handleUrlParams() {
     const params = new URLSearchParams(window.location.search);
     const windowToOpen = params.get('open');
+    const gameToOpen = params.get('game');
+    const validGames = ['invaders', 'tetris', 'bugsquash', 'runner', 'snake', 'standup'];
 
-    // Handle recipes
-    if (windowToOpen === 'recipes' || windowToOpen === 'recipesdb') {
-        setTimeout(() => openMobileRecipes(), 100);
+    // Handle ?game= parameter (e.g., ?game=invaders)
+    if (gameToOpen && validGames.includes(gameToOpen)) {
+        if (window.innerWidth <= 768) {
+            setTimeout(() => openGameOverlay(gameToOpen), 100);
+        } else {
+            setTimeout(() => {
+                openWindow(gameToOpen);
+                const gameWin = document.getElementById(gameToOpen);
+                if (gameWin) {
+                    gameWin.style.top = '60px';
+                    gameWin.style.left = '50%';
+                    gameWin.style.transform = 'translateX(-50%)';
+                }
+            }, 100);
+        }
         return;
     }
 
-    // Handle games - open the games folder or specific game
-    const validGames = ['invaders', 'tetris', 'bugsquash', 'runner', 'snake', 'standup'];
+    // Handle recipes
+    if (windowToOpen === 'recipes' || windowToOpen === 'recipesdb') {
+        if (window.innerWidth <= 768) {
+            setTimeout(() => openMobileOverlay('recipesdb'), 100);
+        } else {
+            setTimeout(() => openMobileRecipes(), 100);
+        }
+        return;
+    }
+
+    // Handle games folder
     if (windowToOpen === 'games') {
-        // On mobile, open the games folder popup
         if (window.innerWidth <= 768) {
             setTimeout(() => openMobileGamesFolder(), 100);
         } else {
@@ -4058,28 +4135,35 @@ loadKevinRecipes();
         return;
     }
 
-    // Handle specific game by name
+    // Handle specific game by name via ?open= param
     if (validGames.includes(windowToOpen)) {
         if (window.innerWidth <= 768) {
             setTimeout(() => openGameOverlay(windowToOpen), 100);
         } else {
             setTimeout(() => {
-                openWindow('games');
-                // Also load the specific game
-                const gameBtn = document.querySelector(`[data-game="${windowToOpen}"]`);
-                if (gameBtn) gameBtn.click();
+                openWindow(windowToOpen);
+                const gameWin = document.getElementById(windowToOpen);
+                if (gameWin) {
+                    gameWin.style.top = '60px';
+                    gameWin.style.left = '50%';
+                    gameWin.style.transform = 'translateX(-50%)';
+                }
             }, 100);
         }
         return;
     }
 
-    // Handle other windows normally
+    // Handle other windows normally (e.g., ?open=about, ?open=connect)
     if (windowToOpen) {
-        setTimeout(() => openWindow(windowToOpen), 100);
+        if (window.innerWidth <= 768) {
+            setTimeout(() => openMobileOverlay(windowToOpen), 100);
+        } else {
+            setTimeout(() => openWindow(windowToOpen), 100);
+        }
         return;
     }
 
-    // No URL param - open default windows on desktop
+    // No URL param - open default windows on desktop only
     if (window.innerWidth > 768) {
         setTimeout(() => {
             // Set positions for cascading layout
@@ -4531,7 +4615,7 @@ function openGameOverlay(gameId) {
     }
 }
 
-function closeGameOverlay(gameId) {
+function closeGameOverlay(gameId, skipGamesFolder = false) {
     const gameWindow = document.getElementById(gameId);
     if (!gameWindow) return;
 
@@ -4557,8 +4641,10 @@ function closeGameOverlay(gameId) {
 
     document.body.style.overflow = '';
 
-    // Return to games folder popup
-    setTimeout(() => openMobileGamesFolder(), 100);
+    // Return to games folder popup (unless skipped)
+    if (!skipGamesFolder) {
+        setTimeout(() => openMobileGamesFolder(), 100);
+    }
 }
 
 // Initialize mobile icon grid handlers
@@ -5013,13 +5099,15 @@ function openMissionControl() {
 
     openWindows.forEach(win => {
         const icon = win.querySelector('.window-icon')?.textContent || '📄';
-        // Get title text without the icon - clone and remove icon to get clean text
+        // Get title text without the icon or badge - clone and remove them to get clean text
         const titleEl = win.querySelector('.window-title');
         let title = win.dataset.window;
         if (titleEl) {
             const clone = titleEl.cloneNode(true);
             const iconEl = clone.querySelector('.window-icon');
+            const badgeEl = clone.querySelector('.file-badge');
             if (iconEl) iconEl.remove();
+            if (badgeEl) badgeEl.remove();
             title = clone.textContent?.trim() || win.dataset.window;
         }
 

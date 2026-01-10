@@ -118,6 +118,10 @@
                 <span class="icon-emoji">💀</span>
                 <span class="icon-label">do_not_click.exe</span>
             </button>
+            <button class="desktop-icon" id="videosBtn">
+                <span class="icon-emoji">📺</span>
+                <span class="icon-label">Videos.app</span>
+            </button>
 
             <!-- Recycle Bin -->
             <button class="desktop-icon" id="recycleBin">
@@ -247,6 +251,7 @@
                             </div>
                             <p style="margin-top: 20px;">Outside of work, I enjoy cooking, spending time with my cats,
                                 and getting lost in pop culture and trivia.</p>
+                            <button class="profile-connect-btn" id="profileConnectBtn">Let's Connect</button>
                         </div>
                     </div>
                 </div>
@@ -894,14 +899,11 @@
                 <div class="window-content">
                     <div class="terminal">
                         <div class="term-line"><span class="term-prompt">kevin@portfolio:~$</span><span
-                                class="term-cmd">./connect.sh</span></div>
-                        <div class="term-output">Initializing connection...<br>Loading contact methods... ✓<br>Ready!
-                        </div>
-                        <div class="term-line"><span class="term-prompt">kevin@portfolio:~$</span><span
-                                class="term-cmd">echo "Reach out anytime"<span class="cursor">▋</span></span></div>
+                                class="term-cmd">./connect.sh --method=any</span></div>
+                        <div class="term-output">Ready when you are.<span class="cursor">▋</span></div>
                     </div>
                     <div class="connect-btns">
-                        <a href="/cdn-cgi/l/email-protection#432826352a2d032e2a27272f26372c2d6d2a2c" class="connect-btn plausible-event-name=Contact+Email"><span class="connect-icon">📧</span> Email</a>
+                        <a href="mailto:kevin@middleton.io" class="connect-btn plausible-event-name=Contact+Email"><span class="connect-icon">📧</span> Email</a>
                         <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="connect-btn plausible-event-name=Contact+LinkedIn"><span class="connect-icon">💼</span> LinkedIn</a>
                         <a href="https://github.com/kevinmmiddleton" target="_blank" class="connect-btn plausible-event-name=GitHub+Click"><span class="connect-icon">🐙</span> GitHub</a>
                         <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="connect-btn plausible-event-name=Calendly+Click"><span class="connect-icon">📅</span> Book a call</a>
@@ -965,7 +967,7 @@
                     </div>
                     <div class="window-title">
                         <span class="window-icon">👾</span>
-                        SCOPE CREEP
+                        invaders.app
                         <span class="file-badge app">APP</span>
                     </div>
                     <span class="window-path">~/kevin/games/</span>
@@ -1039,7 +1041,7 @@
                     </div>
                     <div class="window-title">
                         <span class="window-icon">🧱</span>
-                        BACKLOG TETRIS
+                        tetris.app
                         <span class="file-badge app">APP</span>
                     </div>
                     <span class="window-path">~/kevin/games/</span>
@@ -1113,7 +1115,7 @@
                     </div>
                     <div class="window-title">
                         <span class="window-icon">🐛</span>
-                        BUG SQUASH
+                        bugsquash.app
                         <span class="file-badge app">APP</span>
                     </div>
                     <span class="window-path">~/kevin/games/</span>
@@ -1192,7 +1194,7 @@
                     </div>
                     <div class="window-title">
                         <span class="window-icon">🏃</span>
-                        ROADMAP RUNNER
+                        runner.app
                         <span class="file-badge app">APP</span>
                     </div>
                     <span class="window-path">~/kevin/games/</span>
@@ -1264,7 +1266,7 @@
                     </div>
                     <div class="window-title">
                         <span class="window-icon">🐍</span>
-                        STAKEHOLDER SNAKE
+                        snake.app
                         <span class="file-badge app">APP</span>
                     </div>
                     <span class="window-path">~/kevin/games/</span>
@@ -1342,7 +1344,7 @@
                     </div>
                     <div class="window-title">
                         <span class="window-icon">⌨️</span>
-                        STANDUP SPEEDRUN
+                        standup.app
                         <span class="file-badge app">APP</span>
                     </div>
                     <span class="window-path">~/kevin/games/</span>
@@ -1588,6 +1590,25 @@
                 <p>You're curious. I like that. You're probably the type I'd want to work with.</p>
                 <p class="notepad-signature">— Kevin</p>
                 <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="notepad-cta">Let's talk →</a>
+            </div>
+        </div>
+
+        <!-- Videos Window (rickroll easter egg) -->
+        <div class="video-window" id="videoWindow" style="display: none;">
+            <div class="video-header">
+                <div class="window-dots">
+                    <button class="window-dot red" id="closeVideo"></button>
+                    <span class="window-dot yellow"></span>
+                    <span class="window-dot green"></span>
+                </div>
+                <div class="video-title">
+                    <span class="window-icon">📺</span>
+                    Videos.app
+                    <span class="file-badge app">APP</span>
+                </div>
+            </div>
+            <div class="video-content">
+                <img src="https://middleton.io/kevinos/images/rickroll-meme.gif" alt="Video" class="video-gif">
             </div>
         </div>
 
@@ -1843,6 +1864,14 @@
             <span class="mc-hint">Click a window to focus, or press ESC to exit</span>
         </div>
         <div class="mc-windows" id="mcWindows"></div>
+    </div>
+
+    <!-- Mobile Video Tab (rickroll easter egg) -->
+    <div class="mobile-video-tab" id="mobileVideoTab">
+        <div class="mobile-video-tab-handle"></div>
+    </div>
+    <div class="mobile-video-player" id="mobileVideoPlayer">
+        <img src="https://middleton.io/kevinos/images/rickroll-meme.gif" alt="Video" class="mobile-video-gif">
     </div>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
