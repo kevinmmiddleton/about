@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - This Sprint Is Cursed | Kevin Middleton</title>
+  <meta name="description" content="You found a broken link. That's a solvable problem.">
+  <link rel="canonical" href="https://middleton.io/404">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+  <link rel="me" href="https://github.com/kevinmmiddleton">
+  <meta name="theme-color" content="#f4f4f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f4f4f7;
+      --surface: #ffffff;
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --accent-blue: #6C8CFF;
+      --accent-purple: #A48CF9;
+      --accent-pink: #F48AC1;
+      --accent-mint: #4FD2A8;
+      --accent-peach: #FFB964;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1115;
+        --surface: #1a1c22;
+        --text-primary: #f9fafb;
+        --text-secondary: #d1d5db;
+      }
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 600px;
+      z-index: 10;
+    }
+
+    .error-code {
+      font-family: 'Epilogue', sans-serif;
+      font-size: clamp(120px, 25vw, 200px);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      user-select: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .error-code:hover {
+      transform: scale(1.05);
+    }
+
+    .error-code.shake {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      20% { transform: translateX(-10px) rotate(-2deg); }
+      40% { transform: translateX(10px) rotate(2deg); }
+      60% { transform: translateX(-10px) rotate(-2deg); }
+      80% { transform: translateX(10px) rotate(2deg); }
+    }
+
+    .headline {
+      font-family: 'Epilogue', sans-serif;
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .subtext {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      background: var(--surface);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .link-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    .link-btn.primary {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: white;
+    }
+
+    .link-btn.primary:hover {
+      box-shadow: 0 4px 20px rgba(108, 140, 255, 0.4);
+    }
+
+    .link-btn span.icon {
+      font-size: 18px;
+    }
+
+    .easter-egg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      opacity: 0.6;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      user-select: none;
+    }
+
+    .easter-egg:hover {
+      opacity: 1;
+    }
+
+    .universes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      justify-content: center;
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(128,128,128,0.2);
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .universe {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 16px 12px;
+      background: var(--surface);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+
+    .universe:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .universe .emoji {
+      font-size: 32px;
+      transition: transform 0.3s ease;
+    }
+
+    .universe:hover .emoji {
+      transform: scale(1.2);
+    }
+
+    .universe .label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    /* Floating elements */
+    .floater {
+      position: fixed;
+      font-size: 32px;
+      opacity: 0.15;
+      pointer-events: none;
+      animation: float 20s infinite ease-in-out;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-20px) rotate(5deg); }
+      50% { transform: translateY(0) rotate(0deg); }
+      75% { transform: translateY(20px) rotate(-5deg); }
+    }
+
+    .floater:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .floater:nth-child(2) { top: 20%; right: 15%; animation-delay: -3s; }
+    .floater:nth-child(3) { bottom: 30%; left: 8%; animation-delay: -6s; }
+    .floater:nth-child(4) { bottom: 15%; right: 10%; animation-delay: -9s; }
+    .floater:nth-child(5) { top: 50%; left: 5%; animation-delay: -12s; }
+    .floater:nth-child(6) { top: 40%; right: 8%; animation-delay: -15s; }
+
+    /* Cat rain animation */
+    .cat-rain {
+      position: fixed;
+      top: -50px;
+      font-size: 30px;
+      animation: fall linear forwards;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(calc(100vh + 100px)) rotate(360deg);
+      }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .confetti.particle {
+      width: 8px;
+      height: 8px;
+    }
+
+    .confetti.star {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .confetti.streamer {
+      width: 4px;
+      height: 16px;
+      border-radius: 2px;
+    }
+
+    .quote {
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-top: 24px;
+      font-size: 15px;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 480px) {
+      .universes {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        max-width: 320px;
+      }
+      .universe {
+        padding: 12px 8px;
+      }
+      .universe .emoji {
+        font-size: 26px;
+      }
+      .universe .label {
+        font-size: 11px;
+      }
+      .link-btn {
+        padding: 12px 18px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating background elements -->
+  <div class="floater">🐱</div>
+  <div class="floater">📋</div>
+  <div class="floater">🚀</div>
+  <div class="floater">💡</div>
+  <div class="floater">✨</div>
+  <div class="floater">🎯</div>
+
+  <div class="container">
+    <div class="error-code" id="errorCode" title="Click me!">404</div>
+    <h1 class="headline">This sprint is cursed.</h1>
+    <p class="subtext">
+      You found a broken link. That's a solvable problem.<br>
+      Let's get you back to somewhere that exists.
+    </p>
+
+    <div class="links">
+      <a href="/" class="link-btn primary">
+        <span class="icon">🏠</span> Main Portfolio
+      </a>
+      <a href="/kevinos/" class="link-btn">
+        <span class="icon">👾</span> KevinOS
+      </a>
+      <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="link-btn">
+        <span class="icon">📅</span> Let's Talk
+      </a>
+    </div>
+
+    <p class="quote" id="quote">"I make complex work feel simple."</p>
+
+    <div class="universes">
+      <a href="/nyc/" class="universe" title="NYC Job Search">
+        <span class="emoji">🗽</span>
+        <span class="label">NYC</span>
+      </a>
+      <a href="/catdad/" class="universe" title="Cat Dad Vibes">
+        <span class="emoji">🐱</span>
+        <span class="label">Cat Dad</span>
+      </a>
+      <a href="/kevin/" class="universe" title="NYC's Hottest PM">
+        <span class="emoji">🔥</span>
+        <span class="label">KEVIN?!</span>
+      </a>
+      <a href="/fixer/" class="universe" title="Product Problem Solving">
+        <span class="emoji">💊</span>
+        <span class="label">The Fixer</span>
+      </a>
+      <a href="/officehours/" class="universe" title="Free Product Coaching">
+        <span class="emoji">🧠</span>
+        <span class="label">Office Hours</span>
+      </a>
+      <a href="/recipes/" class="universe" title="Recipe Book">
+        <span class="emoji">🍳</span>
+        <span class="label">Recipes</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="easter-egg" id="easterEgg">psst... try clicking the 404</div>
+
+  <script>
+    const quotes = [
+      '"I make complex work feel simple."',
+      '"Great work comes from teams that actually like working together."',
+      '"Take the work seriously. Don\'t take yourself too seriously."',
+      '"No theater. No hype. Just real work."',
+      '"Bring structure to ambiguity."',
+      '"Direct communication over passive-aggressive politeness."',
+      '"It\'s software, not magic. And we\'re not curing cancer."',
+      '"If your team never laughs together, we probably won\'t work well."',
+      '"Give grace, get grace."',
+      '"Human Jira boards and spreadsheets that feel like violence."'
+    ];
+
+    const errorCode = document.getElementById('errorCode');
+    const quoteEl = document.getElementById('quote');
+    const easterEgg = document.getElementById('easterEgg');
+    let clickCount = 0;
+
+    // Rotate quotes
+    function changeQuote() {
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      quoteEl.style.opacity = '0';
+      setTimeout(() => {
+        quoteEl.textContent = randomQuote;
+        quoteEl.style.opacity = '0.8';
+      }, 200);
+    }
+
+    quoteEl.style.transition = 'opacity 0.2s ease';
+    setInterval(changeQuote, 5000);
+
+    // 404 click easter egg
+    errorCode.addEventListener('click', () => {
+      clickCount++;
+      errorCode.classList.add('shake');
+      setTimeout(() => errorCode.classList.remove('shake'), 500);
+
+      if (clickCount === 1) {
+        easterEgg.textContent = 'again...';
+      } else if (clickCount === 2) {
+        easterEgg.textContent = 'one more time...';
+      } else if (clickCount >= 3) {
+        easterEgg.textContent = '🎉';
+        triggerCatRain();
+        clickCount = 0;
+        setTimeout(() => {
+          easterEgg.textContent = 'psst... try clicking the 404';
+        }, 5000);
+      }
+    });
+
+    // Cat rain!
+    function triggerCatRain() {
+      const cats = ['🐱', '😺', '😸', '😹', '🐈', '🐈‍⬛', '😻', '🙀'];
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const cat = document.createElement('div');
+          cat.className = 'cat-rain';
+          cat.textContent = cats[Math.floor(Math.random() * cats.length)];
+          cat.style.left = Math.random() * 100 + 'vw';
+          cat.style.animationDuration = (Math.random() * 2 + 2) + 's';
+          document.body.appendChild(cat);
+          setTimeout(() => cat.remove(), 4000);
+        }, i * 100);
+      }
+    }
+
+    // Confetti burst on universe hover
+    const colors = ['#6C8CFF', '#A48CF9', '#F48AC1', '#4FD2A8', '#FFB964', '#FF6B6B', '#FFE66D'];
+    const sparkles = ['✨', '⭐', '💫', '🌟'];
+
+    function createConfettiBurst(originX, originY) {
+      const particleCount = 15;
+
+      for (let i = 0; i < particleCount; i++) {
+        const confetti = document.createElement('div');
+        const type = Math.random();
+
+        if (type < 0.6) {
+          // Regular particle
+          confetti.className = 'confetti particle';
+          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+          const size = Math.random() * 6 + 4;
+          confetti.style.width = size + 'px';
+          confetti.style.height = size + 'px';
+        } else if (type < 0.85) {
+          // Star/sparkle
+          confetti.className = 'confetti star';
+          confetti.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+        } else {
+          // Streamer
+          confetti.className = 'confetti streamer';
+          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        confetti.style.left = originX + 'px';
+        confetti.style.top = originY + 'px';
+        document.body.appendChild(confetti);
+
+        // Physics-based animation
+        const angle = (Math.random() * 120 + 210) * (Math.PI / 180); // Burst upward (210-330 degrees)
+        const velocity = Math.random() * 150 + 100;
+        const vx = Math.cos(angle) * velocity;
+        const vy = Math.sin(angle) * velocity;
+        const gravity = 400;
+        const rotationSpeed = (Math.random() - 0.5) * 1080;
+
+        let x = 0, y = 0, rotation = 0;
+        let startTime = null;
+
+        function animate(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = (timestamp - startTime) / 1000;
+
+          x = vx * elapsed;
+          y = vy * elapsed + 0.5 * gravity * elapsed * elapsed;
+          rotation = rotationSpeed * elapsed;
+
+          const opacity = Math.max(0, 1 - elapsed / 1.5);
+
+          confetti.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+          confetti.style.opacity = opacity;
+
+          if (elapsed < 1.5) {
+            requestAnimationFrame(animate);
+          } else {
+            confetti.remove();
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+    }
+
+    document.querySelectorAll('.universe').forEach(el => {
+      el.addEventListener('mouseenter', (e) => {
+        const rect = el.getBoundingClientRect();
+        const originX = rect.left + rect.width / 2;
+        const originY = rect.top + rect.height / 3;
+        createConfettiBurst(originX, originY);
+      });
+    });
+
+    // Konami code easter egg
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+          triggerCatRain();
+          konamiIndex = 0;
+        }
+      } else {
+        konamiIndex = 0;
+      }
+    });
+  </script>
+</body>
+</html>
