@@ -42,23 +42,42 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Service",
+    "@type": "ProfessionalService",
     "name": "The Fixer - Product Thinking",
     "description": "30 minutes of calm, judgment-free product thinking help for product managers and founders who are stuck.",
+    "url": "https://middleton.io/fixer",
     "provider": {
       "@type": "Person",
       "name": "Kevin Middleton",
       "url": "https://middleton.io",
-      "jobTitle": "Product Consultant",
-      "sameAs": "https://www.linkedin.com/in/kevinmiddleton"
+      "image": "https://middleton.io/images/profile-picture.jpg",
+      "description": "Full Stack Product Manager with 12+ years of experience building consumer, enterprise, and platform SaaS products.",
+      "sameAs": [
+        "https://www.linkedin.com/in/kevinmiddleton",
+        "https://github.com/kevinmmiddleton"
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Full Stack Product Manager",
+        "description": "Product manager who brings structure to ambiguity and helps teams move faster together.",
+        "skills": "Product Strategy, SaaS, A/B Testing, Cross-Functional Leadership"
+      }
     },
-    "url": "https://middleton.io/fixer",
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "USD"
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
     },
-    "areaServed": "Worldwide"
+    "areaServed": "Worldwide",
+    "potentialAction": {
+      "@type": "ReserveAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://calendly.com/kevin-middleton/let-s-talk"
+      },
+      "name": "Book a call"
+    }
   }
   </script>
 
