@@ -631,6 +631,24 @@
   font-style: italic;
 }
 
+/* ---------- ESCAPE HATCH LINK ---------- */
+
+.escape-link {
+  display: inline-block;
+  margin-top: var(--spacing-lg);
+  font-family: var(--kawaii-font);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--kawaii-text-soft);
+  text-decoration: none;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.escape-link:hover {
+  color: var(--kawaii-accent);
+}
+
 /* ---------- MOBILE ---------- */
 
 @media (max-width: 640px) {
