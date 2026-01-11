@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kevin's Recipe Book</title>
-  
+  <meta name="description" content="Product manager by day, home cook by night. Easy, actually tested, picky-eater approved recipes. Measured in grams, no life stories.">
+
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://middleton.io/recipes/">
   <meta property="og:title" content="Kevin's Recipe Book">
@@ -17,6 +18,9 @@
   <meta property="twitter:image" content="https://middleton.io/recipes/images/recipes.png">
 
   <meta name="theme-color" content="#faf8f4">
+
+  <link rel="icon" href="https://middleton.io/recipes/images/egg.png">
+  <link rel="apple-touch-icon" href="https://middleton.io/recipes/images/egg.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,5 +80,27 @@
   </div>
 
   <script src="app.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Kevin Middleton",
+    "url": "https://middleton.io",
+    "sameAs": [
+      "https://www.linkedin.com/in/kevinmiddleton"
+    ],
+    "description": "Product manager by day, home cook by night. I make complex work feel simple.",
+    "jobTitle": "Full Stack Product Manager",
+    "hasOccupation": {
+      "@type": "Occupation",
+      "name": "Full Stack Product Manager",
+      "description": "Works across people, process, and product. Hands-on at every level: running meetings, cleaning up details, digging into data, or building quick prototypes. Turns ambiguity into maintainable systems teams can own.",
+      "occupationLocation": {
+        "@type": "City",
+        "name": "New York, NY"
+      }
+    }
+  }
+  </script>
 </body>
 </html>

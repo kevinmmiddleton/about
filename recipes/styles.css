@@ -710,6 +710,18 @@ footer p {
   margin: 0;
 }
 
+footer a {
+  color: var(--color-terracotta);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+footer a:hover {
+  color: var(--color-terracotta-dark);
+  text-decoration: underline;
+}
+
 /* ============================================
    UTILITY
    ============================================ */
