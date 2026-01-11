@@ -10,7 +10,7 @@
   inset: 0;
   pointer-events: none;
   opacity: 0.035;
-  z-index: 1000;
+  z-index: 1;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
@@ -84,7 +84,7 @@
 
 .nyc-hero .meta {
   margin-top: var(--spacing-lg);
-  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
   font-size: 0.8rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -233,16 +233,16 @@
 .nyc-logos img {
   max-height: 40px;
   width: auto;
-  opacity: 0.7;
-  filter: grayscale(100%) invert(1) brightness(2);
-  transition: opacity 0.2s ease, filter 0.2s ease;
+  opacity: 0.6;
+  filter: grayscale(100%) invert(1) brightness(1.8);
+  transition: opacity 0.3s ease, filter 0.3s ease;
   flex-shrink: 1;
   min-width: 0;
 }
 
 .nyc-logos img:hover {
   opacity: 1;
-  filter: none;
+  filter: grayscale(0%) invert(0) brightness(1);
 }
 
 /* ---------- CTA ---------- */
@@ -271,11 +271,29 @@
 
 .nyc-cta .cta-note {
   margin-top: var(--spacing-md);
-  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-secondary);
+}
+
+.nyc-cta .cta-alt {
+  margin-top: var(--spacing-lg);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.nyc-cta .cta-alt a {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  transition: color 0.15s ease;
+}
+
+.nyc-cta .cta-alt a:hover {
+  color: var(--color-primary);
 }
 
 /* ---------- LINK STYLE ---------- */
@@ -290,6 +308,16 @@
 
 .nyc-section a:hover {
   color: var(--color-primary);
+}
+
+/* ---------- FOCUS STATES ---------- */
+
+.nyc-hero-link:focus-visible,
+.nyc-section a:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 /* ---------- MOBILE ---------- */
