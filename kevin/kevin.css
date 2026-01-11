@@ -51,14 +51,14 @@
   margin-bottom: var(--spacing-lg);
 }
 
-.kevin-nav-link {
+.kevin-nav a {
   font-size: 0.9rem;
   color: var(--kevin-text-soft);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.kevin-nav-link:hover {
+.kevin-nav a:hover {
   color: var(--kevin-gold);
 }
 
