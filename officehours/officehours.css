@@ -3,6 +3,39 @@
    Fun but focused on the visitor.
    ================================ */
 
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Skip link for keyboard users */
+.oh-skip-link {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--oh-accent, #e07455);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 8px 8px;
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+
+.oh-skip-link:focus {
+  top: 0;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 /* Warm, friendly palette */
 .oh-page {
   --oh-bg: #fffaf5;
@@ -41,7 +74,7 @@
 }
 
 .oh-page {
-  font-family: 'Nunito', var(--font-body), sans-serif;
+  font-family: 'Nunito', system-ui, sans-serif;
   background: var(--oh-bg);
   min-height: 100vh;
   padding-top: calc(60px + var(--spacing-2xl));
@@ -152,8 +185,8 @@
 
 /* ---------- WHITEBOARD ---------- */
 
-.oh-whiteboard {
-  margin-bottom: 0 !important;
+.oh-whiteboard.oh-section {
+  margin-bottom: 0;
 }
 
 .oh-whiteboard-frame {
@@ -192,7 +225,7 @@
 
 .oh-whiteboard h2 {
   font-family: 'Permanent Marker', cursive;
-  font-size: 2.2rem !important;
+  font-size: 2.2rem;
   font-weight: 400;
   color: #000;
   margin-bottom: var(--spacing-md);
@@ -305,7 +338,7 @@
 
 .oh-card h2 {
   font-family: 'Patrick Hand', cursive;
-  font-size: 1.8rem !important;
+  font-size: 1.8rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -376,7 +409,7 @@
 
 .oh-card-highlight h2 {
   font-family: 'Caveat', cursive;
-  font-size: 1.5rem !important;
+  font-size: 1.5rem;
   font-weight: 700;
   padding-top: 0;
   height: auto;
