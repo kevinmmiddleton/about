@@ -234,6 +234,22 @@ body {
     content: '';
 }
 
+.menubar-back {
+    color: var(--text);
+    text-decoration: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+    margin-right: 1px;
+}
+
+.menubar-back:hover {
+    opacity: 1;
+    color: var(--text);
+}
+
 .menubar-app {
     font-weight: 600;
     text-decoration: none;
