@@ -136,17 +136,51 @@ allNavItems.forEach(item => item.addEventListener('click', () => openWindow(item
 
 // Profile "Let's Connect" button handler
 const profileConnectBtn = document.getElementById('profileConnectBtn');
-if (profileConnectBtn) {
-    profileConnectBtn.addEventListener('click', () => {
+const shareSheet = document.getElementById('shareSheet');
+const shareSheetBackdrop = document.getElementById('shareSheetBackdrop');
+const shareSheetCancel = document.getElementById('shareSheetCancel');
+
+function openShareSheet() {
+    shareSheetBackdrop.classList.add('active');
+    // Small delay to allow display:block to take effect before transform
+    requestAnimationFrame(() => {
+        shareSheet.classList.add('active');
+    });
+}
+
+function closeShareSheet() {
+    shareSheet.classList.remove('active');
+    setTimeout(() => {
+        shareSheetBackdrop.classList.remove('active');
+    }, 350);
+}
+
+// Use event delegation for profile connect button (works with cloned mobile overlay content)
+document.addEventListener('click', (e) => {
+    if (e.target.closest('.profile-connect-btn')) {
         if (isMobile()) {
-            closeMobileOverlay();
-            setTimeout(() => openMobileOverlay('connect'), 150);
+            openShareSheet();
         } else {
             closeWindow('about');
             openWindow('connect');
         }
-    });
+    }
+});
+
+if (shareSheetBackdrop) {
+    shareSheetBackdrop.addEventListener('click', closeShareSheet);
 }
+
+if (shareSheetCancel) {
+    shareSheetCancel.addEventListener('click', closeShareSheet);
+}
+
+// Close share sheet when clicking an option (after a small delay for feedback)
+document.querySelectorAll('.share-sheet-option').forEach(option => {
+    option.addEventListener('click', () => {
+        setTimeout(closeShareSheet, 150);
+    });
+});
 
 // Focus management for windows
 function setWindowFocus(focusedWin) {
@@ -4359,7 +4393,7 @@ function createMobileOverlay(windowId) {
 
     const closeBtn = document.createElement('button');
     closeBtn.className = 'mobile-close-btn';
-    closeBtn.textContent = 'Done';
+    closeBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
     closeBtn.addEventListener('click', closeMobileOverlay);
 
     header.appendChild(title);
@@ -4554,7 +4588,7 @@ function openGamesOverlay() {
 
         const closeBtn = document.createElement('button');
         closeBtn.className = 'mobile-close-btn';
-        closeBtn.textContent = 'Done';
+        closeBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
         closeBtn.addEventListener('click', closeMobileOverlay);
 
         header.appendChild(title);
@@ -4631,7 +4665,7 @@ function openGameOverlay(gameId) {
         if (header) {
             backBtn = document.createElement('button');
             backBtn.className = 'mobile-game-back-btn mobile-close-btn';
-            backBtn.textContent = 'Close';
+            backBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
             backBtn.addEventListener('click', () => closeGameOverlay(gameId));
             header.style.position = 'relative';
             header.appendChild(backBtn);
@@ -4836,7 +4870,7 @@ const searchableItems = [
     { type: 'window', id: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
     { type: 'window', id: 'projects', icon: '📊', title: 'Projects', subtitle: 'projects/' },
     { type: 'window', id: 'skills', icon: '⚙️', title: 'Skills', subtitle: 'skills.config' },
-    { type: 'window', id: 'recommendations', icon: '💬', title: 'Recommendations', subtitle: 'reviews.log' },
+    { type: 'window', id: 'recommendations', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
     // Fun/personality
     { type: 'window', id: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
     { type: 'window', id: 'recipesdb', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },

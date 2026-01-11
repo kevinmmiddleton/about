@@ -220,18 +220,16 @@
                                 data-photo-src="https://middleton.io/images/profile-picture.jpg"
                                 data-photo-title="Kevin Middleton">
                             <div class="profile-photos-row">
-                                <div class="profile-photos-stack">
-                                    <img src="https://middleton.io/images/cat-illustration.png" alt="Cat illustration"
-                                        class="profile-thumb" data-photo="cat-illustration"
-                                        data-photo-src="https://middleton.io/images/cat-illustration.png"
-                                        data-photo-title="Cat + Dad">
-                                    <img src="https://middleton.io/images/carne-asada-fries-homemade.jpg"
-                                        alt="Homemade carne asada fries" class="profile-thumb" data-photo="carne-asada"
-                                        data-photo-src="https://middleton.io/images/carne-asada-fries-homemade.jpg"
-                                        data-photo-title="Homemade Carne Asada Fries">
-                                </div>
+                                <img src="https://middleton.io/images/cat-illustration.png" alt="Cat illustration"
+                                    class="profile-thumb" data-photo="cat-illustration"
+                                    data-photo-src="https://middleton.io/images/cat-illustration.png"
+                                    data-photo-title="Cat + Dad">
+                                <img src="https://middleton.io/images/carne-asada-fries-homemade.jpg"
+                                    alt="Homemade carne asada fries" class="profile-thumb" data-photo="carne-asada"
+                                    data-photo-src="https://middleton.io/images/carne-asada-fries-homemade.jpg"
+                                    data-photo-title="Homemade Carne Asada Fries">
                                 <img src="https://middleton.io/images/cats-photo.jpg" alt="Kevin's cats"
-                                    class="profile-cats" data-photo="cats-photo"
+                                    class="profile-thumb" data-photo="cats-photo"
                                     data-photo-src="https://middleton.io/images/cats-photo.jpg"
                                     data-photo-title="Blue, Scarlet & Luna">
                             </div>
@@ -240,8 +238,6 @@
                             <p>I love working with collaborative teams and learning from curious, thoughtful people. I
                                 care about how teams communicate, how decisions get made, and how to keep work moving
                                 without unnecessary friction.</p>
-                            <p>I'm at my best when I'm bringing alignment across engineering, design, operations,
-                                marketing, and support by clarifying decisions and keeping momentum strong.</p>
                             <div class="profile-callout">
                                 <h4>💡 What I Mean by "Full Stack PM"</h4>
                                 <p>I work across people, process, and product. I'm hands-on at every level: running
@@ -249,7 +245,9 @@
                                     turn ambiguity into maintainable systems teams can own, and I use AI where it
                                     removes friction or speeds things up.</p>
                             </div>
-                            <p style="margin-top: 20px;">Outside of work, I enjoy cooking, spending time with my cats,
+                            <p style="margin-top: 20px;">I'm at my best when I'm bringing alignment across engineering, design, operations,
+                                marketing, and support by clarifying decisions and keeping momentum strong.</p>
+                            <p>Outside of work, I enjoy cooking, spending time with my cats,
                                 and getting lost in pop culture and trivia.</p>
                             <button class="profile-connect-btn" id="profileConnectBtn">Let's Connect</button>
                         </div>
@@ -827,7 +825,7 @@
                 </div>
             </section>
 
-            <!-- reviews.log -->
+            <!-- reviews.chat -->
             <section class="window" id="recommendations" data-window="recommendations">
                 <header class="window-header">
                     <div class="window-dots">
@@ -837,44 +835,29 @@
                     </div>
                     <div class="window-title">
                         <span class="window-icon">💬</span>
-                        reviews.log
-                        <span class="file-badge log">LOG</span>
+                        reviews.chat
+                        <span class="file-badge chat">CHAT</span>
                     </div>
                     <span class="window-path">~/kevin/</span>
                 </header>
-                <div class="window-content">
-                    <div class="log-entry">
-                        <div class="log-ts">[INFO] recommendation_received</div>
-                        <p class="log-quote">"Kevin possesses a unique ability to blend the art and science of Product
-                            Management seamlessly, ensuring that every initiative is meticulously executed and driven by
-                            creativity and innovation."</p>
-                        <div class="log-author"><span class="log-name">Wesley Barnes</span><span
-                                class="log-badge">Former Manager</span><span class="log-role">— Director of
-                                Product</span></div>
+                <div class="window-content chat-content">
+                    <div class="chat-message">
+                        <div class="chat-sender">Wesley Barnes · <span class="chat-role">Director of Product</span> <span class="chat-badge">Former Manager</span></div>
+                        <div class="chat-bubble">Kevin possesses a unique ability to blend the art and science of Product Management seamlessly, ensuring that every initiative is meticulously executed and driven by creativity and innovation.</div>
                     </div>
-                    <div class="log-entry">
-                        <div class="log-ts">[INFO] recommendation_received</div>
-                        <p class="log-quote">"Kevin fought for the best possible experience, and brokered agreements
-                            across PM, UX, and Engineering. His work ethic, attention to detail, and obsession with
-                            delivering great experiences earned my respect."</p>
-                        <div class="log-author"><span class="log-name">Emily Leahy-Thieler</span><span
-                                class="log-role">— Design Leader</span></div>
+                    <div class="chat-message">
+                        <div class="chat-sender">Emily Leahy-Thieler · <span class="chat-role">Design Leader</span></div>
+                        <div class="chat-bubble">Kevin fought for the best possible experience, and brokered agreements across PM, UX, and Engineering. His work ethic, attention to detail, and obsession with delivering great experiences earned my respect.</div>
                     </div>
-                    <div class="log-entry">
-                        <div class="log-ts">[INFO] recommendation_received</div>
-                        <p class="log-quote">"Kevin is a top-notch PM who fights for quality products and for his team."
-                        </p>
-                        <div class="log-author"><span class="log-name">Christina James</span><span class="log-role">—
-                                Staff QA Analyst</span></div>
+                    <div class="chat-message">
+                        <div class="chat-sender">Christina James · <span class="chat-role">Staff QA Analyst</span></div>
+                        <div class="chat-bubble">Kevin is a top-notch PM who fights for quality products and for his team.</div>
                     </div>
-                    <div class="log-entry">
-                        <div class="log-ts">[INFO] recommendation_received</div>
-                        <p class="log-quote">"Kevin brings structure without killing creativity, clarity without slowing
-                            momentum, and a rare ability to help teams move faster together."</p>
-                        <div class="log-author"><span class="log-name">Matt Triplett</span><span
-                                class="log-badge">Former Manager</span><span class="log-role">— Product Leader</span></div>
+                    <div class="chat-message">
+                        <div class="chat-sender">Matt Triplett · <span class="chat-role">Product Leader</span> <span class="chat-badge">Former Manager</span></div>
+                        <div class="chat-bubble">Kevin brings structure without killing creativity, clarity without slowing momentum, and a rare ability to help teams move faster together.</div>
                     </div>
-                    <div class="log-footer"><a
+                    <div class="chat-footer"><a
                             href="https://www.linkedin.com/in/kevinmiddleton/details/recommendations/"
                             target="_blank">View more on LinkedIn →</a></div>
                 </div>
@@ -1255,7 +1238,7 @@
                 </div>
             </section>
 
-            <!-- snake.app (STAKEHOLDER SNAKE game) -->
+            <!-- snake.app (REQUIREMENTS SNAKE game) -->
             <section class="window game-window" id="snake" data-window="snake">
                 <header class="window-header">
                     <div class="window-dots">
@@ -1275,7 +1258,7 @@
                         <!-- Start Screen -->
                         <div class="game-screen game-start" id="snakeStart">
                             <button class="game-btn-link see-all-games game-back-link mobile-only" data-action="see-all-games">← See All Games</button>
-                            <div class="game-title">🐍 STAKEHOLDER SNAKE 🐍</div>
+                            <div class="game-title">🐍 REQUIREMENTS SNAKE 🐍</div>
                             <div class="game-subtitle">Just one more feature... and another... and another.</div>
                             <div class="game-flavor">Collect requirements. Watch your backlog grow. Don't crash into it.</div>
                             <div class="game-instructions">
@@ -1446,9 +1429,11 @@
                 </header>
                 <!-- Mobile header for iOS-style navigation -->
                 <header class="recipes-mobile-header">
-                    <button class="recipes-mobile-close" onclick="closeWindow('recipesdb')">✕</button>
-                    <h1 class="recipes-mobile-title">Recipes</h1>
                     <span class="recipes-mobile-spacer"></span>
+                    <h1 class="recipes-mobile-title">Recipes</h1>
+                    <button class="recipes-mobile-close" onclick="closeWindow('recipesdb')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
                 </header>
                 <div class="window-content">
                     <div class="db-toolbar">
@@ -1694,7 +1679,7 @@
         <button class="dock-item" data-window="skills" data-tooltip="skills.config">
             <span class="dock-emoji">⚙️</span>
         </button>
-        <button class="dock-item" data-window="recommendations" data-tooltip="reviews.log">
+        <button class="dock-item" data-window="recommendations" data-tooltip="reviews.chat">
             <span class="dock-emoji">💬</span>
         </button>
         <button class="dock-item desktop-only" data-window="games" data-tooltip="games/">
@@ -1723,6 +1708,34 @@
             <span class="dock-emoji">📄</span>
         </a>
     </nav>
+
+    <!-- Mobile Contact Share Sheet -->
+    <div class="share-sheet-backdrop" id="shareSheetBackdrop"></div>
+    <div class="share-sheet" id="shareSheet">
+        <div class="share-sheet-handle"></div>
+        <div class="share-sheet-header">
+            <span class="share-sheet-title">Connect with Kevin</span>
+        </div>
+        <div class="share-sheet-options">
+            <a href="mailto:kevin@middleton.io" class="share-sheet-option plausible-event-name=Contact+Email">
+                <span class="share-sheet-icon">📧</span>
+                <span class="share-sheet-label">Email</span>
+            </a>
+            <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="share-sheet-option plausible-event-name=Contact+LinkedIn">
+                <span class="share-sheet-icon">💼</span>
+                <span class="share-sheet-label">LinkedIn</span>
+            </a>
+            <a href="https://github.com/kevinmmiddleton" target="_blank" class="share-sheet-option plausible-event-name=GitHub+Click">
+                <span class="share-sheet-icon">🐙</span>
+                <span class="share-sheet-label">GitHub</span>
+            </a>
+            <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="share-sheet-option plausible-event-name=Calendly+Click">
+                <span class="share-sheet-icon">📅</span>
+                <span class="share-sheet-label">Book a Call</span>
+            </a>
+        </div>
+        <button class="share-sheet-cancel" id="shareSheetCancel">Cancel</button>
+    </div>
 
     <!-- Floating Music Player (outside desktop for party mode) -->
     <div class="music-player" id="musicPlayer" style="display: none;">
