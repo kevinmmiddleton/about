@@ -11,12 +11,16 @@
   --kawaii-blue: #BAE1FF;
   --kawaii-peach: #FFDFBA;
   --kawaii-yellow: #FFFFBA;
+  --kawaii-white: #fff;
   --kawaii-bg: linear-gradient(135deg, #fdf6f9 0%, #f5f0ff 50%, #f0f7ff 100%);
   --kawaii-card: rgba(255, 255, 255, 0.75);
   --kawaii-border: rgba(224, 187, 228, 0.4);
   --kawaii-text: #4a4458;
   --kawaii-text-soft: #7d7589;
   --kawaii-accent: #9b7bb8;
+  --kawaii-font: 'Nunito', sans-serif;
+  --kawaii-font-accent: 'Caveat', cursive;
+  --kawaii-blur: blur(12px);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,7 +38,7 @@
 }
 
 .kawaii-page {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--kawaii-font);
   background: var(--kawaii-bg);
   min-height: 100vh;
   padding-top: calc(60px + var(--spacing-xl));
@@ -159,7 +163,7 @@
 /* ---------- HANDWRITTEN FONT ---------- */
 
 .handwritten {
-  font-family: 'Caveat', cursive;
+  font-family: var(--kawaii-font-accent);
   font-size: 1.2em;
   color: var(--kawaii-accent);
 }
@@ -236,7 +240,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: var(--kawaii-pink);
-  color: white;
+  color: var(--kawaii-white);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: 700;
@@ -264,7 +268,7 @@
 }
 
 .kawaii-hero h1 {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--kawaii-font);
   font-size: clamp(2.5rem, 7vw, 3.5rem);
   font-weight: 800;
   margin-bottom: var(--spacing-md);
@@ -316,7 +320,7 @@
   display: inline-flex;
   align-items: center;
   padding: 0.75rem 1.25rem;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--kawaii-font);
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--kawaii-accent);
@@ -330,7 +334,7 @@
 
 .kawaii-btn-ghost:hover {
   background: var(--kawaii-lavender);
-  color: #fff;
+  color: var(--kawaii-white);
   transform: translateY(-2px);
 }
 
@@ -379,8 +383,8 @@
   border-radius: 24px;
   padding: var(--spacing-xl);
   margin-bottom: var(--spacing-md);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: var(--kawaii-blur);
+  -webkit-backdrop-filter: var(--kawaii-blur);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -419,7 +423,7 @@
 }
 
 .kawaii-section h2 {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--kawaii-font);
   font-size: 1.5rem;
   font-weight: 800;
   margin-bottom: var(--spacing-md);
@@ -556,12 +560,12 @@
   padding: var(--spacing-2xl);
   background: var(--kawaii-card);
   border-radius: 32px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: var(--kawaii-blur);
+  -webkit-backdrop-filter: var(--kawaii-blur);
 }
 
 .kawaii-cta h3 {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--kawaii-font);
   font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 800;
   margin-bottom: var(--spacing-md);
@@ -588,8 +592,8 @@
 .kawaii-btn {
   display: inline-block;
   background: linear-gradient(135deg, var(--kawaii-lavender) 0%, var(--kawaii-pink) 100%);
-  color: #fff !important;
-  font-family: 'Nunito', sans-serif;
+  color: var(--kawaii-white) !important;
+  font-family: var(--kawaii-font);
   font-size: 1.2rem;
   font-weight: 800;
   padding: 1rem 2rem;
@@ -757,13 +761,13 @@
 
 .music-icon {
   font-size: 1.2rem;
-  color: white;
+  color: var(--kawaii-white);
   font-weight: bold;
   text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .music-label {
-  font-family: 'Caveat', cursive;
+  font-family: var(--kawaii-font-accent);
   font-size: 1rem;
   color: var(--kawaii-accent);
   animation: labelPulse 1s ease-in-out infinite;
