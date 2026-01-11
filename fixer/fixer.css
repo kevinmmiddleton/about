@@ -4,11 +4,30 @@
    Legal pad on oak desk aesthetic.
    ================================ */
 
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--fixer-accent);
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 100;
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
 /* Warm neutral palette */
 .fixer-page {
   --fixer-paper: #fff;
   --fixer-text: #3d3d3d;
-  --fixer-text-soft: #6b6b6b;
+  --fixer-text-soft: #595959;
   --fixer-accent: #7a9e8a;
   --fixer-accent-hover: #6b8e7a;
   --fixer-card-shadow: rgba(0, 0, 0, 0.12);
@@ -36,8 +55,8 @@
   position: relative;
   
   /* Oak desk texture */
-  background: 
-    url('https://www.ikea.com/us/en/images/products/moellekulla-countertop-oak-veneer__0866651_pe643051_s5.jpg') center center / cover no-repeat fixed;
+  background:
+    url('https://middleton.io/fixer/images/desktop.jpg') center center / cover no-repeat fixed;
 }
 
 /* Subtle vignette */
