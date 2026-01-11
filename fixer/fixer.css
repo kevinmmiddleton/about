@@ -47,13 +47,16 @@
 .desk-surface {
   min-height: 100vh;
   padding: var(--spacing-2xl);
+  padding-bottom: var(--spacing-md);
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: flex-start;
+  align-content: flex-start;
   justify-content: center;
   gap: var(--spacing-xl);
   position: relative;
-  
+
   /* Oak desk texture */
   background:
     url('https://middleton.io/fixer/images/desktop.jpg') center center / cover no-repeat fixed;
@@ -701,6 +704,9 @@
   z-index: 10;
   text-align: center;
   padding: var(--spacing-xl) var(--spacing-md);
+  width: 100%;
+  flex-basis: 100%;
+  margin-top: auto;
 }
 
 .fixer-footer p {
