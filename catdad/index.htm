@@ -35,9 +35,35 @@
     window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
     plausible.init()
   </script>
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Kevin Middleton",
+    "jobTitle": "Product Manager",
+    "url": "https://middleton.io",
+    "sameAs": [
+      "https://www.linkedin.com/in/kevinmiddleton"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "New York City",
+      "addressRegion": "NY",
+      "addressCountry": "US"
+    },
+    "description": "Product manager with 12+ years experience building products at Oracle, Rocket Lawyer, Lever, Sendoso, and more. Believes great work comes from teams that actually like working together.",
+    "knowsAbout": ["Product Management", "Enterprise Software", "Conversion Optimization", "Complex Integrations"]
+  }
+  </script>
 </head>
 
 <body>
+  <noscript>
+    <div style="text-align: center; padding: 2rem; font-family: sans-serif; color: #4a4458;">
+      Best viewed with JavaScript enabled~ ✨🐱
+    </div>
+  </noscript>
   <!-- Floating background emojis -->
   <div class="floating-emojis" aria-hidden="true">
     <span class="float-emoji" style="--delay: 0s; --duration: 15s; --start: 5%;">✨</span>
@@ -133,7 +159,7 @@
         <p>Yes, there are three. They've taught me a lot about teamwork~ ♡</p>
         <div class="cats-photo wiggle-hover">
           <img src="https://middleton.io/catdad/images/blue_scarlet_luna.png"
-            alt="Blue, Scarlet, and Luna, the three cats">
+            alt="Blue, Scarlet, and Luna, the three cats" loading="lazy">
         </div>
         <ul class="kawaii-list cat-list">
           <li><strong>Blue</strong>: The advocate. If someone's not getting their fair share, he'll let you know. ⚖️</li>
