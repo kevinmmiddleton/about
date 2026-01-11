@@ -744,6 +744,39 @@ if (mobileVideoPlayer) {
     });
 }
 
+// Desktop - video window dragging
+const videoHeader = document.querySelector('.video-header');
+let videoDragging = false;
+let videoStartX, videoStartY, videoStartLeft, videoStartTop;
+
+if (videoHeader && videoWindow) {
+    videoHeader.addEventListener('mousedown', e => {
+        if (e.target.classList.contains('window-dot')) return;
+        e.preventDefault();
+        videoWindow.style.zIndex = getNextZIndex();
+        videoDragging = true;
+        videoStartX = e.clientX;
+        videoStartY = e.clientY;
+        const rect = videoWindow.getBoundingClientRect();
+        videoStartLeft = rect.left;
+        videoStartTop = rect.top;
+        videoWindow.style.transition = 'none';
+    });
+
+    document.addEventListener('mousemove', e => {
+        if (!videoDragging) return;
+        videoWindow.style.left = (videoStartLeft + e.clientX - videoStartX) + 'px';
+        videoWindow.style.top = (videoStartTop + e.clientY - videoStartY) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (videoDragging) {
+            videoDragging = false;
+            videoWindow.style.transition = '';
+        }
+    });
+}
+
 // ===================
 // PARTY MODE
 // ===================
@@ -4795,18 +4828,25 @@ const spotlightBtn = document.getElementById('spotlightBtn');
 
 // Searchable items
 const searchableItems = [
+    // Identity
     { type: 'window', id: 'about', icon: '👤', title: 'Profile', subtitle: 'profile.yaml' },
-    { type: 'window', id: 'seeking', icon: '🔍', title: 'Seeking', subtitle: 'seeking.query' },
     { type: 'window', id: 'values', icon: '🧭', title: 'Values', subtitle: '.values' },
+    { type: 'window', id: 'seeking', icon: '🔍', title: 'Seeking', subtitle: 'seeking.query' },
+    // Proof of work
     { type: 'window', id: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
     { type: 'window', id: 'projects', icon: '📊', title: 'Projects', subtitle: 'projects/' },
     { type: 'window', id: 'skills', icon: '⚙️', title: 'Skills', subtitle: 'skills.config' },
     { type: 'window', id: 'recommendations', icon: '💬', title: 'Recommendations', subtitle: 'reviews.log' },
+    // Fun/personality
     { type: 'window', id: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
-    { type: 'window', id: 'connect', icon: '📧', title: 'Connect', subtitle: 'connect.sh' },
+    { type: 'window', id: 'recipesdb', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },
+    // Action
+    { type: 'window', id: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
+    // System actions
     { type: 'action', id: 'theme', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
     { type: 'action', id: 'launchpad', icon: '⊞', title: 'Launchpad', subtitle: 'View all apps' },
     { type: 'action', id: 'mission', icon: '☰', title: 'Mission Control', subtitle: 'View all windows' },
+    // External links
     { type: 'link', id: 'email', icon: '📧', title: 'Email Kevin', subtitle: 'kevin@middleton.io', url: 'mailto:kevin@middleton.io' },
     { type: 'link', id: 'linkedin', icon: '💼', title: 'LinkedIn', subtitle: 'linkedin.com/in/kevinmiddleton', url: 'https://linkedin.com/in/kevinmiddleton' },
     { type: 'link', id: 'calendly', icon: '📅', title: 'Schedule a Call', subtitle: 'calendly.com', url: 'https://calendly.com/kevin-middleton/let-s-talk' },
@@ -5025,16 +5065,22 @@ const launchpadInput = document.getElementById('launchpadInput');
 const launchpadBtn = document.getElementById('launchpadBtn');
 
 const launchpadApps = [
+    // Identity
     { id: 'about', icon: '👤', label: 'Profile' },
-    { id: 'seeking', icon: '🔍', label: 'Seeking' },
     { id: 'values', icon: '🧭', label: 'Values' },
+    { id: 'seeking', icon: '🔍', label: 'Seeking' },
+    // Proof of work
     { id: 'experience', icon: '📁', label: 'Experience' },
     { id: 'projects', icon: '📊', label: 'Projects' },
     { id: 'skills', icon: '⚙️', label: 'Skills' },
     { id: 'recommendations', icon: '💬', label: 'Reviews' },
+    // Fun/personality
     { id: 'games', icon: '🎮', label: 'Games' },
-    { id: 'connect', icon: '📧', label: 'Connect' },
     { id: 'recipesdb', icon: '🗃️', label: 'Recipes' },
+    { id: 'party', icon: '🪩', label: 'Party', action: true },
+    { id: 'videos', icon: '📺', label: 'Videos', action: true },
+    // Action
+    { id: 'connect', icon: '📟', label: 'Connect' },
 ];
 
 function openLaunchpad() {
@@ -5058,7 +5104,7 @@ function renderLaunchpadGrid(filter) {
         : launchpadApps.filter(app => app.label.toLowerCase().includes(filter.toLowerCase()));
 
     launchpadGrid.innerHTML = filtered.map(app => `
-        <div class="launchpad-item" data-window="${app.id}">
+        <div class="launchpad-item" data-window="${app.id}" data-action="${app.action || false}">
             <div class="launchpad-icon">${app.icon}</div>
             <div class="launchpad-label">${app.label}</div>
         </div>
@@ -5067,9 +5113,21 @@ function renderLaunchpadGrid(filter) {
     launchpadGrid.querySelectorAll('.launchpad-item').forEach(item => {
         item.addEventListener('click', () => {
             const windowId = item.dataset.window;
+            const isAction = item.dataset.action === 'true';
             closeLaunchpad();
-            // Delay to let overlay fade out, then bring window to top
-            setTimeout(() => openWindow(windowId), 300);
+            // Delay to let overlay fade out
+            setTimeout(() => {
+                if (isAction) {
+                    // Handle action-type items
+                    if (windowId === 'party') {
+                        document.getElementById('partyBtn')?.click();
+                    } else if (windowId === 'videos') {
+                        document.getElementById('videosBtn')?.click();
+                    }
+                } else {
+                    openWindow(windowId);
+                }
+            }, 300);
         });
     });
 }
