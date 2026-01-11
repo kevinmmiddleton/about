@@ -49,6 +49,41 @@
   window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
   plausible.init()
 </script>
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://middleton.io/#person",
+      "name": "Kevin Middleton",
+      "url": "https://middleton.io/",
+      "sameAs": ["https://www.linkedin.com/in/kevinmiddleton"],
+      "description": "Product leader who helps teams untangle messy problems and ship with clarity.",
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Product Coach",
+        "description": "Helps product managers and teams work through scope creep, stakeholder confusion, prioritization paralysis, and roadmap challenges."
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://middleton.io/officehours#service",
+      "name": "Product Office Hours",
+      "description": "Free 30-minute product coaching sessions. Bring a messy problem—scope creep, stakeholder confusion, prioritization paralysis—and leave with a clearer head.",
+      "url": "https://middleton.io/officehours",
+      "provider": { "@id": "https://middleton.io/#person" },
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  ]
+}
+</script>
 </head>
 
 <body>
