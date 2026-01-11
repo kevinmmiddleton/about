@@ -52,8 +52,6 @@
 
   /* ===== Tints ===== */
   --tint-blue-20: rgba(108, 140, 255, 0.20);
-  --tint-purple-20: rgba(164, 140, 249, 0.20);
-  --tint-pink-20: rgba(244, 138, 193, 0.20);
 
   /* ===== Full Tint Variables for Case Study Sections ===== */
   --tint-blue: rgba(108, 140, 255, 0.35);
@@ -320,22 +318,6 @@
   background: rgba(var(--warning-rgb), 0.38) !important;
 }
 
-/* Optional: stronger variants for emphasis */
-/* Blue tint 20% opacity */
-.tint-blue-20 {
-  background: rgba(var(--primary-rgb), 0.20) !important;
-}
-
-/* Purple tint 20% opacity */
-.tint-purple-20 {
-  background: rgba(var(--purple-rgb), 0.20) !important;
-}
-
-/* Pink tint 20% opacity */
-.tint-pink-20 {
-  background: rgba(var(--pink-rgb), 0.20) !important;
-}
-
 /* ========== Reset & Base Styles ========== */
 * {
   margin: 0;
@@ -533,47 +515,11 @@ img {
   background: none;
 }
 
-.hero-content {
-  max-width: 900px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.hero-header {
-  margin-bottom: var(--spacing-xl);
-}
-
 .hero-name {
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 800;
   color: var(--text-primary);
   margin-bottom: var(--spacing-sm);
-}
-
-.hero-role {
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.hero-location {
-  margin-top: var(--spacing-sm);
-  color: var(--text-secondary);
-  font-size: 1rem;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: var(--spacing-md);
-  justify-content: center;
-  margin-bottom: var(--spacing-xl);
-  flex-wrap: wrap;
-}
-
-
-.hero-title-container {
-  margin-bottom: var(--spacing-md);
 }
 
 .hero-title {
@@ -582,12 +528,6 @@ img {
   color: var(--text-primary);
   line-height: 1.4;
   white-space: nowrap;
-}
-
-.hero-description {
-  font-size: clamp(0.95rem, 2vw, 1.125rem);
-  color: var(--text-secondary);
-  line-height: 1.6;
 }
 
 .hero-side-project {
@@ -614,29 +554,6 @@ img {
 
 .about-text a:hover {
     text-decoration: underline;
-}
-
-.scroll-indicator {
-  animation: bounce 2s infinite;
-}
-
-.scroll-indicator svg {
-  width: 32px;
-  height: 32px;
-  color: var(--white);
-  opacity: 0.8;
-}
-
-@keyframes bounce {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
 }
 
 /* ========== Buttons ========== */
@@ -818,11 +735,7 @@ img {
   position: relative;
 }
 
-/* Hover */
-.values-grid .value-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-20);
-}
+/* Value cards are non-interactive - no hover */
 
 
 /* Icons */
@@ -835,10 +748,7 @@ img {
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.value-card:hover .value-card-icon {
-  opacity: 1;
-  transform: translateY(-2px);
-}
+/* Value card icons are non-interactive - no hover */
 
 /* Header alignment */
 .value-card .value-card-header {
@@ -893,7 +803,8 @@ img {
   transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
-.glass-card:hover {
+/* Glass card hover only for interactive cards (project cards) */
+.project-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-20);
 }
@@ -903,126 +814,11 @@ img {
   overflow: hidden;
 }
 
-.card-header {
-  display: flex;
-  gap: var(--spacing-md);
-  padding: var(--spacing-lg);
-  padding-top: var(--spacing-md);
-  align-items: start;
-}
-
-.company-logo {
-  width: 64px;
-  height: 64px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.company-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transform: scale(1.25);
-}
-
-.company-info {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-@media (max-width: 640px) {
-  .company-info {
-    width: 100% !important;
-    text-align: center !important;
-    align-items: center !important;
-  }
-}
-
-.company-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-xs);
-}
-
-.company-name a {
-  color: var(--color-primary);
-  transition: color var(--transition-fast);
-}
-
-.company-name a:hover {
-  color: var(--color-secondary);
-}
-
-.company-note {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--text-secondary);
-}
-
-.job-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-xs);
-}
-
-.job-period {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-}
-
 .card-content {
   padding: 0 var(--spacing-lg) var(--spacing-lg);
 }
 
-.job-description {
-  margin-bottom: var(--spacing-md);
-  line-height: 1.7;
-  color: var(--text-secondary);
-}
-
-.job-highlights {
-  list-style: disc;
-  padding-left: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-}
-
-.job-highlights li {
-  margin-bottom: var(--spacing-sm);
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
-
-/* ===== Career Highlights Icon Sizing ===== */
-.career-highlight-icon svg {
-  width: 26px;
-  height: 26px;
-  min-width: 26px;
-  min-height: 26px;
-  flex-shrink: 0;
-  color: var(--color-primary);
-}
-
 /* ========== Education & Certifications Section ========== */
-.education-certifications-section {
-  padding-top: var(--spacing-xl);
-  padding-bottom: var(--spacing-xl);
-  padding-left: var(--spacing-md);
-  padding-right: var(--spacing-md);
-  margin-top: 1rem;
-}
-
-.education-certifications-section .container {
-  max-width: 1100px;
-}
-
 .education-cert-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1126,31 +922,12 @@ img {
 
 
 
-/* Degree + School */
-
-.edu-degree {
-  font-size: 0.82rem;
-  /* currently smaller — increase to match cert group titles */
-  font-weight: 700;
-  /* match .cert-group-title weight */
-  line-height: 1.25;
-  margin-bottom: 0.4rem;
-  font-family: var(--font-heading);
-}
-
 .edu-degree-title {
   font-size: 0.82rem;
   font-weight: 650;
   line-height: 1.25;
   font-family: var(--font-heading);
   margin-bottom: 0.4rem;
-}
-
-.edu-school {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.35rem;
-  /* previously 0.6rem */
 }
 
 .edu-subtitle {
@@ -1207,19 +984,6 @@ img {
   color: var(--text-secondary);
 }
 
-.cert-item-title {
-  font-size: 0.78rem;
-  font-weight: 500;
-  line-height: 1.45;
-  color: var(--text-primary);
-}
-
-.cert-item-meta {
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
-
 /* -------- Mobile -------- */
 @media (max-width: 900px) {
   .education-cert-grid {
@@ -1228,24 +992,6 @@ img {
 }
 
 /* ========== Grids ========== */
-.experience-grid {
-  display: grid;
-  gap: var(--spacing-xl);
-}
-
-/* Make Education & Certifications cards display side by side on larger screens */
-#education .experience-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-xl);
-}
-
-@media (max-width: 900px) {
-  #education .experience-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -1333,39 +1079,10 @@ img {
   margin-bottom: var(--spacing-sm);
 }
 
-.project-link {
-  display: block;
-}
-
-.project-link:hover .project-title {
-  color: var(--color-primary);
-}
-
 .project-description {
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: var(--spacing-md);
-}
-
-/* ========== Project Images ========== */
-.project-images {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: var(--spacing-sm);
-  margin: var(--spacing-md) 0;
-}
-
-.project-images img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: transform var(--transition-base);
-}
-
-.project-images img:hover {
-  transform: scale(1.05);
 }
 
 /* ========== Tags ========== */
@@ -1581,6 +1298,35 @@ img {
   transform: scale(1.1);
 }
 
+.close-lightbox:focus {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+.close-lightbox:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.close-lightbox:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+/* Lightbox trigger focus styles */
+.lightbox-trigger:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.lightbox-trigger:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.lightbox-trigger:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 /* ========== Responsive ========== */
 
 @media (min-width: 768px) {
@@ -1601,21 +1347,8 @@ img {
     padding-top: calc(80px + var(--spacing-md));
   }
 
-  .hero-buttons {
-    flex-direction: column;
-  }
-
   .projects-grid {
     grid-template-columns: 1fr;
-  }
-
-  .card-header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .company-logo {
-    margin: 0 auto;
   }
 }
 
@@ -1644,10 +1377,7 @@ img {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.fullstack-callout:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-12);
-}
+/* Fullstack callout is non-interactive - no hover */
 
 .fullstack-callout h4 {
   margin-bottom: 0.75rem;
@@ -1708,13 +1438,6 @@ img {
   font-weight: 500;
   margin-bottom: var(--spacing-xs);
   white-space: nowrap;
-}
-
-.hero-role {
-  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
-  color: var(--text-secondary);
-  font-weight: 500;
-  margin-bottom: var(--spacing-xs);
 }
 
 .hero-summary {
@@ -1913,11 +1636,7 @@ img {
 
 
 
-.role-pill:hover {
-  background: rgba(var(--white-rgb), 0.85);
-  box-shadow: var(--shadow-12);
-  transform: translateY(-2px);
-}
+/* Role pills are non-interactive - no hover */
 
 /* Restore original pill sizing inside Looking For section */
 .looking-for-pills .role-pill {
@@ -1963,53 +1682,6 @@ img {
   color: var(--text-secondary);
 }
 
-.looking-for-section p+.role-pill-row {
-  margin-top: 4px;
-}
-
-.looking-for-section .role-pill-row+p {
-  margin-top: 4px;
-}
-
-.looking-for-section p:last-of-type {
-  margin-bottom: 0;
-}
-
-/* Restore original pill sizing inside Looking For section only */
-.looking-for-section .role-pill {
-  padding: 8px 18px;
-  font-size: 1rem;
-  border-radius: 18px;
-}
-
-
-/* Utility classes for inline SVG icons (replacing emojis) */
-.h-6 {
-  height: 1.5rem;
-}
-
-.w-6 {
-  width: 1.5rem;
-}
-
-.text-blue-500 {
-  color: var(--color-primary);
-}
-
-.mr-2 {
-  margin-right: 0.5rem;
-}
-
-.experience-mode-description {
-  text-align: center;
-  font-size: 0.80rem;
-  opacity: 0.75;
-  color: var(--text-secondary);
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
-  display: none;
-}
-
 .experience-toggle-intro {
   text-align: center;
   font-size: 0.82rem;
@@ -2017,16 +1689,6 @@ img {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
   opacity: 0.75;
-}
-
-/* Show résumé description when NOT in journey mode */
-body:not(.journey-mode) .experience-mode-description.resume-mode {
-  display: block;
-}
-
-/* Show journey description when journey mode is active */
-body.journey-mode .experience-mode-description.journey-mode {
-  display: block;
 }
 
 /* ===== Journey Preamble Visibility ===== */
@@ -2052,33 +1714,9 @@ body.journey-mode .experience-mode-description.journey-mode {
   margin-bottom: 0.5rem;
 }
 
-.journey-mode #experience .experience-grid {
-  margin-top: 1.75rem;
-}
-
 .preamble-accent {
   font-weight: 600;
   color: var(--text-primary);
-}
-
-/* Utility: Add extra spacing between Education/Certifications sections */
-.edu-section {
-  margin-bottom: 1.5rem;
-}
-
-/* Utility: Consistent top-level header for Education/Certifications */
-.edu-top-header {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-/* ====== Skill Icon Global Styling ====== */
-.skill-icon {
-  width: 32px;
-  height: 32px;
-  color: var(--color-primary);
-  flex-shrink: 0;
 }
 
 /* ====== Recommendations Icon Wrapper ====== */
@@ -2107,19 +1745,8 @@ body.journey-mode .experience-mode-description.journey-mode {
   stroke-width: 1.9;
 }
 
-.rec-card:hover .rec-icon {
-  opacity: 1;
-  transform: translateY(-2px);
-}
+/* Recommendation cards are non-interactive - no hover on icon */
 
-.recommendations-section {
-  padding: var(--spacing-2xl) var(--spacing-md);
-}
-
-.recommendations-section .section-title {
-  text-align: center;
-  margin-bottom: var(--spacing-xl);
-}
 
 .recommendations-footer {
   text-align: center;
@@ -2220,51 +1847,18 @@ body.journey-mode .experience-mode-description.journey-mode {
 .rec-card .glass-card-inner {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  flex: 1;
   height: 100%;
+}
+
+.rec-card .glass-card-inner .rec-author-wrap {
+  margin-top: auto;
 }
 
 /* --- Align author/title with icon baseline --- */
 .rec-card .glass-card-inner > .rec-author-wrap {
   display: flex;
   align-items: flex-start; /* align with quote left */
-}
-
-/* --- Icon behavior --- */
-
-/* Quote text stays at the top */
-.rec-text {
-  font-size: 1.09rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  margin-bottom: 0; /* prevent pushing bottom content */
-}
-
-/* Bottom‑aligned author + title */
-.rec-meta {
-  margin-top: auto;
-  position: static;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding-top: var(--spacing-md);
-}
-
-/* Author name */
-.rec-author {
-  font-family: var(--font-heading);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0 0 0.25rem 0;
-}
-
-/* Role */
-.rec-role {
-  font-size: 0.97rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  margin: 0;
 }
 
 @media (max-width: 900px) {
@@ -2347,8 +1941,7 @@ body.journey-mode .experience-mode-description.journey-mode {
   }
 
   /* Looking For pills - shrink to fit on mobile */
-  .looking-for-pills .role-pill,
-  .looking-for-section .role-pill {
+  .looking-for-pills .role-pill {
     padding: 6px 12px;
     font-size: 0.75rem;
   }
@@ -2461,6 +2054,20 @@ body.journey-mode .experience-mode-description.journey-mode {
 .exp-header.expanded {
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   border-bottom-color: transparent;
+}
+
+.exp-header:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.exp-header:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.exp-header:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .exp-logo {

@@ -56,182 +56,112 @@ const closeLightbox = document.querySelector(".close-lightbox")
 const lightboxTriggers = document.querySelectorAll(".lightbox-trigger")
 
 if (lightbox && lightboxImage && closeLightbox) {
+  let lastFocusedElement = null
+
+  function openLightbox(trigger) {
+    lastFocusedElement = document.activeElement
+    lightboxImage.src = trigger.src
+    lightboxImage.alt = trigger.alt
+    lightbox.classList.add("active")
+    lightbox.setAttribute("aria-hidden", "false")
+    document.body.style.overflow = "hidden"
+    // Focus the close button after opening
+    setTimeout(() => closeLightbox.focus(), 50)
+  }
+
+  function closeLightboxModal() {
+    lightbox.classList.remove("active")
+    lightbox.setAttribute("aria-hidden", "true")
+    document.body.style.overflow = ""
+    // Return focus to the element that opened the lightbox
+    if (lastFocusedElement) {
+      lastFocusedElement.focus()
+    }
+  }
+
+  // Make triggers focusable and keyboard accessible
   lightboxTriggers.forEach((trigger) => {
-    trigger.addEventListener("click", () => {
-      lightboxImage.src = trigger.src
-      lightboxImage.alt = trigger.alt
-      lightbox.classList.add("active")
+    trigger.setAttribute("tabindex", "0")
+    trigger.setAttribute("role", "button")
+    trigger.setAttribute("aria-haspopup", "dialog")
+
+    trigger.addEventListener("click", () => openLightbox(trigger))
+
+    trigger.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault()
+        openLightbox(trigger)
+      }
     })
   })
 
-  closeLightbox.addEventListener("click", () => {
-    lightbox.classList.remove("active")
-  })
+  closeLightbox.addEventListener("click", closeLightboxModal)
 
   lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) {
-      lightbox.classList.remove("active")
+      closeLightboxModal()
     }
   })
-}
 
-// ========== Values Slider ==========
-const values = [
-  {
-    title: "Start with an Inventory",
-    description: "Before diving in, understand the current state, gather the facts, and identify available resources.",
-    number: "1",
-    icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4",
-  },
-  {
-    title: "Choose Reality",
-    description: "Stay grounded, even when it's uncomfortable. Progress begins with honesty about where we stand.",
-    number: "2",
-    icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z",
-  },
-  {
-    title: "People First",
-    description: "People are at the heart of everything—whether it's the customer, the team, or stakeholders.",
-    number: "3",
-    icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
-  },
-  {
-    title: "Collaboration FTW",
-    description: "Nothing great happens in a silo. Prioritize collaboration to generate the best ideas and solutions.",
-    number: "4",
-    icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z",
-  },
-  {
-    title: "Win or Learn as a Team",
-    description: "The team succeeds or grows together, learning from each win and setback.",
-    number: "5",
-    icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
-  },
-  {
-    title: "Bias for Action",
-    description:
-      "Moving quickly, test, learn, and improve. Action leads to progress, even if it's not perfect from the start.",
-    number: "6",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z",
-  },
-  {
-    title: "Fail Fast, Learn Faster",
-    description: "Pivot from failure and apply the learnings. Embrace it as part of growth.",
-    number: "7",
-    icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
-  },
-  {
-    title: "Follow the Facts",
-    description:
-      "Decisions should be grounded in data but with enough flexibility to adapt as new information emerges.",
-    number: "8",
-    icon: "M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z",
-  },
-  {
-    title: "Empower Others",
-    description: "Empower others to contribute their best work, fostering autonomy and ownership.",
-    number: "9",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z",
-  },
-  {
-    title: "Work Hard, Have Fun",
-    description: "We can work hard and still have a good time—they're not mutually exclusive.",
-    number: "10",
-    icon: "M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-]
+  // Keyboard handling for lightbox
+  lightbox.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("active")) return
 
-const sliderContainer = document.getElementById("slider-container")
-const sliderDots = document.getElementById("slider-dots")
-let currentSlide = 0
-let sliderInterval
+    // Close on Escape
+    if (e.key === "Escape") {
+      closeLightboxModal()
+      return
+    }
 
-function createSlides() {
-  if (!sliderContainer || !sliderDots) return
-
-  sliderContainer.innerHTML = values
-    .map(
-      (value, index) => `
-        <div class="value-slide ${index === 0 ? "active" : ""}" data-index="${index}">
-            <div class="value-card">
-                <div class="value-number">${value.number}</div>
-                <svg class="value-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${value.icon}"/>
-                </svg>
-                <h3 class="value-title">${value.title}</h3>
-                <p class="value-description">${value.description}</p>
-            </div>
-        </div>
-    `,
-    )
-    .join("")
-
-  sliderDots.innerHTML = values
-    .map(
-      (_, index) => `
-        <div class="slider-dot ${index === 0 ? "active" : ""}" data-index="${index}"></div>
-    `,
-    )
-    .join("")
-}
-
-function updateSlider() {
-  const slides = document.querySelectorAll(".value-slide")
-  const dots = document.querySelectorAll(".slider-dot")
-
-  slides.forEach((slide, index) => {
-    slide.classList.toggle("active", index === currentSlide)
-  })
-
-  dots.forEach((dot, index) => {
-    dot.classList.toggle("active", index === currentSlide)
-  })
-}
-
-function nextSlide() {
-  currentSlide = (currentSlide + 1) % values.length
-  updateSlider()
-}
-
-function startSlider() {
-  sliderInterval = setInterval(nextSlide, 3000)
-}
-
-function stopSlider() {
-  clearInterval(sliderInterval)
-}
-
-createSlides()
-startSlider()
-
-// Handle dot clicks
-if (sliderDots) {
-  sliderDots.addEventListener("click", (e) => {
-    if (e.target.classList.contains("slider-dot")) {
-      stopSlider()
-      currentSlide = Number.parseInt(e.target.getAttribute("data-index"))
-      updateSlider()
-      startSlider()
+    // Trap focus within lightbox
+    if (e.key === "Tab") {
+      // Only focusable element is the close button
+      e.preventDefault()
+      closeLightbox.focus()
     }
   })
-}
 
-// Pause slider on hover
-if (sliderContainer) {
-  sliderContainer.addEventListener("mouseenter", stopSlider)
-  sliderContainer.addEventListener("mouseleave", startSlider)
+  // Set initial ARIA state
+  lightbox.setAttribute("role", "dialog")
+  lightbox.setAttribute("aria-modal", "true")
+  lightbox.setAttribute("aria-label", "Image lightbox")
+  lightbox.setAttribute("aria-hidden", "true")
+  closeLightbox.setAttribute("aria-label", "Close lightbox")
 }
 
 // ========== Experience Accordion Toggle ==========
 document.querySelectorAll('.exp-header').forEach(header => {
-  header.addEventListener('click', (e) => {
+  // Make headers focusable and add ARIA attributes
+  header.setAttribute('tabindex', '0');
+  header.setAttribute('role', 'button');
+  header.setAttribute('aria-expanded', 'false');
+
+  const content = header.nextElementSibling;
+  if (content && content.classList.contains('exp-content')) {
+    const contentId = content.id || `exp-content-${Math.random().toString(36).slice(2, 9)}`;
+    content.id = contentId;
+    header.setAttribute('aria-controls', contentId);
+  }
+
+  function toggleAccordion(e) {
     // Don't toggle if clicking on a link
     if (e.target.tagName === 'A') return;
-    
-    header.classList.toggle('expanded');
-    const content = header.nextElementSibling;
+
+    const isExpanded = header.classList.toggle('expanded');
+    header.setAttribute('aria-expanded', isExpanded);
+
     if (content && content.classList.contains('exp-content')) {
       content.classList.toggle('expanded');
+    }
+  }
+
+  header.addEventListener('click', toggleAccordion);
+
+  // Keyboard support: Enter and Space to toggle
+  header.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleAccordion(e);
     }
   });
 });
