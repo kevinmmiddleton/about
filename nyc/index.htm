@@ -42,23 +42,80 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Kevin Middleton",
-    "jobTitle": "Full Stack Product Manager",
-    "url": "https://middleton.io",
-    "sameAs": [
-      "https://www.linkedin.com/in/kevinmiddleton"
-    ],
-    "knowsAbout": ["Product Management", "Enterprise SaaS", "Consumer Products", "Platform Development"],
-    "workLocation": {
-      "@type": "Place",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "New York City",
-        "addressRegion": "NY",
-        "addressCountry": "US"
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://middleton.io/nyc",
+        "url": "https://middleton.io/nyc",
+        "name": "Kevin Middleton — Full Stack Product Manager in NYC",
+        "description": "12 years building products with teams that give a damn. Full Stack Product Manager seeking a team that values ownership and direct collaboration.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://middleton.io",
+          "url": "https://middleton.io",
+          "name": "Kevin Middleton"
+        },
+        "about": {
+          "@id": "https://middleton.io/nyc#person"
+        },
+        "mainEntity": {
+          "@id": "https://middleton.io/nyc#person"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://middleton.io/nyc#person",
+        "name": "Kevin Middleton",
+        "jobTitle": "Full Stack Product Manager",
+        "url": "https://middleton.io",
+        "image": "https://middleton.io/images/profile-picture.jpg",
+        "description": "Full Stack Product Manager with 12+ years of experience building consumer, enterprise, and platform SaaS products. I bring calm to chaotic systems and partner closely with engineering and design.",
+        "sameAs": [
+          "https://www.linkedin.com/in/kevinmiddleton"
+        ],
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Virginia Tech"
+        },
+        "knowsAbout": [
+          "Product Management",
+          "Enterprise SaaS",
+          "Consumer Products",
+          "Platform Development",
+          "Product Strategy",
+          "Cross-Functional Leadership"
+        ],
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "New York City",
+            "addressRegion": "NY",
+            "addressCountry": "US"
+          }
+        },
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "Full Stack Product Manager",
+          "occupationLocation": {
+            "@type": "City",
+            "name": "New York City"
+          },
+          "description": "Product manager who brings structure to ambiguity and helps teams move faster together. Comfortable moving between strategy, execution, and details.",
+          "skills": "Product Strategy, Enterprise SaaS, Consumer Products, Platform Development, Cross-Functional Leadership"
+        },
+        "makesOffer": {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Introductory Conversation",
+            "description": "Coffee chat in NYC or virtual meeting to discuss potential collaboration"
+          },
+          "price": "0",
+          "priceCurrency": "USD"
+        }
       }
-    }
+    ]
   }
   </script>
 
