@@ -263,3 +263,93 @@ These taste like the Costco muffins, which is the whole point.
 6. Fill cups almost to the top.
 7. Bake 5 minutes at 400°F / 205°C, then reduce to 350°F / 175°C and bake 18-22 minutes more.
 8. Cool 10 minutes before removing.
+
+---
+
+# One-Pan Chicken Tenders & Asparagus
+
+---
+tags: chicken, main, weeknight, low-carb
+servings: 2
+photo: https://middleton.io/recipes/images/chicken-asparagus.png
+notes: Easy Pyrex dinner. Chicken seasons the vegetables naturally. Add broth partway through for a silky pan sauce without extra dishes.
+---
+
+Roast first, shallow braise second. One dish, no babysitting.
+
+## Ingredients
+
+### For the Chicken
+- 400g boneless skinless chicken tenders
+- 3g salt
+- 2g black pepper
+- 2g garlic powder
+- 1g onion powder
+- 1g MSG
+- 15g olive oil or melted butter
+
+### For the Asparagus
+- 350-400g asparagus, trimmed
+- 10g olive oil or butter
+- 2g salt
+- 1g black pepper
+- 1g garlic powder
+
+### For the Sauce
+- 80g chicken broth
+- 15g butter
+
+## Instructions
+
+1. Heat oven to 425°F / 220°C.
+2. Toss asparagus with oil, salt, pepper, and garlic powder. Spread in a single layer in a Pyrex.
+3. Season chicken and toss with oil or butter.
+4. Place chicken directly on top of the asparagus.
+5. Roast uncovered 12 minutes.
+6. Remove dish. Add broth around (not over) the chicken. Dot butter into the liquid.
+7. Return to oven 6-8 minutes until chicken hits 165°F / 74°C and asparagus is tender.
+8. Optional: Broil 1-2 minutes for color.
+
+---
+
+# Herb Roasted Chicken Thighs & Fingerling Potatoes
+
+---
+tags: chicken, main, weeknight
+servings: 2-3
+photo: https://middleton.io/recipes/images/herb-chicken-potatoes.png
+notes: Halve the fingerlings and lay them cut-side down for maximum browning. Single layer or they steam.
+---
+
+Sheet pan comfort food. Herbs on everything.
+
+## Ingredients
+
+### For the Chicken
+- 567g boneless skinless chicken thighs
+- 5g salt
+- 2g black pepper
+- 2g garlic powder
+- 2g onion powder
+- 2g dried thyme
+- 2g dried rosemary, crushed
+- 1g dried oregano
+- 1g MSG
+- 15g olive oil
+
+### For the Potatoes
+- 680g fingerling potatoes, halved lengthwise
+- 4g salt
+- 2g black pepper
+- 2g garlic powder
+- 2g dried thyme
+- 1g dried rosemary, crushed
+- 20g olive oil
+
+## Instructions
+
+1. Preheat oven to 425°F / 220°C.
+2. Toss fingerlings with oil and seasonings. Spread on sheet pan, cut-side down.
+3. Toss chicken with oil and seasonings. Nestle on top of or alongside potatoes.
+4. Roast 25-30 minutes until chicken hits 165°F / 74°C and potatoes are golden and fork-tender.
+5. Optional: Broil 2-3 minutes at the end to crisp up the chicken.
