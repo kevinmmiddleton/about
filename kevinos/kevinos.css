@@ -862,12 +862,15 @@ body {
 /* Traffic light symbols on hover */
 .window-dot::before {
     content: '';
-    font-size: 8px;
-    font-weight: 700;
-    color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(0, 0, 0, 0.45);
     opacity: 0;
     transition: opacity 0.15s ease;
     line-height: 1;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .window-dots:hover .window-dot::before {
@@ -876,17 +879,23 @@ body {
 
 .window-dot.red::before {
     content: '×';
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 600;
+    transform: translate(-50%, -58%);
 }
 
 .window-dot.yellow::before {
     content: '−';
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    transform: translate(-50%, -52%);
 }
 
 .window-dot.green::before {
     content: '+';
     font-size: 10px;
+    font-weight: 600;
+    transform: translate(-50%, -58%);
 }
 
 .window-dot:hover {
