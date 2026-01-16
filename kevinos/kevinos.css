@@ -1668,6 +1668,11 @@ body {
     border-radius: 4px;
 }
 
+/* iOS-style close button for lightbox (hidden on desktop) */
+.lightbox-mobile-close {
+    display: none;
+}
+
 /* ===================
    PROJECTS
    =================== */
@@ -2690,6 +2695,48 @@ body {
     }
 
     .mobile-close-btn:active {
+        background: var(--border);
+    }
+
+    /* Lightbox mobile styling - iOS-style close button */
+    .lightbox-header .window-dots {
+        display: none;
+    }
+
+    .lightbox-header {
+        justify-content: center;
+        position: relative;
+    }
+
+    .lightbox-title {
+        text-align: center;
+    }
+
+    .lightbox-mobile-close {
+        display: flex;
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 28px;
+        height: 28px;
+        align-items: center;
+        justify-content: center;
+        background: var(--surface);
+        border: none;
+        border-radius: 50%;
+        padding: 0;
+        cursor: pointer;
+        color: var(--text-dim);
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .lightbox-mobile-close svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .lightbox-mobile-close:active {
         background: var(--border);
     }
 
