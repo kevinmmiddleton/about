@@ -353,3 +353,71 @@ Sheet pan comfort food. Herbs on everything.
 3. Toss chicken with oil and seasonings. Nestle on top of or alongside potatoes.
 4. Roast 25-30 minutes until chicken hits 165°F / 74°C and potatoes are golden and fork-tender.
 5. Optional: Broil 2-3 minutes at the end to crisp up the chicken.
+
+---
+
+# Stuffed Acorn Squash with Ground Turkey & Veggies
+
+---
+tags: turkey, main, weeknight, low-carb
+servings: 4 halves
+photo: https://middleton.io/recipes/images/stuffed-acorn-squash.png
+notes: Save the seeds! Roast them while the squash cooks for a crunchy snack or garnish.
+---
+
+A meal in a bowl. The squash is the bowl.
+
+## Ingredients
+
+### For the Squash
+- 2 acorn squash
+- 15g olive oil
+- Salt and pepper to taste
+
+### For the Turkey Filling
+- 450g ground turkey
+- 170g broccoli florets, chopped small
+- 100g cherry tomatoes, halved
+- 6g garlic, minced
+- 3g salt
+- 2g black pepper
+- 2g onion powder
+- 1g MSG
+- 1g Italian seasoning (optional)
+- 15g olive oil or butter
+
+### For the Roasted Seeds
+- Seeds from 2 acorn squash
+- 5g olive oil
+- 2g salt
+- Optional: 1g garlic powder, 0.5g cayenne, or 1g cinnamon + 2g sugar for sweet version
+
+## Instructions
+
+### Roast the Squash
+1. Preheat oven to 400°F / 200°C.
+2. Halve squash, scoop out seeds (reserve for roasting).
+3. Brush cut sides with olive oil, season with salt and pepper.
+4. Place cut-side down on a sheet pan.
+5. Roast 30 minutes until tender.
+
+### Roast the Seeds (same oven, same time)
+1. Rinse seeds, remove pulp, pat dry.
+2. Toss with olive oil, salt, and any spices.
+3. Spread on a small baking sheet.
+4. Roast 15-20 minutes, stirring halfway, until golden and crispy.
+
+### Make the Filling
+1. Heat oil in a skillet over medium-high.
+2. Brown turkey, breaking it up, 5-6 minutes.
+3. Add garlic, cook 1 minute.
+4. Add broccoli, cook 3-4 minutes until slightly tender.
+5. Toss in tomatoes, cook 1-2 minutes just to soften.
+6. Season throughout.
+
+### Assemble
+1. Flip roasted squash cut-side up.
+2. Fill each half with turkey mixture.
+3. Optional: top with a little cheese.
+4. Return to oven 10 minutes to meld.
+5. Garnish with roasted seeds.
