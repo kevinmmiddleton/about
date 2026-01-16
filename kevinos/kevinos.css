@@ -364,7 +364,7 @@ body {
     top: 16px;
     left: 16px;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(30, 30, 40, 0.7);
     backdrop-filter: blur(40px) saturate(180%);
     -webkit-backdrop-filter: blur(40px) saturate(180%);
     border-radius: 16px;
@@ -742,6 +742,7 @@ body {
     flex-direction: column;
     overflow: hidden;
     transition: box-shadow 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+    z-index: 10;
 }
 
 .window.window-open {
@@ -2421,12 +2422,17 @@ body {
         display: block;
         margin: 8px 16px 12px;
         padding: 16px;
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(30, 30, 40, 0.7);
         backdrop-filter: blur(40px) saturate(180%);
         -webkit-backdrop-filter: blur(40px) saturate(180%);
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.15);
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="light"] .mobile-widget {
+        background: rgba(255, 255, 255, 0.6);
+        border-color: rgba(0, 0, 0, 0.1);
     }
 
     .widget-status {

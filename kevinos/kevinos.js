@@ -4047,10 +4047,13 @@ function renderDbView() {
 
     countEl.textContent = `${sortedRecipes.length} rows`;
 
+    // Store sorted recipes globally for detail view lookup
+    window.sortedRecipesList = sortedRecipes;
+
     // Desktop table view
     tbody.innerHTML = sortedRecipes.map((recipe, index) => `
-        <tr data-recipe-id="${recipe.id}">
-            <td class="db-col-id">${recipe.id}</td>
+        <tr data-row-num="${index + 1}">
+            <td class="db-col-id">${index + 1}</td>
             <td class="db-col-title">${recipe.title}</td>
             <td class="db-col-tags">${recipe.tags.map(t => `<span class="db-tag">${t}</span>`).join('')}</td>
             <td class="db-col-servings">${recipe.servings || '—'}</td>
@@ -4061,15 +4064,15 @@ function renderDbView() {
     // Add click handlers for table
     tbody.querySelectorAll('tr').forEach(row => {
         row.addEventListener('click', () => {
-            const id = parseInt(row.dataset.recipeId);
-            showDbDetail(id);
+            const rowNum = parseInt(row.dataset.rowNum);
+            showDbDetail(rowNum);
         });
     });
 
     // Mobile photo grid view - Pinterest style
     if (photoGrid) {
-        photoGrid.innerHTML = sortedRecipes.map(recipe => `
-            <div class="recipe-photo-item" data-recipe-id="${recipe.id}">
+        photoGrid.innerHTML = sortedRecipes.map((recipe, index) => `
+            <div class="recipe-photo-item" data-row-num="${index + 1}">
                 ${recipe.photo
                     ? `<img src="${recipe.photo}" alt="${recipe.title}" loading="lazy">`
                     : `<div class="recipe-photo-placeholder">🍽️</div>`
@@ -4081,15 +4084,15 @@ function renderDbView() {
         // Add click handlers for photo grid
         photoGrid.querySelectorAll('.recipe-photo-item').forEach(item => {
             item.addEventListener('click', () => {
-                const id = parseInt(item.dataset.recipeId);
-                showDbDetail(id);
+                const rowNum = parseInt(item.dataset.rowNum);
+                showDbDetail(rowNum);
             });
         });
     }
 }
 
-function showDbDetail(id) {
-    const recipe = kevinRecipes.find(r => r.id === id);
+function showDbDetail(rowNum) {
+    const recipe = window.sortedRecipesList[rowNum - 1];
     if (!recipe) return;
 
     const tableWrapper = document.querySelector('#recipesdb .db-table-wrapper');
@@ -4106,7 +4109,7 @@ function showDbDetail(id) {
     if (photoGrid) photoGrid.style.display = 'none';
     if (mobileHeader) mobileHeader.style.display = 'none';
     detail.style.display = 'block';
-    detailId.textContent = id;
+    detailId.textContent = rowNum;
     
     const ingredientsHtml = parseRecipeIngredients(recipe.ingredientsRaw);
     const instructionsHtml = parseRecipeInstructions(recipe.instructionsRaw);
@@ -4130,7 +4133,7 @@ function showDbDetail(id) {
         ${ingredientsHtml}
         <h3>Instructions</h3>
         ${instructionsHtml}
-        ${recipe.notes ? `<div class="db-detail-notes"><strong>Notes</strong>${recipe.notes}</div>` : ''}
+        ${recipe.notes ? `<div class="db-detail-notes">${recipe.notes}</div>` : ''}
     `;
 }
 
