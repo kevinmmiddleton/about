@@ -356,68 +356,46 @@ Sheet pan comfort food. Herbs on everything.
 
 ---
 
-# Stuffed Acorn Squash with Ground Turkey & Veggies
+# Spinach & Feta Stuffed Chicken Breasts
 
 ---
-tags: turkey, main, weeknight, low-carb
-servings: 4 halves
-photo: https://middleton.io/recipes/images/stuffed-acorn-squash.png
-notes: Save the seeds! Roast them while the squash cooks for a crunchy snack or garnish.
+tags: chicken, main, weeknight, low-carb
+servings: 4
+photo: https://middleton.io/recipes/images/stuffed-chicken-feta.png
+notes: Squeeze the spinach dry or your filling will be soggy. Stuffed side up in the Pyrex. Skip the sear if you want less cleanup.
 ---
 
-A meal in a bowl. The squash is the bowl.
+Impressive looking, weeknight easy. Great over cauliflower rice.
 
 ## Ingredients
 
-### For the Squash
-- 2 acorn squash
-- 15g olive oil
-- Salt and pepper to taste
+### For the Stuffing
+- 150g fresh spinach
+- 120g feta cheese, crumbled
+- 75g cherry tomatoes, diced small
+- 8g garlic, minced
+- 3g Italian seasoning
+- 1g black pepper
+- 20g butter
 
-### For the Turkey Filling
-- 450g ground turkey
-- 170g broccoli florets, chopped small
-- 100g cherry tomatoes, halved
-- 6g garlic, minced
-- 3g salt
-- 2g black pepper
-- 2g onion powder
-- 1g MSG
-- 1g Italian seasoning (optional)
-- 15g olive oil or butter
-
-### For the Roasted Seeds
-- Seeds from 2 acorn squash
-- 5g olive oil
-- 2g salt
-- Optional: 1g garlic powder, 0.5g cayenne, or 1g cinnamon + 2g sugar for sweet version
+### For the Chicken
+- 1kg boneless skinless chicken breasts (4 large)
+- 5g salt
+- 3g black pepper
+- 3g garlic powder
+- 1g smoked paprika
+- 20g olive oil
 
 ## Instructions
 
-### Roast the Squash
-1. Preheat oven to 400°F / 200°C.
-2. Halve squash, scoop out seeds (reserve for roasting).
-3. Brush cut sides with olive oil, season with salt and pepper.
-4. Place cut-side down on a sheet pan.
-5. Roast 30 minutes until tender.
-
-### Roast the Seeds (same oven, same time)
-1. Rinse seeds, remove pulp, pat dry.
-2. Toss with olive oil, salt, and any spices.
-3. Spread on a small baking sheet.
-4. Roast 15-20 minutes, stirring halfway, until golden and crispy.
-
-### Make the Filling
-1. Heat oil in a skillet over medium-high.
-2. Brown turkey, breaking it up, 5-6 minutes.
-3. Add garlic, cook 1 minute.
-4. Add broccoli, cook 3-4 minutes until slightly tender.
-5. Toss in tomatoes, cook 1-2 minutes just to soften.
-6. Season throughout.
-
-### Assemble
-1. Flip roasted squash cut-side up.
-2. Fill each half with turkey mixture.
-3. Optional: top with a little cheese.
-4. Return to oven 10 minutes to meld.
-5. Garnish with roasted seeds.
+1. Preheat oven to 375°F / 190°C.
+2. Melt butter in a pan over medium heat. Add garlic, cook 30 seconds.
+3. Add spinach in batches, wilt 2-3 minutes. Season with pepper.
+4. Transfer to a strainer, press or squeeze out as much liquid as possible. Let cool.
+5. Roughly chop spinach, mix with feta, tomatoes, and Italian seasoning.
+6. Cut a deep pocket into each chicken breast (don't cut through).
+7. Stuff each breast with filling, secure with toothpicks.
+8. Season outside with salt, pepper, garlic powder, and smoked paprika.
+9. Optional: Sear in skillet with olive oil 2-3 min per side for color.
+10. Place in Pyrex stuffed side up. Bake 15-20 minutes until 165°F / 74°C internal.
+11. Rest 5 minutes, remove toothpicks, slice to serve.
