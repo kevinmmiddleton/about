@@ -1,31 +1,40 @@
 /* ============================================
-   KEVIN'S RECIPE BOOK
-   A beautiful, opinionated recipe site
+   COOK LIKE A PM
+   Holographic neon recipe site
    ============================================ */
 
 /* CSS Custom Properties */
 :root {
-  --color-cream: #faf8f4;
-  --color-cream-dark: #f4f1eb;
-  --color-warm-white: #fffef9;
-  --color-terracotta: #c45d3a;
-  --color-terracotta-dark: #a34828;
-  --color-terracotta-light: #e8967a;
-  --color-text: #2c2c2c;
-  --color-text-light: #5a5a5a;
-  --color-text-muted: #8a8a8a;
-  --color-border: #e5e0d8;
-  --font-serif: 'Libre Baskerville', Georgia, serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  --color-bg: #fffcfd;
+  --color-bg-elevated: #ffffff;
+  --color-bg-card: rgba(255, 255, 255, 0.8);
+  --color-bg-card-hover: rgba(255, 255, 255, 0.95);
+  --color-accent-pink: #e6007a;
+  --color-accent-orange: #e67700;
+  --color-accent-turquoise: #0d9488;
+  --color-accent-purple: #7c3aed;
+  --color-text: #1a1a1a;
+  --color-text-light: #3a3a3a;
+  --color-text-muted: #888888;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 40px rgba(230, 0, 122, 0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
   --transition-fast: 0.15s ease;
   --transition-med: 0.25s ease;
   --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Holographic animation */
+@keyframes holo {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Reset & Base */
@@ -38,20 +47,15 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
-  background: var(--color-cream);
+  font-family: var(--font-main);
+  background: linear-gradient(160deg, #ffebf0 0%, #fff5eb 20%, #ebfff8 40%, #ffebf0 60%, #f5ebff 80%, #ffebf0 100%);
+  background-size: 400% 400%;
+  animation: holo 20s ease infinite;
   color: var(--color-text);
   line-height: 1.65;
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  
-  /* Subtle paper texture */
-  background-image: 
-    radial-gradient(ellipse at 20% 30%, rgba(196, 93, 58, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 70%, rgba(196, 93, 58, 0.02) 0%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  background-attachment: fixed;
 }
 
 /* Page Layout */
@@ -82,36 +86,34 @@ header {
   margin-bottom: 28px;
 }
 
-.header-icon {
-  font-size: 2.5rem;
-  flex-shrink: 0;
-  margin-top: -2px;
-}
-
 header h1 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 2.2rem;
-  margin: 0 0 6px 0;
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 2.8rem;
+  margin: 0 0 12px 0;
   color: var(--color-text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.5px;
 }
 
 header .subtitle {
-  font-size: 1rem;
-  color: var(--color-text-muted);
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  color: var(--color-accent-pink);
   margin: 0;
-  font-weight: 400;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 /* Preamble */
 .preamble {
   margin-bottom: 30px;
-  background: var(--color-warm-white);
+  background: var(--color-bg-card);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
   border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
 }
 
 .preamble summary {
@@ -132,13 +134,14 @@ header .subtitle {
 }
 
 .preamble-icon {
-  color: var(--color-terracotta);
-  font-size: 1.3rem;
+  color: var(--color-accent-turquoise);
+  font-size: 1.1rem;
+  font-weight: 700;
   transition: transform var(--transition-med);
 }
 
 .preamble[open] .preamble-icon {
-  transform: rotate(90deg);
+  transform: rotate(45deg);
 }
 
 .preamble summary:hover {
@@ -195,21 +198,23 @@ header .subtitle {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   font-size: 0.95rem;
-  font-family: var(--font-sans);
-  background: var(--color-warm-white);
+  font-family: var(--font-main);
+  background: var(--color-bg-card);
+  backdrop-filter: blur(10px);
+  color: var(--color-text);
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-sm);
 }
 
 #search:focus {
   outline: none;
-  border-color: var(--color-terracotta);
-  box-shadow: 0 0 0 3px rgba(196, 93, 58, 0.1), var(--shadow-sm);
+  border-color: var(--color-accent-turquoise);
+  box-shadow: 0 0 0 3px rgba(64, 224, 208, 0.2), var(--shadow-sm);
 }
 
 #search:focus + .search-icon,
 .search-wrapper:focus-within .search-icon {
-  color: var(--color-terracotta);
+  color: var(--color-accent-turquoise);
 }
 
 #search::placeholder {
@@ -230,22 +235,23 @@ header .subtitle {
 }
 
 .filter-btn {
-  background: var(--color-warm-white);
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   padding: 8px 16px;
   border-radius: 50px;
   cursor: pointer;
   font-size: 0.82rem;
-  font-family: var(--font-sans);
+  font-family: var(--font-main);
   font-weight: 500;
   color: var(--color-text-light);
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
 }
 
 .filter-btn:hover {
-  border-color: var(--color-terracotta);
-  color: var(--color-terracotta);
+  border-color: var(--color-accent-turquoise);
+  color: var(--color-accent-turquoise);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
@@ -255,15 +261,15 @@ header .subtitle {
 }
 
 .filter-btn.active {
-  background: var(--color-terracotta);
+  background: var(--color-accent-pink);
   color: #fff;
-  border-color: var(--color-terracotta);
-  box-shadow: 0 2px 8px rgba(196, 93, 58, 0.3);
+  border-color: var(--color-accent-pink);
+  box-shadow: 0 2px 8px rgba(230, 0, 122, 0.25);
 }
 
 .filter-btn.active:hover {
-  background: var(--color-terracotta-dark);
-  border-color: var(--color-terracotta-dark);
+  background: #e60073;
+  border-color: #e60073;
 }
 
 .clear-filters {
@@ -271,7 +277,7 @@ header .subtitle {
   border: none;
   padding: 8px 12px;
   font-size: 0.82rem;
-  font-family: var(--font-sans);
+  font-family: var(--font-main);
   font-weight: 500;
   color: var(--color-text-muted);
   cursor: pointer;
@@ -287,7 +293,7 @@ header .subtitle {
 }
 
 .clear-filters:hover {
-  color: var(--color-terracotta);
+  color: var(--color-accent-pink);
 }
 
 .clear-filters.visible {
@@ -304,7 +310,7 @@ header .subtitle {
 }
 
 .recipe-card {
-  background: var(--color-warm-white);
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: 24px 28px;
@@ -317,6 +323,7 @@ header .subtitle {
   gap: 24px;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(10px);
 }
 
 .recipe-card::before {
@@ -326,14 +333,15 @@ header .subtitle {
   top: 0;
   bottom: 0;
   width: 4px;
-  background: var(--color-terracotta);
+  background: linear-gradient(180deg, var(--color-accent-pink) 0%, var(--color-accent-turquoise) 100%);
   transform: scaleY(0);
   transition: transform var(--transition-med);
 }
 
 .recipe-card:hover {
-  border-color: var(--color-terracotta-light);
-  box-shadow: var(--shadow-lg);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--color-bg-card-hover);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
   transform: translateY(-3px);
 }
 
@@ -351,8 +359,8 @@ header .subtitle {
 }
 
 .recipe-card h2 {
-  font-family: var(--font-serif);
-  font-weight: 400;
+  font-family: var(--font-main);
+  font-weight: 700;
   margin: 0 0 8px 0;
   font-size: 1.25rem;
   color: var(--color-text);
@@ -360,7 +368,7 @@ header .subtitle {
 }
 
 .recipe-card:hover h2 {
-  color: var(--color-terracotta);
+  color: var(--color-accent-turquoise);
 }
 
 .recipe-card .meta {
@@ -392,7 +400,7 @@ header .subtitle {
 
 .tag {
   display: inline-block;
-  background: var(--color-cream-dark);
+  background: rgba(255, 255, 255, 0.1);
   padding: 4px 12px;
   border-radius: 50px;
   font-size: 0.72rem;
@@ -407,11 +415,12 @@ header .subtitle {
    ============================================ */
 .recipe-detail {
   display: none;
-  background: var(--color-warm-white);
+  background: var(--color-bg-card);
   border-radius: var(--radius-lg);
   padding: 45px 50px;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
   animation: slideUp var(--transition-slow) ease;
 }
 
@@ -435,9 +444,9 @@ header .subtitle {
   border: none;
   cursor: pointer;
   font-size: 0.88rem;
-  font-family: var(--font-sans);
+  font-family: var(--font-main);
   font-weight: 500;
-  color: var(--color-terracotta);
+  color: var(--color-accent-turquoise);
   padding: 8px 0;
   margin-bottom: 30px;
   display: inline-flex;
@@ -447,7 +456,7 @@ header .subtitle {
 }
 
 .recipe-detail .back-btn:hover {
-  color: var(--color-terracotta-dark);
+  color: var(--color-accent-pink);
   gap: 12px;
 }
 
@@ -484,19 +493,19 @@ header .subtitle {
 }
 
 .recipe-detail h1 {
-  font-family: var(--font-serif);
-  font-weight: 400;
+  font-family: var(--font-main);
+  font-weight: 800;
   margin: 0;
   font-size: 2rem;
   color: var(--color-text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.5px;
   line-height: 1.25;
 }
 
 .recipe-detail .title-rule {
   width: 60px;
   height: 3px;
-  background: var(--color-terracotta);
+  background: linear-gradient(90deg, var(--color-accent-pink), var(--color-accent-turquoise));
   margin: 18px 0 20px 0;
   border: none;
   border-radius: 2px;
@@ -508,37 +517,37 @@ header .subtitle {
 }
 
 .recipe-detail .meta a {
-  color: var(--color-terracotta);
+  color: var(--color-accent-turquoise);
   text-decoration: none;
   font-weight: 500;
   transition: color var(--transition-fast);
 }
 
 .recipe-detail .meta a:hover {
-  color: var(--color-terracotta-dark);
+  color: var(--color-accent-pink);
   text-decoration: underline;
 }
 
 .recipe-detail .intro {
-  font-family: var(--font-serif);
+  font-family: var(--font-main);
   font-style: italic;
   color: var(--color-text-light);
   font-size: 1.15rem;
   line-height: 1.7;
   margin: 35px 0;
   padding: 25px 30px;
-  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-cream-dark) 100%);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-md);
-  border-left: 4px solid var(--color-terracotta);
+  border-left: 4px solid var(--color-accent-pink);
 }
 
 /* Section Headers */
 .recipe-detail h2 {
-  font-family: var(--font-sans);
-  font-weight: 600;
+  font-family: var(--font-main);
+  font-weight: 700;
   font-size: 0.8rem;
   margin: 40px 0 20px 0;
-  color: var(--color-terracotta);
+  color: var(--color-accent-turquoise);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   display: flex;
@@ -588,9 +597,9 @@ header .subtitle {
   transform: translateY(-50%);
   width: 8px;
   height: 8px;
-  background: var(--color-terracotta);
+  background: var(--color-accent-pink);
   border-radius: 50%;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 /* Instructions */
@@ -621,7 +630,7 @@ header .subtitle {
   top: 16px;
   width: 32px;
   height: 32px;
-  background: var(--color-terracotta);
+  background: linear-gradient(135deg, var(--color-accent-pink), var(--color-accent-purple));
   color: #fff;
   border-radius: 50%;
   font-size: 0.85rem;
@@ -629,15 +638,15 @@ header .subtitle {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(196, 93, 58, 0.3);
+  box-shadow: 0 2px 8px rgba(230, 0, 122, 0.25);
 }
 
 /* Notes */
 .recipe-detail .notes {
   margin-top: 45px;
   padding: 22px 26px;
-  background: linear-gradient(135deg, #fef9f0 0%, #fdf5e8 100%);
-  border-left: 4px solid var(--color-terracotta);
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid var(--color-accent-orange);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   font-size: 0.92rem;
   color: var(--color-text-light);
@@ -650,7 +659,7 @@ header .subtitle {
   position: absolute;
   top: -12px;
   left: 20px;
-  background: var(--color-terracotta);
+  background: linear-gradient(135deg, var(--color-accent-orange), var(--color-accent-pink));
   color: #fff;
   width: 28px;
   height: 28px;
@@ -659,7 +668,7 @@ header .subtitle {
   align-items: center;
   justify-content: center;
   font-size: 0.85rem;
-  box-shadow: 0 2px 6px rgba(196, 93, 58, 0.3);
+  box-shadow: 0 2px 8px rgba(230, 119, 0, 0.25);
 }
 
 .recipe-detail .notes strong {
@@ -672,7 +681,7 @@ header .subtitle {
   border: 1px solid var(--color-border);
   cursor: pointer;
   font-size: 0.88rem;
-  font-family: var(--font-sans);
+  font-family: var(--font-main);
   font-weight: 500;
   color: var(--color-text-light);
   padding: 12px 20px;
@@ -685,8 +694,8 @@ header .subtitle {
 }
 
 .recipe-detail .back-btn-bottom:hover {
-  border-color: var(--color-terracotta);
-  color: var(--color-terracotta);
+  border-color: var(--color-accent-turquoise);
+  color: var(--color-accent-turquoise);
 }
 
 .recipe-detail .back-btn-bottom svg {
@@ -711,14 +720,14 @@ footer p {
 }
 
 footer a {
-  color: var(--color-terracotta);
+  color: var(--color-accent-turquoise);
   text-decoration: none;
   font-weight: 500;
   transition: color var(--transition-fast);
 }
 
 footer a:hover {
-  color: var(--color-terracotta-dark);
+  color: var(--color-accent-pink);
   text-decoration: underline;
 }
 
@@ -749,17 +758,13 @@ footer a:hover {
     gap: 14px;
   }
 
-  .header-icon {
-    width: 36px;
-    height: 36px;
-  }
-
   header h1 {
-    font-size: 1.65rem;
+    font-size: 2rem;
   }
 
   header .subtitle {
-    font-size: 0.9rem;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
   }
 
   .recipe-card {
