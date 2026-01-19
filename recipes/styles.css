@@ -881,6 +881,16 @@ body.detail-view .controls {
   display: none;
 }
 
+body.detail-view header {
+  margin-bottom: 30px;
+}
+
+@media (max-width: 640px) {
+  body.detail-view header {
+    margin-bottom: 20px;
+  }
+}
+
 /* ============================================
    PRINT
    ============================================ */
