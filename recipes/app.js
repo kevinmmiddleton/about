@@ -174,7 +174,8 @@ function renderList() {
 
   detail.classList.remove('visible');
   container.classList.remove('hidden');
-  
+  document.body.classList.remove('detail-view');
+
   // Clear hash when returning to list
   if (window.location.hash) {
     history.pushState(null, '', window.location.pathname);
@@ -212,6 +213,7 @@ function renderDetail(recipe) {
 
   container.classList.add('hidden');
   detail.classList.add('visible');
+  document.body.classList.add('detail-view');
 
   // Update URL hash
   const slug = slugify(recipe.title);

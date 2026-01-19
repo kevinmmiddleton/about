@@ -874,6 +874,14 @@ footer a:hover {
 }
 
 /* ============================================
+   DETAIL VIEW - Hide controls when viewing recipe
+   ============================================ */
+body.detail-view .preamble,
+body.detail-view .controls {
+  display: none;
+}
+
+/* ============================================
    PRINT
    ============================================ */
 @media print {
