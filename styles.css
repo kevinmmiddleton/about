@@ -2300,3 +2300,287 @@ img {
     justify-content: center;
   }
 }
+
+/* ========== HERO V2 ENHANCEMENTS ========== */
+/* Inspired by Sharon Sciammas portfolio design */
+
+/* ===== Hero V2 — Dramatic Redesign ===== */
+
+.hero-v2 {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl) var(--spacing-md);
+  padding-top: calc(80px + var(--spacing-xl));
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle radial glow behind hero content */
+.hero-v2::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 40%,
+    rgba(var(--primary-rgb), 0.08) 0%,
+    rgba(var(--purple-rgb), 0.04) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-v2::before {
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 40%,
+      rgba(var(--primary-rgb), 0.12) 0%,
+      rgba(var(--purple-rgb), 0.08) 40%,
+      transparent 70%
+    );
+  }
+}
+
+.hero-v2 .hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 800px;
+}
+
+/* ===== Status Badge — "Open to Opportunities" ===== */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin-bottom: var(--spacing-lg);
+  background: rgba(var(--success-rgb), 0.12);
+  border: 1px solid rgba(var(--success-rgb), 0.25);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(var(--success-rgb));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.status-badge::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: rgb(var(--success-rgb));
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.15); }
+}
+
+@media (prefers-color-scheme: dark) {
+  .status-badge {
+    background: rgba(var(--success-rgb), 0.15);
+    border-color: rgba(var(--success-rgb), 0.35);
+  }
+}
+
+/* ===== Gradient Tagline ===== */
+.hero-tagline {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: var(--spacing-md);
+  background: linear-gradient(
+    135deg,
+    var(--text-primary) 0%,
+    rgb(var(--purple-rgb)) 50%,
+    rgb(var(--primary-rgb)) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-wrap: balance;
+  max-width: 600px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-tagline {
+    background: linear-gradient(
+      135deg,
+      var(--white) 0%,
+      rgb(var(--purple-rgb)) 50%,
+      rgb(var(--primary-rgb)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+/* ===== Hero Title (role & location) ===== */
+.hero-v2 .hero-title {
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: var(--spacing-lg);
+  white-space: nowrap;
+}
+
+/* ===== Hero Actions V2 ===== */
+.hero-actions-v2 {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ===== "Book a Call" Header CTA ===== */
+.header-cta {
+  display: none;
+  padding: 10px 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--white);
+  background: linear-gradient(120deg, var(--primary), var(--purple));
+  border: none;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.25);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.header-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(var(--primary-rgb), 0.35);
+}
+
+/* Only show header CTA on wider screens where there's room */
+@media (min-width: 1024px) {
+  .header-cta {
+    display: inline-flex;
+    align-items: center;
+    position: absolute;
+    right: var(--spacing-md);
+  }
+}
+
+/* Keep nav centered when CTA is present */
+@media (min-width: 1024px) {
+  .nav-container.has-cta {
+    justify-content: center;
+  }
+
+  .nav-container.has-cta .nav-menu {
+    position: relative;
+    left: auto !important;
+    transform: none !important;
+  }
+
+  /* Position logo on wide screens to keep nav truly centered */
+  .nav-container.has-cta .logo {
+    position: absolute;
+    left: var(--spacing-md);
+  }
+}
+
+/* Prevent nav items from wrapping */
+.nav-menu a {
+  white-space: nowrap;
+}
+
+/* Consistent header height across all screen sizes */
+.nav-container {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+/* ===== Side Project (subdued) ===== */
+.hero-v2 .hero-side-project {
+  margin-top: var(--spacing-md);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.hero-v2 .hero-side-project a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.hero-v2 .hero-side-project a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Mobile Adjustments ===== */
+@media (max-width: 640px) {
+  .hero-v2 {
+    min-height: 80vh;
+    padding-top: calc(70px + var(--spacing-lg));
+  }
+
+  /* Keep hero buttons on same line on mobile */
+  .hero-actions-v2 {
+    flex-wrap: nowrap;
+  }
+
+  .hero-actions-v2 .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .status-badge {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+  }
+}
+
+/* ===== View Work Button ===== */
+.btn-view-work {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1.5px solid rgba(var(--black-rgb), 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-view-work::after {
+  content: "→";
+  margin-left: 8px;
+  transition: transform var(--transition-fast);
+}
+
+.btn-view-work:hover {
+  border-color: rgba(var(--primary-rgb), 0.4);
+  background: rgba(var(--primary-rgb), 0.06);
+}
+
+.btn-view-work:hover::after {
+  transform: translateX(4px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-view-work {
+    border-color: rgba(var(--white-rgb), 0.2);
+  }
+
+  .btn-view-work:hover {
+    border-color: rgba(var(--primary-rgb), 0.5);
+    background: rgba(var(--primary-rgb), 0.12);
+  }
+}
