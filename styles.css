@@ -447,17 +447,17 @@ img {
 }
 
 /* Desktop: center nav when name is hidden, slide right when name appears */
-@media (min-width: 769px) {
+@media (min-width: 901px) {
   .nav-menu {
     position: absolute;
     transition: left 0.4s ease, transform 0.4s ease;
   }
-  
+
   .header:not(.name-visible) .nav-menu {
     left: 50%;
     transform: translateX(-50%);
   }
-  
+
   .header.name-visible .nav-menu {
     left: calc(100% - var(--spacing-md));
     transform: translateX(-100%);
@@ -472,7 +472,7 @@ img {
   transition: all var(--transition-fast);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .menu-toggle {
     display: flex;
   }
@@ -1329,7 +1329,7 @@ img {
 
 /* ========== Responsive ========== */
 
-@media (min-width: 768px) {
+@media (min-width: 901px) {
   .nav-menu {
     box-shadow: none !important;
     background: transparent !important;
@@ -2506,8 +2506,22 @@ img {
 
 /* Consistent header height across all screen sizes */
 .nav-container {
-  padding-top: 1rem !important;
-  padding-bottom: 1rem !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  min-height: 64px;
+}
+
+/* Compact logo text to prevent nav height variance */
+.logo-text {
+  line-height: 1.2;
+}
+
+.logo-name {
+  line-height: 1.1;
+}
+
+.logo-subtitle {
+  line-height: 1.2;
 }
 
 /* ===== Side Project (subdued) ===== */
