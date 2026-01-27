@@ -218,18 +218,21 @@
 
         @media (max-width: 480px) {
           .kevbot-panel {
-            bottom: 0;
-            right: 0;
-            left: 0;
-            width: 100%;
-            max-width: 100%;
-            height: calc(100vh - 80px);
-            max-height: calc(100vh - 80px);
-            border-radius: 16px 16px 0 0;
+            bottom: 96px;
+            right: 16px;
+            left: 16px;
+            width: auto;
+            max-width: none;
+            height: 60vh;
+            max-height: 60vh;
+            border-radius: 16px;
           }
           .kevbot-fab {
             bottom: 16px;
             right: 16px;
+          }
+          .kevbot-input {
+            font-size: 16px;
           }
         }
 
