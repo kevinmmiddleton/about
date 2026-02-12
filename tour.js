@@ -13,19 +13,19 @@
       {
         target: '.hero-inner',
         title: 'Welcome',
-        message: "Hey! This is Kevin's site. He's a Full Stack PM based in NYC, currently open to new opportunities. Let me show you around!"
+        message: "Hey! I'm Kevin, a Full Stack PM based in NYC, currently open to new opportunities. Let me show you around."
       },
       {
         target: '#looking-for .container',
         mobileScrollTarget: '#looking-for',
-        title: 'What He Wants',
-        message: "Kevin's looking for roles in product management, internal tools, or platforms. He's also open to product ops, marketing ops, or consulting."
+        title: 'What I Want',
+        message: "I'm looking for roles in product management, internal tools, or platforms. Also open to product ops, marketing ops, or consulting."
       },
       {
         target: '#about .container',
         mobileScrollTarget: '.about-text',
-        title: 'About Kevin',
-        message: "Here's a bit about who Kevin is. He's into collaborative teams, good communication, and keeping things moving. Also: cats and cooking."
+        title: 'About Me',
+        message: "A bit about me. I care about collaborative teams, good communication, and keeping things moving. Also: cats and cooking."
       },
       {
         target: '.experience-list',
@@ -38,17 +38,17 @@
       {
         target: '#projects',
         title: 'Case Studies',
-        message: "These are deep-dives into Kevin's work. Real projects, real outcomes. Click any card to read the full case study."
+        message: "Deep-dives into my work. Real projects, real outcomes. Click any card to read the full case study."
       },
       {
         target: '#skills',
         title: 'Skills',
-        message: "Kevin's toolkit: strategy, leadership, analytics, and technical chops. Plus a wall of tools he's used over the years."
+        message: "My toolkit: strategy, leadership, analytics, and technical chops. Plus a wall of tools I've used over the years."
       },
       {
         target: '#connect',
         title: 'Get in Touch',
-        message: "Ready to chat? Email, LinkedIn, GitHub, or book a call directly. Kevin's always happy to connect!"
+        message: "Want to chat? Email, LinkedIn, GitHub, or book a call. Always happy to connect."
       }
     ],
 
@@ -194,7 +194,11 @@
         behavior: 'smooth'
       });
 
-      // Wait for scroll, then lock and show UI
+      // Wait for scroll to finish, then lock and show UI
+      // Scale timeout by scroll distance so long jumps get enough time
+      const scrollDistance = Math.abs(scrollY - window.scrollY);
+      const timeout = Math.max(400, Math.min(1000, scrollDistance * 0.6));
+
       setTimeout(() => {
         // Re-lock scrolling
         document.body.classList.add('tour-active');
@@ -213,7 +217,7 @@
           this.toast.classList.remove('active');
           this.showSpotlight(step, target, index);
         }
-      }, 250);
+      }, timeout);
     },
 
     showSpotlight: function(step, target, index) {
@@ -238,12 +242,27 @@
       }
 
       const padding = 20;
+      const viewportMargin = 30; // minimum dark border on each edge
 
-      // Position spotlight over merged area (fixed positioning = viewport coordinates)
-      this.spotlight.style.top = `${top - padding}px`;
-      this.spotlight.style.left = `${left - padding}px`;
-      this.spotlight.style.width = `${(right - left) + padding * 2}px`;
-      this.spotlight.style.height = `${(bottom - top) + padding * 2}px`;
+      // Calculate raw spotlight bounds
+      let spotTop = top - padding;
+      let spotLeft = left - padding;
+      let spotRight = right + padding;
+      let spotBottom = bottom + padding;
+
+      // Clamp to viewport so the box-shadow cutout is always visible
+      const vpW = window.innerWidth;
+      const vpH = window.innerHeight;
+      spotTop = Math.max(viewportMargin, spotTop);
+      spotLeft = Math.max(viewportMargin, spotLeft);
+      spotRight = Math.min(vpW - viewportMargin, spotRight);
+      spotBottom = Math.min(vpH - viewportMargin, spotBottom);
+
+      // Position spotlight over clamped area (fixed positioning = viewport coordinates)
+      this.spotlight.style.top = `${spotTop}px`;
+      this.spotlight.style.left = `${spotLeft}px`;
+      this.spotlight.style.width = `${spotRight - spotLeft}px`;
+      this.spotlight.style.height = `${spotBottom - spotTop}px`;
 
       // Update tooltip content
       this.messageEl.textContent = step.message;
