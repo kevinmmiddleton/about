@@ -698,6 +698,15 @@ img {
   z-index: 2;
 }
 
+.section-intro {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: calc(-1 * var(--spacing-md)) auto var(--spacing-xl);
+  line-height: 1.5;
+}
+
 .section-accent .section-title {
   color: var(--text-primary);
 }
