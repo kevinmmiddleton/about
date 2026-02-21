@@ -184,9 +184,13 @@ const resumeOrder = [
   "exp-sendoso",
   "exp-rocketlawyer",
   "exp-oracle",
+  "exp-caci",
+  "exp-cgi",
 ]
 
 const storyOrder = [
+  "exp-cgi",
+  "exp-caci",
   "exp-oracle",
   "exp-rocketlawyer",
   "exp-sendoso",
@@ -207,11 +211,11 @@ function reorderExperience(mode) {
 
 if (toggleInput) {
   toggleInput.addEventListener("change", () => {
+    const isJourney = toggleInput.checked
     if (journeyPreamble) {
-      journeyPreamble.style.display = toggleInput.checked ? "block" : "none";
+      journeyPreamble.style.display = isJourney ? "block" : "none";
     }
-    const mode = toggleInput.checked ? "story" : "resume"
-    reorderExperience(mode)
+    reorderExperience(isJourney ? "story" : "resume")
   })
 }
 

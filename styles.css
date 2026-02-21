@@ -318,6 +318,72 @@
   background: rgba(var(--warning-rgb), 0.38) !important;
 }
 
+/* Gray tint — Used for "not looking for" pills */
+.tint-gray {
+  background: rgba(var(--gray-rgb, 160, 160, 160), 0.22) !important;
+  color: var(--text-muted) !important;
+}
+
+/* Green tint — Used for public sector */
+.tint-green {
+  background: rgba(var(--success-rgb), 0.22) !important;
+}
+
+/* Sector badge — small inline label on exp-company */
+.exp-sector {
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 7px 2px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(var(--success-rgb), 0.18);
+}
+
+.exp-sector--startup {
+  background: rgba(var(--purple-rgb), 0.18);
+}
+
+.exp-sector--acquired {
+  background: rgba(var(--warning-rgb), 0.18);
+}
+
+.exp-sector--enterprise {
+  background: rgba(var(--primary-rgb), 0.18);
+}
+
+.exp-sector--zero-to-one {
+  background: rgba(var(--pink-rgb, 236, 72, 153), 0.18);
+}
+
+.exp-sector--scale {
+  background: rgba(var(--primary-rgb), 0.12);
+}
+
+/* Acquisition detail text next to badge */
+.exp-acquired-detail {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-style: italic;
+  vertical-align: middle;
+}
+
+.exp-acquired-detail a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--gray-rgb, 160, 160, 160), 0.4);
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+}
+
+.exp-acquired-detail a:hover {
+  color: var(--text-secondary);
+}
+
 /* ========== Reset & Base Styles ========== */
 * {
   margin: 0;
@@ -461,6 +527,12 @@ img {
   .header.name-visible .nav-menu {
     left: calc(100% - var(--spacing-md));
     transform: translateX(-100%);
+    gap: var(--spacing-sm);
+  }
+
+  .header.name-visible .nav-menu a {
+    padding: var(--spacing-xs) 6px;
+    font-size: 0.85rem;
   }
 }
 
@@ -1889,31 +1961,29 @@ img {
 
 .career-card {
   display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-md);
-}
-
-
-
-.career-card-icon {
-  flex-shrink: 0;
-  display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   justify-content: center;
-  padding-top: 0.15rem;
 }
 
-.career-card-icon svg {
+.career-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.career-header svg {
   width: 26px;
   height: 26px;
-  color: var(--color-primary);
+  flex-shrink: 0;
+  color: var(--text-primary);
 }
 
 .career-card h3 {
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 1.15rem;
-  margin-bottom: 0.35rem;
+  margin: 0;
   color: var(--text-primary);
 }
 
@@ -1921,6 +1991,7 @@ img {
   font-size: 0.97rem;
   color: var(--text-secondary);
   line-height: 1.6;
+  margin: 0;
 }
 
 
@@ -2098,6 +2169,10 @@ img {
   font-size: 0.95rem;
   color: var(--text-primary);
   margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .exp-company a {
@@ -2400,9 +2475,9 @@ img {
 /* ===== Gradient Tagline ===== */
 .hero-tagline {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1.15;
+  font-size: clamp(1.35rem, 3.2vw, 2rem);
+  font-weight: 600;
+  line-height: 1.25;
   margin-bottom: var(--spacing-md);
   background: linear-gradient(
     135deg,
@@ -2490,6 +2565,12 @@ img {
     position: relative;
     left: auto !important;
     transform: none !important;
+    gap: var(--spacing-xs);
+  }
+
+  .nav-container.has-cta .nav-menu a {
+    padding: var(--spacing-xs) 5px;
+    font-size: 0.84rem;
   }
 
   /* Position logo on wide screens to keep nav truly centered */
@@ -2838,5 +2919,113 @@ body.tour-active .kevbot-fab {
   .tour-toast {
     background: var(--surface);
     box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* ========== Earlier Career Section ========== */
+.earlier-career-toggle {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.earlier-career-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: transparent;
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.earlier-career-btn:hover {
+  border-color: var(--purple);
+  color: var(--purple);
+  background: rgba(var(--purple-rgb), 0.04);
+}
+
+.earlier-career-btn .earlier-chevron {
+  transition: transform 0.3s;
+  font-size: 0.75rem;
+}
+
+.earlier-career-btn.open .earlier-chevron {
+  transform: rotate(180deg);
+}
+
+#earlierCareerCards {
+  display: none;
+  margin-top: 1.5rem;
+}
+
+#earlierCareerCards.show {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.earlier-career-narrative {
+  padding: 1.5rem 1.75rem;
+  background: var(--surface);
+  border-radius: 14px;
+  border-left: 3px solid var(--gray-300);
+  margin-bottom: 1.25rem;
+}
+
+.earlier-career-narrative .foundation-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--text-secondary);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.earlier-career-narrative p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 0.6rem;
+}
+
+.earlier-career-narrative p:last-child {
+  margin-bottom: 0;
+}
+
+.exp-logo-text {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Dark mode overrides for Earlier Career */
+@media (prefers-color-scheme: dark) {
+  .earlier-career-btn {
+    border-color: rgba(var(--white-rgb), 0.15);
+    color: var(--text-secondary);
+  }
+
+  .earlier-career-btn:hover {
+    border-color: rgba(var(--white-rgb), 0.3);
+    color: var(--text-primary);
+    background: rgba(var(--white-rgb), 0.04);
+  }
+
+  .earlier-career-narrative {
+    background: rgba(var(--white-rgb), 0.03);
+    border-left-color: rgba(var(--white-rgb), 0.15);
   }
 }
