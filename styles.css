@@ -2019,19 +2019,37 @@ img {
     padding: 0 var(--spacing-sm);
   }
 
-  /* Looking For pills - shrink to fit on mobile */
+  /* Looking For pills - 2-column grid on mobile for clean layout */
   .looking-for-pills .role-pill {
     padding: 6px 12px;
     font-size: 0.75rem;
+    text-align: center;
   }
 
   .role-pill-row {
+    display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    max-width: 300px;
+    margin: 4px auto;
+    justify-content: center;
+  }
+
+  .role-pill-row .role-pill {
+    margin: 0;
   }
 
   .pill-label {
     font-size: 0.7rem;
+  }
+
+  .pill-row-with-label {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  /* Let bottom text flow naturally on mobile */
+  .two-line-lock br {
+    display: none;
   }
 }
 
