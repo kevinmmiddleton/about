@@ -393,6 +393,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -599,7 +600,6 @@ img {
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.4;
-  white-space: nowrap;
 }
 
 .hero-side-project {
@@ -1518,7 +1518,6 @@ img {
   color: var(--text-primary);
   font-weight: 500;
   margin-bottom: var(--spacing-xs);
-  white-space: nowrap;
 }
 
 .hero-summary {
@@ -2027,7 +2026,7 @@ img {
   }
 
   .role-pill-row {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 8px;
   }
 
@@ -2520,7 +2519,6 @@ img {
   color: var(--text-primary);
   font-weight: 500;
   margin-bottom: var(--spacing-lg);
-  white-space: nowrap;
 }
 
 /* ===== Hero Actions V2 ===== */
