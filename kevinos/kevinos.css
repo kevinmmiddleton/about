@@ -730,7 +730,7 @@ body {
 .window {
     position: fixed;
     width: min(800px, calc(100% - 40px));
-    max-height: calc(100% - 40px);
+    max-height: calc(100vh - 120px); /* clear menubar + dock */
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);

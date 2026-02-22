@@ -4248,11 +4248,12 @@ loadKevinRecipes();
                 aboutWin.style.width = '680px';
             }
 
-            // Experience - middle
+            // Experience - middle, tall but clears the dock (~80px dock + padding)
             if (expWin) {
                 expWin.style.left = '690px';
                 expWin.style.top = '40px';
                 expWin.style.width = '420px';
+                expWin.style.height = 'calc(100vh - 40px - 100px)';
             }
 
             // Values - right side, stacked layout for initial load
@@ -4290,12 +4291,16 @@ loadKevinRecipes();
                     const isOpen = expWin.classList.contains('window-open');
                     // If reopening after initial load was cleared
                     if (isOpen && expWin.dataset.initialLoad === 'false') {
-                        // Reset to default width
+                        // Reset to default sizing; CSS max-height handles the constraint
                         expWin.style.width = '';
+                        expWin.style.height = '';
                     }
-                    // Mark initial load as done when closed
-                    if (!isOpen && expWin.dataset.initialLoad === 'true') {
-                        expWin.dataset.initialLoad = 'false';
+                    // When closed, clear and mark initial load done
+                    if (!isOpen) {
+                        expWin.style.height = '';
+                        if (expWin.dataset.initialLoad === 'true') {
+                            expWin.dataset.initialLoad = 'false';
+                        }
                     }
                 }
             });
