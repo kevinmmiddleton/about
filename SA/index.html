@@ -458,7 +458,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   background: var(--sa-blue-light);
   color: var(--sa-blue);
 }
-.ob-checklist li.done-item { color: var(--sa-gray); text-decoration: line-through; }
+.ob-checklist li.done-item { color: var(--sa-gray); }
+.ob-checklist li.done-item span { text-decoration: line-through; }
 
 .ob-sidebar {
   background: var(--sa-light-gray);
@@ -1176,18 +1177,148 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 }
 
 @media (max-width: 900px) {
-  .tab-bar { padding: 0 16px; overflow-x: auto; }
-  .tab { padding: 12px 16px; font-size: 13px; }
-  .concept-header { padding: 32px 24px; }
-  .concept-header h2 { font-size: 24px; }
+  /* Tab bar: horizontal scroll only, no vertical wiggle */
+  .tab-bar {
+    padding: 0 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 12px 16px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  /* General layout */
+  .pres-header { padding: 20px 16px; flex-direction: column; gap: 8px; }
+  .pres-header .author { text-align: left; }
+  .concept-header { padding: 24px 16px; }
+  .concept-header h2 { font-size: 22px; }
+  .concept-header p { font-size: 14px; }
   .problem-bar { grid-template-columns: 1fr; }
-  .mockup-section { padding: 24px; }
-  .sf-cards { grid-template-columns: 1fr; }
-  .ob-body { grid-template-columns: 1fr; }
-  .ob-sidebar { border-left: none; border-top: 1px solid var(--sa-border); }
-  .hub-body { grid-template-columns: 1fr; }
-  .hub-sidebar-left, .hub-sidebar-right { display: none; }
+  .mockup-section { padding: 16px; }
+  .mockup-section h3 { font-size: 14px; }
+  .annotation { margin: 24px 16px; padding: 16px; }
+  .impact-section { padding: 24px 16px; }
   .impact-grid { grid-template-columns: 1fr; }
+
+  /* Tab 2: School Finder */
+  .sf-topbar { padding: 12px 16px; }
+  .sf-nav { display: none; }
+  .sf-hero { padding: 24px 16px; }
+  .sf-hero h2 { font-size: 20px; }
+  .sf-filters { flex-direction: column; gap: 8px; }
+  .sf-filter { min-width: unset; }
+  .sf-cards { grid-template-columns: 1fr; }
+  .sf-card { padding: 16px; }
+  .sf-stats { gap: 12px; }
+  .sf-match {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .sf-match-score {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    flex-shrink: 0;
+  }
+  .sf-actions { flex-direction: column; }
+  .sf-actions button { width: 100%; }
+
+  /* Tab 3: Onboarding */
+  .ob-topbar { padding: 12px 16px; }
+  .ob-progress-bar { padding: 16px; }
+  .ob-steps { gap: 4px; }
+  .ob-step { font-size: 11px; }
+  .ob-body { grid-template-columns: 1fr; }
+  .ob-main { padding: 20px 16px; }
+  .ob-sidebar { border-left: none; border-top: 1px solid var(--sa-border); padding: 20px 16px; }
+
+  /* Tab 4: Hub */
+  .hub-topbar {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hub-nav {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+  .hub-nav::-webkit-scrollbar { display: none; }
+  .hub-nav-item {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+  .hub-user { order: 2; margin-left: auto; }
+  .hub-body.hub-view.active-view {
+    display: block !important;
+  }
+  .hub-sidebar-left, .hub-sidebar-right { display: none; }
+  .hub-main { padding: 16px !important; }
+  .hub-welcome h2 { font-size: 18px; }
+  .hub-grid { grid-template-columns: 1fr; }
+
+  /* Hub: Grades view */
+  .grades-header-bar { flex-direction: column; gap: 12px; }
+  .grades-summary { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .grades-table { font-size: 12px; }
+  .grades-table th, .grades-table td { padding: 8px 6px; }
+  .teacher-cell { display: none; }
+
+  /* Hub: Messages view */
+  .hub-body.msg-view-layout.active-view {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+  .msg-view-layout .hub-sidebar-left { display: none; }
+  .msg-view-layout > div:nth-child(2) { border-right: none; }
+  .msg-toolbar { padding: 16px; }
+  .msg-toolbar h2 { font-size: 18px; }
+  .msg-filters { padding: 0 16px 12px; }
+  .msg-list-item { padding: 12px 16px; }
+  .msg-detail { padding: 16px; }
+  .msg-detail-body p { font-size: 13px; }
+  .msg-reply-input { font-size: 13px; }
+
+  /* Hub: Calendar view */
+  .hub-body.cal-view-layout.active-view {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+  .cal-view-layout .hub-sidebar-left { display: none; }
+  .cal-month-header { padding: 16px; }
+  .cal-month-header h2 { font-size: 18px; }
+  .cal-grid-wrapper { overflow-x: auto; }
+  .cal-grid { min-width: 500px; }
+  .cal-day { min-height: 50px; padding: 2px; }
+  .cal-dot { font-size: 9px; padding: 1px 3px; }
+  .cal-view-layout .hub-sidebar-right {
+    display: block;
+    padding: 16px;
+    border-top: 1px solid var(--sa-border);
+  }
+
+  /* Hub: Resources view */
+  .hub-body.res-view-layout.active-view {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+  .res-view-layout .hub-sidebar-left { display: none; }
+  .res-main { padding: 20px 16px; }
+  .res-main h2 { font-size: 18px; }
+  .res-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -1418,7 +1549,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
             <ul class="ob-checklist">
               <li class="done-item">
                 <div class="ob-check done">&#10003;</div>
-                Download the Success Academy app (ParentSquare)
+                <span>Download the Success Academy app (ParentSquare)</span>
               </li>
               <li>
                 <div class="ob-check active">&#9679;</div>
