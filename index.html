@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SA Website Improvement Concepts — Kevin Middleton</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sa-blue: #0D5BA6;
+  --sa-blue-dark: #0A4A8A;
+  --sa-blue-light: #E8F0FA;
+  --sa-orange: #F5A623;
+  --sa-orange-hover: #E09515;
+  --sa-slate: #4A5568;
+  --sa-dark: #1A202C;
+  --sa-gray: #718096;
+  --sa-light-gray: #F7FAFC;
+  --sa-white: #FFFFFF;
+  --sa-border: #E2E8F0;
+  --sa-green: #38A169;
+  --sa-green-light: #F0FFF4;
+  --radius: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); background: var(--sa-light-gray); }
+
+/* ===== PRESENTATION HEADER ===== */
+.pres-header {
+  background: var(--sa-dark);
+  color: white;
+  padding: 32px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pres-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+.pres-header .subtitle { color: #A0AEC0; font-size: 14px; margin-top: 4px; }
+.pres-header .author { font-size: 13px; color: #A0AEC0; text-align: right; }
+.pres-header .author strong { color: white; }
+
+/* ===== TAB BAR ===== */
+.tab-bar {
+  background: white;
+  border-bottom: 2px solid var(--sa-border);
+  display: flex;
+  padding: 0 48px;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.tab {
+  padding: 16px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sa-gray);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+.tab:hover { color: var(--sa-blue); }
+.tab.active {
+  color: var(--sa-blue);
+  border-bottom-color: var(--sa-orange);
+}
+.tab .tab-num {
+  display: inline-block;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--sa-border);
+  color: var(--sa-gray);
+  font-size: 11px;
+  line-height: 22px;
+  text-align: center;
+  margin-right: 8px;
+  font-weight: 700;
+}
+.tab.active .tab-num {
+  background: var(--sa-blue);
+  color: white;
+}
+
+/* ===== TAB CONTENT ===== */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ===== CURRENT SITE TAB ===== */
+.current-site-frame {
+  width: 100%;
+  height: calc(100vh - 160px);
+  border: none;
+}
+.frame-notice {
+  background: var(--sa-blue-light);
+  border-left: 4px solid var(--sa-blue);
+  padding: 16px 48px;
+  font-size: 14px;
+  color: var(--sa-blue-dark);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.frame-notice .icon { font-size: 18px; }
+
+/* ===== CONCEPT PAGES ===== */
+.concept-page { padding: 0; }
+
+/* Concept Header */
+.concept-header {
+  background: linear-gradient(135deg, var(--sa-blue) 0%, var(--sa-blue-dark) 100%);
+  color: white;
+  padding: 56px 48px 48px;
+}
+.concept-label {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.9);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.concept-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.concept-header p {
+  font-size: 18px;
+  color: rgba(255,255,255,0.85);
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* Problem/Solution Bar */
+.problem-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--sa-border);
+}
+.problem-box, .solution-box {
+  padding: 32px 48px;
+}
+.problem-box {
+  background: #FFF5F5;
+  border-right: 1px solid var(--sa-border);
+}
+.solution-box { background: var(--sa-green-light); }
+.box-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.problem-box .box-label { color: #C53030; }
+.solution-box .box-label { color: var(--sa-green); }
+.problem-box p, .solution-box p {
+  font-size: 15px;
+  color: var(--sa-slate);
+  line-height: 1.6;
+}
+
+/* Mockup Section */
+.mockup-section {
+  padding: 48px;
+  background: white;
+}
+.mockup-section h3 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--sa-gray);
+  margin-bottom: 24px;
+}
+
+/* ===== CONCEPT 1: SCHOOL FINDER ===== */
+.school-finder-mockup {
+  background: white;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+.sf-topbar {
+  background: var(--sa-blue);
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.sf-logo {
+  background: var(--sa-orange);
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 8px 10px;
+  line-height: 1.1;
+  letter-spacing: 1px;
+}
+.sf-nav { display: flex; gap: 24px; margin-left: auto; }
+.sf-nav span { color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 500; }
+.sf-nav span.active-nav { color: white; border-bottom: 2px solid var(--sa-orange); padding-bottom: 2px; }
+
+.sf-hero {
+  background: linear-gradient(135deg, #0D5BA6 0%, #1565B8 100%);
+  padding: 48px 40px;
+  color: white;
+  text-align: center;
+}
+.sf-hero h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+.sf-hero p { font-size: 15px; color: rgba(255,255,255,0.8); margin-bottom: 28px; }
+
+.sf-filters {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.sf-filter {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  padding: 10px 20px;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sf-filter .label { font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
+.sf-filter .value { font-weight: 600; }
+
+.sf-results {
+  padding: 32px 40px;
+  background: var(--sa-light-gray);
+}
+.sf-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.sf-results-header h3 { font-size: 18px; font-weight: 700; color: var(--sa-dark); }
+.sf-results-header span { font-size: 13px; color: var(--sa-gray); }
+
+.sf-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sf-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px;
+  border: 1px solid var(--sa-border);
+  transition: box-shadow 0.15s ease;
+}
+.sf-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.sf-card-top { display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px; }
+.sf-card h4 { font-size: 16px; font-weight: 700; color: var(--sa-dark); }
+.sf-badge {
+  background: var(--sa-green-light);
+  color: var(--sa-green);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+.sf-card .sf-borough { font-size: 13px; color: var(--sa-gray); margin-bottom: 12px; }
+.sf-card .sf-grades { font-size: 12px; color: var(--sa-slate); margin-bottom: 16px; }
+.sf-card .sf-grades strong { color: var(--sa-dark); }
+.sf-card .sf-stats {
+  display: flex;
+  gap: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--sa-border);
+}
+.sf-stat { text-align: center; }
+.sf-stat .num { font-size: 20px; font-weight: 800; color: var(--sa-blue); }
+.sf-stat .desc { font-size: 10px; color: var(--sa-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.sf-card .sf-actions { display: flex; gap: 8px; margin-top: 16px; }
+.sf-btn-primary {
+  background: var(--sa-orange);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.sf-btn-secondary {
+  background: white;
+  color: var(--sa-blue);
+  border: 1px solid var(--sa-blue);
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.sf-match {
+  background: var(--sa-blue-light);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sf-match-score {
+  width: 44px; height: 44px;
+  min-width: 44px; min-height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--sa-blue);
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sf-match-text { font-size: 13px; color: var(--sa-slate); line-height: 1.4; }
+.sf-match-text strong { color: var(--sa-dark); }
+
+/* ===== CONCEPT 2: FAMILY ONBOARDING ===== */
+.onboarding-mockup {
+  background: white;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+.ob-topbar {
+  background: var(--sa-blue);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ob-topbar .sf-logo { flex-shrink: 0; }
+.ob-greeting {
+  color: white;
+  font-size: 14px;
+  margin-left: auto;
+}
+.ob-greeting strong { font-weight: 700; }
+
+.ob-progress-bar {
+  background: var(--sa-blue-light);
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--sa-border);
+}
+.ob-progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.ob-progress-label span { font-size: 13px; font-weight: 600; color: var(--sa-slate); }
+.ob-progress-label .pct { color: var(--sa-blue); font-weight: 700; }
+.ob-track {
+  background: #CBD5E0;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.ob-fill {
+  background: var(--sa-orange);
+  height: 100%;
+  border-radius: 4px;
+  width: 40%;
+  transition: width 0.3s ease;
+}
+
+.ob-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  gap: 4px;
+}
+.ob-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--sa-gray);
+}
+.ob-step.completed { color: var(--sa-green); }
+.ob-step.current { color: var(--sa-blue); font-weight: 600; }
+.ob-step-dot {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid #CBD5E0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+.ob-step.completed .ob-step-dot {
+  background: var(--sa-green);
+  border-color: var(--sa-green);
+  color: white;
+}
+.ob-step.current .ob-step-dot {
+  background: var(--sa-blue);
+  border-color: var(--sa-blue);
+  color: white;
+}
+
+.ob-body {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  min-height: 400px;
+}
+.ob-main { padding: 36px 40px; }
+.ob-main h2 { font-size: 24px; font-weight: 800; color: var(--sa-dark); margin-bottom: 8px; }
+.ob-main .ob-subtitle { font-size: 15px; color: var(--sa-gray); margin-bottom: 28px; line-height: 1.5; }
+
+.ob-checklist { list-style: none; }
+.ob-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--sa-border);
+  font-size: 15px;
+  color: var(--sa-dark);
+}
+.ob-checklist li:last-child { border-bottom: none; }
+.ob-check {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid #CBD5E0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+.ob-check.done {
+  background: var(--sa-green);
+  border-color: var(--sa-green);
+  color: white;
+}
+.ob-check.active {
+  border-color: var(--sa-blue);
+  background: var(--sa-blue-light);
+  color: var(--sa-blue);
+}
+.ob-checklist li.done-item { color: var(--sa-gray); }
+.ob-checklist li.done-item span { text-decoration: line-through; }
+
+.ob-sidebar {
+  background: var(--sa-light-gray);
+  padding: 36px 28px;
+  border-left: 1px solid var(--sa-border);
+}
+.ob-sidebar h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sa-dark);
+  margin-bottom: 20px;
+}
+.ob-school-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--sa-border);
+  margin-bottom: 16px;
+}
+.ob-school-card h4 { font-size: 15px; font-weight: 700; color: var(--sa-dark); margin-bottom: 4px; }
+.ob-school-card p { font-size: 13px; color: var(--sa-gray); line-height: 1.5; }
+.ob-school-card .ob-contact {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--sa-border);
+  font-size: 13px;
+  color: var(--sa-slate);
+}
+.ob-school-card .ob-contact strong { display: block; color: var(--sa-dark); margin-bottom: 2px; }
+
+.ob-date-card {
+  background: white;
+  border-radius: var(--radius);
+  border: 1px solid var(--sa-border);
+  overflow: hidden;
+}
+.ob-date-header {
+  background: var(--sa-orange);
+  color: white;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.ob-date-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--sa-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ob-date-item:last-child { border-bottom: none; }
+.ob-date-item .date { font-size: 13px; font-weight: 600; color: var(--sa-dark); }
+.ob-date-item .event { font-size: 13px; color: var(--sa-gray); }
+
+/* ===== CONCEPT 3: FAMILY HUB ===== */
+.hub-mockup {
+  background: white;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+.hub-topbar {
+  background: var(--sa-blue);
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.hub-topbar .sf-logo { flex-shrink: 0; }
+.hub-nav { display: flex; gap: 0; margin-left: 24px; }
+.hub-nav-item {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.hub-nav-item:hover { color: rgba(255,255,255,0.9); }
+.hub-nav-item.active-hub {
+  color: white;
+  border-bottom-color: var(--sa-orange);
+}
+/* hub-view visibility is handled after .hub-body below */
+.hub-user {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-size: 13px;
+}
+.hub-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--sa-orange);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.hub-body {
+  display: grid;
+  grid-template-columns: 240px 1fr 300px;
+  min-height: 460px;
+}
+.hub-body.hub-view { display: none; }
+.hub-body.hub-view.active-view { display: grid; }
+.hub-sidebar-left {
+  background: var(--sa-light-gray);
+  border-right: 1px solid var(--sa-border);
+  padding: 24px 0;
+}
+.hub-sidebar-section {
+  padding: 0 20px;
+  margin-bottom: 24px;
+}
+.hub-sidebar-section h4 {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--sa-gray);
+  margin-bottom: 12px;
+}
+.hub-scholar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--sa-slate);
+}
+.hub-scholar.selected {
+  background: var(--sa-blue-light);
+  color: var(--sa-blue);
+  font-weight: 600;
+}
+.hub-scholar-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--sa-blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+.hub-scholar.selected .hub-scholar-avatar { background: var(--sa-orange); }
+.hub-quick-links { list-style: none; }
+.hub-quick-links li {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--sa-slate);
+  cursor: pointer;
+  border-radius: 6px;
+}
+.hub-quick-links li:hover { background: white; color: var(--sa-blue); }
+
+.hub-main { padding: 28px 32px; }
+.hub-welcome {
+  margin-bottom: 24px;
+}
+.hub-welcome h2 { font-size: 22px; font-weight: 800; color: var(--sa-dark); margin-bottom: 4px; }
+.hub-welcome p { font-size: 14px; color: var(--sa-gray); }
+
+.hub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.hub-widget {
+  background: white;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.hub-widget-header {
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--sa-border);
+}
+.hub-widget-header h4 { font-size: 14px; font-weight: 700; color: var(--sa-dark); }
+.hub-widget-header .see-all { font-size: 12px; color: var(--sa-blue); cursor: pointer; font-weight: 600; }
+.hub-widget-body { padding: 14px 18px; }
+
+.grade-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--sa-border);
+}
+.grade-row:last-child { border-bottom: none; }
+.grade-subject { font-size: 13px; color: var(--sa-slate); }
+.grade-value { font-size: 14px; font-weight: 700; width: 32px; text-align: left; }
+.grade-a { color: var(--sa-green); }
+.grade-b { color: var(--sa-blue); }
+
+.msg-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--sa-border);
+}
+.msg-item:last-child { border-bottom: none; }
+.msg-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--sa-blue-light);
+  color: var(--sa-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.msg-content { flex: 1; }
+.msg-sender { font-size: 13px; font-weight: 600; color: var(--sa-dark); }
+.msg-preview { font-size: 12px; color: var(--sa-gray); margin-top: 2px; }
+.msg-time { font-size: 11px; color: #A0AEC0; }
+
+.hub-sidebar-right {
+  background: var(--sa-light-gray);
+  border-left: 1px solid var(--sa-border);
+  padding: 24px 20px;
+}
+.hub-sidebar-right h4 {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--sa-gray);
+  margin-bottom: 16px;
+}
+.cal-event {
+  background: white;
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  border-left: 3px solid var(--sa-blue);
+}
+.cal-event.urgent { border-left-color: var(--sa-orange); }
+.cal-date { font-size: 11px; font-weight: 700; color: var(--sa-blue); text-transform: uppercase; }
+.cal-event.urgent .cal-date { color: var(--sa-orange); }
+.cal-title { font-size: 13px; font-weight: 600; color: var(--sa-dark); margin-top: 2px; }
+.cal-detail { font-size: 12px; color: var(--sa-gray); margin-top: 2px; }
+
+.hub-alert {
+  background: #FFF5F5;
+  border: 1px solid #FED7D7;
+  border-radius: 6px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+.hub-alert h5 { font-size: 13px; font-weight: 700; color: #C53030; margin-bottom: 4px; }
+.hub-alert p { font-size: 12px; color: #9B2C2C; line-height: 1.4; }
+.hub-alert .alert-action {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #C53030;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ===== IMPACT METRICS ===== */
+.impact-section {
+  padding: 40px 48px;
+  background: var(--sa-light-gray);
+  border-top: 1px solid var(--sa-border);
+}
+.impact-section h3 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--sa-gray);
+  margin-bottom: 20px;
+}
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.impact-card {
+  background: white;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+}
+.impact-card .metric {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--sa-blue);
+  margin-bottom: 4px;
+}
+.impact-card .metric-label {
+  font-size: 13px;
+  color: var(--sa-gray);
+  line-height: 1.4;
+}
+
+/* ===== ANNOTATIONS ===== */
+.annotation {
+  margin-top: 24px;
+  background: #FFFFF0;
+  border: 1px solid #FEFCBF;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+.annotation h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #975A16;
+  margin-bottom: 8px;
+}
+.annotation p {
+  font-size: 14px;
+  color: #744210;
+  line-height: 1.6;
+}
+.tech-annotation {
+  margin-top: 12px;
+  background: #EBF8FF;
+  border: 1px solid #BEE3F8;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+.tech-annotation h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2B6CB0;
+  margin-bottom: 8px;
+}
+.tech-annotation p {
+  font-size: 14px;
+  color: #2A4365;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.tech-annotation p:last-child { margin-bottom: 0; }
+.tech-annotation ul {
+  margin: 0; padding: 0 0 0 18px;
+  font-size: 13px;
+  color: #2A4365;
+  line-height: 1.7;
+}
+
+/* ===== PLATFORM APPROACH TAB ===== */
+.platform-section {
+  margin: 0 32px 40px;
+}
+.platform-section h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--sa-dark);
+  margin-bottom: 16px;
+}
+.arch-diagram {
+  background: #F7FAFC;
+  border: 2px solid var(--sa-border);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  text-align: center;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.arch-layer {
+  padding: 20px 28px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.arch-layer span {
+  font-size: 13px;
+}
+.arch-layer:last-child { margin-bottom: 0; }
+.arch-layer-family {
+  background: var(--sa-blue);
+  color: white;
+}
+.arch-layer-integration {
+  background: var(--sa-orange);
+  color: white;
+}
+.arch-layer-services {
+  background: #E2E8F0;
+  color: var(--sa-dark);
+}
+.arch-layer-systems {
+  background: white;
+  border: 2px dashed var(--sa-border);
+  color: var(--sa-slate);
+}
+.arch-arrow {
+  font-size: 20px;
+  color: var(--sa-slate);
+  margin: 4px 0;
+}
+.phase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+.phase-card {
+  background: #EBF4FB;
+  border: 1px solid #BED8EE;
+  border-radius: var(--radius);
+  padding: 24px;
+  border-top: 3px solid var(--sa-blue);
+  display: flex;
+  flex-direction: column;
+}
+.phase-card p:last-child {
+  margin-top: auto;
+  padding-top: 12px;
+}
+.phase-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sa-blue);
+  margin-bottom: 10px;
+}
+.phase-card p {
+  font-size: 13px;
+  color: var(--sa-slate);
+  line-height: 1.6;
+}
+.principle-box {
+  background: #FFFFF0;
+  border: 1px solid #FEFCBF;
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  font-size: 14px;
+  color: #744210;
+  line-height: 1.6;
+}
+.principle-box strong {
+  color: #975A16;
+}
+
+/* ===== GRADES VIEW ===== */
+.grades-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.grades-header-bar h2 { font-size: 22px; font-weight: 800; color: var(--sa-dark); }
+.grades-term-switcher {
+  display: flex;
+  gap: 4px;
+  background: var(--sa-light-gray);
+  border-radius: 6px;
+  padding: 3px;
+}
+.grades-term {
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sa-gray);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.grades-term.active-term {
+  background: white;
+  color: var(--sa-blue);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.grades-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.grade-summary-card {
+  background: white;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+.grade-summary-card .gpa { font-size: 28px; font-weight: 800; color: var(--sa-blue); }
+.grade-summary-card .gpa-label { font-size: 11px; color: var(--sa-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.grade-summary-card .gpa.green { color: var(--sa-green); }
+.grade-summary-card .gpa.orange { color: var(--sa-orange); }
+
+.grades-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.grades-table thead { background: var(--sa-light-gray); }
+.grades-table th {
+  padding: 12px 18px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--sa-gray);
+  text-align: left;
+  border-bottom: 1px solid var(--sa-border);
+}
+.grades-table td {
+  padding: 14px 18px;
+  font-size: 14px;
+  color: var(--sa-dark);
+  border-bottom: 1px solid var(--sa-border);
+}
+.grades-table tr:last-child td { border-bottom: none; }
+.grades-table .subject-cell { font-weight: 600; }
+.grades-table .teacher-cell { color: var(--sa-gray); font-size: 13px; }
+.grade-pill {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.grade-pill.a-grade { background: var(--sa-green-light); color: var(--sa-green); }
+.grade-pill.b-grade { background: var(--sa-blue-light); color: var(--sa-blue); }
+.grade-pill.c-grade { background: #FFFFF0; color: #975A16; }
+.trend-up { color: var(--sa-green); font-size: 12px; }
+.trend-same { color: var(--sa-gray); font-size: 12px; }
+.recent-assignments h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sa-dark);
+  margin: 28px 0 14px;
+}
+.assignment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid var(--sa-border);
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+.assignment-info { flex: 1; }
+.assignment-name { font-size: 14px; font-weight: 600; color: var(--sa-dark); }
+.assignment-meta { font-size: 12px; color: var(--sa-gray); margin-top: 2px; }
+.assignment-score { font-size: 16px; font-weight: 800; }
+.score-high { color: var(--sa-green); }
+.score-mid { color: var(--sa-blue); }
+
+/* ===== MESSAGES VIEW ===== */
+.msg-view-layout { grid-template-columns: 240px 1fr 300px; }
+.msg-view-layout .hub-main { padding: 0; }
+.msg-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--sa-border);
+}
+.msg-toolbar h2 { font-size: 18px; font-weight: 700; }
+.msg-compose-btn {
+  background: var(--sa-orange);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.msg-filters {
+  display: flex;
+  gap: 4px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--sa-border);
+  background: var(--sa-light-gray);
+}
+.msg-filter-btn {
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sa-gray);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.msg-filter-btn.active-filter {
+  background: white;
+  color: var(--sa-blue);
+  border-color: var(--sa-border);
+}
+.msg-list { overflow-y: auto; max-height: 480px; }
+.msg-list-item {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--sa-border);
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+.msg-list-item:hover { background: var(--sa-light-gray); }
+.msg-list-item.unread { background: var(--sa-blue-light); }
+.msg-list-item.selected-msg { background: #EBF4FF; border-left: 3px solid var(--sa-blue); }
+.msg-list-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--sa-blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.msg-list-avatar.school-av { background: var(--sa-orange); }
+.msg-list-avatar.activity-av { background: var(--sa-green); }
+.msg-list-body { flex: 1; min-width: 0; }
+.msg-list-sender { font-size: 14px; font-weight: 600; color: var(--sa-dark); }
+.msg-list-subject { font-size: 13px; color: var(--sa-slate); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.msg-list-time { font-size: 11px; color: #A0AEC0; flex-shrink: 0; }
+.unread-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--sa-blue);
+  display: inline-block;
+  margin-right: 4px;
+}
+.msg-detail {
+  border-left: 1px solid var(--sa-border);
+  padding: 24px;
+  background: white;
+}
+.msg-detail-header { margin-bottom: 20px; }
+.msg-detail-sender { font-size: 16px; font-weight: 700; color: var(--sa-dark); }
+.msg-detail-meta { font-size: 12px; color: var(--sa-gray); margin-top: 4px; }
+.msg-detail-body { font-size: 14px; color: var(--sa-slate); line-height: 1.7; }
+.msg-detail-body p { margin-bottom: 12px; }
+.msg-reply-box {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--sa-border);
+}
+.msg-reply-input {
+  width: 100%;
+  border: 1px solid var(--sa-border);
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 13px;
+  color: var(--sa-gray);
+  font-family: inherit;
+  resize: none;
+  height: 60px;
+}
+.msg-reply-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
+
+/* ===== CALENDAR VIEW ===== */
+.cal-view-layout { grid-template-columns: 240px 1fr 300px; }
+.cal-month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--sa-border);
+}
+.cal-month-header h2 { font-size: 20px; font-weight: 800; color: var(--sa-dark); }
+.cal-month-nav { display: flex; gap: 8px; }
+.cal-month-nav button {
+  background: var(--sa-light-gray);
+  border: 1px solid var(--sa-border);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sa-slate);
+  cursor: pointer;
+}
+.cal-grid-wrapper { padding: 20px 24px; }
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--sa-border);
+  border: 1px solid var(--sa-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.cal-day-header {
+  background: var(--sa-light-gray);
+  padding: 8px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sa-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cal-day {
+  background: white;
+  min-height: 80px;
+  padding: 6px 8px;
+  font-size: 12px;
+  position: relative;
+}
+.cal-day.other-month { background: var(--sa-light-gray); color: #CBD5E0; }
+.cal-day.today { background: #EBF4FF; }
+.cal-day-num {
+  font-weight: 700;
+  color: var(--sa-dark);
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.cal-day.other-month .cal-day-num { color: #CBD5E0; }
+.cal-day.today .cal-day-num { color: var(--sa-blue); }
+.cal-dot {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  line-height: 1.4;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cal-dot.blue { background: var(--sa-blue-light); color: var(--sa-blue); }
+.cal-dot.orange { background: #FFF5E6; color: #C27A00; }
+.cal-dot.green { background: var(--sa-green-light); color: var(--sa-green); }
+.cal-dot.red { background: #FFF5F5; color: #C53030; }
+
+.cal-sidebar-upcoming h4 {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--sa-gray);
+  margin-bottom: 14px;
+}
+.cal-legend {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--sa-border);
+}
+.cal-legend h4 { margin-bottom: 12px; }
+.cal-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--sa-slate);
+}
+.cal-legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ===== RESOURCES VIEW ===== */
+.res-view-layout { grid-template-columns: 240px 1fr; }
+.res-main { padding: 28px 32px; }
+.res-main h2 { font-size: 22px; font-weight: 800; color: var(--sa-dark); margin-bottom: 4px; }
+.res-main > p { font-size: 14px; color: var(--sa-gray); margin-bottom: 28px; }
+.res-category {
+  margin-bottom: 28px;
+}
+.res-category h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sa-dark);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--sa-orange);
+  display: inline-block;
+}
+.res-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.res-card {
+  background: white;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.res-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border-color: var(--sa-blue);
+}
+.res-card-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+.res-card-icon.blue { background: var(--sa-blue-light); }
+.res-card-icon.orange { background: #FFF5E6; }
+.res-card-icon.green { background: var(--sa-green-light); }
+.res-card h4 { font-size: 14px; font-weight: 700; color: var(--sa-dark); margin-bottom: 4px; }
+.res-card p { font-size: 12px; color: var(--sa-gray); line-height: 1.4; }
+.res-card .res-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sa-blue);
+}
+
+@media (max-width: 900px) {
+  /* Tab bar: horizontal scroll only, no vertical wiggle */
+  .tab-bar {
+    padding: 0 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 12px 16px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  /* General layout */
+  .pres-header { padding: 20px 16px; flex-direction: column; gap: 8px; }
+  .pres-header .author { text-align: left; }
+  .concept-header { padding: 24px 16px; }
+  .concept-header h2 { font-size: 22px; }
+  .concept-header p { font-size: 14px; }
+  .problem-bar { grid-template-columns: 1fr; }
+  .mockup-section { padding: 16px; }
+  .mockup-section h3 { font-size: 14px; }
+  .annotation { margin: 24px 16px; padding: 16px; }
+  .impact-section { padding: 24px 16px; }
+  .impact-grid { grid-template-columns: 1fr; }
+
+  /* Tab 2: School Finder */
+  .sf-topbar { padding: 12px 16px; }
+  .sf-nav { display: none; }
+  .sf-hero { padding: 24px 16px; }
+  .sf-hero h2 { font-size: 20px; }
+  .sf-filters { flex-direction: column; gap: 8px; }
+  .sf-filter { min-width: unset; }
+  .sf-cards { grid-template-columns: 1fr; }
+  .sf-card { padding: 16px; }
+  .sf-stats { gap: 12px; }
+  .sf-match {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .sf-match-score {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    flex-shrink: 0;
+  }
+  .sf-actions { flex-direction: column; }
+  .sf-actions button { width: 100%; }
+
+  /* Tab 3: Onboarding */
+  .ob-topbar { padding: 12px 16px; }
+  .ob-progress-bar { padding: 16px; }
+  .ob-steps { gap: 4px; }
+  .ob-step { font-size: 11px; }
+  .ob-body { grid-template-columns: 1fr; }
+  .ob-main { padding: 20px 16px; }
+  .ob-sidebar { border-left: none; border-top: 1px solid var(--sa-border); padding: 20px 16px; }
+
+  /* Tab 4: Hub */
+  .hub-topbar {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hub-nav {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+  .hub-nav::-webkit-scrollbar { display: none; }
+  .hub-nav-item {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+  .hub-user { order: 2; margin-left: auto; }
+  .hub-body.hub-view.active-view {
+    display: block !important;
+  }
+  .hub-sidebar-left, .hub-sidebar-right { display: none; }
+  .hub-main { padding: 16px !important; }
+  .hub-welcome h2 { font-size: 18px; }
+  .hub-grid { grid-template-columns: 1fr; }
+
+  /* Hub: Grades view */
+  .grades-header-bar { flex-direction: column; gap: 12px; }
+  .grades-summary { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .grades-table { font-size: 12px; }
+  .grades-table th, .grades-table td { padding: 8px 6px; }
+  .teacher-cell { display: none; }
+
+  /* Hub: Messages view */
+  .hub-body.msg-view-layout.active-view {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+  .msg-view-layout .hub-sidebar-left { display: none; }
+  .msg-view-layout > div:nth-child(2) { border-right: none; }
+  .msg-toolbar { padding: 16px; }
+  .msg-toolbar h2 { font-size: 18px; }
+  .msg-filters { padding: 0 16px 12px; }
+  .msg-list-item { padding: 12px 16px; }
+  .msg-detail { padding: 16px; }
+  .msg-detail-body p { font-size: 13px; }
+  .msg-reply-input { font-size: 13px; }
+
+  /* Hub: Calendar view */
+  .hub-body.cal-view-layout.active-view {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+  .cal-view-layout .hub-sidebar-left { display: none; }
+  .cal-month-header { padding: 16px; }
+  .cal-month-header h2 { font-size: 18px; }
+  .cal-grid-wrapper { overflow-x: auto; }
+  .cal-grid { min-width: 500px; }
+  .cal-day { min-height: 50px; padding: 2px; }
+  .cal-dot { font-size: 9px; padding: 1px 3px; }
+  .cal-view-layout .hub-sidebar-right {
+    display: block;
+    padding: 16px;
+    border-top: 1px solid var(--sa-border);
+  }
+
+  /* Hub: Resources view */
+  .hub-body.res-view-layout.active-view {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+  }
+  .res-view-layout .hub-sidebar-left { display: none; }
+  .res-main { padding: 20px 16px; }
+  .res-main h2 { font-size: 18px; }
+  .res-grid { grid-template-columns: 1fr; }
+
+  /* Tab 5: Platform Approach */
+  .tech-annotation { margin: 12px 16px 0; padding: 16px; }
+  .platform-section { margin: 0 16px 32px; }
+  .platform-section h3 { font-size: 18px; }
+  .phase-grid { grid-template-columns: 1fr; }
+  .arch-diagram { padding: 24px 16px; }
+  .arch-layer { padding: 14px 16px; font-size: 14px; }
+  .principle-box { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="pres-header">
+  <div>
+    <h1>Success Academy Website: Improvement Concepts</h1>
+    <div class="subtitle">Prepared for onsite interview, March 3, 2026. Updated March 9, 2026.</div>
+  </div>
+  <div class="author">
+    <strong>Kevin Middleton</strong><br>
+    Product Manager
+  </div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar" id="tabBar">
+  <div class="tab active" data-tab="current">
+    <span class="tab-num">1</span>Current Site
+  </div>
+  <div class="tab" data-tab="concept1">
+    <span class="tab-num">2</span>School Finder &amp; Match
+  </div>
+  <div class="tab" data-tab="concept2">
+    <span class="tab-num">3</span>Family Onboarding
+  </div>
+  <div class="tab" data-tab="concept3">
+    <span class="tab-num">4</span>Unified Family Hub
+  </div>
+  <div class="tab" data-tab="platform">
+    <span class="tab-num">5</span>Platform Approach
+  </div>
+</div>
+
+<!-- TAB 1: CURRENT SITE -->
+<div class="tab-content active" id="tab-current">
+  <div class="frame-notice">
+    <span class="icon">&#9432;</span>
+    <span>Live view of successacademies.org. The current site drives enrollment through Salesforce (successacademies.my.site.com) but fragments the post-enrollment family experience across eSchoolData (grades), ParentSquare (messaging app), and a Google Site (Family Handbook).</span>
+  </div>
+  <iframe src="https://www.successacademies.org/" class="current-site-frame" loading="lazy"></iframe>
+</div>
+
+<!-- TAB 2: SCHOOL FINDER -->
+<div class="tab-content" id="tab-concept1">
+  <div class="concept-page">
+    <div class="concept-header">
+      <div class="concept-label">Concept 1 &mdash; Acquisition</div>
+      <h2>School Finder &amp; Match</h2>
+      <p>An interactive tool that helps prospective families find the right SA school based on their borough, child's grade, and priorities. Bridges the gap between "I'm curious" and "I'm applying."</p>
+    </div>
+
+    <div class="problem-bar">
+      <div class="problem-box">
+        <div class="box-label">The Problem Today</div>
+        <p>The current Schools page shows a map and borough buttons, but gives families no way to narrow down which of 57 schools is right for their child. Parents research on their own, leave to check external sites, and many never come back to apply. There's no middle-funnel engagement between "browsing" and "Apply Now."</p>
+      </div>
+      <div class="solution-box">
+        <div class="box-label">What This Solves</div>
+        <p>Give families a personalized answer to "Which school is right for us?" based on where they live, their child's age, and what matters to them. Every result includes a clear path to apply or schedule a tour. Value first, commitment second.</p>
+      </div>
+    </div>
+
+    <div class="mockup-section">
+      <h3>Interactive Mockup</h3>
+      <div class="school-finder-mockup">
+        <div class="sf-topbar">
+          <div class="sf-logo">SUCCESS<br>ACADEMY</div>
+          <div class="sf-nav">
+            <span>About</span>
+            <span>Tours &amp; Events</span>
+            <span class="active-nav">Find Your School</span>
+            <span>Apply Now</span>
+          </div>
+        </div>
+        <div class="sf-hero">
+          <h2>Find the Right School for Your Family</h2>
+          <p>Answer a few questions and we'll match you with SA schools near you.</p>
+          <div class="sf-filters">
+            <div class="sf-filter">
+              <div><div class="label">Borough</div><div class="value">Brooklyn</div></div>
+            </div>
+            <div class="sf-filter">
+              <div><div class="label">Child's Grade</div><div class="value">Kindergarten</div></div>
+            </div>
+            <div class="sf-filter">
+              <div><div class="label">Zip Code</div><div class="value">11216</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="sf-results">
+          <div class="sf-results-header">
+            <h3>4 Schools Near You</h3>
+            <span>Sorted by distance from 11216</span>
+          </div>
+          <div class="sf-cards">
+            <div class="sf-card">
+              <div class="sf-card-top">
+                <h4>SA Bed-Stuy 1</h4>
+                <div class="sf-badge">Seats Available</div>
+              </div>
+              <div class="sf-borough">Bed-Stuy, Brooklyn &middot; 0.4 mi</div>
+              <div class="sf-grades"><strong>Grades:</strong> K&ndash;4 &middot; <strong>Scholars:</strong> 475</div>
+              <div class="sf-stats">
+                <div class="sf-stat"><div class="num">97%</div><div class="desc">Math Prof.</div></div>
+                <div class="sf-stat"><div class="num">95%</div><div class="desc">ELA Prof.</div></div>
+                <div class="sf-stat"><div class="num">4.8</div><div class="desc">Family Rating</div></div>
+              </div>
+              <div class="sf-match">
+                <div class="sf-match-score">92</div>
+                <div class="sf-match-text"><strong>Strong match</strong> based on your location and grade. This school has open Kindergarten seats for Fall 2026.</div>
+              </div>
+              <div class="sf-actions">
+                <button class="sf-btn-primary">Apply Now</button>
+                <button class="sf-btn-secondary">Schedule Tour</button>
+              </div>
+            </div>
+            <div class="sf-card">
+              <div class="sf-card-top">
+                <h4>SA Bed-Stuy 2</h4>
+                <div class="sf-badge">Seats Available</div>
+              </div>
+              <div class="sf-borough">Bed-Stuy, Brooklyn &middot; 0.7 mi</div>
+              <div class="sf-grades"><strong>Grades:</strong> K&ndash;8 &middot; <strong>Scholars:</strong> 680</div>
+              <div class="sf-stats">
+                <div class="sf-stat"><div class="num">96%</div><div class="desc">Math Prof.</div></div>
+                <div class="sf-stat"><div class="num">93%</div><div class="desc">ELA Prof.</div></div>
+                <div class="sf-stat"><div class="num">4.7</div><div class="desc">Family Rating</div></div>
+              </div>
+              <div class="sf-match">
+                <div class="sf-match-score">88</div>
+                <div class="sf-match-text"><strong>Great match.</strong> K&ndash;8 means your child could stay through middle school without switching.</div>
+              </div>
+              <div class="sf-actions">
+                <button class="sf-btn-primary">Apply Now</button>
+                <button class="sf-btn-secondary">Schedule Tour</button>
+              </div>
+            </div>
+          </div>
+          <button style="width: 100%; padding: 14px; background: white; border: 2px dashed var(--sa-border); border-radius: var(--radius); color: var(--sa-blue); font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 4px;">Show 2 More Schools Nearby &darr;</button>
+        </div>
+      </div>
+
+      <div class="annotation">
+        <h4>Why This Matters</h4>
+        <p>The current site asks families to browse a map and click through boroughs. That works if you already know what you want, but the assumption is that most parents start with a simpler question: "Is there a good school near me?" This tool tests that hypothesis by answering with personalized results and a clear next step. The bet: giving families useful information before asking for commitment will lift application conversion. To validate, we'd want to measure current drop-off between the Schools page and the Apply flow, then A/B test a guided path against the existing browse experience.</p>
+      </div>
+
+      <div class="tech-annotation">
+        <h4>What We'd Need to Solve</h4>
+        <ul>
+          <li>A school data source that exposes location, grade range, seat availability, and performance metrics in a queryable way</li>
+          <li>A match-scoring approach that weighs family inputs (zip, grade, priorities) against school attributes. Logic should be transparent to families, not a black box</li>
+          <li>Search performance that feels instant. Families will abandon a slow tool</li>
+          <li>Funnel instrumentation from search through results, school detail, and apply click to understand where interest converts or drops</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="impact-section">
+      <h3>Projected Impact</h3>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="metric">3&ndash;5x</div>
+          <div class="metric-label">Potential application conversion lift from personalized school matching</div>
+        </div>
+        <div class="impact-card">
+          <div class="metric">57</div>
+          <div class="metric-label">Schools surfaced with context, not just pins on a map</div>
+        </div>
+        <div class="impact-card">
+          <div class="metric">&lt;2 min</div>
+          <div class="metric-label">Time from landing to personalized school recommendations</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: FAMILY ONBOARDING -->
+<div class="tab-content" id="tab-concept2">
+  <div class="concept-page">
+    <div class="concept-header">
+      <div class="concept-label">Concept 2 &mdash; Activation</div>
+      <h2>Family Onboarding Journey</h2>
+      <p>A guided post-enrollment experience that replaces the current "Helpful Links" page with a step-by-step flow. Meet your school, set up your tools, know what's coming.</p>
+    </div>
+
+    <div class="problem-bar">
+      <div class="problem-box">
+        <div class="box-label">The Problem Today</div>
+        <p>After enrollment, the Family Resources page links out to four separate platforms: eSchoolData for grades (parentportal-ren.eschooldata.com), ParentSquare for messaging (mobile app), Salesforce for the family dashboard and enrollment portal (successacademies.my.site.com), and a Google Site for the Family Handbook (sites.google.com/successacademies.org/family-handbooks). New families have to figure out on their own which tool does what, where to log in, and what to do first. There's no guided path.</p>
+      </div>
+      <div class="solution-box">
+        <div class="box-label">What This Solves</div>
+        <p>Turn the post-enrollment experience into a structured journey. Families see their school, their contacts, their key dates, and a checklist of what to set up, all in one place. Reduces calls to the Family Care team (646-472-1911) and gets families engaged before day one.</p>
+      </div>
+    </div>
+
+    <div class="mockup-section">
+      <h3>Interactive Mockup</h3>
+      <div class="onboarding-mockup">
+        <div class="ob-topbar">
+          <div class="sf-logo">SUCCESS<br>ACADEMY</div>
+          <div class="ob-greeting">Welcome, <strong>Hernandez Family</strong></div>
+        </div>
+        <div class="ob-progress-bar">
+          <div class="ob-progress-label">
+            <span>Getting Started</span>
+            <span class="pct">2 of 5 complete</span>
+          </div>
+          <div class="ob-track"><div class="ob-fill"></div></div>
+          <div class="ob-steps">
+            <div class="ob-step completed">
+              <div class="ob-step-dot">&#10003;</div>
+              Accept Enrollment
+            </div>
+            <div class="ob-step completed">
+              <div class="ob-step-dot">&#10003;</div>
+              Verify Info
+            </div>
+            <div class="ob-step current">
+              <div class="ob-step-dot">3</div>
+              Set Up Tools
+            </div>
+            <div class="ob-step">
+              <div class="ob-step-dot">4</div>
+              Review Calendar
+            </div>
+            <div class="ob-step">
+              <div class="ob-step-dot">5</div>
+              Ready for Day 1
+            </div>
+          </div>
+        </div>
+        <div class="ob-body">
+          <div class="ob-main">
+            <h2>Set Up Your Family Tools</h2>
+            <div class="ob-subtitle">These tools help you stay connected with your child's school. Set them up now so you're ready before the first day.</div>
+            <ul class="ob-checklist">
+              <li class="done-item">
+                <div class="ob-check done">&#10003;</div>
+                <span>Download the Success Academy app (ParentSquare)</span>
+              </li>
+              <li>
+                <div class="ob-check active">&#9679;</div>
+                Log in to the Family Dashboard to confirm registration
+              </li>
+              <li>
+                <div class="ob-check"></div>
+                Set up eSchoolData to view grades and attendance
+              </li>
+              <li>
+                <div class="ob-check"></div>
+                Read the 2026 Family Handbook for your school
+              </li>
+              <li>
+                <div class="ob-check"></div>
+                Save your school's main office number to your phone
+              </li>
+            </ul>
+          </div>
+          <div class="ob-sidebar">
+            <h3>Your School</h3>
+            <div class="ob-school-card">
+              <h4>SA Bed-Stuy 1</h4>
+              <p>832 Marcy Ave, Brooklyn, NY 11216</p>
+              <div class="ob-contact">
+                <strong>Main Office</strong>
+                (718) 638-1875
+              </div>
+              <div class="ob-contact">
+                <strong>Your Child's Teacher</strong>
+                Ms. Rodriguez, Room 204
+              </div>
+            </div>
+            <h3 style="margin-top: 24px;">Key Dates</h3>
+            <div class="ob-date-card">
+              <div class="ob-date-header">Upcoming</div>
+              <div class="ob-date-item">
+                <span class="date">Aug 11</span>
+                <span class="event">Back-to-School Orientation</span>
+              </div>
+              <div class="ob-date-item">
+                <span class="date">Aug 13</span>
+                <span class="event">Field Day (Grades K&ndash;2)</span>
+              </div>
+              <div class="ob-date-item">
+                <span class="date">Aug 18</span>
+                <span class="event">First Day of School</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="annotation">
+        <h4>Why This Matters</h4>
+        <p>Right now, the post-enrollment experience is a grid of links to six different platforms with no guidance on where to start. The assumption: this is where families form their first impression of SA as an organization, not just a school. If that's true, a structured onboarding journey should reduce Family Care call volume, increase tool adoption before day one, and set the tone that SA is invested in the relationship early. The first thing to validate would be current call drivers and drop-off points in the enrollment-to-first-day window.</p>
+      </div>
+
+      <div class="tech-annotation">
+        <h4>What We'd Need to Solve</h4>
+        <ul>
+          <li>An orchestration layer that knows each family's enrollment status and surfaces the right next steps dynamically, not a static checklist</li>
+          <li>Persistent checklist state per family, resumable across sessions and devices</li>
+          <li>Document upload handling with validation (format, size, completeness) so families know immediately if something's wrong</li>
+          <li>Notification triggers tied to progress: reminders for incomplete steps, confirmations when milestones are hit. Should work through whatever channel families already use (email, SMS, app push)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="impact-section">
+      <h3>Projected Impact</h3>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="metric">&#8595; 30%</div>
+          <div class="metric-label">Reduction in onboarding-related Family Care calls</div>
+        </div>
+        <div class="impact-card">
+          <div class="metric">&#8593; 2x</div>
+          <div class="metric-label">Family Dashboard and app adoption before first day of school</div>
+        </div>
+        <div class="impact-card">
+          <div class="metric">5 steps</div>
+          <div class="metric-label">From enrolled to fully set up, tracked and guided</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: UNIFIED FAMILY HUB -->
+<div class="tab-content" id="tab-concept3">
+  <div class="concept-page">
+    <div class="concept-header">
+      <div class="concept-label">Concept 3 &mdash; Retention</div>
+      <h2>Unified Family Hub</h2>
+      <p>A single authenticated experience that brings grades, messages, calendars, and resources together. Replaces the fragmented external tool links with one place for everything.</p>
+    </div>
+
+    <div class="problem-bar">
+      <div class="problem-box">
+        <div class="box-label">The Problem Today</div>
+        <p>Families currently navigate between four separate platforms plus the main website: eSchoolData for grades (parentportal-ren.eschooldata.com), ParentSquare for messaging (mobile app), Salesforce for enrollment and the family dashboard (successacademies.my.site.com), and a Google Site for the Family Handbook and policies (sites.google.com/successacademies.org/family-handbooks). Each has its own login, its own interface, and its own mental model. This fragmentation makes it harder for families to stay engaged and creates unnecessary support volume.</p>
+      </div>
+      <div class="solution-box">
+        <div class="box-label">What This Solves</div>
+        <p>One login, one interface, one place for everything. Families see their children's grades, messages from teachers, upcoming events, and action items in a single dashboard. Data still flows from existing backend systems, but the family never has to know that. A unified experience layer over existing infrastructure means faster time-to-value without a costly backend rewrite.</p>
+      </div>
+    </div>
+
+    <div class="mockup-section">
+      <h3>Interactive Mockup</h3>
+      <div class="hub-mockup">
+        <div class="hub-topbar">
+          <div class="sf-logo">SUCCESS<br>ACADEMY</div>
+          <div class="hub-nav">
+            <div class="hub-nav-item active-hub">Dashboard</div>
+            <div class="hub-nav-item">Grades</div>
+            <div class="hub-nav-item">Messages</div>
+            <div class="hub-nav-item">Calendar</div>
+            <div class="hub-nav-item">Resources</div>
+          </div>
+          <div class="hub-user">
+            <span>Hernandez Family</span>
+            <div class="hub-avatar">MH</div>
+          </div>
+        </div>
+        <!-- ===== DASHBOARD VIEW ===== -->
+        <div class="hub-body hub-view active-view" data-view="dashboard" style="grid-template-columns: 240px 1fr 300px; min-height: 460px;">
+          <div class="hub-sidebar-left">
+            <div class="hub-sidebar-section">
+              <h4>Your Scholars</h4>
+              <div class="hub-scholar selected"><div class="hub-scholar-avatar">AL</div>Amber, Grade 3</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">RL</div>Regina, Grade 1</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">TL</div>Tiéress, Pre-K</div>
+            </div>
+            <div class="hub-sidebar-section">
+              <h4>Quick Links</h4>
+              <ul class="hub-quick-links">
+                <li>Report an Absence</li><li>Request Transcripts</li><li>Family Handbook</li><li>Contact School</li>
+              </ul>
+            </div>
+          </div>
+          <div class="hub-main">
+            <div class="hub-welcome">
+              <h2>Amber Hernandez</h2>
+              <p>Grade 3 &middot; SA Bed-Stuy 1 &middot; Ms. Rodriguez, Room 204</p>
+            </div>
+            <div class="hub-grid">
+              <div class="hub-widget">
+                <div class="hub-widget-header"><h4>Recent Grades</h4><span class="see-all hub-link" data-target="grades">View All</span></div>
+                <div class="hub-widget-body">
+                  <div class="grade-row"><span class="grade-subject">Mathematics</span><span class="grade-value grade-a">A</span></div>
+                  <div class="grade-row"><span class="grade-subject">ELA</span><span class="grade-value grade-a">A-</span></div>
+                  <div class="grade-row"><span class="grade-subject">Science</span><span class="grade-value grade-b">B+</span></div>
+                  <div class="grade-row"><span class="grade-subject">Social Studies</span><span class="grade-value grade-a">A</span></div>
+                </div>
+              </div>
+              <div class="hub-widget">
+                <div class="hub-widget-header"><h4>Messages</h4><span class="see-all hub-link" data-target="messages">View All</span></div>
+                <div class="hub-widget-body">
+                  <div class="msg-item"><div class="msg-avatar">MR</div><div class="msg-content"><div class="msg-sender">Ms. Rodriguez</div><div class="msg-preview">Amber did a great job on her presentation today...</div></div><div class="msg-time">2h ago</div></div>
+                  <div class="msg-item"><div class="msg-avatar">SA</div><div class="msg-content"><div class="msg-sender">SA Bed-Stuy 1</div><div class="msg-preview">Reminder: Early dismissal this Friday at 12:30pm</div></div><div class="msg-time">Yesterday</div></div>
+                  <div class="msg-item"><div class="msg-avatar">CT</div><div class="msg-content"><div class="msg-sender">Chess Team</div><div class="msg-preview">Tournament schedule for March posted</div></div><div class="msg-time">2 days</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hub-sidebar-right">
+            <div class="hub-alert"><h5>Action Required</h5><p>Spring conference sign-up closes March 7. Choose your time slot now.</p><span class="alert-action">Sign Up Now</span></div>
+            <h4>This Week</h4>
+            <div class="cal-event urgent"><div class="cal-date">Tomorrow</div><div class="cal-title">Early Dismissal</div><div class="cal-detail">12:30pm pickup</div></div>
+            <div class="cal-event"><div class="cal-date">Thursday</div><div class="cal-title">Chess Club</div><div class="cal-detail">3:15 &ndash; 4:30pm, Room 108</div></div>
+            <div class="cal-event"><div class="cal-date">Friday</div><div class="cal-title">Science Fair Prep</div><div class="cal-detail">Projects due next Monday</div></div>
+            <div class="cal-event"><div class="cal-date">Mar 7</div><div class="cal-title">Conference Sign-Up Deadline</div><div class="cal-detail">Spring parent-teacher conferences</div></div>
+          </div>
+        </div>
+
+        <!-- ===== GRADES VIEW ===== -->
+        <div class="hub-body hub-view" data-view="grades" style="grid-template-columns: 240px 1fr; min-height: 460px;">
+          <div class="hub-sidebar-left">
+            <div class="hub-sidebar-section">
+              <h4>Your Scholars</h4>
+              <div class="hub-scholar selected"><div class="hub-scholar-avatar">AL</div>Amber, Grade 3</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">RL</div>Regina, Grade 1</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">TL</div>Tiéress, Pre-K</div>
+            </div>
+            <div class="hub-sidebar-section">
+              <h4>Quick Links</h4>
+              <ul class="hub-quick-links">
+                <li>Report an Absence</li><li>Request Transcripts</li><li>Family Handbook</li><li>Contact School</li>
+              </ul>
+            </div>
+          </div>
+          <div class="hub-main" style="padding: 28px 32px;">
+            <div class="grades-header-bar">
+              <h2>Amber's Grades</h2>
+              <div class="grades-term-switcher">
+                <div class="grades-term">Trimester 1</div>
+                <div class="grades-term active-term">Trimester 2</div>
+                <div class="grades-term">Trimester 3</div>
+              </div>
+            </div>
+            <div class="grades-summary">
+              <div class="grade-summary-card"><div class="gpa">3.7</div><div class="gpa-label">GPA</div></div>
+              <div class="grade-summary-card"><div class="gpa green">98%</div><div class="gpa-label">Attendance</div></div>
+              <div class="grade-summary-card"><div class="gpa">0</div><div class="gpa-label">Missing Work</div></div>
+              <div class="grade-summary-card"><div class="gpa orange">Mar 12</div><div class="gpa-label">Next Conference</div></div>
+            </div>
+            <table class="grades-table">
+              <thead>
+                <tr><th>Subject</th><th>Teacher</th><th>Current Grade</th><th>Trend</th><th>Last Assignment</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="subject-cell">Mathematics</td>
+                  <td class="teacher-cell">Mr. Thompson</td>
+                  <td><span class="grade-pill a-grade">A &middot; 94%</span></td>
+                  <td><span class="trend-up">&#9650; +2% from T1</span></td>
+                  <td>Multiplication Quiz &middot; 96%</td>
+                </tr>
+                <tr>
+                  <td class="subject-cell">English Language Arts</td>
+                  <td class="teacher-cell">Ms. Rodriguez</td>
+                  <td><span class="grade-pill a-grade">A- &middot; 91%</span></td>
+                  <td><span class="trend-up">&#9650; +3% from T1</span></td>
+                  <td>Book Report: Charlotte's Web &middot; 93%</td>
+                </tr>
+                <tr>
+                  <td class="subject-cell">Science</td>
+                  <td class="teacher-cell">Ms. Park</td>
+                  <td><span class="grade-pill b-grade">B+ &middot; 88%</span></td>
+                  <td><span class="trend-same">&#9644; Same as T1</span></td>
+                  <td>Plant Growth Lab Report &middot; 85%</td>
+                </tr>
+                <tr>
+                  <td class="subject-cell">Social Studies</td>
+                  <td class="teacher-cell">Mr. Davis</td>
+                  <td><span class="grade-pill a-grade">A &middot; 95%</span></td>
+                  <td><span class="trend-up">&#9650; +4% from T1</span></td>
+                  <td>NYC Boroughs Project &middot; 98%</td>
+                </tr>
+                <tr>
+                  <td class="subject-cell">Art</td>
+                  <td class="teacher-cell">Ms. Chen</td>
+                  <td><span class="grade-pill a-grade">A &middot; 96%</span></td>
+                  <td><span class="trend-same">&#9644; Same as T1</span></td>
+                  <td>Self-Portrait &middot; Pass</td>
+                </tr>
+                <tr>
+                  <td class="subject-cell">Chess</td>
+                  <td class="teacher-cell">Mr. Okafor</td>
+                  <td><span class="grade-pill a-grade">A+ &middot; 99%</span></td>
+                  <td><span class="trend-up">&#9650; +1% from T1</span></td>
+                  <td>Tournament Performance &middot; 1st Place</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="recent-assignments">
+              <h3>Recent Assignments</h3>
+              <div class="assignment-row"><div class="assignment-info"><div class="assignment-name">Multiplication Quiz</div><div class="assignment-meta">Mathematics &middot; Mr. Thompson &middot; Feb 28</div></div><div class="assignment-score score-high">96%</div></div>
+              <div class="assignment-row"><div class="assignment-info"><div class="assignment-name">NYC Boroughs Project</div><div class="assignment-meta">Social Studies &middot; Mr. Davis &middot; Feb 27</div></div><div class="assignment-score score-high">98%</div></div>
+              <div class="assignment-row"><div class="assignment-info"><div class="assignment-name">Book Report: Charlotte's Web</div><div class="assignment-meta">ELA &middot; Ms. Rodriguez &middot; Feb 25</div></div><div class="assignment-score score-high">93%</div></div>
+              <div class="assignment-row"><div class="assignment-info"><div class="assignment-name">Plant Growth Lab Report</div><div class="assignment-meta">Science &middot; Ms. Park &middot; Feb 24</div></div><div class="assignment-score score-mid">85%</div></div>
+              <div class="assignment-row"><div class="assignment-info"><div class="assignment-name">Reading Comprehension Ch. 14</div><div class="assignment-meta">ELA &middot; Ms. Rodriguez &middot; Feb 21</div></div><div class="assignment-score score-high">90%</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== MESSAGES VIEW ===== -->
+        <div class="hub-body hub-view msg-view-layout" data-view="messages" style="grid-template-columns: 240px 340px 1fr; min-height: 460px;">
+          <div class="hub-sidebar-left">
+            <div class="hub-sidebar-section">
+              <h4>Your Scholars</h4>
+              <div class="hub-scholar selected"><div class="hub-scholar-avatar">AL</div>Amber, Grade 3</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">RL</div>Regina, Grade 1</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">TL</div>Tiéress, Pre-K</div>
+            </div>
+            <div class="hub-sidebar-section">
+              <h4>Quick Links</h4>
+              <ul class="hub-quick-links">
+                <li>Report an Absence</li><li>Request Transcripts</li><li>Family Handbook</li><li>Contact School</li>
+              </ul>
+            </div>
+          </div>
+          <div style="border-right: 1px solid var(--sa-border);">
+            <div class="msg-toolbar">
+              <h2>Messages</h2>
+              <button class="msg-compose-btn">+ Compose</button>
+            </div>
+            <div class="msg-filters">
+              <button class="msg-filter-btn active-filter">All</button>
+              <button class="msg-filter-btn">Teachers</button>
+              <button class="msg-filter-btn">School</button>
+              <button class="msg-filter-btn">Activities</button>
+            </div>
+            <div class="msg-list">
+              <div class="msg-list-item selected-msg">
+                <div class="msg-list-avatar">MR</div>
+                <div class="msg-list-body">
+                  <div class="msg-list-sender"><span class="unread-dot"></span>Ms. Rodriguez</div>
+                  <div class="msg-list-subject">Amber did a great job on her presentation today!</div>
+                </div>
+                <div class="msg-list-time">2h ago</div>
+              </div>
+              <div class="msg-list-item unread">
+                <div class="msg-list-avatar school-av">SA</div>
+                <div class="msg-list-body">
+                  <div class="msg-list-sender"><span class="unread-dot"></span>SA Bed-Stuy 1</div>
+                  <div class="msg-list-subject">Reminder: Early dismissal this Friday at 12:30pm</div>
+                </div>
+                <div class="msg-list-time">Yesterday</div>
+              </div>
+              <div class="msg-list-item">
+                <div class="msg-list-avatar activity-av">CT</div>
+                <div class="msg-list-body">
+                  <div class="msg-list-sender">Chess Team</div>
+                  <div class="msg-list-subject">Tournament schedule for March posted</div>
+                </div>
+                <div class="msg-list-time">2 days</div>
+              </div>
+              <div class="msg-list-item">
+                <div class="msg-list-avatar">MP</div>
+                <div class="msg-list-body">
+                  <div class="msg-list-sender">Ms. Park</div>
+                  <div class="msg-list-subject">Science fair project guidelines and due dates</div>
+                </div>
+                <div class="msg-list-time">3 days</div>
+              </div>
+              <div class="msg-list-item">
+                <div class="msg-list-avatar school-av">SA</div>
+                <div class="msg-list-body">
+                  <div class="msg-list-sender">SA Bed-Stuy 1</div>
+                  <div class="msg-list-subject">Spring conference sign-up is now open</div>
+                </div>
+                <div class="msg-list-time">Feb 26</div>
+              </div>
+              <div class="msg-list-item">
+                <div class="msg-list-avatar">MT</div>
+                <div class="msg-list-body">
+                  <div class="msg-list-sender">Mr. Thompson</div>
+                  <div class="msg-list-subject">Multiplication quiz results - great progress!</div>
+                </div>
+                <div class="msg-list-time">Feb 25</div>
+              </div>
+              <div class="msg-list-item">
+                <div class="msg-list-avatar activity-av">DB</div>
+                <div class="msg-list-body">
+                  <div class="msg-list-sender">Debate Club</div>
+                  <div class="msg-list-subject">Practice schedule change for next week</div>
+                </div>
+                <div class="msg-list-time">Feb 24</div>
+              </div>
+              <div class="msg-list-item">
+                <div class="msg-list-avatar school-av">FC</div>
+                <div class="msg-list-body">
+                  <div class="msg-list-sender">Family Care</div>
+                  <div class="msg-list-subject">Updated cafeteria menu for March</div>
+                </div>
+                <div class="msg-list-time">Feb 22</div>
+              </div>
+            </div>
+          </div>
+          <div class="msg-detail">
+            <div class="msg-detail-header">
+              <div class="msg-detail-sender">Ms. Rodriguez</div>
+              <div class="msg-detail-meta">ELA Teacher, Room 204 &middot; Today at 1:24pm &middot; To: Hernandez Family</div>
+            </div>
+            <div class="msg-detail-body">
+              <p>Hi Hernandez Family,</p>
+              <p>I wanted to share that Amber did a wonderful job on her oral presentation about Charlotte's Web today. She spoke clearly, made eye contact with the class, and answered questions from her classmates with real confidence.</p>
+              <p>This is a big step from the beginning of the year when she was nervous about presenting. She's been putting in the work and it's showing.</p>
+              <p>Her written book report also came back strong at 93%. I've posted the full rubric in eSchoolData if you'd like to see the breakdown.</p>
+              <p>Let me know if you have any questions. Looking forward to seeing you at conferences in March!</p>
+              <p>Best,<br>Ms. Rodriguez</p>
+            </div>
+            <div class="msg-reply-box">
+              <textarea class="msg-reply-input" placeholder="Write a reply to Ms. Rodriguez..."></textarea>
+              <div class="msg-reply-actions"><button class="msg-compose-btn">Send Reply</button></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CALENDAR VIEW ===== -->
+        <div class="hub-body hub-view cal-view-layout" data-view="calendar" style="grid-template-columns: 240px 1fr 280px; min-height: 460px;">
+          <div class="hub-sidebar-left">
+            <div class="hub-sidebar-section">
+              <h4>Your Scholars</h4>
+              <div class="hub-scholar selected"><div class="hub-scholar-avatar">AL</div>Amber, Grade 3</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">RL</div>Regina, Grade 1</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">TL</div>Tiéress, Pre-K</div>
+            </div>
+            <div class="hub-sidebar-section">
+              <h4>Quick Links</h4>
+              <ul class="hub-quick-links">
+                <li>Report an Absence</li><li>Request Transcripts</li><li>Family Handbook</li><li>Contact School</li>
+              </ul>
+            </div>
+          </div>
+          <div class="hub-main" style="padding: 0;">
+            <div class="cal-month-header">
+              <h2>March 2026</h2>
+              <div class="cal-month-nav"><button>&larr; Feb</button><button>Apr &rarr;</button></div>
+            </div>
+            <div class="cal-grid-wrapper">
+              <div class="cal-grid">
+                <div class="cal-day-header">Sun</div><div class="cal-day-header">Mon</div><div class="cal-day-header">Tue</div><div class="cal-day-header">Wed</div><div class="cal-day-header">Thu</div><div class="cal-day-header">Fri</div><div class="cal-day-header">Sat</div>
+                <!-- Week 1 -->
+                <div class="cal-day"><div class="cal-day-num">1</div></div>
+                <div class="cal-day"><div class="cal-day-num">2</div></div>
+                <div class="cal-day"><div class="cal-day-num">3</div><div class="cal-dot blue">SA Interview!</div></div>
+                <div class="cal-day"><div class="cal-day-num">4</div><div class="cal-dot green">Chess Club</div></div>
+                <div class="cal-day"><div class="cal-day-num">5</div><div class="cal-dot green">Chess Club</div></div>
+                <div class="cal-day"><div class="cal-day-num">6</div><div class="cal-dot orange">Early Dismissal</div></div>
+                <div class="cal-day"><div class="cal-day-num">7</div><div class="cal-dot red">Conf. Sign-Up Due</div></div>
+                <!-- Week 2 -->
+                <div class="cal-day"><div class="cal-day-num">8</div></div>
+                <div class="cal-day"><div class="cal-day-num">9</div><div class="cal-dot blue">CTO Interview</div></div>
+                <div class="cal-day"><div class="cal-day-num">10</div></div>
+                <div class="cal-day"><div class="cal-day-num">11</div></div>
+                <div class="cal-day"><div class="cal-day-num">12</div><div class="cal-dot orange">Parent Conf.</div></div>
+                <div class="cal-day"><div class="cal-day-num">13</div><div class="cal-dot orange">Parent Conf.</div></div>
+                <div class="cal-day"><div class="cal-day-num">14</div></div>
+                <!-- Week 3 -->
+                <div class="cal-day"><div class="cal-day-num">15</div></div>
+                <div class="cal-day"><div class="cal-day-num">16</div></div>
+                <div class="cal-day"><div class="cal-day-num">17</div><div class="cal-dot green">Field Trip: Museum</div></div>
+                <div class="cal-day"><div class="cal-day-num">18</div></div>
+                <div class="cal-day"><div class="cal-day-num">19</div><div class="cal-dot green">Chess Club</div></div>
+                <div class="cal-day"><div class="cal-day-num">20</div></div>
+                <div class="cal-day"><div class="cal-day-num">21</div></div>
+                <!-- Week 4 -->
+                <div class="cal-day"><div class="cal-day-num">22</div></div>
+                <div class="cal-day"><div class="cal-day-num">23</div><div class="cal-dot blue">Math Assessment</div></div>
+                <div class="cal-day"><div class="cal-day-num">24</div></div>
+                <div class="cal-day"><div class="cal-day-num">25</div></div>
+                <div class="cal-day"><div class="cal-day-num">26</div><div class="cal-dot green">Chess Club</div></div>
+                <div class="cal-day"><div class="cal-day-num">27</div><div class="cal-dot orange">Half Day</div></div>
+                <div class="cal-day"><div class="cal-day-num">28</div></div>
+                <!-- Week 5 -->
+                <div class="cal-day"><div class="cal-day-num">29</div></div>
+                <div class="cal-day"><div class="cal-day-num">30</div><div class="cal-dot red">No School</div></div>
+                <div class="cal-day"><div class="cal-day-num">31</div><div class="cal-dot red">No School</div></div>
+                <div class="cal-day other-month"><div class="cal-day-num">1</div></div>
+                <div class="cal-day other-month"><div class="cal-day-num">2</div></div>
+                <div class="cal-day other-month"><div class="cal-day-num">3</div></div>
+                <div class="cal-day other-month"><div class="cal-day-num">4</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="hub-sidebar-right" style="padding: 24px 20px;">
+            <div class="cal-sidebar-upcoming">
+              <h4>Upcoming Events</h4>
+              <div class="cal-event urgent"><div class="cal-date">Mar 6</div><div class="cal-title">Early Dismissal</div><div class="cal-detail">12:30pm pickup for all scholars</div></div>
+              <div class="cal-event urgent"><div class="cal-date">Mar 7</div><div class="cal-title">Conference Sign-Up Deadline</div><div class="cal-detail">Choose your time slot before it closes</div></div>
+              <div class="cal-event"><div class="cal-date">Mar 9</div><div class="cal-title">Science Fair Projects Due</div><div class="cal-detail">Submit to Ms. Park, Room 310</div></div>
+              <div class="cal-event"><div class="cal-date">Mar 12-13</div><div class="cal-title">Spring Parent Conferences</div><div class="cal-detail">Your slot: Mar 12, 3:45pm</div></div>
+              <div class="cal-event"><div class="cal-date">Mar 17</div><div class="cal-title">Field Trip: Met Museum</div><div class="cal-detail">Permission slip signed &#10003;</div></div>
+              <div class="cal-event"><div class="cal-date">Mar 30-31</div><div class="cal-title">Spring Break Begins</div><div class="cal-detail">No school Mon-Tue. Resumes Apr 1.</div></div>
+            </div>
+            <div class="cal-legend">
+              <h4>Legend</h4>
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background: var(--sa-blue-light);"></div>Academic</div>
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background: var(--sa-green-light);"></div>Activities</div>
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background: #FFF5E6;"></div>Schedule Changes</div>
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background: #FFF5F5;"></div>No School / Deadlines</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== RESOURCES VIEW ===== -->
+        <div class="hub-body hub-view res-view-layout" data-view="resources" style="grid-template-columns: 240px 1fr; min-height: 460px;">
+          <div class="hub-sidebar-left">
+            <div class="hub-sidebar-section">
+              <h4>Your Scholars</h4>
+              <div class="hub-scholar selected"><div class="hub-scholar-avatar">AL</div>Amber, Grade 3</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">RL</div>Regina, Grade 1</div>
+              <div class="hub-scholar"><div class="hub-scholar-avatar">TL</div>Tiéress, Pre-K</div>
+            </div>
+            <div class="hub-sidebar-section">
+              <h4>Quick Links</h4>
+              <ul class="hub-quick-links">
+                <li>Report an Absence</li><li>Request Transcripts</li><li>Family Handbook</li><li>Contact School</li>
+              </ul>
+            </div>
+          </div>
+          <div class="res-main">
+            <h2>Resources</h2>
+            <p>Everything your family needs, organized by category. No more hunting across different websites.</p>
+
+            <div class="res-category">
+              <h3>Your School</h3>
+              <div class="res-grid">
+                <div class="res-card">
+                  <div class="res-card-icon blue">&#128205;</div>
+                  <h4>SA Bed-Stuy 1</h4>
+                  <p>832 Marcy Ave, Brooklyn, NY 11216<br>Main Office: (718) 638-1875</p>
+                  <span class="res-link">Get Directions &rarr;</span>
+                </div>
+                <div class="res-card">
+                  <div class="res-card-icon orange">&#128197;</div>
+                  <h4>Academic Calendar</h4>
+                  <p>Full 2025-2026 academic calendar with holidays, half days, and key dates.</p>
+                  <span class="res-link">View Calendar &rarr;</span>
+                </div>
+                <div class="res-card">
+                  <div class="res-card-icon blue">&#128222;</div>
+                  <h4>Staff Directory</h4>
+                  <p>Contact information for teachers, administrators, and support staff.</p>
+                  <span class="res-link">View Directory &rarr;</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="res-category">
+              <h3>Handbooks &amp; Policies</h3>
+              <div class="res-grid">
+                <div class="res-card">
+                  <div class="res-card-icon orange">&#128214;</div>
+                  <h4>2025 Family Handbook</h4>
+                  <p>Parent responsibilities, school policies, dress code, and what to expect.</p>
+                  <span class="res-link">Read Handbook &rarr;</span>
+                </div>
+                <div class="res-card">
+                  <div class="res-card-icon blue">&#128084;</div>
+                  <h4>Scholar Dress Code</h4>
+                  <p>Uniform requirements, approved items, and where to purchase.</p>
+                  <span class="res-link">View Details &rarr;</span>
+                </div>
+                <div class="res-card">
+                  <div class="res-card-icon green">&#127860;</div>
+                  <h4>Cafeteria &amp; Meals</h4>
+                  <p>March menu, dietary accommodations, and allergy information.</p>
+                  <span class="res-link">View Menu &rarr;</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="res-category">
+              <h3>Forms &amp; Requests</h3>
+              <div class="res-grid">
+                <div class="res-card">
+                  <div class="res-card-icon green">&#9999;&#65039;</div>
+                  <h4>Report an Absence</h4>
+                  <p>Notify the school if your child will be absent or arrive late.</p>
+                  <span class="res-link">Submit Form &rarr;</span>
+                </div>
+                <div class="res-card">
+                  <div class="res-card-icon blue">&#128196;</div>
+                  <h4>Request Transcripts</h4>
+                  <p>Request official academic records for high school scholars.</p>
+                  <span class="res-link">Start Request &rarr;</span>
+                </div>
+                <div class="res-card">
+                  <div class="res-card-icon orange">&#128197;</div>
+                  <h4>Schedule a Meeting</h4>
+                  <p>Book time with your child's teacher or school administration.</p>
+                  <span class="res-link">Book Meeting &rarr;</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="res-category">
+              <h3>Help &amp; Support</h3>
+              <div class="res-grid">
+                <div class="res-card">
+                  <div class="res-card-icon green">&#128172;</div>
+                  <h4>Family Care</h4>
+                  <p>Questions? Contact our Family Care team.<br>Mon-Fri, 7am-6pm: (646) 472-1911</p>
+                  <span class="res-link">Send Message &rarr;</span>
+                </div>
+                <div class="res-card">
+                  <div class="res-card-icon blue">&#10067;</div>
+                  <h4>FAQs</h4>
+                  <p>Answers to common questions about enrollment, transfers, and school life.</p>
+                  <span class="res-link">Browse FAQs &rarr;</span>
+                </div>
+                <div class="res-card">
+                  <div class="res-card-icon orange">&#128241;</div>
+                  <h4>Download the App</h4>
+                  <p>Get the Success Academy app for real-time updates on your phone.</p>
+                  <span class="res-link">App Store &amp; Google Play &rarr;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="annotation">
+        <h4>Why This Matters</h4>
+        <p>This is the long-term vision: a single family experience that wraps existing systems (eSchoolData, ParentSquare, Salesforce) into one cohesive interface. Families shouldn't need to know that grades come from one system and messages come from another. The assumption is that consolidating platforms will reduce cognitive load for families and support volume for the network. The architecture approach, a unified front-end over existing backends via APIs, is lower risk than replacing systems outright. The open question is which integrations to prioritize first; that should be driven by current support ticket data and family feedback on where the fragmentation hurts most.</p>
+      </div>
+
+      <div class="tech-annotation">
+        <h4>What We'd Need to Solve</h4>
+        <ul>
+          <li>An integration approach that reads from existing systems (eSchoolData, ParentSquare, Salesforce) without requiring those systems to be replaced or rewritten</li>
+          <li>Start with read-only aggregation first. Layer in interactive features (reply to message, RSVP to event) as integrations mature and trust is established</li>
+          <li>A clear data freshness strategy: some information (grades, attendance) can refresh on a schedule; other information (messages) needs to feel real-time</li>
+          <li>A unified authentication layer so families log in once, regardless of which backend system the data comes from</li>
+          <li>Privacy and access controls that reflect actual family-to-student relationships across all data sources</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="impact-section">
+      <h3>Projected Impact</h3>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="metric">1</div>
+          <div class="metric-label">Login for families instead of 5+ separate platforms</div>
+        </div>
+        <div class="impact-card">
+          <div class="metric">&#8593; 40%</div>
+          <div class="metric-label">Projected increase in family engagement with digital tools</div>
+        </div>
+        <div class="impact-card">
+          <div class="metric">22,000</div>
+          <div class="metric-label">Scholars' families served through a single experience</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 5: PLATFORM APPROACH -->
+<div class="tab-content" id="tab-platform">
+  <div class="concept-page">
+    <div class="concept-header">
+      <div class="concept-label">How I'd Approach This</div>
+      <h2>Platform Approach</h2>
+      <p class="concept-sub">A strategy for consolidating the family digital experience without replacing existing systems.</p>
+    </div>
+
+    <div class="platform-section" style="margin-top: 24px;">
+      <h3>Proposed Architecture</h3>
+      <div class="arch-diagram">
+        <div class="arch-layer arch-layer-family">Family Experience Layer<br><span style="font-weight: 400; font-size: 13px;">Website + Mobile App — one interface, one login</span></div>
+        <div class="arch-arrow">&#8593; &#8595;</div>
+        <div class="arch-layer arch-layer-integration">Integration Layer<br><span style="font-weight: 400; font-size: 13px;">Reads data up, sends actions down</span></div>
+        <div class="arch-arrow">&#8593; &#8595;</div>
+        <div class="arch-layer arch-layer-services">Shared Services<br><span style="font-weight: 400; font-size: 13px;">Authentication &middot; Notifications &middot; Analytics &middot; Access Controls</span></div>
+        <div class="arch-arrow">&#8593; &#8595;</div>
+        <div class="arch-layer arch-layer-systems">Current Systems<br><span style="font-weight: 400; font-size: 13px;">eSchoolData (grades) &middot; ParentSquare (messaging) &middot; Salesforce (enrollment + dashboard) &middot; Google Sites (handbooks)</span></div>
+      </div>
+    </div>
+
+    <div class="platform-section">
+      <h3>Build Sequence</h3>
+      <p style="font-size: 14px; color: var(--sa-slate); margin-bottom: 16px;">Start narrow, prove value, expand.</p>
+      <div class="phase-grid">
+        <div class="phase-card">
+          <h4>Phase 1: Understand &amp; Consolidate</h4>
+          <p>Audit existing systems. Map data sources, identify available APIs, and establish where the source of truth lives for each type of family information. Then build a read-only dashboard that pulls grades, messages, and calendar into one view.</p>
+          <p style="margin-top: 8px;"><strong>Success metric:</strong> A clear integration inventory and families accessing information in one place instead of five.</p>
+        </div>
+        <div class="phase-card">
+          <h4>Phase 2: Build</h4>
+          <p><strong>Add interactive features:</strong> reply to messages, RSVP to events, upload documents. Guided onboarding for new families that reduces the support burden on Family Care and school operations teams.</p>
+          <p style="margin-top: 8px;"><strong>Success metric:</strong> Daily active engagement with the hub, reduction in Family Care call volume.</p>
+        </div>
+        <div class="phase-card">
+          <h4>Phase 3: Iterate</h4>
+          <p>Assess what's working and what needs to change. Migrate backend functions based on what Phase 1 and 2 reveal. Add the School Finder as the public-facing entry point. Connect the full journey from discovery through daily engagement.</p>
+          <p style="margin-top: 8px;"><strong>Success metric:</strong> Families complete their most common tasks without leaving the platform. At least one legacy system retired.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="platform-section">
+      <h3>Guiding Principles</h3>
+      <div class="principle-box">
+        <ul style="margin: 0; padding: 0 0 0 20px;">
+          <li style="margin-bottom: 8px;"><strong>Consolidate the front-end first.</strong> Evaluate each system's API maturity and data portability over time to inform what stays, what gets improved, and what eventually gets replaced.</li>
+          <li style="margin-bottom: 8px;"><strong>Let data drive the sequence.</strong> Which integrations come first should be determined by where families experience the most friction today, validated through support ticket data and family research.</li>
+          <li style="margin-bottom: 8px;"><strong>Ship something families can use at every phase.</strong> Each phase is useful on its own, not dependent on completing the full vision.</li>
+          <li><strong>Security from day one.</strong> Unified auth, role-based access, and data privacy built into the architecture. We're handling children's information.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Main tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Hub internal nav switching
+function switchHubView(viewName) {
+  document.querySelectorAll('.hub-nav-item').forEach(n => n.classList.remove('active-hub'));
+  document.querySelectorAll('.hub-view').forEach(v => v.classList.remove('active-view'));
+  // Activate the clicked nav item
+  document.querySelectorAll('.hub-nav-item').forEach(n => {
+    if (n.textContent.trim().toLowerCase() === viewName.toLowerCase()) {
+      n.classList.add('active-hub');
+    }
+  });
+  // Activate the matching view
+  const target = document.querySelector('.hub-view[data-view="' + viewName.toLowerCase() + '"]');
+  if (target) target.classList.add('active-view');
+}
+
+document.querySelectorAll('.hub-nav-item').forEach(nav => {
+  nav.addEventListener('click', () => {
+    switchHubView(nav.textContent.trim());
+  });
+});
+
+// "View All" links on dashboard navigate to sub-views
+document.querySelectorAll('.hub-link').forEach(link => {
+  link.addEventListener('click', () => {
+    switchHubView(link.dataset.target);
+  });
+});
+</script>
+</body>
+</html>
