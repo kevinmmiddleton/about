@@ -800,6 +800,126 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   color: #744210;
   line-height: 1.6;
 }
+.tech-annotation {
+  margin-top: 12px;
+  background: #EBF8FF;
+  border: 1px solid #BEE3F8;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+.tech-annotation h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2B6CB0;
+  margin-bottom: 8px;
+}
+.tech-annotation p {
+  font-size: 14px;
+  color: #2A4365;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.tech-annotation p:last-child { margin-bottom: 0; }
+.tech-annotation ul {
+  margin: 0; padding: 0 0 0 18px;
+  font-size: 13px;
+  color: #2A4365;
+  line-height: 1.7;
+}
+
+/* ===== PLATFORM APPROACH TAB ===== */
+.platform-section {
+  margin: 0 32px 40px;
+}
+.platform-section h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--sa-dark);
+  margin-bottom: 16px;
+}
+.arch-diagram {
+  background: #F7FAFC;
+  border: 2px solid var(--sa-border);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  text-align: center;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.arch-layer {
+  padding: 20px 28px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.arch-layer span {
+  font-size: 13px;
+}
+.arch-layer:last-child { margin-bottom: 0; }
+.arch-layer-family {
+  background: var(--sa-blue);
+  color: white;
+}
+.arch-layer-integration {
+  background: var(--sa-orange);
+  color: white;
+}
+.arch-layer-services {
+  background: #E2E8F0;
+  color: var(--sa-dark);
+}
+.arch-layer-systems {
+  background: white;
+  border: 2px dashed var(--sa-border);
+  color: var(--sa-slate);
+}
+.arch-arrow {
+  font-size: 20px;
+  color: var(--sa-slate);
+  margin: 4px 0;
+}
+.phase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+.phase-card {
+  background: #EBF4FB;
+  border: 1px solid #BED8EE;
+  border-radius: var(--radius);
+  padding: 24px;
+  border-top: 3px solid var(--sa-blue);
+  display: flex;
+  flex-direction: column;
+}
+.phase-card p:last-child {
+  margin-top: auto;
+  padding-top: 12px;
+}
+.phase-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sa-blue);
+  margin-bottom: 10px;
+}
+.phase-card p {
+  font-size: 13px;
+  color: var(--sa-slate);
+  line-height: 1.6;
+}
+.principle-box {
+  background: #FFFFF0;
+  border: 1px solid #FEFCBF;
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  font-size: 14px;
+  color: #744210;
+  line-height: 1.6;
+}
+.principle-box strong {
+  color: #975A16;
+}
 
 /* ===== GRADES VIEW ===== */
 .grades-header-bar {
@@ -1042,7 +1162,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .cal-grid-wrapper { padding: 20px 24px; }
 .cal-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 1px;
   background: var(--sa-border);
   border: 1px solid var(--sa-border);
@@ -1321,6 +1441,15 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   .res-main { padding: 20px 16px; }
   .res-main h2 { font-size: 18px; }
   .res-grid { grid-template-columns: 1fr; }
+
+  /* Tab 5: Platform Approach */
+  .tech-annotation { margin: 12px 16px 0; padding: 16px; }
+  .platform-section { margin: 0 16px 32px; }
+  .platform-section h3 { font-size: 18px; }
+  .phase-grid { grid-template-columns: 1fr; }
+  .arch-diagram { padding: 24px 16px; }
+  .arch-layer { padding: 14px 16px; font-size: 14px; }
+  .principle-box { padding: 20px 16px; }
 }
 </style>
 </head>
@@ -1351,13 +1480,16 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   <div class="tab" data-tab="concept3">
     <span class="tab-num">4</span>Unified Family Hub
   </div>
+  <div class="tab" data-tab="platform">
+    <span class="tab-num">5</span>Platform Approach
+  </div>
 </div>
 
 <!-- TAB 1: CURRENT SITE -->
 <div class="tab-content active" id="tab-current">
   <div class="frame-notice">
     <span class="icon">&#9432;</span>
-    <span>Live view of successacademies.org. The current site is enrollment-focused but fragments the family experience across multiple platforms (Salesforce, ParentSquare, eSchoolData, Google Sites).</span>
+    <span>Live view of successacademies.org. The current site drives enrollment through Salesforce (successacademies.my.site.com) but fragments the post-enrollment family experience across eSchoolData (grades), ParentSquare (messaging app), and a Google Site (Family Handbook).</span>
   </div>
   <iframe src="https://www.successacademies.org/" class="current-site-frame" loading="lazy"></iframe>
 </div>
@@ -1466,6 +1598,16 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
         <h4>Why This Matters</h4>
         <p>The current site asks families to browse a map and click through boroughs. That works if you already know what you want, but the assumption is that most parents start with a simpler question: "Is there a good school near me?" This tool tests that hypothesis by answering with personalized results and a clear next step. The bet: giving families useful information before asking for commitment will lift application conversion. To validate, we'd want to measure current drop-off between the Schools page and the Apply flow, then A/B test a guided path against the existing browse experience.</p>
       </div>
+
+      <div class="tech-annotation">
+        <h4>What We'd Need to Solve</h4>
+        <ul>
+          <li>A school data source that exposes location, grade range, seat availability, and performance metrics in a queryable way</li>
+          <li>A match-scoring approach that weighs family inputs (zip, grade, priorities) against school attributes. Logic should be transparent to families, not a black box</li>
+          <li>Search performance that feels instant. Families will abandon a slow tool</li>
+          <li>Funnel instrumentation from search through results, school detail, and apply click to understand where interest converts or drops</li>
+        </ul>
+      </div>
     </div>
 
     <div class="impact-section">
@@ -1500,7 +1642,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
     <div class="problem-bar">
       <div class="problem-box">
         <div class="box-label">The Problem Today</div>
-        <p>After enrollment, the Family Resources page is a grid of links to six different external platforms: eSchoolData for grades, ParentSquare for messaging, Salesforce for the family dashboard, Google Sites for handbooks. New families have to figure out on their own which tool does what, where to log in, and what to do first. There's no guided path.</p>
+        <p>After enrollment, the Family Resources page links out to four separate platforms: eSchoolData for grades (parentportal-ren.eschooldata.com), ParentSquare for messaging (mobile app), Salesforce for the family dashboard and enrollment portal (successacademies.my.site.com), and a Google Site for the Family Handbook (sites.google.com/successacademies.org/family-handbooks). New families have to figure out on their own which tool does what, where to log in, and what to do first. There's no guided path.</p>
       </div>
       <div class="solution-box">
         <div class="box-label">What This Solves</div>
@@ -1609,6 +1751,16 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
         <h4>Why This Matters</h4>
         <p>Right now, the post-enrollment experience is a grid of links to six different platforms with no guidance on where to start. The assumption: this is where families form their first impression of SA as an organization, not just a school. If that's true, a structured onboarding journey should reduce Family Care call volume, increase tool adoption before day one, and set the tone that SA is invested in the relationship early. The first thing to validate would be current call drivers and drop-off points in the enrollment-to-first-day window.</p>
       </div>
+
+      <div class="tech-annotation">
+        <h4>What We'd Need to Solve</h4>
+        <ul>
+          <li>An orchestration layer that knows each family's enrollment status and surfaces the right next steps dynamically, not a static checklist</li>
+          <li>Persistent checklist state per family, resumable across sessions and devices</li>
+          <li>Document upload handling with validation (format, size, completeness) so families know immediately if something's wrong</li>
+          <li>Notification triggers tied to progress: reminders for incomplete steps, confirmations when milestones are hit. Should work through whatever channel families already use (email, SMS, app push)</li>
+        </ul>
+      </div>
     </div>
 
     <div class="impact-section">
@@ -1643,7 +1795,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
     <div class="problem-bar">
       <div class="problem-box">
         <div class="box-label">The Problem Today</div>
-        <p>Families currently navigate between five+ separate systems: ParentSquare for messaging, eSchoolData for grades, a Salesforce portal for the family dashboard, Google Sites for handbooks, and the main SA website for general info. Each has its own login, its own interface, and its own mental model. This fragmentation makes it harder for families to stay engaged and creates unnecessary friction.</p>
+        <p>Families currently navigate between four separate platforms plus the main website: eSchoolData for grades (parentportal-ren.eschooldata.com), ParentSquare for messaging (mobile app), Salesforce for enrollment and the family dashboard (successacademies.my.site.com), and a Google Site for the Family Handbook and policies (sites.google.com/successacademies.org/family-handbooks). Each has its own login, its own interface, and its own mental model. This fragmentation makes it harder for families to stay engaged and creates unnecessary support volume.</p>
       </div>
       <div class="solution-box">
         <div class="box-label">What This Solves</div>
@@ -1949,8 +2101,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
               <div class="cal-grid">
                 <div class="cal-day-header">Sun</div><div class="cal-day-header">Mon</div><div class="cal-day-header">Tue</div><div class="cal-day-header">Wed</div><div class="cal-day-header">Thu</div><div class="cal-day-header">Fri</div><div class="cal-day-header">Sat</div>
                 <!-- Week 1 -->
-                <div class="cal-day today"><div class="cal-day-num">1</div></div>
-                <div class="cal-day today"><div class="cal-day-num">2</div></div>
+                <div class="cal-day"><div class="cal-day-num">1</div></div>
+                <div class="cal-day"><div class="cal-day-num">2</div></div>
                 <div class="cal-day"><div class="cal-day-num">3</div><div class="cal-dot blue">SA Interview!</div></div>
                 <div class="cal-day"><div class="cal-day-num">4</div><div class="cal-dot green">Chess Club</div></div>
                 <div class="cal-day"><div class="cal-day-num">5</div><div class="cal-dot green">Chess Club</div></div>
@@ -1958,7 +2110,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
                 <div class="cal-day"><div class="cal-day-num">7</div><div class="cal-dot red">Conf. Sign-Up Due</div></div>
                 <!-- Week 2 -->
                 <div class="cal-day"><div class="cal-day-num">8</div></div>
-                <div class="cal-day"><div class="cal-day-num">9</div><div class="cal-dot blue">Science Fair Due</div></div>
+                <div class="cal-day"><div class="cal-day-num">9</div><div class="cal-dot blue">CTO Interview</div></div>
                 <div class="cal-day"><div class="cal-day-num">10</div></div>
                 <div class="cal-day"><div class="cal-day-num">11</div></div>
                 <div class="cal-day"><div class="cal-day-num">12</div><div class="cal-dot orange">Parent Conf.</div></div>
@@ -2134,6 +2286,17 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
         <h4>Why This Matters</h4>
         <p>This is the long-term vision: a single family experience that wraps existing systems (eSchoolData, ParentSquare, Salesforce) into one cohesive interface. Families shouldn't need to know that grades come from one system and messages come from another. The assumption is that consolidating platforms will reduce cognitive load for families and support volume for the network. The architecture approach, a unified front-end over existing backends via APIs, is lower risk than replacing systems outright. The open question is which integrations to prioritize first; that should be driven by current support ticket data and family feedback on where the fragmentation hurts most.</p>
       </div>
+
+      <div class="tech-annotation">
+        <h4>What We'd Need to Solve</h4>
+        <ul>
+          <li>A unified authentication layer so families log in once, regardless of which backend system the data comes from</li>
+          <li>An integration approach that reads from existing systems (eSchoolData, ParentSquare, Salesforce) without requiring those systems to be replaced or rewritten</li>
+          <li>A clear data freshness strategy: some information (grades, attendance) can refresh on a schedule; other information (messages) needs to feel real-time</li>
+          <li>Start with read-only aggregation first. Layer in interactive features (reply to message, RSVP to event) as integrations mature and trust is established</li>
+          <li>Privacy and access controls that reflect actual family-to-student relationships across all data sources</li>
+        </ul>
+      </div>
     </div>
 
     <div class="impact-section">
@@ -2153,6 +2316,65 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- TAB 5: PLATFORM APPROACH -->
+<div class="tab-content" id="tab-platform">
+  <div class="concept-page">
+    <div class="concept-header">
+      <div class="concept-label">How I'd Approach This</div>
+      <h2>Platform Approach</h2>
+      <p class="concept-sub">A strategy for consolidating the family digital experience without replacing existing systems.</p>
+    </div>
+
+    <div class="platform-section" style="margin-top: 24px;">
+      <h3>Proposed Architecture</h3>
+      <div class="arch-diagram">
+        <div class="arch-layer arch-layer-family">Family Experience Layer<br><span style="font-weight: 400; font-size: 13px;">Website + Mobile App — one interface, one login</span></div>
+        <div class="arch-arrow">&#8593; &#8595;</div>
+        <div class="arch-layer arch-layer-integration">Integration Layer<br><span style="font-weight: 400; font-size: 13px;">Reads data up, sends actions down</span></div>
+        <div class="arch-arrow">&#8593; &#8595;</div>
+        <div class="arch-layer arch-layer-services">Shared Services<br><span style="font-weight: 400; font-size: 13px;">Authentication &middot; Notifications &middot; Analytics &middot; Access Controls</span></div>
+        <div class="arch-arrow">&#8593; &#8595;</div>
+        <div class="arch-layer arch-layer-systems">Current Systems<br><span style="font-weight: 400; font-size: 13px;">eSchoolData (grades) &middot; ParentSquare (messaging) &middot; Salesforce (enrollment + dashboard) &middot; Google Sites (handbooks)</span></div>
+      </div>
+    </div>
+
+    <div class="platform-section">
+      <h3>Build Sequence</h3>
+      <p style="font-size: 14px; color: var(--sa-slate); margin-bottom: 16px;">Start narrow, prove value, expand.</p>
+      <div class="phase-grid">
+        <div class="phase-card">
+          <h4>Phase 1: Understand &amp; Consolidate</h4>
+          <p>Audit existing systems. Map data sources, identify available APIs, and establish where the source of truth lives for each type of family information. Then build a read-only dashboard that pulls grades, messages, and calendar into one view.</p>
+          <p style="margin-top: 8px;"><strong>Success metric:</strong> A clear integration inventory and families accessing information in one place instead of five.</p>
+        </div>
+        <div class="phase-card">
+          <h4>Phase 2: Activate</h4>
+          <p><strong>Add interactive features:</strong> reply to messages, RSVP to events, upload documents. Guided onboarding for new families that reduces the support burden on Family Care and school operations teams.</p>
+          <p style="margin-top: 8px;"><strong>Success metric:</strong> Daily active engagement with the hub, reduction in Family Care call volume.</p>
+        </div>
+        <div class="phase-card">
+          <h4>Phase 3: Evolve</h4>
+          <p>Migrate backend functions as needed. Add the School Finder as the public-facing entry point. Connect the full journey from discovery through daily engagement.</p>
+          <p style="margin-top: 8px;"><strong>Success metric:</strong> Families complete their most common tasks without leaving the platform. At least one legacy system retired.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="platform-section">
+      <h3>Guiding Principles</h3>
+      <div class="principle-box">
+        <ul style="margin: 0; padding: 0 0 0 20px;">
+          <li style="margin-bottom: 8px;"><strong>Consolidate the front-end first.</strong> Evaluate each system's API maturity and data portability over time to inform what stays, what evolves, and what eventually gets replaced.</li>
+          <li style="margin-bottom: 8px;"><strong>Ship something families can use at every phase.</strong> Each phase is useful on its own, not dependent on completing the full vision.</li>
+          <li style="margin-bottom: 8px;"><strong>Let data drive the sequence.</strong> Which integrations come first should be determined by where families experience the most friction today, validated through support ticket data and family research.</li>
+          <li><strong>Security from day one.</strong> Unified auth, role-based access, and data privacy built into the architecture. We're handling children's information.</li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </div>
 
