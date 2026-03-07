@@ -1458,7 +1458,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 <div class="pres-header">
   <div>
     <h1>Success Academy Website: Improvement Concepts</h1>
-    <div class="subtitle">Prepared for onsite interview, March 3, 2026</div>
+    <div class="subtitle">Prepared for onsite interview, March 3, 2026. Updated March 9, 2026.</div>
   </div>
   <div class="author">
     <strong>Kevin Middleton</strong><br>
@@ -2290,10 +2290,10 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
       <div class="tech-annotation">
         <h4>What We'd Need to Solve</h4>
         <ul>
-          <li>A unified authentication layer so families log in once, regardless of which backend system the data comes from</li>
           <li>An integration approach that reads from existing systems (eSchoolData, ParentSquare, Salesforce) without requiring those systems to be replaced or rewritten</li>
-          <li>A clear data freshness strategy: some information (grades, attendance) can refresh on a schedule; other information (messages) needs to feel real-time</li>
           <li>Start with read-only aggregation first. Layer in interactive features (reply to message, RSVP to event) as integrations mature and trust is established</li>
+          <li>A clear data freshness strategy: some information (grades, attendance) can refresh on a schedule; other information (messages) needs to feel real-time</li>
+          <li>A unified authentication layer so families log in once, regardless of which backend system the data comes from</li>
           <li>Privacy and access controls that reflect actual family-to-student relationships across all data sources</li>
         </ul>
       </div>
@@ -2356,8 +2356,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
           <p style="margin-top: 8px;"><strong>Success metric:</strong> Daily active engagement with the hub, reduction in Family Care call volume.</p>
         </div>
         <div class="phase-card">
-          <h4>Phase 3: Evolve</h4>
-          <p>Migrate backend functions as needed. Add the School Finder as the public-facing entry point. Connect the full journey from discovery through daily engagement.</p>
+          <h4>Phase 3: Iterate</h4>
+          <p>Assess what's working and what needs to change. Migrate backend functions based on what Phase 1 and 2 reveal. Add the School Finder as the public-facing entry point. Connect the full journey from discovery through daily engagement.</p>
           <p style="margin-top: 8px;"><strong>Success metric:</strong> Families complete their most common tasks without leaving the platform. At least one legacy system retired.</p>
         </div>
       </div>
@@ -2367,9 +2367,9 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
       <h3>Guiding Principles</h3>
       <div class="principle-box">
         <ul style="margin: 0; padding: 0 0 0 20px;">
-          <li style="margin-bottom: 8px;"><strong>Consolidate the front-end first.</strong> Evaluate each system's API maturity and data portability over time to inform what stays, what evolves, and what eventually gets replaced.</li>
-          <li style="margin-bottom: 8px;"><strong>Ship something families can use at every phase.</strong> Each phase is useful on its own, not dependent on completing the full vision.</li>
+          <li style="margin-bottom: 8px;"><strong>Consolidate the front-end first.</strong> Evaluate each system's API maturity and data portability over time to inform what stays, what gets improved, and what eventually gets replaced.</li>
           <li style="margin-bottom: 8px;"><strong>Let data drive the sequence.</strong> Which integrations come first should be determined by where families experience the most friction today, validated through support ticket data and family research.</li>
+          <li style="margin-bottom: 8px;"><strong>Ship something families can use at every phase.</strong> Each phase is useful on its own, not dependent on completing the full vision.</li>
           <li><strong>Security from day one.</strong> Unified auth, role-based access, and data privacy built into the architecture. We're handling children's information.</li>
         </ul>
       </div>
