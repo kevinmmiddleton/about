@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Built as a conversation starter. Really excited to build this for real with the team. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,20 +8,60 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+/* If you're reading this, I'd love to talk about how we'd build it for real. */
 :root {
+  /* Brand */
   --sa-blue: #0D5BA6;
   --sa-blue-dark: #0A4A8A;
   --sa-blue-light: #E8F0FA;
+  --sa-blue-soft: #EBF4FB;
+  --sa-blue-soft-border: #BED8EE;
+  --sa-blue-selection: #EBF4FF;
   --sa-orange: #F5A623;
   --sa-orange-hover: #E09515;
-  --sa-slate: #4A5568;
-  --sa-dark: #1A202C;
-  --sa-gray: #718096;
-  --sa-light-gray: #F7FAFC;
-  --sa-white: #FFFFFF;
-  --sa-border: #E2E8F0;
+  --sa-orange-dark: #C27A00;
+  --sa-orange-light: #FFF5E6;
+  --sa-orange-soft: #FFF8EE;
+  --sa-orange-soft-border: #FCDDB0;
   --sa-green: #38A169;
   --sa-green-light: #F0FFF4;
+  --sa-green-soft-border: #C6F6D5;
+
+  /* Red / Alerts */
+  --sa-red: #C53030;
+  --sa-red-dark: #9B2C2C;
+  --sa-red-light: #FFF5F5;
+  --sa-red-border: #FED7D7;
+
+  /* Neutrals */
+  --sa-dark: #1A202C;
+  --sa-slate: #4A5568;
+  --sa-slate-dark: #2A4365;
+  --sa-gray: #718096;
+  --sa-gray-medium: #A0AEC0;
+  --sa-gray-border: #CBD5E0;
+  --sa-border: #E2E8F0;
+  --sa-light-gray: #F7FAFC;
+  --sa-white: #FFFFFF;
+
+  /* Annotation */
+  --sa-annotation-bg: #FFFFF0;
+  --sa-annotation-border: #FEFCBF;
+  --sa-annotation-heading: #975A16;
+  --sa-annotation-text: #744210;
+
+  /* Tech Annotation */
+  --sa-tech-bg: #EBF8FF;
+  --sa-tech-border: #BEE3F8;
+  --sa-tech-heading: #2B6CB0;
+  --sa-tech-text: #2A4365;
+
+  /* Shadows */
+  --sa-shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --sa-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --sa-shadow-lg: 0 4px 24px rgba(0,0,0,0.08);
+
+  /* Radius */
   --radius: 8px;
 }
 
@@ -37,8 +78,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   align-items: center;
 }
 .pres-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
-.pres-header .subtitle { color: #A0AEC0; font-size: 14px; margin-top: 4px; }
-.pres-header .author { font-size: 13px; color: #A0AEC0; text-align: right; }
+.pres-header .subtitle { color: var(--sa-gray-medium); font-size: 14px; margin-top: 4px; }
+.pres-header .author { font-size: 13px; color: var(--sa-gray-medium); text-align: right; }
 .pres-header .author strong { color: white; }
 
 /* ===== TAB BAR ===== */
@@ -51,7 +92,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  box-shadow: var(--sa-shadow-sm);
 }
 .tab {
   padding: 16px 28px;
@@ -154,7 +195,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   padding: 32px 48px;
 }
 .problem-box {
-  background: #FFF5F5;
+  background: var(--sa-red-light);
   border-right: 1px solid var(--sa-border);
 }
 .solution-box { background: var(--sa-green-light); }
@@ -165,7 +206,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   text-transform: uppercase;
   margin-bottom: 10px;
 }
-.problem-box .box-label { color: #C53030; }
+.problem-box .box-label { color: var(--sa-red); }
 .solution-box .box-label { color: var(--sa-green); }
 .problem-box p, .solution-box p {
   font-size: 15px;
@@ -193,7 +234,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   border: 1px solid var(--sa-border);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  box-shadow: var(--sa-shadow-lg);
 }
 .sf-topbar {
   background: var(--sa-blue);
@@ -216,7 +257,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .sf-nav span.active-nav { color: white; border-bottom: 2px solid var(--sa-orange); padding-bottom: 2px; }
 
 .sf-hero {
-  background: linear-gradient(135deg, #0D5BA6 0%, #1565B8 100%);
+  background: linear-gradient(135deg, var(--sa-blue) 0%, #1565B8 100%);
   padding: 48px 40px;
   color: white;
   text-align: center;
@@ -340,7 +381,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   border: 1px solid var(--sa-border);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  box-shadow: var(--sa-shadow-lg);
 }
 .ob-topbar {
   background: var(--sa-blue);
@@ -371,7 +412,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .ob-progress-label span { font-size: 13px; font-weight: 600; color: var(--sa-slate); }
 .ob-progress-label .pct { color: var(--sa-blue); font-weight: 700; }
 .ob-track {
-  background: #CBD5E0;
+  background: var(--sa-gray-border);
   height: 8px;
   border-radius: 4px;
   overflow: hidden;
@@ -402,7 +443,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .ob-step-dot {
   width: 20px; height: 20px;
   border-radius: 50%;
-  border: 2px solid #CBD5E0;
+  border: 2px solid var(--sa-gray-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -443,7 +484,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .ob-check {
   width: 28px; height: 28px;
   border-radius: 50%;
-  border: 2px solid #CBD5E0;
+  border: 2px solid var(--sa-gray-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -524,7 +565,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   border: 1px solid var(--sa-border);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  box-shadow: var(--sa-shadow-lg);
 }
 .hub-topbar {
   background: var(--sa-blue);
@@ -696,7 +737,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .msg-content { flex: 1; }
 .msg-sender { font-size: 13px; font-weight: 600; color: var(--sa-dark); }
 .msg-preview { font-size: 12px; color: var(--sa-gray); margin-top: 2px; }
-.msg-time { font-size: 11px; color: #A0AEC0; }
+.msg-time { font-size: 11px; color: var(--sa-gray-medium); }
 
 .hub-sidebar-right {
   background: var(--sa-light-gray);
@@ -725,20 +766,20 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .cal-detail { font-size: 12px; color: var(--sa-gray); margin-top: 2px; }
 
 .hub-alert {
-  background: #FFF5F5;
-  border: 1px solid #FED7D7;
+  background: var(--sa-red-light);
+  border: 1px solid var(--sa-red-border);
   border-radius: 6px;
   padding: 14px;
   margin-bottom: 16px;
 }
-.hub-alert h5 { font-size: 13px; font-weight: 700; color: #C53030; margin-bottom: 4px; }
-.hub-alert p { font-size: 12px; color: #9B2C2C; line-height: 1.4; }
+.hub-alert h5 { font-size: 13px; font-weight: 700; color: var(--sa-red); margin-bottom: 4px; }
+.hub-alert p { font-size: 12px; color: var(--sa-red-dark); line-height: 1.4; }
 .hub-alert .alert-action {
   display: inline-block;
   margin-top: 8px;
   font-size: 12px;
   font-weight: 600;
-  color: #C53030;
+  color: var(--sa-red);
   text-decoration: underline;
   cursor: pointer;
 }
@@ -784,38 +825,38 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 /* ===== ANNOTATIONS ===== */
 .annotation {
   margin-top: 24px;
-  background: #FFFFF0;
-  border: 1px solid #FEFCBF;
+  background: var(--sa-annotation-bg);
+  border: 1px solid var(--sa-annotation-border);
   border-radius: var(--radius);
   padding: 20px 24px;
 }
 .annotation h4 {
   font-size: 13px;
   font-weight: 700;
-  color: #975A16;
+  color: var(--sa-annotation-heading);
   margin-bottom: 8px;
 }
 .annotation p {
   font-size: 14px;
-  color: #744210;
+  color: var(--sa-annotation-text);
   line-height: 1.6;
 }
 .tech-annotation {
   margin-top: 12px;
-  background: #EBF8FF;
-  border: 1px solid #BEE3F8;
+  background: var(--sa-tech-bg);
+  border: 1px solid var(--sa-tech-border);
   border-radius: var(--radius);
   padding: 20px 24px;
 }
 .tech-annotation h4 {
   font-size: 13px;
   font-weight: 700;
-  color: #2B6CB0;
+  color: var(--sa-tech-heading);
   margin-bottom: 8px;
 }
 .tech-annotation p {
   font-size: 14px;
-  color: #2A4365;
+  color: var(--sa-tech-text);
   line-height: 1.6;
   margin-bottom: 8px;
 }
@@ -823,7 +864,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .tech-annotation ul {
   margin: 0; padding: 0 0 0 18px;
   font-size: 13px;
-  color: #2A4365;
+  color: var(--sa-tech-text);
   line-height: 1.7;
 }
 
@@ -831,6 +872,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .platform-section {
   margin: 0 32px 40px;
 }
+.platform-section:first-child { margin-top: 24px; }
 .platform-section h3 {
   font-size: 20px;
   font-weight: 700;
@@ -838,7 +880,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   margin-bottom: 16px;
 }
 .arch-diagram {
-  background: #F7FAFC;
+  background: var(--sa-light-gray);
   border: 2px solid var(--sa-border);
   border-radius: var(--radius);
   padding: 40px 32px;
@@ -865,7 +907,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   color: white;
 }
 .arch-layer-services {
-  background: #E2E8F0;
+  background: var(--sa-border);
   color: var(--sa-dark);
 }
 .arch-layer-systems {
@@ -885,14 +927,17 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   margin-top: 16px;
 }
 .phase-card {
-  background: #EBF4FB;
-  border: 1px solid #BED8EE;
   border-radius: var(--radius);
   padding: 24px;
   border-top: 3px solid var(--sa-blue);
   display: flex;
   flex-direction: column;
+  background: var(--sa-blue-soft);
+  border: 1px solid var(--sa-blue-soft-border);
 }
+.phase-card.phase-blue { background: var(--sa-blue-soft); border-color: var(--sa-blue-soft-border); border-top: 3px solid var(--sa-blue); }
+.phase-card.phase-orange { background: var(--sa-orange-soft); border-color: var(--sa-orange-soft-border); border-top: 3px solid var(--sa-orange); }
+.phase-card.phase-green { background: var(--sa-green-light); border-color: var(--sa-green-soft-border); border-top: 3px solid var(--sa-green); }
 .phase-card p:last-child {
   margin-top: auto;
   padding-top: 12px;
@@ -900,26 +945,40 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .phase-card h4 {
   font-size: 15px;
   font-weight: 700;
-  color: var(--sa-blue);
   margin-bottom: 10px;
 }
+.phase-card.phase-blue h4 { color: var(--sa-blue); }
+.phase-card.phase-orange h4 { color: var(--sa-orange-dark); }
+.phase-card.phase-green h4 { color: var(--sa-green); }
 .phase-card p {
   font-size: 13px;
   color: var(--sa-slate);
   line-height: 1.6;
 }
+.phase-card .success-metric {
+  margin-top: 8px;
+}
 .principle-box {
-  background: #FFFFF0;
-  border: 1px solid #FEFCBF;
+  background: var(--sa-blue-soft);
+  border: 1px solid var(--sa-blue-soft-border);
   border-radius: var(--radius);
-  padding: 24px 28px;
+  padding: 28px 32px;
   font-size: 14px;
-  color: #744210;
+  color: var(--sa-dark);
   line-height: 1.6;
 }
 .principle-box strong {
-  color: #975A16;
+  color: var(--sa-blue-dark);
 }
+.principle-list {
+  margin: 0;
+  padding: 0;
+}
+.principle-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--sa-blue-soft-border);
+}
+.principle-item:last-child { border-bottom: none; }
 
 /* ===== GRADES VIEW ===== */
 .grades-header-bar {
@@ -1004,7 +1063,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 }
 .grade-pill.a-grade { background: var(--sa-green-light); color: var(--sa-green); }
 .grade-pill.b-grade { background: var(--sa-blue-light); color: var(--sa-blue); }
-.grade-pill.c-grade { background: #FFFFF0; color: #975A16; }
+.grade-pill.c-grade { background: var(--sa-annotation-bg); color: var(--sa-annotation-heading); }
 .trend-up { color: var(--sa-green); font-size: 12px; }
 .trend-same { color: var(--sa-gray); font-size: 12px; }
 .recent-assignments h3 {
@@ -1030,8 +1089,12 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .score-high { color: var(--sa-green); }
 .score-mid { color: var(--sa-blue); }
 
+/* ===== GRADES VIEW ===== */
+.hub-view[data-view="grades"] { grid-template-columns: 240px 1fr; }
+.hub-view[data-view="grades"] .hub-main { padding: 28px 32px; }
+
 /* ===== MESSAGES VIEW ===== */
-.msg-view-layout { grid-template-columns: 240px 1fr 300px; }
+.msg-view-layout { grid-template-columns: 240px 340px 1fr; }
 .msg-view-layout .hub-main { padding: 0; }
 .msg-toolbar {
   display: flex;
@@ -1084,7 +1147,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 }
 .msg-list-item:hover { background: var(--sa-light-gray); }
 .msg-list-item.unread { background: var(--sa-blue-light); }
-.msg-list-item.selected-msg { background: #EBF4FF; border-left: 3px solid var(--sa-blue); }
+.msg-list-item.selected-msg { background: var(--sa-blue-selection); border-left: 3px solid var(--sa-blue); }
 .msg-list-avatar {
   width: 40px; height: 40px;
   border-radius: 50%;
@@ -1102,7 +1165,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .msg-list-body { flex: 1; min-width: 0; }
 .msg-list-sender { font-size: 14px; font-weight: 600; color: var(--sa-dark); }
 .msg-list-subject { font-size: 13px; color: var(--sa-slate); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.msg-list-time { font-size: 11px; color: #A0AEC0; flex-shrink: 0; }
+.msg-list-time { font-size: 11px; color: var(--sa-gray-medium); flex-shrink: 0; }
 .unread-dot {
   width: 8px; height: 8px;
   border-radius: 50%;
@@ -1139,7 +1202,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 .msg-reply-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
 
 /* ===== CALENDAR VIEW ===== */
-.cal-view-layout { grid-template-columns: 240px 1fr 300px; }
+.cal-view-layout { grid-template-columns: 240px 1fr 280px; }
+.cal-view-layout .hub-main { padding: 0; }
 .cal-month-header {
   display: flex;
   justify-content: space-between;
@@ -1186,15 +1250,15 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   font-size: 12px;
   position: relative;
 }
-.cal-day.other-month { background: var(--sa-light-gray); color: #CBD5E0; }
-.cal-day.today { background: #EBF4FF; }
+.cal-day.other-month { background: var(--sa-light-gray); color: var(--sa-gray-border); }
+.cal-day.today { background: var(--sa-blue-selection); }
 .cal-day-num {
   font-weight: 700;
   color: var(--sa-dark);
   font-size: 13px;
   margin-bottom: 4px;
 }
-.cal-day.other-month .cal-day-num { color: #CBD5E0; }
+.cal-day.other-month .cal-day-num { color: var(--sa-gray-border); }
 .cal-day.today .cal-day-num { color: var(--sa-blue); }
 .cal-dot {
   display: inline-block;
@@ -1210,9 +1274,9 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   text-overflow: ellipsis;
 }
 .cal-dot.blue { background: var(--sa-blue-light); color: var(--sa-blue); }
-.cal-dot.orange { background: #FFF5E6; color: #C27A00; }
+.cal-dot.orange { background: var(--sa-orange-light); color: var(--sa-orange-dark); }
 .cal-dot.green { background: var(--sa-green-light); color: var(--sa-green); }
-.cal-dot.red { background: #FFF5F5; color: #C53030; }
+.cal-dot.red { background: var(--sa-red-light); color: var(--sa-red); }
 
 .cal-sidebar-upcoming h4 {
   font-size: 10px;
@@ -1286,7 +1350,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
   margin-bottom: 12px;
 }
 .res-card-icon.blue { background: var(--sa-blue-light); }
-.res-card-icon.orange { background: #FFF5E6; }
+.res-card-icon.orange { background: var(--sa-orange-light); }
 .res-card-icon.green { background: var(--sa-green-light); }
 .res-card h4 { font-size: 14px; font-weight: 700; color: var(--sa-dark); margin-bottom: 4px; }
 .res-card p { font-size: 12px; color: var(--sa-gray); line-height: 1.4; }
@@ -1489,7 +1553,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 <div class="tab-content active" id="tab-current">
   <div class="frame-notice">
     <span class="icon">&#9432;</span>
-    <span>Live view of successacademies.org. The current site drives enrollment through Salesforce (successacademies.my.site.com) but fragments the post-enrollment family experience across eSchoolData (grades), ParentSquare (messaging app), and a Google Site (Family Handbook).</span>
+    <span>Live view of successacademies.org. The current site drives enrollment through Salesforce (successacademies.my.site.com) but fragments the post-enrollment family experience across three separate authenticated platforms: eSchoolData (grades), ParentSquare (messaging app), and the Salesforce family dashboard. The Family Handbook lives on a public Google Site and is publicly accessible.</span>
   </div>
   <iframe src="https://www.successacademies.org/" class="current-site-frame" loading="lazy"></iframe>
 </div>
@@ -1642,11 +1706,11 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
     <div class="problem-bar">
       <div class="problem-box">
         <div class="box-label">The Problem Today</div>
-        <p>After enrollment, the Family Resources page links out to four separate platforms: eSchoolData for grades (parentportal-ren.eschooldata.com), ParentSquare for messaging (mobile app), Salesforce for the family dashboard and enrollment portal (successacademies.my.site.com), and a Google Site for the Family Handbook (sites.google.com/successacademies.org/family-handbooks). New families have to figure out on their own which tool does what, where to log in, and what to do first. There's no guided path.</p>
+        <p>After enrollment, the Family Resources page links out to three separate authenticated platforms: eSchoolData for grades (parentportal-ren.eschooldata.com), ParentSquare for messaging (mobile app), and Salesforce for the family dashboard and enrollment portal (successacademies.my.site.com). Each has its own login and its own interface. New families have to figure out on their own which tool does what, where to log in, and what to do first. There's no guided path.</p>
       </div>
       <div class="solution-box">
         <div class="box-label">What This Solves</div>
-        <p>Turn the post-enrollment experience into a structured journey. Families see their school, their contacts, their key dates, and a checklist of what to set up, all in one place. Reduces calls to the Family Care team (646-472-1911) and gets families engaged before day one.</p>
+        <p>Turn the post-enrollment experience into a structured journey. Families see their school, their contacts, their key dates, and a checklist of what to set up, all in one place. Reduces calls to the Family Care team and gets families engaged before day one.</p>
       </div>
     </div>
 
@@ -1795,7 +1859,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
     <div class="problem-bar">
       <div class="problem-box">
         <div class="box-label">The Problem Today</div>
-        <p>Families currently navigate between four separate platforms plus the main website: eSchoolData for grades (parentportal-ren.eschooldata.com), ParentSquare for messaging (mobile app), Salesforce for enrollment and the family dashboard (successacademies.my.site.com), and a Google Site for the Family Handbook and policies (sites.google.com/successacademies.org/family-handbooks). Each has its own login, its own interface, and its own mental model. This fragmentation makes it harder for families to stay engaged and creates unnecessary support volume.</p>
+        <p>Families currently navigate between three separate authenticated platforms plus the main website: eSchoolData for grades (parentportal-ren.eschooldata.com), ParentSquare for messaging (mobile app), and Salesforce for enrollment and the family dashboard (successacademies.my.site.com). Each has its own login, its own interface, and its own mental model. This fragmentation makes it harder for families to stay engaged and creates unnecessary support volume.</p>
       </div>
       <div class="solution-box">
         <div class="box-label">What This Solves</div>
@@ -1821,7 +1885,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
           </div>
         </div>
         <!-- ===== DASHBOARD VIEW ===== -->
-        <div class="hub-body hub-view active-view" data-view="dashboard" style="grid-template-columns: 240px 1fr 300px; min-height: 460px;">
+        <div class="hub-body hub-view active-view" data-view="dashboard">
           <div class="hub-sidebar-left">
             <div class="hub-sidebar-section">
               <h4>Your Scholars</h4>
@@ -1872,7 +1936,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
         </div>
 
         <!-- ===== GRADES VIEW ===== -->
-        <div class="hub-body hub-view" data-view="grades" style="grid-template-columns: 240px 1fr; min-height: 460px;">
+        <div class="hub-body hub-view" data-view="grades">
           <div class="hub-sidebar-left">
             <div class="hub-sidebar-section">
               <h4>Your Scholars</h4>
@@ -1887,7 +1951,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
               </ul>
             </div>
           </div>
-          <div class="hub-main" style="padding: 28px 32px;">
+          <div class="hub-main">
             <div class="grades-header-bar">
               <h2>Amber's Grades</h2>
               <div class="grades-term-switcher">
@@ -1963,7 +2027,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
         </div>
 
         <!-- ===== MESSAGES VIEW ===== -->
-        <div class="hub-body hub-view msg-view-layout" data-view="messages" style="grid-template-columns: 240px 340px 1fr; min-height: 460px;">
+        <div class="hub-body hub-view msg-view-layout" data-view="messages">
           <div class="hub-sidebar-left">
             <div class="hub-sidebar-section">
               <h4>Your Scholars</h4>
@@ -2077,7 +2141,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
         </div>
 
         <!-- ===== CALENDAR VIEW ===== -->
-        <div class="hub-body hub-view cal-view-layout" data-view="calendar" style="grid-template-columns: 240px 1fr 280px; min-height: 460px;">
+        <div class="hub-body hub-view cal-view-layout" data-view="calendar">
           <div class="hub-sidebar-left">
             <div class="hub-sidebar-section">
               <h4>Your Scholars</h4>
@@ -2092,7 +2156,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
               </ul>
             </div>
           </div>
-          <div class="hub-main" style="padding: 0;">
+          <div class="hub-main">
             <div class="cal-month-header">
               <h2>March 2026</h2>
               <div class="cal-month-nav"><button>&larr; Feb</button><button>Apr &rarr;</button></div>
@@ -2110,7 +2174,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
                 <div class="cal-day"><div class="cal-day-num">7</div><div class="cal-dot red">Conf. Sign-Up Due</div></div>
                 <!-- Week 2 -->
                 <div class="cal-day"><div class="cal-day-num">8</div></div>
-                <div class="cal-day"><div class="cal-day-num">9</div><div class="cal-dot blue">CTO Interview</div></div>
+                <div class="cal-day"><div class="cal-day-num">9</div><div class="cal-dot blue">SA Interview!</div></div>
                 <div class="cal-day"><div class="cal-day-num">10</div></div>
                 <div class="cal-day"><div class="cal-day-num">11</div></div>
                 <div class="cal-day"><div class="cal-day-num">12</div><div class="cal-dot orange">Parent Conf.</div></div>
@@ -2143,7 +2207,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
               </div>
             </div>
           </div>
-          <div class="hub-sidebar-right" style="padding: 24px 20px;">
+          <div class="hub-sidebar-right">
             <div class="cal-sidebar-upcoming">
               <h4>Upcoming Events</h4>
               <div class="cal-event urgent"><div class="cal-date">Mar 6</div><div class="cal-title">Early Dismissal</div><div class="cal-detail">12:30pm pickup for all scholars</div></div>
@@ -2157,14 +2221,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
               <h4>Legend</h4>
               <div class="cal-legend-item"><div class="cal-legend-dot" style="background: var(--sa-blue-light);"></div>Academic</div>
               <div class="cal-legend-item"><div class="cal-legend-dot" style="background: var(--sa-green-light);"></div>Activities</div>
-              <div class="cal-legend-item"><div class="cal-legend-dot" style="background: #FFF5E6;"></div>Schedule Changes</div>
-              <div class="cal-legend-item"><div class="cal-legend-dot" style="background: #FFF5F5;"></div>No School / Deadlines</div>
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background: var(--sa-orange-light);"></div>Schedule Changes</div>
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background: var(--sa-red-light);"></div>No School / Deadlines</div>
             </div>
           </div>
         </div>
 
         <!-- ===== RESOURCES VIEW ===== -->
-        <div class="hub-body hub-view res-view-layout" data-view="resources" style="grid-template-columns: 240px 1fr; min-height: 460px;">
+        <div class="hub-body hub-view res-view-layout" data-view="resources">
           <div class="hub-sidebar-left">
             <div class="hub-sidebar-section">
               <h4>Your Scholars</h4>
@@ -2328,37 +2392,37 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
       <p class="concept-sub">A strategy for consolidating the family digital experience without replacing existing systems.</p>
     </div>
 
-    <div class="platform-section" style="margin-top: 24px;">
+    <div class="platform-section">
       <h3>Proposed Architecture</h3>
       <div class="arch-diagram">
         <div class="arch-layer arch-layer-family">Family Experience Layer<br><span style="font-weight: 400; font-size: 13px;">Website + Mobile App — one interface, one login</span></div>
         <div class="arch-arrow">&#8593; &#8595;</div>
-        <div class="arch-layer arch-layer-integration">Integration Layer<br><span style="font-weight: 400; font-size: 13px;">Reads data up, sends actions down</span></div>
+        <div class="arch-layer arch-layer-integration">Integration Layer<br><span style="font-weight: 400; font-size: 13px;">APIs &middot; Normalization &middot; Orchestration</span></div>
         <div class="arch-arrow">&#8593; &#8595;</div>
         <div class="arch-layer arch-layer-services">Shared Services<br><span style="font-weight: 400; font-size: 13px;">Authentication &middot; Notifications &middot; Analytics &middot; Access Controls</span></div>
         <div class="arch-arrow">&#8593; &#8595;</div>
-        <div class="arch-layer arch-layer-systems">Current Systems<br><span style="font-weight: 400; font-size: 13px;">eSchoolData (grades) &middot; ParentSquare (messaging) &middot; Salesforce (enrollment + dashboard) &middot; Google Sites (handbooks)</span></div>
+        <div class="arch-layer arch-layer-systems">Current Systems<br><span style="font-weight: 400; font-size: 13px;">eSchoolData (grades) &middot; ParentSquare (messaging) &middot; Salesforce (enrollment + dashboard)</span></div>
       </div>
     </div>
 
     <div class="platform-section">
       <h3>Build Sequence</h3>
-      <p style="font-size: 14px; color: var(--sa-slate); margin-bottom: 16px;">Start narrow, prove value, expand.</p>
+      <p style="font-size: 14px; color: var(--sa-slate); margin-bottom: 16px;">Take an inventory, consolidate, build, iterate.</p>
       <div class="phase-grid">
-        <div class="phase-card">
+        <div class="phase-card phase-blue">
           <h4>Phase 1: Understand &amp; Consolidate</h4>
           <p>Audit existing systems. Map data sources, identify available APIs, and establish where the source of truth lives for each type of family information. Then build a read-only dashboard that pulls grades, messages, and calendar into one view.</p>
-          <p style="margin-top: 8px;"><strong>Success metric:</strong> A clear integration inventory and families accessing information in one place instead of five.</p>
+          <p class="success-metric"><strong>Success metric:</strong> A clear integration inventory and families accessing information in one place instead of five.</p>
         </div>
-        <div class="phase-card">
+        <div class="phase-card phase-orange">
           <h4>Phase 2: Build</h4>
           <p><strong>Add interactive features:</strong> reply to messages, RSVP to events, upload documents. Guided onboarding for new families that reduces the support burden on Family Care and school operations teams.</p>
-          <p style="margin-top: 8px;"><strong>Success metric:</strong> Daily active engagement with the hub, reduction in Family Care call volume.</p>
+          <p class="success-metric"><strong>Success metric:</strong> Daily active engagement with the hub, reduction in Family Care call volume.</p>
         </div>
-        <div class="phase-card">
+        <div class="phase-card phase-green">
           <h4>Phase 3: Iterate</h4>
           <p>Assess what's working and what needs to change. Migrate backend functions based on what Phase 1 and 2 reveal. Add the School Finder as the public-facing entry point. Connect the full journey from discovery through daily engagement.</p>
-          <p style="margin-top: 8px;"><strong>Success metric:</strong> Families complete their most common tasks without leaving the platform. At least one legacy system retired.</p>
+          <p class="success-metric"><strong>Success metric:</strong> Families complete their most common tasks without leaving the platform. At least one legacy system retired.</p>
         </div>
       </div>
     </div>
@@ -2366,12 +2430,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
     <div class="platform-section">
       <h3>Guiding Principles</h3>
       <div class="principle-box">
-        <ul style="margin: 0; padding: 0 0 0 20px;">
-          <li style="margin-bottom: 8px;"><strong>Consolidate the front-end first.</strong> Evaluate each system's API maturity and data portability over time to inform what stays, what gets improved, and what eventually gets replaced.</li>
-          <li style="margin-bottom: 8px;"><strong>Let data drive the sequence.</strong> Which integrations come first should be determined by where families experience the most friction today, validated through support ticket data and family research.</li>
-          <li style="margin-bottom: 8px;"><strong>Ship something families can use at every phase.</strong> Each phase is useful on its own, not dependent on completing the full vision.</li>
-          <li><strong>Security from day one.</strong> Unified auth, role-based access, and data privacy built into the architecture. We're handling children's information.</li>
-        </ul>
+        <div class="principle-list">
+          <div class="principle-item"><strong>Consolidate the front-end first.</strong> Evaluate each system's API and data portability over time to inform what stays, what gets improved, and what eventually gets replaced.</div>
+          <div class="principle-item"><strong>Product defines the problem. Engineering decides the how.</strong> Product owns the requirements, the priorities, and the user outcomes. Architecture and implementation are engineering decisions.</div>
+          <div class="principle-item"><strong>Let data drive the sequence.</strong> Which integrations come first should be determined by where families experience the most friction, validated through support ticket data and family research.</div>
+          <div class="principle-item"><strong>Deprecation decisions driven by operational cost, capability overlap, and integration burden</strong>, not just convenience.</div>
+          <div class="principle-item"><strong>Ship something families can use at every phase.</strong> Each phase is useful on its own, not dependent on completing the full vision.</div>
+          <div class="principle-item"><strong>Secure at every step.</strong> Unified auth, role-based access, and data privacy built into the architecture. We're handling children's information.</div>
+        </div>
       </div>
     </div>
 
@@ -2379,6 +2445,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
 </div>
 
 <script>
+console.log('\u{1F44B} Hey. Very cool you\u2019re checking this out. Happy to walk through my thinking with you.');
+
 // Main tab switching
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
@@ -2414,6 +2482,48 @@ document.querySelectorAll('.hub-nav-item').forEach(nav => {
 document.querySelectorAll('.hub-link').forEach(link => {
   link.addEventListener('click', () => {
     switchHubView(link.dataset.target);
+  });
+});
+
+// Deep links: read hash on load and switch to that tab
+function activateTab(tabName) {
+  const tab = document.querySelector('.tab[data-tab="' + tabName + '"]');
+  if (tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tabName).classList.add('active');
+  }
+}
+
+// Map friendly hash names to tab data attributes
+const hashMap = {
+  'school-finder': 'concept1',
+  'onboarding': 'concept2',
+  'family-hub': 'concept3',
+  'platform': 'platform'
+};
+
+function handleHash() {
+  const hash = window.location.hash.replace('#', '');
+  if (hash && hashMap[hash]) {
+    activateTab(hashMap[hash]);
+  }
+}
+
+handleHash();
+window.addEventListener('hashchange', handleHash);
+
+// Update hash when tabs are clicked
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const reverseMap = { concept1: 'school-finder', concept2: 'onboarding', concept3: 'family-hub', platform: 'platform' };
+    const hash = reverseMap[tab.dataset.tab];
+    if (hash) {
+      history.replaceState(null, '', '#' + hash);
+    } else {
+      history.replaceState(null, '', window.location.pathname);
+    }
   });
 });
 </script>
