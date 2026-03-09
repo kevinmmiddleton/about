@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800&display=swap');
 
+/* ========== Utilities ========== */
+.hidden { display: none !important; }
+
 /* ========== CSS Variables ========== */
 :root {
   /* ===== Tools Section Silver Tint ===== */
@@ -2464,7 +2467,7 @@ img {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
   background: rgba(var(--success-rgb), 0.12);
   border: 1px solid rgba(var(--success-rgb), 0.25);
   border-radius: var(--radius-full);
@@ -2536,7 +2539,7 @@ img {
   font-size: clamp(1.15rem, 2.5vw, 1.5rem);
   color: var(--text-primary);
   font-weight: 500;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
 }
 
 /* ===== Hero Actions V2 ===== */

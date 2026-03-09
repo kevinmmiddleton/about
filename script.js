@@ -1,3 +1,17 @@
+// ========== Site Config ==========
+const siteConfig = {
+  showOpenToWork: true,
+  showLookingFor: true
+}
+
+// Apply config-driven visibility
+if (!siteConfig.showOpenToWork) {
+  document.querySelector(".status-badge")?.classList.add("hidden")
+}
+if (!siteConfig.showLookingFor) {
+  document.getElementById("looking-for")?.classList.add("hidden")
+}
+
 // ========== Navigation ==========
 const header = document.querySelector(".header")
 const menuToggle = document.getElementById("menu-toggle")
