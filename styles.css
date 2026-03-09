@@ -2590,10 +2590,13 @@ img {
     position: relative;
     left: auto !important;
     transform: none !important;
+  }
+
+  .header.name-visible .nav-container.has-cta .nav-menu {
     gap: var(--spacing-xs);
   }
 
-  .nav-container.has-cta .nav-menu a {
+  .header.name-visible .nav-container.has-cta .nav-menu a {
     padding: var(--spacing-xs) 5px;
     font-size: 0.84rem;
   }
