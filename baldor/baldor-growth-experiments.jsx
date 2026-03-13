@@ -1,0 +1,863 @@
+import { useState } from "react";
+
+// ─── Design Tokens ──────────────────────────────────────────────────────────
+const C = {
+  green: "#1B7340",
+  greenDark: "#155d33",
+  greenLight: "#ecf6ef",
+  greenBorder: "#b2d8bf",
+  bg: "#ffffff",
+  bgOff: "#f8f8f6",
+  border: "#ddddd8",
+  borderLight: "#eeeeea",
+  text: "#1a1a1a",
+  textMed: "#4a4a4a",
+  textLight: "#888888",
+  textFaint: "#b0b0b0",
+  peak: "#1B7340",
+  red: "#b93a2b",
+  accent: "#d97706",
+  accentBg: "#fffbf2",
+  accentBorder: "#f0d78c",
+};
+
+// ─── Data ───────────────────────────────────────────────────────────────────
+const PROFILE = { name: "Trattoria Luca", type: "Fine Dining Italian", lastOrder: "Feb 27, 2026", avgItems: 34 };
+
+const TRENDING = [
+  { name: "Fuyu Persimmons / Sharon Fruit", size: "10-12 CT", farm: null, peak: false, img: "🍊", code: "PER3C" },
+  { name: "Valentine Pomelo", size: "27 CT", farm: "Rising C Ranches", peak: true, img: "🍊", code: "PO2" },
+  { name: "Feuilles De Brick", size: "10 CT", farm: "White Toque", peak: false, img: "🥟", code: "SPP" },
+  { name: "Stumptown Nitro Cold Brew", size: "12 X 10.3 OZ", farm: "Stumptown Coffee", peak: false, img: "☕", code: "COF4" },
+];
+
+const PERS_ITALIAN = [
+  { name: "San Marzano Tomatoes DOP", size: "6 X 28 OZ", farm: null, peak: false, img: "🍅", code: "TOM7", tag: "Popular with Italian restaurants" },
+  { name: "Burrata, 4oz", size: "6 CT", farm: "Lioni Latticini", peak: false, img: "🧀", code: "BUR2", tag: "You ordered this last week" },
+  { name: "00 Flour, Caputo", size: "55 LB", farm: null, peak: false, img: "🌾", code: "FLR1", tag: "Frequently reordered" },
+  { name: "Guanciale", size: "3 LB", farm: "La Quercia", peak: false, img: "🥓", code: "GUA1", tag: "New from a farm you buy from" },
+];
+
+const PERS_NEW = [
+  { name: "Spring Garlic, Green", size: "1 LB", farm: "Knoll Farms", peak: true, img: "🧄", code: "GAR5", tag: "New in Produce" },
+  { name: "Stracciatella", size: "8 OZ", farm: "Lioni Latticini", peak: false, img: "🧀", code: "STR1", tag: "New in Dairy & Cheese" },
+  { name: "Berkshire Pork Belly", size: "5 LB", farm: null, peak: false, img: "🥩", code: "PRK3", tag: "New in Meat & Poultry" },
+  { name: "Black Truffle Butter", size: "8 OZ", farm: null, peak: false, img: "🧈", code: "TRF1", tag: "Trending with restaurants like yours" },
+];
+
+const SPRING = [
+  { name: "Spring Onions", size: "1 BU", farm: "Knoll Farms", peak: true, img: "🧅", code: "ONI2" },
+  { name: "Rhubarb, Red", size: "5 LB", farm: null, peak: true, img: "🌿", code: "RHU1" },
+  { name: "White Asparagus AAA", size: "11 LB", farm: null, peak: true, img: "🌿", code: "ASP4" },
+  { name: "Fiddlehead Ferns", size: "1 LB", farm: null, peak: true, img: "🌱", code: "FER1" },
+];
+
+const PDP_PRODUCT = { name: "Choice Lemons", size: "10 LB / ~48 CT", price: "$24.50", img: "🍋", desc: "Premium choice lemons, ideal for both kitchen and bar programs. Consistent sizing, bright yellow color, high juice content.", code: "LEM1C" };
+
+const SAME_CAT = [
+  { name: "Meyer Lemons", size: "10 LB", img: "🍋", peak: true, code: "LEM2" },
+  { name: "Eureka Lemons", size: "10 LB", img: "🍋", peak: false, code: "LEM3" },
+  { name: "Limes, Persian", size: "10 LB", img: "🍈", peak: false, code: "LIM1" },
+  { name: "Organic Lemons", size: "5 LB", img: "🍋", peak: false, code: "LEM4" },
+];
+
+const CROSS_CAT = [
+  { name: "Maldon Sea Salt", size: "8.5 OZ", img: "🧂", cat: "Grocery", rate: "72%" },
+  { name: "Italian Parsley", size: "1 BU", img: "🌿", cat: "Herbs", rate: "68%" },
+  { name: "EVOO, Sicilian", size: "1 L", img: "🫒", cat: "Grocery", rate: "61%" },
+  { name: "Microgreens Mix", size: "4 OZ", img: "🌱", cat: "Specialty", rate: "54%" },
+  { name: "Capers, Nonpareil", size: "32 OZ", img: "🫙", cat: "Grocery", rate: "48%" },
+];
+
+const RECENT = [
+  { name: "San Marzano Tomatoes DOP", size: "6 X 28 OZ", qty: 4, img: "🍅", last: "Feb 27" },
+  { name: "Burrata, 4oz", size: "6 CT", qty: 2, img: "🧀", last: "Feb 27" },
+  { name: "Choice Lemons", size: "10 LB", qty: 1, img: "🍋", last: "Feb 27" },
+  { name: "00 Flour, Caputo", size: "55 LB", qty: 1, img: "🌾", last: "Feb 27" },
+  { name: "Berkshire Pork Loin", size: "8 LB", qty: 2, img: "🥩", last: "Feb 27" },
+  { name: "Heavy Cream", size: "1 QT", qty: 3, img: "🥛", last: "Feb 27" },
+];
+
+const SWAPS = [
+  { from: "Hothouse Tomatoes", to: "Early Girl Tomatoes", why: "In season now, better flavor", peak: true, img: "🍅" },
+  { from: "Butternut Squash", to: "Spring Peas, English", why: "Seasonal transition", peak: true, img: "🫛" },
+];
+
+const DISCOVER = [
+  { name: "Nduja Spread", size: "8 OZ", img: "🌶️", why: "84% of Italian restaurants order this", cat: "Specialty" },
+  { name: "Bottarga, Mullet", size: "3.5 OZ", img: "🐟", why: "Trending with fine dining", cat: "Specialty" },
+  { name: "Taggiasca Olives", size: "2.2 LB", img: "🫒", why: "Pairs with items you already buy", cat: "Grocery" },
+];
+
+// ─── SVG Components ─────────────────────────────────────────────────────────
+
+function BaldorLogo() {
+  return (
+    <svg width="120" height="64" viewBox="0 0 120 64">
+      <ellipse cx="60" cy="32" rx="56" ry="30" fill="#1a1a1a" stroke="#ffffff" strokeWidth="2.5" />
+      <text x="60" y="38" textAnchor="middle" fill="white"
+        fontFamily="Georgia, 'Times New Roman', serif" fontSize="26" fontWeight="700" fontStyle="italic"
+        letterSpacing="1">Baldor</text>
+    </svg>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={C.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
+
+function ChevLeft() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+
+function ChevRight() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
+  );
+}
+
+// ─── Base Components ────────────────────────────────────────────────────────
+
+const s = {
+  header: { background: C.bg },
+  headerInner: { maxWidth: 1180, margin: "0 auto", padding: "10px 24px 8px", display: "flex", justifyContent: "space-between", alignItems: "center" },
+  signIn: { color: C.green, fontSize: 13, cursor: "pointer", fontWeight: 500 },
+  searchBox: {
+    border: `1.5px solid ${C.border}`, borderRadius: 28, padding: "9px 14px 9px 20px",
+    fontSize: 14, color: C.textFaint, display: "flex", alignItems: "center", gap: 10, minWidth: 210, background: C.bg,
+  },
+  nav: { maxWidth: 1180, margin: "0 auto", padding: "0 24px", borderTop: `1px solid ${C.borderLight}`, borderBottom: `1px solid ${C.border}` },
+  navInner: { display: "flex", gap: 28, justifyContent: "center", padding: "11px 0" },
+  navItem: { color: C.text, fontSize: 14, cursor: "pointer", fontWeight: 400 },
+  content: { maxWidth: 1080, margin: "0 auto", padding: "28px 24px 40px" },
+};
+
+function Header() {
+  return (
+    <header style={s.header}>
+      <div style={s.headerInner}>
+        <span style={s.signIn}>Sign In / Sign Up</span>
+        <BaldorLogo />
+        <div style={s.searchBox}>
+          <span style={{ flex: 1 }}>Search products</span>
+          <SearchIcon />
+        </div>
+      </div>
+      <nav style={s.nav}>
+        <div style={s.navInner}>
+          {["Fruits", "Organics", "Vegetables", "Fresh Cuts", "Meat & Poultry", "Grocery", "Dairy", "Cheese", "Bakery"].map(c =>
+            <span key={c} style={s.navItem}>{c}</span>
+          )}
+          <span style={{ ...s.navItem, color: C.textLight, fontSize: 16, lineHeight: "14px" }}>›</span>
+        </div>
+      </nav>
+    </header>
+  );
+}
+
+function Peak() {
+  return <span style={{ background: C.peak, color: "white", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 4, textTransform: "uppercase", letterSpacing: 0.6 }}>Peak</span>;
+}
+
+function CatTag({ label }) {
+  return <span style={{ background: "#e9f0fb", color: "#3667b0", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 4, letterSpacing: 0.3 }}>{label}</span>;
+}
+
+function AddBtn({ sz = 34 }) {
+  return (
+    <button style={{
+      width: sz, height: sz, borderRadius: "50%", border: `2px solid ${C.green}`, background: "white",
+      color: C.green, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: 0,
+    }}>
+      <svg width={sz * 0.42} height={sz * 0.42} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+        <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+    </button>
+  );
+}
+
+function ListBtn() {
+  return (
+    <span style={{ color: C.green, fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 2 }}>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={C.green} strokeWidth="3" strokeLinecap="round">
+        <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+      List
+    </span>
+  );
+}
+
+function Arrows() {
+  return (
+    <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ width: 34, height: 34, borderRadius: "50%", border: `1.5px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", background: "white" }}>
+        <ChevLeft />
+      </div>
+      <div style={{ width: 34, height: 34, borderRadius: "50%", background: "#1a1a1a", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+        <ChevRight />
+      </div>
+    </div>
+  );
+}
+
+function Card({ item, showTag }) {
+  return (
+    <div style={{
+      border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 16px 16px", background: "white",
+      width: 215, minWidth: 215, flex: "0 0 215px", display: "flex", flexDirection: "column",
+    }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", minHeight: 20, marginBottom: 2 }}>
+        {item.peak ? <Peak /> : <span />}
+        <ListBtn />
+      </div>
+      <div style={{ fontSize: 52, textAlign: "center", margin: "6px 0 10px", lineHeight: 1 }}>{item.img}</div>
+      {item.farm && <div style={{ color: C.green, fontSize: 11, fontWeight: 700, marginBottom: 2, lineHeight: 1.2 }}>{item.farm}</div>}
+      <div style={{ fontWeight: 500, fontSize: 14, color: C.text, marginBottom: 8, lineHeight: 1.3 }}>{item.name}</div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginTop: "auto" }}>
+        <div>
+          <span style={{ fontSize: 11, color: C.textLight, border: `1px solid ${C.borderLight}`, padding: "2px 8px", borderRadius: 3, background: C.bgOff }}>{item.size}</span>
+          {item.code && <div style={{ fontSize: 11, color: C.textFaint, marginTop: 5 }}>{item.code}</div>}
+        </div>
+        <AddBtn />
+      </div>
+      {showTag && item.tag && (
+        <div style={{ marginTop: 10, fontSize: 11, color: C.green, fontWeight: 600, background: C.greenLight, padding: "5px 10px", borderRadius: 4, borderLeft: `3px solid ${C.green}` }}>
+          {item.tag}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Section({ title, sub, children }) {
+  return (
+    <div style={{ marginBottom: 36 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+        <div>
+          <h2 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: 24, fontWeight: 700, color: C.text, margin: 0 }}>{title}</h2>
+          {sub && <p style={{ color: C.textMed, fontSize: 13, margin: "3px 0 0" }}>{sub}</p>}
+        </div>
+        <Arrows />
+      </div>
+      <div style={{ display: "flex", gap: 14, overflowX: "auto", paddingBottom: 4 }}>{children}</div>
+    </div>
+  );
+}
+
+// ─── Experiment UI ──────────────────────────────────────────────────────────
+
+function Toggle({ on, setOn, a, b }) {
+  const base = { padding: "9px 22px", border: "none", cursor: "pointer", fontWeight: 600, fontSize: 13, transition: "all 0.15s" };
+  return (
+    <div style={{ display: "inline-flex", borderRadius: 8, overflow: "hidden", border: `2px solid ${C.green}`, marginBottom: 20 }}>
+      <button onClick={() => setOn(false)} style={{ ...base, background: !on ? C.green : "white", color: !on ? "white" : C.green }}>{a}</button>
+      <button onClick={() => setOn(true)} style={{ ...base, background: on ? C.green : "white", color: on ? "white" : C.green }}>{b}</button>
+    </div>
+  );
+}
+
+function Hyp({ title, hyp, metric, show }) {
+  if (!show) return null;
+  return (
+    <div style={{ background: C.accentBg, border: `1px solid ${C.accentBorder}`, borderRadius: 8, padding: "14px 20px", marginBottom: 20, fontSize: 13, lineHeight: 1.55 }}>
+      <div style={{ fontWeight: 700, color: C.accent, fontSize: 11, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 5 }}>Experiment: {title}</div>
+      <div style={{ color: C.textMed }}><strong>Hypothesis:</strong> {hyp}</div>
+      <div style={{ color: C.textMed, marginTop: 2 }}><strong>Primary metric:</strong> {metric}</div>
+    </div>
+  );
+}
+
+function Problem({ children }) {
+  return (
+    <div style={{ marginTop: 20, padding: "14px 20px", background: "#fef5ee", borderRadius: 8, border: "1px dashed #e8b88a", fontSize: 13, color: "#7a4a1e", lineHeight: 1.55 }}>
+      <strong style={{ color: "#b5611a" }}>The problem:</strong> {children}
+    </div>
+  );
+}
+
+function Context({ what, problem, opportunity, show }) {
+  if (!show) return null;
+  return (
+    <div style={{ background: "#f0f4f8", border: `1px solid #d0d8e0`, borderRadius: 8, padding: "16px 20px", marginBottom: 20, fontSize: 13, lineHeight: 1.6 }}>
+      <div style={{ fontWeight: 700, color: "#3a5068", fontSize: 11, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a5068" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+        Current State
+      </div>
+      <div style={{ color: "#4a5c6e" }}><strong>What you're seeing:</strong> {what}</div>
+      <div style={{ color: "#4a5c6e", marginTop: 4 }}><strong>The gap:</strong> {problem}</div>
+      <div style={{ color: "#4a5c6e", marginTop: 4 }}><strong>Opportunity:</strong> {opportunity}</div>
+    </div>
+  );
+}
+
+function SegBar() {
+  return (
+    <div style={{ background: C.greenLight, border: `1px solid ${C.greenBorder}`, borderRadius: 8, padding: "14px 24px", marginBottom: 24, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div>
+        <div style={{ fontSize: 12, color: C.textLight }}>Personalized for</div>
+        <div style={{ fontSize: 16, fontWeight: 700, color: C.green }}>{PROFILE.name} — {PROFILE.type}</div>
+      </div>
+      <div style={{ fontSize: 12, color: C.textMed, textAlign: "right", lineHeight: 1.6 }}>Last order: {PROFILE.lastOrder}<br />Avg. {PROFILE.avgItems} items/week</div>
+    </div>
+  );
+}
+
+function GreenBtn({ children }) {
+  return (
+    <button style={{
+      background: C.green, color: "white", border: "none", padding: "10px 28px",
+      borderRadius: 24, fontWeight: 700, cursor: "pointer", fontSize: 13, letterSpacing: 0.5, textTransform: "uppercase",
+    }}>{children}</button>
+  );
+}
+
+function SiteFrame({ children }) {
+  return (
+    <div style={{ borderRadius: 10, overflow: "hidden", border: `1px solid ${C.border}`, background: C.bg, boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+      {children}
+    </div>
+  );
+}
+
+// ─── Exp 1: Segment-Aware Homepage ──────────────────────────────────────────
+
+function Exp1() {
+  const [on, setOn] = useState(false);
+  return (
+    <div>
+      <Toggle on={on} setOn={setOn} a="Current: One-Size-Fits-All" b="Experiment: Segment-Aware" />
+      <Context
+        what="The Baldor homepage today. Every customer sees identical content: the same hero banner, the same trending products, the same seasonal carousels. A steakhouse and a vegan cafe get the same experience."
+        problem="With ~20K customers across dozens of restaurant types, a one-size-fits-all homepage means most content is irrelevant to most users. No signal that Baldor understands what each restaurant actually needs."
+        opportunity="Baldor has rich purchase history data. Segmenting customers by restaurant type and buying patterns could personalize every homepage module, driving category exploration and larger orders."
+        show={!on}
+      />
+      <Hyp title="Segment-Aware Homepage" hyp="Personalizing homepage modules by restaurant type will increase category exploration rate by 15% and items-per-order by 8%." metric="Categories per order, new category trial rate" show={on} />
+      <SiteFrame>
+        <Header />
+        <div style={s.content}>
+          {on && <SegBar />}
+          {on ? (
+            <div style={{ background: `linear-gradient(135deg, ${C.green} 0%, #3a8f5e 100%)`, borderRadius: 10, padding: "36px 32px", color: "white", marginBottom: 32 }}>
+              <div style={{ fontSize: 13, opacity: 0.7, marginBottom: 2 }}>Good morning, Trattoria Luca</div>
+              <h1 style={{ fontFamily: "Georgia, serif", fontSize: 28, fontWeight: 700, margin: "0 0 6px" }}>Spring is here. Your menu is ready.</h1>
+              <p style={{ fontSize: 14, opacity: 0.85, margin: 0, maxWidth: 460 }}>New seasonal Italian essentials, hand-picked for your kitchen.</p>
+            </div>
+          ) : (
+            <div style={{ background: "linear-gradient(135deg, #4db3e6 0%, #7ec8ef 100%)", borderRadius: 10, padding: "36px 32px", color: "white", marginBottom: 32 }}>
+              <div style={{ fontFamily: "Georgia, serif", fontSize: 13, fontWeight: 700, color: "#ffe066", textTransform: "uppercase", letterSpacing: 2 }}>Bite</div>
+              <h1 style={{ fontFamily: "Georgia, serif", fontSize: 32, fontWeight: 900, margin: "2px 0 8px", textTransform: "uppercase" }}>Is Back!</h1>
+              <p style={{ fontSize: 14, opacity: 0.9, margin: "0 0 14px" }}>Join us for an all-day celebration on April 21, featuring the world's best food and the industry's top talent.</p>
+              <GreenBtn>Register Now</GreenBtn>
+            </div>
+          )}
+
+          {on ? (
+            <>
+              <Section title="Popular with Italian Restaurants" sub="Based on what restaurants like yours order most">
+                {PERS_ITALIAN.map((it, i) => <Card key={i} item={it} showTag />)}
+              </Section>
+              <Section title="New in Your Categories" sub="Fresh arrivals in Produce, Dairy & Cheese, and Meat & Poultry">
+                {PERS_NEW.map((it, i) => <Card key={i} item={it} showTag />)}
+              </Section>
+              <div style={{ background: C.bgOff, borderRadius: 10, padding: "22px 24px 20px", border: `1px solid ${C.border}`, marginBottom: 32 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                  <div>
+                    <h3 style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 3px" }}>Your Quick Reorder</h3>
+                    <p style={{ color: C.textLight, fontSize: 13, margin: 0 }}>Your most-ordered items, ready to go</p>
+                  </div>
+                  <button style={{
+                    background: C.green, color: "white", border: "none", padding: "9px 20px",
+                    borderRadius: 8, fontWeight: 700, cursor: "pointer", fontSize: 13, display: "flex", alignItems: "center", gap: 6,
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+                    </svg>
+                    Reorder All (6 items)
+                  </button>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+                  {RECENT.map((it, i) => (
+                    <div key={i} style={{
+                      border: `1px solid ${C.border}`, borderRadius: 8, padding: "12px 14px",
+                      background: "white", display: "flex", alignItems: "center", gap: 10,
+                    }}>
+                      <input type="checkbox" defaultChecked style={{ accentColor: C.green, width: 16, height: 16, cursor: "pointer", flexShrink: 0 }} />
+                      <span style={{ fontSize: 24, flexShrink: 0 }}>{it.img}</span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: C.text, lineHeight: 1.3 }}>{it.name}</div>
+                        <div style={{ fontSize: 11, color: C.textLight }}>{it.size}</div>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 0, flexShrink: 0 }}>
+                        <button style={{
+                          width: 26, height: 26, border: `1px solid ${C.border}`, borderRadius: "6px 0 0 6px",
+                          background: "white", color: C.textMed, cursor: "pointer", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", padding: 0,
+                        }}>−</button>
+                        <div style={{
+                          width: 30, height: 26, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`,
+                          display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: C.text, background: C.bgOff,
+                        }}>{it.qty}</div>
+                        <button style={{
+                          width: 26, height: 26, border: `1px solid ${C.border}`, borderRadius: "0 6px 6px 0",
+                          background: "white", color: C.green, cursor: "pointer", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", padding: 0,
+                        }}>+</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <Section title="What's Trending">{TRENDING.map((it, i) => <Card key={i} item={it} />)}</Section>
+              <Section title="Early Spring Arrivals">{SPRING.map((it, i) => <Card key={i} item={it} />)}</Section>
+            </>
+          )}
+
+          <div style={{ background: "linear-gradient(135deg, #e87a0c 0%, #cc5500 100%)", borderRadius: 10, padding: "30px 32px", color: "white" }}>
+            <h2 style={{ fontFamily: "Georgia, serif", fontSize: 26, fontWeight: 900, margin: 0, textTransform: "uppercase", fontStyle: "italic" }}>Peak Season</h2>
+            <p style={{ fontSize: 14, opacity: 0.9, margin: "4px 0 14px" }}>{on ? "Citrus and spring produce your customers will love." : "Pomelos, tangelos, mandarins, and more."}</p>
+            <GreenBtn>Shop Our Best</GreenBtn>
+          </div>
+        </div>
+      </SiteFrame>
+    </div>
+  );
+}
+
+// ─── Exp 2: Cross-Category Upsell ───────────────────────────────────────────
+
+function Exp2() {
+  const [on, setOn] = useState(false);
+  return (
+    <div>
+      <Toggle on={on} setOn={setOn} a="Current: Same-Category Recs" b="Experiment: Cross-Category Upsell" />
+      <Context
+        what={"A product detail page for Choice Lemons. Scroll down to Related Products and you'll see: more lemons. Meyer Lemons, Eureka Lemons, Organic Lemons. Same subcategory, no cross-sell."}
+        problem="Every PDP is a dead end for discovery. A chef looking at lemons likely also needs salt, herbs, olive oil. But the current recs never surface those connections. Basket size stays flat."
+        opportunity="Order history contains rich co-purchase signals. Restaurants that buy lemons almost always buy the same complementary items. Surfacing those patterns could meaningfully expand items per order."
+        show={!on}
+      />
+      <Hyp title="Cross-Category Upsell" hyp="Cross-category recs based on co-purchase data will increase items-per-order by 12% and drive new category trial for 20% of sessions." metric="Items per order, categories per order, add-to-list rate on recs" show={on} />
+      <SiteFrame>
+        <Header />
+        <div style={s.content}>
+          <div style={{ fontSize: 12, color: C.textLight, marginBottom: 20 }}>
+            <span style={{ color: C.green, cursor: "pointer" }}>Fruits</span>{" › "}
+            <span style={{ color: C.green, cursor: "pointer" }}>Citrus</span>{" › "}
+            <span style={{ color: C.textMed }}>Choice Lemons</span>
+          </div>
+
+          <div style={{ display: "flex", gap: 40, marginBottom: 44 }}>
+            <div style={{ width: 320, height: 320, background: C.bgOff, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 110, flexShrink: 0, border: `1px solid ${C.borderLight}` }}>
+              {PDP_PRODUCT.img}
+            </div>
+            <div style={{ flex: 1, paddingTop: 4 }}>
+              <h1 style={{ fontFamily: "Georgia, serif", fontSize: 24, margin: "0 0 4px", color: C.text }}>{PDP_PRODUCT.name}</h1>
+              <div style={{ fontSize: 12, color: C.textFaint, marginBottom: 6 }}>{PDP_PRODUCT.code}</div>
+              <span style={{ fontSize: 12, color: C.textLight, border: `1px solid ${C.borderLight}`, padding: "3px 10px", borderRadius: 4, background: C.bgOff }}>{PDP_PRODUCT.size}</span>
+              <div style={{ fontSize: 22, fontWeight: 700, color: C.text, margin: "14px 0" }}>{PDP_PRODUCT.price}</div>
+              <p style={{ fontSize: 14, color: C.textMed, lineHeight: 1.6, margin: "0 0 22px", maxWidth: 420 }}>{PDP_PRODUCT.desc}</p>
+              <div style={{ display: "flex", gap: 12 }}>
+                <button style={{ background: C.green, color: "white", border: "none", padding: "11px 26px", borderRadius: 8, fontWeight: 700, cursor: "pointer", fontSize: 14 }}>+ Add to List</button>
+                <button style={{ background: "white", color: C.green, border: `2px solid ${C.green}`, padding: "11px 22px", borderRadius: 8, fontWeight: 700, cursor: "pointer", fontSize: 14 }}>+ Add to Menu</button>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 28 }}>
+            {on ? (
+              <>
+                <Section title="Chefs Who Order This Also Order" sub="Based on co-purchase patterns from 2,400+ restaurants">
+                  {CROSS_CAT.map((it, i) => (
+                    <div key={i} style={{ border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 16px 16px", background: "white", width: 200, minWidth: 200, flex: "0 0 200px", display: "flex", flexDirection: "column" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: 4 }}>
+                        <CatTag label={it.cat} /><ListBtn />
+                      </div>
+                      <div style={{ fontSize: 44, textAlign: "center", margin: "8px 0 10px" }}>{it.img}</div>
+                      <div style={{ fontWeight: 500, fontSize: 14, color: C.text, marginBottom: 4 }}>{it.name}</div>
+                      <span style={{ fontSize: 11, color: C.textLight, border: `1px solid ${C.borderLight}`, padding: "2px 8px", borderRadius: 3, background: C.bgOff, alignSelf: "flex-start" }}>{it.size}</span>
+                      <div style={{ marginTop: "auto", paddingTop: 10, background: C.greenLight, borderRadius: 4, padding: "5px 10px", fontSize: 11, color: C.green, fontWeight: 600, borderLeft: `3px solid ${C.green}` }}>
+                        {it.rate} of lemon buyers also order
+                      </div>
+                    </div>
+                  ))}
+                </Section>
+                <div style={{ background: "#f5f0ff", border: "1px solid #d4c5f0", borderRadius: 8, padding: "14px 20px", fontSize: 13, color: "#4a2d8a", lineHeight: 1.55 }}>
+                  <strong>Question to validate:</strong> Do multi-category buyers have significantly higher monthly spend than single-category buyers? If the correlation is strong, this experiment has a clear revenue case.
+                </div>
+              </>
+            ) : (
+              <>
+                <Section title="Related Products">{SAME_CAT.map((it, i) => <Card key={i} item={it} />)}</Section>
+              </>
+            )}
+          </div>
+        </div>
+      </SiteFrame>
+    </div>
+  );
+}
+
+// ─── Exp 3: Smart Reorder Dashboard ─────────────────────────────────────────
+
+function Exp3() {
+  const [on, setOn] = useState(false);
+  return (
+    <div>
+      <Toggle on={on} setOn={setOn} a="Current: Browse From Scratch" b="Experiment: Smart Reorder" />
+      <Context
+        what="What a returning customer sees when they log in: the exact same homepage as a first-time visitor. Same hero, same trending, same browse experience. No recognition that this user orders 34 items every week."
+        problem="Restaurant buyers are habitual. They reorder the same core items weekly and don't have time to browse. Forcing them through a generic discovery flow adds friction and misses the chance to layer in new products alongside their routine."
+        opportunity="Baldor already has the data: order history, frequency, quantities. A returning-customer dashboard that leads with reorder and layers in discovery could cut ordering time while increasing new item trial."
+        show={!on}
+      />
+      <Hyp title="Smart Reorder Dashboard" hyp="Leading with reorder + layering discovery will increase new items per returning order by 25% and reduce time-to-complete-order by 40%." metric="New items per returning order, categories per order, time to checkout" show={on} />
+      <SiteFrame>
+        <Header />
+        <div style={s.content}>
+          {on ? (
+            <>
+              <div style={{ background: C.green, color: "white", borderRadius: 10, padding: "22px 28px", marginBottom: 28, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <div style={{ fontSize: 22, fontWeight: 700, fontFamily: "Georgia, serif" }}>Welcome back, Trattoria Luca</div>
+                  <div style={{ fontSize: 13, opacity: 0.75, marginTop: 3 }}>Your last order was {PROFILE.lastOrder} · {PROFILE.avgItems} items</div>
+                </div>
+                <button style={{ background: "white", color: C.green, border: "none", padding: "10px 24px", borderRadius: 8, fontWeight: 700, cursor: "pointer", fontSize: 14 }}>Reorder Last Order</button>
+              </div>
+
+              <div style={{ marginBottom: 32 }}>
+                <h3 style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 3px" }}>Your Recent Items</h3>
+                <p style={{ color: C.textLight, fontSize: 13, margin: "0 0 14px" }}>One-click add to this week's order</p>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+                  {RECENT.map((it, i) => (
+                    <div key={i} style={{ border: `1px solid ${C.border}`, borderRadius: 8, padding: "11px 14px", background: "white", display: "flex", alignItems: "center", gap: 10 }}>
+                      <span style={{ fontSize: 26 }}>{it.img}</span>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: C.text, lineHeight: 1.3 }}>{it.name}</div>
+                        <div style={{ fontSize: 11, color: C.textLight }}>{it.size} · Last: {it.last}</div>
+                      </div>
+                      <span style={{ fontSize: 12, color: C.textLight }}>×{it.qty}</span>
+                      <AddBtn sz={28} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ marginBottom: 32 }}>
+                <h3 style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 3px" }}>Seasonal Swaps</h3>
+                <p style={{ color: C.textLight, fontSize: 13, margin: "0 0 14px" }}>Upgrade your regulars with what's in season now</p>
+                <div style={{ display: "flex", gap: 14 }}>
+                  {SWAPS.map((sw, i) => (
+                    <div key={i} style={{ border: `1px solid ${C.border}`, borderRadius: 10, padding: "18px 20px", background: "white", flex: 1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                        <span style={{ fontSize: 32 }}>{sw.img}</span>
+                        <div>
+                          <div style={{ fontSize: 12, color: C.red, fontWeight: 600, textDecoration: "line-through" }}>{sw.from}</div>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: C.green, display: "flex", alignItems: "center", gap: 6 }}>{sw.to} {sw.peak && <Peak />}</div>
+                        </div>
+                      </div>
+                      <div style={{ fontSize: 13, color: C.textMed, marginBottom: 12 }}>{sw.why}</div>
+                      <button style={{ background: C.greenLight, color: C.green, border: `1px solid ${C.greenBorder}`, padding: "8px 18px", borderRadius: 8, fontWeight: 600, cursor: "pointer", fontSize: 13 }}>Swap in this order</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <Section title="Items You Haven't Tried Yet" sub="Popular with restaurants like yours">
+                {DISCOVER.map((it, i) => (
+                  <div key={i} style={{ border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 16px 16px", background: "white", width: 215, minWidth: 215, flex: "0 0 215px", display: "flex", flexDirection: "column" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: 4 }}>
+                      <CatTag label={it.cat} /><ListBtn />
+                    </div>
+                    <div style={{ fontSize: 44, textAlign: "center", margin: "8px 0 10px" }}>{it.img}</div>
+                    <div style={{ fontWeight: 500, fontSize: 14, color: C.text, marginBottom: 4 }}>{it.name}</div>
+                    <span style={{ fontSize: 11, color: C.textLight, border: `1px solid ${C.borderLight}`, padding: "2px 8px", borderRadius: 3, background: C.bgOff, alignSelf: "flex-start" }}>{it.size}</span>
+                    <div style={{ marginTop: 10, fontSize: 11, color: C.green, fontWeight: 600, background: C.greenLight, padding: "5px 10px", borderRadius: 4, borderLeft: `3px solid ${C.green}` }}>{it.why}</div>
+                  </div>
+                ))}
+              </Section>
+            </>
+          ) : (
+            <>
+              <div style={{ background: "linear-gradient(135deg, #4db3e6 0%, #7ec8ef 100%)", borderRadius: 10, padding: "36px 32px", color: "white", marginBottom: 32 }}>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: 13, fontWeight: 700, color: "#ffe066", textTransform: "uppercase", letterSpacing: 2 }}>Bite</div>
+                <h1 style={{ fontFamily: "Georgia, serif", fontSize: 32, fontWeight: 900, margin: "2px 0 8px", textTransform: "uppercase" }}>Is Back!</h1>
+                <p style={{ fontSize: 14, opacity: 0.9, margin: 0 }}>Join us for an all-day celebration on April 21.</p>
+              </div>
+              <Section title="What's Trending">{TRENDING.map((it, i) => <Card key={i} item={it} />)}</Section>
+              <Section title="Early Spring Arrivals">{SPRING.map((it, i) => <Card key={i} item={it} />)}</Section>
+            </>
+          )}
+        </div>
+      </SiteFrame>
+    </div>
+  );
+}
+
+// ─── Exp 4: Weekly Order Email ───────────────────────────────────────────────
+
+const EMAIL_REORDER = [
+  { name: "San Marzano Tomatoes DOP", size: "6 X 28 OZ", qty: 4, img: "🍅" },
+  { name: "Burrata, 4oz", size: "6 CT", qty: 2, img: "🧀" },
+  { name: "Choice Lemons", size: "10 LB", qty: 1, img: "🍋" },
+  { name: "00 Flour, Caputo", size: "55 LB", qty: 1, img: "🌾" },
+  { name: "Berkshire Pork Loin", size: "8 LB", qty: 2, img: "🥩" },
+  { name: "Heavy Cream", size: "1 QT", qty: 3, img: "🥛" },
+];
+
+const EMAIL_NEW_FOR_YOU = [
+  { name: "Spring Garlic, Green", size: "1 LB", img: "🧄", why: "New in Produce, your #1 category", peak: true },
+  { name: "Nduja Spread", size: "8 OZ", img: "🌶️", why: "84% of Italian restaurants order this" },
+  { name: "Black Truffle Butter", size: "8 OZ", img: "🧈", why: "Trending with fine dining this week" },
+];
+
+const EMAIL_SEASONAL = { from: "Hothouse Tomatoes", to: "Early Girl Tomatoes", why: "In peak season now with better flavor at the same price point", img: "🍅" };
+
+function EmailFrame({ children, isPersonalized }) {
+  return (
+    <div style={{ maxWidth: 600, margin: "0 auto", background: "white", borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}`, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
+      {children}
+    </div>
+  );
+}
+
+function Exp4() {
+  const [on, setOn] = useState(false);
+  return (
+    <div>
+      <Toggle on={on} setOn={setOn} a="Current: Generic Blast" b="Experiment: Personalized Weekly" />
+      <Context
+        what={"Baldor's current email program sends the same promotional content to all ~20K customers: seasonal highlights, new arrivals, event announcements. Standard e-commerce email blast."}
+        problem="Generic emails don't drive reorders or category expansion. A steakhouse gets the same email as a bakery. No connection to what the customer actually buys, no reorder utility, no personalized discovery. Open rates and click-through likely reflect this."
+        opportunity="Baldor has order history, frequency patterns, and category data for every customer. A personalized weekly email that combines reorder convenience with targeted discovery could become the primary ordering trigger for habitual buyers."
+        show={!on}
+      />
+      <Hyp title="Weekly Order Email" hyp="A segment-personalized weekly email combining reorder shortcuts with targeted new-item suggestions will increase email-driven revenue by 30% and drive 15% more new category trials vs. generic promotional blasts." metric="Email-driven revenue, click-to-order rate, new items per email-originated order" show={on} />
+
+      {/* Email preview area */}
+      <div style={{ background: "#e8e8e4", borderRadius: 10, padding: "32px 24px" }}>
+        <div style={{ maxWidth: 620, margin: "0 auto" }}>
+          {/* Email client chrome */}
+          <div style={{ background: "#f5f5f3", borderRadius: "10px 10px 0 0", padding: "14px 20px", borderBottom: `1px solid ${C.border}`, fontSize: 12, color: C.textMed }}>
+            <div style={{ display: "flex", gap: 6, marginBottom: 10 }}>
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f57" }} />
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#febc2e" }} />
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28c840" }} />
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <strong style={{ color: C.text }}>From:</strong> Baldor Specialty Foods &lt;orders@baldorfood.com&gt;
+              </div>
+              <div>Mon, Mar 2, 2026 6:00 AM</div>
+            </div>
+            <div style={{ marginTop: 2 }}>
+              <strong style={{ color: C.text }}>Subject:</strong>{" "}
+              {on
+                ? "Trattoria Luca, your weekly order is ready + 3 new picks for your kitchen"
+                : "What's New This Week at Baldor"
+              }
+            </div>
+          </div>
+
+          {/* Email body */}
+          <div style={{ background: "white", borderRadius: "0 0 10px 10px", overflow: "hidden" }}>
+            {on ? (
+              /* ── Personalized Email ── */
+              <div>
+                {/* Header */}
+                <div style={{ background: C.green, padding: "24px 28px", color: "white", textAlign: "center" }}>
+                  <BaldorLogo />
+                  <div style={{ fontSize: 20, fontWeight: 700, fontFamily: "Georgia, serif", marginTop: 12 }}>
+                    Your Weekly Order, Trattoria Luca
+                  </div>
+                  <div style={{ fontSize: 13, opacity: 0.8, marginTop: 4 }}>
+                    Based on your ordering patterns · Week of March 2
+                  </div>
+                </div>
+
+                {/* One-click reorder */}
+                <div style={{ padding: "24px 28px" }}>
+                  <div style={{ textAlign: "center", marginBottom: 20 }}>
+                    <button style={{
+                      background: C.green, color: "white", border: "none", padding: "14px 40px",
+                      borderRadius: 8, fontWeight: 700, cursor: "pointer", fontSize: 15, letterSpacing: 0.3,
+                    }}>Reorder Last Week's Items (6 items)</button>
+                    <div style={{ fontSize: 12, color: C.textLight, marginTop: 6 }}>One click to add all items to your cart with last week's quantities</div>
+                  </div>
+
+                  <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10, fontFamily: "Georgia, serif" }}>Your Usual Items</div>
+                  <div style={{ border: `1px solid ${C.border}`, borderRadius: 8, overflow: "hidden", marginBottom: 24 }}>
+                    {EMAIL_REORDER.map((it, i) => (
+                      <div key={i} style={{
+                        padding: "10px 16px", display: "flex", alignItems: "center", gap: 10,
+                        borderBottom: i < EMAIL_REORDER.length - 1 ? `1px solid ${C.borderLight}` : "none",
+                        background: i % 2 === 0 ? "white" : C.bgOff,
+                      }}>
+                        <span style={{ fontSize: 20 }}>{it.img}</span>
+                        <div style={{ flex: 1 }}>
+                          <span style={{ fontSize: 13, fontWeight: 600, color: C.text }}>{it.name}</span>
+                          <span style={{ fontSize: 11, color: C.textLight, marginLeft: 8 }}>{it.size}</span>
+                        </div>
+                        <span style={{ fontSize: 12, color: C.textMed, fontWeight: 600 }}>×{it.qty}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* New for you */}
+                  <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4, fontFamily: "Georgia, serif" }}>New for Your Kitchen This Week</div>
+                  <div style={{ fontSize: 12, color: C.textLight, marginBottom: 12 }}>Hand-picked based on what restaurants like yours are ordering</div>
+                  <div style={{ display: "flex", gap: 12, marginBottom: 24 }}>
+                    {EMAIL_NEW_FOR_YOU.map((it, i) => (
+                      <div key={i} style={{
+                        flex: 1, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 12px", textAlign: "center", background: "white",
+                      }}>
+                        {it.peak && <div style={{ marginBottom: 4 }}><Peak /></div>}
+                        <div style={{ fontSize: 32, margin: "4px 0 8px" }}>{it.img}</div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 2 }}>{it.name}</div>
+                        <div style={{ fontSize: 11, color: C.textLight, marginBottom: 6 }}>{it.size}</div>
+                        <div style={{ fontSize: 10, color: C.green, fontWeight: 600, background: C.greenLight, padding: "3px 8px", borderRadius: 4, display: "inline-block" }}>
+                          {it.why}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Seasonal swap */}
+                  <div style={{
+                    background: C.accentBg, border: `1px solid ${C.accentBorder}`, borderRadius: 8, padding: "16px 20px", marginBottom: 24,
+                  }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: C.accent, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Seasonal Swap Suggestion</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <span style={{ fontSize: 32 }}>{EMAIL_SEASONAL.img}</span>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 12, color: C.red, textDecoration: "line-through" }}>{EMAIL_SEASONAL.from}</div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: C.green }}>{EMAIL_SEASONAL.to}</div>
+                        <div style={{ fontSize: 12, color: C.textMed, marginTop: 2 }}>{EMAIL_SEASONAL.why}</div>
+                      </div>
+                      <button style={{
+                        background: C.greenLight, color: C.green, border: `1px solid ${C.greenBorder}`,
+                        padding: "6px 14px", borderRadius: 6, fontWeight: 600, cursor: "pointer", fontSize: 12, whiteSpace: "nowrap",
+                      }}>Try It</button>
+                    </div>
+                  </div>
+
+                  {/* CTA */}
+                  <div style={{ textAlign: "center", padding: "8px 0 16px" }}>
+                    <button style={{
+                      background: "white", color: C.green, border: `2px solid ${C.green}`, padding: "12px 32px",
+                      borderRadius: 8, fontWeight: 700, cursor: "pointer", fontSize: 14,
+                    }}>View Full Catalog</button>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div style={{ background: C.bgOff, padding: "16px 28px", borderTop: `1px solid ${C.borderLight}`, textAlign: "center", fontSize: 11, color: C.textLight }}>
+                  Baldor Specialty Foods · Bronx, NY · This email is personalized for Trattoria Luca
+                </div>
+              </div>
+            ) : (
+              /* ── Generic Email ── */
+              <div>
+                <div style={{ background: C.green, padding: "24px 28px", color: "white", textAlign: "center" }}>
+                  <BaldorLogo />
+                  <div style={{ fontSize: 20, fontWeight: 700, fontFamily: "Georgia, serif", marginTop: 12 }}>
+                    What's New This Week
+                  </div>
+                </div>
+                <div style={{ padding: "28px" }}>
+                  <div style={{ textAlign: "center", marginBottom: 24 }}>
+                    <div style={{ fontSize: 48, marginBottom: 8 }}>🍊🌿🧀</div>
+                    <h2 style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 700, color: C.text, margin: "0 0 6px" }}>Early Spring Arrivals</h2>
+                    <p style={{ fontSize: 13, color: C.textMed, margin: "0 0 16px", lineHeight: 1.5 }}>Spring onions, rhubarb, white asparagus, and more. Explore our freshest seasonal picks.</p>
+                    <button style={{
+                      background: C.green, color: "white", border: "none", padding: "12px 32px",
+                      borderRadius: 8, fontWeight: 700, cursor: "pointer", fontSize: 14,
+                    }}>Shop Spring Arrivals</button>
+                  </div>
+
+                  <div style={{ borderTop: `1px solid ${C.borderLight}`, paddingTop: 20, marginBottom: 20, textAlign: "center" }}>
+                    <h3 style={{ fontFamily: "Georgia, serif", fontSize: 16, fontWeight: 700, color: C.text, margin: "0 0 6px" }}>Peak Season Citrus</h3>
+                    <p style={{ fontSize: 13, color: C.textMed, margin: "0 0 12px" }}>Pomelos, tangelos, mandarins, and more. The sweetest finish to winter citrus.</p>
+                    <button style={{
+                      background: "white", color: C.green, border: `2px solid ${C.green}`, padding: "10px 28px",
+                      borderRadius: 8, fontWeight: 700, cursor: "pointer", fontSize: 13,
+                    }}>Shop Citrus</button>
+                  </div>
+
+                  <div style={{ borderTop: `1px solid ${C.borderLight}`, paddingTop: 20, textAlign: "center" }}>
+                    <h3 style={{ fontFamily: "Georgia, serif", fontSize: 16, fontWeight: 700, color: C.text, margin: "0 0 6px" }}>Bite Is Back!</h3>
+                    <p style={{ fontSize: 13, color: C.textMed, margin: "0 0 12px" }}>Join us April 21 for an all-day celebration.</p>
+                    <button style={{
+                      background: "white", color: C.green, border: `2px solid ${C.green}`, padding: "10px 28px",
+                      borderRadius: 8, fontWeight: 700, cursor: "pointer", fontSize: 13,
+                    }}>Register Now</button>
+                  </div>
+                </div>
+                <div style={{ background: C.bgOff, padding: "16px 28px", borderTop: `1px solid ${C.borderLight}`, textAlign: "center", fontSize: 11, color: C.textLight }}>
+                  Baldor Specialty Foods · Bronx, NY
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main ───────────────────────────────────────────────────────────────────
+
+const TABS = [
+  { id: "hp", label: "1. Segment Homepage", V: Exp1 },
+  { id: "pdp", label: "2. Cross-Cat Upsell", V: Exp2 },
+  { id: "ro", label: "3. Smart Reorder", V: Exp3 },
+  { id: "em", label: "4. Weekly Email", V: Exp4 },
+];
+
+export default function App() {
+  const [tab, setTab] = useState("hp");
+  const View = TABS.find(t => t.id === tab).V;
+
+  return (
+    <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif', background: "#eeeee9", minHeight: "100vh" }}>
+      <div style={{ background: "#1a1a1a", color: "white", padding: "12px 28px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ fontWeight: 700, fontSize: 14 }}>Baldor Growth Experiments</span>
+          <span style={{ opacity: 0.3 }}>·</span>
+          <span style={{ opacity: 0.5, fontSize: 13 }}>Kevin Middleton</span>
+        </div>
+        <a href="https://middleton.io" style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", textDecoration: "none" }}>middleton.io</a>
+      </div>
+
+      <div style={{ background: "white", borderBottom: `1px solid ${C.border}`, display: "flex", padding: "0 28px" }}>
+        {TABS.map(t => (
+          <button key={t.id} onClick={() => setTab(t.id)} style={{
+            padding: "13px 22px", background: "none", border: "none",
+            borderBottom: tab === t.id ? `3px solid ${C.green}` : "3px solid transparent",
+            color: tab === t.id ? C.green : C.textLight,
+            fontWeight: tab === t.id ? 700 : 400, cursor: "pointer", fontSize: 13, transition: "all 0.15s",
+          }}>{t.label}</button>
+        ))}
+      </div>
+
+      <div style={{ padding: "24px 28px 48px" }}><View /></div>
+
+      <div style={{ borderTop: `1px solid ${C.border}`, padding: "16px 28px", textAlign: "center", fontSize: 11, color: C.textLight, background: "white" }}>
+        Prototype for discussion purposes · Not affiliated with Baldor Specialty Foods · Built by Kevin Middleton · <a href="https://middleton.io" style={{ color: C.green, textDecoration: "none" }}>middleton.io</a>
+      </div>
+    </div>
+  );
+}
