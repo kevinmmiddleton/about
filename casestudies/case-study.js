@@ -1,205 +1,110 @@
-// ====================================================================
-// CASE STUDY SHARED JAVASCRIPT
-// Used by all case study pages for common interactive functionality
-// ====================================================================
+/* ===================
+   CASE STUDY JAVASCRIPT
+   Shared JS for all case study pages
+   =================== */
 
-// --------------------- FLOATING TOC VISIBILITY ---------------------
-// Shows/hides floating navigation based on scroll position
-(function initFloatingToc() {
-    const staticToc = document.querySelector(".cs-toc-top");
-    const floatingToc = document.querySelector(".cs-toc--floating");
-
-    if (!staticToc || !floatingToc) return;
-
-    let triggerY = 0;
-
-    // Compute trigger from static TOC position + height - buffer
-    function computeTrigger() {
-        const rect = staticToc.getBoundingClientRect();
-        const absoluteTop = window.scrollY + rect.top;
-        const buffer = 80; // early handoff
-
-        triggerY = absoluteTop + rect.height - buffer;
-    }
-
-    function updateTocStates() {
-        const isDesktop = window.innerWidth >= 1100;
-
-        if (!isDesktop) {
-            floatingToc.classList.remove("visible");
-            return;
-        }
-
-        // Show floating TOC once you scroll past static TOC zone
-        if (window.scrollY >= triggerY) {
-            floatingToc.classList.add("visible");
+// ===================
+// CONTEXT-AWARE BACK LINKS & TITLE
+// ===================
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    const fromKevinOS = params.get('from') === 'kevinos';
+    
+    // Update back links
+    const backLinks = document.querySelectorAll('.back-link');
+    backLinks.forEach(link => {
+        if (fromKevinOS) {
+            link.href = 'https://middleton.io/kevinos';
+            link.textContent = '← Back to KevinOS';
         } else {
-            floatingToc.classList.remove("visible");
+            link.href = 'https://middleton.io';
+            link.textContent = '← Back to Portfolio';
         }
-    }
-
-    // Init
-    window.addEventListener("load", () => {
-        computeTrigger();
-        updateTocStates();
     });
-
-    window.addEventListener("resize", () => {
-        computeTrigger();
-        updateTocStates();
-    });
-
-    window.addEventListener("scroll", updateTocStates);
-})();
-
-// --------------------- SLIDESHOW / LIGHTBOX ---------------------
-// Handles product walkthrough slideshow with lightbox functionality
-// Only initializes if slideshow elements exist on the page
-(function initSlideshow() {
-    const slides = document.querySelectorAll(".slide");
-    if (slides.length === 0) return; // No slideshow on this page
-
-    const captionEl = document.getElementById("slideshow-caption");
-    const prevBtn = document.querySelector(".prev-slide");
-    const nextBtn = document.querySelector(".next-slide");
-    const frame = document.querySelector(".slideshow-frame");
-
-    // Lightbox
-    const lightbox = document.getElementById("slideshow-lightbox");
-    const lightboxImg = document.getElementById("lightbox-image");
-    const lightboxCaption = document.getElementById("lightbox-caption");
-    const lightboxPrev = document.querySelector(".lightbox-prev");
-    const lightboxNext = document.querySelector(".lightbox-next");
-
-    let index = 0;
-
-    // Show specific slide
-    function showSlide(i) {
-        slides.forEach(s => s.classList.remove("active"));
-        slides[i].classList.add("active");
-
-        const caption = slides[i].getAttribute("data-caption") || "";
-        if (captionEl) captionEl.textContent = caption;
-    }
-
-    // Navigation buttons (with looping)
-    if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
-            index = (index - 1 + slides.length) % slides.length;
-            showSlide(index);
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-            index = (index + 1) % slides.length;
-            showSlide(index);
-        });
-    }
-
-    // Lightbox control
-    function openLightbox(i) {
-        const trigger = slides[i].querySelector(".slide-image-trigger");
-        if (!trigger || !lightbox) return;
-
-        const fullSrc = trigger.getAttribute("data-fullsrc");
-        const caption = trigger.getAttribute("data-caption");
-
-        if (trigger.classList.contains("transparent-bg")) {
-            lightboxImg.classList.add("lightbox-dark-bg");
-        } else {
-            lightboxImg.classList.remove("lightbox-dark-bg");
-        }
-
-        lightboxImg.src = fullSrc;
-        lightboxCaption.textContent = caption;
-        lightbox.classList.add("active");
-    }
-
-    // Click slide to open lightbox
-    slides.forEach((slide, i) => {
-        const trigger = slide.querySelector(".slide-image-trigger");
-        if (trigger) {
-            trigger.addEventListener("click", () => {
-                index = i;
-                showSlide(index);
-                openLightbox(index);
+    
+    // Update window title
+    const windowTitle = document.querySelector('.window-title');
+    if (windowTitle) {
+        const kevinosTitle = windowTitle.dataset.kevinosTitle;
+        const portfolioTitle = windowTitle.dataset.portfolioTitle;
+        
+        if (fromKevinOS && kevinosTitle) {
+            windowTitle.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                    node.textContent = '\n            ' + kevinosTitle + '\n        ';
+                }
+            });
+        } else if (!fromKevinOS && portfolioTitle) {
+            windowTitle.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                    node.textContent = '\n            ' + portfolioTitle + '\n        ';
+                }
             });
         }
-    });
-
-    // Click lightbox image to advance
-    if (lightboxImg) {
-        lightboxImg.addEventListener("click", () => {
-            index = (index + 1) % slides.length;
-            showSlide(index);
-            openLightbox(index);
-        });
     }
-
-    // Lightbox prev/next buttons
-    if (lightboxPrev) {
-        lightboxPrev.addEventListener("click", (e) => {
-            e.stopPropagation();
-            index = (index - 1 + slides.length) % slides.length;
-            showSlide(index);
-            openLightbox(index);
-        });
-    }
-
-    if (lightboxNext) {
-        lightboxNext.addEventListener("click", (e) => {
-            e.stopPropagation();
-            index = (index + 1) % slides.length;
-            showSlide(index);
-            openLightbox(index);
-        });
-    }
-
-    // Close lightbox when clicking background
-    if (lightbox) {
-        lightbox.addEventListener("click", (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove("active");
-                lightboxImg.src = "";
-                lightboxImg.classList.remove("lightbox-dark-bg");
-            }
-        });
-    }
-
-    // Adjust slideshow height to maintain aspect ratio
-    function adjustSlideshowHeight() {
-        if (!frame) return;
-        const w = frame.offsetWidth;
-        const h = w * 0.75; // 4:3 ratio for taller images
-        frame.style.height = h + "px";
-    }
-
-    window.addEventListener("load", adjustSlideshowHeight);
-    window.addEventListener("resize", adjustSlideshowHeight);
-
-    // Show first slide
-    showSlide(0);
 })();
 
-// --------------------- ACTIVE TOC HIGHLIGHT ON SCROLL ---------------------
-// Highlights current section in TOC based on scroll position
-(function initActiveTocHighlight() {
-    document.addEventListener("scroll", () => {
-        const sections = document.querySelectorAll(".section[id]");
-        const tocItems = document.querySelectorAll(".cs-toc-item");
+// ===================
+// LIGHTBOX
+// ===================
+function openLightbox(src, alt) {
+    const lightbox = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    const caption = document.getElementById('lightbox-caption');
+    img.src = src;
+    img.alt = alt;
+    caption.textContent = alt;
+    lightbox.classList.add('active');
+}
 
-        let current = "";
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+}
 
-        sections.forEach(section => {
-            const rect = section.getBoundingClientRect();
-            if (rect.top < 200 && rect.bottom > 200) {
-                current = section.id;
-            }
-        });
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+});
 
-        tocItems.forEach(item => {
-            item.classList.toggle("active", item.dataset.section === current);
-        });
+// ===================
+// FLOATING TOC
+// ===================
+const tocStatic = document.getElementById('tocStatic');
+const tocFloating = document.getElementById('tocFloating');
+
+function updateFloatingToc() {
+    // Hide on smaller screens (CSS also hides it, but this is backup)
+    if (window.innerWidth <= 1200) {
+        tocFloating.classList.remove('visible');
+        return;
+    }
+
+    const staticRect = tocStatic.getBoundingClientRect();
+    // Show floating TOC when static TOC scrolls out of view
+    if (staticRect.bottom < 0) {
+        tocFloating.classList.add('visible');
+    } else {
+        tocFloating.classList.remove('visible');
+    }
+}
+
+window.addEventListener('scroll', updateFloatingToc);
+window.addEventListener('resize', updateFloatingToc);
+
+// ===================
+// ACTIVE TOC HIGHLIGHTING
+// ===================
+const tocItems = document.querySelectorAll('.toc-item');
+const sections = document.querySelectorAll('.section[id]');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < 200 && rect.bottom > 200) {
+            current = section.id;
+        }
     });
-})();
+    tocItems.forEach(item => {
+        item.classList.toggle('active', item.dataset.section === current);
+    });
+});
