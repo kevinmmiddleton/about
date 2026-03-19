@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Epilogue:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+  html, body { margin:0; padding:0; width:1200px; height:630px; overflow:hidden; }
+  .export-btn { position:absolute; bottom:20px; right:20px; background:rgba(255,255,255,0.15); padding:12px 20px; border-radius:8px; color:white; font-size:20px; cursor:pointer; backdrop-filter:blur(6px); display:block; }
+
+  body {
+    margin: 0;
+    padding: 0;
+    width: 1200px;
+    height: 630px;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #A78BFA 0%, #60A5FA 70%, #4F8BEA 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+  }
+
+  .photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0 6px rgba(255,255,255,0.06), 0 8px 30px rgba(0,0,0,0.25);
+    margin-bottom: 32px;
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .title {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 80px;
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+
+  .byline {
+    font-size: 28px;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 36px;
+  }
+
+  .pills {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 900px;
+  }
+
+  .pill {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(4px);
+    white-space: nowrap;
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="export-btn" onclick="downloadOG()">Download PNG</div>
+
+  <div class="photo">
+    <img src="https://middleton.io/images/profile-picture.jpg" alt="Kevin Middleton">
+  </div>
+  <div class="title">Case Studies</div>
+  <div class="byline">Kevin Middleton · Full-Stack Product Manager</div>
+
+  <div class="pills">
+    <span class="pill">Conversion Optimization</span>
+    <span class="pill">0-to-1 Products</span>
+    <span class="pill">Enterprise Partnerships</span>
+    <span class="pill">Platform Strategy</span>
+    <span class="pill">A/B Testing</span>
+    <span class="pill">Global Expansion</span>
+  </div>
+
+<script>
+  function downloadOG(){
+    const btn = document.querySelector('.export-btn');
+    btn.style.opacity = '0';
+    btn.style.pointerEvents = 'none';
+
+    html2canvas(document.body, {useCORS:true}).then(canvas=>{
+      const link=document.createElement('a');
+      link.download='case-studies-og.png';
+      link.href=canvas.toDataURL();
+      link.click();
+
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    });
+  }
+</script>
+<script>
+  window.onload = function () {
+    try {
+      window.resizeTo(1200, 630);
+    } catch (e) {
+      console.warn("Resize not permitted by browser.");
+    }
+  };
+</script>
+
+</body>
+</html>
