@@ -1735,7 +1735,7 @@ img {
   margin: 6px auto;
   justify-content: center;
   align-items: center;
-  max-width: 640px;
+  max-width: 520px;
 }
 
 .pill-row-with-label {
@@ -2030,16 +2030,17 @@ img {
   }
 
   .role-pill-row {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
     gap: 8px;
-    max-width: 300px;
+    max-width: 320px;
     margin: 4px auto;
     justify-content: center;
   }
 
   .role-pill-row .role-pill {
     margin: 0;
+    text-align: center;
   }
 
   .pill-label {
@@ -2504,9 +2505,9 @@ img {
 /* ===== Gradient Tagline ===== */
 .hero-tagline {
   font-family: var(--font-heading);
-  font-size: clamp(1.35rem, 3.2vw, 2rem);
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.35;
   margin-bottom: var(--spacing-md);
   background: linear-gradient(
     135deg,
@@ -2518,7 +2519,7 @@ img {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-wrap: balance;
-  max-width: 600px;
+  max-width: 640px;
 }
 
 @media (prefers-color-scheme: dark) {
