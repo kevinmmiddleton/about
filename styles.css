@@ -1738,6 +1738,10 @@ img {
   max-width: 520px;
 }
 
+.role-pill-row .role-pill {
+  margin: 0;
+}
+
 .pill-row-with-label {
     display: flex;
     flex-direction: column;
@@ -2031,11 +2035,11 @@ img {
 
   .role-pill-row {
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
-    max-width: 320px;
+    max-width: 360px;
     margin: 4px auto;
-    justify-content: center;
+    justify-items: stretch;
   }
 
   .role-pill-row .role-pill {
