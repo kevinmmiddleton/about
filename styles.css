@@ -2047,6 +2047,12 @@ img {
     text-align: center;
   }
 
+  .role-pill-row .role-pill:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    min-width: 40%;
+  }
+
   .pill-label {
     font-size: 0.7rem;
   }
