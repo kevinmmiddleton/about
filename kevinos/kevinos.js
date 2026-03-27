@@ -1280,7 +1280,8 @@ const gameInfo = {
     bugsquash: { icon: '🐛', title: 'bugsquash.app' },
     runner: { icon: '🏃', title: 'runner.app' },
     snake: { icon: '🐍', title: 'snake.app' },
-    standup: { icon: '⌨️', title: 'standup.app' }
+    standup: { icon: '⌨️', title: 'standup.app' },
+    interview: { icon: '💼', title: 'interview.app' }
 };
 
 function showMobileGame(gameId) {
@@ -3920,6 +3921,334 @@ if (standupWhoAmIBtn) standupWhoAmIBtn.addEventListener('click', () => {
 });
 
 /* ==========================================
+   INTERVIEW SURVIVAL - Choose Your Own Adventure
+   ========================================== */
+
+const interviewStart = document.getElementById('interviewStart');
+const interviewGame = document.getElementById('interviewGame');
+const interviewOver = document.getElementById('interviewOver');
+const interviewPlayAgainBtn = document.getElementById('interviewPlayAgainBtn');
+const interviewWhoAmIBtn = document.getElementById('interviewWhoAmIBtn');
+const startInterviewBtn = document.getElementById('startInterviewBtn');
+
+let ivSanity = 100;
+let ivConfidence = 100;
+let ivAmmo = 5;
+let ivRound = 0;
+
+const ivFaces = ['😎', '🙂', '😐', '😟', '😰', '😫', '💀'];
+
+function ivGetFace() {
+    if (ivSanity <= 0) return '💀';
+    if (ivSanity <= 15) return '😫';
+    if (ivSanity <= 30) return '😰';
+    if (ivSanity <= 50) return '😟';
+    if (ivSanity <= 70) return '😐';
+    if (ivSanity <= 85) return '🙂';
+    return '😎';
+}
+
+function ivUpdateHud() {
+    const sanityBar = document.getElementById('sanityBar');
+    const sanityValue = document.getElementById('sanityValue');
+    const confidenceBar = document.getElementById('confidenceBar');
+    const confidenceValue = document.getElementById('confidenceValue');
+    const ammoValue = document.getElementById('ammoValue');
+    const doomFace = document.getElementById('doomFace');
+
+    if (sanityBar) sanityBar.style.width = Math.max(0, ivSanity) + '%';
+    if (sanityValue) sanityValue.textContent = Math.max(0, ivSanity) + '%';
+    if (confidenceBar) confidenceBar.style.width = Math.max(0, ivConfidence) + '%';
+    if (confidenceValue) confidenceValue.textContent = Math.max(0, ivConfidence) + '%';
+    if (ammoValue) ammoValue.textContent = ivAmmo;
+    if (doomFace) doomFace.textContent = ivGetFace();
+}
+
+function ivFlashDamage() {
+    const terminal = document.querySelector('.interview-terminal');
+    if (terminal) {
+        terminal.classList.add('iv-damage-flash');
+        setTimeout(() => terminal.classList.remove('iv-damage-flash'), 400);
+    }
+}
+
+function ivApplyStats(sanity, confidence, ammo) {
+    if (sanity < 0) ivFlashDamage();
+    ivSanity = Math.max(0, Math.min(100, ivSanity + sanity));
+    ivConfidence = Math.max(0, Math.min(100, ivConfidence + confidence));
+    ivAmmo = Math.max(0, ivAmmo + ammo);
+    ivUpdateHud();
+}
+
+// The 8 rounds
+const ivRounds = [
+    // Round 1: The Search
+    {
+        title: 'ROUND 1: THE SEARCH',
+        scenario: 'You open LinkedIn. 847 notifications. 12 recruiters. 3 are real. Your feed is a mix of hustle-porn and "I\'m humbled to announce" posts. Time to apply.\n\nYou find a role that matches your experience. The posting is 4 weeks old.',
+        choices: [
+            {
+                text: 'Apply normally through the portal',
+                result: 'Your application enters a queue behind 2,400 others. The ATS strips your formatting. Your 12 years of experience become "applicant_847.pdf". But you\'re in.',
+                sanity: -10, confidence: -5, ammo: 0, next: true
+            },
+            {
+                text: 'Pay $500 for "ATS optimization" from a LinkedIn guru',
+                result: 'You pay. They run your resume through ChatGPT and add "synergy" 14 times. The guru\'s testimonials were written by the same guy. Your credit card gets charged twice.',
+                sanity: -40, confidence: -30, ammo: -2, gameOver: true,
+                overMsg: 'Scammed before you even got an interview. The LinkedIn guru posts about their "successful client transformation."'
+            },
+            {
+                text: 'Ask a friend who works there for a referral',
+                result: 'Your friend submits a referral. It bumps you to the top of the pile. They\'ll get a $2,000 bonus if you\'re hired, so now there\'s a weird power dynamic. But you\'re in, and with momentum.',
+                sanity: -5, confidence: 10, ammo: 1, next: true
+            }
+        ]
+    },
+    // Round 2: The Recruiter Call
+    {
+        title: 'ROUND 2: THE RECRUITER CALL',
+        scenario: 'A recruiter reaches out. 15-minute "quick chat." They ask about your background, then drop it:\n\n"So what are you making right now?"\n\nThey need a number. You need this to move forward. The salary range wasn\'t in the posting.',
+        choices: [
+            {
+                text: '"I\'m targeting $X based on market data for this role"',
+                result: 'Deflected like a pro. The recruiter pauses, then shares the range: it\'s $15K below your number. "But there\'s equity and unlimited PTO." They schedule the hiring manager screen.',
+                sanity: -5, confidence: 5, ammo: 0, next: true
+            },
+            {
+                text: 'Give your real number honestly',
+                result: 'They go quiet. "That\'s a bit above our range." They say they\'ll "see what they can do" — translation: they\'re anchoring you to the bottom of their band from now on. But they move you forward.',
+                sanity: -15, confidence: -15, ammo: 0, next: true
+            },
+            {
+                text: '"Can you share the budgeted range first?"',
+                result: '"We don\'t share that at this stage." You push back politely. They share a range so wide it\'s meaningless ($120K-$200K). Classic. At least you didn\'t blink first.',
+                sanity: -10, confidence: 0, ammo: 1, next: true
+            }
+        ]
+    },
+    // Round 3: The HM Screen
+    {
+        title: 'ROUND 3: THE HIRING MANAGER SCREEN',
+        scenario: 'Thirty minutes in, you realize the role described in the posting and the role being described to you are two different jobs. The HM says:\n\n"We\'re building the plane while flying it. The last PM left after 4 months. We need someone who can hit the ground running and also define what the ground is."\n\nThe tech stack is \'evolving.\' The roadmap is \'fluid.\' The team is \'lean.\'',
+        choices: [
+            {
+                text: '"That sounds like an exciting challenge"',
+                result: 'You play along. The HM lights up. They love "self-starters." You\'re moved to the onsite. You now have a vague understanding of a role that doesn\'t fully exist yet. This is fine.',
+                sanity: -15, confidence: -5, ammo: -1, next: true
+            },
+            {
+                text: '"Can you clarify the scope? The posting mentioned X but you\'re describing Y"',
+                result: 'The HM says "the role has evolved." Translation: three people quit and the req got Frankensteined. They appreciate your directness but you sense a chill. Moved to onsite anyway.',
+                sanity: -10, confidence: 5, ammo: 0, next: true
+            },
+            {
+                text: '"I appreciate the transparency. I think I\'ll pass."',
+                result: 'You dodge a bullet. But that was your best lead this month. Back to LinkedIn. The feed hasn\'t changed. Nothing has changed.',
+                sanity: -25, confidence: -20, ammo: -1, gameOver: true,
+                overMsg: 'You showed self-respect. The market punished you for it. Back to square one.'
+            }
+        ]
+    },
+    // Round 4: The Onsite
+    {
+        title: 'ROUND 4: THE ONSITE',
+        scenario: 'Five back-to-back interviews. No breaks between them. Each interviewer asks you to "tell me about yourself" like the last 4 didn\'t just hear it.\n\nInterview 3 is a whiteboard session where you\'re asked to "design a system" for something they\'ve been building for 2 years. You have 45 minutes.\n\nInterview 4 is with someone who clearly doesn\'t want to be here and opens with "So what do you actually DO as a PM?"\n\nLunch is with the team. "Don\'t worry, it doesn\'t count." It counts.',
+        choices: [
+            {
+                text: 'Power through all five. Energy drinks. Smile. Perform.',
+                result: 'You crushed the whiteboard. You won over the hostile interviewer with a well-placed self-deprecating joke. At lunch you said "I love collaboration" without flinching. But you can feel your soul leaving your body.',
+                sanity: -25, confidence: 5, ammo: -2, next: true
+            },
+            {
+                text: 'Ask for a 5-minute break between sessions',
+                result: '"Of course!" They give you one break. The coordinator forgot to tell Interview 4 about the schedule change. They\'re annoyed. You spend 40 of your 45 minutes apologizing for the delay. But your brain still works.',
+                sanity: -15, confidence: -10, ammo: -1, next: true
+            }
+        ]
+    },
+    // Round 5: The Take-Home
+    {
+        title: 'ROUND 5: THE TAKE-HOME',
+        scenario: 'They loved you! As a "final step" they send a take-home project. The email says "should take 2-3 hours."\n\nYou open it. It\'s a full product strategy with market analysis, competitive landscape, mock PRD, and a presentation deck. This is not a 2-3 hour project. This is a free consulting engagement.\n\nYou\'re already 3 weeks deep in this process.',
+        choices: [
+            {
+                text: 'Do it properly. Spend the full 15 hours.',
+                result: 'You deliver a masterpiece. Custom research. Polished deck. They\'re impressed. The hiring manager says "This is better than what our current team produces." That\'s not the compliment they think it is. But you advance.',
+                sanity: -30, confidence: 5, ammo: 1, next: true
+            },
+            {
+                text: 'Do a solid 3-hour version and note the scope',
+                result: '"We were hoping for something more comprehensive." You explain the time constraint. They say they understand. The debrief feedback says "lacked depth." You\'re moved forward but you can feel the asterisk.',
+                sanity: -15, confidence: -10, ammo: 0, next: true
+            },
+            {
+                text: 'Push back: "Happy to do a 1-hour live session instead"',
+                result: '"That\'s not our process." You suggest it shows the same skills more efficiently. They say they\'ll "discuss internally" and ghost you for 9 days before declining.',
+                sanity: -20, confidence: -15, ammo: -1, gameOver: true,
+                overMsg: 'You valued your time. They valued compliance. The process demands sacrifice, not boundaries.'
+            }
+        ]
+    },
+    // Round 6: Come Back Onsite AGAIN
+    {
+        title: 'ROUND 6: COME BACK. AGAIN.',
+        scenario: '"Great news! The team loved your take-home. We just need you to come back to meet a few more people."\n\nAnother PTO day burned. When you arrive, the role has subtly changed. There\'s now a "dotted line" to a VP you haven\'t met. One interviewer asks you the same questions from Round 4. Someone calls you the wrong name twice.\n\nYou\'ve been interviewing here for 5 weeks.',
+        choices: [
+            {
+                text: 'Smile. Adapt. Close the deal.',
+                result: 'You nail it again. The VP likes you. The wrong-name interviewer writes positive feedback anyway. You overhear someone say "they\'re the frontrunner." Five weeks of your life, but the finish line is close.',
+                sanity: -20, confidence: 5, ammo: -1, next: true
+            },
+            {
+                text: '"I\'m happy to do a video call instead of another onsite"',
+                result: '"We really value in-person collaboration." Translation: they need to justify their office lease. You go in. Everything goes fine. But you\'re running on fumes and everyone can see it.',
+                sanity: -25, confidence: -10, ammo: -1, next: true
+            }
+        ]
+    },
+    // Round 7: The Offer
+    {
+        title: 'ROUND 7: THE OFFER',
+        scenario: 'Your phone rings. It\'s the recruiter. "I have great news!"\n\nThe offer is 15% below the range discussed in Round 2. The equity vesting has a 1-year cliff. The "unlimited PTO" comes with a culture where nobody takes more than 5 days. Start date is "flexible" which means "we need you yesterday."\n\nOh, and the hiring manager who championed you? They put in their notice last week.',
+        choices: [
+            {
+                text: 'Negotiate: push for the originally discussed range',
+                result: '"Let me take this back to the team." Three days of silence. They come back with $5K more and a $10K signing bonus. The HM is still leaving. You accept because you\'ve been doing this for 6 weeks and you can\'t go back to LinkedIn.',
+                sanity: -15, confidence: -5, ammo: -1, next: true
+            },
+            {
+                text: 'Accept as-is. You\'re exhausted.',
+                result: 'You sign. The relief washes over you. Then the dread. You accepted below your number. The HM who hired you is gone. But it\'s done. It\'s finally done. Right?',
+                sanity: -10, confidence: -20, ammo: 0, next: true
+            },
+            {
+                text: 'Walk away. You know your worth.',
+                result: 'You decline. Gracefully. The recruiter is stunned. "No one has ever..." You feel powerful for exactly 48 hours. Then the job board loads again.',
+                sanity: -30, confidence: 10, ammo: 0, gameOver: true,
+                overMsg: 'Principled. Unemployed. The market doesn\'t reward integrity — it rewards endurance.'
+            }
+        ]
+    },
+    // Round 8: You Got The Job
+    {
+        title: 'ROUND 8: YOU GOT THE JOB!',
+        scenario: 'Day 1. Your laptop isn\'t ready. You spend the morning watching compliance videos from 2019. Your "onboarding buddy" is on PTO.\n\nDay 14. You discover the product roadmap is a Google Doc that hasn\'t been updated in 8 months. Your new manager is the VP you met once. They have 11 direct reports.\n\nDay 45. You\'ve shipped one feature. Reorged once. Your skip-level doesn\'t know your name.\n\nDay 89. A company-wide Zoom. The CEO looks tired. "Difficult macro environment... strategic realignment... incredibly hard decision..."\n\nDay 90.',
+        choices: [
+            {
+                text: '[Continue]',
+                result: 'Your access is revoked at 10:47 AM. You get the severance email before your manager calls. 2 weeks per year of service — that\'s 0.038 years, so basically nothing.\n\nThe recruiter who hired you messages on LinkedIn: "So sorry to see the news. Let me know if I can help!" They cannot help.\n\nYou update your LinkedIn headline. You change your banner to #OpenToWork.\n\nA recruiter messages you within the hour.\n\n"Hi! I came across your profile and I think you\'d be a great fit for a role..."',
+                sanity: -100, confidence: -100, ammo: -99, next: false, finalEnd: true
+            }
+        ]
+    }
+];
+
+function ivShowRound(roundIndex) {
+    ivRound = roundIndex;
+    const round = ivRounds[roundIndex];
+    const roundEl = document.getElementById('interviewRound');
+    const scenarioEl = document.getElementById('interviewScenario');
+    const choicesEl = document.getElementById('interviewChoices');
+
+    if (roundEl) roundEl.textContent = round.title;
+    if (scenarioEl) scenarioEl.innerHTML = round.scenario.replace(/\n/g, '<br>');
+
+    if (choicesEl) {
+        choicesEl.innerHTML = '';
+        round.choices.forEach(function(choice, i) {
+            var btn = document.createElement('button');
+            btn.className = 'iv-choice-btn';
+            btn.textContent = choice.text;
+            btn.addEventListener('click', function() { ivMakeChoice(roundIndex, i); });
+            choicesEl.appendChild(btn);
+        });
+    }
+}
+
+function ivShowResult(roundIndex, choiceIndex) {
+    var round = ivRounds[roundIndex];
+    var choice = round.choices[choiceIndex];
+    var scenarioEl = document.getElementById('interviewScenario');
+    var choicesEl = document.getElementById('interviewChoices');
+
+    ivApplyStats(choice.sanity, choice.confidence, choice.ammo);
+
+    if (scenarioEl) scenarioEl.innerHTML = choice.result.replace(/\n/g, '<br>');
+
+    if (choicesEl) {
+        choicesEl.innerHTML = '';
+
+        if (choice.gameOver) {
+            var btn = document.createElement('button');
+            btn.className = 'iv-choice-btn iv-choice-bad';
+            btn.textContent = 'Accept your fate';
+            btn.addEventListener('click', function() { ivEndGame(choice.overMsg); });
+            choicesEl.appendChild(btn);
+        } else if (choice.finalEnd) {
+            var btn = document.createElement('button');
+            btn.className = 'iv-choice-btn iv-choice-restart';
+            btn.textContent = '💼 Open LinkedIn';
+            btn.addEventListener('click', function() { startInterview(); });
+            choicesEl.appendChild(btn);
+
+            // Also show game over after a pause
+            setTimeout(function() { ivEndGame('You survived the entire process. You got the job. You lost the job. Nobody wins. The loop continues.'); }, 200);
+        } else if (choice.next && roundIndex < ivRounds.length - 1) {
+            var btn = document.createElement('button');
+            btn.className = 'iv-choice-btn';
+            btn.textContent = 'Continue →';
+            btn.addEventListener('click', function() { ivShowRound(roundIndex + 1); });
+            choicesEl.appendChild(btn);
+        }
+    }
+}
+
+function ivMakeChoice(roundIndex, choiceIndex) {
+    ivShowResult(roundIndex, choiceIndex);
+}
+
+function ivEndGame(message) {
+    if (interviewGame) interviewGame.style.display = 'none';
+    if (interviewOver) interviewOver.style.display = 'flex';
+
+    var titleEl = document.getElementById('interviewOverTitle');
+    var roundEl = document.getElementById('interviewFinalRound');
+    var msgEl = document.getElementById('interviewOverMessage');
+
+    if (titleEl) titleEl.textContent = ivRound >= 7 ? 'LAID OFF' : 'GAME OVER';
+    if (roundEl) roundEl.textContent = ivRound + 1;
+    if (msgEl) msgEl.textContent = message;
+}
+
+function startInterview() {
+    ivSanity = 100;
+    ivConfidence = 100;
+    ivAmmo = 5;
+    ivRound = 0;
+
+    if (interviewStart) interviewStart.style.display = 'none';
+    if (interviewOver) interviewOver.style.display = 'none';
+    if (interviewGame) interviewGame.style.display = 'flex';
+
+    ivUpdateHud();
+    ivShowRound(0);
+}
+
+if (startInterviewBtn) startInterviewBtn.addEventListener('click', startInterview);
+if (interviewPlayAgainBtn) interviewPlayAgainBtn.addEventListener('click', startInterview);
+if (interviewWhoAmIBtn) interviewWhoAmIBtn.addEventListener('click', function() {
+    if (isMobile()) {
+        closeGameOverlay('interview', true);
+        setTimeout(function() { openMobileOverlay('about'); }, 150);
+    } else {
+        closeWindow('interview');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
+
+/* ==========================================
    RECIPES - Shared Data & Parsing
    ========================================== */
 
@@ -4165,7 +4494,7 @@ loadKevinRecipes();
     const params = new URLSearchParams(window.location.search);
     const windowToOpen = params.get('open');
     const gameToOpen = params.get('game');
-    const validGames = ['invaders', 'tetris', 'bugsquash', 'runner', 'snake', 'standup'];
+    const validGames = ['invaders', 'tetris', 'bugsquash', 'runner', 'snake', 'standup', 'interview'];
 
     // Handle ?game= parameter (e.g., ?game=invaders)
     if (gameToOpen && validGames.includes(gameToOpen)) {

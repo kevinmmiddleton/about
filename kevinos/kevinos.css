@@ -5372,6 +5372,338 @@ body {
 .games-embed .game-container {
     height: 100%;
 }
+
+/* ==========================================
+   INTERVIEW SURVIVAL - Doom-Style Adventure
+   ========================================== */
+
+/* Interview game area */
+.interview-game {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 400px;
+    background: #0a0f0a;
+}
+
+.interview-terminal {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    color: #33ff33;
+    background: #0a0f0a;
+    position: relative;
+}
+
+.interview-terminal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.iv-damage-flash {
+    animation: ivDamageFlash 0.4s ease-out;
+}
+
+@keyframes ivDamageFlash {
+    0% { background-color: #3a0000; }
+    50% { background-color: #2a0000; }
+    100% { background-color: #0a0f0a; }
+}
+
+.interview-round {
+    font-size: 11px;
+    color: #ff9933;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+}
+
+.interview-scenario {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #b0c4b0;
+    margin-bottom: 24px;
+    max-width: 560px;
+    position: relative;
+    z-index: 2;
+}
+
+.interview-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+.iv-choice-btn {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 12px 16px;
+    background: rgba(51, 255, 51, 0.08);
+    color: #33ff33;
+    border: 1px solid rgba(51, 255, 51, 0.25);
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    max-width: 560px;
+}
+
+.iv-choice-btn:hover {
+    background: rgba(51, 255, 51, 0.15);
+    border-color: rgba(51, 255, 51, 0.5);
+    transform: translateX(4px);
+}
+
+.iv-choice-btn.iv-choice-bad {
+    color: #ff4444;
+    border-color: rgba(255, 68, 68, 0.3);
+    background: rgba(255, 68, 68, 0.08);
+}
+
+.iv-choice-btn.iv-choice-bad:hover {
+    background: rgba(255, 68, 68, 0.15);
+    border-color: rgba(255, 68, 68, 0.5);
+}
+
+.iv-choice-btn.iv-choice-restart {
+    color: #ff9933;
+    border-color: rgba(255, 153, 51, 0.3);
+    background: rgba(255, 153, 51, 0.08);
+}
+
+.iv-choice-btn.iv-choice-restart:hover {
+    background: rgba(255, 153, 51, 0.15);
+    border-color: rgba(255, 153, 51, 0.5);
+}
+
+/* Doom-style HUD */
+.interview-doom-hud {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: #1a1a2e;
+    border-top: 2px solid #333;
+    font-family: var(--font-mono);
+    min-height: 56px;
+    gap: 12px;
+}
+
+.doom-stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+}
+
+.doom-stat.doom-right {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+}
+
+.doom-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.doom-label {
+    font-size: 9px;
+    color: #888;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    min-width: 36px;
+}
+
+.doom-bar {
+    flex: 1;
+    height: 10px;
+    background: #111;
+    border: 1px solid #444;
+    border-radius: 2px;
+    overflow: hidden;
+    min-width: 50px;
+}
+
+.doom-bar-fill {
+    height: 100%;
+    transition: width 0.4s ease;
+    border-radius: 1px;
+}
+
+.doom-bar-green {
+    background: linear-gradient(180deg, #33ff33, #1a8a1a);
+}
+
+.doom-bar-blue {
+    background: linear-gradient(180deg, #5c8aff, #2a4a9a);
+}
+
+.doom-value {
+    font-size: 11px;
+    color: #ccc;
+    min-width: 32px;
+    text-align: right;
+}
+
+.doom-ammo {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ff9933;
+}
+
+.doom-face {
+    font-size: 32px;
+    line-height: 1;
+    text-align: center;
+    min-width: 40px;
+    filter: grayscale(0.2);
+    transition: all 0.3s;
+}
+
+/* Interview game start screen dark theme override */
+#interview .game-start,
+#interview .game-over {
+    background: #0a0f0a;
+}
+
+#interview .game-title {
+    color: #33ff33;
+}
+
+#interview .game-subtitle {
+    color: #ff9933;
+}
+
+#interview .game-flavor {
+    color: #888;
+}
+
+#interview .game-instructions {
+    color: #666;
+}
+
+#interview .game-btn {
+    background: #33ff33;
+    color: #0a0f0a;
+}
+
+#interview .game-btn:hover {
+    box-shadow: 0 4px 20px rgba(51, 255, 51, 0.3);
+}
+
+#interview .game-credit {
+    border-top-color: #222;
+}
+
+#interview .game-credit-title {
+    color: #555;
+}
+
+#interview .game-credit-tagline {
+    color: #33ff33;
+}
+
+#interview .game-over-bio {
+    color: #888;
+}
+
+#interview .game-message {
+    color: #ff4444;
+}
+
+#interview .game-btn-cta {
+    background: #ff9933;
+    color: #0a0f0a;
+}
+
+#interview .game-btn-cta:hover {
+    box-shadow: 0 4px 20px rgba(255, 153, 51, 0.4);
+}
+
+#interview .game-btn-secondary {
+    background: #1a1a2e;
+    color: #33ff33;
+    border-color: #333;
+}
+
+#interview .game-btn-secondary:hover {
+    background: #222;
+}
+
+#interview .game-share a {
+    color: #33ff33;
+}
+
+#interview .game-over-cta {
+    border-top-color: #222;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .interview-terminal {
+        padding: 16px;
+    }
+
+    .interview-scenario {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .iv-choice-btn {
+        font-size: 12px;
+        padding: 10px 14px;
+    }
+
+    .interview-doom-hud {
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
+    .doom-face {
+        font-size: 24px;
+        min-width: 30px;
+    }
+
+    .doom-label {
+        font-size: 8px;
+        min-width: 28px;
+    }
+
+    .doom-bar {
+        min-width: 36px;
+        height: 8px;
+    }
+
+    .doom-value {
+        font-size: 10px;
+        min-width: 28px;
+    }
+
+    .doom-ammo {
+        font-size: 12px;
+    }
+}
+
 /* ==========================================
    RECIPES.DB - Database Style
    ========================================== */

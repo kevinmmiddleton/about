@@ -1098,6 +1098,10 @@
                             <span class="folder-icon">⌨️</span>
                             <span class="folder-label">standup.app</span>
                         </button>
+                        <button class="folder-item" data-window="interview">
+                            <span class="folder-icon">💼</span>
+                            <span class="folder-label">interview.app</span>
+                        </button>
                     </div>
                     <!-- Mobile: games load here instead of separate windows -->
                     <div class="games-embed" id="gamesEmbed" style="display: none;"></div>
@@ -1577,6 +1581,91 @@
                 </div>
             </section>
 
+            <!-- interview.app (INTERVIEW SURVIVAL game) -->
+            <section class="window game-window" id="interview" data-window="interview">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close"></button>
+                        <button class="window-dot yellow" data-action="minimize"></button>
+                        <button class="window-dot green" data-action="maximize"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon">💼</span>
+                        interview.app
+                        <span class="file-badge app">APP</span>
+                    </div>
+                    <span class="window-path">~/kevin/games/</span>
+                </header>
+                <div class="window-content game-content">
+                    <div class="game-container" id="interviewContainer">
+                        <!-- Start Screen -->
+                        <div class="game-screen game-start" id="interviewStart">
+                            <button class="game-btn-link see-all-games game-back-link mobile-only" data-action="see-all-games">&larr; See All Games</button>
+                            <div class="game-title">💼 INTERVIEW SURVIVAL 💼</div>
+                            <div class="game-subtitle">Nobody wins. You just survive longer.</div>
+                            <div class="game-flavor">A brutally honest choose-your-own-adventure through the modern hiring process.</div>
+                            <div class="game-instructions">
+                                <p>8 rounds &middot; 2-3 choices each &middot; Most lead to ruin</p>
+                                <p class="game-powerups">SANITY &middot; CONFIDENCE &middot; TALKING POINTS</p>
+                            </div>
+                            <button class="game-btn" id="startInterviewBtn">OPEN LINKEDIN</button>
+                            <div class="game-credit">
+                                <div class="game-credit-title">A KevinOS Game by Kevin Middleton</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-credit-tagline">Based on a true story. Several, actually. &rarr;</a>
+                            </div>
+                        </div>
+                        <!-- Game Area -->
+                        <div class="interview-game" id="interviewGame" style="display: none;">
+                            <div class="interview-terminal">
+                                <div class="interview-round" id="interviewRound">ROUND 1 OF 8</div>
+                                <div class="interview-scenario" id="interviewScenario"></div>
+                                <div class="interview-choices" id="interviewChoices"></div>
+                            </div>
+                            <div class="interview-doom-hud" id="interviewHud">
+                                <div class="doom-stat doom-sanity">
+                                    <span class="doom-label">SANITY</span>
+                                    <div class="doom-bar"><div class="doom-bar-fill doom-bar-green" id="sanityBar" style="width:100%"></div></div>
+                                    <span class="doom-value" id="sanityValue">100%</span>
+                                </div>
+                                <div class="doom-face" id="doomFace">😎</div>
+                                <div class="doom-stat doom-right">
+                                    <div class="doom-stat-row">
+                                        <span class="doom-label">CONFIDENCE</span>
+                                        <div class="doom-bar"><div class="doom-bar-fill doom-bar-blue" id="confidenceBar" style="width:100%"></div></div>
+                                        <span class="doom-value" id="confidenceValue">100%</span>
+                                    </div>
+                                    <div class="doom-stat-row">
+                                        <span class="doom-label">AMMO</span>
+                                        <span class="doom-value doom-ammo" id="ammoValue">5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Game Over Screen -->
+                        <div class="game-screen game-over" id="interviewOver" style="display: none;">
+                            <div class="game-title" id="interviewOverTitle">GAME OVER</div>
+                            <div class="game-final-score">Round: <span id="interviewFinalRound">1</span> / 8</div>
+                            <div class="game-message" id="interviewOverMessage">The pipeline has claimed another one.</div>
+                            <div class="game-over-btns">
+                                <button class="game-btn" id="interviewWhoAmIBtn">👤 Meet the PM</button>
+                                <button class="game-btn game-btn-secondary" id="interviewPlayAgainBtn">🔄 Reapply</button>
+                            </div>
+                            <div class="game-over-cta">
+                                <div class="game-over-bio">Made by a PM who has survived this gauntlet more times than he'd like to admit.<br>Let's skip the games (the real ones, not these).</div>
+                                <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="game-btn game-btn-cta">Let's just talk like humans &rarr;</a>
+                                <div class="game-share">
+                                    Think hiring is broken? Share this:
+                                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fmiddleton.io%2Fkevinos%2F%3Fgame%3Dinterview" target="_blank">LinkedIn</a>
+                                    <span class="share-divider">&middot;</span>
+                                    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmiddleton.io%2Fkevinos%3Fgame%3Dinterview&text=I%20just%20played%20Interview%20Survival%20%F0%9F%92%BC%20-%20nobody%20wins" target="_blank">X</a>
+                                </div>
+                                <button class="game-btn-link see-all-games mobile-only" data-action="see-all-games">&larr; See All Games</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- recipes.db (Database-style view) -->
             <section class="window" id="recipesdb" data-window="recipesdb">
                 <header class="window-header">
@@ -1817,6 +1906,10 @@
             <button class="mobile-folder-item" data-game="standup">
                 <span class="icon-emoji">⌨️</span>
                 <span class="icon-label">Standup</span>
+            </button>
+            <button class="mobile-folder-item" data-game="interview">
+                <span class="icon-emoji">💼</span>
+                <span class="icon-label">Interview</span>
             </button>
         </div>
     </div>
