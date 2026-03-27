@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<!-- Built as a conversation starter. Excited to build this for real with the team. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resy × AI Agents: From Customer Journey to MCP Server — Kevin Middleton</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --amex-blue: #006FCF;
+  --amex-blue-dark: #00175A;
+  --amex-blue-light: #E6F0FA;
+  --amex-blue-soft: #EBF4FB;
+  --amex-blue-hover: #0058A6;
+  --amex-white: #FFFFFF;
+  --amex-green: #38A169;
+  --amex-green-light: #F0FFF4;
+  --amex-green-border: #C6F6D5;
+  --amex-orange: #E88A1A;
+  --amex-orange-light: #FFF5E6;
+  --amex-orange-border: #FCDDB0;
+  --amex-red: #C53030;
+  --amex-red-light: #FFF5F5;
+  --amex-red-border: #FED7D7;
+  --amex-purple: #6B46C1;
+  --amex-purple-light: #F5F0FF;
+  --amex-purple-border: #D6BCFA;
+  --dark: #1A202C;
+  --slate: #4A5568;
+  --gray: #718096;
+  --gray-medium: #A0AEC0;
+  --gray-border: #CBD5E0;
+  --border: #E2E8F0;
+  --light-gray: #F7FAFC;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,0.10);
+  --radius: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); background: var(--light-gray); }
+
+/* ===== HEADER ===== */
+.pres-header {
+  background: linear-gradient(135deg, var(--amex-blue-dark) 0%, #001E6C 50%, var(--amex-blue-dark) 100%);
+  color: white;
+  padding: 32px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pres-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+.pres-header .subtitle { color: rgba(255,255,255,0.7); font-size: 14px; margin-top: 4px; line-height: 1.5; max-width: 600px; }
+.pres-header .author { font-size: 13px; color: rgba(255,255,255,0.6); text-align: right; }
+.pres-header .author strong { color: white; }
+
+/* ===== TAB BAR ===== */
+.tab-bar {
+  background: white;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  padding: 0 48px;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+.tab {
+  padding: 16px 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+.tab:hover { color: var(--amex-blue); }
+.tab.active {
+  color: var(--amex-blue);
+  border-bottom-color: var(--amex-blue);
+}
+.tab .tab-num {
+  display: inline-block;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--gray);
+  font-size: 11px;
+  line-height: 22px;
+  text-align: center;
+  margin-right: 8px;
+  font-weight: 700;
+}
+.tab.active .tab-num {
+  background: var(--amex-blue);
+  color: white;
+}
+
+/* ===== TAB CONTENT ===== */
+.tab-content { display: none; animation: fadeIn 0.3s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== CONCEPT HEADER ===== */
+.concept-header {
+  background: linear-gradient(135deg, var(--amex-blue) 0%, var(--amex-blue-dark) 100%);
+  color: white;
+  padding: 56px 48px 48px;
+}
+.concept-label {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.9);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.concept-header h2 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.concept-header p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.85);
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* ===== CONTENT SECTIONS ===== */
+.content-section {
+  padding: 48px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+.content-section h3 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 24px;
+}
+
+/* ===== ANNOTATION (Why This Matters) ===== */
+.annotation {
+  background: #FFFFF0;
+  border: 1px solid #FEFCBF;
+  border-left: 4px solid #ECC94B;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+.annotation .annotation-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #975A16;
+  margin-bottom: 8px;
+}
+.annotation p {
+  font-size: 14px;
+  color: #744210;
+  line-height: 1.6;
+}
+
+/* Tech annotation */
+.tech-annotation {
+  background: #EBF8FF;
+  border: 1px solid #BEE3F8;
+  border-left: 4px solid var(--amex-blue);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+.tech-annotation .annotation-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #2B6CB0;
+  margin-bottom: 8px;
+}
+.tech-annotation p {
+  font-size: 14px;
+  color: #2A4365;
+  line-height: 1.6;
+}
+
+/* ===== JOURNEY FLOW ===== */
+.journey-flow {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  overflow-x: auto;
+  padding: 8px 0;
+}
+.journey-phase {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+  padding: 28px 24px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: all 0.2s ease;
+  cursor: default;
+}
+.journey-phase:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.journey-connector {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  color: var(--gray-border);
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.phase-number {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--amex-blue-light);
+  color: var(--amex-blue);
+  font-size: 14px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.journey-phase h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+.journey-phase p {
+  font-size: 13px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+.phase-tag {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--amex-blue-light);
+  color: var(--amex-blue);
+}
+
+/* ===== API CARDS ===== */
+.api-phase-group {
+  margin-bottom: 36px;
+}
+.api-phase-group:last-child { margin-bottom: 0; }
+.api-phase-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.api-phase-title .phase-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--amex-blue);
+}
+.api-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+.api-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: box-shadow 0.15s ease;
+}
+.api-card:hover { box-shadow: var(--shadow-md); }
+.api-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.http-method {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.method-get { background: var(--amex-green-light); color: var(--amex-green); }
+.method-post { background: var(--amex-blue-light); color: var(--amex-blue); }
+.method-put { background: var(--amex-orange-light); color: var(--amex-orange); }
+.method-delete { background: var(--amex-red-light); color: var(--amex-red); }
+.api-endpoint {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+}
+.api-params {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.api-params .param-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 6px;
+}
+.api-params code {
+  display: block;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  background: var(--light-gray);
+  padding: 10px 14px;
+  border-radius: 6px;
+  color: var(--slate);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.api-response {
+  margin-top: 10px;
+}
+.api-response .param-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 6px;
+}
+.api-response code {
+  display: block;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  background: var(--light-gray);
+  padding: 10px 14px;
+  border-radius: 6px;
+  color: var(--slate);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* ===== MCP TOOL CARDS ===== */
+.mcp-overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.mcp-diagram {
+  background: var(--amex-blue-dark);
+  border-radius: var(--radius);
+  padding: 36px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.mcp-diagram h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+.mcp-flow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.mcp-node {
+  padding: 14px 20px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 120px;
+}
+.mcp-node.agent { background: rgba(107,70,193,0.3); border: 1px solid rgba(107,70,193,0.6); }
+.mcp-node.server { background: rgba(0,111,207,0.3); border: 1px solid rgba(0,111,207,0.6); }
+.mcp-node.api { background: rgba(56,161,105,0.3); border: 1px solid rgba(56,161,105,0.6); }
+.mcp-arrow { color: rgba(255,255,255,0.4); font-size: 20px; }
+.mcp-desc {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px;
+}
+.mcp-desc h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 12px;
+}
+.mcp-desc p {
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.mcp-desc .key-insight {
+  background: var(--amex-blue-light);
+  border-radius: 6px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--amex-blue-dark);
+}
+
+.tool-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: box-shadow 0.15s ease;
+}
+.tool-card:hover { box-shadow: var(--shadow-md); }
+.tool-card-header {
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: var(--light-gray);
+  border-bottom: 1px solid var(--border);
+}
+.tool-card-header h4 {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+}
+.tool-access-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+.access-read { background: var(--amex-green-light); color: var(--amex-green); border: 1px solid var(--amex-green-border); }
+.access-action { background: var(--amex-orange-light); color: #C05621; border: 1px solid var(--amex-orange-border); }
+.access-elevated { background: var(--amex-red-light); color: var(--amex-red); border: 1px solid var(--amex-red-border); }
+.tool-card-body {
+  padding: 24px;
+}
+.tool-description {
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: var(--amex-blue-light);
+  border-radius: 6px;
+  border-left: 3px solid var(--amex-blue);
+}
+.tool-description .desc-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--amex-blue);
+  margin-bottom: 4px;
+}
+.tool-schema-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+.tool-schema {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  background: #1A202C;
+  color: #A0D8EF;
+  padding: 18px 20px;
+  border-radius: 6px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.tool-schema .json-key { color: #81E6D9; }
+.tool-schema .json-string { color: #FC8181; }
+.tool-schema .json-type { color: #A0D8EF; }
+
+/* ===== SPECTRUM ===== */
+.spectrum {
+  display: flex;
+  gap: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 24px 0;
+}
+.spectrum-step {
+  flex: 1;
+  padding: 24px 20px;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+.spectrum-step:nth-child(1) { background: var(--amex-blue); }
+.spectrum-step:nth-child(2) { background: var(--amex-blue-dark); }
+.spectrum-step:nth-child(3) { background: #000D33; }
+.spectrum-step h5 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.spectrum-step p { font-size: 12px; color: rgba(255,255,255,0.8); line-height: 1.5; }
+
+/* ===== GOVERNANCE CARDS ===== */
+.gov-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.gov-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: box-shadow 0.15s ease;
+}
+.gov-card:hover { box-shadow: var(--shadow-md); }
+.gov-card-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+.gov-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+.gov-card p {
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.6;
+}
+.gov-card ul {
+  list-style: none;
+  margin-top: 12px;
+}
+.gov-card ul li {
+  font-size: 13px;
+  color: var(--slate);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+.gov-card ul li:last-child { border-bottom: none; }
+.gov-check { color: var(--amex-green); font-weight: 700; flex-shrink: 0; }
+.gov-x { color: var(--amex-red); font-weight: 700; flex-shrink: 0; }
+
+/* ===== VISION TIMELINE ===== */
+.vision-timeline {
+  position: relative;
+  padding-left: 40px;
+}
+.vision-timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--amex-blue), var(--amex-blue-dark), #000D33);
+}
+.vision-item {
+  position: relative;
+  margin-bottom: 36px;
+  padding: 28px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: box-shadow 0.15s ease;
+}
+.vision-item:hover { box-shadow: var(--shadow-md); }
+.vision-item:last-child { margin-bottom: 0; }
+.vision-dot {
+  position: absolute;
+  left: -33px;
+  top: 28px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--amex-blue);
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--amex-blue);
+}
+.vision-item:nth-child(2) .vision-dot { background: var(--amex-blue-dark); box-shadow: 0 0 0 2px var(--amex-blue-dark); }
+.vision-item:nth-child(3) .vision-dot { background: #000D33; box-shadow: 0 0 0 2px #000D33; }
+.vision-item:nth-child(4) .vision-dot { background: var(--amex-purple); box-shadow: 0 0 0 2px var(--amex-purple); }
+.vision-time-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.time-now { background: var(--amex-green-light); color: var(--amex-green); }
+.time-next { background: var(--amex-blue-light); color: var(--amex-blue); }
+.time-future { background: var(--amex-purple-light); color: var(--amex-purple); }
+.time-horizon { background: #1A202C; color: white; }
+.vision-item h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+.vision-item p {
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.7;
+}
+.vision-examples {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.vision-examples span {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background: var(--light-gray);
+  color: var(--slate);
+  margin: 3px 4px 3px 0;
+}
+
+/* ===== TRUST MODEL CALLOUT ===== */
+.trust-callout {
+  background: linear-gradient(135deg, var(--amex-blue-dark) 0%, #000D33 100%);
+  color: white;
+  border-radius: var(--radius);
+  padding: 40px;
+  margin: 32px 0;
+  text-align: center;
+}
+.trust-callout h4 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+.trust-callout p {
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ===== FOOTER ===== */
+.tab-footer {
+  padding: 32px 48px;
+  background: var(--light-gray);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.tab-footer p {
+  font-size: 14px;
+  color: var(--gray);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.tab-footer a {
+  display: inline-block;
+  background: var(--amex-blue);
+  color: white;
+  text-decoration: none;
+  padding: 10px 28px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+.tab-footer a:hover { background: var(--amex-blue-hover); }
+
+/* ===== DATA FLOW TABLE ===== */
+.data-flow-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.data-flow-table th {
+  background: var(--amex-blue-dark);
+  color: white;
+  padding: 14px 20px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.data-flow-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  color: var(--slate);
+  line-height: 1.5;
+}
+.data-flow-table tr:nth-child(even) td { background: var(--light-gray); }
+.data-flow-table .badge-expose {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: var(--amex-green-light);
+  color: var(--amex-green);
+}
+.data-flow-table .badge-internal {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: var(--amex-red-light);
+  color: var(--amex-red);
+}
+.data-flow-table .badge-partial {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: var(--amex-orange-light);
+  color: #C05621;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .pres-header { flex-direction: column; gap: 16px; padding: 24px; }
+  .pres-header .author { text-align: left; }
+  .tab-bar { padding: 0 16px; }
+  .tab { padding: 14px 16px; font-size: 12px; }
+  .concept-header { padding: 36px 24px; }
+  .concept-header h2 { font-size: 24px; }
+  .content-section { padding: 28px 24px; }
+  .journey-flow { flex-direction: column; }
+  .journey-connector { transform: rotate(90deg); padding: 4px 0; justify-content: center; }
+  .api-cards { grid-template-columns: 1fr; }
+  .mcp-overview { grid-template-columns: 1fr; }
+  .gov-grid { grid-template-columns: 1fr; }
+  .mcp-flow { flex-direction: column; }
+  .mcp-arrow { transform: rotate(90deg); }
+  .spectrum { flex-direction: column; }
+  .tab-footer { padding: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="pres-header">
+  <div>
+    <h1>Resy &times; AI Agents: From Customer Journey to MCP Server</h1>
+    <div class="subtitle">How Resy's platform capabilities become tools for AI agent-facilitated dining experiences</div>
+  </div>
+  <div class="author">
+    <strong>Kevin Middleton</strong><br>
+    Prepared for American Express Digital Labs
+  </div>
+</header>
+
+<!-- TAB BAR -->
+<nav class="tab-bar">
+  <div class="tab active" onclick="switchTab(0)"><span class="tab-num">1</span>Customer Journey</div>
+  <div class="tab" onclick="switchTab(1)"><span class="tab-num">2</span>API Architecture</div>
+  <div class="tab" onclick="switchTab(2)"><span class="tab-num">3</span>MCP Server Design</div>
+  <div class="tab" onclick="switchTab(3)"><span class="tab-num">4</span>Guardrails &amp; Governance</div>
+  <div class="tab" onclick="switchTab(4)"><span class="tab-num">5</span>Vision</div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- TAB 1: CUSTOMER JOURNEY -->
+<!-- ============================================================ -->
+<div class="tab-content active" id="tab-0">
+  <div class="concept-header">
+    <div class="concept-label">Tab 1 of 5</div>
+    <h2>The Resy Customer Journey</h2>
+    <p>Before designing for AI agents, we need to understand the human journey they'll facilitate. Every phase maps to platform capabilities that become MCP tools.</p>
+  </div>
+
+  <div class="content-section">
+    <h3>Journey Phases</h3>
+    <div class="journey-flow">
+      <div class="journey-phase">
+        <div class="phase-number">1</div>
+        <h4>Discovery</h4>
+        <p>Cardholder discovers restaurants through editorial content, SEO-driven articles, and curated lists on Resy.</p>
+        <span class="phase-tag">Content &amp; SEO</span>
+      </div>
+      <div class="journey-connector">&rarr;</div>
+      <div class="journey-phase">
+        <div class="phase-number">2</div>
+        <h4>Search</h4>
+        <p>Filters by date, party size, cuisine, location, and availability. This is where intent becomes specific.</p>
+        <span class="phase-tag">Structured Query</span>
+      </div>
+      <div class="journey-connector">&rarr;</div>
+      <div class="journey-phase">
+        <div class="phase-number">3</div>
+        <h4>Login</h4>
+        <p>Frictionless mobile auth via SMS verification. Establishes identity and links to Amex cardholder profile.</p>
+        <span class="phase-tag">Authentication</span>
+      </div>
+      <div class="journey-connector">&rarr;</div>
+      <div class="journey-phase">
+        <div class="phase-number">4</div>
+        <h4>Booking</h4>
+        <p>Select timeslot, hold reservation, confirm payment method, and finalize. The critical transaction moment.</p>
+        <span class="phase-tag">Transaction</span>
+      </div>
+      <div class="journey-connector">&rarr;</div>
+      <div class="journey-phase">
+        <div class="phase-number">5</div>
+        <h4>Post-Booking</h4>
+        <p>Modify party size, change time, or cancel entirely. Ongoing relationship management with the reservation.</p>
+        <span class="phase-tag">Lifecycle</span>
+      </div>
+    </div>
+
+    <div class="annotation">
+      <div class="annotation-label">Why This Matters</div>
+      <p>Each of these five phases represents a distinct capability surface. When we build an MCP server, we're not exposing a monolithic API &mdash; we're giving AI agents a toolkit that mirrors how humans actually navigate the experience. The agent needs to <em>discover</em>, <em>search</em>, <em>authenticate</em>, <em>transact</em>, and <em>manage</em> &mdash; just like a person does.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>What Changes with AI Agents</h3>
+    <div class="gov-grid">
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-blue-light); color: var(--amex-blue);">&#x1F464;</div>
+        <h4>Human Journey (Today)</h4>
+        <p>The cardholder navigates Resy's UI, taps through filters, reads reviews, and confirms their own booking. Every decision has a visual confirmation step.</p>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-purple-light); color: var(--amex-purple);">&#x1F916;</div>
+        <h4>Agent-Facilitated Journey (Tomorrow)</h4>
+        <p>An AI agent traverses the same journey programmatically. It reads tool descriptions instead of UI labels, calls functions instead of tapping buttons, and needs guardrails instead of visual confirmations.</p>
+      </div>
+    </div>
+    <div class="tech-annotation">
+      <div class="annotation-label">Key Design Principle</div>
+      <p>The MCP server doesn't replace the customer journey &mdash; it <strong>encodes</strong> it. Every tool maps to a journey phase, every parameter mirrors a UI input, and every access control replicates a visual gate (like the login screen or the "Confirm Booking" button).</p>
+    </div>
+  </div>
+
+  <div class="tab-footer">
+    <p>"Built as a conversation starter. Excited to build this for real with the team."</p>
+    <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank">Schedule a Conversation &rarr;</a>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 2: API ARCHITECTURE -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-1">
+  <div class="concept-header">
+    <div class="concept-label">Tab 2 of 5</div>
+    <h2>API Architecture</h2>
+    <p>Each journey phase is powered by specific API endpoints. These become the building blocks for MCP tool definitions.</p>
+  </div>
+
+  <div class="content-section" style="background: var(--light-gray);">
+    <!-- Discovery -->
+    <div class="api-phase-group">
+      <div class="api-phase-title"><div class="phase-dot"></div> Phase 1: Discovery</div>
+      <div class="api-cards">
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-get">GET</span>
+            <span class="api-endpoint">/articles/{id}</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>id: string  // Article identifier</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ title, body, restaurants[], tags[] }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-get">GET</span>
+            <span class="api-endpoint">/articles</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>category?: string
+location?: string</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ articles: [{ id, title, summary }] }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-get">GET</span>
+            <span class="api-endpoint">/content</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>type: "list" | "guide" | "featured"
+location?: string</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ content: [{ title, items[], type }] }</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="api-phase-group">
+      <div class="api-phase-title"><div class="phase-dot"></div> Phase 2: Search</div>
+      <div class="api-cards">
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-get">GET</span>
+            <span class="api-endpoint">/restaurants</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>date: string      // YYYY-MM-DD
+party_size: number
+location: string  // lat,lng or city
+cuisine?: string
+price_range?: number</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ restaurants: [{ id, name, cuisine,
+  rating, price_range, available_slots[] }] }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-get">GET</span>
+            <span class="api-endpoint">/restaurants/{id}</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>id: string
+date: string      // YYYY-MM-DD
+party_size: number</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ name, description, cuisine, rating,
+  photos[], reviews[], menu_url,
+  available_timeslots: [{ id, time, type }] }</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div class="api-phase-group">
+      <div class="api-phase-title"><div class="phase-dot"></div> Phase 3: Login</div>
+      <div class="api-cards">
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-post">POST</span>
+            <span class="api-endpoint">/auth/verify/send</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>phone: string  // E.164 format</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ sent: true, expires_in: 300 }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-post">POST</span>
+            <span class="api-endpoint">/auth/verify/confirm</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>phone: string
+code: string  // 6-digit SMS code</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ token: "eyJhb...", user_id: "u_123",
+  expires_at: "2026-03-28T..." }</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking -->
+    <div class="api-phase-group">
+      <div class="api-phase-title"><div class="phase-dot"></div> Phase 4: Booking</div>
+      <div class="api-cards">
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-get">GET</span>
+            <span class="api-endpoint">/timeslots/{id}</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>id: string  // Timeslot identifier</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ id, restaurant_id, time, type,
+  deposit_required, cancellation_policy }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-post">POST</span>
+            <span class="api-endpoint">/reservations/hold</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>timeslot_id: string
+hold_until: string  // ISO timestamp</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ hold_id: "h_456", expires_at: "...",
+  status: "held" }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-get">GET</span>
+            <span class="api-endpoint">/profiles/{id}</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>id: string  // User profile ID</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ name, email, phone,
+  payment_methods: [{ id, last4, type }],
+  dietary_preferences[] }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-post">POST</span>
+            <span class="api-endpoint">/payment/cards</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>token: string  // Payment token</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ card_id, last4, brand, status }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-post">POST</span>
+            <span class="api-endpoint">/reservations</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>restaurant_id: string
+timeslot_id: string
+party_size: number
+payment_method_id: string
+special_requests?: string</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ reservation_id: "r_789",
+  confirmation_code: "RESY-ABC123",
+  status: "confirmed" }</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Post-Booking -->
+    <div class="api-phase-group">
+      <div class="api-phase-title"><div class="phase-dot"></div> Phase 5: Post-Booking</div>
+      <div class="api-cards">
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-put">PUT</span>
+            <span class="api-endpoint">/reservations/{id}</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>id: string
+party_size?: number
+timeslot_id?: string
+special_requests?: string</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ reservation_id, status: "modified",
+  updated_fields[] }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-delete">DELETE</span>
+            <span class="api-endpoint">/reservations/{id}</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>id: string  // Reservation identifier</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ status: "cancelled",
+  cancellation_fee: null,
+  refund_amount: 0.00 }</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotation">
+      <div class="annotation-label">Why This Matters</div>
+      <p>Notice the <strong>hold pattern</strong> in Phase 4: the reservation flow uses a two-step commit. <code>POST /reservations/hold</code> creates a temporary lock, then <code>POST /reservations</code> finalizes. This pattern is critical for agentic experiences &mdash; it lets an AI agent secure a timeslot while the cardholder confirms, without risking a lost booking or an unauthorized charge.</p>
+    </div>
+  </div>
+
+  <div class="tab-footer">
+    <p>"Built as a conversation starter. Excited to build this for real with the team."</p>
+    <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank">Schedule a Conversation &rarr;</a>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 3: MCP SERVER DESIGN -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-2">
+  <div class="concept-header">
+    <div class="concept-label">Tab 3 of 5</div>
+    <h2>MCP Server Design</h2>
+    <p>The Model Context Protocol turns Resy's APIs into tools that any AI agent can discover, understand, and invoke. Tool descriptions become "UX for machines."</p>
+  </div>
+
+  <div class="content-section">
+    <h3>Architecture Overview</h3>
+    <div class="mcp-overview">
+      <div class="mcp-diagram">
+        <h4>MCP Server Flow</h4>
+        <div class="mcp-flow">
+          <div class="mcp-node agent">AI Agent<br><small style="opacity:0.7">Claude, GPT, etc.</small></div>
+          <div class="mcp-arrow">&rarr;</div>
+          <div class="mcp-node server">Resy MCP Server<br><small style="opacity:0.7">Tool definitions + auth</small></div>
+          <div class="mcp-arrow">&rarr;</div>
+          <div class="mcp-node api">Resy Platform APIs<br><small style="opacity:0.7">Existing endpoints</small></div>
+        </div>
+        <p style="margin-top: 24px; font-size: 13px; color: rgba(255,255,255,0.6); text-align: center;">The MCP server is a translation layer: it wraps existing APIs with tool metadata that agents can reason about.</p>
+      </div>
+      <div class="mcp-desc">
+        <h4>Why MCP, Not Just an API?</h4>
+        <p>APIs are built for developers who read docs. MCP tools are built for AI agents that read <strong>descriptions</strong>. The tool's description, parameter names, and schema <em>are</em> the interface.</p>
+        <p>An agent doesn't browse Resy's API docs &mdash; it reads tool definitions at runtime and decides what to call based on the user's intent.</p>
+        <div class="key-insight">Tool descriptions are UX for machines. Write them like you're explaining the tool to a smart assistant who has never seen your product.</div>
+      </div>
+    </div>
+
+    <h3>The Agentic Spectrum</h3>
+    <div class="spectrum">
+      <div class="spectrum-step">
+        <h5>Informational</h5>
+        <p>Read-only access. Search restaurants, check availability, view details.</p>
+      </div>
+      <div class="spectrum-step">
+        <h5>Assistive</h5>
+        <p>Agent suggests + holds. Cardholder confirms the final action.</p>
+      </div>
+      <div class="spectrum-step">
+        <h5>Fully Agentic</h5>
+        <p>Agent books, modifies, cancels on cardholder's behalf autonomously.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section" style="background: var(--light-gray);">
+    <h3>Tool Definitions</h3>
+
+    <!-- Tool 1: search_restaurants -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <h4>search_restaurants</h4>
+        <span class="tool-access-tag access-read">Read-Only</span>
+      </div>
+      <div class="tool-card-body">
+        <div class="tool-description">
+          <div class="desc-label">Tool Description (What the Agent Reads)</div>
+          Search for available restaurants on Resy by date, party size, and location. Returns a list of restaurants with available reservation times. Use this when a user wants to find somewhere to eat. Always ask for date and party size before calling.
+        </div>
+        <div class="tool-schema-label">Input Schema</div>
+        <div class="tool-schema">{
+  "<span class="json-key">type</span>": "<span class="json-string">object</span>",
+  "<span class="json-key">properties</span>": {
+    "<span class="json-key">date</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Date in YYYY-MM-DD format</span>" },
+    "<span class="json-key">party_size</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>", "<span class="json-key">minimum</span>": <span class="json-type">1</span>, "<span class="json-key">maximum</span>": <span class="json-type">20</span> },
+    "<span class="json-key">location</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">City name or lat,lng coordinates</span>" },
+    "<span class="json-key">cuisine</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Optional cuisine filter (e.g. italian, japanese)</span>" }
+  },
+  "<span class="json-key">required</span>": ["<span class="json-string">date</span>", "<span class="json-string">party_size</span>", "<span class="json-string">location</span>"]
+}</div>
+      </div>
+    </div>
+
+    <!-- Tool 2: get_restaurant_details -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <h4>get_restaurant_details</h4>
+        <span class="tool-access-tag access-read">Read-Only</span>
+      </div>
+      <div class="tool-card-body">
+        <div class="tool-description">
+          <div class="desc-label">Tool Description (What the Agent Reads)</div>
+          Get detailed information about a specific restaurant including description, photos, reviews, menu link, and available timeslots for a given date and party size. Use this after search_restaurants when a user wants more info about a specific place.
+        </div>
+        <div class="tool-schema-label">Input Schema</div>
+        <div class="tool-schema">{
+  "<span class="json-key">type</span>": "<span class="json-string">object</span>",
+  "<span class="json-key">properties</span>": {
+    "<span class="json-key">restaurant_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>" },
+    "<span class="json-key">date</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">YYYY-MM-DD</span>" },
+    "<span class="json-key">party_size</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>" }
+  },
+  "<span class="json-key">required</span>": ["<span class="json-string">restaurant_id</span>", "<span class="json-string">date</span>", "<span class="json-string">party_size</span>"]
+}</div>
+      </div>
+    </div>
+
+    <!-- Tool 3: check_availability -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <h4>check_availability</h4>
+        <span class="tool-access-tag access-read">Read-Only</span>
+      </div>
+      <div class="tool-card-body">
+        <div class="tool-description">
+          <div class="desc-label">Tool Description (What the Agent Reads)</div>
+          Check real-time availability for a specific timeslot at a restaurant. Returns whether the slot is still open, any deposit requirements, and the cancellation policy. Call this before attempting to create a reservation to verify the slot hasn't been taken.
+        </div>
+        <div class="tool-schema-label">Input Schema</div>
+        <div class="tool-schema">{
+  "<span class="json-key">type</span>": "<span class="json-string">object</span>",
+  "<span class="json-key">properties</span>": {
+    "<span class="json-key">timeslot_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Timeslot ID from restaurant details</span>" }
+  },
+  "<span class="json-key">required</span>": ["<span class="json-string">timeslot_id</span>"]
+}</div>
+      </div>
+    </div>
+
+    <!-- Tool 4: create_reservation -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <h4>create_reservation</h4>
+        <span class="tool-access-tag access-action">Action &mdash; Requires Auth</span>
+      </div>
+      <div class="tool-card-body">
+        <div class="tool-description">
+          <div class="desc-label">Tool Description (What the Agent Reads)</div>
+          Create a reservation at a restaurant. This first places a temporary hold (5 minutes), then confirms if the cardholder approves. IMPORTANT: This action uses the cardholder's payment method and should only be called after explicit user confirmation. The hold pattern ensures no charge occurs without approval.
+        </div>
+        <div class="tool-schema-label">Input Schema</div>
+        <div class="tool-schema">{
+  "<span class="json-key">type</span>": "<span class="json-string">object</span>",
+  "<span class="json-key">properties</span>": {
+    "<span class="json-key">restaurant_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>" },
+    "<span class="json-key">timeslot_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>" },
+    "<span class="json-key">party_size</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>" },
+    "<span class="json-key">payment_method_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">From cardholder profile</span>" },
+    "<span class="json-key">special_requests</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>" }
+  },
+  "<span class="json-key">required</span>": ["<span class="json-string">restaurant_id</span>", "<span class="json-string">timeslot_id</span>", "<span class="json-string">party_size</span>", "<span class="json-string">payment_method_id</span>"]
+}</div>
+        <div class="tech-annotation" style="margin-top: 16px; margin-bottom: 0;">
+          <div class="annotation-label">Access Control Note</div>
+          <p>This tool requires an <strong>OAuth token with <code>reservations:write</code> scope</strong>. In the assistive model, the MCP server places a hold and returns a confirmation prompt. The cardholder must approve before the hold converts to a confirmed reservation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tool 5: manage_reservation -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <h4>manage_reservation</h4>
+        <span class="tool-access-tag access-elevated">Elevated &mdash; Cardholder Re-confirm</span>
+      </div>
+      <div class="tool-card-body">
+        <div class="tool-description">
+          <div class="desc-label">Tool Description (What the Agent Reads)</div>
+          Modify or cancel an existing reservation. Supports changing party size, time, or cancelling entirely. Cancellations may incur fees depending on the restaurant's policy. Always confirm the action and any potential fees with the cardholder before proceeding.
+        </div>
+        <div class="tool-schema-label">Input Schema</div>
+        <div class="tool-schema">{
+  "<span class="json-key">type</span>": "<span class="json-string">object</span>",
+  "<span class="json-key">properties</span>": {
+    "<span class="json-key">reservation_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>" },
+    "<span class="json-key">action</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">enum</span>": ["<span class="json-string">modify</span>", "<span class="json-string">cancel</span>"] },
+    "<span class="json-key">changes</span>": {
+      "<span class="json-key">type</span>": "<span class="json-string">object</span>",
+      "<span class="json-key">properties</span>": {
+        "<span class="json-key">party_size</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>" },
+        "<span class="json-key">timeslot_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>" }
+      }
+    }
+  },
+  "<span class="json-key">required</span>": ["<span class="json-string">reservation_id</span>", "<span class="json-string">action</span>"]
+}</div>
+        <div class="annotation" style="margin-top: 16px; margin-bottom: 0;">
+          <div class="annotation-label">Why This Matters</div>
+          <p>Cancellation fees in dining can range from $25 to $250+ per person at premium restaurants. An AI agent cancelling a 4-person reservation at a fine dining spot could trigger a $500+ charge. This is why <code>manage_reservation</code> requires <strong>elevated access</strong> &mdash; the cardholder must re-confirm any action with financial consequences.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-footer">
+    <p>"Built as a conversation starter. Excited to build this for real with the team."</p>
+    <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank">Schedule a Conversation &rarr;</a>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 4: GUARDRAILS & GOVERNANCE -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-3">
+  <div class="concept-header" style="background: linear-gradient(135deg, #1A202C 0%, var(--amex-blue-dark) 100%);">
+    <div class="concept-label">Tab 4 of 5</div>
+    <h2>Guardrails &amp; Governance</h2>
+    <p>The trust model for agent-initiated financial actions in a regulated environment. What gets exposed, what stays internal, and how we protect the cardholder.</p>
+  </div>
+
+  <div class="content-section">
+    <h3>Data Exposure Model</h3>
+    <table class="data-flow-table">
+      <thead>
+        <tr>
+          <th>Data Element</th>
+          <th>Expose to Partner Agents?</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Restaurant name, cuisine, location</td>
+          <td><span class="badge-expose">Expose</span></td>
+          <td>Public information needed for search and recommendation</td>
+        </tr>
+        <tr>
+          <td>Available timeslots</td>
+          <td><span class="badge-expose">Expose</span></td>
+          <td>Core functionality &mdash; agent needs this to facilitate booking</td>
+        </tr>
+        <tr>
+          <td>Pricing / deposit amounts</td>
+          <td><span class="badge-expose">Expose</span></td>
+          <td>Cardholder must know costs before committing</td>
+        </tr>
+        <tr>
+          <td>Cardholder name (first name only)</td>
+          <td><span class="badge-partial">Partial</span></td>
+          <td>Personalization without full PII exposure</td>
+        </tr>
+        <tr>
+          <td>Payment method (last 4 digits)</td>
+          <td><span class="badge-partial">Partial</span></td>
+          <td>Confirmation display only &mdash; never full card number</td>
+        </tr>
+        <tr>
+          <td>Full cardholder profile</td>
+          <td><span class="badge-internal">Internal Only</span></td>
+          <td>PII stays server-side. Agent sees tokenized references.</td>
+        </tr>
+        <tr>
+          <td>Payment processing details</td>
+          <td><span class="badge-internal">Internal Only</span></td>
+          <td>Handled entirely by Resy MCP server &mdash; agent never touches payment rails</td>
+        </tr>
+        <tr>
+          <td>Reservation history / frequency</td>
+          <td><span class="badge-internal">Internal Only</span></td>
+          <td>Behavioral data stays internal to avoid profiling by third parties</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="annotation">
+      <div class="annotation-label">Why This Matters</div>
+      <p>The MCP server acts as a <strong>data firewall</strong>. Partner AI agents get exactly what they need to facilitate the experience &mdash; and nothing more. The agent never sees a full card number, never accesses raw payment rails, and never gets behavioral history that could be used for competitive profiling.</p>
+    </div>
+  </div>
+
+  <div class="content-section" style="background: var(--light-gray);">
+    <h3>Safety Patterns</h3>
+    <div class="gov-grid">
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-blue-light); color: var(--amex-blue);">&#x1F512;</div>
+        <h4>Hold-Before-Commit Pattern</h4>
+        <p>The reservation flow uses a two-phase commit: hold, then confirm. This is the key safety mechanism for agentic booking.</p>
+        <ul>
+          <li><span class="gov-check">1</span> Agent calls <code>create_reservation</code> &rarr; MCP server places a 5-minute hold</li>
+          <li><span class="gov-check">2</span> Hold details returned to agent (restaurant, time, any deposit)</li>
+          <li><span class="gov-check">3</span> Agent presents hold to cardholder for confirmation</li>
+          <li><span class="gov-check">4</span> Cardholder confirms &rarr; hold converts to reservation</li>
+          <li><span class="gov-x">&times;</span> If cardholder doesn't confirm within 5 minutes, hold expires automatically</li>
+        </ul>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x1F511;</div>
+        <h4>OAuth Token Scoping</h4>
+        <p>Different agent interactions require different permission levels, controlled via OAuth scopes.</p>
+        <ul>
+          <li><span class="gov-check">&#10003;</span> <code>restaurants:read</code> &mdash; Search and view restaurants (any agent)</li>
+          <li><span class="gov-check">&#10003;</span> <code>availability:read</code> &mdash; Check timeslot availability</li>
+          <li><span class="gov-check">&#10003;</span> <code>reservations:read</code> &mdash; View existing reservations</li>
+          <li><span class="gov-check">&#10003;</span> <code>reservations:write</code> &mdash; Create reservations (requires cardholder auth)</li>
+          <li><span class="gov-check">&#10003;</span> <code>reservations:manage</code> &mdash; Modify/cancel (requires re-confirmation)</li>
+        </ul>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-orange-light); color: var(--amex-orange);">&#x1F6E1;</div>
+        <h4>The Trust Model</h4>
+        <p style="font-weight: 600; color: var(--dark); font-size: 15px; line-height: 1.6;">"You're authorizing actions on behalf of a cardholder through a third-party agent."</p>
+        <p style="margin-top: 10px;">Three parties, three trust relationships:</p>
+        <ul>
+          <li><span class="gov-check">&#10003;</span> <strong>Cardholder &harr; Amex:</strong> Existing trust. Cardholder trusts Amex with payment.</li>
+          <li><span class="gov-check">&#10003;</span> <strong>Cardholder &harr; Agent:</strong> New trust. User chose to use this AI assistant.</li>
+          <li><span class="gov-check">&#10003;</span> <strong>Amex &harr; Agent:</strong> Partnership trust. MCP server defines what the agent can do.</li>
+        </ul>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-red-light); color: var(--amex-red);">&#x2696;</div>
+        <h4>Financial Services Compliance</h4>
+        <p>Additional considerations for a regulated financial institution operating in the agentic space.</p>
+        <ul>
+          <li><span class="gov-check">&#10003;</span> <strong>Audit trail:</strong> Every agent-initiated action logged with agent ID, timestamp, and cardholder consent token</li>
+          <li><span class="gov-check">&#10003;</span> <strong>Rate limiting:</strong> Per-agent, per-cardholder action limits prevent runaway agents</li>
+          <li><span class="gov-check">&#10003;</span> <strong>Revocation:</strong> Cardholder can revoke agent access at any time via Amex app</li>
+          <li><span class="gov-check">&#10003;</span> <strong>Dispute path:</strong> Agent-initiated transactions follow same dispute flow as card-present</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tech-annotation">
+      <div class="annotation-label">Design Principle</div>
+      <p>The MCP server should be <strong>paranoid by default</strong>. Start with the narrowest possible permissions, and expand only when the cardholder explicitly opts in. The same principle that governs card-not-present transactions applies here: higher risk of fraud means tighter controls.</p>
+    </div>
+  </div>
+
+  <div class="tab-footer">
+    <p>"Built as a conversation starter. Excited to build this for real with the team."</p>
+    <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank">Schedule a Conversation &rarr;</a>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 5: VISION -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-4">
+  <div class="concept-header" style="background: linear-gradient(135deg, var(--amex-blue-dark) 0%, #000D33 100%);">
+    <div class="concept-label">Tab 5 of 5</div>
+    <h2>Where This Goes</h2>
+    <p>From informational tools today to fully agentic dining experiences tomorrow. The progression is deliberate &mdash; each stage builds trust and proves the model before unlocking the next.</p>
+  </div>
+
+  <div class="content-section">
+    <h3>The Agentic Roadmap</h3>
+    <div class="vision-timeline">
+      <div class="vision-item">
+        <div class="vision-dot"></div>
+        <span class="vision-time-tag time-now">Today</span>
+        <h4>Informational</h4>
+        <p>AI agents can search restaurants, check availability, and view details on behalf of the cardholder. No actions are taken &mdash; the agent is purely a research assistant for dining decisions.</p>
+        <div class="vision-examples">
+          <span>Search restaurants by cuisine</span>
+          <span>Check availability for a date</span>
+          <span>View restaurant details and reviews</span>
+          <span>List existing reservations</span>
+        </div>
+      </div>
+      <div class="vision-item">
+        <div class="vision-dot"></div>
+        <span class="vision-time-tag time-next">Next</span>
+        <h4>Assistive</h4>
+        <p>The agent can suggest options and place temporary holds, but the cardholder always confirms. The hold pattern is the safety mechanism &mdash; nothing commits without human approval. This is where we prove the trust model works.</p>
+        <div class="vision-examples">
+          <span>Agent suggests 3 options</span>
+          <span>Places hold on preferred choice</span>
+          <span>Cardholder confirms in Amex app</span>
+          <span>Hold converts to reservation</span>
+        </div>
+      </div>
+      <div class="vision-item">
+        <div class="vision-dot"></div>
+        <span class="vision-time-tag time-future">Future</span>
+        <h4>Fully Agentic</h4>
+        <p>With established trust and proven safety patterns, AI agents can book, modify, and cancel reservations autonomously. The cardholder sets preferences and constraints ("Italian, under $50pp, near my hotel") and the agent handles the rest, including rebooking if plans change.</p>
+        <div class="vision-examples">
+          <span>Autonomous booking within constraints</span>
+          <span>Proactive rebooking on cancellation</span>
+          <span>Calendar-aware scheduling</span>
+          <span>Preference learning over time</span>
+        </div>
+      </div>
+      <div class="vision-item">
+        <div class="vision-dot"></div>
+        <span class="vision-time-tag time-horizon">Horizon</span>
+        <h4>Agent-to-Agent Coordination</h4>
+        <p>The Amex agent doesn't operate alone. It coordinates with airline agents, hotel agents, and restaurant agents to orchestrate complete travel experiences. "Book dinner near my hotel the night before my morning flight" becomes a multi-agent conversation.</p>
+        <div class="vision-examples">
+          <span>Amex agent + airline agent</span>
+          <span>Hotel concierge agent coordination</span>
+          <span>Multi-restaurant itineraries</span>
+          <span>Trip-aware dining suggestions</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust-callout">
+      <h4>The Strategic Insight</h4>
+      <p>Whoever figures out the trust model for agent-initiated financial actions first wins the agentic finance space. Amex is uniquely positioned: you already have the cardholder trust, the merchant relationships, and now with Resy, the platform to prove it works.</p>
+    </div>
+  </div>
+
+  <div class="content-section" style="background: var(--light-gray);">
+    <h3>Why Resy Is the Right Starting Point</h3>
+    <div class="gov-grid">
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
+        <h4>Bounded Transaction Size</h4>
+        <p>Restaurant reservations are low-to-medium stakes ($50-$500 deposits). Perfect for building trust in agent-initiated financial actions before expanding to higher-stakes domains like travel or shopping.</p>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
+        <h4>Clear Reversibility</h4>
+        <p>Cancellation policies are well-defined and time-bound. If an agent makes a mistake, the blast radius is contained and the remedy path is clear.</p>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
+        <h4>High Intent Signal</h4>
+        <p>When someone asks an AI to book a restaurant, the intent is unambiguous. Compare this to "buy me something nice" &mdash; dining has structured inputs (date, time, party size) that reduce agent error.</p>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
+        <h4>Owned Platform</h4>
+        <p>Amex owns Resy. You control the API surface, the data model, and the trust boundaries. No third-party dependency for the initial proof of concept.</p>
+      </div>
+    </div>
+
+    <div class="annotation">
+      <div class="annotation-label">The Bigger Picture</div>
+      <p>Resy is the proving ground. The patterns you build here &mdash; hold-before-commit, scoped OAuth for agents, cardholder re-confirmation for financial actions &mdash; become the template for agentic experiences across every Amex product. Travel, shopping, financial planning. It all starts with "Book me a table for two on Friday."</p>
+    </div>
+  </div>
+
+  <div class="tab-footer">
+    <p>"Built as a conversation starter. Excited to build this for real with the team."</p>
+    <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank">Schedule a Conversation &rarr;</a>
+  </div>
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+function switchTab(index) {
+  // Update tab bar
+  document.querySelectorAll('.tab').forEach((tab, i) => {
+    tab.classList.toggle('active', i === index);
+  });
+  // Update tab content
+  document.querySelectorAll('.tab-content').forEach((content, i) => {
+    content.classList.toggle('active', i === index);
+  });
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  const tabs = document.querySelectorAll('.tab');
+  const activeIndex = Array.from(tabs).findIndex(t => t.classList.contains('active'));
+  if (e.key === 'ArrowRight' && activeIndex < tabs.length - 1) {
+    switchTab(activeIndex + 1);
+  } else if (e.key === 'ArrowLeft' && activeIndex > 0) {
+    switchTab(activeIndex - 1);
+  }
+});
+</script>
+</body>
+</html>
