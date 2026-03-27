@@ -69,6 +69,9 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
   z-index: 100;
   box-shadow: var(--shadow-sm);
   overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 .tab {
   padding: 16px 24px;
@@ -78,6 +81,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
   cursor: pointer;
   border-bottom: 3px solid transparent;
   margin-bottom: -2px;
+  flex-shrink: 0;
   transition: all 0.15s ease;
   white-space: nowrap;
   user-select: none;
