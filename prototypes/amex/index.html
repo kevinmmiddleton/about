@@ -973,15 +973,15 @@ location?: string</code>
         <div class="api-card">
           <div class="api-card-header">
             <span class="http-method method-get">GET</span>
-            <span class="api-endpoint">/restaurants</span>
+            <span class="api-endpoint">/cities/{city}/search</span>
           </div>
           <div class="api-params">
             <div class="param-label">Parameters</div>
-            <code>date: string      // YYYY-MM-DD
-party_size: number
-location: string  // lat,lng or city
-cuisine?: string
-price_range?: number</code>
+            <code>city: string      // e.g. "new-york-ny"
+date: string      // YYYY-MM-DD
+seats: number
+query?: string    // e.g. "Pizza"
+activeView?: string // "list" | "map"</code>
           </div>
           <div class="api-response">
             <div class="param-label">Response</div>
@@ -992,13 +992,14 @@ price_range?: number</code>
         <div class="api-card">
           <div class="api-card-header">
             <span class="http-method method-get">GET</span>
-            <span class="api-endpoint">/restaurants/{id}</span>
+            <span class="api-endpoint">/cities/{city}/venues/{slug}</span>
           </div>
           <div class="api-params">
             <div class="param-label">Parameters</div>
-            <code>id: string
+            <code>city: string      // e.g. "new-york-ny"
+slug: string      // e.g. "lartusi"
 date: string      // YYYY-MM-DD
-party_size: number</code>
+seats: number</code>
           </div>
           <div class="api-response">
             <div class="param-label">Response</div>
@@ -1249,18 +1250,18 @@ special_requests?: string</code>
       <div class="tool-card-body">
         <div class="tool-description">
           <div class="desc-label">Tool Description (What the Agent Reads)</div>
-          Search for available restaurants on Resy by date, party size, and location. Returns a list of restaurants with available reservation times. Use this when a user wants to find somewhere to eat. Always ask for date and party size before calling.
+          Search for available restaurants on Resy by city, date, seats, and optional keyword. Returns a list of restaurants with available reservation times. Use this when a user wants to find somewhere to eat. Always ask for date and party size before calling. Maps to resy.com/cities/{city}/search.
         </div>
         <div class="tool-schema-label">Input Schema</div>
         <div class="tool-schema">{
   "<span class="json-key">type</span>": "<span class="json-string">object</span>",
   "<span class="json-key">properties</span>": {
+    "<span class="json-key">city</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">City slug (e.g. new-york-ny, los-angeles-ca)</span>" },
     "<span class="json-key">date</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Date in YYYY-MM-DD format</span>" },
-    "<span class="json-key">party_size</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>", "<span class="json-key">minimum</span>": <span class="json-type">1</span>, "<span class="json-key">maximum</span>": <span class="json-type">20</span> },
-    "<span class="json-key">location</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">City name or lat,lng coordinates</span>" },
-    "<span class="json-key">cuisine</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Optional cuisine filter (e.g. italian, japanese)</span>" }
+    "<span class="json-key">seats</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>", "<span class="json-key">minimum</span>": <span class="json-type">1</span>, "<span class="json-key">maximum</span>": <span class="json-type">20</span> },
+    "<span class="json-key">query</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Optional search keyword (e.g. Pizza, Sushi, Italian)</span>" }
   },
-  "<span class="json-key">required</span>": ["<span class="json-string">date</span>", "<span class="json-string">party_size</span>", "<span class="json-string">location</span>"]
+  "<span class="json-key">required</span>": ["<span class="json-string">city</span>", "<span class="json-string">date</span>", "<span class="json-string">seats</span>"]
 }</div>
       </div>
     </div>
@@ -1274,17 +1275,18 @@ special_requests?: string</code>
       <div class="tool-card-body">
         <div class="tool-description">
           <div class="desc-label">Tool Description (What the Agent Reads)</div>
-          Get detailed information about a specific restaurant including description, photos, reviews, menu link, and available timeslots for a given date and party size. Use this after search_restaurants when a user wants more info about a specific place.
+          Get detailed information about a specific restaurant including description, photos, reviews, menu link, and available timeslots for a given date and party size. Use this after search_restaurants when a user wants more info about a specific place. Maps to resy.com/cities/{city}/venues/{slug}.
         </div>
         <div class="tool-schema-label">Input Schema</div>
         <div class="tool-schema">{
   "<span class="json-key">type</span>": "<span class="json-string">object</span>",
   "<span class="json-key">properties</span>": {
-    "<span class="json-key">restaurant_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>" },
+    "<span class="json-key">city</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">City slug (e.g. new-york-ny)</span>" },
+    "<span class="json-key">venue_slug</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Restaurant URL slug (e.g. lartusi)</span>" },
     "<span class="json-key">date</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">YYYY-MM-DD</span>" },
-    "<span class="json-key">party_size</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>" }
+    "<span class="json-key">seats</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>" }
   },
-  "<span class="json-key">required</span>": ["<span class="json-string">restaurant_id</span>", "<span class="json-string">date</span>", "<span class="json-string">party_size</span>"]
+  "<span class="json-key">required</span>": ["<span class="json-string">city</span>", "<span class="json-string">venue_slug</span>", "<span class="json-string">date</span>", "<span class="json-string">seats</span>"]
 }</div>
       </div>
     </div>
