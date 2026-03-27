@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prototypes | Kevin Middleton</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; color: #1a202c; min-height: 100vh; }
+
+.header {
+  background: #1a202c;
+  color: white;
+  padding: 48px 32px;
+  text-align: center;
+}
+.header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+.header p { color: #94a3b8; font-size: 15px; }
+.header a { color: #94a3b8; text-decoration: none; }
+.header a:hover { color: white; }
+
+.grid {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 0 24px;
+  display: grid;
+  gap: 20px;
+}
+
+.card {
+  display: block;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 28px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+
+.card-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+.card h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.card p { font-size: 14px; color: #64748b; line-height: 1.6; }
+.card-tag {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.footer {
+  text-align: center;
+  padding: 40px 24px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+.footer a { color: #64748b; text-decoration: none; }
+.footer a:hover { color: #1a202c; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Prototypes</h1>
+  <p>Product thinking, made tangible. <a href="https://middleton.io/kevinos/">Back to KevinOS</a></p>
+</div>
+
+<div class="grid">
+  <a href="amex/" class="card">
+    <div class="card-label">American Express Digital Labs</div>
+    <h2>Resy x AI Agents</h2>
+    <p>Customer journey mapped to API endpoints, then to MCP server tools for AI agent-facilitated dining experiences. Includes guardrails, governance, and the agentic roadmap.</p>
+    <span class="card-tag">MCP, Agentic AI, API Design</span>
+  </a>
+
+  <a href="baldor/" class="card">
+    <div class="card-label">Baldor Specialty Foods</div>
+    <h2>Growth Experiments</h2>
+    <p>Interactive React prototype exploring discovery, personalization, and seasonal merchandising for a B2B food distributor.</p>
+    <span class="card-tag">React, Growth, B2B</span>
+  </a>
+
+  <a href="sa/" class="card">
+    <div class="card-label">SA</div>
+    <h2>Website Improvement Concepts</h2>
+    <p>Annotated mockups and concept pages for website redesign, with technical and product callouts.</p>
+    <span class="card-tag">UX, Annotated Concepts</span>
+  </a>
+
+  <a href="hvac/" class="card">
+    <div class="card-label">HVAC.com</div>
+    <h2>Product Prototype</h2>
+    <p>Interactive product prototype for HVAC services platform.</p>
+    <span class="card-tag">Prototype, Presentation</span>
+  </a>
+</div>
+
+<div class="footer">
+  <a href="https://middleton.io">middleton.io</a>
+</div>
+
+</body>
+</html>
