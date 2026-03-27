@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resy × AI Agents: From Customer Journey to MCP Server — Kevin Middleton</title>
+<title>Resy × AI Agents: From Customer Journey to MCP Server | Kevin Middleton</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -874,7 +874,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
 
     <div class="annotation">
       <div class="annotation-label">Why This Matters</div>
-      <p>Each of these five phases represents a distinct capability surface. When we build an MCP server, we're not exposing a monolithic API &mdash; we're giving AI agents a toolkit that mirrors how humans actually navigate the experience. The agent needs to <em>discover</em>, <em>search</em>, <em>authenticate</em>, <em>transact</em>, and <em>manage</em> &mdash; just like a person does.</p>
+      <p>Each of these five phases represents a distinct capability surface. When we build an MCP server, we're not exposing a monolithic API. We're giving AI agents a toolkit that mirrors how humans actually navigate the experience. The agent needs to <em>discover</em>, <em>search</em>, <em>authenticate</em>, <em>transact</em>, and <em>manage</em>, just like a person does.</p>
     </div>
   </div>
 
@@ -894,7 +894,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
     </div>
     <div class="tech-annotation">
       <div class="annotation-label">Key Design Principle</div>
-      <p>The MCP server doesn't replace the customer journey &mdash; it <strong>encodes</strong> it. Every tool maps to a journey phase, every parameter mirrors a UI input, and every access control replicates a visual gate (like the login screen or the "Confirm Booking" button).</p>
+      <p>The MCP server doesn't replace the customer journey. It <strong>encodes</strong> it. Every tool maps to a journey phase, every parameter mirrors a UI input, and every access control replicates a visual gate (like the login screen or the "Confirm Booking" button).</p>
     </div>
   </div>
 
@@ -1178,7 +1178,7 @@ special_requests?: string</code>
 
     <div class="annotation">
       <div class="annotation-label">Why This Matters</div>
-      <p>Notice the <strong>hold pattern</strong> in Phase 4: the reservation flow uses a two-step commit. <code>POST /reservations/hold</code> creates a temporary lock, then <code>POST /reservations</code> finalizes. This pattern is critical for agentic experiences &mdash; it lets an AI agent secure a timeslot while the cardholder confirms, without risking a lost booking or an unauthorized charge.</p>
+      <p>Notice the <strong>hold pattern</strong> in Phase 4: the reservation flow uses a two-step commit. <code>POST /reservations/hold</code> creates a temporary lock, then <code>POST /reservations</code> finalizes. This pattern is critical for agentic experiences: it lets an AI agent secure a timeslot while the cardholder confirms, without risking a lost booking or an unauthorized charge.</p>
     </div>
   </div>
 
@@ -1215,7 +1215,7 @@ special_requests?: string</code>
       <div class="mcp-desc">
         <h4>Why MCP, Not Just an API?</h4>
         <p>APIs are built for developers who read docs. MCP tools are built for AI agents that read <strong>descriptions</strong>. The tool's description, parameter names, and schema <em>are</em> the interface.</p>
-        <p>An agent doesn't browse Resy's API docs &mdash; it reads tool definitions at runtime and decides what to call based on the user's intent.</p>
+        <p>An agent doesn't browse Resy's API docs. It reads tool definitions at runtime and decides what to call based on the user's intent.</p>
         <div class="key-insight">Tool descriptions are UX for machines. Write them like you're explaining the tool to a smart assistant who has never seen your product.</div>
       </div>
     </div>
@@ -1315,7 +1315,7 @@ special_requests?: string</code>
     <div class="tool-card">
       <div class="tool-card-header">
         <h4>create_reservation</h4>
-        <span class="tool-access-tag access-action">Action &mdash; Requires Auth</span>
+        <span class="tool-access-tag access-action">Action · Requires Auth</span>
       </div>
       <div class="tool-card-body">
         <div class="tool-description">
@@ -1345,7 +1345,7 @@ special_requests?: string</code>
     <div class="tool-card">
       <div class="tool-card-header">
         <h4>manage_reservation</h4>
-        <span class="tool-access-tag access-elevated">Elevated &mdash; Cardholder Re-confirm</span>
+        <span class="tool-access-tag access-elevated">Elevated · Cardholder Re-confirm</span>
       </div>
       <div class="tool-card-body">
         <div class="tool-description">
@@ -1370,7 +1370,7 @@ special_requests?: string</code>
 }</div>
         <div class="annotation" style="margin-top: 16px; margin-bottom: 0;">
           <div class="annotation-label">Why This Matters</div>
-          <p>Cancellation fees in dining can range from $25 to $250+ per person at premium restaurants. An AI agent cancelling a 4-person reservation at a fine dining spot could trigger a $500+ charge. This is why <code>manage_reservation</code> requires <strong>elevated access</strong> &mdash; the cardholder must re-confirm any action with financial consequences.</p>
+          <p>Cancellation fees in dining can range from $25 to $250+ per person at premium restaurants. An AI agent cancelling a 4-person reservation at a fine dining spot could trigger a $500+ charge. This is why <code>manage_reservation</code> requires <strong>elevated access</strong>: the cardholder must re-confirm any action with financial consequences.</p>
         </div>
       </div>
     </div>
@@ -1411,7 +1411,7 @@ special_requests?: string</code>
         <tr>
           <td>Available timeslots</td>
           <td><span class="badge-expose">Expose</span></td>
-          <td>Core functionality &mdash; agent needs this to facilitate booking</td>
+          <td>Core functionality; agent needs this to facilitate booking</td>
         </tr>
         <tr>
           <td>Pricing / deposit amounts</td>
@@ -1426,7 +1426,7 @@ special_requests?: string</code>
         <tr>
           <td>Payment method (last 4 digits)</td>
           <td><span class="badge-partial">Partial</span></td>
-          <td>Confirmation display only &mdash; never full card number</td>
+          <td>Confirmation display only, never full card number</td>
         </tr>
         <tr>
           <td>Full cardholder profile</td>
@@ -1436,7 +1436,7 @@ special_requests?: string</code>
         <tr>
           <td>Payment processing details</td>
           <td><span class="badge-internal">Internal Only</span></td>
-          <td>Handled entirely by Resy MCP server &mdash; agent never touches payment rails</td>
+          <td>Handled entirely by Resy MCP server; agent never touches payment rails</td>
         </tr>
         <tr>
           <td>Reservation history / frequency</td>
@@ -1448,7 +1448,7 @@ special_requests?: string</code>
 
     <div class="annotation">
       <div class="annotation-label">Why This Matters</div>
-      <p>The MCP server acts as a <strong>data firewall</strong>. Partner AI agents get exactly what they need to facilitate the experience &mdash; and nothing more. The agent never sees a full card number, never accesses raw payment rails, and never gets behavioral history that could be used for competitive profiling.</p>
+      <p>The MCP server acts as a <strong>data firewall</strong>. Partner AI agents get exactly what they need to facilitate the experience, and nothing more. The agent never sees a full card number, never accesses raw payment rails, and never gets behavioral history that could be used for competitive profiling.</p>
     </div>
   </div>
 
@@ -1472,11 +1472,11 @@ special_requests?: string</code>
         <h4>OAuth Token Scoping</h4>
         <p>Different agent interactions require different permission levels, controlled via OAuth scopes.</p>
         <ul>
-          <li><span class="gov-check">&#10003;</span> <code>restaurants:read</code> &mdash; Search and view restaurants (any agent)</li>
-          <li><span class="gov-check">&#10003;</span> <code>availability:read</code> &mdash; Check timeslot availability</li>
-          <li><span class="gov-check">&#10003;</span> <code>reservations:read</code> &mdash; View existing reservations</li>
-          <li><span class="gov-check">&#10003;</span> <code>reservations:write</code> &mdash; Create reservations (requires cardholder auth)</li>
-          <li><span class="gov-check">&#10003;</span> <code>reservations:manage</code> &mdash; Modify/cancel (requires re-confirmation)</li>
+          <li><span class="gov-check">&#10003;</span> <code>restaurants:read</code> Search and view restaurants (any agent)</li>
+          <li><span class="gov-check">&#10003;</span> <code>availability:read</code> Check timeslot availability</li>
+          <li><span class="gov-check">&#10003;</span> <code>reservations:read</code> View existing reservations</li>
+          <li><span class="gov-check">&#10003;</span> <code>reservations:write</code> Create reservations (requires cardholder auth)</li>
+          <li><span class="gov-check">&#10003;</span> <code>reservations:manage</code> Modify/cancel (requires re-confirmation)</li>
         </ul>
       </div>
       <div class="gov-card">
@@ -1522,7 +1522,7 @@ special_requests?: string</code>
   <div class="concept-header" style="background: linear-gradient(135deg, var(--amex-blue-dark) 0%, #000D33 100%);">
     <div class="concept-label">Tab 5 of 5</div>
     <h2>Where This Goes</h2>
-    <p>From informational tools today to fully agentic dining experiences tomorrow. The progression is deliberate &mdash; each stage builds trust and proves the model before unlocking the next.</p>
+    <p>From informational tools today to fully agentic dining experiences tomorrow. The progression is deliberate: each stage builds trust and proves the model before unlocking the next.</p>
   </div>
 
   <div class="content-section">
@@ -1532,7 +1532,7 @@ special_requests?: string</code>
         <div class="vision-dot"></div>
         <span class="vision-time-tag time-now">Today</span>
         <h4>Informational</h4>
-        <p>AI agents can search restaurants, check availability, and view details on behalf of the cardholder. No actions are taken &mdash; the agent is purely a research assistant for dining decisions.</p>
+        <p>AI agents can search restaurants, check availability, and view details on behalf of the cardholder. No actions are taken. The agent is purely a research assistant for dining decisions.</p>
         <div class="vision-examples">
           <span>Search restaurants by cuisine</span>
           <span>Check availability for a date</span>
@@ -1544,7 +1544,7 @@ special_requests?: string</code>
         <div class="vision-dot"></div>
         <span class="vision-time-tag time-next">Next</span>
         <h4>Assistive</h4>
-        <p>The agent can suggest options and place temporary holds, but the cardholder always confirms. The hold pattern is the safety mechanism &mdash; nothing commits without human approval. This is where we prove the trust model works.</p>
+        <p>The agent can suggest options and place temporary holds, but the cardholder always confirms. The hold pattern is the safety mechanism: nothing commits without human approval. This is where we prove the trust model works.</p>
         <div class="vision-examples">
           <span>Agent suggests 3 options</span>
           <span>Places hold on preferred choice</span>
@@ -1580,16 +1580,16 @@ special_requests?: string</code>
 
     <div class="content-section" style="background: var(--light-gray);">
       <h3>This Is Already Happening</h3>
-      <p style="color: var(--gray); margin-bottom: 20px;">Google's Gemini agent can now take control of Android apps to book rides, order food, and complete multi-step tasks autonomously. Samsung's Galaxy S26 shipped with this capability in February 2026. The OS-level agent layer is here — Amex needs to be ready for when these agents interact with its services programmatically via MCP, not by screen-scraping the UI.</p>
+      <p style="color: var(--gray); margin-bottom: 20px;">Google's Gemini agent can now take control of Android apps to book rides, order food, and complete multi-step tasks autonomously. Samsung's Galaxy S26 shipped with this capability in February 2026. The OS-level agent layer is here. Amex needs to be ready for when these agents interact with its services programmatically via MCP, not by screen-scraping the UI.</p>
       <div style="position:relative; width:100%; max-width:720px; margin:0 auto; aspect-ratio:16/9; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-lg);">
-        <iframe src="https://www.youtube.com/embed/SA93zbnoR4U?start=2520" title="Samsung Unpacked 2026 — Gemini Agent Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
+        <iframe src="https://www.youtube.com/embed/SA93zbnoR4U?start=2520" title="Samsung Unpacked 2026: Gemini Agent Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
       </div>
-      <p style="color: var(--gray-med); font-size: 13px; text-align: center; margin-top: 12px;">Samsung Unpacked February 2026 — Gemini agent ordering food and booking rides on Galaxy S26</p>
+      <p style="color: var(--gray-med); font-size: 13px; text-align: center; margin-top: 12px;">Samsung Unpacked February 2026: Gemini agent ordering food and booking rides on Galaxy S26</p>
       <div style="margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
         <a href="https://deepmind.google/models/project-mariner/" target="_blank" style="display: block; padding: 20px; background: white; border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: box-shadow 0.2s;">
           <div style="font-size: 13px; font-weight: 600; color: var(--amex-blue); margin-bottom: 6px;">Google DeepMind</div>
           <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">Project Mariner</div>
-          <div style="font-size: 13px; color: var(--gray); line-height: 1.5;">AI agent that observes web elements, plans actionable steps, and acts to navigate websites — handling research, planning, and data entry via natural language. The browser-based precursor to on-device agents.</div>
+          <div style="font-size: 13px; color: var(--gray); line-height: 1.5;">AI agent that observes web elements, plans actionable steps, and acts to navigate websites, handling research, planning, and data entry via natural language. The browser-based precursor to on-device agents.</div>
         </a>
         <a href="https://gemini.google/overview/agent/" target="_blank" style="display: block; padding: 20px; background: white; border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: box-shadow 0.2s;">
           <div style="font-size: 13px; font-weight: 600; color: var(--amex-blue); margin-bottom: 6px;">Google Gemini</div>
@@ -1599,7 +1599,7 @@ special_requests?: string</code>
         <a href="https://developer.apple.com/documentation/appintents/integrating-actions-with-siri-and-apple-intelligence" target="_blank" style="display: block; padding: 20px; background: white; border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: box-shadow 0.2s;">
           <div style="font-size: 13px; font-weight: 600; color: var(--amex-blue); margin-bottom: 6px;">Apple Developer</div>
           <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">Siri + Apple Intelligence</div>
-          <div style="font-size: 13px; color: var(--gray); line-height: 1.5;">WWDC 2026 (June 8): Siri becomes a systemwide AI agent with deep app integration via App Intents. iOS 27 will let third-party AI chatbots (Claude, ChatGPT) integrate with Siri — opening a direct channel for Amex capabilities to surface through Apple's agent layer.</div>
+          <div style="font-size: 13px; color: var(--gray); line-height: 1.5;">WWDC 2026 (June 8): Siri becomes a systemwide AI agent with deep app integration via App Intents. iOS 27 will let third-party AI chatbots (Claude, ChatGPT) integrate with Siri, opening a direct channel for Amex capabilities to surface through Apple's agent layer.</div>
         </a>
       </div>
     </div>
@@ -1626,7 +1626,7 @@ special_requests?: string</code>
       <div class="gov-card">
         <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
         <h4>High Intent Signal</h4>
-        <p>When someone asks an AI to book a restaurant, the intent is unambiguous. Compare this to "buy me something nice" &mdash; dining has structured inputs (date, time, party size) that reduce agent error.</p>
+        <p>When someone asks an AI to book a restaurant, the intent is unambiguous. Compare this to "buy me something nice": dining has structured inputs (date, time, party size) that reduce agent error.</p>
       </div>
       <div class="gov-card">
         <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
@@ -1637,7 +1637,7 @@ special_requests?: string</code>
 
     <div class="annotation">
       <div class="annotation-label">The Bigger Picture</div>
-      <p>Resy is the proving ground. The patterns you build here &mdash; hold-before-commit, scoped OAuth for agents, cardholder re-confirmation for financial actions &mdash; become the template for agentic experiences across every Amex product. Travel, shopping, financial planning. It all starts with "Book me a table for two on Friday."</p>
+      <p>Resy is the proving ground. The patterns you build here (hold-before-commit, scoped OAuth for agents, cardholder re-confirmation for financial actions) become the template for agentic experiences across every Amex product. Travel, shopping, financial planning. It all starts with "Book me a table for two on Friday."</p>
     </div>
   </div>
 
