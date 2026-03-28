@@ -379,7 +379,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin-bottom: 32px;
-  align-items: start;
+  align-items: stretch;
 }
 .mcp-diagram {
   background: var(--amex-blue-dark);
@@ -388,7 +388,19 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
   color: white;
   display: flex;
   flex-direction: column;
+}
+.mcp-diagram-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+}
+.mcp-diagram-caption {
+  margin-top: auto;
+  padding-top: 24px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
 }
 .mcp-diagram h4 {
   font-size: 18px;
@@ -1196,14 +1208,16 @@ special_requests?: string</code>
     <div class="mcp-overview">
       <div class="mcp-diagram">
         <h4>MCP Server Flow</h4>
-        <div class="mcp-flow">
-          <div class="mcp-node agent">AI Agent<br><small style="opacity:0.7">Claude, GPT, etc.</small></div>
-          <div class="mcp-arrow">&rarr;</div>
-          <div class="mcp-node server">Resy MCP Server<br><small style="opacity:0.7">Tool definitions + auth</small></div>
-          <div class="mcp-arrow">&rarr;</div>
-          <div class="mcp-node api">Resy Platform APIs<br><small style="opacity:0.7">Existing endpoints</small></div>
+        <div class="mcp-diagram-body">
+          <div class="mcp-flow">
+            <div class="mcp-node agent">AI Agent<br><small style="opacity:0.7">Claude, GPT, etc.</small></div>
+            <div class="mcp-arrow">&rarr;</div>
+            <div class="mcp-node server">Resy MCP Server<br><small style="opacity:0.7">Tool definitions + auth</small></div>
+            <div class="mcp-arrow">&rarr;</div>
+            <div class="mcp-node api">Resy Platform APIs<br><small style="opacity:0.7">Existing endpoints</small></div>
+          </div>
         </div>
-        <p style="margin-top: 24px; font-size: 13px; color: rgba(255,255,255,0.6); text-align: center;">The MCP server is a translation layer: it wraps existing APIs with tool metadata that agents can reason about.</p>
+        <p class="mcp-diagram-caption">The MCP server is a translation layer: it wraps existing APIs with tool metadata that agents can reason about.</p>
       </div>
       <div class="mcp-desc">
         <h4>Why MCP, Not Just an API?</h4>
