@@ -816,11 +816,11 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
 
 <!-- TAB BAR -->
 <nav class="tab-bar">
-  <div class="tab active" onclick="switchTab(0)"><span class="tab-num">1</span>Customer Journey</div>
-  <div class="tab" onclick="switchTab(1)"><span class="tab-num">2</span>API Architecture</div>
-  <div class="tab" onclick="switchTab(2)"><span class="tab-num">3</span>MCP Server Design</div>
-  <div class="tab" onclick="switchTab(3)"><span class="tab-num">4</span>Guardrails &amp; Governance</div>
-  <div class="tab" onclick="switchTab(4)"><span class="tab-num">5</span>Vision</div>
+  <div class="tab active" onclick="switchTab(0)"><span class="tab-num">&#x1F6A9;</span>Customer Journey</div>
+  <div class="tab" onclick="switchTab(1)"><span class="tab-num">&#x2699;</span>API Architecture</div>
+  <div class="tab" onclick="switchTab(2)"><span class="tab-num">&#x1F50C;</span>MCP Server Design</div>
+  <div class="tab" onclick="switchTab(3)"><span class="tab-num">&#x1F6E1;</span>Guardrails &amp; Governance</div>
+  <div class="tab" onclick="switchTab(4)"><span class="tab-num">&#x1F52D;</span>Vision</div>
 </nav>
 
 <!-- ============================================================ -->
@@ -828,7 +828,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
 <!-- ============================================================ -->
 <div class="tab-content active" id="tab-0">
   <div class="concept-header">
-    <div class="concept-label">Tab 1 of 5</div>
+    <div class="concept-label">The Experience</div>
     <h2>The Resy Customer Journey</h2>
     <p>Before designing for AI agents, we need to understand the human journey they'll facilitate. Every phase maps to platform capabilities that become MCP tools.</p>
   </div>
@@ -908,7 +908,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
 <!-- ============================================================ -->
 <div class="tab-content" id="tab-1">
   <div class="concept-header">
-    <div class="concept-label">Tab 2 of 5</div>
+    <div class="concept-label">Technical Foundation</div>
     <h2>API Architecture</h2>
     <p>Each journey phase is powered by specific API endpoints. These become the building blocks for MCP tool definitions.</p>
   </div>
@@ -916,7 +916,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
   <div class="content-section" style="background: var(--light-gray);">
     <!-- Discovery -->
     <div class="api-phase-group">
-      <div class="api-phase-title"><div class="phase-dot"></div> Phase 1: Discovery</div>
+      <div class="api-phase-title"><div class="phase-dot"></div> Discovery</div>
       <div class="api-cards">
         <div class="api-card">
           <div class="api-card-header">
@@ -967,7 +967,7 @@ location?: string</code>
 
     <!-- Search -->
     <div class="api-phase-group">
-      <div class="api-phase-title"><div class="phase-dot"></div> Phase 2: Search</div>
+      <div class="api-phase-title"><div class="phase-dot"></div> Search</div>
       <div class="api-cards">
         <div class="api-card">
           <div class="api-card-header">
@@ -1012,7 +1012,7 @@ seats: number</code>
 
     <!-- Login -->
     <div class="api-phase-group">
-      <div class="api-phase-title"><div class="phase-dot"></div> Phase 3: Login</div>
+      <div class="api-phase-title"><div class="phase-dot"></div> Authentication</div>
       <div class="api-cards">
         <div class="api-card">
           <div class="api-card-header">
@@ -1049,7 +1049,7 @@ code: string  // 6-digit SMS code</code>
 
     <!-- Booking -->
     <div class="api-phase-group">
-      <div class="api-phase-title"><div class="phase-dot"></div> Phase 4: Booking</div>
+      <div class="api-phase-title"><div class="phase-dot"></div> Booking</div>
       <div class="api-cards">
         <div class="api-card">
           <div class="api-card-header">
@@ -1137,7 +1137,7 @@ special_requests?: string</code>
 
     <!-- Post-Booking -->
     <div class="api-phase-group">
-      <div class="api-phase-title"><div class="phase-dot"></div> Phase 5: Post-Booking</div>
+      <div class="api-phase-title"><div class="phase-dot"></div> Post-Booking</div>
       <div class="api-cards">
         <div class="api-card">
           <div class="api-card-header">
@@ -1178,7 +1178,7 @@ special_requests?: string</code>
 
     <div class="annotation">
       <div class="annotation-label">Why This Matters</div>
-      <p>Notice the <strong>hold pattern</strong> in Phase 4: the reservation flow uses a two-step commit. <code>POST /reservations/hold</code> creates a temporary lock, then <code>POST /reservations</code> finalizes. This pattern is critical for agentic experiences: it lets an AI agent secure a timeslot while the cardholder confirms, without risking a lost booking or an unauthorized charge.</p>
+      <p>Notice the <strong>hold pattern</strong> in the Booking section: the reservation flow uses a two-step commit. <code>POST /reservations/hold</code> creates a temporary lock, then <code>POST /reservations</code> finalizes. This pattern is critical for agentic experiences: it lets an AI agent secure a timeslot while the cardholder confirms, without risking a lost booking or an unauthorized charge.</p>
     </div>
   </div>
 
@@ -1192,7 +1192,7 @@ special_requests?: string</code>
 <!-- ============================================================ -->
 <div class="tab-content" id="tab-2">
   <div class="concept-header">
-    <div class="concept-label">Tab 3 of 5</div>
+    <div class="concept-label">The Protocol Layer</div>
     <h2>MCP Server Design</h2>
     <p>The Model Context Protocol turns Resy's APIs into tools that any AI agent can discover, understand, and invoke. Tool descriptions become "UX for machines."</p>
   </div>
@@ -1386,7 +1386,7 @@ special_requests?: string</code>
 <!-- ============================================================ -->
 <div class="tab-content" id="tab-3">
   <div class="concept-header" style="background: linear-gradient(135deg, #1A202C 0%, var(--amex-blue-dark) 100%);">
-    <div class="concept-label">Tab 4 of 5</div>
+    <div class="concept-label">Trust &amp; Compliance</div>
     <h2>Guardrails &amp; Governance</h2>
     <p>The trust model for agent-initiated financial actions in a regulated environment. What gets exposed, what stays internal, and how we protect the cardholder.</p>
   </div>
@@ -1518,7 +1518,7 @@ special_requests?: string</code>
 <!-- ============================================================ -->
 <div class="tab-content" id="tab-4">
   <div class="concept-header" style="background: linear-gradient(135deg, var(--amex-blue-dark) 0%, #000D33 100%);">
-    <div class="concept-label">Tab 5 of 5</div>
+    <div class="concept-label">What's Next</div>
     <h2>Where This Goes</h2>
     <p>From informational tools today to fully agentic dining experiences tomorrow. The progression is deliberate: each stage builds trust and proves the model before unlocking the next.</p>
   </div>
@@ -1580,7 +1580,7 @@ special_requests?: string</code>
       <h3>This Is Already Happening</h3>
       <p style="color: var(--gray); margin-bottom: 20px;">Google's Gemini agent can now take control of Android apps to book rides, order food, and complete multi-step tasks autonomously. Samsung's Galaxy S26 shipped with this capability in February 2026. The OS-level agent layer is here. Amex needs to be ready for when these agents interact with its services programmatically via MCP, not by screen-scraping the UI.</p>
       <div style="position:relative; width:100%; max-width:720px; margin:0 auto; aspect-ratio:16/9; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-lg);">
-        <iframe src="https://www.youtube.com/embed/SA93zbnoR4U?start=2520" title="Samsung Unpacked 2026: Gemini Agent Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
+        <iframe src="https://www.youtube.com/embed/SA93zbnoR4U?start=1228" title="Samsung Unpacked 2026: Gemini Agent Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>
       </div>
       <p style="color: var(--gray-med); font-size: 13px; text-align: center; margin-top: 12px;">Samsung Unpacked February 2026: Gemini agent ordering food and booking rides on Galaxy S26</p>
       <div style="margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
@@ -1612,23 +1612,19 @@ special_requests?: string</code>
     <h3>Why Resy Is the Right Starting Point</h3>
     <div class="gov-grid">
       <div class="gov-card">
-        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
-        <h4>Bounded Transaction Size</h4>
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="color:var(--amex-green); font-size:18px;">&#x2714;</span> Bounded Transaction Size</h4>
         <p>Restaurant reservations are low-to-medium stakes ($50-$500 deposits). Perfect for building trust in agent-initiated financial actions before expanding to higher-stakes domains like travel or shopping.</p>
       </div>
       <div class="gov-card">
-        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
-        <h4>Clear Reversibility</h4>
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="color:var(--amex-green); font-size:18px;">&#x2714;</span> Clear Reversibility</h4>
         <p>Cancellation policies are well-defined and time-bound. If an agent makes a mistake, the blast radius is contained and the remedy path is clear.</p>
       </div>
       <div class="gov-card">
-        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
-        <h4>High Intent Signal</h4>
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="color:var(--amex-green); font-size:18px;">&#x2714;</span> High Intent Signal</h4>
         <p>When someone asks an AI to book a restaurant, the intent is unambiguous. Compare this to "buy me something nice": dining has structured inputs (date, time, party size) that reduce agent error.</p>
       </div>
       <div class="gov-card">
-        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x2714;</div>
-        <h4>Owned Platform</h4>
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="color:var(--amex-green); font-size:18px;">&#x2714;</span> Owned Platform</h4>
         <p>Amex owns Resy. You control the API surface, the data model, and the trust boundaries. No third-party dependency for the initial proof of concept.</p>
       </div>
     </div>
