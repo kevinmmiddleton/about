@@ -237,23 +237,29 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
   font-size: 24px;
   flex-shrink: 0;
 }
+.phase-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
 .phase-number {
-  width: 32px; height: 32px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   background: var(--amex-blue-light);
   color: var(--amex-blue);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 14px;
+  flex-shrink: 0;
 }
 .journey-phase h4 {
   font-size: 16px;
   font-weight: 700;
   color: var(--dark);
-  margin-bottom: 8px;
+  margin: 0;
 }
 .journey-phase p {
   font-size: 13px;
@@ -816,11 +822,11 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
 
 <!-- TAB BAR -->
 <nav class="tab-bar">
-  <div class="tab active" onclick="switchTab(0)"><span class="tab-num">&#x1F6A9;</span>Customer Journey</div>
-  <div class="tab" onclick="switchTab(1)"><span class="tab-num">&#x2699;</span>API Architecture</div>
+  <div class="tab active" onclick="switchTab(0)"><span class="tab-num">&#x1F37D;</span>Customer Journey</div>
+  <div class="tab" onclick="switchTab(1)"><span class="tab-num">&#x2699;&#xFE0F;</span>API Architecture</div>
   <div class="tab" onclick="switchTab(2)"><span class="tab-num">&#x1F50C;</span>MCP Server Design</div>
   <div class="tab" onclick="switchTab(3)"><span class="tab-num">&#x1F6E1;</span>Guardrails &amp; Governance</div>
-  <div class="tab" onclick="switchTab(4)"><span class="tab-num">&#x1F52D;</span>Vision</div>
+  <div class="tab" onclick="switchTab(4)"><span class="tab-num">&#x1F441;</span>Vision</div>
 </nav>
 
 <!-- ============================================================ -->
@@ -837,36 +843,31 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
     <h3>Journey Phases</h3>
     <div class="journey-flow">
       <div class="journey-phase">
-        <div class="phase-number">1</div>
-        <h4>Discovery</h4>
+        <div class="phase-title-row"><div class="phase-number">1</div><h4>Discovery</h4></div>
         <p>Cardholder discovers restaurants through editorial content, SEO-driven articles, and curated lists on Resy.</p>
         <span class="phase-tag">Content &amp; SEO</span>
       </div>
       <div class="journey-connector">&rarr;</div>
       <div class="journey-phase">
-        <div class="phase-number">2</div>
-        <h4>Search</h4>
+        <div class="phase-title-row"><div class="phase-number">2</div><h4>Search</h4></div>
         <p>Filters by date, party size, cuisine, location, and availability. This is where intent becomes specific.</p>
         <span class="phase-tag">Structured Query</span>
       </div>
       <div class="journey-connector">&rarr;</div>
       <div class="journey-phase">
-        <div class="phase-number">3</div>
-        <h4>Login</h4>
+        <div class="phase-title-row"><div class="phase-number">3</div><h4>Login</h4></div>
         <p>Frictionless mobile auth via SMS verification. Establishes identity and links to Amex cardholder profile.</p>
         <span class="phase-tag">Authentication</span>
       </div>
       <div class="journey-connector">&rarr;</div>
       <div class="journey-phase">
-        <div class="phase-number">4</div>
-        <h4>Booking</h4>
+        <div class="phase-title-row"><div class="phase-number">4</div><h4>Booking</h4></div>
         <p>Select timeslot, hold reservation, confirm payment method, and finalize. The critical transaction moment.</p>
         <span class="phase-tag">Transaction</span>
       </div>
       <div class="journey-connector">&rarr;</div>
       <div class="journey-phase">
-        <div class="phase-number">5</div>
-        <h4>Post-Booking</h4>
+        <div class="phase-title-row"><div class="phase-number">5</div><h4>Post-Booking</h4></div>
         <p>Modify party size, change time, or cancel entirely. Ongoing relationship management with the reservation.</p>
         <span class="phase-tag">Lifecycle</span>
       </div>
