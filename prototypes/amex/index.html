@@ -1700,7 +1700,9 @@ special_requests?: string</code>
 
 <!-- ===== JAVASCRIPT ===== -->
 <script>
-function switchTab(index) {
+const tabSlugs = ['journey', 'api', 'mcp', 'guardrails', 'how-i-use-ai', 'vision'];
+
+function switchTab(index, pushHash) {
   // Update tab bar
   document.querySelectorAll('.tab').forEach((tab, i) => {
     tab.classList.toggle('active', i === index);
@@ -1709,9 +1711,29 @@ function switchTab(index) {
   document.querySelectorAll('.tab-content').forEach((content, i) => {
     content.classList.toggle('active', i === index);
   });
+  // Update URL hash
+  if (pushHash !== false) {
+    history.replaceState(null, '', '#' + tabSlugs[index]);
+  }
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// Open tab from URL hash on load
+(function() {
+  const hash = location.hash.replace('#', '');
+  if (hash) {
+    const idx = tabSlugs.indexOf(hash);
+    if (idx >= 0) switchTab(idx, false);
+  }
+})();
+
+// Handle back/forward
+window.addEventListener('hashchange', () => {
+  const hash = location.hash.replace('#', '');
+  const idx = tabSlugs.indexOf(hash);
+  if (idx >= 0) switchTab(idx, false);
+});
 
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {
