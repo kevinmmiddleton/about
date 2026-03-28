@@ -809,7 +809,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
   </div>
   <div class="author">
     <strong>Kevin Middleton</strong><br>
-    Prepared for American Express Digital Labs
+    Kevin Middleton
   </div>
 </header>
 
@@ -1315,7 +1315,7 @@ special_requests?: string</code>
       <div class="tool-card-body">
         <div class="tool-description">
           <div class="desc-label">Tool Description (What the Agent Reads)</div>
-          Create a reservation at a restaurant. This first places a temporary hold (5 minutes), then confirms if the cardholder approves. IMPORTANT: This action uses the cardholder's payment method and should only be called after explicit user confirmation. The hold pattern ensures no charge occurs without approval.
+          Create a reservation at a restaurant. This first places a temporary hold (e.g., 5 minutes, configurable per restaurant), then confirms if the cardholder approves. IMPORTANT: This action uses the cardholder's payment method and should only be called after explicit user confirmation. The hold pattern ensures no charge occurs without approval.
         </div>
         <div class="tool-schema-label">Input Schema</div>
         <div class="tool-schema">{
@@ -1453,11 +1453,11 @@ special_requests?: string</code>
         <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">&#x1F512;</span> Hold-Before-Commit Pattern</h4>
         <p>The reservation flow uses a two-phase commit: hold, then confirm. This is the key safety mechanism for agentic booking.</p>
         <ul>
-          <li><span class="gov-check">1</span> Agent calls <code>create_reservation</code> &rarr; MCP server places a 5-minute hold</li>
+          <li><span class="gov-check">1</span> Agent calls <code>create_reservation</code> &rarr; MCP server places a configurable hold (e.g., 5 minutes)</li>
           <li><span class="gov-check">2</span> Hold details returned to agent (restaurant, time, any deposit)</li>
           <li><span class="gov-check">3</span> Agent presents hold to cardholder for confirmation</li>
           <li><span class="gov-check">4</span> Cardholder confirms &rarr; hold converts to reservation</li>
-          <li><span class="gov-x">&times;</span> If cardholder doesn't confirm within 5 minutes, hold expires automatically</li>
+          <li><span class="gov-x">&times;</span> If cardholder doesn't confirm within the hold window, it expires automatically</li>
         </ul>
       </div>
       <div class="gov-card">
@@ -1496,6 +1496,29 @@ special_requests?: string</code>
     <div class="tech-annotation">
       <div class="annotation-label">Design Principle</div>
       <p>The MCP server should be <strong>paranoid by default</strong>. Start with the narrowest possible permissions, and expand only when the cardholder explicitly opts in. The same principle that governs card-not-present transactions applies here: higher risk of fraud means tighter controls.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>Open Questions</h3>
+    <p style="color:var(--gray); margin-bottom:16px;">Things I'd want to explore with the team:</p>
+    <div class="gov-grid">
+      <div class="gov-card" style="border-left: 3px solid var(--amex-blue);">
+        <h4>Hold duration</h4>
+        <p>Is the hold window configurable per restaurant, or platform-wide? High-demand spots might need shorter holds to avoid inventory lock-up.</p>
+      </div>
+      <div class="gov-card" style="border-left: 3px solid var(--amex-blue);">
+        <h4>Rate limiting</h4>
+        <p>Per-agent limits, per-cardholder limits, or both? How do you prevent a misbehaving agent from burning through availability?</p>
+      </div>
+      <div class="gov-card" style="border-left: 3px solid var(--amex-blue);">
+        <h4>Agent identity</h4>
+        <p>How does the MCP server distinguish between partner agents? Is there an agent registry, or is it purely OAuth client-based?</p>
+      </div>
+      <div class="gov-card" style="border-left: 3px solid var(--amex-blue);">
+        <h4>Cardholder consent model</h4>
+        <p>One-time blanket consent, or per-action? How granular should opt-in be before it becomes friction?</p>
+      </div>
     </div>
   </div>
 
@@ -1583,12 +1606,12 @@ special_requests?: string</code>
         <a href="https://deepmind.google/models/project-mariner/" target="_blank" style="display: block; padding: 20px; background: white; border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: box-shadow 0.2s;">
           <div style="font-size: 13px; font-weight: 600; color: var(--amex-blue); margin-bottom: 6px;">Google DeepMind</div>
           <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">Project Mariner</div>
-          <div style="font-size: 13px; color: var(--gray); line-height: 1.5;">AI agent that observes web elements, plans actionable steps, and acts to navigate websites, handling research, planning, and data entry via natural language. The browser-based precursor to on-device agents.</div>
+          <div style="font-size: 13px; color: var(--gray); line-height: 1.5;">Browser-based AI agent that navigates websites autonomously. Without an MCP server, these agents screen-scrape Resy's UI. With one, they get structured, permissioned access.</div>
         </a>
         <a href="https://gemini.google/overview/agent/" target="_blank" style="display: block; padding: 20px; background: white; border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: box-shadow 0.2s;">
           <div style="font-size: 13px; font-weight: 600; color: var(--amex-blue); margin-bottom: 6px;">Google Gemini</div>
           <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">Gemini Agent Mode</div>
-          <div style="font-size: 13px; color: var(--gray); line-height: 1.5;">On-device automation for Android. Books rides, orders food, and completes multi-step tasks in apps like Uber, DoorDash, and Grubhub. Prepares everything, user confirms the final step.</div>
+          <div style="font-size: 13px; color: var(--gray); line-height: 1.5;">On-device automation for Android. Already books rides and orders food through Uber, DoorDash, and Grubhub. Resy isn't on that list yet. An MCP server changes that.</div>
         </a>
         <a href="https://developer.apple.com/documentation/appintents/integrating-actions-with-siri-and-apple-intelligence" target="_blank" style="display: block; padding: 20px; background: white; border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: box-shadow 0.2s;">
           <div style="font-size: 13px; font-weight: 600; color: var(--amex-blue); margin-bottom: 6px;">Apple Developer</div>
@@ -1684,7 +1707,7 @@ special_requests?: string</code>
       <div class="gov-card">
         <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">🔒</span> Sendoso</h4>
         <p>Increased platform security by implementing two-factor authentication and AI-driven fraud detection, reducing bot-driven attacks and strengthening customer trust.</p>
-        <p style="font-size:12px; color:var(--gray); margin-top:10px; padding:6px 0 6px 12px; border-left:2px solid var(--amex-blue);">Agent-initiated actions need the same fraud detection layer when payment flows are involved.</p>
+        <p style="font-size:12px; color:var(--gray); margin-top:10px; padding:6px 0 6px 12px; border-left:2px solid var(--amex-blue);">Trust signals for automated transactions: detecting when a bot is acting vs. when a person authorized the action.</p>
       </div>
       <div class="gov-card">
         <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">🔑</span> Rocket Lawyer <span style="font-size:11px; font-weight:500; background:var(--amex-blue-light); color:var(--amex-blue); padding:2px 8px; border-radius:4px;">OAuth / OpenID Connect</span></h4>
