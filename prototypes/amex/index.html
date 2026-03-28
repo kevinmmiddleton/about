@@ -1330,8 +1330,8 @@ special_requests?: string</code>
   "<span class="json-key">required</span>": ["<span class="json-string">restaurant_id</span>", "<span class="json-string">timeslot_id</span>", "<span class="json-string">party_size</span>", "<span class="json-string">payment_method_id</span>"]
 }</div>
         <div class="tech-annotation" style="margin-top: 16px; margin-bottom: 0;">
-          <div class="annotation-label">Access Control Note</div>
-          <p>This tool requires an <strong>OAuth token with <code>reservations:write</code> scope</strong>. In the assistive model, the MCP server places a hold and returns a confirmation prompt. The cardholder must approve before the hold converts to a confirmed reservation.</p>
+          <div class="annotation-label">How This Works in Practice</div>
+          <p>The agent can start a reservation, but it can't finish one alone. It places a temporary hold, then asks the cardholder to confirm. No confirmation, no booking. The cardholder always has the final say.</p>
         </div>
       </div>
     </div>
@@ -1365,7 +1365,7 @@ special_requests?: string</code>
 }</div>
         <div class="annotation" style="margin-top: 16px; margin-bottom: 0;">
           <div class="annotation-label">Why This Matters</div>
-          <p>Cancellation fees in dining can range from $25 to $250+ per person at premium restaurants. An AI agent cancelling a 4-person reservation at a fine dining spot could trigger a $500+ charge. This is why <code>manage_reservation</code> requires <strong>elevated access</strong>: the cardholder must re-confirm any action with financial consequences.</p>
+          <p>Cancelling a reservation at a premium restaurant can trigger fees of $500+. That's why changes and cancellations require the cardholder to re-confirm. The agent can suggest and prepare the action, but anything with financial consequences needs a human in the loop.</p>
         </div>
       </div>
     </div>
