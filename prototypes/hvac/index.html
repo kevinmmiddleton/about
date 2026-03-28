@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HVAC.com Product Challenge | Kevin Middleton</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f5fa;
+            --surface: #ffffff;
+            --surface-2: #ffffff;
+            --border: rgba(140, 140, 180, 0.3);
+            --text: #1a1a2e;
+            --text-dim: #3a3a55;
+            --text-muted: #5a5a75;
+            --blue: #2563eb;
+            --purple: #7c3aed;
+            --pink: #db2777;
+            --mint: #059669;
+            --yellow: #d97706;
+            --peach: #ea580c;
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+            --radius: 12px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1a1a2e;
+                --surface: #252542;
+                --surface-2: #2d2d4a;
+                --border: #3d3d5c;
+                --text: #e8e8f0;
+                --text-dim: #a0a0b8;
+                --text-muted: #6a6a8a;
+                --blue: #5c8aff;
+                --purple: #a078ff;
+                --pink: #ff6eb4;
+                --mint: #4ae0a0;
+                --yellow: #ffc048;
+                --peach: #ff9f6a;
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Window Chrome Header */
+        .window-chrome {
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .window-dot.red { background: #ff5f57; }
+        .window-dot.yellow { background: #ffbd2e; }
+        .window-dot.green { background: #28c840; }
+
+        .window-title {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .window-title img {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .back-link {
+            margin-left: auto;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--blue);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #004b72 0%, #1a1a5e 100%);
+            padding: 60px 24px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .hero h3 {
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 16px;
+        }
+
+        .hero p.presenter {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* TOC */
+        .toc-nav {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .toc-grid {
+            display: flex;
+            gap: 8px;
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .toc-item {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .toc-item:hover {
+            color: var(--blue);
+            border-color: var(--blue);
+        }
+
+        /* Sections */
+        .section {
+            padding: 48px 24px;
+        }
+
+        .section-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .section h2 {
+            font-size: clamp(22px, 4vw, 32px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .section-intro {
+            font-size: 16px;
+            color: var(--text-dim);
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+
+        .section--alt {
+            background: var(--surface);
+        }
+
+        .section--white {
+            background: var(--bg);
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .card-grid.grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card p, .card li {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .card ul {
+            padding-left: 20px;
+        }
+
+        .card ul li {
+            margin-bottom: 6px;
+        }
+
+        .card--blue { border-left: 3px solid var(--blue); }
+        .card--purple { border-left: 3px solid var(--purple); }
+        .card--mint { border-left: 3px solid var(--mint); }
+        .card--peach { border-left: 3px solid var(--peach); }
+        .card--yellow { border-left: 3px solid var(--yellow); }
+
+        /* User Story Cards */
+        .user-story {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .user-story h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .user-story .step {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .user-story .step strong {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--purple);
+            min-width: 52px;
+            flex-shrink: 0;
+        }
+
+        /* Image Grids */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .image-grid img:hover {
+            transform: scale(1.02);
+        }
+
+        .image-grid-label {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            margin-top: 24px;
+        }
+
+        /* Full-width image */
+        .full-image {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin: 16px 0;
+        }
+
+        /* RICE Table */
+        .rice-table-wrapper {
+            overflow-x: auto;
+            margin: 24px 0;
+        }
+
+        .rice-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .rice-table th {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .rice-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+
+        .rice-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rice-table .highlight {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .rice-table .highlight-score {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--mint);
+        }
+
+        .rice-formula {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+
+        /* Two-column text */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .two-col h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .two-col p {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        /* KPI grid */
+        .kpi-group {
+            margin-bottom: 24px;
+        }
+
+        .kpi-group h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .kpi-group .kpi-label {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .kpi-group p {
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+
+        /* Roadmap items */
+        .roadmap-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+
+        .roadmap-item h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .roadmap-item p {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 32px 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer a {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--blue);
+        }
+
+        .footer-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        /* Slideshow */
+        .slideshow {
+            position: relative;
+            background: var(--surface-alt);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin: 16px 0;
+        }
+        .slideshow-viewport {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .slideshow-viewport img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #f0f0f0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .slideshow-viewport img.active { opacity: 1; }
+        .slideshow-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 12px 16px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+        .slideshow-btn {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--text-dim);
+            transition: all 0.15s;
+        }
+        .slideshow-btn:hover { background: var(--border); color: var(--text); }
+        .slideshow-counter {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-muted);
+            min-width: 60px;
+            text-align: center;
+        }
+        .slideshow-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .slideshow-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .slideshow-dot.active { background: var(--blue); }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 8px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.3); }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            font-size: 28px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+        .lightbox-prev { left: 16px; }
+        .lightbox-next { right: 16px; }
+        .lightbox-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.7);
+            font-family: var(--font-mono);
+            font-size: 13px;
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .card-grid.grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .toc-grid {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .section {
+                padding: 36px 20px;
+            }
+
+            .window-title span.full-title {
+                display: none;
+            }
+
+            .window-title span.short-title {
+                display: inline;
+            }
+        }
+
+        @media (min-width: 641px) {
+            .window-title span.short-title {
+                display: none;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Window Chrome Header -->
+    <header class="window-chrome">
+        <div class="window-dots">
+            <span class="window-dot red"></span>
+            <span class="window-dot yellow"></span>
+            <span class="window-dot green"></span>
+        </div>
+        <div class="window-title">
+            <img src="images/hvac-com-logo-badge-black.png" alt="HVAC.com">
+            <span class="full-title">HVAC.com - Product Challenge</span>
+            <span class="short-title">HVAC.com</span>
+        </div>
+        <a href="https://middleton.io" class="back-link">&larr; Back to Portfolio</a>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <p class="hero-label">Product Challenge</p>
+        <h1>HVAC.com</h1>
+        <h3>Connecting Homeowners &amp; Contractors - Product Challenge</h3>
+        <p class="presenter">Presented by Kevin Middleton</p>
+    </section>
+
+    <!-- TOC -->
+    <nav class="toc-nav">
+        <div class="toc-grid">
+            <a href="#introduction" class="toc-item">Introduction</a>
+            <a href="#mission" class="toc-item">Mission &amp; Hypothesis</a>
+            <a href="#requirements" class="toc-item">Requirements</a>
+            <a href="#analysis" class="toc-item">Comparative Analysis</a>
+            <a href="#journey" class="toc-item">User Journey</a>
+            <a href="#validation" class="toc-item">Validation</a>
+            <a href="#feasibility" class="toc-item">Feasibility</a>
+            <a href="#option1" class="toc-item">Contractor Matching</a>
+            <a href="#option2" class="toc-item">Instant Scheduling</a>
+            <a href="#kpis" class="toc-item">KPIs</a>
+            <a href="#monetization" class="toc-item">Monetization</a>
+            <a href="#roadmap" class="toc-item">Roadmap</a>
+            <a href="#appendix" class="toc-item">Appendix</a>
+        </div>
+    </nav>
+
+    <!-- Introduction -->
+    <section class="section section--alt" id="introduction">
+        <div class="section-container">
+            <p class="section-label">Context</p>
+            <h2>Introduction</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Problem Statement</h3>
+                    <p>Connecting homeowners with top-quality contractors <strong>within a day</strong> is vital for HVAC.com, aligning with HVAC.com's goal to enhance the HVAC experience.</p>
+                </div>
+                <div>
+                    <h3>User Focus</h3>
+                    <p>Prioritize homeowner and contractor needs for a seamless, efficient experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Alignment + Hypothesis -->
+    <section class="section section--white" id="mission">
+        <div class="section-container">
+            <p class="section-label">Direction</p>
+            <h2>Mission Alignment &amp; Hypothesis</h2>
+            <div class="card-grid grid-2">
+                <div class="card card--blue">
+                    <h3>Mission Alignment</h3>
+                    <p>HVAC.com: Your trusted advisor for all things HVAC.</p>
+                </div>
+                <div class="card card--purple">
+                    <h3>Hypothesis</h3>
+                    <p>Streamlining the homeowner/contractor connection process to prioritize speed and efficiency will enhance experiences for homeowners and contractors, boosting satisfaction and successful matches.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Requirement Gathering Process -->
+    <section class="section section--alt" id="requirements">
+        <div class="section-container">
+            <p class="section-label">Discovery</p>
+            <h2>Requirement Gathering Process</h2>
+            <p class="section-intro"><strong>Questionnaire Integration</strong>: A user-friendly questionnaire captures specific service needs, feeding into a dynamic pricing sheet for customized contractor bids.</p>
+        </div>
+    </section>
+
+    <!-- Comparative Analysis -->
+    <section class="section section--white" id="analysis">
+        <div class="section-container">
+            <p class="section-label">Research</p>
+            <h2>Comparative Analysis</h2>
+            <p class="section-intro">Kopperfield and EnergySage, while not HVAC-specific, offer insights into quickly scheduling installations.</p>
+
+            <h3>Kopperfield's EV Charger Installation Process</h3>
+            <p style="font-size:14px;color:var(--text-dim);margin-bottom:8px;">Project Details Review, Photo Upload Guidance, Matching with Local Electrician, Quote Viewing, Installation Scheduling, Feedback Collection</p>
+
+            <div class="slideshow" id="kopperfield-slideshow">
+                <div class="slideshow-viewport" onclick="openLightboxFromSlideshow('kopperfield')">
+                    <img src="images/Kopperfield_1.png" alt="Kopperfield screenshot 1" class="active">
+                    <img src="images/Kopperfield_2.png" alt="Kopperfield screenshot 2">
+                    <img src="images/Kopperfield_3.png" alt="Kopperfield screenshot 3">
+                    <img src="images/Kopperfield_4.png" alt="Kopperfield screenshot 4">
+                    <img src="images/Kopperfield_5.png" alt="Kopperfield screenshot 5">
+                    <img src="images/Kopperfield_6.png" alt="Kopperfield screenshot 6">
+                    <img src="images/Kopperfield_7.png" alt="Kopperfield screenshot 7">
+                    <img src="images/Kopperfield_8.png" alt="Kopperfield screenshot 8">
+                </div>
+                <div class="slideshow-controls">
+                    <button class="slideshow-btn" onclick="slideshowPrev('kopperfield')">&#8249;</button>
+                    <div class="slideshow-dots" id="kopperfield-dots"></div>
+                    <span class="slideshow-counter" id="kopperfield-counter">1 / 8</span>
+                    <button class="slideshow-btn" onclick="slideshowNext('kopperfield')">&#8250;</button>
+                </div>
+            </div>
+
+            <h3 style="margin-top:32px;">EnergySage's Clean Energy Solutions Process</h3>
+            <p style="font-size:14px;color:var(--text-dim);margin-bottom:8px;">Answering Questionnaire, Viewing Available Options</p>
+
+            <div class="slideshow" id="energysage-slideshow">
+                <div class="slideshow-viewport" onclick="openLightboxFromSlideshow('energysage')">
+                    <img src="images/energysage_1.png" alt="EnergySage screenshot 1" class="active">
+                    <img src="images/energysage_2.png" alt="EnergySage screenshot 2">
+                    <img src="images/energysage_3.png" alt="EnergySage screenshot 3">
+                    <img src="images/energysage_4.png" alt="EnergySage screenshot 4">
+                    <img src="images/energysage_5.png" alt="EnergySage screenshot 5">
+                    <img src="images/energysage_6.png" alt="EnergySage screenshot 6">
+                    <img src="images/energysage_7.png" alt="EnergySage screenshot 7">
+                    <img src="images/energysage_8.png" alt="EnergySage screenshot 8">
+                    <img src="images/energysage_9.png" alt="EnergySage screenshot 9">
+                </div>
+                <div class="slideshow-controls">
+                    <button class="slideshow-btn" onclick="slideshowPrev('energysage')">&#8249;</button>
+                    <div class="slideshow-dots" id="energysage-dots"></div>
+                    <span class="slideshow-counter" id="energysage-counter">1 / 9</span>
+                    <button class="slideshow-btn" onclick="slideshowNext('energysage')">&#8250;</button>
+                </div>
+            </div>
+
+            <div style="margin-top:32px;">
+                <h3>Comparative Analysis Summary</h3>
+                <h4 style="font-size:15px;color:var(--text-dim);margin:12px 0;">Opportunities for HVAC.com</h4>
+                <p style="font-size:14px;color:var(--text-dim);margin-bottom:12px;"><strong>Drawing Insights from Kopperfield and EnergySage</strong>:</p>
+                <ul style="padding-left:20px;font-size:14px;color:var(--text-dim);line-height:1.8;">
+                    <li><strong>Precise Matching Process</strong>: More accurate contractor matching through a detailed questionnaire and pricing sheet.</li>
+                    <li><strong>Enhanced Communication and Scheduling</strong>: Direct communication post-match for efficient scheduling.</li>
+                    <li><strong>Instant Scheduling Capability</strong>: Streamline the process from match to service with immediate scheduling.</li>
+                    <li><strong>Continuous Improvement through Feedback</strong>: Ongoing platform enhancements based on user feedback.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proposed User Journey -->
+    <section class="section section--alt" id="journey">
+        <div class="section-container">
+            <p class="section-label">Design</p>
+            <h2>Proposed User Journey</h2>
+            <img class="full-image" src="images/Revised%20User%20Flow%20for%20HVAC%20Service%20Sign-Up%20and%20Matching.png" alt="Revised User Flow for HVAC Service Sign-Up and Matching" style="cursor:pointer;" onclick="openSingleLightbox(this.src)">
+        </div>
+    </section>
+
+    <!-- Validating the Hypothesis + A/B Testing -->
+    <section class="section section--white" id="validation">
+        <div class="section-container">
+            <p class="section-label">Validation</p>
+            <h2>Validating the Hypothesis &amp; A/B Testing Approach</h2>
+
+            <div class="card-grid grid-2">
+                <div class="card card--blue">
+                    <h3>Validating the Hypothesis</h3>
+                    <p><strong>Hypothesis</strong>: A streamlined connection process increases user satisfaction and successful matches.</p>
+                    <p style="margin-top:10px;"><strong>Data Analysis Plan</strong>: Compare conversion rates for customers connected within 1 day versus longer and utilize historical data and pilot testing for insights.</p>
+                    <p style="margin-top:10px;"><strong>Expected Outcomes</strong>: Higher conversion rates for faster connections and data-driven refinements to the matchmaking process.</p>
+                </div>
+                <div class="card card--purple">
+                    <h3>A/B Testing Approach</h3>
+                    <p><strong>Objective</strong>: Validate the new user flow's effectiveness.</p>
+                    <p style="margin-top:10px;"><strong>Methodology</strong>: User Segmentation, Data Tracking, and User Feedback.</p>
+                    <p style="margin-top:10px;"><strong>Goals</strong>: Assess user satisfaction and engagement between the flows, and identify and refine any areas of friction.</p>
+                    <p style="margin-top:10px;"><strong>Expected Outcomes</strong>: Clear impact assessment of new features, and informed decisions on implementing the new user flow.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feasibility & Scalability + User-Centric Approach -->
+    <section class="section section--alt" id="feasibility">
+        <div class="section-container">
+            <p class="section-label">Approach</p>
+            <h2>Feasibility &amp; Scalability</h2>
+
+            <div class="card-grid grid-2">
+                <div class="card card--mint">
+                    <h3>Feasibility &amp; Scalability</h3>
+                    <p><strong>Feasibility</strong>: Solutions are user-centric and technically feasible, using existing technology.</p>
+                    <p style="margin-top:10px;"><strong>Scalability</strong>: Designed to scale with HVAC.com's user base growth.</p>
+                </div>
+                <div class="card card--peach">
+                    <h3>User-Centric Approach</h3>
+                    <p><strong>User Testing</strong>: Incorporating feedback from design team collaboration and beta testing.</p>
+                    <p style="margin-top:10px;"><strong>Value-Driven Stories</strong>: Features embody fairness, trust-building, and positive experiences.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features: Option 1 - Contractor Matching -->
+    <section class="section section--white" id="option1">
+        <div class="section-container">
+            <p class="section-label">Features</p>
+            <h2>Option 1 - HVAC Contractor Matching</h2>
+            <p class="section-intro">A system for matching homeowners with contractors based on specific needs. <strong>Note</strong>: Contractors can also bid for homeowners' business.</p>
+
+            <div class="user-story">
+                <h4>Scenario 1: Efficient Matchmaking and Bid Presentation</h4>
+                <div class="step"><strong>Given</strong> <span>a homeowner with specific HVAC service needs</span></div>
+                <div class="step"><strong>When</strong> <span>they complete the detailed questionnaire</span></div>
+                <div class="step"><strong>Then</strong> <span>the system should analyze the homeowner's requirements,</span></div>
+                <div class="step"><strong>And</strong> <span>generate tailored bids from contractors based on the pricing sheet,</span></div>
+                <div class="step"><strong>And</strong> <span>provide a list of these bids for the homeowner to review,</span></div>
+                <div class="step"><strong>And</strong> <span>allow the homeowner to select a contractor or request further bids.</span></div>
+            </div>
+
+            <div class="user-story">
+                <h4>Scenario 2: Contractor Confirmation</h4>
+                <div class="step"><strong>Given</strong> <span>a homeowner who has selected a contractor through the bid process</span></div>
+                <div class="step"><strong>When</strong> <span>the homeowner confirms their choice</span></div>
+                <div class="step"><strong>Then</strong> <span>the system should facilitate direct contact between the homeowner and contractor</span></div>
+                <div class="step"><strong>And</strong> <span>provide contact information for the homeowner and contractor to connect,</span></div>
+                <div class="step"><strong>And</strong> <span>enable a seamless transition to scheduling the service,</span></div>
+                <div class="step"><strong>And</strong> <span>record the successful contractor match for further analysis and improvement of the matching process.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features: Option 2 - Instant Scheduling -->
+    <section class="section section--alt" id="option2">
+        <div class="section-container">
+            <p class="section-label">Features</p>
+            <h2>Option 2 - Instant Scheduling</h2>
+            <p class="section-intro">Enable homeowners to schedule HVAC services directly through the platform with a few clicks, reducing the time between matching and service.</p>
+
+            <div class="user-story">
+                <h4>Scenario 1: Hassle-Free Scheduling</h4>
+                <div class="step"><strong>Given</strong> <span>a homeowner who has confirmed a contractor match</span></div>
+                <div class="step"><strong>When</strong> <span>the homeowner is ready to schedule HVAC services</span></div>
+                <div class="step"><strong>Then</strong> <span>the system should provide a user-friendly interface for scheduling</span></div>
+                <div class="step"><strong>And</strong> <span>allow the homeowner to choose a convenient date and time for the service</span></div>
+                <div class="step"><strong>And</strong> <span>confirm the service appointment with the selected contractor</span></div>
+                <div class="step"><strong>And</strong> <span>send confirmation details to both the homeowner and contractor</span></div>
+            </div>
+
+            <div class="user-story">
+                <h4>Scenario 2: Reminders and Notifications</h4>
+                <div class="step"><strong>Given</strong> <span>a scheduled HVAC service appointment</span></div>
+                <div class="step"><strong>When</strong> <span>the scheduled date and time approach</span></div>
+                <div class="step"><strong>Then</strong> <span>the system should send reminders to both the homeowner and contractor</span></div>
+                <div class="step"><strong>And</strong> <span>provide real-time updates on the status of the service</span></div>
+                <div class="step"><strong>And</strong> <span>allow for easy rescheduling or cancellation if needed</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KPIs for Success -->
+    <section class="section section--white" id="kpis">
+        <div class="section-container">
+            <p class="section-label">Metrics</p>
+            <h2>KPIs for Success</h2>
+
+            <div class="card-grid grid-2">
+                <div class="card card--blue">
+                    <h3>HVAC Contractor Matching</h3>
+                    <div class="kpi-group">
+                        <p class="kpi-label">Primary KPIs</p>
+                        <p>Conversion Rate from Questionnaire to Match, User Satisfaction with the Matching Process</p>
+                    </div>
+                    <div class="kpi-group">
+                        <p class="kpi-label">Secondary KPIs</p>
+                        <p>Time from Match to Service, Match Accuracy, Referral Revenue</p>
+                    </div>
+                </div>
+                <div class="card card--purple">
+                    <h3>Instant Scheduling</h3>
+                    <div class="kpi-group">
+                        <p class="kpi-label">Primary KPIs</p>
+                        <p>Time to Schedule a Service, User Satisfaction with Scheduling</p>
+                    </div>
+                    <div class="kpi-group">
+                        <p class="kpi-label">Secondary KPIs</p>
+                        <p>Scheduling Conversion Rate, Referral Revenue</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Monetization Strategy -->
+    <section class="section section--alt" id="monetization">
+        <div class="section-container">
+            <p class="section-label">Business Model</p>
+            <h2>Monetization Strategy</h2>
+            <p class="section-intro">Focusing on user satisfaction, we also see potential in generating revenue through contractor referral or expedited fees.</p>
+        </div>
+    </section>
+
+    <!-- Future Roadmap Possibilities -->
+    <section class="section section--white" id="roadmap">
+        <div class="section-container">
+            <p class="section-label">What's Next</p>
+            <h2>Future Roadmap Possibilities</h2>
+
+            <div class="roadmap-item">
+                <h4>AI-Powered Recommendations</h4>
+                <p>Today, quotes are looked at by humans, but the options that users are matched with today by humans can be training data for AI-powered matches that users can then confirm to find their match faster.</p>
+            </div>
+            <div class="roadmap-item">
+                <h4>HVAC.com Express</h4>
+                <p>Pilot a program that allows for users to be guaranteed a match within a day for an additional fee.</p>
+            </div>
+            <div class="roadmap-item">
+                <h4>Improving Real-time Communication</h4>
+                <p>Implement SMS and email updates for real-time project status, improving transparency and customer satisfaction.</p>
+            </div>
+            <div class="roadmap-item">
+                <h4>Payment Integration</h4>
+                <p>Integrate payment methods including Credit Card, Apple Pay, Google Pay, PayPal, Klarna, and Affirm, providing users with safe, secure, and convient ways to pay.</p>
+            </div>
+            <div class="roadmap-item">
+                <h4>Partnerships</h4>
+                <p>Consider integrations with Angi, HomeAdvisor, Taskrabbit, Thumbtack, or Yelp to drive additional traffic.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Appendix: RICE Prioritization -->
+    <section class="section section--alt" id="appendix">
+        <div class="section-container">
+            <p class="section-label">Appendix</p>
+            <h2>RICE Prioritization</h2>
+
+            <div class="rice-table-wrapper">
+                <table class="rice-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Reach (0-10)</th>
+                            <th>Impact (0-10)</th>
+                            <th>Confidence (0-10)</th>
+                            <th>Effort (0-10)</th>
+                            <th>RICE Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="highlight">Matchmaking</td>
+                            <td>4</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>4</td>
+                            <td class="highlight-score">42</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight">Instant Scheduling</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>4</td>
+                            <td class="highlight-score">52.5</td>
+                        </tr>
+                        <tr>
+                            <td>Reminders and Notifications</td>
+                            <td>4</td>
+                            <td>4</td>
+                            <td>6</td>
+                            <td>3</td>
+                            <td>32</td>
+                        </tr>
+                        <tr>
+                            <td>AI-Powered Recommendations</td>
+                            <td>2</td>
+                            <td>7</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>11.67</td>
+                        </tr>
+                        <tr>
+                            <td>HVAC.com Express</td>
+                            <td>3</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>5</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>Payment Integration</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>4</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>Partnerships</td>
+                            <td>2</td>
+                            <td>7</td>
+                            <td>5</td>
+                            <td>5</td>
+                            <td>14</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="rice-formula">RICE Score = (Reach * Impact * Confidence) / Effort</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>
+            <img src="images/hvac-com-logo-badge-black.png" alt="HVAC.com" class="footer-logo"><br>
+            <a href="https://middleton.io">&larr; Back to Portfolio</a>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="lightboxPrev(event)">&lsaquo;</button>
+        <img id="lightbox-img" src="" alt="Enlarged screenshot">
+        <button class="lightbox-nav lightbox-next" onclick="lightboxNext(event)">&rsaquo;</button>
+        <div class="lightbox-counter" id="lightbox-counter"></div>
+    </div>
+
+    <script>
+    const slideshows = {};
+
+    function initSlideshow(name) {
+        const el = document.getElementById(name + '-slideshow');
+        if (!el) return;
+        const imgs = el.querySelectorAll('.slideshow-viewport img');
+        const dotsEl = document.getElementById(name + '-dots');
+        slideshows[name] = { imgs: Array.from(imgs), index: 0 };
+        imgs.forEach(function(_, i) {
+            const dot = document.createElement('span');
+            dot.className = 'slideshow-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = function(e) { e.stopPropagation(); slideshowGo(name, i); };
+            dotsEl.appendChild(dot);
+        });
+    }
+
+    function slideshowGo(name, index) {
+        const s = slideshows[name];
+        if (!s) return;
+        s.imgs[s.index].classList.remove('active');
+        s.index = (index + s.imgs.length) % s.imgs.length;
+        s.imgs[s.index].classList.add('active');
+        var counter = document.getElementById(name + '-counter');
+        if (counter) counter.textContent = (s.index + 1) + ' / ' + s.imgs.length;
+        var dots = document.getElementById(name + '-dots');
+        if (dots) dots.querySelectorAll('.slideshow-dot').forEach(function(d, i) {
+            d.classList.toggle('active', i === s.index);
+        });
+    }
+
+    function slideshowNext(name) { var s = slideshows[name]; if (s) slideshowGo(name, s.index + 1); }
+    function slideshowPrev(name) { var s = slideshows[name]; if (s) slideshowGo(name, s.index - 1); }
+
+    var lightboxName = null;
+
+    function openLightboxFromSlideshow(name) {
+        lightboxName = name;
+        var s = slideshows[name];
+        if (!s) return;
+        document.getElementById('lightbox-img').src = s.imgs[s.index].src;
+        document.getElementById('lightbox-counter').textContent = (s.index + 1) + ' / ' + s.imgs.length;
+        document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+        lightboxName = null;
+    }
+
+    function lightboxNav(delta, e) {
+        if (e) e.stopPropagation();
+        if (!lightboxName) return;
+        var s = slideshows[lightboxName];
+        if (!s) return;
+        slideshowGo(lightboxName, s.index + delta);
+        document.getElementById('lightbox-img').src = s.imgs[s.index].src;
+        document.getElementById('lightbox-counter').textContent = (s.index + 1) + ' / ' + s.imgs.length;
+    }
+
+    function lightboxPrev(e) { lightboxNav(-1, e); }
+    function lightboxNext(e) { lightboxNav(1, e); }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') lightboxNav(-1);
+        if (e.key === 'ArrowRight') lightboxNav(1);
+    });
+
+    function openSingleLightbox(src) {
+        lightboxName = null;
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox-counter').textContent = '';
+        document.querySelector('.lightbox-prev').style.display = 'none';
+        document.querySelector('.lightbox-next').style.display = 'none';
+        document.getElementById('lightbox').classList.add('active');
+    }
+
+    var origCloseLightbox = closeLightbox;
+    closeLightbox = function() {
+        document.querySelector('.lightbox-prev').style.display = '';
+        document.querySelector('.lightbox-next').style.display = '';
+        origCloseLightbox();
+    };
+
+    initSlideshow('kopperfield');
+    initSlideshow('energysage');
+    </script>
+
+</body>
+</html>

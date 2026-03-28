@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base href="@@base@@" />
+    <base href="./" />
     <meta charset="utf-8" />
     <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1" />
     <link rel="stylesheet" href="engine/main.css" />
@@ -38,6 +38,60 @@
 --titlefont: system-ui;
 } 
 
+    </style>
+    <style>
+    /* Top-align slide content instead of center/bottom */
+    .layout-cover {
+      align-content: start !important;
+      padding-top: 10vh !important;
+    }
+
+    /* Override ALL Keynote inline font sizes — go big */
+    .layout-cover > div,
+    .layout-default > div,
+    .layout-section > div {
+      font-size: 1.6rem !important;
+    }
+    .slides h1 {
+      font-size: 3.5rem !important;
+    }
+    .slides h2 {
+      font-size: 2.8rem !important;
+    }
+    .slides h3 {
+      font-size: 2.2rem !important;
+    }
+    .slides h4 {
+      font-size: 1.8rem !important;
+    }
+    .slides p, .slides li {
+      font-size: 1.6rem !important;
+      line-height: 1.6 !important;
+    }
+
+    @media (max-width: 768px) {
+      .slides section {
+        padding: 20px !important;
+      }
+      .layout-cover,
+      .layout-default,
+      .layout-section {
+        padding: 0 8px !important;
+      }
+      .layout-cover {
+        padding-top: 5vh !important;
+      }
+      .single-image-wrapper img {
+        max-width: 100% !important;
+        height: auto !important;
+      }
+      .footer {
+        padding: 4px 12px !important;
+      }
+      .footer .logo {
+        max-height: 24px !important;
+      }
+    }
     </style>
     <link
       rel="stylesheet"
