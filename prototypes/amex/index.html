@@ -1450,8 +1450,7 @@ special_requests?: string</code>
     <h3>Safety Patterns</h3>
     <div class="gov-grid">
       <div class="gov-card">
-        <div class="gov-card-icon" style="background: var(--amex-blue-light); color: var(--amex-blue);">&#x1F512;</div>
-        <h4>Hold-Before-Commit Pattern</h4>
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">&#x1F512;</span> Hold-Before-Commit Pattern</h4>
         <p>The reservation flow uses a two-phase commit: hold, then confirm. This is the key safety mechanism for agentic booking.</p>
         <ul>
           <li><span class="gov-check">1</span> Agent calls <code>create_reservation</code> &rarr; MCP server places a 5-minute hold</li>
@@ -1462,8 +1461,7 @@ special_requests?: string</code>
         </ul>
       </div>
       <div class="gov-card">
-        <div class="gov-card-icon" style="background: var(--amex-green-light); color: var(--amex-green);">&#x1F511;</div>
-        <h4>OAuth Token Scoping</h4>
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">&#x1F511;</span> OAuth Token Scoping</h4>
         <p>Different agent interactions require different permission levels, controlled via OAuth scopes.</p>
         <ul>
           <li><span class="gov-check">&#10003;</span> <code>restaurants:read</code> Search and view restaurants (any agent)</li>
@@ -1474,8 +1472,7 @@ special_requests?: string</code>
         </ul>
       </div>
       <div class="gov-card">
-        <div class="gov-card-icon" style="background: var(--amex-orange-light); color: var(--amex-orange);">&#x1F6E1;</div>
-        <h4>The Trust Model</h4>
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">&#x1F6E1;</span> The Trust Model</h4>
         <p style="font-weight: 600; color: var(--dark); font-size: 15px; line-height: 1.6;">"You're authorizing actions on behalf of a cardholder through a third-party agent."</p>
         <p style="margin-top: 10px;">Three parties, three trust relationships:</p>
         <ul>
@@ -1485,8 +1482,7 @@ special_requests?: string</code>
         </ul>
       </div>
       <div class="gov-card">
-        <div class="gov-card-icon" style="background: var(--amex-red-light); color: var(--amex-red);">&#x2696;</div>
-        <h4>Financial Services Compliance</h4>
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">&#x2696;&#xFE0F;</span> Financial Services Compliance</h4>
         <p>Additional considerations for a regulated financial institution operating in the agentic space.</p>
         <ul>
           <li><span class="gov-check">&#10003;</span> <strong>Audit trail:</strong> Every agent-initiated action logged with agent ID, timestamp, and cardholder consent token</li>
