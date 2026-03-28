@@ -826,7 +826,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
   <div class="tab" onclick="switchTab(1)"><span class="tab-num">&#x2699;&#xFE0F;</span>API Architecture</div>
   <div class="tab" onclick="switchTab(2)"><span class="tab-num">&#x1F50C;</span>MCP Server Design</div>
   <div class="tab" onclick="switchTab(3)"><span class="tab-num">&#x1F6E1;</span>Guardrails &amp; Governance</div>
-  <div class="tab" onclick="switchTab(4)"><span class="tab-num">&#x1F441;</span>Vision</div>
+  <div class="tab" onclick="switchTab(4)"><span class="tab-num">&#x1F6E0;</span>How I Use AI</div>
+  <div class="tab" onclick="switchTab(5)"><span class="tab-num">&#x1F441;</span>Vision</div>
 </nav>
 
 <!-- ============================================================ -->
@@ -1515,9 +1516,68 @@ special_requests?: string</code>
 </div>
 
 <!-- ============================================================ -->
-<!-- TAB 5: VISION -->
+<!-- TAB 5: HOW I USE AI -->
 <!-- ============================================================ -->
 <div class="tab-content" id="tab-4">
+  <div class="concept-header" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+    <div class="concept-label">Practitioner, Not Theorist</div>
+    <h2>How I Use AI &amp; MCP</h2>
+    <p>I don't just talk about these tools. I build with them daily.</p>
+  </div>
+
+  <div class="content-section">
+    <h3>My AI Stack</h3>
+    <div class="gov-grid">
+      <div class="gov-card">
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">💬</span> Telegram + Claude Code</h4>
+        <p>Claude Code runs on my Mac mini with a <a href="https://code.claude.com/docs/en/channels#imessage" target="_blank" style="color:var(--amex-blue);">Channels integration</a> to Telegram. I message it tasks, it executes them against my repos, and replies with results. This is how I manage QuietFeed and other projects conversationally.</p>
+      </div>
+      <div class="gov-card">
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">📱</span> Job Search Agent</h4>
+        <p>Built an autonomous pipeline that scans LinkedIn twice daily, classifies roles across five LLM models, and texts me matches. Runs at $0.06/day. Published a <a href="https://www.linkedin.com/pulse/i-built-ai-job-search-assistant-texts-me-when-finds-roles-middleton-nawxe/" target="_blank" style="color:var(--amex-blue);">4-part series</a> on the build.</p>
+      </div>
+      <div class="gov-card">
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">📰</span> QuietFeed</h4>
+        <p>An RSS reader built with AI assistance. React + Supabase + Vercel. Claude Code handles feature development, bug fixes, and test coverage across 60+ test files. <a href="https://quietfeed.com" target="_blank" style="color:var(--amex-blue);">quietfeed.com</a></p>
+      </div>
+      <div class="gov-card">
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">🔌</span> Buffer MCP</h4>
+        <p>Native MCP integration for social media scheduling. Claude connects to Buffer's MCP server to create posts, manage drafts, and schedule content across channels via natural language.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section" style="background: var(--light-gray);">
+    <h3>AI in My Professional Work</h3>
+    <div class="gov-grid">
+      <div class="gov-card">
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">⚡</span> GridStrong</h4>
+        <p>Delivered an AI-powered compliance copilot that guided power plant owners through plant profiles, compliance workflows, and cross-standard tasks, reducing manual effort and error rates.</p>
+      </div>
+      <div class="gov-card">
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">🏠</span> HVAC.com</h4>
+        <p>Defined and drove development of an LLM-powered AI assistant that answers homeowner questions conversationally and drives users toward HVAC replacement and repair conversions.</p>
+      </div>
+      <div class="gov-card">
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">🔒</span> Sendoso</h4>
+        <p>Increased platform security by implementing two-factor authentication and AI-driven fraud detection, reducing bot-driven attacks and strengthening customer trust.</p>
+      </div>
+      <div class="gov-card">
+        <h4 style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">🔑</span> Rocket Lawyer</h4>
+        <p>Created and launched co-branded partner sites reaching 11.5M users, enabling OpenID Connect-based authentication, pricing, feature gating, and theming for enterprise partnerships.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-footer">
+    <p>Built as a conversation starter. Excited to build this for real with the team.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 6: VISION -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-5">
   <div class="concept-header" style="background: linear-gradient(135deg, var(--amex-blue-dark) 0%, #000D33 100%);">
     <div class="concept-label">What's Next</div>
     <h2>Where This Goes</h2>
