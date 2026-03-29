@@ -4176,6 +4176,12 @@ function ivShowRound(roundIndex) {
     if (roundEl) roundEl.textContent = round.title;
     if (scenarioEl) scenarioEl.innerHTML = round.scenario.replace(/\n/g, '<br>');
 
+    // Show victory portrait briefly on round 8 before the laid off twist
+    if (roundIndex === 7) {
+        var portrait = document.getElementById('interviewPortrait');
+        if (portrait) portrait.src = 'kevinos/images/interview-victory.jpg';
+    }
+
     if (choicesEl) {
         choicesEl.innerHTML = '';
         round.choices.forEach(function(choice, i) {
@@ -4243,7 +4249,7 @@ function ivEndGame(message) {
     if (titleEl) titleEl.textContent = isVictory ? 'LAID OFF' : 'GAME OVER';
     if (roundEl) roundEl.textContent = ivRound + 1;
     if (msgEl) msgEl.textContent = message;
-    if (endPortrait) endPortrait.src = isVictory ? 'kevinos/images/interview-victory.jpg' : 'kevinos/images/interview-gameover.jpg';
+    if (endPortrait) endPortrait.src = isVictory ? 'kevinos/images/interview-laidoff.jpg' : 'kevinos/images/interview-gameover.jpg';
 }
 
 function startInterview() {
