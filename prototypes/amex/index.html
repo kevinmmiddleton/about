@@ -1224,36 +1224,9 @@ notify_via?: "push" | "sms" | "email"</code>
       </div>
     </div>
 
-    <!-- Orchestration -->
-    <div class="api-phase-group">
-      <div class="api-phase-title"><div class="phase-dot"></div> Orchestration <span style="font-size: 11px; color: var(--gray); font-weight: 400; margin-left: 8px;">Cross-Server</span></div>
-      <div class="api-cards">
-        <div class="api-card">
-          <div class="api-card-header">
-            <span class="http-method" style="background: var(--amex-purple); color: white;">MCP</span>
-            <span class="api-endpoint">Calendar MCP Server</span>
-          </div>
-          <div class="api-params">
-            <div class="param-label">Integration</div>
-            <code>Not a Resy API. The agent coordinates
-with an external Calendar MCP server
-to check conflicts, add events, estimate
-travel time, and invite guests.</code>
-          </div>
-          <div class="api-response">
-            <div class="param-label">Why It's Here</div>
-            <code>The agent orchestrates multiple MCP
-servers. This phase shows the boundary
-between Resy's capabilities and
-cross-service coordination.</code>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="annotation">
       <div class="annotation-label">Why This Matters</div>
-      <p>Notice the <strong>hold pattern</strong> in the Booking section: the reservation flow uses a two-step commit. <code>POST /reservations/hold</code> creates a temporary lock, then <code>POST /reservations</code> finalizes. This pattern is critical for agentic experiences: it lets an AI agent secure a timeslot while the cardholder confirms, without risking a lost booking or an unauthorized charge. The Orchestration phase shows how the agent's job extends beyond Resy's API surface &mdash; coordinating calendar, travel, and guest management across multiple servers.</p>
+      <p>Notice the <strong>hold pattern</strong> in the Booking section: the reservation flow uses a two-step commit. <code>POST /reservations/hold</code> creates a temporary lock, then <code>POST /reservations</code> finalizes. This pattern is critical for agentic experiences: it lets an AI agent secure a timeslot while the cardholder confirms, without risking a lost booking or an unauthorized charge.</p>
     </div>
   </div>
 
