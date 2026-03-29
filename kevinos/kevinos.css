@@ -4665,6 +4665,12 @@ body {
     --text-muted: var(--game-text-muted);
 }
 
+.game-title-icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
 .game-title {
     font-family: var(--font-mono);
     font-size: 28px;
