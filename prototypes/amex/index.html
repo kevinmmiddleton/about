@@ -873,14 +873,20 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
       <div class="journey-connector">&rarr;</div>
       <div class="journey-phase">
         <div class="phase-title-row"><div class="phase-number">5</div><h4>Post-Booking</h4></div>
-        <p>Modify party size, change time, or cancel.</p>
+        <p>Modify party size, change time, cancel, sync to calendar, or join waitlists for unavailable spots.</p>
         <span class="phase-tag">Lifecycle</span>
+      </div>
+      <div class="journey-connector">&rarr;</div>
+      <div class="journey-phase">
+        <div class="phase-title-row"><div class="phase-number">6</div><h4>Orchestration</h4></div>
+        <p>Agent coordinates across services: calendar conflict checks, travel time estimates, and guest invitations.</p>
+        <span class="phase-tag">Cross-Service</span>
       </div>
     </div>
 
     <div class="annotation">
       <div class="annotation-label">Why This Matters</div>
-      <p>Each of these five phases represents a distinct capability surface. When we build an MCP server, we're not exposing a monolithic API. We're giving AI agents a toolkit that mirrors how humans actually navigate the experience. The agent needs to <em>discover</em>, <em>search</em>, <em>authenticate</em>, <em>transact</em>, and <em>manage</em>, just like a person does.</p>
+      <p>Each of these six phases represents a distinct capability surface. When we build an MCP server, we're not exposing a monolithic API. We're giving AI agents a toolkit that mirrors how humans actually navigate the experience. The agent needs to <em>discover</em>, <em>search</em>, <em>authenticate</em>, <em>transact</em>, <em>manage</em>, and <em>orchestrate across services</em>, just like a concierge does.</p>
     </div>
   </div>
 
@@ -982,7 +988,9 @@ location?: string</code>
           </div>
           <div class="api-params">
             <div class="param-label">Parameters</div>
-            <code>city: string      // e.g. "new-york-ny"
+            <code>city?: string     // e.g. "new-york-ny"
+lat?: number      // Latitude (use with lng)
+lng?: number      // Longitude (use with lat)
 date: string      // YYYY-MM-DD
 seats: number
 query?: string    // e.g. "Pizza"
@@ -1182,9 +1190,76 @@ special_requests?: string</code>
       </div>
     </div>
 
+    <!-- Waitlist -->
+    <div class="api-phase-group">
+      <div class="api-phase-title"><div class="phase-dot"></div> Waitlist</div>
+      <div class="api-cards">
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-post">POST</span>
+            <span class="api-endpoint">/waitlist</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>restaurant_id: string
+date: string      // YYYY-MM-DD
+time_window?: { earliest, latest }
+party_size: number
+notify_via?: "push" | "sms" | "email"</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ waitlist_id, position,
+  estimated_notify_time }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-delete">DELETE</span>
+            <span class="api-endpoint">/waitlist/{id}</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>id: string  // Waitlist entry identifier</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ status: "removed" }</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orchestration -->
+    <div class="api-phase-group">
+      <div class="api-phase-title"><div class="phase-dot"></div> Orchestration <span style="font-size: 11px; color: var(--gray); font-weight: 400; margin-left: 8px;">Cross-Server</span></div>
+      <div class="api-cards">
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method" style="background: var(--amex-purple); color: white;">MCP</span>
+            <span class="api-endpoint">Calendar MCP Server</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Integration</div>
+            <code>Not a Resy API. The agent coordinates
+with an external Calendar MCP server
+to check conflicts, add events, estimate
+travel time, and invite guests.</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Why It's Here</div>
+            <code>The agent orchestrates multiple MCP
+servers. This phase shows the boundary
+between Resy's capabilities and
+cross-service coordination.</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="annotation">
       <div class="annotation-label">Why This Matters</div>
-      <p>Notice the <strong>hold pattern</strong> in the Booking section: the reservation flow uses a two-step commit. <code>POST /reservations/hold</code> creates a temporary lock, then <code>POST /reservations</code> finalizes. This pattern is critical for agentic experiences: it lets an AI agent secure a timeslot while the cardholder confirms, without risking a lost booking or an unauthorized charge.</p>
+      <p>Notice the <strong>hold pattern</strong> in the Booking section: the reservation flow uses a two-step commit. <code>POST /reservations/hold</code> creates a temporary lock, then <code>POST /reservations</code> finalizes. This pattern is critical for agentic experiences: it lets an AI agent secure a timeslot while the cardholder confirms, without risking a lost booking or an unauthorized charge. The Orchestration phase shows how the agent's job extends beyond Resy's API surface &mdash; coordinating calendar, travel, and guest management across multiple servers.</p>
     </div>
   </div>
 
@@ -1521,6 +1596,11 @@ special_requests?: string</code>
           <td><span class="badge-internal">Internal Only</span></td>
           <td>Behavioral data stays internal to avoid profiling by third parties</td>
         </tr>
+        <tr>
+          <td>Cardholder calendar data</td>
+          <td><span class="badge-partial">Partial</span></td>
+          <td>Agent sees "conflict at 7:30 PM" but never the event title, attendees, or details. Conflict checks happen server-side.</td>
+        </tr>
       </tbody>
     </table>
 
@@ -1553,6 +1633,8 @@ special_requests?: string</code>
           <li><span class="gov-check">&#10003;</span> <code>reservations:read</code> View existing reservations</li>
           <li><span class="gov-check">&#10003;</span> <code>reservations:write</code> Create reservations (requires cardholder auth)</li>
           <li><span class="gov-check">&#10003;</span> <code>reservations:manage</code> Modify/cancel (requires re-confirmation)</li>
+          <li><span class="gov-check">&#10003;</span> <code>waitlist:write</code> Join/leave waitlists (no financial commitment)</li>
+          <li><span class="gov-check">&#10003;</span> <code>calendar:write</code> Cross-server calendar access (delegated scope, agent sees conflict times but not event details)</li>
         </ul>
       </div>
       <div class="gov-card">
@@ -1644,7 +1726,9 @@ special_requests?: string</code>
         <div class="vision-examples">
           <span>Agent suggests 3 options</span>
           <span>Places hold on preferred choice</span>
+          <span>Joins waitlists for unavailable picks</span>
           <span>Cardholder confirms in Amex app</span>
+          <span>Calendar conflict check before booking</span>
           <span>Hold converts to reservation</span>
         </div>
       </div>
@@ -1656,7 +1740,9 @@ special_requests?: string</code>
         <div class="vision-examples">
           <span>Autonomous booking within constraints</span>
           <span>Proactive rebooking on cancellation</span>
-          <span>Calendar-aware scheduling</span>
+          <span>Calendar sync with travel time buffers</span>
+          <span>Auto-waitlist when top picks are full</span>
+          <span>Guest invites to dining companions</span>
           <span>Preference learning over time</span>
         </div>
       </div>
@@ -1670,6 +1756,7 @@ special_requests?: string</code>
           <span>Hotel concierge agent coordination</span>
           <span>Multi-restaurant itineraries</span>
           <span>Trip-aware dining suggestions</span>
+          <span>Resy MCP + Calendar MCP + Maps MCP</span>
         </div>
       </div>
     </div>
