@@ -1256,13 +1256,15 @@ special_requests?: string</code>
       <div class="tool-card-body">
         <div class="tool-description">
           <div class="desc-label">Tool Description (What the Agent Reads)</div>
-          Search for available restaurants on Resy by city, date, seats, and optional keyword. Returns a list of restaurants with available reservation times. Use this when a user wants to find somewhere to eat. Always ask for date and party size before calling. Maps to resy.com/cities/{city}/search.
+          Search for available restaurants on Resy by location, date, seats, and optional keyword. Supports both city-based and proximity-based search. Returns a list of restaurants with available reservation times. Use this when a user wants to find somewhere to eat. Always ask for date and party size before calling. If the user says "near me" or shares a location, use lat/lng instead of city. Maps to resy.com/cities/{city}/search.
         </div>
         <div class="tool-schema-label">Input Schema</div>
         <div class="tool-schema">{
   "<span class="json-key">type</span>": "<span class="json-string">object</span>",
   "<span class="json-key">properties</span>": {
-    "<span class="json-key">city</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">City slug (e.g. new-york-ny, los-angeles-ca)</span>" },
+    "<span class="json-key">city</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">City slug (e.g. new-york-ny, los-angeles-ca). Use this OR lat/lng.</span>" },
+    "<span class="json-key">lat</span>": { "<span class="json-key">type</span>": "<span class="json-string">number</span>", "<span class="json-key">description</span>": "<span class="json-string">Latitude for proximity search. Use with lng instead of city.</span>" },
+    "<span class="json-key">lng</span>": { "<span class="json-key">type</span>": "<span class="json-string">number</span>", "<span class="json-key">description</span>": "<span class="json-string">Longitude for proximity search. Use with lat instead of city.</span>" },
     "<span class="json-key">date</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Date in YYYY-MM-DD format</span>" },
     "<span class="json-key">seats</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>", "<span class="json-key">minimum</span>": <span class="json-type">1</span>, "<span class="json-key">maximum</span>": <span class="json-type">20</span> },
     "<span class="json-key">query</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Optional search keyword (e.g. Pizza, Sushi, Italian)</span>" }
@@ -1379,6 +1381,75 @@ special_requests?: string</code>
         <div class="annotation" style="margin-top: 16px; margin-bottom: 0;">
           <div class="annotation-label">Why This Matters</div>
           <p>Cancelling a reservation at a premium restaurant can trigger fees of $500+. That's why changes and cancellations require the cardholder to re-confirm. The agent can suggest and prepare the action, but anything with financial consequences needs a human in the loop.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tool 6: join_waitlist -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <h4>join_waitlist</h4>
+        <span class="tool-access-tag access-read">Read-Only</span>
+      </div>
+      <div class="tool-card-body">
+        <div class="tool-description">
+          <div class="desc-label">Tool Description (What the Agent Reads)</div>
+          Join the waitlist for a fully-booked restaurant. The cardholder will be notified when a table becomes available for their desired date, time window, and party size. No financial commitment is made. Use this when search_restaurants or check_availability shows no open slots and the cardholder still wants to try for that restaurant. This is a concierge-level feature &mdash; proactively suggest it when a top pick is unavailable.
+        </div>
+        <div class="tool-schema-label">Input Schema</div>
+        <div class="tool-schema">{
+  "<span class="json-key">type</span>": "<span class="json-string">object</span>",
+  "<span class="json-key">properties</span>": {
+    "<span class="json-key">restaurant_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>" },
+    "<span class="json-key">date</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">YYYY-MM-DD</span>" },
+    "<span class="json-key">time_window</span>": {
+      "<span class="json-key">type</span>": "<span class="json-string">object</span>",
+      "<span class="json-key">properties</span>": {
+        "<span class="json-key">earliest</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Earliest acceptable time (e.g. 19:00)</span>" },
+        "<span class="json-key">latest</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Latest acceptable time (e.g. 21:30)</span>" }
+      }
+    },
+    "<span class="json-key">party_size</span>": { "<span class="json-key">type</span>": "<span class="json-string">integer</span>" },
+    "<span class="json-key">notify_via</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">enum</span>": ["<span class="json-string">push</span>", "<span class="json-string">sms</span>", "<span class="json-string">email</span>"], "<span class="json-key">description</span>": "<span class="json-string">How to notify when a spot opens</span>" }
+  },
+  "<span class="json-key">required</span>": ["<span class="json-string">restaurant_id</span>", "<span class="json-string">date</span>", "<span class="json-string">party_size</span>"]
+}</div>
+        <div class="tech-annotation" style="margin-top: 16px; margin-bottom: 0;">
+          <div class="annotation-label">The Concierge Play</div>
+          <p>"Get me into Carbone whenever something opens up" &mdash; this is peak Platinum concierge behavior. No commitment, no risk, just quiet persistence. When a spot opens, the agent can auto-hold it and ping the cardholder to confirm.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tool 7: export_to_calendar -->
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <h4>export_to_calendar</h4>
+        <span class="tool-access-tag access-action">Action &middot; Cross-Server</span>
+      </div>
+      <div class="tool-card-body">
+        <div class="tool-description">
+          <div class="desc-label">Tool Description (What the Agent Reads)</div>
+          Add a confirmed reservation to the cardholder's calendar. Before creating the event, check for scheduling conflicts within &plusmn;90 minutes of the reservation time. If conflicts exist, surface them to the cardholder and ask how to proceed before adding. Include restaurant name, address, party size, confirmation number, and cancellation policy in the event details. This tool coordinates with an external Calendar MCP server.
+        </div>
+        <div class="tool-schema-label">Input Schema</div>
+        <div class="tool-schema">{
+  "<span class="json-key">type</span>": "<span class="json-string">object</span>",
+  "<span class="json-key">properties</span>": {
+    "<span class="json-key">reservation_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">ID of the confirmed reservation</span>" },
+    "<span class="json-key">calendar_id</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>", "<span class="json-key">description</span>": "<span class="json-string">Target calendar (default: primary)</span>" },
+    "<span class="json-key">add_travel_time</span>": { "<span class="json-key">type</span>": "<span class="json-string">boolean</span>", "<span class="json-key">description</span>": "<span class="json-string">If true, estimate travel time from prior event location and add a buffer</span>" },
+    "<span class="json-key">invite_guests</span>": {
+      "<span class="json-key">type</span>": "<span class="json-string">array</span>",
+      "<span class="json-key">items</span>": { "<span class="json-key">type</span>": "<span class="json-string">string</span>" },
+      "<span class="json-key">description</span>": "<span class="json-string">Email addresses of dining companions to invite</span>"
+    }
+  },
+  "<span class="json-key">required</span>": ["<span class="json-string">reservation_id</span>"]
+}</div>
+        <div class="tech-annotation" style="margin-top: 16px; margin-bottom: 0;">
+          <div class="annotation-label">Multi-Server Orchestration</div>
+          <p>This is where MCP shines. The Resy server handles the reservation. The Calendar server handles scheduling. The agent orchestrates both &mdash; checking for conflicts, estimating travel time from a prior event's location, and sending invites to dining companions. No single server does it all; the agent composes them.</p>
         </div>
       </div>
     </div>
