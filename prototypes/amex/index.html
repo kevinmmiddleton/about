@@ -867,13 +867,13 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
       <div class="journey-connector">&rarr;</div>
       <div class="journey-phase">
         <div class="phase-title-row"><div class="phase-number">4</div><h4>Booking</h4></div>
-        <p>Select timeslot, hold reservation, confirm payment method, and finalize.</p>
+        <p>Select timeslot, hold reservation, confirm payment method, and finalize. If unavailable, join the waitlist.</p>
         <span class="phase-tag">Transaction</span>
       </div>
       <div class="journey-connector">&rarr;</div>
       <div class="journey-phase">
         <div class="phase-title-row"><div class="phase-number">5</div><h4>Post-Booking</h4></div>
-        <p>Modify, cancel, join waitlists, or coordinate across services: calendar conflict checks, messaging, travel time estimates, and guest invitations.</p>
+        <p>Modify, cancel, or coordinate across services: calendar conflict checks, messaging, travel time estimates, and guest invitations.</p>
         <span class="phase-tag">Lifecycle &amp; Orchestration</span>
       </div>
     </div>
@@ -1140,6 +1140,39 @@ special_requests?: string</code>
   status: "confirmed" }</code>
           </div>
         </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-post">POST</span>
+            <span class="api-endpoint">/waitlist</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>restaurant_id: string
+date: string      // YYYY-MM-DD
+time_window?: { earliest, latest }
+party_size: number
+notify_via?: "push" | "sms" | "email"</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ waitlist_id, position,
+  estimated_notify_time }</code>
+          </div>
+        </div>
+        <div class="api-card">
+          <div class="api-card-header">
+            <span class="http-method method-delete">DELETE</span>
+            <span class="api-endpoint">/waitlist/{id}</span>
+          </div>
+          <div class="api-params">
+            <div class="param-label">Parameters</div>
+            <code>id: string  // Waitlist entry identifier</code>
+          </div>
+          <div class="api-response">
+            <div class="param-label">Response</div>
+            <code>{ status: "removed" }</code>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1179,46 +1212,6 @@ special_requests?: string</code>
             <code>{ status: "cancelled",
   cancellation_fee: null,
   refund_amount: 0.00 }</code>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Waitlist -->
-    <div class="api-phase-group">
-      <div class="api-phase-title"><div class="phase-dot"></div> Waitlist</div>
-      <div class="api-cards">
-        <div class="api-card">
-          <div class="api-card-header">
-            <span class="http-method method-post">POST</span>
-            <span class="api-endpoint">/waitlist</span>
-          </div>
-          <div class="api-params">
-            <div class="param-label">Parameters</div>
-            <code>restaurant_id: string
-date: string      // YYYY-MM-DD
-time_window?: { earliest, latest }
-party_size: number
-notify_via?: "push" | "sms" | "email"</code>
-          </div>
-          <div class="api-response">
-            <div class="param-label">Response</div>
-            <code>{ waitlist_id, position,
-  estimated_notify_time }</code>
-          </div>
-        </div>
-        <div class="api-card">
-          <div class="api-card-header">
-            <span class="http-method method-delete">DELETE</span>
-            <span class="api-endpoint">/waitlist/{id}</span>
-          </div>
-          <div class="api-params">
-            <div class="param-label">Parameters</div>
-            <code>id: string  // Waitlist entry identifier</code>
-          </div>
-          <div class="api-response">
-            <div class="param-label">Response</div>
-            <code>{ status: "removed" }</code>
           </div>
         </div>
       </div>
