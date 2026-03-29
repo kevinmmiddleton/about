@@ -1549,6 +1549,11 @@ notify_via?: "push" | "sms" | "email"</code>
           <td>Confirmation display only, never full card number</td>
         </tr>
         <tr>
+          <td>Cardholder calendar data</td>
+          <td><span class="badge-partial">Partial</span></td>
+          <td>Agent sees "conflict at 7:30 PM" but never the event title, attendees, or details. Conflict checks happen server-side.</td>
+        </tr>
+        <tr>
           <td>Full cardholder profile</td>
           <td><span class="badge-internal">Internal Only</span></td>
           <td>PII stays server-side. Agent sees tokenized references.</td>
@@ -1562,11 +1567,6 @@ notify_via?: "push" | "sms" | "email"</code>
           <td>Reservation history / frequency</td>
           <td><span class="badge-internal">Internal Only</span></td>
           <td>Behavioral data stays internal to avoid profiling by third parties</td>
-        </tr>
-        <tr>
-          <td>Cardholder calendar data</td>
-          <td><span class="badge-partial">Partial</span></td>
-          <td>Agent sees "conflict at 7:30 PM" but never the event title, attendees, or details. Conflict checks happen server-side.</td>
         </tr>
       </tbody>
     </table>
