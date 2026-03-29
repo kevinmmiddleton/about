@@ -3948,6 +3948,27 @@ function ivGetFace() {
     return '😎';
 }
 
+function ivGetPortrait() {
+    if (ivSanity <= 15) return 'kevinos/images/interview-broken.jpg';
+    if (ivSanity <= 40) return 'kevinos/images/interview-desperate.jpg';
+    if (ivSanity <= 75) return 'kevinos/images/interview-stressed.jpg';
+    return 'kevinos/images/interview-confident.jpg';
+}
+
+function ivUpdatePortrait() {
+    var portrait = document.getElementById('interviewPortrait');
+    if (portrait) {
+        var newSrc = ivGetPortrait();
+        if (portrait.src.indexOf(newSrc) === -1) {
+            portrait.style.opacity = '0';
+            setTimeout(function() {
+                portrait.src = newSrc;
+                portrait.style.opacity = '1';
+            }, 150);
+        }
+    }
+}
+
 function ivUpdateHud() {
     const sanityBar = document.getElementById('sanityBar');
     const sanityValue = document.getElementById('sanityValue');
@@ -3962,6 +3983,7 @@ function ivUpdateHud() {
     if (confidenceValue) confidenceValue.textContent = Math.max(0, ivConfidence) + '%';
     if (ammoValue) ammoValue.textContent = ivAmmo;
     if (doomFace) doomFace.textContent = ivGetFace();
+    ivUpdatePortrait();
 }
 
 function ivFlashDamage() {
@@ -4215,10 +4237,13 @@ function ivEndGame(message) {
     var titleEl = document.getElementById('interviewOverTitle');
     var roundEl = document.getElementById('interviewFinalRound');
     var msgEl = document.getElementById('interviewOverMessage');
+    var endPortrait = document.getElementById('interviewEndPortrait');
 
-    if (titleEl) titleEl.textContent = ivRound >= 7 ? 'LAID OFF' : 'GAME OVER';
+    var isVictory = ivRound >= 7;
+    if (titleEl) titleEl.textContent = isVictory ? 'LAID OFF' : 'GAME OVER';
     if (roundEl) roundEl.textContent = ivRound + 1;
     if (msgEl) msgEl.textContent = message;
+    if (endPortrait) endPortrait.src = isVictory ? 'kevinos/images/interview-victory.jpg' : 'kevinos/images/interview-gameover.jpg';
 }
 
 function startInterview() {
@@ -4230,6 +4255,9 @@ function startInterview() {
     if (interviewStart) interviewStart.style.display = 'none';
     if (interviewOver) interviewOver.style.display = 'none';
     if (interviewGame) interviewGame.style.display = 'flex';
+
+    var portrait = document.getElementById('interviewPortrait');
+    if (portrait) portrait.src = 'kevinos/images/interview-confident.jpg';
 
     ivUpdateHud();
     ivShowRound(0);

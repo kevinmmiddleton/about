@@ -5501,6 +5501,32 @@ body {
 }
 
 /* Doom-style HUD */
+.interview-portrait {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    background: #0a0f0a;
+    overflow: hidden;
+}
+
+.interview-portrait-img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.interview-portrait-endscreen {
+    margin-bottom: 16px;
+}
+
+.interview-portrait-endscreen .interview-portrait-img {
+    max-width: 400px;
+    border-radius: 8px;
+    border: 2px solid #333;
+}
+
 .interview-doom-hud {
     display: flex;
     align-items: center;
