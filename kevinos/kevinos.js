@@ -3949,10 +3949,10 @@ function ivGetFace() {
 }
 
 function ivGetPortrait() {
-    if (ivSanity <= 15) return 'kevinos/images/interview-broken.jpg';
-    if (ivSanity <= 40) return 'kevinos/images/interview-desperate.jpg';
-    if (ivSanity <= 75) return 'kevinos/images/interview-stressed.jpg';
-    return 'kevinos/images/interview-confident.jpg';
+    if (ivSanity <= 15) return 'images/interview-broken.jpg';
+    if (ivSanity <= 40) return 'images/interview-desperate.jpg';
+    if (ivSanity <= 75) return 'images/interview-stressed.jpg';
+    return 'images/interview-confident.jpg';
 }
 
 function ivUpdatePortrait() {
@@ -4179,7 +4179,7 @@ function ivShowRound(roundIndex) {
     // Show victory portrait briefly on round 8 before the laid off twist
     if (roundIndex === 7) {
         var portrait = document.getElementById('interviewPortrait');
-        if (portrait) portrait.src = 'kevinos/images/interview-victory.jpg';
+        if (portrait) portrait.src = 'images/interview-victory.jpg';
     }
 
     if (choicesEl) {
@@ -4249,7 +4249,7 @@ function ivEndGame(message) {
     if (titleEl) titleEl.textContent = isVictory ? 'LAID OFF' : 'GAME OVER';
     if (roundEl) roundEl.textContent = ivRound + 1;
     if (msgEl) msgEl.textContent = message;
-    if (endPortrait) endPortrait.src = isVictory ? 'kevinos/images/interview-laidoff.jpg' : 'kevinos/images/interview-gameover.jpg';
+    if (endPortrait) endPortrait.src = isVictory ? 'images/interview-laidoff.jpg' : 'images/interview-gameover.jpg';
 }
 
 function startInterview() {
@@ -4263,7 +4263,7 @@ function startInterview() {
     if (interviewGame) interviewGame.style.display = 'flex';
 
     var portrait = document.getElementById('interviewPortrait');
-    if (portrait) portrait.src = 'kevinos/images/interview-confident.jpg';
+    if (portrait) portrait.src = 'images/interview-confident.jpg';
 
     ivUpdateHud();
     ivShowRound(0);
