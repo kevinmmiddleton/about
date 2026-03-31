@@ -880,7 +880,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); back
 
     <div class="annotation">
       <div class="annotation-label">Why This Matters</div>
-      <p>Each of these five phases represents a distinct capability surface. When we build an MCP server, we're not exposing a monolithic API. We're giving AI agents a toolkit that mirrors how humans actually navigate the experience. The agent needs to <em>discover</em>, <em>search</em>, <em>authenticate</em>, <em>transact</em>, and <em>manage</em> &mdash; and increasingly, <em>orchestrate across services</em> to deliver a concierge-level experience.</p>
+      <p>These five phases are the customer journey. The MCP server replicates each one, giving agents the same path a human takes: <em>discover</em>, <em>search</em>, <em>authenticate</em>, <em>transact</em>, <em>manage</em>, and <em>orchestrate across services</em> to deliver a concierge-level experience.</p>
     </div>
   </div>
 
@@ -1429,7 +1429,7 @@ special_requests?: string</code>
       <div class="tool-card-body">
         <div class="tool-description">
           <div class="desc-label">Tool Description (What the Agent Reads)</div>
-          Join the waitlist for a fully-booked restaurant. The cardholder will be notified when a table becomes available for their desired date, time window, and party size. No financial commitment is made. Use this when search_restaurants or check_availability shows no open slots and the cardholder still wants to try for that restaurant. This is a concierge-level feature &mdash; proactively suggest it when a top pick is unavailable.
+          Join the waitlist for a fully-booked restaurant. The cardholder will be notified when a table becomes available for their desired date, time window, and party size. No financial commitment is made. Use this when search_restaurants or check_availability shows no open slots and the cardholder still wants to try for that restaurant. This is a concierge-level feature. Proactively suggest it when a top pick is unavailable.
         </div>
         <div class="tool-schema-label">Input Schema</div>
         <div class="tool-schema">{
@@ -1451,7 +1451,7 @@ special_requests?: string</code>
 }</div>
         <div class="tech-annotation" style="margin-top: 16px; margin-bottom: 0;">
           <div class="annotation-label">The Concierge Play</div>
-          <p>"Get me into Carbone whenever something opens up" &mdash; this is peak Platinum concierge behavior. No commitment, no risk, just quiet persistence. When a spot opens, the agent can auto-hold it and ping the cardholder to confirm.</p>
+          <p>"Get me into Carbone whenever something opens up." Peak Platinum concierge behavior. No commitment, no risk, just quiet persistence. When a spot opens, the agent can auto-hold it and ping the cardholder to confirm.</p>
         </div>
       </div>
     </div>
@@ -1621,7 +1621,7 @@ special_requests?: string</code>
 
     <div class="tech-annotation">
       <div class="annotation-label">Design Principle</div>
-      <p>The MCP server should be <strong>paranoid by default</strong>. Start with the narrowest possible permissions, and expand only when the cardholder explicitly opts in. The same principle that governs card-not-present transactions applies here: higher risk of fraud means tighter controls.</p>
+      <p>The MCP server should be <strong>paranoid by default</strong>. Start with the narrowest possible permissions, and expand only when the cardholder explicitly opts in. The same principle that governs card-not-present transactions.</p>
     </div>
   </div>
 
@@ -1723,7 +1723,7 @@ special_requests?: string</code>
 
     <div class="content-section" style="background: var(--light-gray);">
       <h3>This Is Already Happening</h3>
-      <p style="color: var(--gray); margin-bottom: 20px;">Google's Gemini agent can now take control of Android apps to book rides, order food, and complete multi-step tasks autonomously. Samsung's Galaxy S26 shipped with this capability in February 2026. The OS-level agent layer is here. Amex needs to be ready for when these agents interact with its services programmatically via MCP, not by screen-scraping the UI.</p>
+      <p style="color: var(--gray); margin-bottom: 20px;">Samsung's Galaxy S26 shipped with Gemini agent control in February 2026. The OS-level agent layer is here. Without an MCP server, these agents screen-scrape. With one, they get structured, permissioned access.</p>
       <div id="video-container" style="position:relative; width:100%; max-width:720px; margin:0 auto; aspect-ratio:16/9; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-lg); cursor:pointer;" onclick="this.innerHTML='<iframe src=&quot;https://www.youtube.com/embed/SA93zbnoR4U?start=1478&amp;autoplay=1&quot; title=&quot;Samsung Unpacked 2026: Gemini Agent Demo&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen style=&quot;position:absolute; top:0; left:0; width:100%; height:100%;&quot;></iframe>';this.style.cursor='default';">
         <img src="gemini-agent-demo-thumbnail.jpg" alt="Samsung Unpacked 2026: Gemini Agent Demo" style="width:100%; height:100%; object-fit:cover;">
         <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.3);">
