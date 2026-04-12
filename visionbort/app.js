@@ -4,7 +4,7 @@
   'use strict';
 
   // ===== Config =====
-  const UNSPLASH_PROXY = ''; // Will be set after Cloudflare Worker deploy
+  const UNSPLASH_PROXY = 'https://unsplash-proxy.kevin-middleton.workers.dev';
   const STORAGE_KEY = 'visionbort-lite';
   const MAX_IMAGE_SIZE = 300;
   const STICKERS = [
