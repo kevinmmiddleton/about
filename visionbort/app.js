@@ -418,7 +418,7 @@
     // Image-specific actions: shape clipping
     if (el.type === 'image') {
       const shapeBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 6.5v9L12 21l-9-2.5v-9L12 3z"/></svg>',
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><rect x="6" y="6" width="12" height="12" rx="1"/></svg>',
         'Change shape',
         () => toggleShapeSelector(actions, el.id)
       );
@@ -952,9 +952,17 @@
   async function exportBoard() {
     if (elements.length === 0) return;
 
-    // Deselect to hide UI
+    // Deselect and close sidebars to show full canvas
     const prevSelected = selectedId;
     selectElement(null);
+    const sidebarWasOpen = sidebarTab;
+    const intentionsWasOpen = intentionsPanelOpen;
+    if (sidebarTab) closeSidebar();
+    if (intentionsPanelOpen) {
+      intentionsPanelOpen = false;
+      intentionsPanel.classList.add('hidden');
+      btnIntentions.classList.remove('active-outline');
+    }
 
     // Hide empty state and show intention labels for export
     emptyState.classList.add('hidden');
@@ -981,6 +989,14 @@
 
     // Reset intention labels to hover-only
     canvas.querySelectorAll('.intention-label').forEach(l => l.style.opacity = '');
+
+    // Restore sidebars
+    if (sidebarWasOpen) openSidebar(sidebarWasOpen);
+    if (intentionsWasOpen) {
+      intentionsPanelOpen = true;
+      intentionsPanel.classList.remove('hidden');
+      btnIntentions.classList.add('active-outline');
+    }
     updateUI();
   }
 
