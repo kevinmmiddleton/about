@@ -1324,8 +1324,6 @@
   function exitDrawMode(save) {
     const overlay = $('#draw-overlay');
     const drawCanvas = $('#draw-canvas');
-    overlay.classList.add('hidden');
-    $('#toolbar-bottom').style.display = 'flex';
 
     drawCanvas.removeEventListener('pointerdown', drawStart);
     drawCanvas.removeEventListener('pointermove', drawMove);
@@ -1333,9 +1331,13 @@
     drawCanvas.removeEventListener('pointerleave', drawEnd);
 
     if (save && drawStrokes.length > 0) {
-      // Convert canvas to PNG and add as element
+      // Grab data BEFORE hiding (hidden elements have 0 dimensions)
       const dataUrl = drawCanvas.toDataURL('image/png');
       const rect = overlay.getBoundingClientRect();
+
+      overlay.classList.add('hidden');
+      $('#toolbar-bottom').style.display = 'flex';
+
       addElement({
         type: 'image',
         src: dataUrl,
@@ -1345,8 +1347,10 @@
         height: rect.height,
         rotation: 0,
         label: 'Drawing',
-        _skipIntention: mode === 'intentional' ? false : true,
       });
+    } else {
+      overlay.classList.add('hidden');
+      $('#toolbar-bottom').style.display = 'flex';
     }
 
     drawCtx = null;
