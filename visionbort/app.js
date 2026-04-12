@@ -1221,7 +1221,6 @@
     $('#draw-done').addEventListener('click', () => exitDrawMode(true));
     $('#draw-cancel').addEventListener('click', () => exitDrawMode(false));
     $('#draw-undo').addEventListener('click', drawUndo);
-    $('#draw-color').addEventListener('input', (e) => { drawColor = e.target.value; });
     document.querySelectorAll('.stroke-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         drawSize = parseInt(btn.dataset.size);
@@ -1271,7 +1270,11 @@
   let drawStrokes = []; // array of stroke arrays for undo
   let currentStroke = [];
   let drawColor = '#ffffff';
-  let drawSize = 3;
+  let drawSize = 6;
+  const DRAW_COLORS = [
+    '#ffffff', '#000000', '#ef4444', '#f97316', '#facc15',
+    '#22c55e', '#3b82f6', '#a855f7', '#ec4899', '#06b6d4',
+  ];
 
   function enterDrawMode() {
     const overlay = $('#draw-overlay');
@@ -1292,6 +1295,24 @@
     drawCtx.lineJoin = 'round';
     drawStrokes = [];
     currentStroke = [];
+
+    // Render color swatches
+    const colorRow = $('#draw-colors');
+    colorRow.innerHTML = '';
+    DRAW_COLORS.forEach(c => {
+      const swatch = document.createElement('button');
+      swatch.className = 'draw-color-swatch';
+      if (c === drawColor) swatch.classList.add('active');
+      swatch.style.background = c;
+      if (c === '#ffffff') swatch.style.border = '2px solid #d1d5db';
+      swatch.addEventListener('click', () => {
+        drawColor = c;
+        colorRow.querySelectorAll('.draw-color-swatch').forEach(s => s.classList.remove('active'));
+        swatch.classList.add('active');
+        if (c === '#ffffff') swatch.style.border = '';
+      });
+      colorRow.appendChild(swatch);
+    });
 
     // Pointer events
     drawCanvas.addEventListener('pointerdown', drawStart);
@@ -1339,6 +1360,8 @@
     currentStroke = [{ x, y }];
     drawCtx.strokeStyle = drawColor;
     drawCtx.lineWidth = drawSize;
+    drawCtx.shadowColor = drawColor;
+    drawCtx.shadowBlur = drawSize * 2;
     drawCtx.beginPath();
     drawCtx.moveTo(x, y);
   }
@@ -1377,6 +1400,8 @@
     drawStrokes.forEach(stroke => {
       drawCtx.strokeStyle = stroke.color;
       drawCtx.lineWidth = stroke.size;
+      drawCtx.shadowColor = stroke.color;
+      drawCtx.shadowBlur = stroke.size * 2;
       drawCtx.beginPath();
       stroke.points.forEach((pt, i) => {
         if (i === 0) drawCtx.moveTo(pt.x, pt.y);

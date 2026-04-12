@@ -195,15 +195,16 @@
   <div id="draw-overlay" class="hidden">
     <canvas id="draw-canvas"></canvas>
     <div id="draw-toolbar">
-      <input type="color" id="draw-color" value="#ffffff" class="color-input" title="Pen color">
+      <div id="draw-colors" class="draw-color-row"></div>
+      <div class="draw-divider"></div>
       <div class="stroke-options">
-        <button class="stroke-btn active" data-size="3" title="Thin"><span style="width:4px;height:4px"></span></button>
-        <button class="stroke-btn" data-size="6" title="Medium"><span style="width:8px;height:8px"></span></button>
+        <button class="stroke-btn" data-size="3" title="Thin"><span style="width:4px;height:4px"></span></button>
+        <button class="stroke-btn active" data-size="6" title="Medium"><span style="width:8px;height:8px"></span></button>
         <button class="stroke-btn" data-size="12" title="Thick"><span style="width:14px;height:14px"></span></button>
       </div>
-      <button id="draw-undo" class="btn-secondary btn-sm" title="Undo">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-        Undo
+      <div class="draw-divider"></div>
+      <button id="draw-undo" class="btn-icon-sm" title="Undo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
       </button>
       <button id="draw-done" class="btn-accent btn-sm">Done</button>
       <button id="draw-cancel" class="btn-secondary btn-sm">Cancel</button>

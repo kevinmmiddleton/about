@@ -1018,6 +1018,32 @@ body {
   z-index: 61;
 }
 
+.draw-color-row {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.draw-color-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+  padding: 0;
+  outline: none;
+}
+.draw-color-swatch:hover { transform: scale(1.15); }
+.draw-color-swatch.active { border-color: var(--color-accent); transform: scale(1.2); box-shadow: 0 0 0 2px rgba(224,124,170,0.3); }
+
+.draw-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-border);
+  margin: 0 2px;
+}
+
 .stroke-options {
   display: flex;
   gap: 4px;
