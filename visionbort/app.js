@@ -1292,6 +1292,7 @@
     const overlay = $('#draw-overlay');
     const drawCanvas = $('#draw-canvas');
     overlay.classList.remove('hidden');
+    emptyState.classList.add('hidden');
     $('#toolbar-bottom').style.display = 'none';
 
     // Size canvas to match container
