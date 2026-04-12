@@ -33,6 +33,13 @@
     { id: 'lavender', label: 'Lavender', cls: 'bg-lavender' },
   ];
   const TEXT_PHRASES = ['Dream big', 'Make it happen', 'You got this', 'Believe', 'Manifest it'];
+  const INTENTION_PROMPTS = [
+    'What does this represent for you?',
+    'Why does this inspire you?',
+    'How does this connect to your goals?',
+    'What feeling does this bring up?',
+    'What would achieving this mean to you?',
+  ];
 
   // ===== State =====
   let elements = [];
@@ -43,6 +50,9 @@
   let sidebarTab = null;
   let searchTimeout = null;
   let saveTimeout = null;
+  let mode = 'freeform'; // 'intentional' or 'freeform'
+  let pendingElement = null; // element waiting for intention note
+  let intentionsPanelOpen = false;
 
   // ===== DOM refs =====
   const $ = (sel) => document.querySelector(sel);
@@ -56,7 +66,15 @@
   const boardTitle = $('#board-title');
   const btnClear = $('#btn-clear');
   const btnExport = $('#btn-export');
+  const btnIntentions = $('#btn-intentions');
   const welcomeModal = $('#welcome-modal');
+  const intentionModal = $('#intention-modal');
+  const intentionInput = $('#intention-input');
+  const intentionPromptText = $('#intention-prompt-text');
+  const intentionsPanel = $('#intentions-panel');
+  const intentionsList = $('#intentions-list');
+  const intentionsCount = $('#intentions-count');
+  const intentionsEmpty = $('#intentions-empty');
 
   // ===== Init =====
   function init() {
@@ -85,6 +103,7 @@
         }),
         backgroundId: currentBg.id,
         boardTitle: boardTitle.value,
+        mode,
         nextId,
         maxZ,
       };
@@ -105,6 +124,7 @@
       nextId = data.nextId || elements.length + 1;
       maxZ = data.maxZ || 0;
       boardTitle.value = data.boardTitle || 'My Vision Board';
+      if (data.mode) mode = data.mode;
       const bg = BACKGROUNDS.find(b => b.id === data.backgroundId);
       if (bg) currentBg = bg;
       applyBackground();
@@ -127,6 +147,17 @@
 
   // ===== Element CRUD =====
   function addElement(props) {
+    if (mode === 'intentional' && !props._skipIntention) {
+      // Show intention prompt before adding
+      pendingElement = { ...props };
+      intentionPromptText.textContent = INTENTION_PROMPTS[Math.floor(Math.random() * INTENTION_PROMPTS.length)];
+      intentionInput.value = '';
+      intentionModal.classList.remove('hidden');
+      setTimeout(() => intentionInput.focus(), 100);
+      return null;
+    }
+
+    delete props._skipIntention;
     maxZ++;
     const el = {
       id: 'el-' + nextId++,
@@ -136,12 +167,14 @@
       height: props.height || 200,
       rotation: props.rotation ?? randomInt(-8, 8),
       zIndex: maxZ,
+      intention: props.intention || '',
       ...props,
     };
     elements.push(el);
     renderElement(el);
     selectElement(el.id);
     updateUI();
+    renderIntentionsPanel();
     saveBoard();
     return el;
   }
@@ -864,15 +897,42 @@
     emptyState.classList.toggle('hidden', hasElements);
     btnClear.style.display = hasElements ? 'inline-flex' : 'none';
     btnExport.disabled = !hasElements;
+    btnIntentions.style.display = hasElements ? 'inline-flex' : 'none';
+    if (intentionsPanelOpen) renderIntentionsPanel();
   }
 
   // ===== Event Binding =====
   function bindEvents() {
-    // Welcome modal
-    $('#welcome-start').addEventListener('click', () => {
+    // Welcome modal — mode selection
+    $('#welcome-intentional').addEventListener('click', () => {
+      mode = 'intentional';
       welcomeModal.classList.add('hidden');
       localStorage.setItem('visionbort-visited', 'true');
+      saveBoard();
     });
+    $('#welcome-freeform').addEventListener('click', () => {
+      mode = 'freeform';
+      welcomeModal.classList.add('hidden');
+      localStorage.setItem('visionbort-visited', 'true');
+      saveBoard();
+    });
+
+    // Intention prompt
+    $('#intention-save').addEventListener('click', () => {
+      commitPendingElement(intentionInput.value.trim());
+    });
+    $('#intention-skip').addEventListener('click', () => {
+      commitPendingElement('');
+    });
+    intentionInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        commitPendingElement(intentionInput.value.trim());
+      }
+    });
+
+    // Intentions panel toggle
+    btnIntentions.addEventListener('click', toggleIntentionsPanel);
 
     // Canvas click (deselect)
     canvas.addEventListener('pointerdown', (e) => {
@@ -942,6 +1002,82 @@
         if (f.type.startsWith('image/')) addImageFromFile(f);
       });
     });
+  }
+
+  // ===== Intentions =====
+  function commitPendingElement(intention) {
+    if (!pendingElement) return;
+    pendingElement.intention = intention || '';
+    pendingElement._skipIntention = true;
+    addElement(pendingElement);
+    pendingElement = null;
+    intentionModal.classList.add('hidden');
+  }
+
+  function renderIntentionsPanel() {
+    if (!intentionsList) return;
+    intentionsList.innerHTML = '';
+
+    const withNotes = elements.filter(e => e.intention);
+    intentionsCount.textContent = `${withNotes.length} / ${elements.length}`;
+    intentionsEmpty.classList.toggle('hidden', elements.length > 0);
+
+    elements.forEach(el => {
+      const item = document.createElement('div');
+      item.className = 'intention-item';
+      if (el.id === selectedId) item.classList.add('selected');
+
+      const preview = document.createElement('div');
+      preview.className = 'intention-item-preview';
+
+      const thumb = document.createElement('div');
+      thumb.className = 'intention-thumb';
+      if (el.type === 'image') {
+        const img = document.createElement('img');
+        img.src = el.src;
+        img.alt = '';
+        thumb.appendChild(img);
+      } else if (el.type === 'sticker') {
+        thumb.textContent = el.src;
+      } else if (el.type === 'text') {
+        thumb.textContent = 'T';
+        thumb.style.fontWeight = '700';
+        thumb.style.color = '#6b7280';
+        thumb.style.fontSize = '16px';
+      }
+      preview.appendChild(thumb);
+
+      const label = document.createElement('span');
+      label.className = 'intention-item-label';
+      if (el.type === 'text') label.textContent = el.content;
+      else if (el.type === 'sticker') label.textContent = el.src + ' Sticker';
+      else label.textContent = el.label || 'Image';
+      preview.appendChild(label);
+
+      item.appendChild(preview);
+
+      if (el.intention) {
+        const note = document.createElement('div');
+        note.className = 'intention-item-note';
+        note.textContent = '"' + el.intention + '"';
+        item.appendChild(note);
+      } else {
+        const noNote = document.createElement('div');
+        noNote.className = 'intention-item-no-note';
+        noNote.textContent = 'No intention set';
+        item.appendChild(noNote);
+      }
+
+      item.addEventListener('click', () => selectElement(el.id));
+      intentionsList.appendChild(item);
+    });
+  }
+
+  function toggleIntentionsPanel() {
+    intentionsPanelOpen = !intentionsPanelOpen;
+    intentionsPanel.classList.toggle('hidden', !intentionsPanelOpen);
+    btnIntentions.classList.toggle('active-outline', intentionsPanelOpen);
+    if (intentionsPanelOpen) renderIntentionsPanel();
   }
 
   // ===== Helpers =====

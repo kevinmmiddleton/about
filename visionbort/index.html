@@ -25,11 +25,36 @@
         <p>Create a vision board that inspires you</p>
       </div>
       <div class="welcome-body">
-        <button id="welcome-start" class="btn-primary btn-lg">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          Start Creating
-        </button>
-        <p class="welcome-hint">Drag images, add text, and arrange your dreams</p>
+        <p class="welcome-subtitle">How would you like to create?</p>
+        <div class="mode-buttons">
+          <button id="welcome-intentional" class="mode-btn">
+            <span class="mode-icon">&#x1F9D8;</span>
+            <span class="mode-label">Intentional</span>
+            <span class="mode-desc">Reflect on each item you add with a personal intention</span>
+          </button>
+          <button id="welcome-freeform" class="mode-btn">
+            <span class="mode-icon">&#x26A1;</span>
+            <span class="mode-label">Freeform</span>
+            <span class="mode-desc">Jump right in and create freely without prompts</span>
+          </button>
+        </div>
+        <p class="welcome-privacy">Your board is stored locally on this device. Nothing is tracked, no accounts, no analytics. Just you and your vision.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Intention Prompt Modal -->
+  <div id="intention-modal" class="modal-overlay hidden">
+    <div class="intention-container">
+      <div class="intention-header">
+        <h2 id="intention-prompt-text">What does this represent for you?</h2>
+      </div>
+      <div class="intention-body">
+        <textarea id="intention-input" placeholder="Write your intention..." rows="3"></textarea>
+        <div class="intention-actions">
+          <button id="intention-skip" class="btn-secondary">Skip</button>
+          <button id="intention-save" class="btn-primary">Save & Add</button>
+        </div>
       </div>
     </div>
   </div>
@@ -45,6 +70,10 @@
       <input id="board-title" type="text" value="My Vision Board" placeholder="Board title..." maxlength="40">
     </div>
     <div class="toolbar-right">
+      <button id="btn-intentions" class="btn-secondary btn-sm" style="display:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Intentions
+      </button>
       <button id="btn-clear" class="btn-secondary btn-sm" style="display:none">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
         Clear
@@ -115,6 +144,19 @@
         </div>
       </div>
     </div>
+
+    <!-- Intentions Panel (right sidebar) -->
+    <aside id="intentions-panel" class="hidden">
+      <div id="intentions-header">
+        <h2>Intentions</h2>
+        <span id="intentions-count" class="intentions-badge">0 / 0</span>
+      </div>
+      <div id="intentions-list"></div>
+      <div id="intentions-empty" class="panel-empty">
+        <span style="font-size:32px">&#x1F9D8;</span>
+        <p>Add items to your board and set intentions for each one</p>
+      </div>
+    </aside>
   </main>
 
   <!-- Floating Bottom Toolbar -->
