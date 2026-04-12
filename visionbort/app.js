@@ -828,12 +828,14 @@
 
   function addText() {
     const phrase = TEXT_PHRASES[Math.floor(Math.random() * TEXT_PHRASES.length)];
+    const darkBgs = ['midnight'];
+    const textColor = darkBgs.includes(currentBg.id) ? '#f8fafc' : '#1a1a2e';
     addElement({
       type: 'text',
       content: phrase,
       fontSize: 32,
       fontFamily: FONTS[0].family,
-      color: '#1a1a2e',
+      color: textColor,
       fontWeight: 'bold',
       fontStyle: 'normal',
       width: 220,
@@ -1199,27 +1201,47 @@
       const label = document.createElement('span');
       label.className = 'intention-item-label';
       if (el.type === 'text') label.textContent = el.content;
-      else if (el.type === 'sticker') label.textContent = el.src + ' Sticker';
+      else if (el.type === 'sticker') label.textContent = stickerName(el.src);
       else label.textContent = el.label || 'Image';
       preview.appendChild(label);
 
       item.appendChild(preview);
 
-      if (el.intention) {
-        const note = document.createElement('div');
-        note.className = 'intention-item-note';
-        note.textContent = '"' + el.intention + '"';
-        item.appendChild(note);
-      } else {
-        const noNote = document.createElement('div');
-        noNote.className = 'intention-item-no-note';
-        noNote.textContent = 'No intention set';
-        item.appendChild(noNote);
-      }
+      // Editable intention textarea
+      const noteWrap = document.createElement('div');
+      noteWrap.className = 'intention-edit-wrap';
+      const textarea = document.createElement('textarea');
+      textarea.className = 'intention-edit';
+      textarea.placeholder = 'Add an intention...';
+      textarea.value = el.intention || '';
+      textarea.rows = 2;
+      textarea.addEventListener('input', () => {
+        updateElement(el.id, { intention: textarea.value });
+      });
+      textarea.addEventListener('blur', () => {
+        updateElement(el.id, { intention: textarea.value.trim() });
+      });
+      textarea.addEventListener('pointerdown', (e) => e.stopPropagation());
+      noteWrap.appendChild(textarea);
+      item.appendChild(noteWrap);
 
       item.addEventListener('click', () => selectElement(el.id));
       intentionsList.appendChild(item);
     });
+  }
+
+  // Give stickers friendly names instead of showing duplicate emojis
+  const STICKER_NAMES = {
+    '⭐':'Star','✨':'Sparkles','💫':'Dizzy','🌟':'Glow','💖':'Heart','🔥':'Fire',
+    '🌈':'Rainbow','🎯':'Target','🏆':'Trophy','💪':'Strength','🚀':'Rocket','🌸':'Blossom',
+    '🦋':'Butterfly','🌺':'Hibiscus','🍀':'Clover','💎':'Gem','👑':'Crown','🎨':'Art',
+    '🎵':'Music','📸':'Camera','✈️':'Travel','🏠':'Home','🌍':'World','💰':'Wealth',
+    '📚':'Books','🧘':'Zen','❤️':'Love','🎉':'Party','🌅':'Sunrise','🏔️':'Mountain',
+    '🌊':'Wave','🎭':'Theater','🥂':'Cheers','🎓':'Graduate','💐':'Bouquet','🕊️':'Peace',
+    '🌻':'Sunflower','⚡':'Energy','🎪':'Circus','🗝️':'Key'
+  };
+  function stickerName(emoji) {
+    return STICKER_NAMES[emoji] || 'Sticker';
   }
 
   function toggleIntentionsPanel() {

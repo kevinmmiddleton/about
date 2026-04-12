@@ -923,6 +923,25 @@ body {
   font-style: italic;
 }
 
+.intention-edit-wrap { margin-top: 6px; }
+
+.intention-edit {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  color: var(--color-text-secondary);
+  resize: none;
+  outline: none;
+  background: #fafafa;
+  transition: border-color 0.2s;
+  line-height: 1.4;
+}
+.intention-edit:focus { border-color: var(--color-accent); background: white; }
+.intention-edit::placeholder { color: var(--color-text-muted); font-style: italic; }
+
 .bg-warm { background: #faf9f6; }
 .bg-cork { background: #c4a265; background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E"); }
 .bg-midnight { background: #1a1a2e; }
