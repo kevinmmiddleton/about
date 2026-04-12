@@ -931,6 +931,7 @@
   function setImageBackground(src, intention) {
     customBgImage = { src, intention: intention || '' };
     applyBackground();
+    updateUI();
     saveBoard();
   }
 
