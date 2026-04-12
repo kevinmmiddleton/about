@@ -224,7 +224,8 @@
     }
 
     delete props._skipIntention;
-    maxZ++;
+    // Ensure new element is always on top
+    maxZ = Math.max(maxZ, ...elements.map(e => e.zIndex || 0)) + 1;
     const el = {
       id: 'el-' + nextId++,
       x: props.x ?? randomInt(40, canvasContainer.offsetWidth - (props.width || 200) - 40),
@@ -235,6 +236,7 @@
       zIndex: maxZ,
       intention: props.intention || '',
       ...props,
+      zIndex: maxZ, // ensure this isn't overridden by spread
     };
     elements.push(el);
     renderElement(el);
