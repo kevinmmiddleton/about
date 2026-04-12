@@ -197,7 +197,7 @@
 
   // ===== Element CRUD =====
   function addElement(props) {
-    if (mode === 'intentional' && !props._skipIntention) {
+    if (mode === 'intentional' && !props._skipIntention && props.type !== 'text') {
       // Show intention prompt before adding
       pendingElement = { ...props };
       intentionPromptText.textContent = INTENTION_PROMPTS[Math.floor(Math.random() * INTENTION_PROMPTS.length)];
@@ -781,6 +781,7 @@
     tc.addEventListener('blur', () => {
       tc.contentEditable = 'false';
       updateElement(id, { content: tc.textContent || 'Text' });
+      if (intentionsPanelOpen) renderIntentionsPanel();
     }, { once: true });
 
     tc.addEventListener('keydown', (e) => {
