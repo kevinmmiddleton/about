@@ -199,8 +199,16 @@
     nextId = 1;
     maxZ = 0;
     canvas.querySelectorAll('.canvas-element').forEach(el => el.remove());
+    localStorage.removeItem('visionbort-mode');
+    localStorage.removeItem(STORAGE_KEY);
+    if (intentionsPanelOpen) {
+      intentionsPanelOpen = false;
+      intentionsPanel.classList.add('hidden');
+      btnIntentions.classList.remove('active-outline');
+    }
+    closeSidebar();
     updateUI();
-    saveBoard();
+    welcomeModal.classList.remove('hidden');
   }
 
   // ===== Element CRUD =====
