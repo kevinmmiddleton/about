@@ -823,6 +823,24 @@ body {
 }
 #intention-input:focus { border-color: var(--color-accent); }
 
+.bg-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-bottom: 16px;
+  user-select: none;
+}
+.bg-toggle-label.hidden { display: none; }
+.bg-toggle-label input[type="checkbox"] {
+  accent-color: var(--color-accent);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
 .intention-actions {
   display: flex;
   gap: 8px;

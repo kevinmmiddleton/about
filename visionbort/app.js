@@ -153,6 +153,7 @@
           return { ...el };
         }),
         backgroundId: currentBg.id,
+        customBgImage,
         boardTitle: boardTitle.value,
         mode,
         showIntentionsOnBoard,
@@ -177,6 +178,7 @@
       maxZ = data.maxZ || 0;
       boardTitle.value = data.boardTitle || 'My Vision Board';
       if (data.mode) mode = data.mode;
+      if (data.customBgImage) customBgImage = data.customBgImage;
       if (data.showIntentionsOnBoard) {
         showIntentionsOnBoard = true;
         canvas.classList.add('show-intentions');
@@ -218,6 +220,15 @@
       pendingElement = { ...props };
       intentionPromptText.textContent = INTENTION_PROMPTS[Math.floor(Math.random() * INTENTION_PROMPTS.length)];
       intentionInput.value = '';
+      // Show "use as background" toggle only for images
+      const bgToggleWrap = $('#bg-toggle-wrap');
+      const bgCheckbox = $('#intention-set-bg');
+      if (props.type === 'image') {
+        bgToggleWrap.classList.remove('hidden');
+        bgCheckbox.checked = false;
+      } else {
+        bgToggleWrap.classList.add('hidden');
+      }
       intentionModal.classList.remove('hidden');
       setTimeout(() => intentionInput.focus(), 100);
       return null;
@@ -425,8 +436,20 @@
       () => sendToBack(el.id)
     ));
 
-    // Image-specific actions: shape clipping
+    // Image-specific actions
     if (el.type === 'image') {
+      // Set as background
+      const bgBtn = makeActionBtn(
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l6-6 4 4 4-4 4 4"/></svg>',
+        'Set as canvas background',
+        () => {
+          setImageBackground(el.src, el.intention || '');
+          removeElement(el.id);
+        }
+      );
+      actions.appendChild(bgBtn);
+
+      // Shape clipping
       const shapeBtn = makeActionBtn(
         '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>',
         'Change shape',
@@ -887,17 +910,31 @@
     lavender: 'linear-gradient(to bottom right, #ede7f6, #e8eaf6)',
   };
 
+  let customBgImage = null; // { src, intention }
+
   function applyBackground() {
-    const style = BG_STYLES[currentBg.id] || '#faf9f6';
-    if (style.includes('gradient')) {
-      canvas.style.background = style;
+    if (customBgImage) {
+      canvas.style.background = `url("${customBgImage.src}") center/cover no-repeat`;
     } else {
+      const style = BG_STYLES[currentBg.id] || '#faf9f6';
       canvas.style.background = style;
     }
     // Update bg grid selection
     document.querySelectorAll('.bg-card').forEach(card => {
-      card.classList.toggle('active', card.dataset.bgId === currentBg.id);
+      card.classList.toggle('active', !customBgImage && card.dataset.bgId === currentBg.id);
     });
+  }
+
+  function setImageBackground(src, intention) {
+    customBgImage = { src, intention: intention || '' };
+    applyBackground();
+    saveBoard();
+  }
+
+  function clearImageBackground() {
+    customBgImage = null;
+    applyBackground();
+    saveBoard();
   }
 
   // ===== Search =====
@@ -1081,6 +1118,7 @@
 
       card.addEventListener('click', () => {
         currentBg = bg;
+        customBgImage = null; // Clear custom image when picking a preset
         applyBackground();
         saveBoard();
       });
@@ -1212,6 +1250,13 @@
   // ===== Intentions =====
   function commitPendingElement(intention) {
     if (!pendingElement) return;
+    const setAsBg = $('#intention-set-bg').checked && pendingElement.type === 'image';
+    if (setAsBg) {
+      setImageBackground(pendingElement.src, intention || '');
+      pendingElement = null;
+      intentionModal.classList.add('hidden');
+      return;
+    }
     pendingElement.intention = intention || '';
     pendingElement._skipIntention = true;
     addElement(pendingElement);
