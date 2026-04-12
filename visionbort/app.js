@@ -1343,9 +1343,52 @@
     drawCanvas.removeEventListener('pointerleave', drawEnd);
 
     if (save && drawStrokes.length > 0) {
-      // Grab data BEFORE hiding (hidden elements have 0 dimensions)
-      const dataUrl = drawCanvas.toDataURL('image/png');
-      const rect = overlay.getBoundingClientRect();
+      // Calculate bounding box of all strokes
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      drawStrokes.forEach(stroke => {
+        const pad = stroke.size * 3; // account for glow
+        stroke.points.forEach(pt => {
+          minX = Math.min(minX, pt.x - pad);
+          minY = Math.min(minY, pt.y - pad);
+          maxX = Math.max(maxX, pt.x + pad);
+          maxY = Math.max(maxY, pt.y + pad);
+        });
+      });
+      minX = Math.max(0, minX);
+      minY = Math.max(0, minY);
+      const cropW = maxX - minX;
+      const cropH = maxY - minY;
+
+      // Create a cropped canvas
+      const cropCanvas = document.createElement('canvas');
+      cropCanvas.width = cropW * 2;
+      cropCanvas.height = cropH * 2;
+      const cropCtx = cropCanvas.getContext('2d');
+      cropCtx.scale(2, 2);
+      cropCtx.lineCap = 'round';
+      cropCtx.lineJoin = 'round';
+
+      // Redraw strokes offset to the crop origin
+      drawStrokes.forEach(stroke => {
+        cropCtx.strokeStyle = stroke.color;
+        cropCtx.lineWidth = stroke.size;
+        cropCtx.shadowColor = stroke.color;
+        cropCtx.shadowBlur = stroke.size * 2;
+        cropCtx.beginPath();
+        stroke.points.forEach((pt, i) => {
+          const x = pt.x - minX;
+          const y = pt.y - minY;
+          if (i === 0) cropCtx.moveTo(x, y);
+          else {
+            cropCtx.lineTo(x, y);
+            cropCtx.stroke();
+            cropCtx.beginPath();
+            cropCtx.moveTo(x, y);
+          }
+        });
+      });
+
+      const dataUrl = cropCanvas.toDataURL('image/png');
 
       overlay.classList.add('hidden');
       $('#toolbar-bottom').style.display = 'flex';
@@ -1353,10 +1396,10 @@
       addElement({
         type: 'image',
         src: dataUrl,
-        x: 0,
-        y: 0,
-        width: rect.width,
-        height: rect.height,
+        x: Math.round(minX),
+        y: Math.round(minY),
+        width: Math.round(cropW),
+        height: Math.round(cropH),
         rotation: 0,
         label: 'Drawing',
       });
