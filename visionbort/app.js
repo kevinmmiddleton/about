@@ -1195,6 +1195,9 @@
 
   function renderIntentionsPanel() {
     if (!intentionsList) return;
+    // Don't rebuild if user is editing an intention
+    const activeEl = document.activeElement;
+    if (activeEl && activeEl.classList.contains('intention-edit')) return;
     intentionsList.innerHTML = '';
 
     const withNotes = elements.filter(e => e.intention);
@@ -1250,10 +1253,16 @@
         updateElement(el.id, { intention: textarea.value.trim() });
       });
       textarea.addEventListener('pointerdown', (e) => e.stopPropagation());
+      textarea.addEventListener('click', (e) => e.stopPropagation());
+      textarea.addEventListener('focus', (e) => e.stopPropagation());
       noteWrap.appendChild(textarea);
       item.appendChild(noteWrap);
 
-      item.addEventListener('click', () => selectElement(el.id));
+      item.addEventListener('click', (e) => {
+        // Don't re-select if clicking inside the textarea
+        if (e.target.closest('.intention-edit')) return;
+        selectElement(el.id);
+      });
       intentionsList.appendChild(item);
     });
   }
