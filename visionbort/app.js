@@ -32,6 +32,14 @@
     { id: 'forest', label: 'Forest', cls: 'bg-forest' },
     { id: 'lavender', label: 'Lavender', cls: 'bg-lavender' },
   ];
+  const CLIP_SHAPES = [
+    { id: 'none', label: 'None', path: '' },
+    { id: 'circle', label: 'Circle', path: 'circle(45% at 50% 50%)' },
+    { id: 'star', label: 'Star', path: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' },
+    { id: 'heart', label: 'Heart', path: 'polygon(50% 15%, 63% 0%, 80% 0%, 95% 10%, 100% 30%, 95% 55%, 50% 100%, 5% 55%, 0% 30%, 5% 10%, 20% 0%, 37% 0%)' },
+    { id: 'diamond', label: 'Diamond', path: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' },
+    { id: 'torn', label: 'Torn', path: '' }, // generated dynamically
+  ];
   const TEXT_PHRASES = ['Dream big', 'Make it happen', 'You got this', 'Believe', 'Manifest it'];
   const INTENTION_PROMPTS = [
     'What does this represent for you?',
@@ -226,6 +234,9 @@
       img.src = el.src;
       img.draggable = false;
       img.alt = el.label || '';
+      if (el.clipShape && el.clipPath) {
+        img.style.clipPath = el.clipPath;
+      }
       content.appendChild(img);
     } else if (el.type === 'sticker') {
       const span = document.createElement('div');
@@ -261,6 +272,29 @@
     dom.style.height = el.height + 'px';
     dom.style.zIndex = el.zIndex;
     dom.style.transform = `rotate(${el.rotation || 0}deg)`;
+
+    // Intention tooltip
+    if (el.intention) {
+      dom.title = el.intention;
+      // Add or update intention label for export
+      let intentLabel = dom.querySelector('.intention-label');
+      if (!intentLabel) {
+        intentLabel = document.createElement('div');
+        intentLabel.className = 'intention-label';
+        dom.querySelector('.element-content').appendChild(intentLabel);
+      }
+      intentLabel.textContent = el.intention;
+    } else {
+      dom.title = '';
+      const existing = dom.querySelector('.intention-label');
+      if (existing) existing.remove();
+    }
+
+    // Clip path for images
+    if (el.type === 'image') {
+      const img = dom.querySelector('img');
+      if (img) img.style.clipPath = (el.clipShape && el.clipPath) ? el.clipPath : '';
+    }
 
     // Update inner content styles
     if (el.type === 'sticker') {
@@ -330,6 +364,16 @@
       'Send to back',
       () => sendToBack(el.id)
     ));
+
+    // Image-specific actions: shape clipping
+    if (el.type === 'image') {
+      const shapeBtn = makeActionBtn(
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 6.5v9L12 21l-9-2.5v-9L12 3z"/></svg>',
+        'Change shape',
+        () => toggleShapeSelector(actions, el.id)
+      );
+      actions.appendChild(shapeBtn);
+    }
 
     // Text-specific actions
     if (el.type === 'text') {
@@ -430,6 +474,38 @@
         updateElement(elId, { fontFamily: font.family });
         dropdown.classList.add('hidden');
         selectElement(elId); // Re-render actions
+      });
+      btn.addEventListener('pointerdown', (e) => e.stopPropagation());
+      dropdown.appendChild(btn);
+    });
+    actionsEl.appendChild(dropdown);
+  }
+
+  function toggleShapeSelector(actionsEl, elId) {
+    let dropdown = actionsEl.querySelector('.font-selector');
+    if (dropdown) {
+      dropdown.classList.toggle('hidden');
+      return;
+    }
+    dropdown = document.createElement('div');
+    dropdown.className = 'font-selector';
+    const el = elements.find(e => e.id === elId);
+    CLIP_SHAPES.forEach(shape => {
+      const btn = document.createElement('button');
+      btn.className = 'font-option';
+      if (el && el.clipShape === shape.id) btn.classList.add('active');
+      btn.textContent = shape.label;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        let clipPath = shape.path;
+        if (shape.id === 'torn') clipPath = generateTornPath();
+        if (shape.id === 'none') {
+          updateElement(elId, { clipShape: null, clipPath: '' });
+        } else {
+          updateElement(elId, { clipShape: shape.id, clipPath });
+        }
+        dropdown.classList.add('hidden');
+        selectElement(elId);
       });
       btn.addEventListener('pointerdown', (e) => e.stopPropagation());
       dropdown.appendChild(btn);
@@ -717,10 +793,24 @@
   }
 
   // ===== Background =====
+  const BG_STYLES = {
+    warm: '#faf9f6',
+    cork: '#c4a265',
+    midnight: '#1a1a2e',
+    blush: 'linear-gradient(to bottom right, #fce4ec, #f3e5f5)',
+    ocean: 'linear-gradient(to bottom right, #e0f7fa, #e8eaf6)',
+    sunset: 'linear-gradient(to bottom right, #fff3e0, #fce4ec)',
+    forest: 'linear-gradient(to bottom right, #e8f5e9, #f1f8e9)',
+    lavender: 'linear-gradient(to bottom right, #ede7f6, #e8eaf6)',
+  };
+
   function applyBackground() {
-    // Remove all bg classes
-    BACKGROUNDS.forEach(b => canvas.classList.remove(b.cls));
-    canvas.classList.add(currentBg.cls);
+    const style = BG_STYLES[currentBg.id] || '#faf9f6';
+    if (style.includes('gradient')) {
+      canvas.style.background = style;
+    } else {
+      canvas.style.background = style;
+    }
     // Update bg grid selection
     document.querySelectorAll('.bg-card').forEach(card => {
       card.classList.toggle('active', card.dataset.bgId === currentBg.id);
@@ -793,8 +883,9 @@
     const prevSelected = selectedId;
     selectElement(null);
 
-    // Hide empty state and other non-export elements
+    // Hide empty state and show intention labels for export
     emptyState.classList.add('hidden');
+    canvas.querySelectorAll('.intention-label').forEach(l => l.style.opacity = '1');
 
     try {
       const dataUrl = await htmlToImage.toPng(canvas, {
@@ -815,6 +906,8 @@
       alert('Export failed. Try again.');
     }
 
+    // Reset intention labels to hover-only
+    canvas.querySelectorAll('.intention-label').forEach(l => l.style.opacity = '');
     updateUI();
   }
 
@@ -1083,6 +1176,20 @@
   // ===== Helpers =====
   function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function generateTornPath() {
+    const pts = [];
+    const steps = 20;
+    // Top edge
+    for (let i = 0; i <= steps; i++) pts.push(`${(i/steps*100).toFixed(1)}% ${randomInt(0,6)}%`);
+    // Right edge
+    for (let i = 1; i <= steps; i++) pts.push(`${randomInt(94,100)}% ${(i/steps*100).toFixed(1)}%`);
+    // Bottom edge
+    for (let i = steps; i >= 0; i--) pts.push(`${(i/steps*100).toFixed(1)}% ${randomInt(94,100)}%`);
+    // Left edge
+    for (let i = steps - 1; i >= 1; i--) pts.push(`${randomInt(0,6)}% ${(i/steps*100).toFixed(1)}%`);
+    return `polygon(${pts.join(', ')})`;
   }
 
   // ===== Boot =====
