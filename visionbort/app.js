@@ -418,7 +418,7 @@
     // Image-specific actions: shape clipping
     if (el.type === 'image') {
       const shapeBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><rect x="6" y="6" width="12" height="12" rx="1"/></svg>',
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="15" r="4"/><polygon points="12,4 17,15 7,15"/><rect x="16" y="11" width="7" height="7" rx="1"/></svg>',
         'Change shape',
         () => toggleShapeSelector(actions, el.id)
       );
