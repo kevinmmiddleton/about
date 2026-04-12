@@ -1131,9 +1131,9 @@
   function updateUI() {
     const hasContent = elements.length > 0 || customBgImage;
     emptyState.classList.toggle('hidden', hasContent);
-    btnClear.style.display = hasElements ? 'inline-flex' : 'none';
-    btnExport.disabled = !hasElements;
-    btnIntentions.style.display = hasElements ? 'inline-flex' : 'none';
+    btnClear.style.display = hasContent ? 'inline-flex' : 'none';
+    btnExport.disabled = !hasContent;
+    btnIntentions.style.display = hasContent ? 'inline-flex' : 'none';
     if (intentionsPanelOpen) renderIntentionsPanel();
   }
 
