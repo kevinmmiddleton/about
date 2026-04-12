@@ -1414,6 +1414,7 @@
 
   function drawStart(e) {
     isDrawing = true;
+    btnClear.style.display = 'inline-flex';
     const rect = e.target.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
