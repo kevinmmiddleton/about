@@ -1213,8 +1213,22 @@
     $('#tool-upload').addEventListener('click', () => fileInput.click());
     $('#tool-search').addEventListener('click', () => openSidebar('search'));
     $('#tool-stickers').addEventListener('click', () => openSidebar('stickers'));
+    $('#tool-draw').addEventListener('click', () => enterDrawMode());
     $('#tool-text').addEventListener('click', () => addText());
     $('#tool-backgrounds').addEventListener('click', () => openSidebar('backgrounds'));
+
+    // Drawing toolbar
+    $('#draw-done').addEventListener('click', () => exitDrawMode(true));
+    $('#draw-cancel').addEventListener('click', () => exitDrawMode(false));
+    $('#draw-undo').addEventListener('click', drawUndo);
+    $('#draw-color').addEventListener('input', (e) => { drawColor = e.target.value; });
+    document.querySelectorAll('.stroke-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        drawSize = parseInt(btn.dataset.size);
+        document.querySelectorAll('.stroke-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
 
     // Top toolbar
     btnClear.addEventListener('click', clearBoard);
@@ -1247,6 +1261,131 @@
       dropOverlay.classList.add('hidden');
       Array.from(e.dataTransfer.files).forEach(f => {
         if (f.type.startsWith('image/')) addImageFromFile(f);
+      });
+    });
+  }
+
+  // ===== Drawing =====
+  let isDrawing = false;
+  let drawCtx = null;
+  let drawStrokes = []; // array of stroke arrays for undo
+  let currentStroke = [];
+  let drawColor = '#ffffff';
+  let drawSize = 3;
+
+  function enterDrawMode() {
+    const overlay = $('#draw-overlay');
+    const drawCanvas = $('#draw-canvas');
+    overlay.classList.remove('hidden');
+    $('#toolbar-bottom').style.display = 'none';
+
+    // Size canvas to match container
+    const rect = overlay.getBoundingClientRect();
+    drawCanvas.width = rect.width * 2; // retina
+    drawCanvas.height = rect.height * 2;
+    drawCanvas.style.width = rect.width + 'px';
+    drawCanvas.style.height = rect.height + 'px';
+
+    drawCtx = drawCanvas.getContext('2d');
+    drawCtx.scale(2, 2);
+    drawCtx.lineCap = 'round';
+    drawCtx.lineJoin = 'round';
+    drawStrokes = [];
+    currentStroke = [];
+
+    // Pointer events
+    drawCanvas.addEventListener('pointerdown', drawStart);
+    drawCanvas.addEventListener('pointermove', drawMove);
+    drawCanvas.addEventListener('pointerup', drawEnd);
+    drawCanvas.addEventListener('pointerleave', drawEnd);
+  }
+
+  function exitDrawMode(save) {
+    const overlay = $('#draw-overlay');
+    const drawCanvas = $('#draw-canvas');
+    overlay.classList.add('hidden');
+    $('#toolbar-bottom').style.display = 'flex';
+
+    drawCanvas.removeEventListener('pointerdown', drawStart);
+    drawCanvas.removeEventListener('pointermove', drawMove);
+    drawCanvas.removeEventListener('pointerup', drawEnd);
+    drawCanvas.removeEventListener('pointerleave', drawEnd);
+
+    if (save && drawStrokes.length > 0) {
+      // Convert canvas to PNG and add as element
+      const dataUrl = drawCanvas.toDataURL('image/png');
+      const rect = overlay.getBoundingClientRect();
+      addElement({
+        type: 'image',
+        src: dataUrl,
+        x: 0,
+        y: 0,
+        width: rect.width,
+        height: rect.height,
+        rotation: 0,
+        label: 'Drawing',
+        _skipIntention: mode === 'intentional' ? false : true,
+      });
+    }
+
+    drawCtx = null;
+  }
+
+  function drawStart(e) {
+    isDrawing = true;
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    currentStroke = [{ x, y }];
+    drawCtx.strokeStyle = drawColor;
+    drawCtx.lineWidth = drawSize;
+    drawCtx.beginPath();
+    drawCtx.moveTo(x, y);
+  }
+
+  function drawMove(e) {
+    if (!isDrawing) return;
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    currentStroke.push({ x, y });
+    drawCtx.lineTo(x, y);
+    drawCtx.stroke();
+    drawCtx.beginPath();
+    drawCtx.moveTo(x, y);
+  }
+
+  function drawEnd() {
+    if (!isDrawing) return;
+    isDrawing = false;
+    if (currentStroke.length > 0) {
+      drawStrokes.push({ points: currentStroke, color: drawColor, size: drawSize });
+      currentStroke = [];
+    }
+  }
+
+  function drawUndo() {
+    if (drawStrokes.length === 0) return;
+    drawStrokes.pop();
+    redrawStrokes();
+  }
+
+  function redrawStrokes() {
+    const drawCanvas = $('#draw-canvas');
+    const rect = drawCanvas.getBoundingClientRect();
+    drawCtx.clearRect(0, 0, rect.width, rect.height);
+    drawStrokes.forEach(stroke => {
+      drawCtx.strokeStyle = stroke.color;
+      drawCtx.lineWidth = stroke.size;
+      drawCtx.beginPath();
+      stroke.points.forEach((pt, i) => {
+        if (i === 0) drawCtx.moveTo(pt.x, pt.y);
+        else {
+          drawCtx.lineTo(pt.x, pt.y);
+          drawCtx.stroke();
+          drawCtx.beginPath();
+          drawCtx.moveTo(pt.x, pt.y);
+        }
       });
     });
   }
