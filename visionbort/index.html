@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visionbort — Create Your Vision Board</title>
+  <meta name="description" content="A freeform vision board app. Drag, drop, and arrange images, text, and stickers to manifest your dreams.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&family=Bebas+Neue&family=Caveat:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+</head>
+<body>
+  <!-- Welcome Modal -->
+  <div id="welcome-modal" class="modal-overlay">
+    <div class="welcome-container">
+      <div class="welcome-header">
+        <div class="welcome-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <h1>Visionbort</h1>
+        <p>Create a vision board that inspires you</p>
+      </div>
+      <div class="welcome-body">
+        <button id="welcome-start" class="btn-primary btn-lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Start Creating
+        </button>
+        <p class="welcome-hint">Drag images, add text, and arrange your dreams</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Toolbar -->
+  <header id="toolbar-top">
+    <div class="toolbar-left">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <input id="board-title" type="text" value="My Vision Board" placeholder="Board title..." maxlength="40">
+    </div>
+    <div class="toolbar-right">
+      <button id="btn-clear" class="btn-secondary btn-sm" style="display:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+        Clear
+      </button>
+      <button id="btn-export" class="btn-accent btn-sm" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <main id="app-main">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="hidden">
+      <div id="sidebar-header">
+        <h2 id="sidebar-title">Search</h2>
+        <button id="sidebar-close" class="btn-icon-sm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="sidebar-content">
+        <!-- Search Panel -->
+        <div id="panel-search" class="sidebar-panel">
+          <div class="search-input-wrap">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="search-input" type="text" placeholder="Search images..." autocomplete="off">
+          </div>
+          <div id="search-results" class="image-grid"></div>
+          <div id="search-empty" class="panel-empty">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <p>Search for images to add to your board</p>
+          </div>
+          <div id="search-loading" class="panel-empty hidden">
+            <div class="spinner"></div>
+            <p>Searching...</p>
+          </div>
+        </div>
+        <!-- Stickers Panel -->
+        <div id="panel-stickers" class="sidebar-panel hidden">
+          <div class="sticker-grid" id="sticker-grid"></div>
+        </div>
+        <!-- Backgrounds Panel -->
+        <div id="panel-backgrounds" class="sidebar-panel hidden">
+          <div class="bg-grid" id="bg-grid"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Canvas -->
+    <div id="canvas-container">
+      <div id="canvas" data-canvas="true">
+        <!-- Empty state -->
+        <div id="canvas-empty">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e07caa"/><stop offset="100%" stop-color="#7c5ce0"/></linearGradient></defs>
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+          <h3>Start your vision board</h3>
+          <p>Drag & drop images, or use the toolbar below</p>
+        </div>
+        <!-- Drop overlay -->
+        <div id="drop-overlay" class="hidden">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#e07caa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <p>Drop images here</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating Bottom Toolbar -->
+  <div id="toolbar-bottom">
+    <button class="tool-btn" id="tool-upload" title="Upload images">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/><line x1="14" y1="3" x2="14" y2="8"/><line x1="11.5" y1="5.5" x2="16.5" y2="5.5"/></svg>
+    </button>
+    <button class="tool-btn" id="tool-search" title="Search images">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button class="tool-btn" id="tool-stickers" title="Add stickers">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V7l-4.5-5z"/><polyline points="14 2 14 8 20 8"/></svg>
+    </button>
+    <button class="tool-btn" id="tool-text" title="Add text">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+    </button>
+    <button class="tool-btn" id="tool-backgrounds" title="Change background">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/><circle cx="8.5" cy="15.5" r="2.5"/><path d="M13.5 9a5 5 0 0 1 4 7.5"/><path d="M8.5 13a5 5 0 0 1 5-4"/><path d="M15 18a5 5 0 0 1-7 0"/></svg>
+    </button>
+  </div>
+
+  <!-- Hidden file input -->
+  <input type="file" id="file-input" accept="image/*" multiple style="display:none">
+
+  <script src="app.js"></script>
+</body>
+</html>
