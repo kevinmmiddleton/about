@@ -200,6 +200,9 @@
     selectedId = null;
     nextId = 1;
     maxZ = 0;
+    customBgImage = null;
+    currentBg = BACKGROUNDS[0];
+    applyBackground();
     canvas.querySelectorAll('.canvas-element').forEach(el => el.remove());
     localStorage.removeItem('visionbort-mode');
     localStorage.removeItem(STORAGE_KEY);
