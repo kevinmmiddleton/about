@@ -1129,8 +1129,8 @@
 
   // ===== UI Updates =====
   function updateUI() {
-    const hasElements = elements.length > 0;
-    emptyState.classList.toggle('hidden', hasElements);
+    const hasContent = elements.length > 0 || customBgImage;
+    emptyState.classList.toggle('hidden', hasContent);
     btnClear.style.display = hasElements ? 'inline-flex' : 'none';
     btnExport.disabled = !hasElements;
     btnIntentions.style.display = hasElements ? 'inline-flex' : 'none';
