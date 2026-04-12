@@ -149,7 +149,13 @@
     <aside id="intentions-panel" class="hidden">
       <div id="intentions-header">
         <h2>Intentions</h2>
-        <span id="intentions-count" class="intentions-badge">0 / 0</span>
+        <div class="intentions-header-right">
+          <label class="toggle-label" title="Show intentions on the board">
+            <input type="checkbox" id="toggle-show-intentions">
+            <span class="toggle-text">Show on board</span>
+          </label>
+          <span id="intentions-count" class="intentions-badge">0 / 0</span>
+        </div>
       </div>
       <div id="intentions-list"></div>
       <div id="intentions-empty" class="panel-empty">

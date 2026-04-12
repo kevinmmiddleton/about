@@ -102,6 +102,7 @@
   let mode = 'freeform'; // 'intentional' or 'freeform'
   let pendingElement = null; // element waiting for intention note
   let intentionsPanelOpen = false;
+  let showIntentionsOnBoard = false;
 
   // ===== DOM refs =====
   const $ = (sel) => document.querySelector(sel);
@@ -154,6 +155,7 @@
         backgroundId: currentBg.id,
         boardTitle: boardTitle.value,
         mode,
+        showIntentionsOnBoard,
         nextId,
         maxZ,
       };
@@ -175,6 +177,12 @@
       maxZ = data.maxZ || 0;
       boardTitle.value = data.boardTitle || 'My Vision Board';
       if (data.mode) mode = data.mode;
+      if (data.showIntentionsOnBoard) {
+        showIntentionsOnBoard = true;
+        canvas.classList.add('show-intentions');
+        const toggle = $('#toggle-show-intentions');
+        if (toggle) toggle.checked = true;
+      }
       const bg = BACKGROUNDS.find(b => b.id === data.backgroundId);
       if (bg) currentBg = bg;
       applyBackground();
@@ -581,6 +589,18 @@
       if (dom && el) {
         dom.classList.add('selected');
         updateSelectionUI(dom, el);
+      }
+      // Auto-open intentions panel if it's closed and mode is intentional
+      if (!intentionsPanelOpen && mode === 'intentional') {
+        intentionsPanelOpen = true;
+        intentionsPanel.classList.remove('hidden');
+        btnIntentions.classList.add('active-outline');
+      }
+      if (intentionsPanelOpen) {
+        renderIntentionsPanel();
+        // Scroll to selected item
+        const selectedItem = intentionsList.querySelector('.intention-item.selected');
+        if (selectedItem) selectedItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }
   }
@@ -1085,6 +1105,13 @@
 
     // Intentions panel toggle
     btnIntentions.addEventListener('click', toggleIntentionsPanel);
+
+    // Show intentions on board toggle
+    $('#toggle-show-intentions').addEventListener('change', (e) => {
+      showIntentionsOnBoard = e.target.checked;
+      canvas.classList.toggle('show-intentions', showIntentionsOnBoard);
+      saveBoard();
+    });
 
     // Canvas click (deselect)
     canvas.addEventListener('pointerdown', (e) => {

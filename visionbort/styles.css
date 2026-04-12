@@ -550,6 +550,7 @@ body {
   z-index: 5;
 }
 .canvas-element:hover .intention-label { opacity: 1; }
+.show-intentions .intention-label { opacity: 1 !important; }
 
 /* Selection state */
 .canvas-element.selected {
@@ -850,6 +851,29 @@ body {
 }
 
 #intentions-header h2 { font-size: 15px; font-weight: 600; }
+
+.intentions-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  user-select: none;
+}
+.toggle-label input[type="checkbox"] {
+  accent-color: var(--color-accent);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+.toggle-text { white-space: nowrap; }
 
 .intentions-badge {
   font-size: 11px;
