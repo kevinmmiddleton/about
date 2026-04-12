@@ -555,6 +555,7 @@ body {
 .canvas-element.selected {
   outline: 2.5px solid var(--color-accent);
   outline-offset: 6px;
+  z-index: 9999 !important;
 }
 
 /* Action bar (above selected element) */

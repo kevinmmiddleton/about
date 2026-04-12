@@ -33,13 +33,54 @@
     { id: 'lavender', label: 'Lavender', cls: 'bg-lavender' },
   ];
   const CLIP_SHAPES = [
-    { id: 'none', label: 'None', path: '' },
-    { id: 'circle', label: 'Circle', path: 'circle(45% at 50% 50%)' },
-    { id: 'star', label: 'Star', path: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' },
-    { id: 'heart', label: 'Heart', path: 'polygon(50% 15%, 63% 0%, 80% 0%, 95% 10%, 100% 30%, 95% 55%, 50% 100%, 5% 55%, 0% 30%, 5% 10%, 20% 0%, 37% 0%)' },
-    { id: 'diamond', label: 'Diamond', path: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' },
-    { id: 'torn', label: 'Torn', path: '' }, // generated dynamically
+    { id: 'none', label: 'None' },
+    { id: 'circle', label: 'Circle' },
+    { id: 'star', label: 'Star' },
+    { id: 'heart', label: 'Heart' },
+    { id: 'diamond', label: 'Diamond' },
+    { id: 'torn', label: 'Magazine Cut' },
   ];
+
+  function getClipPath(shapeId, width, height) {
+    // Use pixel-based inset for shapes that need to stay undistorted
+    const min = Math.min(width, height);
+    const cx = width / 2, cy = height / 2;
+    switch (shapeId) {
+      case 'circle':
+        return `circle(${min * 0.45}px at ${cx}px ${cy}px)`;
+      case 'star': {
+        // Generate a 5-point star centered, using pixel coords
+        const outerR = min * 0.48, innerR = min * 0.2;
+        const pts = [];
+        for (let i = 0; i < 5; i++) {
+          const outerAngle = (i * 72 - 90) * Math.PI / 180;
+          const innerAngle = ((i * 72) + 36 - 90) * Math.PI / 180;
+          pts.push(`${cx + outerR * Math.cos(outerAngle)}px ${cy + outerR * Math.sin(outerAngle)}px`);
+          pts.push(`${cx + innerR * Math.cos(innerAngle)}px ${cy + innerR * Math.sin(innerAngle)}px`);
+        }
+        return `polygon(${pts.join(', ')})`;
+      }
+      case 'heart': {
+        // Heart using SVG path approach — approximate with polygon
+        const r = min * 0.45;
+        const pts = [];
+        for (let i = 0; i <= 30; i++) {
+          const t = (i / 30) * 2 * Math.PI;
+          const x = 16 * Math.pow(Math.sin(t), 3);
+          const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+          pts.push(`${cx + x * r / 17}px ${cy + y * r / 17 - r * 0.1}px`);
+        }
+        return `polygon(${pts.join(', ')})`;
+      }
+      case 'diamond': {
+        return `polygon(${cx}px ${cy - min*0.48}px, ${cx + min*0.48}px ${cy}px, ${cx}px ${cy + min*0.48}px, ${cx - min*0.48}px ${cy}px)`;
+      }
+      case 'torn':
+        return generateTornPath();
+      default:
+        return '';
+    }
+  }
   const TEXT_PHRASES = ['Dream big', 'Make it happen', 'You got this', 'Believe', 'Manifest it'];
   const INTENTION_PROMPTS = [
     'What does this represent for you?',
@@ -92,10 +133,11 @@
     bindEvents();
     updateUI();
 
-    // Show welcome modal if first visit
-    if (!localStorage.getItem('visionbort-visited')) {
+    // Show welcome modal if no mode has been chosen yet
+    if (!localStorage.getItem('visionbort-mode')) {
       welcomeModal.classList.remove('hidden');
     } else {
+      mode = localStorage.getItem('visionbort-mode') || 'freeform';
       welcomeModal.classList.add('hidden');
     }
   }
@@ -497,11 +539,10 @@
       btn.textContent = shape.label;
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        let clipPath = shape.path;
-        if (shape.id === 'torn') clipPath = generateTornPath();
         if (shape.id === 'none') {
           updateElement(elId, { clipShape: null, clipPath: '' });
         } else {
+          const clipPath = getClipPath(shape.id, el.width, el.height);
           updateElement(elId, { clipShape: shape.id, clipPath });
         }
         dropdown.classList.add('hidden');
@@ -657,6 +698,15 @@
   }
 
   function handleResizeEnd() {
+    if (resizeState) {
+      // Recalculate clip path for new dimensions
+      const el = elements.find(e => e.id === resizeState.id);
+      if (el && el.clipShape) {
+        el.clipPath = getClipPath(el.clipShape, el.width, el.height);
+        const dom = canvas.querySelector(`[data-id="${el.id}"]`);
+        if (dom) applyElementStyle(dom, el);
+      }
+    }
     resizeState = null;
     saveBoard();
     document.removeEventListener('pointermove', handleResizeMove);
@@ -795,7 +845,7 @@
   // ===== Background =====
   const BG_STYLES = {
     warm: '#faf9f6',
-    cork: '#c4a265',
+    cork: '#d4b896',
     midnight: '#1a1a2e',
     blush: 'linear-gradient(to bottom right, #fce4ec, #f3e5f5)',
     ocean: 'linear-gradient(to bottom right, #e0f7fa, #e8eaf6)',
@@ -958,15 +1008,21 @@
 
   function renderBackgrounds() {
     const grid = $('#bg-grid');
+    const darkBgs = ['midnight', 'cork'];
     BACKGROUNDS.forEach(bg => {
       const card = document.createElement('div');
-      card.className = `bg-card ${bg.cls}`;
+      card.className = 'bg-card';
+      card.style.background = BG_STYLES[bg.id] || '#faf9f6';
       card.dataset.bgId = bg.id;
       if (bg.id === currentBg.id) card.classList.add('active');
 
       const label = document.createElement('span');
       label.className = 'bg-card-label';
       label.textContent = bg.label;
+      if (darkBgs.includes(bg.id)) {
+        label.style.color = 'rgba(255,255,255,0.7)';
+        label.style.textShadow = '0 1px 2px rgba(0,0,0,0.4)';
+      }
       card.appendChild(label);
 
       const check = document.createElement('div');
@@ -1000,13 +1056,13 @@
     $('#welcome-intentional').addEventListener('click', () => {
       mode = 'intentional';
       welcomeModal.classList.add('hidden');
-      localStorage.setItem('visionbort-visited', 'true');
+      localStorage.setItem('visionbort-mode', 'intentional');
       saveBoard();
     });
     $('#welcome-freeform').addEventListener('click', () => {
       mode = 'freeform';
       welcomeModal.classList.add('hidden');
-      localStorage.setItem('visionbort-visited', 'true');
+      localStorage.setItem('visionbort-mode', 'freeform');
       saveBoard();
     });
 
@@ -1180,15 +1236,15 @@
 
   function generateTornPath() {
     const pts = [];
-    const steps = 20;
-    // Top edge
-    for (let i = 0; i <= steps; i++) pts.push(`${(i/steps*100).toFixed(1)}% ${randomInt(0,6)}%`);
+    const steps = 16;
+    // Top edge — subtle tear (1-3% variation)
+    for (let i = 0; i <= steps; i++) pts.push(`${(i/steps*100).toFixed(1)}% ${randomInt(0,3)}%`);
     // Right edge
-    for (let i = 1; i <= steps; i++) pts.push(`${randomInt(94,100)}% ${(i/steps*100).toFixed(1)}%`);
+    for (let i = 1; i <= steps; i++) pts.push(`${randomInt(97,100)}% ${(i/steps*100).toFixed(1)}%`);
     // Bottom edge
-    for (let i = steps; i >= 0; i--) pts.push(`${(i/steps*100).toFixed(1)}% ${randomInt(94,100)}%`);
+    for (let i = steps; i >= 0; i--) pts.push(`${(i/steps*100).toFixed(1)}% ${randomInt(97,100)}%`);
     // Left edge
-    for (let i = steps - 1; i >= 1; i--) pts.push(`${randomInt(0,6)}% ${(i/steps*100).toFixed(1)}%`);
+    for (let i = steps - 1; i >= 1; i--) pts.push(`${randomInt(0,3)}% ${(i/steps*100).toFixed(1)}%`);
     return `polygon(${pts.join(', ')})`;
   }
 
