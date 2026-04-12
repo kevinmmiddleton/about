@@ -204,6 +204,18 @@
     currentBg = BACKGROUNDS[0];
     applyBackground();
     canvas.querySelectorAll('.canvas-element').forEach(el => el.remove());
+    // Clear any active drawing
+    const drawCanvas = $('#draw-canvas');
+    if (drawCanvas) {
+      const ctx = drawCanvas.getContext('2d');
+      ctx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+    }
+    drawStrokes = [];
+    if (!$('#draw-overlay').classList.contains('hidden')) {
+      $('#draw-overlay').classList.add('hidden');
+      $('#toolbar-bottom').style.display = 'flex';
+    }
+    drawCtx = null;
     localStorage.removeItem('visionbort-mode');
     localStorage.removeItem(STORAGE_KEY);
     if (intentionsPanelOpen) {
