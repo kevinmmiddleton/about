@@ -519,20 +519,9 @@
 
     // Image-specific actions
     if (el.type === 'image') {
-      // Set as background
-      const bgBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l6-6 4 4 4-4 4 4"/></svg>',
-        'Set as canvas background',
-        () => {
-          setImageBackground(el.src, el.intention || '');
-          removeElement(el.id);
-        }
-      );
-      actions.appendChild(bgBtn);
-
       // Shape clipping
       const shapeBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"/><path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"/></svg>',
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 19 8.5 17 17.5 7 17.5 5 8.5"/></svg>',
         'Change shape',
         () => toggleShapeSelector(actions, el.id)
       );
@@ -1083,6 +1072,44 @@
     }
   }
 
+  // ===== Background Search =====
+  async function searchBgImages(query) {
+    if (!UNSPLASH_PROXY) return;
+    const resultsDiv = $('#bg-search-results');
+    resultsDiv.innerHTML = '<div class="panel-empty"><div class="spinner"></div><p>Searching...</p></div>';
+
+    try {
+      const res = await fetch(`${UNSPLASH_PROXY}/search?query=${encodeURIComponent(query)}&per_page=12`);
+      const data = await res.json();
+      resultsDiv.innerHTML = '';
+
+      if (!data.results || data.results.length === 0) {
+        resultsDiv.innerHTML = '<div class="panel-empty"><p>No images found</p></div>';
+        return;
+      }
+
+      data.results.forEach(photo => {
+        const item = document.createElement('div');
+        item.className = 'image-grid-item';
+        const img = document.createElement('img');
+        img.src = photo.urls.small;
+        img.alt = photo.alt_description || '';
+        img.loading = 'lazy';
+        item.appendChild(img);
+        const credit = document.createElement('div');
+        credit.className = 'credit';
+        credit.textContent = photo.user.name;
+        item.appendChild(credit);
+        item.addEventListener('click', () => {
+          setImageBackground(photo.urls.regular, '');
+        });
+        resultsDiv.appendChild(item);
+      });
+    } catch (e) {
+      resultsDiv.innerHTML = '<div class="panel-empty"><p>Search failed</p></div>';
+    }
+  }
+
   // ===== Export =====
   function renderAsWallpaper(sourceDataUrl) {
     return new Promise((resolve) => {
@@ -1377,6 +1404,37 @@
     $('#tool-draw').addEventListener('click', () => enterDrawMode());
     $('#tool-text').addEventListener('click', () => addText());
     $('#tool-backgrounds').addEventListener('click', () => openSidebar('backgrounds'));
+
+    // Background upload
+    const bgFileInput = $('#bg-file-input');
+    $('#bg-upload').addEventListener('click', () => bgFileInput.click());
+    bgFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setImageBackground(ev.target.result, '');
+      };
+      reader.readAsDataURL(file);
+      e.target.value = '';
+    });
+
+    // Background search
+    const bgSearchWrap = $('#bg-search-wrap');
+    $('#bg-search').addEventListener('click', () => {
+      bgSearchWrap.classList.toggle('hidden');
+      if (!bgSearchWrap.classList.contains('hidden')) {
+        setTimeout(() => $('#bg-search-input').focus(), 100);
+      }
+    });
+
+    let bgSearchTimeout = null;
+    $('#bg-search-input').addEventListener('input', (e) => {
+      clearTimeout(bgSearchTimeout);
+      const query = e.target.value.trim();
+      if (query.length < 2) return;
+      bgSearchTimeout = setTimeout(() => searchBgImages(query), 400);
+    });
 
     // Drawing toolbar
     $('#draw-done').addEventListener('click', () => exitDrawMode(true));
