@@ -1038,8 +1038,73 @@
   }
 
   // ===== Export =====
+  function renderAsWallpaper(sourceDataUrl) {
+    return new Promise((resolve) => {
+      const WALLPAPER_W = 1170;
+      const WALLPAPER_H = 2532;
+
+      const img = new Image();
+      img.onload = () => {
+        const wpCanvas = document.createElement('canvas');
+        wpCanvas.width = WALLPAPER_W;
+        wpCanvas.height = WALLPAPER_H;
+        const ctx = wpCanvas.getContext('2d');
+
+        // Fill background with the current canvas background
+        if (customBgImage) {
+          // Draw custom bg image to fill
+          const bgImg = new Image();
+          bgImg.onload = () => {
+            // Cover fill
+            const scale = Math.max(WALLPAPER_W / bgImg.width, WALLPAPER_H / bgImg.height);
+            const w = bgImg.width * scale;
+            const h = bgImg.height * scale;
+            ctx.drawImage(bgImg, (WALLPAPER_W - w) / 2, (WALLPAPER_H - h) / 2, w, h);
+            // Draw board content centered
+            drawBoardOnWallpaper(ctx, img, WALLPAPER_W, WALLPAPER_H);
+            resolve(wpCanvas.toDataURL('image/png'));
+          };
+          bgImg.src = customBgImage.src;
+        } else {
+          // Solid/gradient background — sample from the canvas style
+          const bgStyle = BG_STYLES[currentBg.id] || '#faf9f6';
+          if (bgStyle.includes('gradient')) {
+            // Parse gradient colors for a simple fill
+            const colors = bgStyle.match(/#[a-fA-F0-9]{6}/g) || ['#faf9f6'];
+            const grad = ctx.createLinearGradient(0, 0, WALLPAPER_W, WALLPAPER_H);
+            colors.forEach((c, i) => grad.addColorStop(i / Math.max(colors.length - 1, 1), c));
+            ctx.fillStyle = grad;
+          } else {
+            ctx.fillStyle = bgStyle;
+          }
+          ctx.fillRect(0, 0, WALLPAPER_W, WALLPAPER_H);
+          // Draw board content centered
+          drawBoardOnWallpaper(ctx, img, WALLPAPER_W, WALLPAPER_H);
+          resolve(wpCanvas.toDataURL('image/png'));
+        }
+      };
+      img.src = sourceDataUrl;
+    });
+  }
+
+  function drawBoardOnWallpaper(ctx, sourceImg, wpW, wpH) {
+    // Scale the board to fit the wallpaper width with some padding
+    const padding = wpW * 0.05;
+    const availW = wpW - padding * 2;
+    const scale = availW / sourceImg.width;
+    const drawW = sourceImg.width * scale;
+    const drawH = sourceImg.height * scale;
+    // Center vertically
+    const x = (wpW - drawW) / 2;
+    const y = (wpH - drawH) / 2;
+    ctx.drawImage(sourceImg, x, y, drawW, drawH);
+  }
+
   async function exportBoard() {
-    if (elements.length === 0) return;
+    const hasContent = elements.length > 0 || customBgImage;
+    if (!hasContent) return;
+
+    const isMobile = window.innerWidth <= 768;
 
     // Deselect and close sidebars to show full canvas
     const prevSelected = selectedId;
@@ -1058,7 +1123,8 @@
     canvas.querySelectorAll('.intention-label').forEach(l => l.style.opacity = '1');
 
     try {
-      const dataUrl = await htmlToImage.toPng(canvas, {
+      // Capture the canvas as-is
+      const canvasDataUrl = await htmlToImage.toPng(canvas, {
         quality: 1,
         pixelRatio: 2,
         filter: (node) => {
@@ -1067,9 +1133,16 @@
         },
       });
 
+      let finalDataUrl = canvasDataUrl;
+
+      // On mobile, render into wallpaper dimensions
+      if (isMobile) {
+        finalDataUrl = await renderAsWallpaper(canvasDataUrl);
+      }
+
       const link = document.createElement('a');
-      link.download = `${boardTitle.value || 'vision-board'}.png`;
-      link.href = dataUrl;
+      link.download = `${boardTitle.value || 'vision-board'}${isMobile ? '-wallpaper' : ''}.png`;
+      link.href = finalDataUrl;
       link.click();
     } catch (e) {
       console.error('Export failed:', e);
