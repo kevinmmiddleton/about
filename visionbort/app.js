@@ -663,8 +663,9 @@
         dom.classList.add('selected');
         updateSelectionUI(dom, el);
       }
-      // Auto-open intentions panel if it's closed and mode is intentional
-      if (!intentionsPanelOpen && mode === 'intentional') {
+      // Auto-open intentions panel if it's closed and mode is intentional (desktop only)
+      const isMobile = window.innerWidth <= 768;
+      if (!intentionsPanelOpen && mode === 'intentional' && !isMobile) {
         intentionsPanelOpen = true;
         intentionsPanel.classList.remove('hidden');
         btnIntentions.classList.add('active-outline');
