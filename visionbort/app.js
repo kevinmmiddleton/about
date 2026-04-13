@@ -947,13 +947,35 @@
 
   function addImageFromUrl(url, w, h) {
     const ratio = Math.min(MAX_IMAGE_SIZE / (w || 300), MAX_IMAGE_SIZE / (h || 300), 1);
-    addElement({
-      type: 'image',
-      src: url,
-      width: Math.round((w || 300) * ratio),
-      height: Math.round((h || 300) * ratio),
-      label: '',
-    });
+    const width = Math.round((w || 300) * ratio);
+    const height = Math.round((h || 300) * ratio);
+
+    // Convert to data URL to avoid CORS issues on export
+    fetch(url)
+      .then(res => res.blob())
+      .then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          addElement({
+            type: 'image',
+            src: reader.result,
+            width,
+            height,
+            label: '',
+          });
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch(() => {
+        // Fallback to direct URL if fetch fails
+        addElement({
+          type: 'image',
+          src: url,
+          width,
+          height,
+          label: '',
+        });
+      });
   }
 
   function addSticker(emoji) {
@@ -1111,7 +1133,17 @@
         credit.textContent = photo.user.name;
         item.appendChild(credit);
         item.addEventListener('click', () => {
-          setImageBackground(photo.urls.regular, '');
+          // Convert to data URL for export compatibility
+          fetch(photo.urls.regular)
+            .then(res => res.blob())
+            .then(blob => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                setImageBackground(reader.result, '');
+              };
+              reader.readAsDataURL(blob);
+            })
+            .catch(() => setImageBackground(photo.urls.regular, ''));
           if (window.innerWidth <= 768) closeSidebar();
         });
         resultsDiv.appendChild(item);
