@@ -653,12 +653,17 @@
         if (shape.id === 'none') {
           updateElement(elId, { clipShape: null, clipPath: '' });
         } else if (shape.id === 'polaroid') {
-          // Make it square-ish for polaroid
-          const size = Math.max(el.width, el.height);
+          const size = Math.min(el.width, el.height);
           updateElement(elId, { clipShape: 'polaroid', clipPath: '', width: size, height: size * 1.15 });
+        } else if (shape.id === 'torn') {
+          // Torn keeps original dimensions
+          const clipPath = getClipPath('torn', el.width, el.height);
+          updateElement(elId, { clipShape: 'torn', clipPath });
         } else {
-          const clipPath = getClipPath(shape.id, el.width, el.height);
-          updateElement(elId, { clipShape: shape.id, clipPath });
+          // Circle, star, heart, diamond — make square so shape isn't distorted
+          const size = Math.min(el.width, el.height);
+          const clipPath = getClipPath(shape.id, size, size);
+          updateElement(elId, { clipShape: shape.id, clipPath, width: size, height: size });
         }
         dropdown.classList.add('hidden');
         selectElement(elId);
