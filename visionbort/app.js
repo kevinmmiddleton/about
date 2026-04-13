@@ -104,6 +104,8 @@
   let pendingElement = null; // element waiting for intention note
   let intentionsPanelOpen = false;
   let showIntentionsOnBoard = false;
+  let undoStack = []; // history of states for undo
+  const MAX_UNDO = 30;
 
   // ===== DOM refs =====
   const $ = (sel) => document.querySelector(sel);
@@ -229,6 +231,47 @@
     welcomeModal.classList.remove('hidden');
   }
 
+  // ===== Undo =====
+  function pushUndo() {
+    const snapshot = {
+      elements: JSON.parse(JSON.stringify(elements)),
+      customBgImage: customBgImage ? { ...customBgImage } : null,
+      bgId: currentBg.id,
+      nextId,
+      maxZ,
+    };
+    undoStack.push(snapshot);
+    if (undoStack.length > MAX_UNDO) undoStack.shift();
+    updateUndoButton();
+  }
+
+  function undo() {
+    if (undoStack.length === 0) return;
+    const snapshot = undoStack.pop();
+
+    // Restore state
+    elements = snapshot.elements;
+    customBgImage = snapshot.customBgImage;
+    const bg = BACKGROUNDS.find(b => b.id === snapshot.bgId);
+    if (bg) currentBg = bg;
+    nextId = snapshot.nextId;
+    maxZ = snapshot.maxZ;
+    selectedId = null;
+
+    // Re-render all elements
+    canvas.querySelectorAll('.canvas-element').forEach(el => el.remove());
+    elements.forEach(el => renderElement(el));
+    applyBackground();
+    updateUI();
+    updateUndoButton();
+    saveBoard();
+  }
+
+  function updateUndoButton() {
+    const btn = $('#btn-undo');
+    btn.style.display = undoStack.length > 0 ? 'inline-flex' : 'none';
+  }
+
   // ===== Element CRUD =====
   function addElement(props) {
     if (mode === 'intentional' && !props._skipIntention && props.type !== 'text') {
@@ -251,6 +294,7 @@
     }
 
     delete props._skipIntention;
+    pushUndo();
     // Ensure new element is always on top
     maxZ = Math.max(maxZ, ...elements.map(e => e.zIndex || 0)) + 1;
     const el = {
@@ -284,6 +328,7 @@
   }
 
   function removeElement(id) {
+    pushUndo();
     elements = elements.filter(e => e.id !== id);
     const dom = canvas.querySelector(`[data-id="${id}"]`);
     if (dom) dom.remove();
@@ -487,7 +532,7 @@
 
       // Shape clipping
       const shapeBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>',
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"/><path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"/></svg>',
         'Change shape',
         () => toggleShapeSelector(actions, el.id)
       );
@@ -967,6 +1012,7 @@
   }
 
   function setImageBackground(src, intention) {
+    pushUndo();
     customBgImage = { src, intention: intention || '' };
     applyBackground();
     updateUI();
@@ -1306,6 +1352,10 @@
         e.preventDefault();
         removeElement(selectedId);
       }
+      if (e.key === 'z' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        undo();
+      }
       if (e.key === 'Escape') {
         selectElement(null);
         closeSidebar();
@@ -1342,6 +1392,7 @@
 
     // Top toolbar
     btnClear.addEventListener('click', clearBoard);
+    $('#btn-undo').addEventListener('click', undo);
     btnExport.addEventListener('click', exportBoard);
     boardTitle.addEventListener('input', () => saveBoard());
 
