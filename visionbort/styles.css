@@ -1120,11 +1120,15 @@ body {
   }
 
   .toolbar-right { gap: 4px; }
+  .toolbar-right .btn-label { display: none; }
   .toolbar-right .btn-sm {
-    padding: 4px 10px;
-    font-size: 11px;
+    padding: 8px;
+    font-size: 0;
+    min-width: 36px;
+    min-height: 36px;
+    justify-content: center;
   }
-  .toolbar-right .btn-sm svg { width: 14px; height: 14px; }
+  .toolbar-right .btn-sm svg { width: 18px; height: 18px; }
 
   /* Main layout: stack vertically */
   #app-main {
