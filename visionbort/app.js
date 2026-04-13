@@ -39,6 +39,7 @@
     { id: 'heart', label: 'Heart' },
     { id: 'diamond', label: 'Diamond' },
     { id: 'torn', label: 'Magazine Cut' },
+    { id: 'polaroid', label: 'Polaroid' },
   ];
 
   function getClipPath(shapeId, width, height) {
@@ -316,14 +317,25 @@
     content.className = 'element-content';
 
     if (el.type === 'image') {
-      const img = document.createElement('img');
-      img.src = el.src;
-      img.draggable = false;
-      img.alt = el.label || '';
-      if (el.clipShape && el.clipPath) {
-        img.style.clipPath = el.clipPath;
+      if (el.clipShape === 'polaroid') {
+        const frame = document.createElement('div');
+        frame.className = 'polaroid-frame';
+        const img = document.createElement('img');
+        img.src = el.src;
+        img.draggable = false;
+        img.alt = el.label || '';
+        frame.appendChild(img);
+        content.appendChild(frame);
+      } else {
+        const img = document.createElement('img');
+        img.src = el.src;
+        img.draggable = false;
+        img.alt = el.label || '';
+        if (el.clipShape && el.clipPath) {
+          img.style.clipPath = el.clipPath;
+        }
+        content.appendChild(img);
       }
-      content.appendChild(img);
     } else if (el.type === 'sticker') {
       const span = document.createElement('div');
       span.className = 'sticker-content';
@@ -376,10 +388,19 @@
       if (existing) existing.remove();
     }
 
-    // Clip path for images
+    // Clip path / polaroid for images
     if (el.type === 'image') {
-      const img = dom.querySelector('img');
-      if (img) img.style.clipPath = (el.clipShape && el.clipPath) ? el.clipPath : '';
+      const hasPolaroid = !!dom.querySelector('.polaroid-frame');
+      const needsPolaroid = el.clipShape === 'polaroid';
+      if (hasPolaroid !== needsPolaroid) {
+        // Structure changed, re-render
+        renderElement(el);
+        return;
+      }
+      if (!needsPolaroid) {
+        const img = dom.querySelector('img');
+        if (img) img.style.clipPath = (el.clipShape && el.clipPath) ? el.clipPath : '';
+      }
     }
 
     // Update inner content styles
@@ -597,6 +618,10 @@
         e.stopPropagation();
         if (shape.id === 'none') {
           updateElement(elId, { clipShape: null, clipPath: '' });
+        } else if (shape.id === 'polaroid') {
+          // Make it square-ish for polaroid
+          const size = Math.max(el.width, el.height);
+          updateElement(elId, { clipShape: 'polaroid', clipPath: '', width: size, height: size * 1.15 });
         } else {
           const clipPath = getClipPath(shape.id, el.width, el.height);
           updateElement(elId, { clipShape: shape.id, clipPath });
