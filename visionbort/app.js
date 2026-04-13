@@ -955,15 +955,19 @@
     addElement({ type: 'sticker', src: emoji, width: 80, height: 80, rotation: 0 });
   }
 
+  let nextFontIndex = 0;
+
   function addText() {
     const phrase = TEXT_PHRASES[Math.floor(Math.random() * TEXT_PHRASES.length)];
+    const font = FONTS[nextFontIndex % FONTS.length];
+    nextFontIndex++;
     const darkBgs = ['midnight'];
     const textColor = darkBgs.includes(currentBg.id) ? '#f8fafc' : '#1a1a2e';
     addElement({
       type: 'text',
       content: phrase,
       fontSize: 32,
-      fontFamily: FONTS[0].family,
+      fontFamily: font.family,
       color: textColor,
       fontWeight: 'bold',
       fontStyle: 'normal',
