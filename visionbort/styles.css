@@ -1239,16 +1239,28 @@ body {
   .intention-header { padding: 20px 20px 16px; }
   .intention-body { padding: 16px 20px 20px; }
 
-  /* Drawing toolbar */
+  /* Drawing toolbar — two rows on mobile */
   #draw-overlay { top: 48px; }
   #draw-toolbar {
-    bottom: 16px;
-    padding: 6px 10px;
-    gap: 6px;
+    bottom: 12px;
+    padding: 8px 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 320px;
   }
-  .draw-color-swatch { width: 18px; height: 18px; }
-  .draw-color-row { gap: 3px; }
-  .stroke-btn { width: 28px; height: 28px; }
+  .draw-color-row { gap: 4px; width: 100%; justify-content: center; }
+  .draw-color-swatch { width: 24px; height: 24px; }
+  .draw-divider { display: none; }
+  .stroke-options { gap: 6px; }
+  .stroke-btn { width: 32px; height: 32px; }
+
+  /* Backgrounds: more compact */
+  .bg-grid { gap: 6px; }
+  .bg-card { aspect-ratio: 3/2; border-radius: 8px; }
+  .bg-custom-actions { gap: 6px; margin-bottom: 10px; }
+  .bg-action-btn { font-size: 11px; padding: 6px 8px; }
+  .bg-section-label { margin-top: 4px; margin-bottom: 6px; }
 
   /* Empty state */
   #canvas-empty h3 { font-size: 16px; }

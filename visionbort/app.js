@@ -1060,6 +1060,7 @@
 
         item.addEventListener('click', () => {
           addImageFromUrl(photo.urls.regular, photo.width, photo.height);
+          if (window.innerWidth <= 768) closeSidebar();
         });
 
         resultsDiv.appendChild(item);
@@ -1102,6 +1103,7 @@
         item.appendChild(credit);
         item.addEventListener('click', () => {
           setImageBackground(photo.urls.regular, '');
+          if (window.innerWidth <= 768) closeSidebar();
         });
         resultsDiv.appendChild(item);
       });
@@ -1275,7 +1277,10 @@
       const btn = document.createElement('button');
       btn.className = 'sticker-btn';
       btn.textContent = emoji;
-      btn.addEventListener('click', () => addSticker(emoji));
+      btn.addEventListener('click', () => {
+        addSticker(emoji);
+        if (window.innerWidth <= 768) closeSidebar();
+      });
       grid.appendChild(btn);
     });
   }
@@ -1309,6 +1314,7 @@
         customBgImage = null; // Clear custom image when picking a preset
         applyBackground();
         saveBoard();
+        if (window.innerWidth <= 768) closeSidebar();
       });
 
       grid.appendChild(card);
