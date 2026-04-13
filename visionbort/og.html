@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #0f111a;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      padding: 80px 70px;
+      gap: 60px;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 40%, rgba(224, 124, 170, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 90% 20%, rgba(124, 92, 224, 0.2) 0%, transparent 60%),
+        radial-gradient(circle at 70% 90%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .text-side {
+      flex: 1;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      height: 100%;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .logo-icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #e07caa, #7c5ce0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(124, 92, 224, 0.4);
+      position: relative;
+    }
+
+    .logo-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .logo-icon svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    .logo-text {
+      font-size: 96px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -3px;
+    }
+
+    .tagline {
+      font-size: 38px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    .tagline strong {
+      background: linear-gradient(to right, #f4b8d4, #bfa8fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .feature-pill {
+      padding: 14px 24px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 20px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .pill-1 { transform: rotate(-2deg); }
+    .pill-2 { transform: rotate(1.5deg); }
+    .pill-3 { transform: rotate(-1deg) translateY(4px); }
+    .pill-4 { transform: rotate(2.5deg); }
+    .pill-5 { transform: rotate(-1.5deg) translateY(-2px); }
+    .pill-6 { transform: rotate(1deg); }
+
+    .feature-pill svg {
+      flex-shrink: 0;
+      opacity: 0.8;
+    }
+
+    /* Right side: preview mockup */
+    .preview-side {
+      width: 480px;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+      perspective: 1000px;
+    }
+
+    .board-frame {
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 32px;
+      box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      transform: rotateY(-8deg) rotateX(4deg);
+      transform-style: preserve-3d;
+    }
+
+    .board-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.4;
+      z-index: 0;
+    }
+
+    .board-item {
+      position: absolute;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+      background-size: cover;
+      background-position: center;
+      z-index: 2;
+      border: 6px solid #ffffff;
+    }
+
+    .board-img-1 {
+      width: 190px;
+      height: 220px;
+      background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=400');
+      top: 30px;
+      left: 30px;
+      transform: rotate(-6deg);
+      border-radius: 4px;
+      border-bottom-width: 48px;
+    }
+
+    .board-img-2 {
+      width: 160px;
+      height: 160px;
+      background-image: url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=400');
+      top: 40px;
+      right: 30px;
+      transform: rotate(8deg);
+      border-radius: 50%;
+      border-width: 4px;
+    }
+
+    .board-img-3 {
+      width: 220px;
+      height: 150px;
+      background-image: url('https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80&w=400');
+      bottom: 60px;
+      left: 60px;
+      transform: rotate(4deg);
+      border-radius: 8px;
+    }
+
+    .board-text {
+      position: absolute;
+      bottom: 40px;
+      right: 30px;
+      font-size: 36px;
+      font-weight: 800;
+      color: #0f111a;
+      font-family: 'Inter', sans-serif;
+      transform: rotate(-4deg);
+      z-index: 3;
+      background: #fde68a;
+      padding: 4px 12px;
+      border-radius: 4px;
+      box-shadow: 2px 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .board-sticker {
+      position: absolute;
+      font-size: 52px;
+      z-index: 4;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    }
+
+    .sticker-1 { top: 195px; left: 200px; transform: rotate(15deg); }
+    .sticker-2 { bottom: 20px; left: 20px; transform: rotate(-12deg); }
+    .sticker-3 { top: 280px; right: 40px; transform: rotate(10deg); font-size: 84px; }
+
+    /* Intention label — in polaroid white strip */
+    .board-intention {
+      position: absolute;
+      bottom: -36px;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #334155;
+      font-size: 26px;
+      font-weight: 700;
+      white-space: nowrap;
+      font-family: 'Caveat', cursive;
+    }
+
+    .board-intention-dark {
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100%);
+      background: #1e293b;
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text-side">
+      <div class="logo-row">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <span class="logo-text">Visionbort</span>
+      </div>
+      <p class="tagline">
+        Create vision boards that <strong>inspire</strong> you. Drag, draw, and arrange your dreams.
+      </p>
+      <div class="features">
+        <span class="feature-pill pill-1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Images</span>
+        <span class="feature-pill pill-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Intentions</span>
+        <span class="feature-pill pill-3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15h18"/><path d="M3 9h18"/></svg> Backgrounds</span>
+        <span class="feature-pill pill-4"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Stickers</span>
+        <span class="feature-pill pill-5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg> Drawing</span>
+        <span class="feature-pill pill-6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export</span>
+      </div>
+    </div>
+
+    <div class="preview-side">
+      <div class="board-frame">
+        <div class="board-item board-img-1">
+          <div class="board-intention">Cozy moments</div>
+        </div>
+        <div class="board-item board-img-2">
+           <div class="board-intention-dark">Healthy lunches</div>
+        </div>
+        <div class="board-item board-img-3"></div>
+        <span class="board-sticker sticker-1">🚀</span>
+        <span class="board-sticker sticker-2">✨</span>
+        <span class="board-sticker sticker-3">💎</span>
+        <span class="board-text">Build it.</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
