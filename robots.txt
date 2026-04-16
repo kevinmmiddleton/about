@@ -1,6 +1,7 @@
 # Welcome, crawlers!
 User-agent: *
 Allow: /
+Disallow: /*?from=*
 
 # Sitemap location
 Sitemap: https://middleton.io/sitemap.xml
