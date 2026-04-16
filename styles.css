@@ -1330,6 +1330,25 @@ img {
   text-align: center;
 }
 
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 16px;
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
 .footer-text {
   margin-top: var(--spacing-md);
   color: var(--text-secondary);
