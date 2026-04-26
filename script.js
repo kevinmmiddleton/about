@@ -1,7 +1,7 @@
 // ========== Site Config ==========
 const siteConfig = {
-  showOpenToWork: true,
-  showLookingFor: true
+  showOpenToWork: false,
+  showLookingFor: false
 }
 
 // Apply config-driven visibility

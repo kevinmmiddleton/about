@@ -16,10 +16,11 @@
         message: "Hey! I'm Kevin, a Full Stack PM based in NYC, currently open to new opportunities. Let me show you around."
       },
       {
-        target: '#looking-for .container',
-        mobileScrollTarget: '#looking-for',
-        title: 'What I Want',
-        message: "I'm looking for roles in product management, internal tools, or platforms. Also open to product ops, marketing ops, or consulting."
+        target: '#building .bento',
+        spotlightInclude: ['#building .section-title'],
+        mobileScrollTarget: '#building',
+        title: "What I'm Building",
+        message: "I ship side projects. QuietFeed is an RSS reader, Visionbort is a vision board app, and I wrote a guide to building with Claude Code. I also offer free product coaching through Office Hours."
       },
       {
         target: '#about .container',
