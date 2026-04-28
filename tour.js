@@ -18,6 +18,7 @@
       {
         target: '#building .bento',
         spotlightInclude: ['#building .section-title'],
+        scrollTarget: '#building',
         mobileScrollTarget: '#building',
         title: "What I'm Building",
         message: "I ship side projects. QuietFeed is an RSS reader, Visionbort is a vision board app, and I wrote a guide to building with Claude Code. I also offer free product coaching through Office Hours."
