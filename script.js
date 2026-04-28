@@ -17,7 +17,7 @@ const header = document.querySelector(".header")
 const menuToggle = document.getElementById("menu-toggle")
 const menu = document.getElementById("menu")
 const headerName = document.getElementById("header-name")
-const aboutSection = document.getElementById("about")
+const buildingSection = document.getElementById("building")
 
 // Sticky header on scroll
 window.addEventListener("scroll", () => {
@@ -28,8 +28,8 @@ window.addEventListener("scroll", () => {
   }
 
   // Show/hide header name based on scroll
-  if (aboutSection) {
-    const aboutTop = aboutSection.offsetTop
+  if (buildingSection) {
+    const aboutTop = buildingSection.offsetTop
     const scrollPosition = window.scrollY + window.innerHeight / 2
 
     if (scrollPosition >= aboutTop && headerName) {
