@@ -1,0 +1,437 @@
+/* ================================
+   OFFICE HOURS — CALM STUDIO
+   Modern, editorial, parallax hero.
+   ================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .oh-hero { background-attachment: scroll; }
+}
+
+/* ===== Skip Link ===== */
+.oh-skip-link {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--oh-accent);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 8px 8px;
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+.oh-skip-link:focus { top: 0; }
+
+/* ===== Variables ===== */
+:root {
+  --oh-bg: #F0EEE9;
+  --oh-surface: #ffffff;
+  --oh-text: #1a202c;
+  --oh-text-secondary: #4a5568;
+  --oh-text-muted: #718096;
+  --oh-accent: #4A6A8C;
+  --oh-accent-hover: #3a5676;
+  --oh-warm: #C4A07A;
+  --oh-border: #e2e8f0;
+  --oh-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --oh-heading: 'Epilogue', 'Inter', sans-serif;
+  --oh-radius: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--oh-font);
+  background: var(--oh-bg);
+  color: var(--oh-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Hero — Parallax ===== */
+.oh-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: calc(20vh + 100px);
+  text-align: center;
+  overflow: hidden;
+}
+
+.oh-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('images/hero.jpg') center/cover no-repeat;
+  transform: translateZ(0);
+  will-change: transform;
+  z-index: 0;
+}
+
+.oh-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.15);
+  z-index: 1;
+}
+
+.oh-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 0 24px;
+}
+
+.oh-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oh-accent);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 8px 20px;
+  border-radius: 50px;
+  margin-bottom: 24px;
+}
+
+.oh-hero h1 {
+  font-family: var(--oh-heading);
+  font-size: 4.5rem;
+  font-weight: 800;
+  letter-spacing: -2px;
+  color: var(--oh-text);
+  line-height: 1;
+  margin: 0 0 16px;
+}
+
+.oh-hero .subline {
+  font-size: 1.25rem;
+  color: var(--oh-text-secondary);
+  line-height: 1.5;
+  margin: 0 0 36px;
+  font-weight: 400;
+}
+
+.oh-hero-ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.oh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--oh-accent);
+  color: white;
+  padding: 16px 36px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+.oh-btn:hover {
+  background: var(--oh-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.oh-btn-arrow {
+  transition: transform 0.2s;
+}
+.oh-btn:hover .oh-btn-arrow {
+  transform: translateX(4px);
+}
+
+.oh-hero-link {
+  font-size: 0.9rem;
+  color: var(--oh-text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.oh-hero-link:hover { color: var(--oh-accent); }
+
+/* Scroll indicator */
+.oh-scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: var(--oh-text-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: gentleBounce 2s ease-in-out infinite;
+}
+
+@keyframes gentleBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ===== Content Area ===== */
+.oh-content {
+  position: relative;
+  z-index: 3;
+  background: var(--oh-bg);
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 24px 40px;
+}
+
+/* ===== Section Cards ===== */
+.oh-section {
+  margin-bottom: 48px;
+}
+
+.oh-section h2 {
+  font-family: var(--oh-heading);
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0 0 24px;
+  color: var(--oh-text);
+}
+
+/* ===== Steps — What Happens ===== */
+.oh-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.oh-step {
+  background: var(--oh-surface);
+  border: 1px solid var(--oh-border);
+  border-radius: var(--oh-radius);
+  padding: 28px 24px;
+  text-align: center;
+  transition: all 0.2s;
+}
+.oh-step:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.oh-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--oh-accent);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.oh-step p {
+  font-size: 0.95rem;
+  color: var(--oh-text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* ===== Intro — Who's on the other side ===== */
+.oh-intro-card {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  background: var(--oh-surface);
+  border: 1px solid var(--oh-border);
+  border-radius: var(--oh-radius);
+  padding: 32px;
+}
+
+.oh-intro-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.oh-intro-text h2 {
+  font-family: var(--oh-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 12px;
+}
+
+.oh-intro-text p {
+  font-size: 0.95rem;
+  color: var(--oh-text-secondary);
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.oh-intro-philosophy {
+  font-style: italic;
+  color: var(--oh-text-muted) !important;
+}
+
+.oh-intro-link {
+  font-size: 0.85rem;
+  color: var(--oh-accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.oh-intro-link:hover { text-decoration: underline; }
+
+/* ===== Two Column — Problems + Expect ===== */
+.oh-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.oh-col-card {
+  background: var(--oh-surface);
+  border: 1px solid var(--oh-border);
+  border-radius: var(--oh-radius);
+  padding: 28px;
+}
+
+.oh-col-card h2 {
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+}
+
+/* Problems */
+.oh-problem-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 0.92rem;
+  color: var(--oh-text-secondary);
+  line-height: 1.45;
+}
+
+.oh-problem-item + .oh-problem-item {
+  border-top: 1px solid var(--oh-border);
+}
+
+.oh-problem-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Expect */
+.oh-expect-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 0.92rem;
+  color: var(--oh-text-secondary);
+  line-height: 1.45;
+}
+
+.oh-expect-item + .oh-expect-item {
+  border-top: 1px solid var(--oh-border);
+}
+
+.oh-expect-icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--oh-accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+/* ===== CTA Section ===== */
+.oh-cta {
+  text-align: center;
+  padding: 60px 0 40px;
+  border-top: 1px solid var(--oh-border);
+  margin-top: 20px;
+}
+
+.oh-cta-headline {
+  font-family: var(--oh-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 24px;
+  color: var(--oh-text);
+}
+
+.oh-cta-note {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--oh-text-muted);
+}
+
+/* ===== Footer ===== */
+.oh-footer {
+  text-align: center;
+  padding: 24px 0 48px;
+  font-size: 0.85rem;
+  color: var(--oh-text-muted);
+}
+
+.oh-footer a {
+  color: var(--oh-accent);
+  text-decoration: none;
+}
+.oh-footer a:hover { text-decoration: underline; }
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  .oh-hero h1 {
+    font-size: 2.8rem;
+    letter-spacing: -1px;
+  }
+
+  .oh-hero .subline {
+    font-size: 1.05rem;
+  }
+
+  .oh-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .oh-content {
+    padding: 48px 20px 24px;
+  }
+
+  .oh-intro-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .oh-two-col {
+    grid-template-columns: 1fr;
+  }
+}
