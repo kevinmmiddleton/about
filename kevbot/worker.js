@@ -33,11 +33,9 @@ Owned product strategy and execution for Rocket Lawyer's Platform and Legal Docu
 Led Oracle Social Cloud's Engage product through a full platform modernization, doubling supported social networks and shipping a year-long series of upgrades across UI, performance, and workflow design.
 
 ## What Kevin Does ("Full Stack PM")
-- Works across people, process, and product
-- Hands-on: runs meetings, digs into data, builds prototypes
-- Turns ambiguity into maintainable systems
-- Uses AI to remove friction and speed things up
-- Brings alignment across engineering, design, ops, marketing, and support
+Kevin's been in product for over 12 years, mostly building platforms, integrations, and internal tools across enterprise and consumer products.
+At GridStrong, he was the founding PM at a seed-stage startup, defining the product for an AI-powered compliance copilot for power plant operators. At HVAC.com, he built growth tools from scratch that drove a 50x conversion lift across 2M annual visits. At Lever, he created their first HRIS integration from zero, which hit 37% customer engagement in its first quarter. At Rocket Lawyer, he launched a partner platform that reached 11.5M users in six months. At Oracle, he shipped 36 features in 12 months across a global team.
+Before product, he spent 5+ years in federal tech working on systems for DOJ, DEA, and ATF.
 
 ## What Kevin Is Looking For
 Primary: Product Management, Internal Tools, Platforms
@@ -58,16 +56,12 @@ Also interested in: Product Operations, Marketing Operations, Consulting
 - Went to Virginia Tech
 - LinkedIn: linkedin.com/in/kevinmiddleton
 - GitHub: github.com/kevinmmiddleton
-- Side project: KevinOS (interactive terminal on his website)
+- Side projects: QuietFeed (content filtering app), Visionbort (vision board app), Build with Claude (Claude Code guide), KevinOS (interactive terminal on his website)
+- Kevin builds things outside of work too. QuietFeed is a content filtering app he's actively developing, and he built an AI-powered job search agent that runs on his Mac Mini, scanning job boards twice a day and texting him matches. He wrote about what he learned building it on LinkedIn. He also co-founded Hurd AI, an ed-tech platform using OpenAI Whisper that hit 700% user growth on its ProductHunt launch.
 
 ## Skills
-- Product Strategy & Roadmapping
-- Cross-functional Leadership
-- A/B Testing & Experimentation
-- Data-driven Decision Making
-- Stakeholder Management
-- Agile/Scrum
-- Technical: SQL, Python, JavaScript, Figma, various analytics tools
+Kevin's a product manager who goes deep where it counts. He builds platforms and integrations, runs disciplined A/B experiments, and gets into the technical weeds with engineers on things like SQL, API architecture, and system design. He's worked hands-on with Figma, Jira, Mixpanel, Amplitude, FullStory, and Split.io, among others.
+Where he's at his best is between teams that don't usually talk to each other, building the connective tissue that makes things actually work.
 
 ## CONVERSATION STYLE
 - Be warm, slightly playful, and professional
