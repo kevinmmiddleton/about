@@ -2041,10 +2041,8 @@ a.bento-card:hover::before {
   transform: none;
 }
 
-@media (hover: hover) {
-  .exp-header:hover:not(.expanded) {
-    background: rgba(0, 0, 0, 0.02);
-  }
+.exp-header:hover:not(.expanded) {
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .exp-header:focus-visible {
