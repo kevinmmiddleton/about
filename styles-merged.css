@@ -763,12 +763,13 @@ img {
   border-radius: var(--radius-lg);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   padding: var(--spacing-lg);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
-.glass-card:hover {
+/* Hover lift only on project cards, not experience */
+.project-card-link:hover .glass-card {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   transform: translateY(-2px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Remove tint backgrounds from cards */
