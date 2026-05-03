@@ -2020,7 +2020,7 @@ a.bento-card:hover::before {
   overflow: hidden;
 }
 
-/* Experience header — all states */
+/* Experience header — all states, no transitions */
 .exp-header,
 .exp-header:hover,
 .exp-header:hover:not(.expanded),
@@ -2039,6 +2039,11 @@ a.bento-card:hover::before {
   outline: none;
   background: transparent;
   transform: none;
+  transition: background 0.15s ease;
+}
+
+.exp-header * {
+  transition: none;
 }
 
 .exp-header:hover:not(.expanded) {
@@ -2116,11 +2121,10 @@ a.bento-card:hover::before {
 .exp-company a {
   color: var(--accent);
   text-decoration: none;
-  transition: color var(--transition-fast);
 }
 
 .exp-company a:hover {
-  color: var(--text-primary);
+  color: var(--accent);
 }
 
 .exp-acquired {
