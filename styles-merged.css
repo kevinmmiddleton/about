@@ -1933,7 +1933,7 @@ a.bento-card:hover::before {
 }
 
 .exp-acquired-detail a:hover {
-  color: var(--text-secondary);
+  color: var(--accent);
 }
 
 /* ===== Hero — Mobile Rules ===== */
@@ -2134,8 +2134,10 @@ a.bento-card:hover::before {
   text-decoration: none;
 }
 
-.exp-company a:hover {
-  color: var(--accent);
+@media (hover: hover) {
+  .exp-company a:hover {
+    color: var(--accent);
+  }
 }
 
 .exp-acquired {
@@ -2226,12 +2228,13 @@ a.bento-card:hover::before {
   object-fit: cover;
   border-radius: 6px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.exp-images img:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-12);
+@media (hover: hover) {
+  .exp-images img:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-12);
+  }
 }
 
 .exp-tags {
