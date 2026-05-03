@@ -2027,56 +2027,18 @@ a.bento-card:hover::before {
   overflow: hidden;
 }
 
-/* Experience header — all states, no transitions */
-.exp-header,
-.exp-header:hover,
-.exp-header:hover:not(.expanded),
-.exp-header.expanded,
-.exp-header:focus,
-.exp-header:focus:not(:focus-visible) {
+/* Experience header — completely inert, no hover effects */
+.exp-header {
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
   cursor: pointer;
   border: 0;
-  border-width: 0;
-  border-color: transparent;
   box-shadow: none;
   outline: none;
   background: transparent;
-  transform: none;
-  transition: background 0.15s ease;
-}
-
-.exp-header * {
-  transition: none;
-}
-
-.exp-header,
-.exp-header *,
-.exp-info,
-.exp-title,
-.exp-company,
-.exp-meta,
-.exp-period,
-.exp-location,
-.exp-sector,
-.exp-logo {
   -webkit-tap-highlight-color: transparent;
-  -webkit-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  font-size-adjust: none;
-}
-
-.exp-header.expanded {
-  background: transparent;
-}
-
-.exp-header:hover:not(.expanded) {
-  background: transparent;
 }
 
 .exp-header:focus-visible {
@@ -2084,8 +2046,8 @@ a.bento-card:hover::before {
   outline-offset: 2px;
 }
 
-.exp-header.expanded {
-  border-radius: 0;
+.exp-header:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* Experience content — all states */
