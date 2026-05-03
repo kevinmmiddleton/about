@@ -25,10 +25,10 @@
           width: 60px;
           height: 60px;
           border-radius: 50%;
-          background: linear-gradient(135deg, #6C8CFF 0%, #A48CF9 100%);
+          background: #0A2342;
           border: none;
           cursor: pointer;
-          box-shadow: 0 4px 20px rgba(108, 140, 255, 0.4);
+          box-shadow: 0 4px 20px rgba(10, 35, 66, 0.4);
           z-index: 9999;
           transition: transform 0.2s ease, box-shadow 0.2s ease;
           display: flex;
@@ -37,7 +37,7 @@
         }
         .kevbot-fab:hover {
           transform: scale(1.1);
-          box-shadow: 0 6px 28px rgba(108, 140, 255, 0.5);
+          box-shadow: 0 6px 28px rgba(10, 35, 66, 0.5);
         }
         .kevbot-fab svg {
           width: 28px;
@@ -75,7 +75,7 @@
 
         .kevbot-header {
           padding: 16px 20px;
-          background: linear-gradient(135deg, #6C8CFF 0%, #A48CF9 100%);
+          background: #0A2342;
           color: white;
           display: flex;
           align-items: center;
@@ -118,7 +118,7 @@
           border-bottom-left-radius: 4px;
         }
         .kevbot-msg.user {
-          background: linear-gradient(135deg, #6C8CFF 0%, #A48CF9 100%);
+          background: #FF7F50;
           color: white;
           align-self: flex-end;
           border-bottom-right-radius: 4px;
@@ -131,7 +131,7 @@
           display: inline-block;
           width: 8px;
           height: 8px;
-          background: #999;
+          background: #FF7F50;
           border-radius: 50%;
           margin: 0 2px;
           animation: kevbot-bounce 1.4s infinite ease-in-out both;
@@ -156,21 +156,21 @@
           border-radius: 16px;
           padding: 6px 12px;
           font-size: 12px;
-          color: #6C8CFF;
+          color: #FF7F50;
           cursor: pointer;
           transition: all 0.2s ease;
         }
         .kevbot-prompt:hover {
-          background: rgba(108, 140, 255, 0.1);
-          border-color: #6C8CFF;
+          background: rgba(255, 127, 80, 0.1);
+          border-color: #FF7F50;
         }
 
         .kevbot-msg.bot a {
-          color: #6C8CFF;
+          color: #FF7F50;
           text-decoration: underline;
         }
         .kevbot-msg.bot a:hover {
-          color: #A48CF9;
+          color: #e06840;
         }
 
         .kevbot-input-area {
@@ -189,14 +189,14 @@
           transition: border-color 0.2s;
         }
         .kevbot-input:focus {
-          border-color: #6C8CFF;
+          border-color: #FF7F50;
         }
         .kevbot-send {
           width: 44px;
           height: 44px;
           border-radius: 50%;
           border: none;
-          background: linear-gradient(135deg, #6C8CFF 0%, #A48CF9 100%);
+          background: #FF7F50;
           color: white;
           cursor: pointer;
           display: flex;
@@ -240,7 +240,7 @@
             color: #f3f4f6;
           }
           .kevbot-input:focus {
-            border-color: #6C8CFF;
+            border-color: #FF7F50;
           }
         }
       `;

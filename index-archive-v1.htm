@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="theme-color" content="#4A6A8C">
+    <meta name="theme-color" content="#A48CF9">
     <title>Kevin Middleton - Senior Product Manager | Platforms, Internal Tools & AI Workflows</title>
     <meta name="description"
         content="Kevin Middleton is a Senior Product Manager and Full Stack PM with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles-merged.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="https://middleton.io/images/wave.png">
     <!-- Identity verification -->
@@ -22,7 +22,7 @@
     <meta property="og:description"
         content="Senior Product Manager and Full Stack PM with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products.">
     <meta property="og:url" content="https://middleton.io">
-    <meta property="og:image" content="https://middleton.io/images/kevin-middleton-og.png">
+    <meta property="og:image" content="https://middleton.io/images/kevin-middleton-saas-product-manager.png">
     <meta property="og:type" content="website">
 
     <link rel="canonical" href="https://middleton.io/">
@@ -33,7 +33,7 @@
     <meta name="twitter:title" content="Kevin Middleton – Senior Product Manager | Platforms, Internal Tools & AI Workflows">
     <meta name="twitter:description"
         content="Senior Product Manager building platforms, internal tools, and AI-driven workflows that connect teams and systems.">
-    <meta name="twitter:image" content="https://middleton.io/images/kevin-middleton-og.png">
+    <meta name="twitter:image" content="https://middleton.io/images/kevin-middleton-saas-product-manager.png">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -125,31 +125,43 @@
                 <span></span>
             </button>
             <ul id="menu" class="nav-menu">
-                <li><a href="#building">Building</a></li>
+                <li><a href="#hero">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Case Studies</a></li>
+                <li><a href="#skills">Skills</a></li>
                 <li><a href="#recommendations">Recs</a></li>
                 <li><a href="#connect">Let's Talk</a></li>
             </ul>
-            <a href="/officehours/" target="_blank" class="header-cta plausible-event-name=Header+OfficeHours">Office Hours</a>
+            <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" rel="noopener noreferrer" class="header-cta plausible-event-name=Header+Calendly">Book a Call</a>
         </nav>
     </header>
 
     <main>
-        <!-- Hero Section — Parallax -->
+        <!-- Hero Section -->
         <section id="hero" class="hero hero-v2">
-            <div class="v2-hero-bg" id="heroBg"></div>
             <div class="hero-inner">
-                <img src="images/profile-picture.jpg" alt="Kevin Middleton" class="v2-hero-photo">
+                <!-- Name -->
                 <h1 class="hero-name">Kevin Middleton</h1>
+
+                <!-- Role & Location -->
                 <p class="hero-title">Full&#8209;Stack&nbsp;Product&nbsp;Manager&nbsp;·&nbsp;New&nbsp;York,&nbsp;NY</p>
+
+                <!-- Status Badge -->
                 <span class="status-badge">Open to Work</span>
+
+                <!-- Gradient Tagline -->
                 <p class="hero-tagline">I build platforms, tools, and AI workflows that connect teams and systems.</p>
+
+                <!-- Action Buttons -->
                 <div class="hero-actions-v2">
                     <a href="#connect" class="btn btn-primary plausible-event-name=Hero+Lets+Talk">Let's Talk</a>
-                    <a href="#experience" class="btn btn-view-work plausible-event-name=Hero+Experience">See My Experience</a>
+                    <a href="#experience" class="btn btn-view-work">See My Experience</a>
                 </div>
+
+                <!-- Side Project (legacy, replaced by Currently Building section below) -->
+
+                <!-- Tour Link -->
                 <a class="tour-link" onclick="startTour()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -159,10 +171,6 @@
                     Take a tour
                 </a>
             </div>
-            <div class="v2-scroll-hint">
-                <span>Scroll</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
         </section>
 
 
@@ -171,7 +179,7 @@
             <div class="container">
                 <h2 class="section-title">What I'm <span class="highlight">Building</span></h2>
                 <div class="bento">
-                    <a href="https://quietfeed.com" target="_blank" class="bento-card card-quietfeed plausible-event-name=Building+QuietFeed">
+                    <a href="https://quietfeed.com" target="_blank" class="bento-card card-quietfeed">
                         <div class="card-header-row">
                             <div class="app-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
@@ -180,7 +188,7 @@
                         </div>
                         <p>RSS reader that respects your attention</p>
                     </a>
-                    <a href="https://middleton.io/officehours/" target="_blank" class="bento-card card-office plausible-event-name=Building+OfficeHours">
+                    <a href="https://middleton.io/officehours/" target="_blank" class="bento-card card-office">
                         <div class="card-header-row">
                             <div class="app-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
@@ -189,7 +197,7 @@
                         </div>
                         <p>Free product coaching</p>
                     </a>
-                    <a href="https://middleton.io/visionbort/" target="_blank" class="bento-card card-visionbort plausible-event-name=Building+Visionbort">
+                    <a href="https://middleton.io/visionbort/" target="_blank" class="bento-card card-visionbort">
                         <div class="card-header-row">
                             <div class="app-icon">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -198,7 +206,7 @@
                         </div>
                         <p>Vision boards with intentions</p>
                     </a>
-                    <a href="https://github.com/kevinmmiddleton/build-with-claude" target="_blank" class="bento-card card-claude plausible-event-name=Building+Claude">
+                    <a href="https://github.com/kevinmmiddleton/build-with-claude" target="_blank" class="bento-card card-claude">
                         <div class="card-header-row">
                             <div class="app-icon">
                                 <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z" fill="white" fill-rule="nonzero"/></svg>
@@ -214,16 +222,16 @@
                             </div>
                             <h3>Writing on AI</h3>
                         </div>
-                        <a href="https://www.linkedin.com/pulse/i-built-ai-job-search-assistant-texts-me-when-finds-roles-middleton-nawxe/" target="_blank" class="writing-item plausible-event-name=Writing+AIJobAssistant">
+                        <a href="https://www.linkedin.com/pulse/i-built-ai-job-search-assistant-texts-me-when-finds-roles-middleton-nawxe/" target="_blank" class="writing-item">
                             <span class="writing-dot" style="background:#3b82f6"></span>I Built an AI Job Search Assistant That Texts Me
                         </a>
-                        <a href="https://www.linkedin.com/pulse/i-paid-scrub-my-data-from-hundreds-brokers-sent-even-more-middleton-jhyde/" target="_blank" class="writing-item plausible-event-name=Writing+OwningContext">
+                        <a href="https://www.linkedin.com/pulse/i-paid-scrub-my-data-from-hundreds-brokers-sent-even-more-middleton-jhyde/" target="_blank" class="writing-item">
                             <span class="writing-dot" style="background:#e07caa"></span>Owning Your Context in the Age of Data Brokers
                         </a>
-                        <a href="https://www.linkedin.com/pulse/what-running-ai-job-scanner-daily-actually-looks-like-kevin-middleton-kwige/" target="_blank" class="writing-item plausible-event-name=Writing+AIScanner">
+                        <a href="https://www.linkedin.com/pulse/what-running-ai-job-scanner-daily-actually-looks-like-kevin-middleton-kwige/" target="_blank" class="writing-item">
                             <span class="writing-dot" style="background:#f59e0b"></span>What Running an AI Job Scanner Daily Looks Like
                         </a>
-                        <a href="https://www.linkedin.com/pulse/were-building-great-ai-tools-non-technical-audiences-yet-middleton-rj0if/" target="_blank" class="writing-item plausible-event-name=Writing+AIForEveryone">
+                        <a href="https://www.linkedin.com/pulse/were-building-great-ai-tools-non-technical-audiences-yet-middleton-rj0if/" target="_blank" class="writing-item">
                             <span class="writing-dot" style="background:#7c5ce0"></span>AI Tools for Non-Technical Audiences
                         </a>
                     </div>
@@ -307,9 +315,7 @@
                             </p>
                         </div>
 
-                        <p>Most of my best work happens between teams that don't usually talk to each other. Engineering and support. Product and marketing. I broker the agreements, bring the context, and make sure nobody's working in the dark. A colleague once called me "the personification of integration between people, process, and technology."</p>
-
-                        <p>I fight for good work and I make it fun in the process. Former teammates keep saying the same thing across different companies: I show up prepared, keep things moving, and bring energy that helps teams do their best work.</p>
+                        <p>Most of my best work happens between teams that don't usually talk to each other. Engineering and support. Product and marketing. I broker the agreements, bring the context, and make sure nobody's working in the dark.</p>
 
                         <p>Outside of work, I enjoy <a href="https://middleton.io/recipes/" target="_blank">cooking</a>,
                             spending time with my cats, and getting lost in pop culture and trivia.</p>
@@ -656,7 +662,7 @@
                             <ul class="exp-highlights">
                                 <li><strong>HRIS Sync Launch:</strong> Launched HRIS Sync with <strong>37%
                                         Q1 engagement</strong>, enabling org chart-aware approvals, automated user
-                                    provisioning, and manager-relationship sync for enterprise customers.</li>
+                                    provisioning, and SCIM-based sync for enterprise customers.</li>
                                 <li><strong>Bulk Importer:</strong> Delivered a self‑serve Bulk Candidate Importer that
                                     reduced upload times from days to minutes, cutting support and implementation
                                     workloads and enabling customers to manage large volumes on their own.</li>
@@ -754,7 +760,7 @@
                     <div class="exp-item" id="exp-rocketlawyer">
                         <div class="exp-header">
                             <div class="exp-logo">
-                                <img src="https://middleton.io/images/rocket-lawyer-logo-sq.png" alt="Rocket Lawyer" loading="lazy">
+                                <img src="https://middleton.io/images/rocket-lawyer-logo.png" alt="Rocket Lawyer" loading="lazy">
                             </div>
                             <div class="exp-info">
                                 <div class="exp-company"><a href="https://www.rocketlawyer.com" target="_blank"
@@ -985,7 +991,7 @@
                         <p class="section-intro">Selected work showing how I turn messy, high-stakes problems into systems teams can trust.</p>
                         <div class="projects-grid">
                             <a href="https://middleton.io/casestudies/case-study-hvac.html" target="_blank"
-                                rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+HVAC">
+                                rel="noopener noreferrer" class="project-card-link">
                                 <div class="card project-card glass-card">
                                     <div class="project-image-wrap">
                                         <img src="https://middleton.io/images/hvac-com-logo-stacked-white.png"
@@ -1003,7 +1009,7 @@
                             </a>
 
                             <a href="https://middleton.io/casestudies/case-study-sendoso.html" target="_blank"
-                                rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+Sendoso">
+                                rel="noopener noreferrer" class="project-card-link">
                                 <div class="card project-card glass-card">
                                     <div class="project-image-wrap">
                                         <img src="https://middleton.io/images/sendoso.png" alt="Sendoso logo"
@@ -1022,7 +1028,7 @@
                             </a>
 
                             <a href="https://middleton.io/casestudies/case-study-lever.html" target="_blank"
-                                rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+Lever">
+                                rel="noopener noreferrer" class="project-card-link">
                                 <div class="card project-card glass-card">
                                     <div class="project-image-wrap">
                                         <img src="https://middleton.io/images/Lever-logo.png" alt="Lever logo"
@@ -1038,7 +1044,7 @@
                             </a>
 
                             <a href="https://middleton.io/casestudies/case-study-rocketlawyer-covea.html"
-                                target="_blank" rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+RocketLawyer+Covea">
+                                target="_blank" rel="noopener noreferrer" class="project-card-link">
                                 <div class="card project-card glass-card">
                                     <div class="project-image-wrap">
                                         <img src="https://middleton.io/images/rocket-lawyer.png"
@@ -1056,7 +1062,7 @@
                             </a>
 
                             <a href="https://middleton.io/casestudies/case-study-rocketlawyer-mobile.html"
-                                target="_blank" rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+RocketLawyer+Mobile">
+                                target="_blank" rel="noopener noreferrer" class="project-card-link">
                                 <div class="card project-card glass-card">
                                     <div class="project-image-wrap">
                                         <img src="https://middleton.io/images/rocket-lawyer.png"
@@ -1074,7 +1080,7 @@
                             </a>
 
                             <a href="https://middleton.io/casestudies/case-study-oracle.html" target="_blank"
-                                rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+Oracle">
+                                rel="noopener noreferrer" class="project-card-link">
                                 <div class="card project-card glass-card">
                                     <div class="project-image-wrap">
                                         <img src="https://middleton.io/images/oracle-logo.png" alt="Oracle logo"
@@ -1326,7 +1332,8 @@
 
                             <!-- Education Card -->
                             <div class="card glass-card edu-card">
-                                                                    <div class="edu-card-header">
+                                <div class="glass-card-inner">
+                                    <div class="edu-card-header">
                                         <span class="edu-card-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1355,7 +1362,8 @@
 
                             <!-- Certifications Card -->
                             <div class="card glass-card edu-card certifications">
-                                                                    <div class="edu-card-header">
+                                <div class="glass-card-inner">
+                                    <div class="edu-card-header">
                                         <div class="edu-card-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1418,7 +1426,8 @@
                         <div class="recommendations-grid">
 
                             <div class="card glass-card rec-card tint-peach">
-                                                                    <p class="rec-quote">
+                                <div class="glass-card-inner">
+                                    <p class="rec-quote">
                                         "Kevin brings structure without killing creativity, clarity without slowing
                                         momentum, and a rare ability to help teams move faster together. He makes even
                                         ambiguous work feel navigable, and the people around him consistently do their
@@ -1433,6 +1442,7 @@
                                             <span class="rec-role">Product Leader</span>
                                         </div>
                                     </div>
+                                </div>
                                 <div class="rec-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor">
@@ -1442,7 +1452,8 @@
                             </div>
 
                             <div class="card glass-card rec-card tint-purple">
-                                                                    <p class="rec-quote">
+                                <div class="glass-card-inner">
+                                    <p class="rec-quote">
                                         "Kevin fought for the best possible experience, and brokered agreements across
                                         PM, UX, and Engineering. His work ethic, attention to detail, and obsession with
                                         delivering great experiences for customers earned my respect."
@@ -1453,6 +1464,7 @@
                                             <span class="rec-role">Design Leader</span>
                                         </div>
                                     </div>
+                                </div>
                                 <div class="rec-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor">
@@ -1462,7 +1474,8 @@
                             </div>
 
                             <div class="card glass-card rec-card tint-blue">
-                                                                    <p class="rec-quote">
+                                <div class="glass-card-inner">
+                                    <p class="rec-quote">
                                         "Start with the right people. Kevin is the right people."
                                     </p>
                                     <div class="rec-author-wrap">
@@ -1474,6 +1487,7 @@
                                             <span class="rec-role">Director of Product Management</span>
                                         </div>
                                     </div>
+                                </div>
                                 <div class="rec-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor">
@@ -1483,7 +1497,8 @@
                             </div>
 
                             <div class="card glass-card rec-card tint-pink">
-                                                                    <p class="rec-quote">
+                                <div class="glass-card-inner">
+                                    <p class="rec-quote">
                                         "Kevin is a top-notch PM who fights for quality products and for his team."
                                     </p>
                                     <div class="rec-author-wrap">
@@ -1492,6 +1507,7 @@
                                             <span class="rec-role">Staff Quality Assurance Analyst</span>
                                         </div>
                                     </div>
+                                </div>
                                 <div class="rec-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor">
@@ -1502,21 +1518,12 @@
 
                         </div>
 
-                        <div class="rec-nav">
-                            <button class="rec-nav-btn" id="recPrev" aria-label="Previous recommendation">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                            </button>
-                            <button class="rec-nav-btn" id="recNext" aria-label="Next recommendation">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                            </button>
-                        </div>
-
                         <div class="recommendations-footer">
                             <p>
                                 Additional recommendations from colleagues can be found on my LinkedIn profile.
                             </p>
                             <a href="https://www.linkedin.com/in/kevinmiddleton/details/recommendations/"
-                                target="_blank" rel="noopener noreferrer" class="plausible-event-name=Recs+LinkedIn">
+                                target="_blank" rel="noopener noreferrer">
                                 View More on LinkedIn →
                             </a>
                         </div>
@@ -1570,7 +1577,7 @@
 
     <footer id="footer" class="footer">
         <div class="container footer-content">
-            <a href="https://raw.githubusercontent.com/kevinmmiddleton/about/main/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2005-01-2026.pdf"
+            <a href="https://raw.githubusercontent.com/kevinmmiddleton/about/main/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2002-20-2026.pdf"
                 download class="btn btn-primary plausible-event-name=Resume+Download">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1587,7 +1594,7 @@
             </nav>
             <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p><br>
             <p>
-                <a href="#" id="confetti-trigger" class="easter-egg plausible-event-name=Easter+Egg+Confetti">⚠️ Whatever you do, don't click here</a>
+                <a href="#" id="confetti-trigger" class="easter-egg">⚠️ Whatever you do, don't click here</a>
             </p>
         </div>
     </footer>
@@ -1611,41 +1618,6 @@
 
     <!-- Site Tour -->
     <script src="tour.js"></script>
-
-    <!-- V2: Hero parallax + Rec carousel nav -->
-    <script>
-    (function() {
-      // Hero parallax
-      const heroBg = document.getElementById('heroBg');
-      let ticking = false;
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            const scrollY = window.scrollY;
-            if (heroBg && scrollY < window.innerHeight) {
-              heroBg.style.transform = 'translateY(' + (scrollY * 0.3) + 'px)';
-            }
-            ticking = false;
-          });
-          ticking = true;
-        }
-      });
-
-      // Recommendation carousel arrows
-      const recGrid = document.querySelector('.recommendations-grid');
-      const recPrev = document.getElementById('recPrev');
-      const recNext = document.getElementById('recNext');
-      if (recGrid && recPrev && recNext) {
-        const scrollAmount = 420;
-        recPrev.addEventListener('click', () => {
-          recGrid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        });
-        recNext.addEventListener('click', () => {
-          recGrid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        });
-      }
-    })();
-    </script>
 </body>
 
 </html>

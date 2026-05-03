@@ -1,0 +1,1181 @@
+/* ================================
+   MIDDLETON.IO V2 — CALM STUDIO
+   CSS overlay that transforms the visual feel
+   while keeping all HTML/JS functionality intact.
+   ================================ */
+
+/* ===== Override Variables ===== */
+:root {
+  /* Core */
+  --bg: #F0EEE9;
+  --surface: #F5F4F0;
+  --surface-alt: #ECEAE4;
+  --card-bg: #ffffff;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-light: #e2e8f0;
+  --text-muted: #94a3b8;
+  --border: #ddd8d0;
+
+  /* Skyline Palette */
+  --coral: #FF7F50;
+  --coral-hover: #e06840;
+  --amber: #F4A261;
+  --gold: #FCD581;
+  --steel-blue: #3C91E6;
+  --deep-ink: #0A2342;
+  --teal: #2A9D8F;
+  --slate: #4A6A8C;
+  --teal-deep: #1f7a6f;
+  --amber-deep: #d88a48;
+  --steel-blue-deep: #2a70c0;
+  --white: #ffffff;
+
+  /* Primary accent */
+  --accent: var(--coral);
+  --accent-hover: var(--coral-hover);
+
+  /* UI */
+  --toggle-track: #e5e7eb;
+  --toggle-thumb: #ffffff;
+
+  /* Legacy aliases (backward compat) */
+  --coral-accent: var(--coral);
+  --sunset-orange: #FF671C;
+  --twilight-blue: var(--deep-ink);
+  --twilight: var(--deep-ink);
+  --warm-gray: #8F99A6;
+  --value-blue: var(--slate);
+  --value-purple: var(--steel-blue);
+  --value-pink: var(--coral);
+  --value-peach: var(--amber);
+  --value-mint: var(--teal);
+  --value-yellow: var(--gold);
+  --sector-startup: var(--teal);
+  --sector-acquired: var(--steel-blue);
+
+  --font-heading: 'Epilogue', 'Inter', sans-serif;
+}
+
+/* ===== Dark Mode ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface-alt: #1c2128;
+    --card-bg: #161b22;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-light: #e6edf3;
+    --text-muted: #6e7681;
+    --border: #30363d;
+    --toggle-track: #30363d;
+    --toggle-thumb: #e6edf3;
+    --text-tertiary: #9eaab8;
+    --white: #ffffff;
+  }
+
+  /* Hero overlay — slightly darker for dark mode */
+  .hero-v2::after {
+    background: rgba(10, 35, 66, 0.55) !important;
+  }
+
+  /* Header */
+  .header,
+  .header.scrolled {
+    background: rgba(13, 17, 23, 0.97) !important;
+    border-bottom-color: var(--border) !important;
+    backdrop-filter: blur(16px) !important;
+  }
+
+  .header .nav-menu a,
+  .header .menu a,
+  .header a {
+    color: var(--text-secondary) !important;
+  }
+
+  .header .nav-menu a:hover,
+  .header .menu a:hover {
+    color: var(--text-light) !important;
+  }
+
+  .header .header-cta {
+    background: var(--coral) !important;
+    color: var(--white) !important;
+  }
+
+  #header-name {
+    color: var(--text-light) !important;
+  }
+
+  /* Glass cards — dark surface */
+  .glass-card {
+    background: var(--card-bg) !important;
+  }
+
+  /* Experience items */
+  .exp-item {
+    background: var(--card-bg) !important;
+  }
+
+  .exp-header:hover:not(.expanded) {
+    background: rgba(255, 255, 255, 0.03) !important;
+  }
+
+  /* Experience meta — dates/locations one shade lighter */
+  .exp-period,
+  .exp-location {
+    color: var(--text-tertiary) !important;
+  }
+
+  /* Experience tags */
+  .exp-tag {
+    background: rgba(255, 127, 80, 0.1) !important;
+  }
+
+  /* Project cards */
+  .project-card {
+    background: var(--card-bg) !important;
+  }
+
+  .project-image-wrap {
+    opacity: 0.9;
+  }
+
+  /* Value cards */
+  .value-card {
+    background: var(--card-bg) !important;
+  }
+
+  /* About section */
+  .fullstack-callout {
+    background: var(--card-bg) !important;
+    border-color: var(--border) !important;
+  }
+
+  .profile-img {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* Rec cards */
+  .rec-card.glass-card {
+    background: var(--card-bg) !important;
+    border-color: var(--border) !important;
+  }
+
+  /* Rec inline pill */
+  .rec-inline-pill {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  /* Career highlights */
+  .career-highlights-grid .glass-card {
+    background: var(--card-bg) !important;
+    border-color: var(--border) !important;
+  }
+
+  /* Connect buttons */
+  .connect-btn {
+    background: var(--card-bg) !important;
+    border-color: var(--border) !important;
+  }
+
+  /* KevBot */
+  .kevbot-fab {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* Tour tooltip */
+  .tour-tooltip {
+    background: var(--card-bg) !important;
+    border-color: var(--border) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* Footer */
+  .footer {
+    border-top-color: var(--border) !important;
+  }
+
+  /* Links — keep coral on dark */
+  a {
+    color: var(--coral) !important;
+  }
+
+  /* Bento card text stays white */
+  a.bento-card,
+  a.bento-card h3,
+  a.bento-card p {
+    color: var(--white) !important;
+  }
+
+  .writing-item {
+    color: var(--text-muted) !important;
+  }
+
+  .writing-item:hover {
+    color: var(--text-light) !important;
+  }
+
+  .card-writing h3 {
+    color: var(--text-light) !important;
+  }
+
+  /* Section titles */
+  .section-title .highlight {
+    -webkit-text-fill-color: var(--coral) !important;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    background: rgba(0, 0, 0, 0.95) !important;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  /* Toggle text — inactive needs to be light */
+  .toggle-option {
+    color: var(--text-light) !important;
+  }
+
+  .toggle-option.active,
+  .toggle-option[data-active] {
+    color: var(--deep-ink) !important;
+  }
+
+  /* Button outline variant */
+  .btn-view-work {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  /* Sector tags on dark */
+  .exp-sector {
+    background: rgba(74, 106, 140, 0.15) !important;
+  }
+
+  .exp-sector--startup {
+    background: rgba(42, 157, 143, 0.15) !important;
+  }
+
+  .exp-sector--acquired {
+    background: rgba(60, 145, 230, 0.15) !important;
+  }
+}
+
+/* ===== Global ===== */
+body {
+  background: var(--bg);
+}
+
+/* ===== Header — Theme-aware ===== */
+.header {
+  background: rgba(240, 238, 233, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  transition: background 0.3s !important;
+}
+
+.header.scrolled {
+  background: rgba(240, 238, 233, 0.95);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* ===== Hero — Parallax ===== */
+.hero-v2 {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.v2-hero-bg {
+  position: absolute;
+  inset: -10%;
+  background: url('images/hero-skyline-light.jpg') center/cover no-repeat;
+  will-change: transform;
+}
+
+/* Dark overlay for text readability */
+.hero-v2::after {
+  display: block !important;
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 35, 66, 0.4);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Dark mode: swap hero image */
+@media (prefers-color-scheme: dark) {
+  .v2-hero-bg {
+    background-image: url('images/hero-skyline-dark.jpg');
+  }
+}
+
+.v2-hero-photo {
+  display: none;
+}
+
+.v2-scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.5);
+  z-index: 2;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+  animation: gentleBounce 2s ease-in-out infinite;
+}
+
+@keyframes gentleBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+.hero-v2::before {
+  display: none;
+}
+
+/* Hero text styling */
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-family: var(--font-heading) !important;
+  letter-spacing: -2px !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+.hero-subtitle {
+  color: var(--text-secondary) !important;
+}
+
+/* ===== Section Overrides ===== */
+.section {
+  background: transparent !important;
+  scroll-margin-top: 80px;
+}
+
+[id] {
+  scroll-margin-top: 80px;
+}
+
+.section-accent {
+  background: transparent !important;
+}
+
+/* Section titles — use Epilogue */
+.section-title {
+  font-family: var(--font-heading) !important;
+  letter-spacing: -1px !important;
+}
+
+/* ===== Remove Glass/Tint Effects ===== */
+.glass-card {
+  background: var(--card-bg) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.glass-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+  transform: translateY(-2px);
+}
+
+/* Remove tint backgrounds from cards */
+.glass-card.tint-blue,
+.glass-card.tint-purple,
+.glass-card.tint-pink,
+.glass-card.tint-peach,
+.glass-card.tint-mint,
+.glass-card.tint-yellow,
+.glass-card.tint-gray {
+  background: var(--card-bg) !important;
+}
+
+/* ===== Values Section — Clean cards ===== */
+.values-grid {
+  gap: 16px !important;
+}
+
+.value-card {
+  border-radius: 16px !important;
+  padding: 24px !important;
+  transition: all 0.2s !important;
+}
+
+.value-title {
+  color: var(--text-primary) !important;
+}
+
+.value-icon {
+  color: var(--accent) !important;
+}
+
+/* ===== Experience Section ===== */
+.exp-item,
+.exp-item.glass-card {
+  background: var(--card-bg) !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 16px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Experience header — all states */
+.exp-header,
+.exp-header:hover,
+.exp-header:hover:not(.expanded),
+.exp-header.expanded,
+.exp-header:focus,
+.exp-header:focus:not(:focus-visible) {
+  border: 0 !important;
+  border-width: 0 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  background: transparent !important;
+  transform: none !important;
+}
+
+.exp-header:hover:not(.expanded) {
+  background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.exp-header:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 2px !important;
+}
+
+/* Experience content — all states */
+.exp-content,
+.exp-content.expanded {
+  border: 0 !important;
+  border-width: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+
+.exp-tag {
+  background: rgba(74, 106, 140, 0.08) !important;
+  color: var(--accent) !important;
+  border: none !important;
+}
+
+/* ===== Case Studies ===== */
+.project-card,
+.project-card.glass-card,
+.card.glass-card.project-card {
+  background: var(--card-bg) !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 16px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.project-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Image fills card corners — no white gap */
+.project-card .project-image-wrap {
+  border-radius: 16px 16px 0 0 !important;
+  overflow: hidden !important;
+}
+
+.project-card {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.project-card .card-content {
+  padding: 16px 20px 20px !important;
+}
+
+/* ===== Skills Section ===== */
+.skill-pill {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* ===== How I Work ===== */
+.work-card {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+}
+
+/* ===== Merge Values into About ===== */
+#values {
+  padding-top: 0 !important;
+  margin-top: -2rem !important;
+  border-top: none !important;
+}
+
+#values .section-title {
+  display: none !important;
+}
+
+#values .container::before {
+  content: 'What I care about';
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin-bottom: 24px;
+  padding-top: 8px;
+}
+
+/* ===== Hidden sections — removed from v2 ===== */
+#skills,
+#education,
+#career-highlights {
+  display: none !important;
+}
+
+/* ===== Recommendations ===== */
+.rec-card,
+.rec-card.glass-card,
+.rec-card.glass-card.tint-blue,
+.rec-card.glass-card.tint-purple,
+.rec-card.glass-card.tint-pink,
+.rec-card.glass-card.tint-peach {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+}
+
+/* Rec cards — single clean card, no inner box */
+.rec-card.glass-card {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 28px !important;
+}
+
+/* glass-card-inner removed from HTML */
+.rec-card .rec-author-wrap {
+  margin-top: auto !important;
+}
+
+/* Text colors */
+.rec-card .rec-quote { color: var(--text-secondary) !important; }
+.rec-card .rec-author-name { color: var(--text-primary) !important; }
+.rec-card .rec-role { color: var(--text-secondary) !important; }
+.rec-card .rec-inline-pill { border: 1px solid var(--border) !important; background: rgba(0,0,0,0.03) !important; }
+.rec-card .rec-icon svg { stroke: var(--accent) !important; }
+
+/* Tighten spacing: carousel → arrows → footer */
+.recommendations-footer {
+  margin-top: 8px !important;
+  text-align: center;
+}
+
+/* ===== Connect Section — 4 color buttons ===== */
+.connect-btn {
+  border: 1px solid var(--border) !important;
+  background: var(--card-bg) !important;
+}
+
+.connect-btn:nth-child(1) svg { color: var(--coral) !important; }
+.connect-btn:nth-child(2) svg { color: var(--steel-blue) !important; }
+.connect-btn:nth-child(3) svg { color: var(--teal) !important; }
+.connect-btn:nth-child(4) svg { color: var(--amber) !important; }
+
+.connect-btn:nth-child(1):hover { border-color: var(--coral) !important; box-shadow: 0 4px 12px rgba(255,127,80,0.15) !important; }
+.connect-btn:nth-child(2):hover { border-color: var(--steel-blue) !important; box-shadow: 0 4px 12px rgba(60,145,230,0.15) !important; }
+.connect-btn:nth-child(3):hover { border-color: var(--teal) !important; box-shadow: 0 4px 12px rgba(42,157,143,0.15) !important; }
+.connect-btn:nth-child(4):hover { border-color: var(--amber) !important; box-shadow: 0 4px 12px rgba(244,162,97,0.15) !important; }
+
+/* ===== Buttons — Override ALL gradient instances ===== */
+.btn {
+  border-radius: 12px !important;
+}
+
+.btn-primary,
+.header-cta,
+.hero-actions-v2 .btn-primary {
+  background: var(--accent) !important;
+  background-image: none !important;
+  color: var(--white) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(74, 106, 140, 0.2) !important;
+  border: none !important;
+}
+
+.btn-primary:hover,
+.header-cta:hover {
+  background: var(--accent-hover) !important;
+  box-shadow: 0 8px 20px rgba(74, 106, 140, 0.25) !important;
+}
+
+/* Tour buttons */
+.tour-next,
+.tour-toast-next {
+  background: var(--accent) !important;
+  background-image: none !important;
+  border-radius: 10px !important;
+}
+
+.tour-next:hover,
+.tour-toast-next:hover {
+  background: var(--accent-hover) !important;
+}
+
+/* ===== Footer ===== */
+.footer {
+  background: transparent !important;
+  border-top: 1px solid var(--border) !important;
+}
+
+/* ===== Remove Floating Decorations if any ===== */
+.hero-decoration,
+.section-decoration {
+  display: none !important;
+}
+
+/* ===== Pill/Badge Overrides ===== */
+.role-pill {
+  border: 1px solid var(--border) !important;
+  background: var(--card-bg) !important;
+}
+
+/* ===== Highlight — lighter weight, coral ===== */
+.highlight,
+.section-accent .highlight {
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: var(--accent) !important;
+  color: var(--accent) !important;
+  font-weight: 400 !important;
+}
+
+/* ===== About Section — More breathing room ===== */
+.about-content {
+  gap: 40px !important;
+}
+
+.fullstack-callout {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  border-left: 4px solid var(--sunset-orange) !important;
+}
+
+/* ===== General Spacing ===== */
+.container {
+  max-width: 1100px !important;
+}
+
+/* ===== Hero Name — Big, bold, commanding ===== */
+.hero-name {
+  font-family: var(--font-heading) !important;
+  font-size: 4.5rem !important;
+  font-weight: 900 !important;
+  letter-spacing: -2.5px !important;
+  line-height: 1 !important;
+  color: var(--white) !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+/* ===== Hero Tagline — Editorial italic ===== */
+.hero-tagline {
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: rgba(255,255,255,0.55) !important;
+  color: rgba(255,255,255,0.55) !important;
+  font-size: 1.1rem !important;
+  font-style: italic !important;
+  font-weight: 300 !important;
+}
+
+/* ===== Status Badge — Light on dark hero ===== */
+.status-badge {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: rgba(255,255,255,0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  font-weight: 600 !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.status-badge::before {
+  background: var(--coral) !important;
+}
+
+/* ===== Secondary Button (See My Experience) ===== */
+.btn-view-work {
+  background: rgba(255,255,255,0.15) !important;
+  color: var(--white) !important;
+  border: 1.5px solid rgba(255,255,255,0.3) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(8px) !important;
+  transition: all 0.2s !important;
+}
+
+.btn-view-work:hover {
+  background: rgba(255,255,255,0.25) !important;
+  border-color: rgba(255,255,255,0.5) !important;
+  color: var(--white) !important;
+}
+
+.btn-view-work::after {
+  display: none !important;
+}
+
+/* ===== Tour Link ===== */
+.tour-link {
+  color: rgba(255,255,255,0.5) !important;
+  opacity: 1 !important;
+}
+
+.tour-link:hover {
+  color: rgba(255,255,255,0.8) !important;
+}
+
+.tour-link svg {
+  stroke: currentColor !important;
+}
+
+/* ===== Navigation Links ===== */
+.nav-link,
+.menu a {
+  color: var(--text-secondary) !important;
+}
+
+.nav-link:hover,
+.nav-link.active,
+.menu a:hover {
+  color: var(--accent) !important;
+}
+
+.header .btn-primary,
+.header .header-cta {
+  background: var(--accent) !important;
+  background-image: none !important;
+  border-radius: 10px !important;
+  color: var(--white) !important;
+}
+
+.header .btn-primary:hover,
+.header .header-cta:hover {
+  background: var(--accent-hover) !important;
+}
+
+/* ===== Experience Toggle — Standard gray ===== */
+.experience-toggle .toggle-track {
+  background: var(--toggle-track) !important;
+  border: none !important;
+}
+
+.experience-toggle .toggle-thumb {
+  background: var(--toggle-thumb) !important;
+  background-image: none !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
+}
+
+.experience-toggle-intro {
+  color: var(--text-secondary) !important;
+}
+
+/* Toggle — moved to end of file for dark mode override */
+
+/* ===== Career Highlights / How I Work ===== */
+.career-highlights-grid .glass-card {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+}
+
+/* How I Work icons — cycle through palette */
+.career-highlights-grid .glass-card:nth-child(1) .career-icon { color: var(--coral) !important; stroke: var(--coral) !important; }
+.career-highlights-grid .glass-card:nth-child(2) .career-icon { color: var(--teal) !important; stroke: var(--teal) !important; }
+.career-highlights-grid .glass-card:nth-child(3) .career-icon { color: var(--steel-blue) !important; stroke: var(--steel-blue) !important; }
+.career-highlights-grid .glass-card:nth-child(4) .career-icon { color: var(--amber) !important; stroke: var(--amber) !important; }
+.career-highlights-grid .glass-card:nth-child(5) .career-icon { color: var(--gold) !important; stroke: var(--gold) !important; }
+.career-highlights-grid .glass-card:nth-child(6) .career-icon { color: var(--slate) !important; stroke: var(--slate) !important; }
+
+/* ===== Tool Icons / Skill Items ===== */
+.tool-item,
+.tools-grid .tool-item {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+}
+
+.tool-item:hover {
+  border-color: var(--accent) !important;
+}
+
+/* ===== Cert/Education Cards ===== */
+#education .glass-card {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+}
+
+/* ===== Recommendation Cards ===== */
+.rec-card .glass-card-inner {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+}
+
+/* ===== Links — Override ALL purple/gradient links ===== */
+a {
+  color: var(--accent) !important;
+}
+
+a:hover {
+  color: var(--accent-hover) !important;
+}
+
+/* Preserve white text on colored backgrounds */
+.btn-primary,
+a.btn-primary,
+a.header-cta,
+a.bento-card,
+a.bento-card h3,
+a.bento-card p {
+  color: var(--white) !important;
+}
+
+.card-writing h3 {
+  color: var(--text-light) !important;
+}
+
+.writing-item {
+  color: var(--text-muted) !important;
+}
+
+.writing-item:hover {
+  color: var(--text-light) !important;
+}
+
+/* ===== Experience Sector Tags ===== */
+.exp-sector {
+  background: rgba(74, 106, 140, 0.08) !important;
+  color: var(--slate) !important;
+}
+
+.exp-sector--startup {
+  background: rgba(42, 157, 143, 0.1) !important;
+  color: var(--teal) !important;
+}
+
+.exp-sector--acquired {
+  background: rgba(60, 145, 230, 0.1) !important;
+  color: var(--steel-blue) !important;
+}
+
+.exp-sector--enterprise {
+  background: rgba(74, 106, 140, 0.1) !important;
+  color: var(--slate) !important;
+}
+
+/* ===== Journey Mode Preamble ===== */
+.journey-preamble {
+  color: var(--text-secondary) !important;
+}
+
+.preamble-accent {
+  color: var(--accent) !important;
+}
+
+/* ===== Lightbox ===== */
+.lightbox {
+  background: rgba(26, 32, 44, 0.9) !important;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar-thumb {
+  background: rgba(74, 106, 140, 0.2) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 106, 140, 0.35) !important;
+}
+
+/* ===== Remove any gradient backgrounds on sections ===== */
+.section::before,
+.section::after,
+.section-accent::before,
+.section-accent::after {
+  display: none !important;
+}
+
+/* ===== CTA section at bottom ===== */
+#connect {
+  background: transparent !important;
+}
+
+/* ===== About photos — softer borders ===== */
+.profile-img {
+  border-radius: 16px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.profile-img.main-photo {
+  border-radius: 20px !important;
+}
+
+/* ===== Noise Texture on Key Cards ===== */
+.bento-card::after,
+.value-card::after,
+.fullstack-callout::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  border-radius: inherit;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+.value-card,
+.fullstack-callout {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== KevBot Widget — Skyline palette ===== */
+.kevbot-toggle,
+.kevbot-fab {
+  background: var(--deep-ink) !important;
+  background-image: none !important;
+}
+
+.kevbot-send {
+  background: var(--coral) !important;
+  background-image: none !important;
+}
+
+.kevbot-header {
+  background: var(--deep-ink) !important;
+  background-image: none !important;
+}
+
+.kevbot-msg.bot {
+  border-color: var(--coral) !important;
+}
+
+.kevbot-input:focus {
+  border-color: var(--coral) !important;
+}
+
+.kevbot-typing span {
+  background: var(--coral) !important;
+}
+
+/* Section fade-in removed for performance */
+
+/* ===== Bento Cards — Skyline palette ===== */
+.card-quietfeed { background: linear-gradient(150deg, var(--coral), var(--coral-hover)) !important; }
+.card-office { background: linear-gradient(150deg, var(--teal), var(--teal-deep)) !important; }
+.card-visionbort { background: linear-gradient(150deg, var(--amber), var(--amber-deep)) !important; }
+.card-claude { background: linear-gradient(150deg, var(--steel-blue), var(--steel-blue-deep)) !important; }
+.card-writing { background: var(--deep-ink) !important; }
+
+/* Hero ::after — removed floating orb */
+.hero-v2::after {
+  display: none !important;
+}
+
+/* ===== Pull Quotes ===== */
+.about-text > p:first-child {
+  font-size: 1.15rem !important;
+  color: var(--text-primary) !important;
+  font-weight: 500 !important;
+  line-height: 1.6 !important;
+  border-left: 3px solid var(--sunset-orange);
+  padding-left: 20px;
+  margin-bottom: 24px !important;
+}
+
+/* Experience cards — clean, no gaps */
+.exp-item {
+  transition: all 0.25s ease !important;
+  overflow: hidden !important;
+}
+
+.exp-item .exp-logo {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+#exp-hurd .exp-logo {
+  background: #000000 !important;
+}
+
+/* ===== Case Study Cards — Hover lift + accent ===== */
+.project-card-link:hover .project-card {
+  transform: translateY(-4px) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Section dividers — removed */
+.section + .section {
+  border-top: none !important;
+}
+
+/* ===== Value Cards — Unique colored left border + icon ===== */
+.value-card {
+  transition: all 0.25s ease !important;
+  border-left: 3px solid transparent !important;
+}
+
+.value-card:hover {
+  transform: translateY(-2px) !important;
+}
+
+/* Value cards — same order as bento: coral, teal, amber, steel-blue + gold, slate */
+.value-card.tint-blue { border-left-color: var(--coral) !important; }
+.value-card.tint-blue .value-icon { color: var(--coral) !important; stroke: var(--coral) !important; }
+
+.value-card.tint-purple { border-left-color: var(--teal) !important; }
+.value-card.tint-purple .value-icon { color: var(--teal) !important; stroke: var(--teal) !important; }
+
+.value-card.tint-pink { border-left-color: var(--amber) !important; }
+.value-card.tint-pink .value-icon { color: var(--amber) !important; stroke: var(--amber) !important; }
+
+.value-card.tint-peach { border-left-color: var(--steel-blue) !important; }
+.value-card.tint-peach .value-icon { color: var(--steel-blue) !important; stroke: var(--steel-blue) !important; }
+
+.value-card.tint-mint { border-left-color: var(--gold) !important; }
+.value-card.tint-mint .value-icon { color: var(--gold) !important; stroke: var(--gold) !important; }
+
+.value-card.tint-yellow { border-left-color: var(--slate) !important; }
+.value-card.tint-yellow .value-icon { color: var(--slate) !important; stroke: var(--slate) !important; }
+
+/* ===== Recommendations — Carousel ===== */
+.recommendations-grid {
+  display: flex !important;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 20px !important;
+  padding-bottom: 24px !important;
+  -webkit-overflow-scrolling: touch;
+  grid-template-columns: unset !important;
+}
+
+.recommendations-grid::-webkit-scrollbar { height: 0; }
+
+.recommendations-grid .rec-card {
+  flex: 0 0 min(400px, 85vw);
+  scroll-snap-align: center;
+}
+
+/* Quote marks and inner wrapper removed */
+
+/* Carousel nav arrows */
+.rec-nav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.rec-nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--text-secondary);
+}
+
+.rec-nav-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ===== Connect Section — Warmer feel ===== */
+#connect .section-title {
+  font-size: 2.5rem !important;
+}
+
+/* ===== Smooth scroll behavior ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== Mobile Refinements ===== */
+@media (max-width: 768px) {
+  .hero-name {
+    letter-spacing: -1px !important;
+  }
+
+  .hero-tagline {
+    font-size: 1rem !important;
+  }
+}
+
+/* ===== Toggle fix — MUST be last for specificity ===== */
+@media (prefers-color-scheme: dark) {
+  .experience-toggle .toggle-track {
+    background: #30363d !important;
+  }
+
+  /* Dark thumb so light text is readable on it */
+  .experience-toggle .toggle-thumb {
+    background: var(--coral) !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4) !important;
+  }
+
+  .experience-toggle .toggle-option,
+  .toggle-track .toggle-option,
+  .toggle-option {
+    color: rgba(255,255,255,0.85) !important;
+  }
+}

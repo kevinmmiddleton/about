@@ -16,16 +16,19 @@
         message: "Hey! I'm Kevin, a Full Stack PM based in NYC, currently open to new opportunities. Let me show you around."
       },
       {
-        target: '#building .bento',
-        spotlightInclude: ['#building .section-title'],
+        target: '#building .container',
         scrollTarget: '#building',
         mobileScrollTarget: '#building',
+        spotlightPadding: 40,
+        spotlightPaddingBottom: 16,
         title: "What I'm Building",
         message: "I ship side projects. QuietFeed is an RSS reader, Visionbort is a vision board app, and I wrote a guide to building with Claude Code. I also offer free product coaching through Office Hours."
       },
       {
         target: '#about .container',
-        mobileScrollTarget: '.about-text',
+        scrollTarget: '#about',
+        mobileScrollTarget: '#about',
+        spotlightPadding: 32,
         title: 'About Me',
         message: "A bit about me. I care about collaborative teams, good communication, and keeping things moving. Also: cats and cooking."
       },
@@ -38,17 +41,15 @@
         message: "12+ years across SaaS, startups, and enterprise. Click any role to expand the details, or toggle to 'Journey' mode for the narrative version."
       },
       {
-        target: '#projects',
+        target: '#projects .container',
+        scrollTarget: '#projects',
+        spotlightPadding: 20,
         title: 'Case Studies',
         message: "Deep-dives into my work. Real projects, real outcomes. Click any card to read the full case study."
       },
       {
-        target: '#skills',
-        title: 'Skills',
-        message: "My toolkit: strategy, leadership, analytics, and technical chops. Plus a wall of tools I've used over the years."
-      },
-      {
-        target: '#connect',
+        target: '#connect .container',
+        scrollTarget: '#connect',
         title: 'Get in Touch',
         message: "Want to chat? Email, LinkedIn, GitHub, or book a call. Always happy to connect."
       }
@@ -243,14 +244,15 @@
         });
       }
 
-      const padding = 20;
+      const padding = step.spotlightPadding || 20;
       const viewportMargin = 30; // minimum dark border on each edge
 
       // Calculate raw spotlight bounds
+      const paddingBottom = step.spotlightPaddingBottom != null ? step.spotlightPaddingBottom : padding;
       let spotTop = top - padding;
       let spotLeft = left - padding;
       let spotRight = right + padding;
-      let spotBottom = bottom + padding;
+      let spotBottom = bottom + paddingBottom;
 
       // Clamp to viewport so the box-shadow cutout is always visible
       const vpW = window.innerWidth;

@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1200, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
   html, body { margin:0; padding:0; width:1200px; height:630px; overflow:hidden; }
-  .safe-zone { position:absolute; top:60px; left:60px; right:60px; bottom:60px; border:none; opacity:0; display:none; pointer-events:none; }
-  .export-btn { position:absolute; bottom:20px; right:20px; background:rgba(255,255,255,0.15); padding:12px 20px; border-radius:8px; color:white; font-size:20px; cursor:pointer; backdrop-filter:blur(6px); display:block; }
+  .export-btn { position:absolute; bottom:20px; right:20px; background:rgba(255,255,255,0.15); padding:12px 20px; border-radius:8px; color:white; font-size:20px; cursor:pointer; backdrop-filter:blur(6px); display:block; z-index: 10; }
 
   body {
     margin: 0;
@@ -17,69 +16,91 @@
     width: 1200px;
     height: 630px;
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #A78BFA 0%, #60A5FA 70%, #4F8BEA 100%);
-    background-repeat: no-repeat;
-    background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
     text-align: center;
+    position: relative;
   }
 
-  .photo {
-    width: 260px;
-    height: 260px;
-    margin-top: -25px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 0 0 6px rgba(255,255,255,0.06), 0 8px 30px rgba(0,0,0,0.25);
-    margin-bottom: 40px;
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('images/hero-skyline-light.jpg') center/cover no-repeat;
+    z-index: 0;
   }
 
-  .photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 35, 66, 0.5);
+    z-index: 1;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
   }
 
   .name {
-    font-size: 72px;
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 12px;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -4px;
+    text-shadow: 0 4px 24px rgba(0,0,0,0.4);
   }
 
   .subtitle {
     font-size: 36px;
-    font-weight: 500;
-    opacity: 0.95;
-    margin-bottom: 22px;
+    font-weight: 600;
+    opacity: 0.9;
+    margin-top: 8px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
   }
 
   .tagline {
-    font-size: 34px;
-    font-weight: 400;
-    max-width: 800px;
-    line-height: 1.3;
-    opacity: 0.95;
+    display: none;
+  }
+
+  .badge {
+    display: none;
+  }
+
+  .url {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    z-index: 2;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
   }
 </style>
 </head>
 
 <body>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
 
   <div class="export-btn" onclick="downloadOG()">Download PNG</div>
 
-  <div class="photo">
-    <img src="https://middleton.io/images/profile-picture.jpg" alt="Kevin Middleton">
+  <div class="content">
+    <div class="badge">Full-Stack Product Manager · NYC</div>
+    <div class="name">Kevin Middleton</div>
+    <div class="tagline">I build platforms, tools, and AI workflows that connect teams and systems.</div>
   </div>
 
-  <div class="name">Kevin Middleton</div>
-  <div class="subtitle">Full‑Stack Product Manager · New York, NY</div>
-
-  <div class="tagline">I make complex work feel simple.</div>
+  <div class="url">middleton.io</div>
 
 <script>
   function downloadOG(){
@@ -87,28 +108,16 @@
     btn.style.opacity = '0';
     btn.style.pointerEvents = 'none';
 
-    html2canvas(document.body, {useCORS:true}).then(canvas=>{
+    html2canvas(document.body, {useCORS:true, width:1200, height:630, windowWidth:1200, windowHeight:630, scale:2}).then(canvas=>{
       const link=document.createElement('a');
-      link.download='kevin-middleton-saas-product-manager.png';
+      link.download='kevin-middleton-og.png';
       link.href=canvas.toDataURL();
       link.click();
 
-      // Restore button
       btn.style.opacity = '1';
       btn.style.pointerEvents = 'auto';
     });
   }
 </script>
-<script>
-  // Attempt to auto-size the window to 1200x630 when opened locally
-  window.onload = function () {
-    try {
-      window.resizeTo(1200, 630);
-    } catch (e) {
-      console.warn("Resize not permitted by browser.");
-    }
-  };
-</script>
-
 </body>
 </html>
