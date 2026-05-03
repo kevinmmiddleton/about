@@ -145,6 +145,9 @@ body {
   color: var(--text-primary);
   background: var(--bg);
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* ===== Global Heading Font ===== */
@@ -2047,10 +2050,22 @@ a.bento-card:hover::before {
   transition: none;
 }
 
-.exp-header {
+.exp-header,
+.exp-header *,
+.exp-info,
+.exp-title,
+.exp-company,
+.exp-meta,
+.exp-period,
+.exp-location,
+.exp-sector,
+.exp-logo {
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
+  font-size-adjust: none;
 }
 
 .exp-header.expanded {
