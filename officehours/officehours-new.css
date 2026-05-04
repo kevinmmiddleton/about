@@ -327,6 +327,9 @@ body {
 }
 
 .oh-track-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--oh-text);
@@ -336,6 +339,29 @@ body {
 
 .oh-track-header:first-of-type {
   margin-top: 0;
+}
+
+.oh-track-num-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--oh-accent);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.oh-track-num-numeral {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--oh-warm);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .oh-problem-item {
