@@ -300,10 +300,10 @@ body {
 }
 .oh-intro-link:hover { text-decoration: underline; }
 
-/* ===== Two Column — Problems + Expect ===== */
+/* ===== Stacked — Problems above Expect ===== */
 .oh-two-col {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 16px;
 }
 
@@ -340,16 +340,6 @@ body {
 
 .oh-track-header:first-of-type {
   margin-top: 0;
-}
-
-.oh-track-num-numeral {
-  font-family: var(--oh-heading);
-  font-size: 2.25rem;
-  font-weight: 800;
-  color: var(--oh-warm);
-  letter-spacing: -0.03em;
-  line-height: 1;
-  flex-shrink: 0;
 }
 
 .oh-problem-item {
@@ -466,9 +456,5 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-  }
-
-  .oh-two-col {
-    grid-template-columns: 1fr;
   }
 }
