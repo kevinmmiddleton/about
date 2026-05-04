@@ -1525,10 +1525,10 @@ a.bento-card:hover::before {
 .bento-card p { font-size: 0.88rem; opacity: 0.85; line-height: 1.45; position: relative; z-index: 1; }
 
 /* Bento card colors — Skyline palette */
-.card-quietfeed { grid-column: 1 / 2; grid-row: 1 / 2; background: linear-gradient(150deg, var(--coral), var(--coral-hover)); }
+.card-quietfeed { grid-column: 1 / 2; grid-row: 1 / 2; background: linear-gradient(150deg, var(--steel-blue), var(--steel-blue-deep)); }
 .card-office { grid-column: 2 / 3; grid-row: 1 / 2; background: linear-gradient(150deg, var(--teal), var(--teal-deep)); }
 .card-visionbort { grid-column: 1 / 2; grid-row: 2 / 3; background: linear-gradient(150deg, var(--amber), var(--amber-deep)); }
-.card-claude { grid-column: 2 / 3; grid-row: 2 / 3; background: linear-gradient(150deg, var(--steel-blue), var(--steel-blue-deep)); }
+.card-claude { grid-column: 2 / 3; grid-row: 2 / 3; background: linear-gradient(150deg, var(--coral), var(--coral-hover)); }
 
 .card-writing {
   grid-column: 3 / 4;
