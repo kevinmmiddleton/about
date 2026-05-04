@@ -330,11 +330,12 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-family: var(--oh-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--oh-text);
   margin: 24px 0 6px;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
 }
 
 .oh-track-header:first-of-type {
