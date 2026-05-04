@@ -358,23 +358,9 @@ body {
   margin-top: 1px;
 }
 
-.oh-problem-body {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-}
-
-.oh-problem-title {
-  color: var(--oh-text);
-}
-
 .oh-problem-sub {
-  font-size: 0.82rem;
   color: var(--oh-text-muted);
-  line-height: 1.4;
   font-style: italic;
-  margin-top: 2px;
 }
 
 /* Expect */
