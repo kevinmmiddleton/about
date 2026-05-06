@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Justworks: Wage Garnishment Case Study · Slides I Made for Free</title>
+
+<meta name="description" content="Take-home case study and onsite workshop for Justworks Senior PM, PayTax. Centerpiece is a real user interview with a small business owner in Virginia." />
+<meta name="author" content="Kevin Middleton" />
+<link rel="canonical" href="https://middleton.io/slides/justworks/" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Justworks Case Study: Wage Garnishment" />
+<meta property="og:description" content="Real take-home case study with a real user interview. Deck, transcript, workshop boards, and what I'd change." />
+<meta property="og:url" content="https://middleton.io/slides/justworks/" />
+<meta property="og:image" content="https://middleton.io/slides/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Slides I Made for Free." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://middleton.io/slides/og.png" />
+
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+
+<!-- FOUC prevention: applies the saved theme before paint -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('slides-theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) { /* private mode, ignore */ }
+  })();
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../slides.css" />
+
+<script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav class="topnav">
+    <a href="../" class="home">← Slides I Made for Free</a>
+    <div class="topnav-right">
+      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="eyebrow">Justworks</span>
+    <h1>Reducing Friction in Wage Garnishment Processing</h1>
+    <p class="lede">
+      Senior PM, PayTax. Take-home case study, an onsite presentation, and a 45-minute design workshop. The centerpiece was a one-hour interview with a small business owner in Richmond, Virginia who handles garnishments by hand. I did not advance. The recruiter feedback is below, verbatim.
+    </p>
+    <div class="meta">
+      <span class="pill">12 days, deck due 48h prior</span>
+      <span class="pill">Onsite panel of 4</span>
+      <span class="pill bad">Did not advance</span>
+    </div>
+  </header>
+
+  <!-- 1. CONTEXT -->
+  <section>
+    <h2><span class="num">01</span>Context</h2>
+    <ul>
+      <li><strong>Company:</strong> Justworks. PEO and HR platform for small and mid-size businesses.</li>
+      <li><strong>Role:</strong> Senior Product Manager, PayTax. NYC, two days per week onsite.</li>
+      <li><strong>Stage:</strong> Take-home case study and onsite presentation. Round 4 of a 5-round process. If I'd passed, the next step would have been a 30-minute conversation with a Product executive.</li>
+      <li><strong>Audience:</strong> Onsite panel at 55 Water Street: a Group Product Manager (the hiring manager), a Senior Director of Product, and a Data Engineering Manager. A Senior Software Engineer was on the original invite but couldn't attend.</li>
+      <li><strong>Format:</strong> 20 minutes presenting, 10 minutes Q&amp;A, then 45 minutes designing and facilitating a workshop with the same panel toward a rough V1. Both the deck and the workshop materials due via email at least 48 hours before the interview.</li>
+      <li><strong>Prep time:</strong> Twelve days from invitation to onsite. Deck and workshop delivered two days early.</li>
+    </ul>
+  </section>
+
+  <!-- 2. THE PROMPT -->
+  <section>
+    <h2><span class="num">02</span>The prompt</h2>
+    <p>Pick a long-standing institution that people interact with regularly but where the product or servicing experience is sub-par, and reimagine it. Justworks gave a list of suggested topics ranging from DMV redesigns to airline boarding to wage garnishment processing. Candidates could also propose their own.</p>
+    <p>The brief explicitly called for problem definition, customers and pain points, success metrics, hypothesis and scope, constraints and risks, and a few solution directions, with the workshop closing the loop into a tightly scoped MVP.</p>
+    <p>I shortlisted six topics, including some original ones (a Plaid-style address-change hub, a uniform job posting standard), but landed on wage garnishment processing for a specific reason: a long-time friend of mine runs a small business and I knew he dealt with garnishments. I work best when I'm starting from a real problem, and the fastest way for me to start is a conversation with someone who actually lives the workflow. The topic was a means to that conversation. Garnishments also happen to sit directly inside Justworks' domain, map to product surface area they could build now, and give a workshop a sharp problem to scope. So the topic was strong on its merits. But the deciding factor was access to a real user.</p>
+    <div class="downloads">
+      <a class="dl" href="files/justworks-case-study-prompt.pdf" download>
+        <span class="ext">PDF</span>
+        <div>
+          <div class="name">Original case study prompt</div>
+          <div class="desc">The full Justworks brief with both general and international topic lists.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 3. THE PROCESS -->
+  <section>
+    <h2><span class="num">03</span>The process</h2>
+
+    <h3>Pick a topic with a real user I could already call</h3>
+    <p>I picked garnishments because a long-time friend of mine runs a small business and I knew he dealt with garnishments. I work best when I'm starting from a real problem, and the fastest way for me to start is a one-hour conversation with someone who lives the problem. He made time, would tell me the truth, and walk me through the actual process as he experiences it, which is gold. That's the topic-selection criterion that mattered most to me.</p>
+
+    <h3>Lead with the interview</h3>
+    <p>He runs a non-emergency medical transportation company in Richmond, Virginia, with eighteen employees, mostly 1099. He handles all HR, payroll, dispatch, training, and garnishment processing himself. He gets about four garnishments a year. We talked for an hour.</p>
+
+    <div class="callout">
+      <div class="label">The interview was the case study</div>
+      <p>Most candidates will read ADP white papers. Almost none will sit with a sole proprietor in Richmond and ask him to walk through what arrives in the mail and what he does with it. That's the difference between desk research and a case study. The full transcript is in the downloads.</p>
+    </div>
+
+    <h3>The four insights the interview surfaced</h3>
+    <ul>
+      <li><strong>The "disposable income" calculation problem.</strong> He said 50-60% of orders are confusing because they ask for a percentage of "disposable income" without defining it. That phrase is actually a federal calculation under CCPA Title III that most small business owners don't know about. A payroll product already has the data to compute it.</li>
+      <li><strong>The two-system problem.</strong> Payroll deductions happen in ADP. Child support payments live in a separate state portal that requires SSN entry and a linked bank account. Court judgments require physical checks. Nobody has one workflow.</li>
+      <li><strong>Employer-as-guarantor is the real burden.</strong> The moment an order arrives, the employer is legally liable. They might have to appear in court. They might front cash from the business account. This isn't a payroll task, it's an unfunded compliance mandate.</li>
+      <li><strong>The "faster horses" dynamic.</strong> He couldn't imagine a better system because he sees the courts as immovable and has fully adapted to the pain. That's classic user research. The most impactful product opportunities come from problems users have normalized, not problems they're complaining about.</li>
+    </ul>
+
+    <h3>Frame the opportunity inside Justworks' surface area</h3>
+    <p>Justworks already processes garnishment deductions through payroll at no extra charge and responds to withholding notices on behalf of PEO clients. The core deduction is handled. The opportunity is the employer-facing workflow around it: order intake, interpretation of ambiguous withholding, lifecycle tracking, status visibility. The prompt rewards "extend an existing capability," not "ship a new product from scratch."</p>
+
+    <h3>Design the workshop, not just the deck</h3>
+    <p>The 45-minute workshop was the second half of the room and the part most candidates under-prepare. I built a Figma board with prepared frames, prompts, and a flow that walked the panel from the four solution directions to a scoped MVP and a rough wireframe. The before-and-after of that board is in the Deliverable section below.</p>
+
+    <h3>Pre-flight with HR and a peer</h3>
+    <p>Five days before the submission deadline I had a prep call with the recruiter and walked her through both the deck and the workshop. She gave feedback. She specifically liked the voting dots and the participation design of the workshop. I also walked the materials through with a colleague in my career group, who gave me sharper feedback on the deck pacing and the V1 narrative. Two rounds of preview before the panel saw anything. None of this stopped the panel from giving me the feedback they did, but it's worth saying that the materials weren't built in a bubble.</p>
+
+    <h3>Tools used</h3>
+    <ul>
+      <li>Microsoft PowerPoint for the deck. Claude as a styling pair for layout, color logic, and type hierarchy inside Justworks' visual system.</li>
+      <li>Justworks brand sources I worked from: <a href="https://order.design/project/justworks" target="_blank" rel="noopener">Order Design's case study</a> and <a href="https://brandfetch.com/justworks.com" target="_blank" rel="noopener">Brandfetch</a>.</li>
+      <li>Claude and Google for research synthesis, source finding, and pressure-testing the hypothesis.</li>
+      <li>Figma for the workshop board, with frames and prompts pre-built so the room could focus on the work, not the tooling.</li>
+      <li>A real customer interview, recorded and transcribed.</li>
+    </ul>
+  </section>
+
+  <!-- 4. THE DELIVERABLE -->
+  <section>
+    <h2><span class="num">04</span>The deliverable</h2>
+    <p>Two artifacts. The presentation deck (below). And the Figma board I designed for the workshop, with a before/after view so you can see what the panel and I co-produced in 45 minutes.</p>
+
+    <h3>The presentation</h3>
+    <iframe
+      class="embed"
+      src="https://docs.google.com/presentation/d/1vpY6TP6rT2hVj2mUACsyXtjJrF-sdsM4/embed?start=false&loop=false&delayms=10000"
+      frameborder="0"
+      allowfullscreen="true"
+      mozallowfullscreen="true"
+      webkitallowfullscreen="true"
+      title="Justworks Wage Garnishment presentation">
+    </iframe>
+    <p class="muted">Use the deck controls to advance slides. <a href="https://docs.google.com/presentation/d/1vpY6TP6rT2hVj2mUACsyXtjJrF-sdsM4/edit?usp=sharing" target="_blank" rel="noopener">Open in Google Slides ↗</a></p>
+
+    <h3>The workshop board: before</h3>
+    <p>This is what I walked into the workshop with. The frames I prepared to take the four solution directions from the deck and converge on a tightly scoped V1 with the panel.</p>
+    <iframe
+      class="embed"
+      src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2FrhZcderLPCCoFsqgdU1QAO%2FWage-Garnishment-MVP-Workshop--Unstarted-"
+      frameborder="0"
+      allowfullscreen
+      title="Wage Garnishment Workshop,before">
+    </iframe>
+    <p class="muted"><a href="https://www.figma.com/board/rhZcderLPCCoFsqgdU1QAO/Wage-Garnishment-MVP-Workshop--Unstarted-" target="_blank" rel="noopener">Open in Figma ↗</a></p>
+
+    <h3>The workshop board: after</h3>
+    <p>This is what we landed on together in the room. The panel weighed in on must / should / won't, scoped the MVP, and we sketched the order-intake flow with the engineer at the table.</p>
+    <iframe
+      class="embed"
+      src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2FjJFMW16X5RSRmADGf7lkJY%2FWage-Garnishment-MVP-Workshop"
+      frameborder="0"
+      allowfullscreen
+      title="Wage Garnishment Workshop,after">
+    </iframe>
+    <p class="muted"><a href="https://www.figma.com/board/jJFMW16X5RSRmADGf7lkJY/Wage-Garnishment-MVP-Workshop?node-id=0-1" target="_blank" rel="noopener">Open in Figma ↗</a></p>
+
+    <h3>Files to download</h3>
+
+    <div class="downloads">
+      <a class="dl" href="files/Justworks-Wage-Garnishment-Kevin-Middleton.pptx" download>
+        <span class="ext">PPTX</span>
+        <div>
+          <div class="name">Final presentation (PPTX)</div>
+          <div class="desc">Editable PowerPoint version.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 5. HOW IT WENT -->
+  <section>
+    <h2><span class="num">05</span>How it went</h2>
+
+    <p>The room felt good. The team engaged hard with the interview material. The "disposable income" insight got a real reaction. The workshop ran mostly on time (some sections were faster than others) and we landed on a tight MVP. I walked out thinking I'd presented well and read the room well.</p>
+
+    <p><strong>One detail worth stating plainly:</strong> the hiring panel, three people from product, engineering, and data engineering inside Justworks, did not know that employers are legally accountable if a garnishment isn't paid correctly. This had me feeling like I had done enough research to at least moderately impress the group.</p>
+
+    <p>I did not advance. The recruiter shared feedback on a debrief call. Here it is, as she relayed it:</p>
+
+    <div class="callout">
+      <div class="label">Recruiter feedback, paraphrased to me on the debrief call</div>
+      <p>"Justworks panel feedback. Research good, understood the craft, sense, customer focus. Improve: stronger solutioning for users, additional clarity to see where they were going. Cool down: 6 months."</p>
+    </div>
+
+    <p>I don't agree with most of it, and I want to say why honestly. Not because the feedback was unkind, but because the disconnect between the room I was in and the rubric I was being measured on is the actual lesson here. I did ask if they wanted me to whiteboard the interface, but even that felt inauthentic since design wasn't in the room. I did verbally review the roadmap that we collectively built and laid out as the closer instead. Now I wonder if I should have mocked up the interface to make it more clear and close with next steps.</p>
+
+    <h3>The "workshop" wasn't actually collaborative</h3>
+    <p>I built a Figma board with voting dots, prompts, and frames designed for the panel to use. I previewed it with the recruiter beforehand. She liked it. When I got into the room, the hiring manager wanted me to lead the whole thing. So which is it? Is this a collaboration simulation or a solo presentation in a room with witnesses?</p>
+    <p>Nobody typed into the board except me. Nobody moved a sticky except me. I'd pre-filled most of the workshop to save myself from live typing, which turned out to be a good call, because if I hadn't, the boards would have stayed empty. So why have a digital whiteboard at all? The setup made sense for actual collaboration. It made no sense for what actually happened.</p>
+    <p><strong>The takeaway I'm carrying forward:</strong> don't trust an interview format that calls itself collaborative. Build the workshop assuming you'll do all of it yourself, and let any real participation be a bonus.</p>
+
+    <h3>Design wasn't in the room</h3>
+    <p>The Round 4 invitation said the panel would include "members of the product, design and engineering team." The actual panel was three people: a Group Product Manager (the hiring manager), a Senior Director of Product, and a Data Engineering Manager. The Senior Software Engineer who was on the original invite couldn't attend. No designer was ever in the room.</p>
+    <p>Late in the presentation someone asked when I'd engage with design on this work. My answer was "design should be in this meeting." Which is correct, and which I'd say again. A wage garnishment workflow is fundamentally a design problem before it's a roadmap problem. If the panel intended to evaluate how I work with design, they'd needed to actually put one in the room.</p>
+
+    <h3>"Additional clarity to see where they were going" is the line I push back on most</h3>
+    <p>I closed the presentation with a phased feature roadmap and a section on how to build employer trust over time. That's about as clear a "where this goes" as a 20-minute deck supports. Hypothesis, success metrics, scope, four solution directions in priority order, all on the slides. If the panel wanted MORE clarity than a phased roadmap and an explicit hypothesis with success metrics, then the rubric was something other than "show us where this goes."</p>
+    <p>There's also a specific moment that makes this feedback hard to take. As the workshop was running low on time, I offered to mock the roadmap on a physical whiteboard, which I'd confirmed with recruiting in advance would be in the room. The panel said no, just walk them through it. So I walked through the roadmap we'd just built. They later told the recruiter next steps weren't clear. In a real working meeting, colleagues who want more detail push for it. They asked for less, then graded me on more. That's the same fake-collaboration pattern showing up a second time.</p>
+
+    <h3>The "stronger solutioning" line is partially fair</h3>
+    <p>I came in with four solution directions and let the workshop converge on one. The prompt explicitly asked for "light ideation" and convergence in the workshop, so I built to that brief. But a different panel could read four directions as not enough conviction, and this panel did. Fair critique. The version I'd run next time leads with one recommendation and defends it, with the alternatives in the appendix.</p>
+
+    <h3>What I think actually happened</h3>
+    <p>The workshop wasn't a workshop. It was a presentation that the panel sat through, scored against checkpoints I couldn't see, in a format that promised participation and didn't deliver it. When the rubric doesn't match the activity, the candidate gets feedback that doesn't quite land. That's where I think this came from.</p>
+
+    <p>None of this is sour grapes about a "no." Plenty of "no's" are just "no's" and I take those on the chin. This one I'm publishing because the misalignment is the lesson. If you're a candidate prepping a workshop, build it for one hand to do all the work. If you're a hiring team running this format, decide which one it is and tell candidates upfront. Either format works on its own. Mixing them is what produces feedback that doesn't connect to what actually happened.</p>
+  </section>
+
+  <!-- 6. WHAT I'D DO DIFFERENTLY -->
+  <section>
+    <h2><span class="num">06</span>What I'd do differently</h2>
+
+    <p><strong>Build the workshop expecting to fly solo.</strong> The biggest lesson. Pre-fill every frame, every prompt, every recommendation. If the panel actually engages, that's a bonus. If they don't, the boards still tell a complete story without anyone else lifting a pen. Voting dots and open prompts assume reciprocity that isn't guaranteed in an interview format.</p>
+
+    <p><strong>Show, don't tell, where it's going.</strong> One mid-fidelity wireframe of the order-intake flow would have done more for "see where they were going" than three slides of solution-direction copy. Even a screenshot from a working clickable prototype.</p>
+
+    <p><strong>Bring the user into the room more directly.</strong> The user's voice was in the deck, but a 30-second audio clip from the interview would have changed the room. Real product teams play user clips in reviews for a reason.</p>
+
+    <p><strong>Recruiters are not reliable narrators.</strong> Five days before the onsite I had a prep call with the recruiter. She walked through both the deck and the workshop, liked the participation design, and sent me into the room confident. The panel didn't engage with the materials the way she'd reacted to them. That's not on her, but it does mean a recruiter's read is a recruiter's read, not the panel's. Next time I'd ask directly: "Will design be in the room?" and "When you say 'collaborative workshop,' what does the panel expect to participate in versus observe?" If the answers are vague, push for specifics. Recruiters answer those questions if you ask them clearly. And if a hiring manager prep call is available, take it over the recruiter version.</p>
+  </section>
+
+  <!-- 7. DOWNLOADS -->
+  <section>
+    <h2><span class="num">07</span>Downloads</h2>
+    <p>Everything I used or produced. The interview transcript is the most reusable piece if you're doing payroll or compliance work.</p>
+
+    <div class="downloads">
+      <a class="dl" href="files/justworks-case-study-prompt.pdf" download>
+        <span class="ext">PDF</span>
+        <div>
+          <div class="name">Original case study prompt</div>
+          <div class="desc">The Justworks brief with the topic list and instructions.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl" href="files/Justworks-Wage-Garnishment-Kevin-Middleton.pptx" download>
+        <span class="ext">PPTX</span>
+        <div>
+          <div class="name">Final presentation (PPTX)</div>
+          <div class="desc">Editable version.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl" href="files/wage-garnishment-interview-transcript.md" download>
+        <span class="ext">MD</span>
+        <div>
+          <div class="name">User interview transcript</div>
+          <div class="desc">One hour with a Virginia small business owner who handles garnishments manually.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl" href="files/wage-garnishment-research-questions.md" download>
+        <span class="ext">MD</span>
+        <div>
+          <div class="name">Research questions</div>
+          <div class="desc">The interview guide I went into the conversation with.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl" href="https://www.figma.com/board/rhZcderLPCCoFsqgdU1QAO/Wage-Garnishment-MVP-Workshop--Unstarted-" target="_blank" rel="noopener">
+        <span class="ext">FIGMA</span>
+        <div>
+          <div class="name">Workshop board: before</div>
+          <div class="desc">Frames I prepared before the panel arrived.</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="dl" href="https://www.figma.com/board/jJFMW16X5RSRmADGf7lkJY/Wage-Garnishment-MVP-Workshop?node-id=0-1" target="_blank" rel="noopener">
+        <span class="ext">FIGMA</span>
+        <div>
+          <div class="name">Workshop board: after</div>
+          <div class="desc">What the panel and I produced together in 45 minutes.</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span><a href="../">All slides</a> · <a href="https://middleton.io/">middleton.io</a></span>
+    <span><a href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></span>
+  </footer>
+
+</div>
+
+<script src="../theme.js" defer></script>
+</body>
+</html>

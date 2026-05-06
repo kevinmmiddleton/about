@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200, initial-scale=1.0">
+<title>OG image — Slides I Made for Free</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+  }
+  body {
+    background: #0e0f12;
+    font-family: 'Inter', sans-serif;
+    color: #e8eaf0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+  }
+
+  /* Top accent band, the slides orange */
+  .accent-band {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: #ff8a3d;
+  }
+
+  /* Subtle decorative orange dot in the corner */
+  .orange-dot {
+    position: absolute;
+    top: 56px;
+    left: 56px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ff8a3d;
+    box-shadow: 0 0 32px rgba(255, 138, 61, 0.5);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    transform: translateY(-20px);
+    padding: 0 80px;
+  }
+
+  .title {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 110px;
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin: 0;
+    color: #ffffff;
+  }
+
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: #b6bac6;
+    margin: 0;
+    max-width: 940px;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .url {
+    position: absolute;
+    bottom: 44px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #ff8a3d;
+    letter-spacing: 0.02em;
+  }
+
+  /* Top-right brand stamp */
+  .brand-stamp {
+    position: absolute;
+    top: 56px;
+    right: 56px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9aa0b0;
+  }
+
+  /* Export button (hidden during capture) */
+  .export-btn {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: #ff8a3d;
+    color: #0e0f12;
+    padding: 12px 22px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(255, 138, 61, 0.3);
+  }
+  .export-btn:hover { background: #ffb787; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="accent-band"></div>
+
+  <div class="content">
+    <h1 class="title">Slides I Made for Free 🤑</h1>
+  </div>
+
+  <div class="url">middleton.io/slides</div>
+
+  <button class="export-btn" onclick="downloadOG()">Download PNG</button>
+
+<script>
+  function downloadOG() {
+    const btn = document.querySelector('.export-btn');
+    btn.classList.add('hidden');
+    html2canvas(document.body, {
+      width: 1200,
+      height: 630,
+      scale: 2,
+      backgroundColor: '#0e0f12',
+      useCORS: true
+    }).then(canvas => {
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'kevin-middleton-slides-og.png';
+      a.click();
+      btn.classList.remove('hidden');
+    });
+  }
+</script>
+</body>
+</html>

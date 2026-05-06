@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gong: WhatsApp vs. Slack Connect Panel · Slides I Made for Free</title>
+
+<meta name="description" content="Real panel exercise for Gong's Senior PM, International & Enterprise role. Prompt, research, the actual decks, and what I'd change." />
+<meta name="author" content="Kevin Middleton" />
+<link rel="canonical" href="https://middleton.io/slides/gong/" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Gong Panel Exercise: WhatsApp vs. Slack Connect" />
+<meta property="og:description" content="Panel exercise for Senior PM, International & Enterprise. With prompt, research, and what I'd change." />
+<meta property="og:url" content="https://middleton.io/slides/gong/" />
+<meta property="og:image" content="https://middleton.io/slides/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Slides I Made for Free." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://middleton.io/slides/og.png" />
+
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+
+<!-- FOUC prevention: applies the saved theme before paint -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('slides-theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) { /* private mode, ignore */ }
+  })();
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../slides.css" />
+
+<script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav class="topnav">
+    <a href="../" class="home">← Slides I Made for Free</a>
+    <div class="topnav-right">
+      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="eyebrow">Gong</span>
+    <h1>WhatsApp vs. Slack Connect for Conversation Intelligence</h1>
+    <p class="lede">
+      Senior PM, International &amp; Enterprise. The prompt was a customer-request triage exercise on a real ingestion roadmap question. I went deep on platform reality, regulatory landscape, and a phased recommendation. The deck was strong. The customer voice was missing. I withdrew the same afternoon as the panel and explained why in writing.
+    </p>
+    <div class="meta">
+      <span class="pill">3 to 5 days prep</span>
+      <span class="pill">Panel of 5</span>
+      <span class="pill bad">Withdrew after panel</span>
+    </div>
+  </header>
+
+  <!-- 1. CONTEXT -->
+  <section>
+    <h2><span class="num">01</span>Context</h2>
+    <p><strong>Company:</strong> Gong, the revenue AI platform.</p>
+    <p><strong>Role:</strong> Senior Product Manager, International &amp; Enterprise. NYC hybrid, working alongside core product dev teams in Israel and Ireland.</p>
+    <p><strong>Stage:</strong> Final round panel after a recruiter screen and a hiring manager conversation.</p>
+    <p><strong>Audience:</strong> The Hiring Manager (a Director-level PM) and a panel of Gong PMs and leadership. Hybrid format on Zoom.</p>
+    <p><strong>Prep time:</strong> Roughly 3.5 to 5 days from prompt to panel, including the writeup, the deck, and a brand system pulled from Gong's public guidelines.</p>
+    <p><strong>Format:</strong> 25-minute presentation, then group discussion in a 1-hour session. Deck due to the hiring manager and recruiter by 5pm PT the day before.</p>
+  </section>
+
+  <!-- 2. THE PROMPT -->
+  <section>
+    <h2><span class="num">02</span>The prompt</h2>
+    <p>The setup, paraphrased: imagine you've joined Gong as Senior PM, International &amp; Enterprise. While triaging customer feature requests, you spot a small handful of APAC customers asking about WhatsApp integration. Meanwhile a peer PM has Slack Connect on a placeholder roadmap, originally driven by North American tech customers. They're asking you to help set direction.</p>
+    <p>The panel wanted three things:</p>
+    <ul>
+      <li>How do you evaluate customer requests in general?</li>
+      <li>How would you develop a recommended direction for this specific opportunity?</li>
+      <li>Applying that, what's your initial analysis?</li>
+    </ul>
+    <p>They were explicit about not evaluating "correctness." They wanted to see thought process and research methodology. The prompt also flagged that I likely wouldn't have deep Gong product or market context yet, and that's fine.</p>
+    <div class="downloads">
+      <a class="dl" href="files/gong-panel-exercise-prompt.pdf" download>
+        <span class="ext">PDF</span>
+        <div>
+          <div class="name">Original prompt from Gong</div>
+          <div class="desc">Senior Product Manager, International &amp; Enterprise. Panel exercise homework prompt.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 3. THE PROCESS -->
+  <section>
+    <h2><span class="num">03</span>The process</h2>
+
+    <h3>Read the room first</h3>
+    <p>Before researching anything about WhatsApp or Slack, I started with what the prompt was actually asking. It wasn't "pick a winner." It was "show me how you think about a request like this." The framework half of the answer was as important as the analysis half. So I built the deck around a customer-request evaluation framework and then applied it to this specific case.</p>
+
+    <h3>Lean on a real precedent</h3>
+    <p>Years ago at Oracle I owned the social management platform and network integrations. Sales would walk in saying "we want Snapchat." When I pressed for use cases, silence. I shipped LinkedIn, Instagram, Sina Weibo, and Tumblr because they had concrete demand and working APIs. I declined Snapchat, partly because there was no API, partly because no one could tell me what they'd actually do with it.</p>
+    <p>The WhatsApp request from APAC follows the same pattern: strong demand signal, weak articulation of the use case, and a platform that may not let you do what you'd want anyway. I used that anecdote to set up the framework. It's the kind of pattern matching the panel said they wanted.</p>
+
+    <h3>Go deeper than "WhatsApp is big in APAC"</h3>
+    <p><strong>The most useful thing I dug up:</strong> "WhatsApp for APAC" is really "WhatsApp for Southeast Asia." Japan runs on LINE. Korea runs on KakaoTalk. So a WhatsApp integration only covers part of the market the request implies. That single insight reframed the whole conversation.</p>
+    <p><strong>Then the technical and policy reality of WhatsApp Business API:</strong> end-to-end encryption between participants, but messages do pass through Meta servers and are received in plaintext by the business endpoint. The bigger blocker is policy. In January 2026 Meta tightened its terms to ban general-purpose AI chatbots and explicitly prohibit using WhatsApp data to train or fine-tune AI models. Even if Gong solved the technical pieces, the platform owner is moving against third-party AI access. That's a compounding risk: technical, regulatory, and platform alignment.</p>
+    <p>Slack Connect had its own constraints. Real revenue conversations happen in deal rooms, but the Conversations API rate limits (1 request per minute, 15 objects per request) signal that Slack does not intend high-volume extraction. External-member data excludes email addresses by privacy design. Shared channels mean the customer also owns the data, so analyzing it requires consent on both sides.</p>
+
+    <h3>Look at the dark funnel and where Gong actually plays</h3>
+    <p>Roughly 70-80% of B2B buying decisions happen in untracked "dark funnel" channels: private Slack threads, LinkedIn DMs, WhatsApp messages, community groups. Gong is still fundamentally a synchronous conversation intelligence platform (calls plus video). Asynchronous messaging is the obvious gap. So the strategic logic for adding messaging is clear. The question is which one, in what order, and built how.</p>
+
+    <h3>Do my own brand work</h3>
+    <p>I built a stripped-down Gong brand system from their <a href="https://docs.google.com/presentation/d/1Lud5iIrK6vV1YwXoRx51CvRh0-HVa8_8aYAoa2PDTT0/edit" target="_blank" rel="noopener">public Brand Guidelines deck</a>: type stack, color tokens, layout grid. Two reasons. One, presenting in a candidate's pastel template into a brand-conscious org looks like low effort. Two, designing inside a real system is faster than freestyling. My working notes for this are in the downloads.</p>
+
+    <h3>Land on a direction, not a verdict</h3>
+    <p>The recommendation I brought in was a phased one. Slack Connect first as a metadata and signal layer for existing NA customers (lower technical risk, faster value, aligns with the original roadmap impetus). WhatsApp Business in a more constrained way for APAC, focused on what's technically feasible under Meta's terms (metadata, CRM-mediated capture, opt-in flows). And underneath both, build a messaging abstraction layer that MCP partners can feed into, so LINE and KakaoTalk and Teams can plug in later without rebuilding the rails.</p>
+    <p>The point wasn't to be right. The point was to show that I could hold the customer signal, the platform reality, the regulatory landscape, and the existing roadmap in one place, and turn that into a sequencing decision a peer PM could actually act on.</p>
+
+    <h3>Tools used</h3>
+    <ul>
+      <li>Microsoft PowerPoint with Claude as a styling partner.</li>
+      <li>Claude and Google for the research itself: Meta policy timelines, Slack API docs, regional B2B comms data, competitive landscape, Gong's own product evolution.</li>
+      <li><a href="https://docs.google.com/presentation/d/1Lud5iIrK6vV1YwXoRx51CvRh0-HVa8_8aYAoa2PDTT0/edit" target="_blank" rel="noopener">Gong's public Brand Guidelines</a> plus a few of their case studies as design reference.</li>
+      <li>A working research doc as a scratchpad before any slide hit a page.</li>
+    </ul>
+  </section>
+
+  <!-- 4. THE DELIVERABLE -->
+  <section>
+    <h2><span class="num">04</span>The deliverable</h2>
+    <p>One deck. WhatsApp vs. Slack Connect: country-level messaging share, technical reality of WhatsApp Business API on Cloud, the Meta AI-policy ban timeline, the regulatory landscape across Singapore, Japan, and Korea, the competitive landscape across conversation-intelligence platforms, and a phased recommendation including a messaging-abstraction-layer argument.</p>
+
+    <iframe
+      class="embed"
+      src="https://docs.google.com/presentation/d/1yTwa5XLSXk9HE_DUwdctxCxtHHHa-aZT/embed?start=false&loop=false&delayms=10000"
+      frameborder="0"
+      allowfullscreen="true"
+      mozallowfullscreen="true"
+      webkitallowfullscreen="true"
+      title="WhatsApp vs. Slack Connect panel deck">
+    </iframe>
+    <p class="muted">Use the deck controls to advance slides. <a href="https://docs.google.com/presentation/d/1yTwa5XLSXk9HE_DUwdctxCxtHHHa-aZT/edit?usp=sharing" target="_blank" rel="noopener">Open in Google Slides ↗</a></p>
+
+    <div class="downloads">
+      <a class="dl" href="files/Kevin-Middleton-WhatsApp-vs-Slack-Connect.pptx" download>
+        <span class="ext">PPTX</span>
+        <div>
+          <div class="name">Panel deck</div>
+          <div class="desc">The deck I sent to the hiring manager and recruiter the day before the panel.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 5. HOW IT WENT -->
+  <section>
+    <h2><span class="num">05</span>How it went</h2>
+
+    <p>The framework landed. The Snapchat anecdote did exactly what I wanted it to do, which was set up the approach with a real precedent I'd lived. The "WhatsApp for APAC is really WhatsApp for SEA" reframe surprised people, which is what you want a research finding to do in the first 10 minutes.</p>
+
+    <p>The panel itself didn't go the way I'd hoped. The deck was strong on platform reality and weak on customer voice. I leaned into the technical and regulatory analysis (which I can do well from desk research) and was thin on lived APAC sales workflows (which I can't). When the panel pushed there, I didn't have the customer stories to back the framework with. I withdrew that afternoon.</p>
+
+    <p>Here's the email I sent.</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Kevin Middleton</span>
+        <span class="k">To:</span><span class="v">Hiring Manager, Recruiter</span>
+        <span class="k">Subject:</span><span class="v">Withdrawing from consideration - Senior PM, International &amp; Enterprise</span>
+        <span class="k">Date:</span><span class="v">April 30, 2026, 2:29 PM ET</span>
+      </div>
+      <div class="email-body">Hi <span class="redacted">Recruiter</span> and <span class="redacted">Hiring Manager</span>,
+
+Thank you for the time today and throughout this process. I want to be straightforward: I don't think the panel conversation went the way either of us hoped, and I'd like to withdraw from consideration.
+
+I'm proud of the work I put together. I believe the deck met the spirit of the assignment, and I stand behind the feasibility analysis and the phased recommendation. Where I fell short was on APAC use cases. I don't have direct experience with how WhatsApp is used in APAC sales workflows, and I wasn't comfortable speculating on something I haven't validated with real customers, prospects, or GTM teams. In practice, that's where I'd start, not with desk research. At this point, I understand that wasn't what the exercise was testing for.
+
+I also want to acknowledge the timeline pressure. I would have benefited from more time to prepare, but that's on me for not pushing back on scheduling.
+
+I wish you all the best with the search.
+
+Kevin</div>
+    </div>
+
+    <p>The hiring manager wrote back the same evening:</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Hiring Manager</span>
+        <span class="k">To:</span><span class="v">Kevin Middleton</span>
+        <span class="k">Subject:</span><span class="v">Re: Withdrawing from consideration</span>
+        <span class="k">Date:</span><span class="v">April 30, 2026, 4:56 PM ET</span>
+      </div>
+      <div class="email-body">Hi Kevin,
+
+Thanks for the note and the direct feedback. Regardless of how the session went today, we truly appreciate the time and effort that you put into preparing for it.
+
+I understand your decision, I wish you all the very best with whatever comes next for you.
+
+Cheers,
+<span class="redacted">Hiring Manager</span></div>
+    </div>
+
+    <p class="muted">I'm sharing both because the second one is the kind of reply you remember. The hiring manager handled the withdrawal with grace. That's worth saying.</p>
+
+    <h3>What the email didn't say</h3>
+
+    <p>The email was generous. With more time and more honesty, here's what I'd add to it now.</p>
+
+    <p>The exercise was a real roadmap question, not a hypothetical. A peer PM at Gong was blocked on whether to invest engineering effort in WhatsApp or Slack Connect ingestion, and the panel was using my answer as input to a real prioritization decision. That's the same pattern as the <a href="../applause/">Applause entry</a> on this site, just at much larger scale and with a much more polished veneer. The structure of the exercise extracts strategic thinking from candidates regardless of whether anyone gets hired at the end of it.</p>
+
+    <p>What I produced in that window: country-level messaging share data, the technical reality of WhatsApp Business API on Cloud, the Meta AI-policy ban timeline, the regulatory landscape across Singapore, Japan, and Korea, the competitive landscape across conversation-intelligence platforms, and a phased recommendation including a messaging-abstraction-layer argument. All in three to five days, without access to a single Gong customer, GTM team, or internal data point. The "WhatsApp for APAC is really WhatsApp for SEA" reframe was new to the panel. So was the Meta AI-policy implication for any third-party tool trying to read WhatsApp messages.</p>
+
+    <p>The panel itself was also less pleasant than the email exchange afterwards would suggest. The hiring manager who replied to my withdrawal was gracious. The room I'd sat in earlier was not the same room.</p>
+
+    <p>"I fell short on APAC use cases" is what I wrote in the withdrawal email, and I'd write it again, because owning what I could own in that moment was the right call. With more hindsight: that self-critique only holds if a candidate without customer access can produce verified APAC sales-workflow detail in a long weekend. They can't. The format made that gap inevitable.</p>
+  </section>
+
+  <!-- 6. WHAT I'D DO DIFFERENTLY -->
+  <section>
+    <h2><span class="num">06</span>What I'd do differently</h2>
+
+    <p><strong>On the customer-voice gap, I stand by what I did.</strong> The deck didn't have APAC customer voices because I didn't have access to APAC customers. I could have done some additional light research, but I really do prefer validating with customers, which is why I focused on feasibility. Product problems come from real customer requests, not from candidate-driven speculation dressed up as research. If the panel read that gap as a flaw, the gap was structural to the format, not the candidate. I'd do this part the same way again.</p>
+
+    <p><strong>Push back on scheduling.</strong> I had three to five usable days. I should have asked for an extra week and offered a clear reason. Hiring teams respect candidates who advocate for the quality of their own work. I didn't, and I felt the compression in the room.</p>
+
+    <p><strong>Lead with the reframe earlier.</strong> "WhatsApp for APAC is really WhatsApp for SEA" is the strongest single slide. It belongs at minute three, not minute eight. Putting it earlier would have forced the rest of the deck to react to it.</p>
+
+    <p><strong>Ask for a deck-read before the panel.</strong> I couldn't have guessed this one. The recruiter pushed me to go sooner than I'd planned, which I read as confidence in the work. I sent the deck the day before the panel. If the team saw a gap on APAC customer voice, that was the time to flag it. Next time I'd ask for that read before the panel.</p>
+  </section>
+
+  <!-- 7. DOWNLOADS -->
+  <section>
+    <h2><span class="num">07</span>Downloads</h2>
+    <p>Everything I used or produced for this exercise. If any of it is useful, take it.</p>
+
+    <div class="downloads">
+      <a class="dl" href="files/gong-panel-exercise-prompt.pdf" download>
+        <span class="ext">PDF</span>
+        <div>
+          <div class="name">Original prompt</div>
+          <div class="desc">Gong's homework brief, exactly as I received it.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl" href="files/Kevin-Middleton-WhatsApp-vs-Slack-Connect.pptx" download>
+        <span class="ext">PPTX</span>
+        <div>
+          <div class="name">Panel deck</div>
+          <div class="desc">The deck I sent and presented. Country-level data, API constraints, regulatory matrix, phased recommendation.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl" href="files/panel-exercise-research.md" download>
+        <span class="ext">MD</span>
+        <div>
+          <div class="name">Research notes (working doc)</div>
+          <div class="desc">My scratchpad before any slide existed.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl" href="files/panel-exercise-research-deep.md" download>
+        <span class="ext">MD</span>
+        <div>
+          <div class="name">Deep technical research</div>
+          <div class="desc">API capabilities, platform policies, integration feasibility.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl" href="files/design.md" download>
+        <span class="ext">MD</span>
+        <div>
+          <div class="name">Brand system notes</div>
+          <div class="desc">Color tokens, type stack, layout grid pulled from Gong's public guidelines.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span><a href="../">All slides</a> · <a href="https://middleton.io/">middleton.io</a></span>
+    <span><a href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></span>
+  </footer>
+
+</div>
+
+<script src="../theme.js" defer></script>
+</body>
+</html>

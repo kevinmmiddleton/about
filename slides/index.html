@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Slides I Made for Free · Kevin Middleton</title>
+
+<!-- SEO -->
+<meta name="description" content="Real interview presentations, with the prompt, the work, the outcome, and what I'd do differently. Free to read, free to download." />
+<meta name="author" content="Kevin Middleton" />
+<link rel="canonical" href="https://middleton.io/slides/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Slides I Made for Free" />
+<meta property="og:description" content="Real interview decks with context, outcomes, and reflection. Free to read, free to download." />
+<meta property="og:url" content="https://middleton.io/slides/" />
+<meta property="og:image" content="https://middleton.io/slides/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Slides I Made for Free." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://middleton.io/slides/og.png" />
+
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+
+<!-- FOUC prevention: applies the saved theme before paint -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('slides-theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) { /* private mode, ignore */ }
+  })();
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slides.css" />
+
+<!-- Privacy-friendly analytics -->
+<script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav class="topnav">
+    <a href="https://middleton.io/" class="home">← middleton.io</a>
+    <div class="topnav-right">
+      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1>Slides I Made for Free.</h1>
+    <p class="lede">
+      These are real presentations I built for real interview processes. For each one I'm sharing the prompt I was given, what I made, how it went, and what I'd do differently. Decks, research, and notes are all downloadable. More on <a href="#philosophy">my take on take-homes, live sessions, and free product consulting</a> below.
+    </p>
+  </header>
+
+  <section>
+    <h2>The presentations</h2>
+
+    <div class="entries">
+
+      <a href="hvac/" class="entry-card" target="_blank" rel="noopener">
+        <div class="row1">
+          <span class="company">HVAC.com</span>
+          <span class="date">January-February 2024</span>
+        </div>
+        <h3 class="title">The Take-Home That Got the Yes</h3>
+        <p class="desc">Senior PM, a role I accepted. Required a two-hour take-home brief, five remote rounds, a full-day onsite at HQ. Includes the actual prompt, the comparative analysis approach, RICE prioritization, and pressure to accept the offer.</p>
+        <div class="row2">
+          <span class="tag">Take-home + onsite</span>
+          <span class="tag">Live prototype</span>
+          <span class="tag good">Accepted</span>
+        </div>
+      </a>
+
+      <a href="red-ventures/" class="entry-card" target="_blank" rel="noopener">
+        <div class="row1">
+          <span class="company">Red Ventures</span>
+          <span class="date">January-February 2026</span>
+        </div>
+        <h3 class="title">When "Hypothetical" Was a Live Marketplace</h3>
+        <p class="desc">A take-home for a Group AI PM role. The "hypothetical" case was Choose Texas Power, one of their actual brands. I sent the recommendation. Then I sent the letter asking them not to use it.</p>
+        <div class="row2">
+          <span class="tag">Take-home (2-3hrs)</span>
+          <span class="tag">Sent do-not-use letter</span>
+          <span class="tag bad">Did not advance</span>
+        </div>
+      </a>
+
+      <a href="success-academy/" class="entry-card" target="_blank" rel="noopener">
+        <div class="row1">
+          <span class="company">Success Academy</span>
+          <span class="date">February-March 2026</span>
+        </div>
+        <h3 class="title">A PM for Family Apps and Public Web</h3>
+        <p class="desc">Five rounds for a greenfield PM role. Recruiter, hiring manager, three-back-to-back onsite, and a final with the CTO. I built a prototype to show the team my thinking on how the role could grow. Did not advance.</p>
+        <div class="row2">
+          <span class="tag">Five rounds incl. CTO</span>
+          <span class="tag">Live prototype</span>
+          <span class="tag bad">Did not advance</span>
+        </div>
+      </a>
+
+      <a href="amex/" class="entry-card" target="_blank" rel="noopener">
+        <div class="row1">
+          <span class="company">American Express</span>
+          <span class="date">March-April 2026</span>
+        </div>
+        <h3 class="title">An Agentic MCP Prototype, Built Between Rounds</h3>
+        <p class="desc">A recruiter screen and three one-hour rounds with the hiring manager for an Amex Digital Labs PM role. I built an interactive prototype between rounds. The hiring manager used it as a scoping artifact in our final conversation. Then the role was paused.</p>
+        <div class="row2">
+          <span class="tag">Three rounds with HM</span>
+          <span class="tag">Live prototype</span>
+          <span class="tag info">Role paused</span>
+        </div>
+      </a>
+
+      <a href="applause/" class="entry-card" target="_blank" rel="noopener">
+        <div class="row1">
+          <span class="company">Applause</span>
+          <span class="date">April 2026</span>
+        </div>
+        <h3 class="title">When the Interview Is Just Free Consulting</h3>
+        <p class="desc">A cautionary tale about a 45-minute "product call" with the founder turned into a live strategy session on their actual app's actual funnel. I provided strong recommendations and they ghosted.</p>
+        <div class="row2">
+          <span class="tag">Live exercise</span>
+          <span class="tag">No deliverable</span>
+          <span class="tag bad">Ghosted</span>
+        </div>
+      </a>
+
+      <a href="justworks/" class="entry-card" target="_blank" rel="noopener">
+        <div class="row1">
+          <span class="company">Justworks</span>
+          <span class="date">April 2026</span>
+        </div>
+        <h3 class="title">Reducing Friction in Wage Garnishment Processing</h3>
+        <p class="desc">A take-home case study and onsite workshop for Senior PM, PayTax. Centerpiece is a user interview with a Virginia small business owner who handles garnishments by hand.</p>
+        <div class="row2">
+          <span class="tag">Take-home + onsite</span>
+          <span class="tag">12-day prep</span>
+          <span class="tag bad">Did not advance</span>
+        </div>
+      </a>
+
+      <a href="gong/" class="entry-card" target="_blank" rel="noopener">
+        <div class="row1">
+          <span class="company">Gong</span>
+          <span class="date">April 2026</span>
+        </div>
+        <h3 class="title">WhatsApp vs. Slack Connect for Conversation Intelligence</h3>
+        <p class="desc">A panel exercise for Senior PM, International &amp; Enterprise that included how to evaluate a customer feature request and applied to a real ingestion-roadmap question. The bar was set too high.</p>
+        <div class="row2">
+          <span class="tag">Panel exercise</span>
+          <span class="tag">3-day prep</span>
+          <span class="tag warn">Withdrew after panel</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section id="philosophy">
+    <h2>Take-Homes vs Live Sessions vs Free Product Consulting</h2>
+    <p>I prefer take-homes. They give me time to think, which is where the actual work happens. Live product-sense exercises are the format I like least. On-the-spot thinking isn't reliable, and the quality suffers for it. If a process has me pick between a live product sense and a take-home, I'll pick the take-home every time.</p>
+    <p>What I don't like is being asked to think like an insider when I'm not one. Expecting a candidate to walk in with verified customer voices, internal data, or a real read on a team's strategy is asking for theater. The candidates who pretend it can are the ones I'd trust least.</p>
+    <p>Workshops I'm fine with. They can be the strongest round in a process, but only if two things are true: the team actually engages, and the right people are in the room. A "collaborative" workshop where nobody collaborates is a presentation with witnesses, and the feedback it produces is going to be off. The <a href="justworks/" target="_blank" rel="noopener">Justworks entry</a> is the long version of that argument.</p>
+    <p>What I won't be quiet about is being ghosted after a session where I provided real use cases on a real problem the company is facing. Especially when I know the work was good. I've emailed companies after the fact asking them not to use what I produced. I'd do that again.</p>
+  </section>
+
+  <footer class="foot">
+    <span>Kevin Middleton · <a href="https://middleton.io/">middleton.io</a></span>
+    <span><a href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></span>
+  </footer>
+
+</div>
+
+<script src="theme.js" defer></script>
+</body>
+</html>

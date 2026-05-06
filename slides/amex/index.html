@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>American Express: Agentic MCP Prototype · Slides I Made for Free</title>
+
+<meta name="description" content="Three rounds for an Amex Digital Labs PM role. I built a live prototype between rounds. The role got paused. Here's the work." />
+<meta name="author" content="Kevin Middleton" />
+<link rel="canonical" href="https://middleton.io/slides/amex/" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="American Express: Agentic MCP Prototype" />
+<meta property="og:description" content="Three rounds for Amex Digital Labs. I built a live prototype between rounds. The role got paused. Here's the work." />
+<meta property="og:url" content="https://middleton.io/slides/amex/" />
+<meta property="og:image" content="https://middleton.io/slides/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Slides I Made for Free." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://middleton.io/slides/og.png" />
+
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+
+<!-- FOUC prevention: applies the saved theme before paint -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('slides-theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) { /* private mode, ignore */ }
+  })();
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../slides.css" />
+
+<script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav class="topnav">
+    <a href="../" class="home">← Slides I Made for Free</a>
+    <div class="topnav-right">
+      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="eyebrow">American Express</span>
+    <h1>An Agentic MCP Prototype, Built Between Rounds.</h1>
+    <p class="lede">
+      Product Manager, Agentic Partner Membership Experiences, on the Amex Digital Labs team. Three one-hour rounds with the hiring manager, all promising. None of the three topics were shared in advance. By the third interview, I was able to correctly guess the topic. Between rounds two and three I built an interactive prototype walking through what an Amex MCP server for Resy could look like, end to end. The hiring manager reviewed it before our last conversation and used it as a scoping artifact during the interview. Then the role was paused.
+    </p>
+    <div class="meta">
+      <span class="pill">3 rounds with HM</span>
+      <span class="pill">Live prototype</span>
+      <span class="pill info">Role paused</span>
+    </div>
+  </header>
+
+  <!-- 1. CONTEXT -->
+  <section>
+    <h2><span class="num">01</span>Context</h2>
+    <ul>
+      <li><strong>Company:</strong> American Express, Digital Labs.</li>
+      <li><strong>Role:</strong> Product Manager, Agentic Partner Membership Experiences. NYC, building MCP servers and agent-to-agent integration to surface Amex membership inside partner AI channels.</li>
+      <li><strong>Stage:</strong> Three rounds, all 1:1 with the hiring manager (a Senior Director). Per the recruiter, a fourth round of two 30-minute cross-functional conversations would have followed. Unusual structure: most of the evaluation weight sat with one person.</li>
+      <li><strong>Audience:</strong> The hiring manager, every round.</li>
+      <li><strong>Prep time:</strong> Four to seven days between rounds. The prototype came together over a long weekend after round two.</li>
+      <li><strong>Outcome:</strong> Role paused on April 23. I set up a call with the recruiter that day to share concerns about the process. She confirmed the pause on the same call. I closed the loop with the hiring manager four days later.</li>
+    </ul>
+  </section>
+
+  <!-- 2. THE PROMPTS -->
+  <section>
+    <h2><span class="num">02</span>The prompts</h2>
+    <p>Two structured prompts and one self-imposed one.</p>
+
+    <h3>Round 1 (March 17): Product sense</h3>
+    <p>"Uber. No constraints. Pick anything you'd work on, and justify your decisions at every step."</p>
+    <p>I started by defining what Uber actually is, where the money flows (riders, drivers, sellers, partnerships), and which marketplace metrics matter. Then I argued for autonomous vehicle delivery for riders as the highest-upside bet, with a defensible advantage (only Uber's scale supports it), an EV-friendly cost structure, and less first-and-last-mile friction than food. Moved on to the next round.</p>
+
+    <h3>Round 2 (March 27): Product exercise</h3>
+    <p>"Walk through the Resy customer journey from discovery to booking to post-booking. Map the API endpoints at each step."</p>
+    <p>I broke it into five stages: discovery (article and content APIs), search (restaurants and timeslot APIs), frictionless mobile login (phone code, token, profile), booking (hold reservation, payment flow, confirmation), and post-booking (changes and cancellation). We then talked about LLMs, agents, context windows, and how those constraints shape what you can build. My self-assessment after: "went okay."</p>
+
+    <h3>Between rounds (March 28-30): I built a prototype, unprompted</h3>
+    <p>The round-two conversation pointed at an obvious next question: if Amex wanted to make Resy the first agent-ready surface, what would the MCP server look like, what guardrails would it need, and how would the trust model work? Nobody asked me to answer that. I built a prototype that did, then sent it to the hiring manager.</p>
+
+    <h3>Round 3 (April 6): The prototype walk-through</h3>
+    <p>No formal prompt. The hiring manager had read the prototype before the call and used it as a scoping artifact during the interview. We spent the hour working through the MCP Server Design tab as a live scoping exercise on tool definitions, eval frameworks, observability, and minimum scope. Originally scheduled for April 3, rescheduled to April 6.</p>
+  </section>
+
+  <!-- 3. THE PROCESS -->
+  <section>
+    <h2><span class="num">03</span>The process</h2>
+
+    <h3>Take the conversation seriously enough to keep working on it</h3>
+    <p>I tend to do my best work when I can sit with an idea for a bit and come back with something more formed. Round two ended with us pulling on threads we didn't have time to finish. Building a prototype was the most direct way to push those threads forward. It also let me show, not tell, that I have hands-on MCP experience.</p>
+
+    <h3>Six tabs, mapped to the conversation</h3>
+    <p>The prototype lives at <a href="https://middleton.io/prototypes/amex/" target="_blank" rel="noopener">middleton.io/prototypes/amex/</a>. The first two tabs are the round-one and round-two conversations, redrawn so the hiring manager could review them at his own pace. The next four tabs are where I went past what we'd already discussed.</p>
+    <ul>
+      <li><strong>Customer Journey:</strong> the Resy flow we'd worked through in round two, drawn out end to end.</li>
+      <li><strong>API Endpoints:</strong> the API map that supports it, decomposed by step.</li>
+      <li><strong>MCP Server Design:</strong> six tool definitions (read-only, action-with-auth, elevated, cross-server) with the agentic spectrum (informational → assistive → fully agentic). This is the part most people skip. A bad tool description means the agent calls the wrong endpoint. It's UX design, just for a different consumer.</li>
+      <li><strong>Guardrails &amp; Governance:</strong> a data-exposure matrix (exposed / partial / internal), OAuth token scoping, the three-way trust model (cardholder ↔ Amex, cardholder ↔ agent, Amex ↔ agent), and the hold-before-commit safety pattern.</li>
+      <li><strong>Vision:</strong> a four-stage roadmap from informational to multi-agent, positioned against Samsung Galaxy S26's Gemini, Google's Project Mariner, and Apple's WWDC 2026. The thesis: whoever figures out the trust model for agent-initiated financial actions first wins the agentic finance space.</li>
+      <li><strong>How I Use AI:</strong> my actual stack and what I've shipped. Personal projects (Telegram + Claude Code job scanner running at $0.06/day, QuietFeed, Buffer MCP) and professional history (GridStrong, HVAC.com, Sendoso, Rocket Lawyer).</li>
+    </ul>
+
+    <h3>The strongest product insight: hold-before-commit</h3>
+    <p>Agents shouldn't make reservations directly. They place a temporary hold, the cardholder confirms. This solves the trust problem without killing the experience. It's what lets you move from informational to assistive without needing to solve the fully-agentic trust model first. That single pattern was the centerpiece of round three.</p>
+
+    <h3>Tools used</h3>
+    <ul>
+      <li>HTML, CSS, and vanilla JavaScript for the prototype itself. Hosted under <a href="https://middleton.io/prototypes/" target="_blank" rel="noopener">middleton.io/prototypes/</a> so it's stable and shareable.</li>
+      <li>Claude Code as a building partner for the architecture diagrams, tool schemas, and the data-exposure matrix.</li>
+      <li>Public Amex MCP and Agentic Commerce documentation, plus my own running work on MCP-based personal tooling, as my technical reference.</li>
+    </ul>
+  </section>
+
+  <!-- 4. THE DELIVERABLE -->
+  <section>
+    <h2><span class="num">04</span>The deliverable</h2>
+    <p>One artifact: a live, interactive prototype on middleton.io. Embedded below for a quick look. Open in a new tab to actually click through it.</p>
+
+    <iframe
+      class="embed"
+      src="https://middleton.io/prototypes/amex/"
+      frameborder="0"
+      title="Amex Agentic MCP Prototype">
+    </iframe>
+    <p class="muted"><a href="https://middleton.io/prototypes/amex/" target="_blank" rel="noopener">Open prototype in a new tab ↗</a></p>
+  </section>
+
+  <!-- 5. HOW IT WENT -->
+  <section>
+    <h2><span class="num">05</span>How it went</h2>
+
+    <p>The substance of every round was strong. Round three opened with the hiring manager already having reviewed the prototype, and we spent the hour on architecture, evals, observability, user stories, and minimum scope. Working-meeting energy.</p>
+
+    <p>The structure of the process was strange in ways I want to name plainly.</p>
+
+    <h3>I never knew what we'd be talking about</h3>
+    <p>The recruiter never shared what the upcoming round would cover. I prepped each time without knowing whether I was walking into a behavioral, a product sense, an architecture conversation, or a technical screen. By round three I guessed correctly that we'd dig into MCP architecture, but I shouldn't have had to guess. This is why I built a prototype we could walk through, so that I'd have a way to visually express my thoughts. Hiding the topic in advance only makes sense if you're testing how candidates handle ambiguity, and even then it costs more than it produces.</p>
+
+    <h3>Constant questioning of whether I was "technical enough"</h3>
+    <p>This thread ran across all three rounds. I addressed it head-on in round three. I've been a platform PM across multiple companies. My job is to define the what, not the how. I partner closely with engineering, and I was an engineer earlier in my career, so I can translate complex technical concepts for both technical and non-technical audiences. The hiring manager acknowledged it and pointed back to the prototype itself as the answer to that question. So why was it still being asked? Either the doubt was about something else and "technical" was the language for it, or the doubt was real and the prototype, the LinkedIn series on building with AI, and the hands-on MCP work hadn't moved the needle. Both readings are useful information.</p>
+
+    <h3>The prototype email and the reply</h3>
+
+    <p>I sent the prototype over after our round-two conversation:</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Kevin Middleton</span>
+        <span class="k">To:</span><span class="v">Hiring Manager</span>
+        <span class="k">Subject:</span><span class="v">Following up + took yesterday's conversation a step further</span>
+        <span class="k">Date:</span><span class="v">March 28, 2026</span>
+      </div>
+      <div class="email-body">Hi <span class="redacted">Hiring Manager</span>,
+
+Good talking yesterday. I enjoyed walking through the Resy experience.
+
+I tend to do my best work when I can sit with an idea for a bit and come back with something more formed. I took that approach here and turned our conversation into something concrete.
+
+I captured the <a href="https://middleton.io/prototypes/amex/#journey" target="_blank" rel="noopener">customer journey</a> and <a href="https://middleton.io/prototypes/amex/#api" target="_blank" rel="noopener">API architecture</a> we discussed, and extended it into <a href="https://middleton.io/prototypes/amex/#mcp" target="_blank" rel="noopener">MCP server design</a>, <a href="https://middleton.io/prototypes/amex/#guardrails" target="_blank" rel="noopener">guardrails</a>, and <a href="https://middleton.io/prototypes/amex/#vision" target="_blank" rel="noopener">where this could go</a> (leaning into mobile agentic workflows). I also included <a href="https://middleton.io/prototypes/amex/#how-i-use-ai" target="_blank" rel="noopener">how I use AI</a> day to day, both personally and professionally.
+
+Here's the walkthrough: <a href="https://middleton.io/prototypes/amex/" target="_blank" rel="noopener">https://middleton.io/prototypes/amex/</a>
+
+It builds on what we discussed, with a few assumptions to show how this could scale into a more seamless, secure way for cardholders to take action across reservations, orders, and other transactions.
+
+Would love to hear your thoughts.
+
+Best,
+Kevin</div>
+    </div>
+
+    <p>The reply two days later:</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Hiring Manager</span>
+        <span class="k">To:</span><span class="v">Kevin Middleton</span>
+        <span class="k">Subject:</span><span class="v">Re: Following up + took yesterday's conversation a step further</span>
+        <span class="k">Date:</span><span class="v">March 30, 2026</span>
+      </div>
+      <div class="email-body">Thanks Kevin. I'll do a deeper dive on this tomorrow and get back to you.
+
+<span class="redacted">Hiring Manager</span></div>
+    </div>
+
+    <p>Round three was on April 6. He had reviewed the prototype. We worked through the MCP Server Design tab as a scoping exercise: tool naming, observability, eval frameworks, what to ship in the first sprint. The "technical enough" thread came up again, and I made the case I described above. He acknowledged it.</p>
+
+    <h3>April 23: I called the recruiter, she confirmed the pause</h3>
+
+    <p>I'd been seeing hesitancy in the process. The delays: three rescheduled rounds, all an hour with the same person, with another two cross-functional rounds queued behind them. Either the hiring manager was under extreme stress to "get it right," or the team didn't yet know what they were looking for. I scheduled a call with the recruiter on April 23 to share that read.</p>
+
+    <p>She didn't push back. She said the structure was highly unusual, validated my read, and confirmed in the same conversation that the role was being paused to further define it. She also offered to connect me with other opportunities on the team and elsewhere at Amex. Four days later I closed the loop with the hiring manager directly.</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Kevin Middleton</span>
+        <span class="k">To:</span><span class="v">Hiring Manager</span>
+        <span class="k">Subject:</span><span class="v">Thank you</span>
+        <span class="k">Date:</span><span class="v">April 27, 2026</span>
+      </div>
+      <div class="email-body">Hi <span class="redacted">Hiring Manager</span>,
+
+<span class="redacted">Recruiter</span> let me know the role is being paused while the team works on further defining it. Totally understand. Getting the scope right matters more than rushing to fill a seat.
+
+I wanted to thank you for the time you spent with me across our conversations. Working through the Resy MCP architecture together was one of the more engaging interview processes I've been through, and it gave me a real sense of how your team thinks about these problems.
+
+If the role evolves or something else opens up on your team that could be a fit, I'd love to keep the conversation going. I'm easy to reach here or on LinkedIn.
+
+Thanks again. I hope our paths cross again.
+
+Kevin</div>
+    </div>
+
+    <p class="muted">Role pauses happen all the time. My one specific concern going in was working inside any group with "Labs" in the name, especially in an emerging product area where both the goalposts and the technology shift every quarter. I'd happily talk to this team again.</p>
+  </section>
+
+  <!-- 6. WHAT I'D DO DIFFERENTLY -->
+  <section>
+    <h2><span class="num">06</span>What I'd do differently</h2>
+
+    <p><strong>Push the recruiter to share round topics in advance.</strong> "Hi, what should I expect to focus on in the next conversation?" is a fair question. If the answer is "we don't share that," the candidate at least knows what they're walking into. I should have asked it once, gotten a no, and adjusted my prep accordingly. Walking into three rounds blind cost more than it should have.</p>
+
+    <p><strong>Address the "technical enough" doubt earlier and end it.</strong> I waited until round three to make the platform-PM-was-an-engineer case in full. By then the question was a pattern. If a doubt comes up in round one, I'd address it once, in writing, and follow with a concrete artifact. Don't let an open question travel three rounds.</p>
+
+    <p><strong>Build the prototype sooner.</strong> The prototype could have started after round one, not after round two. By the time round three landed I had three days of polish and the hiring manager had two days to read it. With another week, the Vision tab gets sharper, the eval framework gets a worked example, and the prototype carries even more weight.</p>
+  </section>
+
+  <!-- 7. DOWNLOADS -->
+  <section>
+    <h2><span class="num">07</span>Downloads</h2>
+    <p>The artifact is the live prototype, not a file. Click through it.</p>
+
+    <div class="downloads">
+      <a class="dl" href="https://middleton.io/prototypes/amex/" target="_blank" rel="noopener">
+        <span class="ext">LIVE</span>
+        <div>
+          <div class="name">Amex MCP prototype</div>
+          <div class="desc">Six interactive tabs. Customer journey, API endpoints, MCP server design, guardrails, vision, and how I use AI.</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span><a href="../">All slides</a> · <a href="https://middleton.io/">middleton.io</a></span>
+    <span><a href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></span>
+  </footer>
+
+</div>
+
+<script src="../theme.js" defer></script>
+</body>
+</html>

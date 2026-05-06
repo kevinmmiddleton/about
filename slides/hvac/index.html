@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HVAC.com: The Take-Home That Got the Yes · Slides I Made for Free</title>
+
+<meta name="description" content="How I got the Senior PM role at HVAC.com. The take-home brief, five rounds, a full-day onsite, the offer pressure, and what I'd change next time." />
+<meta name="author" content="Kevin Middleton" />
+<link rel="canonical" href="https://middleton.io/slides/hvac/" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="HVAC.com: The Take-Home That Got the Yes" />
+<meta property="og:description" content="The interview process for the role I accepted. Take-home brief, full-day onsite, offer accepted under pressure, and what I'd do differently." />
+<meta property="og:url" content="https://middleton.io/slides/hvac/" />
+<meta property="og:image" content="https://middleton.io/slides/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Slides I Made for Free." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://middleton.io/slides/og.png" />
+
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+
+<!-- FOUC prevention: applies the saved theme before paint -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('slides-theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) { /* private mode, ignore */ }
+  })();
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../slides.css" />
+
+<script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav class="topnav">
+    <a href="../" class="home">← Slides I Made for Free</a>
+    <div class="topnav-right">
+      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="eyebrow">HVAC.com</span>
+    <h1>The Take-Home That Got the Yes.</h1>
+    <p class="lede">
+      Senior Product Manager at HVAC.com, a Magenta Technologies brand and a joint venture of Trane Technologies and Red Ventures. The interview process started conversational, then turned into a two-hour take-home product exercise about connecting homeowners with top-quality contractors in under a day. Five remote rounds, a full-day onsite at Red Ventures HQ in South Carolina, and an offer I accepted under pressure. A large enterprise data compliance company was still working through their final round with me at the same time, but their hiring window was running behind. Here are the details on the role I actually took.
+    </p>
+    <div class="meta">
+      <span class="pill">Take-home + 5 rounds + full-day onsite</span>
+      <span class="pill">Live prototype</span>
+      <span class="pill good">Accepted (under pressure)</span>
+    </div>
+  </header>
+
+  <!-- 1. CONTEXT -->
+  <section>
+    <h2><span class="num">01</span>Context</h2>
+    <ul>
+      <li><strong>Company:</strong> HVAC.com, a brand owned and operated by Magenta Technologies, a joint venture of Trane Technologies and Red Ventures.</li>
+      <li><strong>Role:</strong> Senior Product Manager, owning the contractor experience side of the marketplace, reporting to the Head of Product. Remote (eligible for US-based candidates).</li>
+      <li><strong>Stage:</strong> A multi-round process. Recruiter screen, hiring manager, future colleague, engineering leader, CEO. After all of that, the CEO wanted to make sure I could roll up my sleeves, so I flew to Red Ventures HQ in Ft. Mill, South Carolina for a full-day onsite a week later.</li>
+      <li><strong>Audience for the take-home:</strong> The hiring manager, presented live, designed to spark debate.</li>
+      <li><strong>Audience at the onsite:</strong> HR director, CEO, CFO, the HVAC team for lunch, the senior director of engineering, an engineering manager, and HR again to wrap. Plus a collaboration session with the CEO, CFO, my would-be hiring manager, and my future product peer.</li>
+      <li><strong>Prep time:</strong> The brief said "no more than two hours." I pushed past that on the deck, but kept the substantive thinking inside that window.</li>
+      <li><strong>Outcome:</strong> Accepted, under pressure, with another offer process still running. The honest version is in section 05.</li>
+    </ul>
+  </section>
+
+  <!-- 2. THE PROMPT -->
+  <section>
+    <h2><span class="num">02</span>The prompt</h2>
+    <p>The brief came over email after the recruiter and hiring manager rounds. Reproduced here, lightly redacted.</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Hiring Manager, Magenta Technologies</span>
+        <span class="k">To:</span><span class="v">Kevin Middleton</span>
+        <span class="k">Subject:</span><span class="v">HVAC.com PM Exercise</span>
+        <span class="k">Date:</span><span class="v">January 16, 2024</span>
+      </div>
+      <div class="email-body">Hey Kevin,
+
+Thanks for chatting just now!
+
+For the next steps in the interview process, we would like to work through a product management exercise with you. You should plan to spend no more than two hours on this.
+
+The Exercise
+
+One of our high-priority initiatives is to connect homeowners with top-quality contractors in under one day. Please draft a short presentation to communicate the following:
+
+  • What hypothesis might you make, how will you address this hypothesis, and how would you validate the hypothesis?
+  • A hypothesis of two ideas to connect homeowners with top-quality contractors in under one day
+  • An introduction describing the features you would create
+  • KPIs you would use to measure its success
+  • Two example user stories that contain details for engineering to size this functionality
+
+The Interview
+
+We'd like you to present your work and answer questions about your ideation process and thinking. The goal is to stimulate debate around your presentation and for us to get to know each other better.
+
+Some questions might include:
+
+  • What was the process of identifying these specific ideas to present?
+  • How would they estimate the impact or opportunity of your suggestions?
+  • How would they prioritize between your ideas?
+
+Let me know if you have any questions!
+
+Cheers,
+<span class="redacted">Hiring Manager</span></div>
+    </div>
+
+    <p>I had questions before I started. The biggest ones were about how HVAC.com monetizes, contractor vetting, and whether there were demos of the current journey. The hiring manager's reply was the most useful possible answer:</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Hiring Manager, Magenta Technologies</span>
+        <span class="k">To:</span><span class="v">Kevin Middleton</span>
+        <span class="k">Subject:</span><span class="v">Re: HVAC.com PM Exercise</span>
+        <span class="k">Date:</span><span class="v">January 16, 2024</span>
+      </div>
+      <div class="email-body">Hey Kevin,
+
+Great questions! We appreciate the thoughtfulness.
+
+Being completely honest, this role will need to help define many of these things because we don't have them fully defined yet. So you should make assumptions and document those assumptions. This is a preview of what this role will need to do here: define value props and strategic advantages, then use lean releases to validate them.
+
+Cheers,
+<span class="redacted">Hiring Manager</span></div>
+    </div>
+
+    <p>Translation: the role is real, the scope is open, and the test is whether you can make defensible calls without a brief. That changed the assignment from "answer these five questions" to "show how you'd reason about this whole problem."</p>
+  </section>
+
+  <!-- 3. THE PROCESS -->
+  <section>
+    <h2><span class="num">03</span>The process</h2>
+
+    <h3>Read the room before researching the market</h3>
+    <p>The job listing itself was the first signal. The role is titled "Senior Product Manager (who plays the Hurdy-Gurdy)" with a virtual band gag and a list of disqualifiers that includes "Operate a John Deere MS11G Series Small Manure Spreader." That is not the language of an org that wants a corporate deck. It's the language of an org that wants a real person with a clear point of view. So I built the deck to be opinionated, not safe.</p>
+
+    <h3>Anchor in adjacent platforms that already solve a similar problem</h3>
+    <p>HVAC marketplace decisions have analogues: Kopperfield for EV charger installation, EnergySage for solar. Both run a homeowner through a structured questionnaire, then surface qualified providers based on that input. Both also handle scheduling immediately after match. I walked through both flows, captured screenshots, and used them as the comparative reference. Solar in particular felt like a similar problem that had already started to be solved, so I went in that direction. Looking at someone else's working answer to the same problem is the fastest way to argue for a direction without internal HVAC.com data to cite.</p>
+
+    <h3>Land on two specific bets, with a third as a hedge</h3>
+    <ul>
+      <li><strong>Option 1, HVAC Contractor Matching.</strong> A questionnaire-driven matching system that connects homeowners with suitable contractors based on stated needs, location, and contractor availability. With a note: this can run in reverse, where contractors bid for posted homeowner jobs.</li>
+      <li><strong>Option 2, Instant Scheduling.</strong> Once a homeowner confirms a match, they schedule directly through the platform, no phone tag, no multi-day handoff.</li>
+    </ul>
+    <p>Both target the "under one day" goal directly. Together they collapse the matching-to-scheduled-service window from days to minutes.</p>
+
+    <h3>Write user stories an engineer can actually size</h3>
+    <p>BDD format, Given/When/Then. Two scenarios per option (efficient matchmaking + contractor confirmation for matching, hassle-free scheduling + reminders and notifications for instant scheduling). Specific enough that an engineer reading it could ballpark a sprint estimate. That was the explicit ask in the brief.</p>
+
+    <h3>Define KPIs that match the assumed monetization</h3>
+    <p>The hiring manager told me to assume and document. I assumed referral-fee monetization (contractor pays for the successful match), then wired Referral Fee Revenue into both feature scorecards. Primary KPIs were conversion rate (questionnaire to match for matching, time to schedule for instant scheduling) and user satisfaction. Secondary KPIs covered match accuracy, time from match to service, and the referral revenue line.</p>
+
+    <h3>Prioritize with RICE, show the math</h3>
+    <p>For the prioritization question the brief explicitly called out, I built a RICE table comparing the two proposed features against five future-roadmap candidates (reminders/notifications, AI-powered recommendations, "HVAC.com Express" guaranteed match, payment integration, partnerships). Spelled out my assumptions for each axis (0-10 scale on Reach, Impact, Confidence, Effort) and put the actual math under the table so the panel could push back on individual numbers without burning the whole framework.</p>
+    <p class="muted">For the record: my first pass at the math was wrong, and I caught it before submitting. The corrected version had Instant Scheduling at the top, Matchmaking second.</p>
+
+    <h3>Validate with A/B testing, not vibes</h3>
+    <p>The brief asked how I'd validate the hypothesis. I closed with an A/B testing approach: segment users between the existing flow and the new questionnaire-plus-scheduling flow, instrument both for engagement, conversion, and time-to-schedule, run user feedback surveys, and use the cohort comparison to decide whether to expand the new flow.</p>
+
+    <h3>Tools used</h3>
+    <ul>
+      <li><a href="https://ia.net/presenter" target="_blank" rel="noopener">iA Presenter</a> for the original deck. Markdown-driven, exports to standalone HTML, lets me iterate on content without fighting layout. The export went straight onto my personal site so I could send the panel a link, not an attachment.</li>
+      <li>This was the first time I treated my personal website as a portfolio surface for live work. The link-not-an-attachment move was deliberate. It comes across differently in a hiring conversation: it says "I'm someone who ships work where it lives, not in a folder."</li>
+      <li>ChatGPT as a thinking partner for the comparative analysis, RICE math sanity-check, and structural critique. I drove the structure and the calls; the tool sped up the editing pass.</li>
+      <li>Kopperfield and EnergySage as the live-flow research reference.</li>
+      <li>HVAC.com's existing public site (QuoteScore feature, About page, contractor topics) for current-state reference.</li>
+    </ul>
+  </section>
+
+  <!-- 4. THE DELIVERABLE -->
+  <section>
+    <h2><span class="num">04</span>The deliverable</h2>
+    <p>I'm sharing two versions side by side. The first is what I actually sent the hiring manager in 2024, exported from iA Presenter and dropped on my personal site. Putting it on the web wasn't required. The brief said "short presentation," and most candidates would attach a PDF. I wanted to wow them, and I wanted to put a flag down on my own site as a portfolio surface for live work. Look at the layout in the first embed below. It's fine. It's also clearly someone figuring out what their site can do. The current version is the same content, rebuilt with two more years of taste. Together they're the most honest answer I can give to "do I think my work gets better over time."</p>
+
+    <h3>What I sent in 2024</h3>
+    <iframe
+      class="embed"
+      src="https://middleton.io/prototypes/hvac/index-keynote-archive.htm"
+      frameborder="0"
+      title="HVAC.com Product Challenge,original 2024 version">
+    </iframe>
+    <p class="muted"><a href="https://middleton.io/prototypes/hvac/index-keynote-archive.htm" target="_blank" rel="noopener">Open the original in a new tab ↗</a></p>
+
+    <h3>Where it lives today</h3>
+    <iframe
+      class="embed"
+      src="https://middleton.io/prototypes/hvac/"
+      frameborder="0"
+      title="HVAC.com Product Challenge,current portfolio version">
+    </iframe>
+    <p class="muted"><a href="https://middleton.io/prototypes/hvac/" target="_blank" rel="noopener">Open the current version in a new tab ↗</a></p>
+  </section>
+
+  <!-- 5. HOW IT WENT -->
+  <section>
+    <h2><span class="num">05</span>How it went</h2>
+
+    <p>I presented the deck live to the hiring manager. The conversation skipped past "is this thorough enough" almost immediately and went straight to debate over which of the two options to ship first, what assumptions I'd made about contractor inventory, and how I'd validate the under-one-day claim. That's the conversation the brief was set up to produce. We had it.</p>
+
+    <p>From there the process moved fast. Conversations with the future colleague, engineering leader, and the CEO. The signal was good throughout. The CEO's only remaining question was whether I'd be hands-on enough for a small org with no clear scope yet. So they flew me to Red Ventures HQ in South Carolina for a full-day onsite to find out.</p>
+
+    <h3>The full-day onsite</h3>
+    <p>The agenda, in order: HR director to start, then CEO and CFO together, a collaboration session with the CEO, CFO, my would-be hiring manager, and my future product peer, lunch with the HVAC team, the senior director of engineering, an engineering manager, and back to HR to wrap. I met the engineering leader twice. I left for the airport by 4 PM.</p>
+    <p>The point of the day was not the deck. The deck had already done its job. The point was to make sure I'd be effective in the room with the people I'd actually work with.</p>
+
+    <h3>The offer pressure</h3>
+    <p>Recruiting told me I could take my time deciding. Reasonable. I had another process running in parallel at a large enterprise data compliance company, with one round left there. Then the hiring manager got insistent that I accept theirs. Not aggressive, but the "take your time" runway shortened with each conversation. Under pressure, I accepted.</p>
+
+    <p>The other process was running behind its own promised timelines around the same time. I withdrew from it. I started at HVAC.com.</p>
+
+    <p>The honest read: the enterprise data compliance role might have been the better strategic fit. The teams were larger, the surface area bigger, the stretch closer to where I was trying to grow. I won't know now, because I withdrew before that process closed.</p>
+  </section>
+
+  <!-- 6. WHAT I'D DO DIFFERENTLY -->
+  <section>
+    <h2><span class="num">06</span>What I'd do differently</h2>
+
+    <p><strong>Run both processes in parallel until both finish.</strong> The cleanest version of this is: accept HVAC.com's offer, finish the other process, and deal with whatever fallout the other timeline produces. Worst case, the other offer doesn't materialize and I'm in a job I want anyway. Best case, I have two real offers in hand and can make a real decision. What I did instead was let urgency from one side collapse my optionality on the other, and that's the part I'd reverse.</p>
+
+    <p><strong>Push back on "you can take your time" when it stops being true.</strong> The recruiter said one thing, the hiring manager's behavior said another. Naming that gap directly ("I want to make sure I'm reading the actual urgency here, not the polite version of it") would have given me cleaner ground to negotiate one more week. Even if the answer was "no, we need an answer Friday," that's still useful information.</p>
+
+    <p><strong>Keep prep capped at the brief.</strong> The exercise said no more than two hours. I went over on production polish. The substantive thinking fit inside two hours. The extra time on slide aesthetics didn't move the needle in the room. Inside the actual hiring window, that time would have been better spent prepping for the onsite or doing diligence on the parallel process.</p>
+
+    <p><strong>Document my own assumptions before researching analogues.</strong> I jumped to Kopperfield and EnergySage early because they were good comparatives. The stronger version writes my own first take in 20 minutes, then uses the comparatives to pressure-test it. I wrote the answer; the comparatives confirmed it. They'd have done more if I'd let them disagree with me first.</p>
+
+    <p><strong>Treat the prototype as a working artifact for the role, not a one-time deliverable.</strong> The 2024 version was a one-shot. The version on my portfolio today is the same content rebuilt with two more years of craft. The lesson I took forward, and the lesson that produced this whole "Slides I Made for Free" project: the deck for the interview is also a piece of public work. It can keep getting better after the interview is over. That ongoing iteration is itself a signal about how I think.</p>
+  </section>
+
+  <!-- 7. DOWNLOADS -->
+  <section>
+    <h2><span class="num">07</span>Downloads</h2>
+    <p>The artifact is the live prototype. The source repo is also linked.</p>
+
+    <div class="downloads">
+      <a class="dl" href="https://middleton.io/prototypes/hvac/index-keynote-archive.htm" target="_blank" rel="noopener">
+        <span class="ext">LIVE</span>
+        <div>
+          <div class="name">Original 2024 version</div>
+          <div class="desc">The iA Presenter export I actually sent to the hiring manager.</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="dl" href="https://middleton.io/prototypes/hvac/" target="_blank" rel="noopener">
+        <span class="ext">LIVE</span>
+        <div>
+          <div class="name">Current portfolio version</div>
+          <div class="desc">Same content, rebuilt with two more years of craft.</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="dl" href="https://github.com/kevinmmiddleton/about/tree/main/prototypes/hvac" target="_blank" rel="noopener">
+        <span class="ext">REPO</span>
+        <div>
+          <div class="name">Source on GitHub</div>
+          <div class="desc">The HTML and CSS that makes both versions run, plus the iA Presenter source.</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span><a href="../">All slides</a> · <a href="https://middleton.io/">middleton.io</a></span>
+    <span><a href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></span>
+  </footer>
+
+</div>
+
+<script src="../theme.js" defer></script>
+</body>
+</html>

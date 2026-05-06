@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Applause: When the Interview Is Just Free Consulting · Slides I Made for Free</title>
+
+<meta name="description" content="A 45-minute interview that turned into a live strategy session on the company's real product. I gave the work. They ghosted. A cautionary tale." />
+<meta name="author" content="Kevin Middleton" />
+<link rel="canonical" href="https://middleton.io/slides/applause/" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Applause: When the Interview Is Just Free Consulting" />
+<meta property="og:description" content="A live interview 'case study' that mapped directly to the company's real product. I gave the work. They ghosted. The pattern is worth knowing." />
+<meta property="og:url" content="https://middleton.io/slides/applause/" />
+<meta property="og:image" content="https://middleton.io/slides/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Slides I Made for Free." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://middleton.io/slides/og.png" />
+
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+
+<!-- FOUC prevention: applies the saved theme before paint -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('slides-theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) { /* private mode, ignore */ }
+  })();
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../slides.css" />
+
+<script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav class="topnav">
+    <a href="../" class="home">← Slides I Made for Free</a>
+    <div class="topnav-right">
+      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="eyebrow">Applause</span>
+    <h1>When the Interview Is Just Free Consulting.</h1>
+    <p class="lede">
+      A 45-minute "product call" with the founder of a small iOS app studio. No take-home. The exercise was live and walked me through their actual product, with their actual funnel numbers, and asked me to meaningfully improve revenue over 60 to 90 days. I gave real strategic product thinking on the spot. The founder said he'd be in touch either way. He never was. There's no deck for this entry. There's a pattern, and that's the point.
+    </p>
+    <div class="meta">
+      <span class="pill">45-min live exercise</span>
+      <span class="pill">No deliverable</span>
+      <span class="pill bad">Ghosted</span>
+    </div>
+  </header>
+
+  <!-- 1. CONTEXT -->
+  <section>
+    <h2><span class="num">01</span>Context</h2>
+    <ul>
+      <li><strong>Company:</strong> Applause, a small consumer iOS app studio (roughly 11 to 50 employees) at applause.dev. Their core marketed product is a fall-detection app with a paid subscription model, plus a seizure-detection app in the same portfolio.</li>
+      <li><strong>Role:</strong> Senior Product Manager.</li>
+      <li><strong>Stage:</strong> A single 45-minute "product call" with the founder over Google Meet. No earlier rounds, no take-home. The case study was conducted live inside the call.</li>
+      <li><strong>Audience:</strong> The founder, alone. I thought I was talking to a recruiter. The first email signed off as the founder, but the message felt like recruiter outreach: "Thank you again for taking the time to apply... we'd love to set up a product call." At a normal-sized company that's a recruiter's voice, not a hiring manager's. At a company this small there is no recruiter, and that's a signal in itself.</li>
+      <li><strong>Prep time:</strong> A normal recruiter screen's worth. I went in expecting a behavioral-and-fit conversation. The case study was a surprise.</li>
+      <li><strong>Outcome:</strong> Ghosted. The founder said "I'll be in touch either way" at the end of the call. I never heard from him again.</li>
+    </ul>
+  </section>
+
+  <!-- 2. THE PROMPT -->
+  <section>
+    <h2><span class="num">02</span>The "prompt"</h2>
+    <p>The exercise was given verbally, in the call, with no warning. Paraphrased from my notes:</p>
+
+    <div class="callout">
+      <div class="label">The brief, as delivered live</div>
+      <p>"Meaningfully improve revenue over the next 60 to 90 days. Break it down and identify what metric you'd personally own in the first 30 days, and why."</p>
+      <p>Available levers, also stated in the call: engineering, lifecycle tools, mobile analytics, paywall automation.</p>
+    </div>
+
+    <p>Then the founder shared the actual product funnel, the actual conversion numbers, and the actual UX problem he was trying to solve. Reproduced from memory:</p>
+
+    <ul>
+      <li><strong>Install → Onboarding:</strong> 95% completion</li>
+      <li><strong>Onboarding → Sign Up:</strong> 50% drop-off</li>
+      <li><strong>Sign Up → Paywall:</strong> 50% conversion</li>
+      <li><strong>Paywall → Core Experience → Pairing Sequence → Pair Acceptance:</strong> 80% pair acceptance</li>
+      <li><strong>Sign Up form fields:</strong> name, email, phone number, plus the loved one's contact info</li>
+    </ul>
+
+    <p>That is not a hypothetical case. That is a working product's actual funnel, presented as an interview question.</p>
+  </section>
+
+  <!-- 3. THE PROCESS -->
+  <section>
+    <h2><span class="num">03</span>What I did in the room</h2>
+
+    <p>I gave real product thinking. I'd already started, so I'm not going to pretend otherwise here.</p>
+
+    <h3>Asked for the data behind the data</h3>
+    <p>Where exactly are users dropping off? What's the pair acceptance rate today? What's the competitive landscape, given that Apple already ships fall detection at the OS level? How are pairs being messaged today, and who initiates the pairing flow?</p>
+
+    <h3>Identified the levers</h3>
+    <p>Push reminders, A/B messaging across in-app and outbound channels, friction reduction in the sign-up form, error and support handling, design and UX work, and broader funnel optimization.</p>
+
+    <h3>Picked the right step to fix</h3>
+    <p>50% drop-off at sign-up after 95% onboarding completion is a screaming signal. Users who finish onboarding have already said yes twice. Then they bounce at a form. That is a friction problem, not a value problem, and it sits high enough in the funnel that fixing it has a multiplier effect on every downstream step including the paywall. So I argued for sign-up completion as the metric to own in the first 30 days.</p>
+
+    <h3>Proposed a specific tactic</h3>
+    <p>Sign-up completion reminders, using the contact data the funnel already collects. Push tokens, phone numbers, and email are all captured during the flow. For users who drop off at sign-up, re-engage through all three channels. And since the sign-up step also collects the loved one's contact info, you can nudge the loved one to nudge the primary user back. That last part is a unique lever most apps don't have. The product's own social mechanic becomes a growth tool.</p>
+
+    <p>None of that is generic advice. It's specific to their funnel, their data, and their value proposition. It's a starting point a product team could build a real 30-day experiment on.</p>
+  </section>
+
+  <!-- 4. WHAT I HANDED OVER -->
+  <section>
+    <h2><span class="num">04</span>What I handed over</h2>
+    <p>No deck. No download. No deliverable. The exercise was live and the work happened in real time on a Google Meet. We both took notes, and that was the end of the call.</p>
+    <p>The strongest version of my recommendation, condensed:</p>
+    <div class="callout">
+      <div class="label">The recommendation, in one paragraph</div>
+      <p>The 30-day metric to own is sign-up completion rate. Currently 50%. Target 65 to 70% within 30 days. Run reminders across push, SMS, and email to users who drop off at sign-up. Layer in reminders to the paired loved one for users who provided that info. In parallel, A/B test a simplified sign-up form to attack friction directly. Both tests share infrastructure (lifecycle tools, mobile analytics, paywall automation, all of which were named as available). The compound effect of stopping leakage at sign-up flows downstream into paywall conversion and pair acceptance, which means the same 30-day investment lifts everything below it in the funnel.</p>
+    </div>
+    <p>Then the founder mentioned, casually, that they also have a seizure-detection app with the same UX patterns and the same flow challenges. It was in that exact moment I realized I just gave them free product consulting. He said he'd be in touch either way.</p>
+    <p>He wasn't.</p>
+  </section>
+
+  <!-- 5. HOW IT WENT -->
+  <section>
+    <h2><span class="num">05</span>How it went</h2>
+
+    <p>In the moment, the call went well. The founder engaged with the funnel diagnosis, agreed with the choice of sign-up as the priority, and pulled on threads about the loved-one-as-re-engagement-vector. The conversation felt like a working product review, not an interview.</p>
+
+    <p>Honestly, I missed the warning. It was my first call with the company, and I'd gone in expecting a recruiter-style intro about the role. We did a little of that, then jumped to hiring-manager territory fast. It felt intense. I chugged along because that's what you do, and at the time I didn't have the experience yet to recognize what was actually happening.</p>
+
+    <h3>The pattern</h3>
+
+    <p>Three things together would have given me the warning, and I missed all three.</p>
+
+    <p><strong>The exercise was their actual product, not a case study.</strong> Specific funnel numbers. Specific conversion drops. Real available tools. Real time horizon (60 to 90 days). That's a roadmap conversation dressed up as an interview question.</p>
+
+    <p><strong>The portfolio is structurally fragile.</strong> The two apps I know about, both surfaced during the call, sit squarely in territory Apple has already partially absorbed and could absorb the rest of at any WWDC.</p>
+    <ul>
+      <li><strong>Fall detection app:</strong> Apple Watch has shipped fall detection at the OS level since Series 4 in 2018. What's left for this app to own is the flow itself: where users get stuck, who's actually getting paired and how. Facebook's old stickiness rule was that a user needed 7 friends to stay engaged. Apps like this one need their version of that number, then need to use notifications and reminders to get users there.</li>
+      <li><strong>Seizure detection app:</strong> The founder mentioned this one at the end of the call as a follow-up opportunity. Same UX, same flow, same product family. Apple Watch already does irregular rhythm and arrhythmia detection at the OS level. Seizure detection is in the same product family.</li>
+    </ul>
+    <p>Both apps are paid subscriptions on top of detection capabilities that Apple either already does or is one watchOS announcement away from doing. That's the definition of <a href="https://en.wikipedia.org/wiki/Sherlock_(software)#Sherlocked" target="_blank" rel="noopener">being Sherlocked</a>: when an OS vendor ships a native version of what your app does and the third-party app becomes redundant. Honestly, I don't think these apps have legs, even short term. That's lived product sense talking, not market doom-saying. I noted the Sherlocking risk in the call. The fact that it didn't change the conversation is itself a signal about how the founder is thinking about strategy.</p>
+
+    <p><strong>The marketing and the reality didn't match.</strong> Their marketing language emphasizes excellent, elegant, ethical design. Their actual website does not match that copy. When the surface a company shows the world doesn't match the surface they describe themselves with, the same gap usually shows up in how they treat candidates.</p>
+
+    <h3>The silence</h3>
+
+    <p>"I'll be in touch either way" is the default polite close. It usually means yes. Sometimes it means no. It very rarely means silence. Silence is the most expensive answer for a candidate, because it leaves you holding the question of whether to follow up, and how, and how many times, before it stops being respectful and starts being needy.</p>
+
+    <p>I didn't follow up. There was no version of the follow-up that would have produced useful information. The product call was the entire process. There was nothing to schedule, no panel to debrief, no recruiter as an intermediary to push.</p>
+  </section>
+
+  <!-- 6. WHAT I'D DO DIFFERENTLY -->
+  <section>
+    <h2><span class="num">06</span>How to spot it next time</h2>
+
+    <p>This entry exists because the pattern is worth naming. If you're a candidate prepping for a "product call" with a small company and the brief lands like this, here's what I'd watch for.</p>
+
+    <p><strong>If the case study uses real numbers, the case study is a working session.</strong> A real interview exercise abstracts the data. "A consumer subscription app with a 50% sign-up drop-off" is a case study. "Our app's actual funnel, here are our exact numbers" is a working session. The first protects both sides. The second extracts.</p>
+
+    <p><strong>If the brief specifies their actual time horizon, watch the time horizon.</strong> "Improve revenue in the next 60 to 90 days" is the kind of frame an internal team uses. A real interview exercise would say "in the next quarter" or "as a six-month plan." Specific real-world time horizons inside an interview question almost always come from the company's actual planning cycle.</p>
+
+    <p><strong>If they mention a second product they'd want help with, the call is a sales pitch.</strong> "We also have this other app with similar challenges" at the end of an exercise is the founder testing whether you'll work on more than one thing. That's a roadmap conversation, not a hiring decision.</p>
+
+    <p><strong>If the format is "live exercise, single round," ask about the rest of the process up front.</strong> Real hiring processes have steps. If a 45-minute call is presented as the whole interview for a senior IC role, the company has either dramatically simplified its hiring (rare) or is not actually planning to make a hire (less rare than it should be).</p>
+
+    <p><strong>If you can't tell whether you're talking to a recruiter or the hiring manager, ask.</strong> "Just to confirm before we get started, are you the hiring manager for this role, or are you in recruiting?" is a fair sentence. The answer tells you what kind of conversation you're in. If the founder is doing their own first-round outreach, the company either doesn't have a recruiting function yet (small) or is operating without one for this role (signal). Either reading changes how you'd prep.</p>
+
+    <h3>What I should have done</h3>
+
+    <p><strong>Asked the format question before the call started.</strong> "Is this round a behavioral fit conversation or a structured product exercise? If it's the second one, what scope should I prep for?" That single email shifts the dynamic from "I'm walking into a surprise" to "I know what I'm walking into."</p>
+
+    <p><strong>Asked for next steps explicitly before ending the call.</strong> "What does the rest of your process look like, and when should I expect to hear back?" forces the conversation into specifics. "I'll be in touch either way" survives ambiguity. A direct question doesn't.</p>
+
+    <h3>Why I'm publishing it</h3>
+
+    <p>This entry is a cautionary tale. Protect your energy. Look for clues when you might be getting farmed for ideas instead of interviewing for a role.</p>
+  </section>
+
+  <!-- 7. NO DOWNLOADS -->
+  <section>
+    <h2><span class="num">07</span>Downloads</h2>
+    <p>None. The exercise was live, the work was verbal, and the only artifact is the story above. That's part of the point.</p>
+  </section>
+
+  <footer class="foot">
+    <span><a href="../">All slides</a> · <a href="https://middleton.io/">middleton.io</a></span>
+    <span><a href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></span>
+  </footer>
+
+</div>
+
+<script src="../theme.js" defer></script>
+</body>
+</html>

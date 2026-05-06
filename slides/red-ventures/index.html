@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Red Ventures: When "Hypothetical" Was a Live Marketplace · Slides I Made for Free</title>
+
+<meta name="description" content="A take-home for a Red Ventures PM role. The 'hypothetical' case was one of their actual brands. I sent the work, then asked them not to use it." />
+<meta name="author" content="Kevin Middleton" />
+<link rel="canonical" href="https://middleton.io/slides/red-ventures/" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Red Ventures: When 'Hypothetical' Was a Live Marketplace" />
+<meta property="og:description" content="A take-home where the 'hypothetical' case was their actual brand. I sent the recommendation. Then I sent the letter." />
+<meta property="og:url" content="https://middleton.io/slides/red-ventures/" />
+<meta property="og:image" content="https://middleton.io/slides/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Slides I Made for Free." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://middleton.io/slides/og.png" />
+
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+
+<!-- FOUC prevention: applies the saved theme before paint -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('slides-theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) { /* private mode, ignore */ }
+  })();
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../slides.css" />
+
+<script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav class="topnav">
+    <a href="../" class="home">← Slides I Made for Free</a>
+    <div class="topnav-right">
+      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="eyebrow">Red Ventures</span>
+    <h1>When "Hypothetical" Was a Live Marketplace.</h1>
+    <p class="lede">
+      Group AI Product Manager, Consumer, on the marketplace team in Red Ventures' Home Client Services division. Two rounds and a take-home. The take-home was a "Choose Texas Power" case study with the words "this is a hypothetical case for the purpose of evaluation" at the top. Choose Texas Power is one of their actual brands. The case described their actual marketplace, their actual REP partners, and their actual emerging tensions. I wrote the recommendation. Then I wrote the letter asking them not to use it.
+    </p>
+    <div class="meta">
+      <span class="pill">Recruiter screen + HM round + take-home</span>
+      <span class="pill">2 to 3 hours of work</span>
+      <span class="pill bad">Did not advance</span>
+    </div>
+  </header>
+
+  <!-- 1. CONTEXT -->
+  <section>
+    <h2><span class="num">01</span>Context</h2>
+    <ul>
+      <li><strong>Company:</strong> Red Ventures, a portfolio holding company. The Home Client Services division operates marketplaces across telecom, security, energy, and home automation. Sister brands include The Points Guy, Lonely Planet, Bankrate, MyMove, and (until its 2024 acquisition by Trane) HVAC.com, which is where I had previously worked.</li>
+      <li><strong>Role:</strong> Group AI Product Manager, Consumer. $185-230K base plus equity, hybrid out of South Charlotte HQ. The role's mandate, paraphrased from the JD: lead AI product initiatives that materially move the economics of the marketplace through AI-powered solutions, manage 2+ PMs, own P&amp;L impact.</li>
+      <li><strong>Stage:</strong> Two rounds plus a take-home. Recruiter screen mid-January, hiring manager interview with the VP of Data on January 27, take-home assigned January 28, submitted February 2, rejected February 3.</li>
+      <li><strong>Audience for the take-home:</strong> Two-page written document evaluated asynchronously by the hiring team. No follow-up presentation.</li>
+      <li><strong>Prep time:</strong> The brief said two to three hours. I asked for and received an extension to Monday end of day. Submitted the assessment to a Google folder the recruiter had shared with me.</li>
+      <li><strong>Outcome:</strong> Did not advance. Boilerplate rejection with "due to an HR policy, we are unable to provide feedback on your work." Same afternoon, I sent the recruiter a written feedback email with an explicit do-not-use clause. The recruiter wrote back the next day acknowledging the concerns and confirming, in writing, that the work would not be used.</li>
+    </ul>
+  </section>
+
+  <!-- 2. THE PROMPT -->
+  <section>
+    <h2><span class="num">02</span>The prompt</h2>
+
+    <p>The take-home arrived the morning after the hiring manager round. The opening line on the brief reads: "This is a hypothetical case for the purpose of evaluation." The next two pages describe the actual Choose Texas Power marketplace, the actual REP (Retail Electricity Provider) partner ecosystem, and the actual tensions Red Ventures was navigating as the experience evolved.</p>
+
+    <p>Three tensions named in the brief:</p>
+
+    <ol>
+      <li><strong>REP incentives vs. customer fit.</strong> REPs make more money when customers pay higher effective rates. Plans that fit customers better are sometimes less profitable for REPs. As matching becomes more customer-centric, partners push back.</li>
+      <li><strong>Partner mix shifts.</strong> The new ranking approach is changing which REPs receive orders. Winners and losers create negotiation pressure.</li>
+      <li><strong>Explainability vs. breakage.</strong> More data collection and education improves understanding but increases drop-off. Less explanation increases speed but produces dissatisfaction. The experience is "only slightly contribution-margin positive."</li>
+    </ol>
+
+    <p><strong>The task:</strong> "You are the product lead on this marketplace experience. Recommend ONE focused change you would make in the next quarter to improve the long-term health of the marketplace." Two pages max. Cover problem framing, recommendation, trade-offs, success metrics. Quality of reasoning over completeness.</p>
+
+    <p>The full brief is below and downloadable.</p>
+
+    <iframe
+      class="embed"
+      src="files/Choose-Texas-Power-Take-Home.pdf"
+      title="Choose Texas Power Take-Home brief">
+    </iframe>
+    <p class="muted"><a href="files/Choose-Texas-Power-Take-Home.pdf" target="_blank" rel="noopener">Open the brief in a new tab ↗</a></p>
+  </section>
+
+  <!-- 3. THE PROCESS -->
+  <section>
+    <h2><span class="num">03</span>The process</h2>
+
+    <h3>Treat the brief as the brief, not as the test</h3>
+    <p>Two-pages-max with quality-of-reasoning over completeness is a real constraint. I built the recommendation around one specific bet, defended it explicitly, and accepted what I'd left out. No hedging across multiple ideas. No appendix.</p>
+
+    <h3>Reframe the three tensions to one root</h3>
+    <p>The brief lists REP incentives, partner mix shifts, and explainability vs. breakage as separate tensions. I argued they share a root: customers converting without confidence creates downstream problems for everyone. Trust is the leverage point. If customers trust the match, they stay longer. If they stay longer, REP longevity payouts work as designed. If those work, partner tension softens. That's the spine of the recommendation.</p>
+
+    <h3>Borrow from real, lived experience</h3>
+    <p>I'd worked at HVAC.com for nearly two years and went through its acquisition by Trane. Same dynamics: a confusing product category, consumers who need directional guidance, and what we called the Inequitable Power Dynamic, where the person you're seeking help from knows far more than you do. Building trust isn't optional in those environments.</p>
+    <p>The submission cites specific HVAC.com numbers. I inherited a 2M-annual-visitor site at 0.1% conversion. Interactive calculators that delivered clarity (repair or replace, system sizing, energy savings) peaked at ~7.3% conversion. That's a 50x lift from baseline. QuoteScore, the same value-first-commitment-second pattern applied to contractor quotes, was sunset after the Trane acquisition because scoring competitor brands' quotes was deemed anticompetitive. Trane's System Recommender Tool, which I helped inform, lives in NC, SC, FL, GA, TX, and AZ today and is rolling out nationwide.</p>
+
+    <h3>Pick one recommendation. Defend it.</h3>
+    <p><strong>The recommendation:</strong> make the AI's reasoning legible by showing customers the estimated actual monthly cost and the specific usage assumptions that make the matched plan a fit. Not more explanation. Better explanation, scoped to deliver an "aha moment" that earns the next step.</p>
+    <p>Trade-offs were named explicitly. Optimizing for trust and retention, accepting that short-term order volume might dip, accepting that REP differentiation beyond price isn't addressed in this iteration. Three primary metrics: order conversion (modest lift or hold expected, not a spike), 90-day retention (the metric that matters most), REP longevity-bonus payouts (the lagging indicator that aligns partner incentives). A specific kill-switch: if conversion drops more than 10% without a corresponding lift in retention within 90 days, revisit the presentation of the explanation, not the principle.</p>
+
+    <h3>Tools used</h3>
+    <ul>
+      <li>The brief itself, the JD, and Choose Texas Power's live website for current-state reference.</li>
+      <li>My HVAC.com and Trane operating experience for the comparable-marketplace pattern.</li>
+      <li>Notes from the hiring manager interview, where the conversation had gone deep on AI use cases (voice agents, agent-assist, agentic workflows for sales) and surfaced how this team thinks about funnel measurement vs. qualitative research.</li>
+      <li>Google Docs to draft, then PDF for submission.</li>
+    </ul>
+  </section>
+
+  <!-- 4. THE DELIVERABLE -->
+  <section>
+    <h2><span class="num">04</span>The deliverable</h2>
+    <p>Two-page PDF, embedded below and downloadable. The full submission as I sent it.</p>
+
+    <iframe
+      class="embed"
+      src="files/Kevin-Middleton-RedVentures-Submission.pdf"
+      title="Kevin Middleton's submission to Red Ventures">
+    </iframe>
+    <p class="muted"><a href="files/Kevin-Middleton-RedVentures-Submission.pdf" target="_blank" rel="noopener">Open the submission in a new tab ↗</a></p>
+  </section>
+
+  <!-- 5. HOW IT WENT -->
+  <section>
+    <h2><span class="num">05</span>How it went</h2>
+
+    <p>The hiring manager round had been good. We'd talked about voice agents, agent-assist tooling, agentic workflows in deregulated energy sales, and how to measure AI applications in funnels. The HM had himself surfaced the connection between the work he was describing and HVAC.com. I followed up that night with a thank-you email I felt good about. The next morning, the recruiter wrote that the team wanted to move forward and sent the take-home.</p>
+
+    <p>I asked for and received a deadline extension to Monday end of day. I submitted Monday morning. The rejection arrived the following day at 10:59 AM.</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Recruiter, Red Ventures</span>
+        <span class="k">To:</span><span class="v">Kevin Middleton</span>
+        <span class="k">Subject:</span><span class="v">Red Ventures | Take Home Project</span>
+        <span class="k">Date:</span><span class="v">February 3, 2026, 10:59 AM ET</span>
+      </div>
+      <div class="email-body">Hi Kevin,
+
+I hope you are doing well! I wanted to extend my gratitude for the time you invested in our interview process and your willingness to complete the Take Home Technical Assessment. Our team enjoyed the opportunity to review your work.
+
+We were impressed by many of your qualifications; however after much consideration, we have decided to instead move forward in the process with other candidates. Regrettably, due to an HR policy, we are unable to provide feedback on your work.
+
+Thank you again for the chance to interview you. I wish you best of luck in all your future endeavors.
+
+Best,
+<span class="redacted">Recruiter</span></div>
+    </div>
+
+    <p>I sat with that for a few hours. Then I wrote back.</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Kevin Middleton</span>
+        <span class="k">To:</span><span class="v">Recruiter, Red Ventures</span>
+        <span class="k">Subject:</span><span class="v">Re: Red Ventures | Take Home Project</span>
+        <span class="k">Date:</span><span class="v">February 3, 2026, 4:21 PM ET</span>
+      </div>
+      <div class="email-body">Hi <span class="redacted">Recruiter</span>,
+
+Thank you for the update.
+
+While I appreciate the initial conversations, I must provide direct feedback on your process. The "hypothetical" case study for Choose Texas Power analyzing the core tensions between REP incentives, partner mix shifts, and explainability in your live marketplace was not hypothetical. It was a request for a strategic solution to a documented, current challenge facing one of RedVentures' own brands.
+
+Requesting 2-3 hours of detailed product strategy to solve a real business problem, followed by a boilerplate rejection with zero feedback, crosses an ethical line from assessment into free consulting. I am confident the recommendation I provided was of high quality and directly actionable for the Choose Texas Power platform.
+
+<span class="highlight"><strong>To be explicit</strong>: this work was submitted in confidence for the evaluation of my candidacy only. It is not authorized for any internal use, implementation, or derivation of ideas by RedVentures or its partners.</span>
+
+This practice exploits candidate time, damages your employer brand with the very professionals you seek to hire, and will rightfully deter serious talent. I hope this is reviewed internally.
+
+Regards,
+Kevin Middleton</div>
+    </div>
+
+    <p>The recruiter wrote back the next afternoon.</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Recruiter, Red Ventures</span>
+        <span class="k">To:</span><span class="v">Kevin Middleton</span>
+        <span class="k">Subject:</span><span class="v">RE: Red Ventures | Take Home Project</span>
+        <span class="k">Date:</span><span class="v">February 4, 2026, 5:03 PM ET</span>
+      </div>
+      <div class="email-body">Hi Kevin,
+
+Thank you for sharing your perspective and feedback. I appreciate the time and thought you put into the assessment and understand this was ultimately a frustrating experience.
+
+I want to clarify that the case study is used solely to evaluate how candidates approach complex, real-world product problems. While the challenges presented in the case are real challenges, they have been solved for by our internal team. Submissions are not considered for our business' application, implemented, or used internally beyond the hiring evaluation. Your work remains your own, is treated as confidential, and will not be used for any Red Ventures benefit.
+
+I appreciate you feeling comfortable raising these concerns with me. I will share your feedback with our team and leadership as we continue to review our assessment process.
+
+I wish you the best in your job search.
+
+Regards,
+<span class="redacted">Recruiter</span></div>
+    </div>
+
+    <h3>What that exchange actually establishes</h3>
+
+    <p>Two things on record now. First: the challenges in the case were real challenges (the recruiter confirms it). The "hypothetical" framing on the brief was procedural cover, not an accurate description of the case. Second: in writing, my work is treated as confidential and will not be used for any Red Ventures benefit. That commitment is on file.</p>
+  </section>
+
+  <!-- 6. WHAT I'D DO DIFFERENTLY -->
+  <section>
+    <h2><span class="num">06</span>What I'd do differently</h2>
+
+    <p><strong>Nothing about the work itself, and nothing about the letter.</strong> The submission is good. I stand by every section of it. I'd write the do-not-use letter again, the same way, in the same tone, the same afternoon. The takeaway here is for hiring teams, not for me.</p>
+
+    <p><strong>Where the work has changed how I'd handle the next one.</strong> Before accepting a take-home that uses a "hypothetical" case, I'd ask one question in writing: "Is this scenario abstracted from your actual products, brands, or partners, or does it map to a current internal problem?" That question is fair, easy to answer, and reorients the dynamic. If the answer is "it maps to a current problem, but rest assured your work won't be used," then ask for that commitment in writing before submitting. Most companies will give it. Some won't. That itself is information.</p>
+
+    <p><strong>Where I'd push hiring teams to change.</strong> Three things, in order of how much they'd cost a company to do.</p>
+
+    <ul>
+      <li><strong>Anonymize the case.</strong> "A deregulated electricity marketplace" instead of "Choose Texas Power." Same intellectual difficulty, no extraction risk. The recruiter and HM can still tell exactly how a candidate thinks. The candidate can still demonstrate range. Nobody has to write a do-not-use letter.</li>
+      <li><strong>Provide feedback when rejecting after a take-home.</strong> "Due to HR policy" isn't a defensible reason when you've asked someone for two-plus hours of strategic work. Either the work merits real feedback or it didn't merit being requested.</li>
+      <li><strong>Put the do-not-use commitment in the brief, not in a follow-up email.</strong> "Submissions are not considered for our business' application, implemented, or used internally beyond the hiring evaluation." Put that line on the take-home itself. It changes the dynamic from "I might be doing free consulting" to "I'm doing an interview." The company loses nothing. The candidate gets the protection up front.</li>
+    </ul>
+
+    <p><strong>And the bigger lesson, for myself.</strong> A high-quality take-home submission for an actual brand whose challenges are real is exactly the kind of work that, in a healthier dynamic, would have been the start of a working session. That's not how it played out, and that's fine. But if you find yourself doing your best strategic thinking for a company that's about to ghost you on it, the right move is to name that and document it. Quietly accepting the asymmetry doesn't change the asymmetry.</p>
+  </section>
+
+  <!-- 7. DOWNLOADS -->
+  <section>
+    <h2><span class="num">07</span>Downloads</h2>
+    <p>The brief and my submission. Both PDFs. The submission is the same one I sent to the recruiter; nothing's been edited.</p>
+
+    <div class="downloads">
+      <a class="dl" href="files/Choose-Texas-Power-Take-Home.pdf" download>
+        <span class="ext">PDF</span>
+        <div>
+          <div class="name">Choose Texas Power Take-Home brief</div>
+          <div class="desc">The two-to-three-hour brief, exactly as I received it. The "hypothetical" framing is on page 1.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+      <a class="dl" href="files/Kevin-Middleton-RedVentures-Submission.pdf" download>
+        <span class="ext">PDF</span>
+        <div>
+          <div class="name">My two-page submission</div>
+          <div class="desc">Problem framing, recommendation, trade-offs, metrics, the kill-switch, and how I'd improve the work with more time.</div>
+        </div>
+        <span class="arrow">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span><a href="../">All slides</a> · <a href="https://middleton.io/">middleton.io</a></span>
+    <span><a href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></span>
+  </footer>
+
+</div>
+
+<script src="../theme.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Success Academy: PM for Family Apps and Public Web · Slides I Made for Free</title>
+
+<meta name="description" content="Five rounds for a Product Manager role at Success Academy. Prototype, onsite panel, final with the CTO. Did not advance. Here's the work and the feedback exchange." />
+<meta name="author" content="Kevin Middleton" />
+<link rel="canonical" href="https://middleton.io/slides/success-academy/" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Success Academy: PM for Family Apps and Public Web" />
+<meta property="og:description" content="Five rounds, including a final with the CTO. I built a prototype. Did not advance. Here's the work." />
+<meta property="og:url" content="https://middleton.io/slides/success-academy/" />
+<meta property="og:image" content="https://middleton.io/slides/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Slides I Made for Free." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://middleton.io/slides/og.png" />
+
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+
+<!-- FOUC prevention: applies the saved theme before paint -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('slides-theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) { /* private mode, ignore */ }
+  })();
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../slides.css" />
+
+<script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav class="topnav">
+    <a href="../" class="home">← Slides I Made for Free</a>
+    <div class="topnav-right">
+      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="eyebrow">Success Academy</span>
+    <h1>A PM for Family Apps and Public Web.</h1>
+    <p class="lede">
+      Product Manager for Success Academy's public website and family/teacher/internal mobile apps. Greenfield work, hybrid in Manhattan. Five rounds: recruiter, hiring manager, three-back-to-back onsite panel, final with the CTO. I built a prototype to ground my thinking before the onsite. Did not advance. The "feedback" was boilerplate.
+    </p>
+    <div class="meta">
+      <span class="pill">5 rounds, incl. CTO final</span>
+      <span class="pill">Live prototype</span>
+      <span class="pill bad">Did not advance</span>
+    </div>
+  </header>
+
+  <!-- 1. CONTEXT -->
+  <section>
+    <h2><span class="num">01</span>Context</h2>
+    <ul>
+      <li><strong>Company:</strong> Success Academy. Fastest-growing, highest-performing charter school network in New York, expanding into Florida.</li>
+      <li><strong>Role:</strong> Product Manager owning the public website and the family, teacher, and internal mobile apps. Greenfield work, hybrid three days in Manhattan, $170K-$180K, no bonus.</li>
+      <li><strong>Stage:</strong> Five rounds total, ending in a final with the CTO.</li>
+      <li><strong>Audience:</strong> Recruiter, hiring manager (Leader of Technology Products and Security), an onsite panel of three (CRM and Family Experience Systems lead, Customer Experience Implementation and Design lead, the hiring manager again), and the CTO for the final.</li>
+      <li><strong>Prep time:</strong> About a month from first conversation to the final round. The prototype came together over a weekend before the onsite.</li>
+      <li><strong>Outcome:</strong> Did not advance after the final round. I asked for a real debrief; I didn't get one.</li>
+    </ul>
+  </section>
+
+  <!-- 2. THE PROMPTS -->
+  <section>
+    <h2><span class="num">02</span>The prompts</h2>
+    <p>No formal case study. Each round was conversational.</p>
+    <ul>
+      <li><strong>Recruiter screen (Feb 12).</strong> Standard intro, culture-heavy. Their values spell ETHOS: Excellence, Team, Humor, Ownership, Scholars. They were upfront that the culture is "intense and intentional" and "not a culture of people pleasers."</li>
+      <li><strong>Hiring manager (Feb 20).</strong> Thirty minutes with the Leader of Technology Products and Security. We talked product approach, consumer-facing platform experience, and what greenfield work would actually look like inside the org.</li>
+      <li><strong>Onsite panel (March 3).</strong> Ninety minutes onsite at 120 Wall Street. Three back-to-back 30-minute conversations: CRM and Family Experience Systems leader, then Customer Experience Implementation and Design leader, then the hiring manager again. No formal exercise. Conversational across the three.</li>
+      <li><strong>Final round (March 9).</strong> Thirty minutes with the CTO over Zoom.</li>
+    </ul>
+  </section>
+
+  <!-- 3. THE PROCESS -->
+  <section>
+    <h2><span class="num">03</span>The process</h2>
+
+    <h3>Build something so my own thinking has somewhere to live</h3>
+    <p>None of the rounds were a take-home. Five conversations across multiple stakeholders without a deliverable to anchor on is the kind of process that drifts toward "did we click?" rather than "is the work good?" I wasn't asked to make anything. I built a prototype anyway, mostly so my own thinking had a place to live.</p>
+    <p>Then I used it. At the onsite, at the end of each of the three back-to-back conversations, I pulled it up and walked the interviewer through the relevant section so they could see how I think about a problem space they were testing me on without giving me a take-home. Three different angles for three different roles in the room. Same artifact.</p>
+
+    <h3>The prototype</h3>
+    <p>Lives at <a href="https://middleton.io/prototypes/sa/" target="_blank" rel="noopener">middleton.io/prototypes/sa/</a>. It walks through what a refreshed family app and public web experience could look like, what data flows through Salesforce today, and where I'd start a roadmap.</p>
+
+    <h3>Match the room without losing the work</h3>
+    <p>Success Academy is mission-driven and culture-forward. I leaned into the consumer-facing PM experience that maps cleanly: HVAC.com (about two million annual visits), Rocket Lawyer (5% mobile conversion lift on the highest-revenue product line, 11.5M users via co-branded partner sites), Lever HRIS Sync as proof of greenfield platform work. What drew me to this role was proximity to the user. The value wouldn't be theoretical or pulled from a dashboard. I could measure outcomes AND hear about them from real people. That's the part of the role that interested me most. Families navigating their kids' education and teachers trying to do their jobs well are specific, real users.</p>
+
+    <h3>Tools used</h3>
+    <ul>
+      <li>HTML, CSS, and vanilla JavaScript for the prototype, hosted on middleton.io alongside the site.</li>
+      <li>Claude Code as a building partner for layout and copy iteration.</li>
+      <li>The job posting, the recruiter's notes, and the public Success Academy site as the source material for what to design around.</li>
+      <li>Talking points and a structured story (60-second pitch, role-mapped experience, questions for the panel) for the onsite, since the format was conversational.</li>
+    </ul>
+  </section>
+
+  <!-- 4. THE DELIVERABLE -->
+  <section>
+    <h2><span class="num">04</span>The deliverable</h2>
+    <p>The artifact is the live prototype. Embedded below for a quick look. Open in a new tab to actually click through it.</p>
+
+    <iframe
+      class="embed"
+      src="https://middleton.io/prototypes/sa/"
+      frameborder="0"
+      title="Success Academy Prototype">
+    </iframe>
+    <p class="muted"><a href="https://middleton.io/prototypes/sa/" target="_blank" rel="noopener">Open prototype in a new tab ↗</a></p>
+  </section>
+
+  <!-- 5. HOW IT WENT -->
+  <section>
+    <h2><span class="num">05</span>How it went</h2>
+
+    <p>Each round felt good in the moment. Onsite at 120 Wall Street was a strong day. The final with the CTO was 30 minutes that ran clean. Eight days later, the boilerplate landed.</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Recruiter, Success Academy</span>
+        <span class="k">To:</span><span class="v">Kevin Middleton</span>
+        <span class="k">Subject:</span><span class="v">Application Update</span>
+        <span class="k">Date:</span><span class="v">March 17, 2026</span>
+      </div>
+      <div class="email-body">Hello Kevin,
+
+Thank you so much for your time and effort throughout the interview process for the Product Manager position, including your recent onsite interview. It was a pleasure to learn more about you.
+
+We had a number of highly qualified candidates for this role, which made for a very competitive selection process. After careful consideration, we've decided to move forward with another candidate who more closely aligns with our current needs.
+
+We sincerely appreciate your interest in Success Academy. If you would like to discuss this further or have any questions, please do not hesitate to reach out, and we can schedule a call.
+
+We wish you all the best in your job search.
+
+Regards,
+The Success Academy Team</div>
+    </div>
+
+    <p>I asked for the call.</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Kevin Middleton</span>
+        <span class="k">To:</span><span class="v">Recruiter, Success Academy</span>
+        <span class="k">Subject:</span><span class="v">Re: Regarding your application to Success Academy Charter Schools</span>
+        <span class="k">Date:</span><span class="v">March 17, 2026</span>
+      </div>
+      <div class="email-body">Hey <span class="redacted">Recruiter</span> can we have a quick call?
+
+<span class="redacted">804-439-2799</span></div>
+    </div>
+
+    <p>The reply the next day:</p>
+
+    <div class="email">
+      <div class="email-head">
+        <span class="k">From:</span><span class="v">Recruiter, Success Academy</span>
+        <span class="k">To:</span><span class="v">Kevin Middleton</span>
+        <span class="k">Subject:</span><span class="v">Re: Regarding your application to Success Academy Charter Schools</span>
+        <span class="k">Date:</span><span class="v">March 18, 2026</span>
+      </div>
+      <div class="email-body">Hello Kevin,
+
+Our team was genuinely impressed by your skills and interviews, but we've chosen to proceed with candidates whose current experiences more closely align with our immediate needs. Would love to stay connected for the future.
+
+Best,
+<span class="redacted">Recruiter</span></div>
+    </div>
+
+    <h3>What I make of that</h3>
+
+    <p>"Move forward with another candidate who more closely aligns with our current needs" is the same sentence twice, with the second one written to look like a real reply. It isn't. It's the boilerplate restated. After five rounds, including a final with the CTO, that's the part that doesn't sit right.</p>
+
+    <p>I'm not owed a reason. But the explicit invitation in the first email ("if you would like to discuss this further, please do not hesitate to reach out, and we can schedule a call") and the actual response when I took them up on it are different things. The mismatch tells you what kind of feedback culture you're looking at, which is itself useful information for a candidate considering whether the role would have been a fit in the first place.</p>
+
+    <p><strong>For what it's worth:</strong> by round four I had questions about the team structure and the security-and-privacy listing on the JD that I didn't fully resolve. Five rounds for a single PM hire, where the team was newly formed and the scope was still being defined, was probably a signal too. I'd take this conversation again. I'd ask harder questions earlier next time.</p>
+  </section>
+
+  <!-- 6. WHAT I'D DO DIFFERENTLY -->
+  <section>
+    <h2><span class="num">06</span>What I'd do differently</h2>
+
+    <p><strong>Share the prototype with the hiring manager before the onsite.</strong> I waited until the onsite to walk people through it. The hiring manager round was a week before. If I'd shown him the prototype then, framed as "here's how I'd think about the first 90 days in this role," the onsite panel would have walked in already primed by him, and I'd have had at least one round of "here's how I'd refine this." Surfacing it later cost me a round of compounding signal.</p>
+
+    <p><strong>Ask about the team and timeline earlier.</strong> The team was newly formed. The scope was still being defined. The "Security &amp; Privacy" department listing on the JD was unresolved by my last round. Asking those questions in round two instead of waiting for round three would have given me data to use, not data to wonder about.</p>
+
+    <p><strong>Push for a real debrief, not just a call request.</strong> "Hey can we have a quick call?" is too easy to deflect. "I'd value 15 minutes to understand what would have made my candidacy stronger, specifically on [the thing I'm worried I missed]" is harder to brush off. If they're going to give boilerplate, at least make them write it specifically.</p>
+  </section>
+
+  <!-- 7. DOWNLOADS -->
+  <section>
+    <h2><span class="num">07</span>Downloads</h2>
+    <p>The artifact is the live prototype.</p>
+
+    <div class="downloads">
+      <a class="dl" href="https://middleton.io/prototypes/sa/" target="_blank" rel="noopener">
+        <span class="ext">LIVE</span>
+        <div>
+          <div class="name">Success Academy prototype</div>
+          <div class="desc">A walk-through of what a refreshed family app and public web experience could look like.</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span><a href="../">All slides</a> · <a href="https://middleton.io/">middleton.io</a></span>
+    <span><a href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></span>
+  </footer>
+
+</div>
+
+<script src="../theme.js" defer></script>
+</body>
+</html>
