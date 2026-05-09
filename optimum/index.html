@@ -1951,9 +1951,107 @@ abbr[title]:hover::after { opacity: 1; }
   .approach-title { font-size: 19px; }
   .funnel-widget { padding: 20px; }
 }
+
+/* ===== LOCK SCREEN (surface-level password) ===== */
+.lock-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--optimum-blue-dark);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.lock-screen.hidden { display: none; }
+.lock-card {
+  background: white;
+  border-radius: 12px;
+  padding: 36px 36px 28px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.4);
+}
+.lock-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--optimum-orange);
+  margin-bottom: 12px;
+}
+.lock-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 8px;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+}
+.lock-sub {
+  font-size: 13px;
+  color: var(--gray);
+  margin: 0 0 22px;
+}
+.lock-form {
+  display: flex;
+  gap: 8px;
+}
+.lock-input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+}
+.lock-input:focus {
+  outline: none;
+  border-color: var(--optimum-orange);
+  box-shadow: 0 0 0 3px rgba(246, 102, 8, 0.15);
+}
+.lock-input.error { border-color: #dc3545; box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15); }
+.lock-btn {
+  background: var(--optimum-orange);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: background 0.15s ease;
+}
+.lock-btn:hover { background: var(--optimum-orange-dark); }
+.lock-error {
+  font-size: 12px;
+  color: #dc3545;
+  margin-top: 10px;
+  min-height: 16px;
+}
+body.locked { overflow: hidden; }
 </style>
 </head>
 <body>
+
+<!-- ============================================================ -->
+<!-- LOCK SCREEN (surface-level password gate) -->
+<!-- ============================================================ -->
+<div id="lock-screen" class="lock-screen">
+  <div class="lock-card">
+    <div class="lock-eyebrow">Take-home brief</div>
+    <h2 class="lock-title">Reducing Early Churn Without Slowing Gross Adds</h2>
+    <p class="lock-sub">Enter password to view.</p>
+    <form id="lock-form" class="lock-form">
+      <input type="password" id="lock-input" class="lock-input" placeholder="Password" autocomplete="off" autofocus>
+      <button type="submit" class="lock-btn">Unlock</button>
+    </form>
+    <div id="lock-error" class="lock-error" aria-live="polite"></div>
+  </div>
+</div>
 
 <!-- ============================================================ -->
 <!-- HEADER -->
@@ -2076,7 +2174,7 @@ abbr[title]:hover::after { opacity: 1; }
   </div>
 
   <div class="tab-footer">
-    <p>Next, how the three approaches fit together. <a href="#approach">Approach →</a></p>
+    <p>Continue to <a href="#approach">Section 2: Options &amp; Tradeoffs →</a></p>
   </div>
 </div>
 
@@ -2293,7 +2391,7 @@ abbr[title]:hover::after { opacity: 1; }
   </div>
 
   <div class="tab-footer">
-    <p>Next, the five metrics that tell us whether it's working. <a href="#metrics">Metrics →</a></p>
+    <p>Continue to <a href="#metrics">Section 3: Metrics &amp; Validation →</a></p>
   </div>
 </div>
 
@@ -2524,7 +2622,7 @@ abbr[title]:hover::after { opacity: 1; }
   </div>
 
   <div class="tab-footer">
-    <p>Next, how we'd sequence the build over six months. <a href="#execution">Execution →</a></p>
+    <p>Continue to <a href="#execution">Section 4: Execution &amp; Sequencing →</a></p>
   </div>
 </div>
 
@@ -2719,7 +2817,7 @@ abbr[title]:hover::after { opacity: 1; }
   </div>
 
   <div class="tab-footer">
-    <p>Next: <a href="#ai">How I Use AI →</a></p>
+    <p>Continue to <a href="#ai">Section 5: AI Usage Disclosure →</a></p>
   </div>
 </div>
 
@@ -2793,6 +2891,42 @@ abbr[title]:hover::after { opacity: 1; }
 
 <!-- ===== JAVASCRIPT ===== -->
 <script>
+
+// ===== Surface-level password gate =====
+(function() {
+  const KEY = 'optimum-unlock';
+  const PASSWORD = 'retention';
+  const screen = document.getElementById('lock-screen');
+  const form = document.getElementById('lock-form');
+  const input = document.getElementById('lock-input');
+  const errEl = document.getElementById('lock-error');
+  if (!screen || !form || !input) return;
+
+  let unlocked = false;
+  try { unlocked = localStorage.getItem(KEY) === 'true'; } catch (e) { /* ignore */ }
+  if (unlocked) {
+    screen.classList.add('hidden');
+    return;
+  }
+
+  document.body.classList.add('locked');
+  setTimeout(() => input.focus(), 50);
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const val = (input.value || '').trim().toLowerCase();
+    if (val === PASSWORD) {
+      try { localStorage.setItem(KEY, 'true'); } catch (e) { /* ignore */ }
+      screen.classList.add('hidden');
+      document.body.classList.remove('locked');
+    } else {
+      if (errEl) errEl.textContent = 'Wrong password.';
+      input.classList.add('error');
+      input.select();
+      setTimeout(() => input.classList.remove('error'), 800);
+    }
+  });
+})();
 
 const tabSlugs = ['problem', 'approach', 'metrics', 'execution', 'ai'];
 
