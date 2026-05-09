@@ -7,8 +7,16 @@
 <title>Optimum Mobile: Reducing Early Churn | Kevin Middleton</title>
 <meta name="description" content="Take-home exercise for Optimum Mobile Product Manager (Compliance & Credit). A componentized, segment-aware onboarding funnel paired with a retention-tied referral program.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Optimum Mobile: Reducing Early Churn Without Slowing Gross Adds">
-<meta property="og:description" content="A take-home product brief for Optimum Mobile.">
+<meta property="og:url" content="https://middleton.io/optimum/">
+<meta property="og:title" content="Reducing Early Churn Without Slowing Gross Adds">
+<meta property="og:description" content="A take-home product brief for Optimum Mobile by Kevin Middleton.">
+<meta property="og:image" content="https://middleton.io/optimum/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Reducing Early Churn Without Slowing Gross Adds">
+<meta name="twitter:description" content="A take-home product brief for Optimum Mobile by Kevin Middleton.">
+<meta name="twitter:image" content="https://middleton.io/optimum/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -1991,6 +1999,11 @@ abbr[title]:hover::after { opacity: 1; }
     <p>The right customer at the right tier, every time.</p>
   </div>
 
+  <div class="content-section alt">
+    <h3>The Problem</h3>
+    <p>Leadership wants to reduce early churn and customer support costs, without materially slowing gross adds.</p>
+  </div>
+
   <div class="content-section">
     <h3>Strategic Context</h3>
     <p>Three voices from the onsite shaped how I thought about this.</p>
@@ -2002,6 +2015,21 @@ abbr[title]:hover::after { opacity: 1; }
   </div>
 
   <div class="content-section alt">
+    <h3>Recommendation</h3>
+    <ul>
+      <li><strong style="color: var(--green)">Build an adaptive, componentized onboarding funnel</strong> that changes based on customer segment and risk tier.</li>
+      <li><strong style="color: var(--optimum-orange)">Launch a retention-tied referral program</strong> alongside promo codes (a second acquisition lever).</li>
+      <li><strong style="color: var(--optimum-blue)">Ship quick wins</strong> (chat routing, coverage transparency, promo-cliff communication) in parallel.</li>
+    </ul>
+
+    <p><strong>Target:</strong> 6-15% reduction in 90-day early churn within two quarters, validated by component-level A/B testing, without measurable impact on gross adds.</p>
+
+    <div class="recommendation">
+      <p><strong>Why this won't slow gross adds.</strong> The hypothesis is that the right friction at the top (coverage transparency, tiered identity verification, plan education that sets honest expectations on throttling) filters customers who would have churned in the first 30 days anyway. Higher quality customers, not fewer customers. The answer isn't slower onboarding; it's right-sized onboarding for who's coming through the door.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
     <h3>Customer Segments</h3>
     <p>Four segments to design for, ordered by risk profile.</p>
 
@@ -2029,7 +2057,7 @@ abbr[title]:hover::after { opacity: 1; }
     </div>
   </div>
 
-  <div class="content-section">
+  <div class="content-section alt">
     <h3>Stated Assumptions</h3>
     <p>Without internal data, I'm working from <a href="https://paylode.com/articles/how-telecom-brands-can-slash-churn-without-slashing-prices" target="_blank" rel="noopener">industry benchmarks</a>. MVNO and prepaid wireless monthly churn runs <strong>3-5%</strong>. The <a href="https://www.userintuition.ai/reference-guides/onboarding-and-churn-the-first-7-30-and-90-days/" target="_blank" rel="noopener">first 90 days</a> carry disproportionate risk; the <a href="https://www.fullstory.com/blog/predicting-customer-churn/" target="_blank" rel="noopener">first 7-14 days are the most predictive</a> of long-term retention.</p>
 
@@ -2044,21 +2072,6 @@ abbr[title]:hover::after { opacity: 1; }
     <div class="proof-annotation">
       <div class="annotation-label">Insight</div>
       <p><a href="https://www.computerweekly.com/blog/The-Full-Spectrum/How-churn-is-breaking-the-telecoms-market-and-what-service-providers-can-do-about-it" target="_blank" rel="noopener">Cricket Wireless</a> cut early churn <strong>37%</strong> by tightening consistency between sales promise, delivered service, and first bill.</p>
-    </div>
-  </div>
-
-  <div class="content-section alt">
-    <h3>Recommendation</h3>
-    <ul>
-      <li><strong style="color: var(--green)">Build an adaptive, componentized onboarding funnel</strong> that changes based on customer segment and risk tier.</li>
-      <li><strong style="color: var(--optimum-orange)">Launch a retention-tied referral program</strong> alongside promo codes (a second acquisition lever).</li>
-      <li><strong style="color: var(--optimum-blue)">Ship quick wins</strong> (chat routing, coverage transparency, promo-cliff communication) in parallel.</li>
-    </ul>
-
-    <p><strong>Target:</strong> 6-15% reduction in 90-day early churn within two quarters, validated by component-level A/B testing, without measurable impact on gross adds.</p>
-
-    <div class="recommendation">
-      <p><strong>Why this won't slow gross adds.</strong> The hypothesis is that the right friction at the top (coverage transparency, tiered identity verification, plan education that sets honest expectations on throttling) filters customers who would have churned in the first 30 days anyway. Higher quality customers, not fewer customers. The answer isn't slower onboarding; it's right-sized onboarding for who's coming through the door.</p>
     </div>
   </div>
 
