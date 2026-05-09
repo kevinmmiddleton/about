@@ -1,0 +1,3389 @@
+<!DOCTYPE html>
+<!-- Built as a take-home exercise for Optimum Mobile PM (Compliance & Credit). -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Optimum Mobile: Reducing Early Churn | Kevin Middleton</title>
+<meta name="description" content="Take-home exercise for Optimum Mobile Product Manager (Compliance & Credit). A componentized, segment-aware onboarding funnel paired with a retention-tied referral program.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Optimum Mobile: Reducing Early Churn Without Slowing Gross Adds">
+<meta property="og:description" content="A take-home product brief for Optimum Mobile.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Optimum brand */
+  --optimum-orange: #F66608;       /* Chilean Fire */
+  --optimum-orange-dark: #C95205;
+  --optimum-orange-hover: #DC5A07;
+  --optimum-orange-light: #FFF4EC;
+  --optimum-orange-soft: #FCDDB0;
+  --optimum-blue: #002864;          /* Midnight Blue */
+  --optimum-blue-dark: #001D4D;
+  --optimum-blue-hover: #001E55;
+  --optimum-blue-light: #E6EBF2;
+  --optimum-blue-soft: #C2CCDD;
+  --optimum-white: #FFFFFF;
+
+  /* Semantic accents */
+  --green: #2F855A;
+  --green-light: #F0FFF4;
+  --green-border: #C6F6D5;
+  --red: #C53030;
+  --red-light: #FFF5F5;
+  --red-border: #FED7D7;
+  --amber: #B7791F;
+  --amber-light: #FFFFF0;
+  --amber-border: #FEFCBF;
+
+  /* Neutrals */
+  --dark: #1A202C;
+  --slate: #4A5568;
+  --gray: #718096;
+  --gray-medium: #A0AEC0;
+  --gray-border: #CBD5E0;
+  --border: #E2E8F0;
+  --light-gray: #F7FAFC;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,0.10);
+  --radius: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); background: var(--light-gray); line-height: 1.6; }
+
+.role-tag {
+  font-size: 12px;
+  color: var(--gray);
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+abbr[title] {
+  position: relative;
+  text-decoration: underline dotted;
+  text-decoration-color: rgba(0, 29, 77, 0.4);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  cursor: help;
+  font-style: normal;
+  transition: text-decoration-color 0.15s ease;
+}
+abbr[title]:hover { text-decoration-color: var(--optimum-orange); }
+abbr[title]::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--optimum-blue-dark);
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  width: max-content;
+  max-width: 280px;
+  line-height: 1.45;
+  letter-spacing: 0.1px;
+  text-decoration: none;
+  font-style: normal;
+  text-transform: none;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease 0.05s;
+  z-index: 100;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+abbr[title]:hover::after { opacity: 1; }
+
+/* ===== HEADER ===== */
+.pres-header {
+  background: linear-gradient(135deg, var(--optimum-blue-dark) 0%, var(--optimum-blue) 50%, var(--optimum-blue-dark) 100%);
+  color: white;
+  padding: 28px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+.pres-header .brand-area { display: flex; align-items: center; gap: 24px; min-width: 0; }
+.pres-header .wordmark { height: 32px; flex-shrink: 0; }
+.pres-header .titles { min-width: 0; }
+.pres-header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.4px; line-height: 1; }
+.pres-header .subtitle { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 4px; line-height: 1.5; max-width: 600px; }
+.pres-header .author { font-size: 13px; color: rgba(255,255,255,0.6); text-align: right; flex-shrink: 0; }
+.pres-header .author strong { color: white; }
+.pres-header .author a { color: inherit; text-decoration: none; transition: color 0.15s ease; }
+.pres-header .author a:hover { color: var(--optimum-orange); }
+.pres-header .author a:hover strong { color: var(--optimum-orange); }
+.pres-header .author .meta { font-size: 11px; margin-top: 2px; color: rgba(255,255,255,0.5); }
+
+/* ===== TAB BAR ===== */
+.tab-bar {
+  background: white;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  padding: 0 48px;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+.tab {
+  padding: 16px 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+.tab:hover { color: var(--optimum-orange); }
+.tab.active {
+  color: var(--optimum-orange);
+  border-bottom-color: var(--optimum-orange);
+}
+.tab .tab-num {
+  display: inline-block;
+  font-size: 15px;
+  margin-right: 6px;
+  line-height: 1;
+}
+
+/* ===== TAB CONTENT ===== */
+.tab-content { display: none; animation: fadeIn 0.3s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== CONCEPT HEADER ===== */
+.concept-header {
+  background: linear-gradient(135deg, var(--optimum-blue) 0%, var(--optimum-blue-dark) 100%);
+  color: white;
+  padding: 56px 48px 48px;
+}
+.concept-label {
+  display: inline-block;
+  background: var(--optimum-orange);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.concept-header h2 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.concept-header p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.85);
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+/* ===== CONTENT SECTIONS ===== */
+.content-section {
+  padding: 48px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+.content-section.alt { background: var(--light-gray); }
+.content-section h3 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 24px;
+}
+.content-section p {
+  font-size: 15px;
+  color: var(--slate);
+  margin-bottom: 16px;
+  max-width: 780px;
+}
+.content-section p strong { color: var(--dark); font-weight: 600; }
+.content-section h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+/* ===== RECOMMENDATION CALLOUT ===== */
+.recommendation {
+  background: linear-gradient(135deg, var(--optimum-orange-light) 0%, #FFE9D6 100%);
+  border: 1px solid var(--optimum-orange-soft);
+  border-left: 4px solid var(--optimum-orange);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin: 0 0 28px 0;
+}
+.recommendation .rec-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--optimum-orange-dark);
+  margin-bottom: 10px;
+}
+.recommendation p {
+  font-size: 15px;
+  color: var(--dark);
+  line-height: 1.6;
+  margin: 0;
+  max-width: none;
+}
+.recommendation ul {
+  margin: 8px 0 12px 20px;
+  padding: 0;
+}
+.recommendation ul li {
+  color: var(--dark);
+  font-size: 15px;
+  margin-bottom: 6px;
+  line-height: 1.55;
+}
+.recommendation p + p {
+  margin-top: 12px;
+}
+
+/* ===== ANNOTATIONS ===== */
+.annotation {
+  background: var(--amber-light);
+  border: 1px solid var(--amber-border);
+  border-left: 4px solid #ECC94B;
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin: 20px 0;
+}
+.annotation .annotation-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 6px;
+}
+.annotation p { font-size: 14px; color: #744210; line-height: 1.6; margin: 0; max-width: none; }
+
+.compliance-annotation {
+  background: var(--optimum-blue-light);
+  border: 1px solid var(--optimum-blue-soft);
+  border-left: 4px solid var(--optimum-blue);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin: 20px 0;
+}
+.compliance-annotation .annotation-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--optimum-blue);
+  margin-bottom: 6px;
+}
+.compliance-annotation p { font-size: 14px; color: #1A365D; line-height: 1.6; margin: 0; max-width: none; }
+
+.proof-annotation {
+  background: var(--green-light);
+  border: 1px solid var(--green-border);
+  border-left: 4px solid var(--green);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin: 20px 0;
+}
+.proof-annotation .annotation-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 6px;
+}
+.proof-annotation p { font-size: 14px; color: #22543D; line-height: 1.6; margin: 0; max-width: none; }
+
+/* ===== CARDS GRID ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 16px 0 8px;
+}
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card .card-pill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--optimum-orange-light);
+  color: var(--optimum-orange-dark);
+}
+.card .card-pill.blue { background: var(--optimum-blue-light); color: var(--optimum-blue); }
+.card .card-pill.green { background: var(--green-light); color: var(--green); }
+.card .card-pill.gray { background: var(--border); color: var(--slate); }
+.card p {
+  font-size: 13.5px;
+  color: var(--slate);
+  line-height: 1.55;
+  margin: 0;
+  max-width: none;
+}
+.card .card-foot {
+  font-size: 12px;
+  color: var(--gray);
+  margin-top: 10px;
+  padding: 6px 0 0 12px;
+  border-left: 2px solid var(--optimum-orange);
+}
+
+/* ===== INLINE LIST ===== */
+.content-section ul {
+  margin: 0 0 16px 20px;
+  padding: 0;
+}
+.content-section ul li {
+  font-size: 15px;
+  color: var(--slate);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+.content-section ul li strong { color: var(--dark); font-weight: 600; }
+
+/* ===== FOOTER ===== */
+.tab-footer {
+  background: var(--light-gray);
+  padding: 32px 48px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+.tab-footer p {
+  font-size: 13px;
+  color: var(--gray);
+  font-style: italic;
+  margin: 0;
+  max-width: none;
+}
+.tab-footer a {
+  color: var(--optimum-orange);
+  font-weight: 700;
+  font-style: normal;
+  text-decoration: none;
+  margin-left: 6px;
+  transition: opacity 0.15s ease;
+}
+.tab-footer a:hover { opacity: 0.75; }
+
+/* ===== PLACEHOLDER ===== */
+.placeholder {
+  padding: 80px 48px;
+  text-align: center;
+  background: white;
+  color: var(--gray);
+  font-size: 15px;
+  border-bottom: 1px solid var(--border);
+}
+.placeholder strong { color: var(--dark); }
+
+/* ===== APPROACH BLOCKS ===== */
+.approach-block + .approach-block { margin-top: 36px; padding-top: 36px; border-top: 1px solid var(--border); }
+.approach-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.approach-num {
+  font-size: 14px;
+  font-weight: 800;
+  color: white;
+  background: var(--optimum-orange);
+  padding: 6px 12px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.approach-header .approach-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--dark);
+  margin: 0;
+  letter-spacing: -0.3px;
+  text-transform: none;
+  flex: 1;
+  min-width: 0;
+}
+.approach-pill {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--optimum-orange-light);
+  color: var(--optimum-orange-dark);
+  border: 1px solid var(--optimum-orange-soft);
+}
+.approach-pill.blue { background: var(--optimum-blue-light); color: var(--optimum-blue); border-color: var(--optimum-blue-soft); }
+.approach-pill.green { background: var(--green-light); color: var(--green); border-color: var(--green-border); }
+
+/* ===== TRADEOFF GRID ===== */
+.tradeoff-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin: 18px 0;
+}
+@media (max-width: 900px) { .tradeoff-grid { grid-template-columns: 1fr; } }
+.tradeoff {
+  background: var(--light-gray);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.tradeoff h5 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin: 0 0 10px;
+}
+.tradeoff.pros { background: var(--green-light); border-color: var(--green-border); }
+.tradeoff.pros h5 { color: var(--green); }
+.tradeoff.cons { background: var(--red-light); border-color: var(--red-border); }
+.tradeoff.cons h5 { color: var(--red); }
+.tradeoff.risks { background: #FFF8F0; border-color: var(--optimum-orange-soft); }
+.tradeoff.risks h5 { color: var(--optimum-orange-dark); }
+.tradeoff ul { margin: 0; padding-left: 18px; }
+.tradeoff ul li { font-size: 13px; color: var(--slate); margin-bottom: 6px; line-height: 1.5; }
+.tradeoff ul li:last-child { margin-bottom: 0; }
+.tradeoff ul li strong { color: var(--dark); font-weight: 600; }
+
+/* ===== FUNNEL WIDGET ===== */
+.funnel-widget {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: var(--shadow-md);
+  margin: 12px 0 0;
+}
+.funnel-widget .widget-header { margin-bottom: 18px; }
+.funnel-widget .widget-header h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 6px;
+}
+.funnel-widget .widget-header .hint {
+  font-size: 12px;
+  color: var(--gray);
+  margin: 0;
+  max-width: none;
+}
+.segment-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.segment-btn {
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--slate);
+  background: white;
+  border: 1.5px solid var(--gray-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.segment-btn:hover {
+  border-color: var(--optimum-orange);
+  color: var(--optimum-orange);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(246,102,8,0.18);
+}
+.segment-btn.selected {
+  background: var(--optimum-orange);
+  border-color: var(--optimum-orange);
+  color: white;
+  transform: none;
+  box-shadow: 0 2px 6px rgba(246,102,8,0.28);
+}
+
+/* Click-to-explore CTA inside hint */
+.click-cta {
+  color: var(--optimum-blue);
+  font-weight: 700;
+  animation: click-glow 2.4s ease-in-out infinite;
+}
+@keyframes click-glow {
+  0%, 100% { text-shadow: 0 0 8px rgba(246, 102, 8, 0.50), 0 0 16px rgba(246, 102, 8, 0.25); }
+  50%      { text-shadow: 0 0 18px rgba(246, 102, 8, 0.90), 0 0 32px rgba(246, 102, 8, 0.50); }
+}
+
+/* Interactive badge */
+.interactive-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  background: var(--optimum-orange);
+  color: white;
+  border-radius: 4px;
+  margin-left: 10px;
+  vertical-align: 2px;
+}
+.segment-context {
+  background: var(--optimum-blue-light);
+  border-left: 3px solid var(--optimum-blue);
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+.segment-context p {
+  font-size: 13.5px;
+  color: var(--dark);
+  margin: 0;
+  line-height: 1.55;
+  max-width: none;
+}
+.funnel-track {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  align-items: stretch;
+  margin-bottom: 18px;
+}
+@media (max-width: 1100px) { .funnel-track { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 600px) { .funnel-track { grid-template-columns: repeat(2, 1fr); } }
+.component-card {
+  position: relative;
+  padding: 14px 10px;
+  border-radius: 8px;
+  border: 2px solid;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 110px;
+}
+.component-card .comp-num {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  margin-bottom: 4px;
+  opacity: 0.6;
+}
+.component-card .comp-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.component-card .comp-state {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  align-self: center;
+}
+.component-card.full {
+  background: var(--optimum-orange);
+  border-color: var(--optimum-orange);
+  color: white;
+}
+.component-card.full .comp-state { background: rgba(255,255,255,0.22); }
+.component-card.light {
+  background: var(--optimum-blue-light);
+  border-color: var(--optimum-blue-soft);
+  color: var(--optimum-blue);
+}
+.component-card.light .comp-state { background: white; color: var(--optimum-blue); }
+.component-card.conditional {
+  background: #FFF8F0;
+  border-color: var(--optimum-orange-soft);
+  border-style: dashed;
+  color: var(--optimum-orange-dark);
+}
+.component-card.conditional .comp-state { background: var(--optimum-orange-light); color: var(--optimum-orange-dark); }
+.component-card.skip {
+  background: var(--light-gray);
+  border-color: var(--border);
+  border-style: dashed;
+  color: var(--gray-medium);
+  opacity: 0.7;
+}
+.component-card.skip .comp-name { text-decoration: line-through; opacity: 0.7; }
+.component-card.skip .comp-state { background: var(--border); color: var(--gray); }
+.funnel-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--gray);
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1.5px solid;
+  flex-shrink: 0;
+}
+.legend-dot.full { background: var(--optimum-orange); border-color: var(--optimum-orange); }
+.legend-dot.light { background: var(--optimum-blue-light); border-color: var(--optimum-blue-soft); }
+.legend-dot.conditional { background: #FFF8F0; border-color: var(--optimum-orange-soft); border-style: dashed; }
+.legend-dot.skip { background: var(--light-gray); border-color: var(--border); border-style: dashed; }
+
+/* ===== FLOW PREVIEW (Tab 4 / Wave 2) ===== */
+.flow-preview {
+  background: #1a1a2e;
+  border-radius: 14px;
+  padding: 14px 14px 14px;
+  margin: 16px 0 14px;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+}
+.flow-preview-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 14px;
+}
+
+/* Standardized header row used across all three preview components */
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+  height: 14px;
+}
+.preview-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 14px;
+}
+.preview-counter {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  color: rgba(255, 255, 255, 0.4);
+  font-variant-numeric: tabular-nums;
+  line-height: 14px;
+}
+.flow-track {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+.flow-dot {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.flow-dot.completed {
+  background: rgba(246, 102, 8, 0.45);
+}
+.flow-dot.active {
+  background: var(--optimum-orange);
+  box-shadow: 0 0 8px rgba(246, 102, 8, 0.6);
+}
+.flow-screen {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.flow-screen-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  opacity: 0;
+  transform: translateY(115%);
+  transition: opacity 0.5s ease, transform 0.55s cubic-bezier(0.32, 0.72, 0.24, 1);
+}
+.flow-screen-content.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.flow-screen-content.exiting {
+  opacity: 0;
+  transform: translateY(-115%);
+}
+.flow-step-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 4px;
+  letter-spacing: -0.2px;
+}
+.flow-step-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.4;
+}
+
+/* Cursor cue: previews are interactive (hover to pause, click to advance) */
+.sms-preview, .flow-preview {
+  cursor: pointer;
+}
+
+/* ===== SECONDARY METRICS LIST (Tab 3) ===== */
+.compact-list {
+  list-style: disc;
+  margin: 8px 0 8px 20px;
+  padding: 0;
+}
+.compact-list li {
+  font-size: 13px;
+  color: var(--gray);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.compact-list li strong {
+  color: var(--dark);
+  font-weight: 700;
+}
+
+/* ===== PRIMARY METRICS HIERARCHY (Tab 3) ===== */
+.metric-hierarchy {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr);
+  gap: 14px;
+  margin-top: 16px;
+}
+@media (max-width: 800px) { .metric-hierarchy { grid-template-columns: 1fr; } }
+
+.metric-hero {
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--optimum-orange);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.metric-hero-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+.metric-hero-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 14px;
+  letter-spacing: -0.2px;
+}
+.metric-hero-target {
+  font-size: 72px;
+  font-weight: 800;
+  color: var(--optimum-orange);
+  letter-spacing: -2.5px;
+  line-height: 1;
+  margin: 8px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+.metric-hero-arrow {
+  font-size: 84px;
+  line-height: 1;
+  font-weight: 700;
+  display: inline-block;
+}
+.metric-hero-target-label {
+  font-size: 12px;
+  color: var(--slate);
+  letter-spacing: 0.2px;
+  line-height: 1.5;
+  margin-top: auto;
+}
+
+.metric-secondary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.metric-mini {
+  background: var(--light-gray);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.metric-mini-arrow {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--optimum-orange);
+  line-height: 1;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+.metric-mini-text { min-width: 0; }
+.metric-mini-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+.metric-mini-desc {
+  font-size: 12px;
+  color: var(--slate);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ===== COVERAGE CHECK MOCK (Tab 3 / Validation Approach) ===== */
+.validation-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .validation-grid { grid-template-columns: 1fr; gap: 24px; }
+}
+.validation-prose > p:first-child { margin-top: 0; }
+
+.coverage-mock {
+  background: var(--optimum-blue-dark);
+  border-radius: 14px;
+  padding: 18px 18px 16px;
+  cursor: pointer;
+  position: sticky;
+  top: 76px;
+  display: flex;
+  flex-direction: column;
+  height: 540px;
+  overflow: hidden;
+}
+.coverage-mock-caption {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.55;
+  font-style: italic;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.coverage-mock-toprow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+  gap: 10px;
+}
+.coverage-mock-header {
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.2px;
+}
+.coverage-mock-step {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: var(--optimum-orange);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.coverage-mock-subtitle {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  margin-bottom: 16px;
+}
+.coverage-mock-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.coverage-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.coverage-field.active {
+  border-color: var(--optimum-orange);
+  box-shadow: 0 0 0 3px rgba(246, 102, 8, 0.25);
+}
+.coverage-field.complete {
+  border-color: var(--green);
+}
+.coverage-field-label {
+  color: rgba(0, 29, 77, 0.55);
+  font-size: 10px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  font-weight: 700;
+  width: 42px;
+  flex-shrink: 0;
+}
+.coverage-zip-input {
+  color: var(--optimum-blue);
+  font-size: 14px;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
+  flex: 1;
+  min-height: 18px;
+  position: relative;
+}
+.coverage-zip-input::after {
+  content: '|';
+  color: transparent;
+  margin-left: 1px;
+}
+.coverage-field.active .coverage-zip-input::after {
+  color: var(--optimum-orange);
+  animation: coverage-blink 0.9s step-end infinite;
+}
+@keyframes coverage-blink { 50% { opacity: 0; } }
+
+/* Add-another button (used by standalone and fm-coverage component) */
+.coverage-add-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  margin: 6px 0 12px;
+  cursor: pointer;
+  font-family: inherit;
+  align-self: flex-start;
+  transition: color 0.2s ease;
+}
+.coverage-add-btn:hover { color: white; }
+.coverage-add-icon {
+  background: var(--optimum-orange);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.coverage-add-btn.flash .coverage-add-icon {
+  animation: coverage-add-flash 0.4s ease;
+}
+@keyframes coverage-add-flash {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(246, 102, 8, 0.5); }
+  50% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(246, 102, 8, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(246, 102, 8, 0); }
+}
+
+.coverage-field.is-hidden,
+.fm-field.is-hidden { display: none; }
+.coverage-field.is-appearing,
+.fm-field.is-appearing { animation: zip-field-appear 0.32s ease forwards; }
+@keyframes zip-field-appear {
+  0% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.coverage-check-btn {
+  background: rgba(246, 102, 8, 0.35);
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 100%;
+  font-family: inherit;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.coverage-check-btn.active {
+  background: var(--optimum-orange);
+  color: white;
+  box-shadow: 0 0 14px rgba(246, 102, 8, 0.45);
+}
+
+.coverage-results {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 110px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.coverage-results.visible { opacity: 1; }
+.coverage-result-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.coverage-result-icon {
+  width: 18px;
+  height: 18px;
+  background: var(--green);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+.coverage-result-zip {
+  color: white;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.coverage-result-tier {
+  margin-left: auto;
+  background: rgba(246, 102, 8, 0.18);
+  color: var(--optimum-orange);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ===== FUNNEL MOCKS GRID (Tab 3 / Validation - all 7 components) ===== */
+.funnel-mocks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.funnel-mock {
+  background: var(--optimum-blue-dark);
+  border-radius: 14px;
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  overflow: hidden;
+}
+.funnel-mock-toprow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+  gap: 10px;
+}
+.funnel-mock-header {
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.2px;
+}
+.funnel-mock-step {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: var(--optimum-orange);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.funnel-mock-subtitle {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  margin-bottom: 14px;
+}
+.funnel-mock-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.funnel-mock-caption {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.55;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.funnel-mock-caption strong {
+  color: white;
+  font-weight: 700;
+}
+
+/* generic white-pill field row */
+.fm-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border-radius: 8px;
+  padding: 0 12px;
+  height: 38px;
+  box-sizing: border-box;
+}
+.fm-field-label {
+  color: rgba(0, 29, 77, 0.55);
+  font-size: 10px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  font-weight: 700;
+  width: 42px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.fm-field-value {
+  color: var(--optimum-blue);
+  font-size: 13px;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
+  flex: 1;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.fm-field-value:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(0, 29, 77, 0.35);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.fm-field.active .fm-field-value:empty::before { content: ''; }
+
+/* plan tiles */
+.fm-plan-tile {
+  background: white;
+  border-radius: 8px;
+  padding: 9px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1.5px solid transparent;
+}
+.fm-plan-tile.selected {
+  border-color: var(--optimum-orange);
+  box-shadow: 0 0 0 3px rgba(246, 102, 8, 0.22);
+}
+.fm-plan-name {
+  color: var(--optimum-blue);
+  font-weight: 700;
+  font-size: 13px;
+}
+.fm-plan-price {
+  color: var(--optimum-blue);
+  font-weight: 700;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.1;
+}
+.fm-plan-suffix {
+  font-size: 9px;
+  color: rgba(0, 29, 77, 0.55);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+.fm-fineprint {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 2px;
+  font-style: italic;
+}
+
+/* ID upload zone */
+.fm-upload {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px dashed rgba(255, 255, 255, 0.28);
+  border-radius: 8px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.fm-upload-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--optimum-orange);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+}
+.fm-upload-text {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* credit decision card */
+.fm-decision {
+  background: white;
+  border-radius: 8px;
+  padding: 14px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+.fm-decision-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1;
+}
+.fm-decision-status {
+  color: var(--optimum-blue);
+  font-weight: 700;
+  font-size: 15px;
+}
+.fm-decision-tier {
+  color: rgba(0, 29, 77, 0.6);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* deposit amount */
+.fm-amount {
+  background: white;
+  border-radius: 8px;
+  padding: 14px 12px;
+  text-align: center;
+}
+.fm-amount-value {
+  color: var(--optimum-blue);
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.fm-amount-note {
+  color: rgba(0, 29, 77, 0.55);
+  font-size: 10px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.fm-bullet {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11.5px;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.4;
+}
+.fm-bullet::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* radio rows */
+.fm-radio {
+  background: white;
+  border-radius: 8px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--optimum-blue);
+  font-size: 13px;
+  font-weight: 600;
+  border: 1.5px solid transparent;
+}
+.fm-radio.selected {
+  border-color: var(--optimum-orange);
+  box-shadow: 0 0 0 3px rgba(246, 102, 8, 0.22);
+}
+.fm-radio-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 29, 77, 0.3);
+  flex-shrink: 0;
+  position: relative;
+}
+.fm-radio.selected .fm-radio-dot {
+  border-color: var(--optimum-orange);
+}
+.fm-radio.selected .fm-radio-dot::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: var(--optimum-orange);
+}
+
+/* bill preview */
+.fm-bill-preview {
+  background: white;
+  border-radius: 8px;
+  padding: 10px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.fm-bill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--optimum-blue);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.fm-bill-row.muted { color: rgba(0, 29, 77, 0.55); }
+.fm-bill-amt {
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.fm-bill-note {
+  color: rgba(0, 29, 77, 0.55);
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(0, 29, 77, 0.18);
+  text-align: center;
+}
+
+/* ===== Funnel mock animation states ===== */
+.fm-field.active {
+  outline: 2px solid var(--optimum-orange);
+  outline-offset: 0;
+  box-shadow: 0 0 0 4px rgba(246, 102, 8, 0.18);
+}
+.fm-field-value::after {
+  content: '|';
+  color: transparent;
+  margin-left: 1px;
+}
+.fm-field.active .fm-field-value::after {
+  color: var(--optimum-orange);
+  animation: fm-blink 0.9s step-end infinite;
+}
+@keyframes fm-blink { 50% { opacity: 0; } }
+
+.fm-fade {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.fm-fade.shown { opacity: 1; }
+
+/* spinner / decision stage */
+.fm-credit-stage {
+  position: relative;
+  min-height: 110px;
+}
+.fm-spinner,
+.fm-credit-stage .fm-decision {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  background: white;
+  transition: opacity 0.4s ease;
+}
+.fm-credit-stage .fm-decision {
+  opacity: 0;
+  pointer-events: none;
+  padding: 12px;
+}
+.fm-credit-stage.loaded .fm-spinner { opacity: 0; pointer-events: none; }
+.fm-credit-stage.loaded .fm-decision { opacity: 1; pointer-events: auto; }
+.fm-spinner-ring {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 29, 77, 0.15);
+  border-top-color: var(--optimum-blue);
+  animation: fm-spin 0.8s linear infinite;
+}
+.fm-spinner-text {
+  color: rgba(0, 29, 77, 0.6);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+@keyframes fm-spin { to { transform: rotate(360deg); } }
+
+/* upload completion */
+.fm-upload.complete {
+  background: rgba(40, 167, 69, 0.12);
+  border-color: rgba(40, 167, 69, 0.45);
+  border-style: solid;
+}
+.fm-upload.complete .fm-upload-icon {
+  background: var(--green);
+}
+
+/* hover pause cursor */
+.funnel-mock { cursor: pointer; }
+
+/* ===== SMS PREVIEW (Tab 4 / Wave 1) ===== */
+.sms-preview {
+  background: #1a1a2e;
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  margin: 16px 0 14px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+}
+.sms-preview-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 10px;
+}
+.sms-stage {
+  position: relative;
+  flex: 1;
+  min-height: 130px;
+  overflow: hidden;
+}
+.sms-bubble {
+  background: #e5e5ea;
+  color: #1c1c1e;
+  border-radius: 16px;
+  padding: 10px 14px;
+  max-width: 92%;
+  font-size: 12.5px;
+  line-height: 1.45;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transform: translateY(115%);
+  transition: opacity 0.5s ease, transform 0.55s cubic-bezier(0.32, 0.72, 0.24, 1);
+  pointer-events: none;
+}
+.sms-bubble.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.sms-bubble.exiting {
+  opacity: 0;
+  transform: translateY(-115%);
+}
+.sms-sender {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-bottom: 3px;
+}
+.sms-dots {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.sms-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.sms-dot.active {
+  background: var(--optimum-orange);
+  transform: scale(1.2);
+}
+
+/* ===== EXECUTION WAVES ===== */
+.wave-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+@media (max-width: 1000px) { .wave-grid { grid-template-columns: 1fr; } }
+.wave-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--gray-medium);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+.wave-card.wave-1 { border-top-color: var(--green); }
+.wave-card.wave-2 { border-top-color: var(--optimum-orange); }
+.wave-card.wave-3 { border-top-color: var(--optimum-blue); }
+.wave-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+.wave-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.wave-1 .wave-label { background: var(--green-light); color: var(--green); }
+.wave-2 .wave-label { background: var(--optimum-orange-light); color: var(--optimum-orange-dark); }
+.wave-3 .wave-label { background: var(--optimum-blue-light); color: var(--optimum-blue); }
+.wave-time {
+  font-size: 12px;
+  color: var(--gray);
+  font-weight: 600;
+}
+.wave-card h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 14px;
+}
+.wave-card ul {
+  margin: 0 0 14px;
+  padding-left: 18px;
+  flex: 1;
+}
+.wave-card ul li {
+  font-size: 13.5px;
+  color: var(--slate);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.wave-outcome {
+  background: var(--light-gray);
+  border-left: 3px solid var(--gray-border);
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--dark);
+  line-height: 1.5;
+}
+.wave-1 .wave-outcome { border-left-color: var(--green); }
+.wave-2 .wave-outcome { border-left-color: var(--optimum-orange); }
+.wave-3 .wave-outcome { border-left-color: var(--optimum-blue); }
+
+/* Definition of Done block (Wave 2) */
+.wave-dod {
+  background: rgba(47, 133, 90, 0.06);
+  border: 1px solid rgba(47, 133, 90, 0.2);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 16px 0 14px;
+}
+.wave-dod-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+.wave-dod-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+.wave-dod-item:last-child { margin-bottom: 0; }
+.wave-dod-check {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Highlighted bullet matching the demo for that wave */
+.wave-card li.bullet-active {
+  list-style: none;
+  margin-left: -18px;
+  padding: 5px 10px 5px 14px;
+  border-left: 3px solid;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 8px;
+}
+.wave-1 li.bullet-active {
+  border-left-color: var(--green);
+  background: var(--green-light);
+}
+.wave-2 li.bullet-active {
+  border-left-color: var(--optimum-orange);
+  background: var(--optimum-orange-light);
+}
+.wave-3 li.bullet-active {
+  border-left-color: var(--optimum-blue);
+  background: var(--optimum-blue-light);
+}
+
+/* ===== RISK LIST ===== */
+.risk-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+.risk-row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+  padding: 14px 18px;
+  background: var(--light-gray);
+  border-left: 3px solid var(--red);
+  border-radius: 4px;
+  align-items: start;
+}
+@media (max-width: 700px) { .risk-row { grid-template-columns: 1fr; gap: 4px; } }
+.risk-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dark);
+}
+.risk-mitigation {
+  font-size: 13.5px;
+  color: var(--slate);
+  line-height: 1.55;
+}
+
+/* ===== SEGMENT STACK (Tab 1) ===== */
+.segment-stack {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0 8px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.segment-row {
+  padding: 20px 24px;
+  transition: background 0.15s ease;
+}
+.segment-row.risk-low { background: var(--green-light); }
+.segment-row.risk-mid { background: var(--optimum-blue-light); }
+.segment-row.risk-partial { background: var(--optimum-orange-light); }
+.segment-row.risk-high { background: var(--red-light); }
+.segment-row + .segment-row { border-top: 1px solid rgba(0,0,0,0.06); }
+.segment-row h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.segment-row > p {
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.55;
+  margin: 0 0 10px;
+  max-width: none;
+}
+.segment-goal {
+  font-size: 13px;
+  color: var(--gray);
+  border-left: 2px solid rgba(0,0,0,0.14);
+  padding: 4px 0 4px 10px;
+}
+.segment-goal strong { color: var(--dark); font-weight: 600; }
+
+/* Solid risk tags (used in segment stack) */
+.risk-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: white;
+  white-space: nowrap;
+}
+.risk-tag.green { background: var(--green); }
+.risk-tag.blue { background: var(--optimum-blue); }
+.risk-tag.orange { background: var(--optimum-orange); }
+.risk-tag.red { background: var(--red); }
+
+/* ===== AI USAGE LOG ===== */
+.ai-log {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 18px 0 8px;
+}
+.ai-stage {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 18px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+}
+@media (max-width: 600px) { .ai-stage { grid-template-columns: 1fr; gap: 8px; } }
+.ai-stage-num {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--optimum-orange);
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.ai-stage-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 8px;
+  letter-spacing: -0.2px;
+}
+.ai-action {
+  font-size: 13.5px;
+  color: var(--slate);
+  line-height: 1.55;
+  margin-bottom: 4px;
+}
+.ai-action:last-child { margin-bottom: 0; }
+.ai-action strong { color: var(--dark); font-weight: 600; }
+.ai-action.ai-did strong { color: var(--optimum-blue); }
+.ai-action.kevin-did strong { color: var(--optimum-orange); }
+
+/* Inline links inside content sections */
+.content-section a, .card a {
+  color: var(--optimum-orange);
+  text-decoration: none;
+  border-bottom: 1px solid var(--optimum-orange-soft);
+  transition: border-color 0.15s ease;
+}
+.content-section a:hover, .card a:hover {
+  border-bottom-color: var(--optimum-orange);
+}
+
+/* Annotation-aware link colors so they don't clash with the box theme */
+.proof-annotation a {
+  color: var(--green);
+  border-bottom-color: var(--green-border);
+}
+.proof-annotation a:hover { border-bottom-color: var(--green); }
+
+.compliance-annotation a {
+  color: var(--optimum-blue);
+  border-bottom-color: var(--optimum-blue-soft);
+}
+.compliance-annotation a:hover { border-bottom-color: var(--optimum-blue); }
+
+.annotation a {
+  color: var(--amber);
+  border-bottom-color: var(--amber-border);
+}
+.annotation a:hover { border-bottom-color: var(--amber); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 720px) {
+  .pres-header { flex-direction: column; align-items: flex-start; padding: 20px 24px; gap: 16px; }
+  .pres-header .author { text-align: left; }
+  .tab-bar { padding: 0 16px; }
+  .tab { padding: 14px 16px; font-size: 12px; }
+  .concept-header { padding: 40px 24px 32px; }
+  .concept-header h2 { font-size: 26px; }
+  .content-section { padding: 32px 24px; }
+  .tab-footer { padding: 24px; }
+  .approach-title { font-size: 19px; }
+  .funnel-widget { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- HEADER -->
+<!-- ============================================================ -->
+<header class="pres-header">
+  <div class="brand-area">
+    <!-- Optimum wordmark, white text + orange dot for use on dark blue header -->
+    <svg class="wordmark" viewBox="0 0 272.5 55.4" xmlns="http://www.w3.org/2000/svg" aria-label="Optimum">
+      <g>
+        <path fill="#FFFFFF" fill-rule="evenodd" clip-rule="evenodd" d="M72.5,26.5h3.7v12.2c0,4.1,1.8,8,10,8c3,0,6.4-0.4,7.7-0.6V36H91c-2.4,0-2.3-1.3-2.3-2.1v-7.4h5.5V16.1h-5.5V6.5H76.1v9.6h-3.7L72.5,26.5L72.5,26.5z M16.9,14.3C7.2,14.3,0,21.7,0,31s7.2,16.7,16.9,16.7S33.8,40.3,33.8,31S26.6,14.3,16.9,14.3 M16.9,36.4c-2.9,0-5.2-2.4-5.2-5.4s2.3-5.4,5.2-5.4s5.2,2.4,5.2,5.4S19.8,36.4,16.9,36.4 M56.9,15.1c-3.6,0-6.5,1.1-8.6,3.6c0.1-0.7,0.2-1.4,0.2-2v-0.5H36.2v39.2h12.2V44.9c2.1,2.3,5,3.4,8.5,3.4c7.9,0,14.1-7,14.1-16.6S64.8,15.1,56.9,15.1 M53.4,37.1c-2.9,0-5.2-2.4-5.2-5.3s2.3-5.3,5.2-5.3s5.2,2.4,5.2,5.3S56.3,37.1,53.4,37.1"/>
+        <path fill="#F66608" fill-rule="evenodd" clip-rule="evenodd" d="M265.3,32.4c-4,0-7.3,3.2-7.3,7.2s3.2,7.2,7.3,7.2c4,0,7.2-3.2,7.2-7.2S269.3,32.4,265.3,32.4"/>
+        <path fill="#FFFFFF" fill-rule="evenodd" clip-rule="evenodd" d="M108.1,0c-4.1,0-7.4,3.3-7.4,7.3s3.3,7.3,7.4,7.3s7.4-3.3,7.4-7.3S112.1,0,108.1,0 M98.6,27.1h3.6v19.7h12.3V16.6H98.6V27.1z M189.3,33.4c0,2.5-1.7,3.4-3.1,3.4c-1.3,0-2.9-0.8-2.9-3.4V16.6H171v18.3c0,6.5,4.8,13.3,15.2,13.3s15.2-6.7,15.3-13.3V16.6h-12.2V33.4L189.3,33.4z M244.1,15.1c-4.1,0-7.4,1.7-9.8,4.7c-1.7-2.9-4.8-4.7-8.6-4.7c-3,0-5.9,1.4-7.9,3.6c0,0,0.2-1,0.2-2.6v-0.5h-12.3v31.1H218v-19c0.4-0.5,1.6-1.7,3.2-1.7c1.6,0,3,1,3,3.2v17.5h12.3v-19c0.4-0.6,1.6-1.7,3.2-1.7c1.6,0,3,1,3,3.2v17.5H255V25.5C255.1,18.7,249.6,15.1,244.1,15.1 M157.1,15.1c-4.1,0-7.4,1.7-9.8,4.7c-1.7-2.9-4.8-4.7-8.6-4.7c-2.9,0-5.9,1.4-7.8,3.6c0,0,0.2-1,0.2-2.6v-0.5h-12.3v31.1h12.3v-19c0.4-0.5,1.6-1.7,3.2-1.7c1.6,0,3,1,3,3.2v17.5h12.3v-19c0.3-0.6,1.6-1.7,3.2-1.7c1.6,0,3,1,3,3.2v17.5h12.3V25.5C168.1,18.7,162.6,15.1,157.1,15.1"/>
+      </g>
+    </svg>
+    <div class="titles">
+      <h1>Reducing Early Churn Without Slowing Gross Adds</h1>
+    </div>
+  </div>
+  <div class="author">
+    <a href="https://middleton.io" target="_blank" rel="noopener"><strong>Kevin Middleton</strong></a>
+    <div class="meta">May 2026</div>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- TAB BAR -->
+<!-- ============================================================ -->
+<nav class="tab-bar" role="tablist" aria-label="Document sections">
+  <div class="tab active" onclick="switchTab(0)" role="tab"><span class="tab-num">&#x1F3AF;</span>Problem</div>
+  <div class="tab" onclick="switchTab(1)" role="tab"><span class="tab-num">&#x1F9E9;</span>Approach</div>
+  <div class="tab" onclick="switchTab(2)" role="tab"><span class="tab-num">&#x1F4CA;</span>Metrics</div>
+  <div class="tab" onclick="switchTab(3)" role="tab"><span class="tab-num">&#x1F680;</span>Execution</div>
+  <div class="tab" onclick="switchTab(4)" role="tab"><span class="tab-num">&#x1F916;</span>How I Use AI</div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- TAB 1: PROBLEM FRAMING -->
+<!-- ============================================================ -->
+<div class="tab-content active" id="tab-0" role="tabpanel">
+  <div class="concept-header">
+    <div class="concept-label">Section 1 · Problem Framing</div>
+    <h2>Customer quality, not customer volume.</h2>
+    <p>The right customer at the right tier, every time.</p>
+  </div>
+
+  <div class="content-section">
+    <h3>Strategic Context</h3>
+    <p>Three voices from the onsite shaped how I thought about this.</p>
+    <ul>
+      <li><strong style="color: var(--green)">Barbara</strong> <span class="role-tag">(Sr Dir, B2C Mobile Product)</span> brought up differentiated fraud flows (ID scanning for some users, not all) and the broader question of how to handle different customer profiles. The same idea applies to every step, not just identity.</li>
+      <li><strong style="color: var(--optimum-orange)">Sarah</strong> <span class="role-tag">(Sr Dir, Monetization)</span> flagged that promo codes are doing most of the acquisition work on Mobile today.</li>
+      <li><strong style="color: var(--optimum-blue)">Scott</strong> <span class="role-tag">(Sr Dir, Content Management)</span> raised the opportunity to pursue standalone MVNO customers, a play Optimum hasn't yet committed to. Any onboarding redesign should work for today's bundle-first base AND scale to cold-start customers tomorrow.</li>
+    </ul>
+  </div>
+
+  <div class="content-section alt">
+    <h3>Customer Segments</h3>
+    <p>Four segments to design for, ordered by risk profile.</p>
+
+    <div class="segment-stack">
+      <div class="segment-row risk-low">
+        <h4>Fixed bundlers adding Mobile <span class="risk-tag green">Lowest risk</span></h4>
+        <p>Already verified, billing history on file. Highest LTV. The current flow probably feels like overkill to them.</p>
+        <div class="segment-goal"><strong>Goal:</strong> frictionless. Reward the existing relationship.</div>
+      </div>
+      <div class="segment-row risk-mid">
+        <h4>Returning customers <span class="risk-tag blue">Variable risk</span></h4>
+        <p>Identity and credit history are signals the current flow throws away. They left for a reason, came back for a reason.</p>
+        <div class="segment-goal"><strong>Goal:</strong> acknowledge the return, calibrate based on history.</div>
+      </div>
+      <div class="segment-row risk-partial">
+        <h4>Referred new customers <span class="risk-tag orange">Partial trust</span></h4>
+        <p>Don't currently exist as a segment because Mobile has no referral program of its own. A referral comes pre-qualified by trust.</p>
+        <div class="segment-goal"><strong>Goal:</strong> smoother path earned by the referral context.</div>
+      </div>
+      <div class="segment-row risk-high">
+        <h4>Cold new customers acquired by promo <span class="risk-tag red">Highest risk</span></h4>
+        <p>No existing relationship, no trust signal. Highest fraud risk, highest churn risk, lowest unit economics.</p>
+        <div class="segment-goal"><strong>Goal:</strong> full verification. Each step prevents a downstream cost.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>Stated Assumptions</h3>
+    <p>Without internal data, I'm working from <a href="https://paylode.com/articles/how-telecom-brands-can-slash-churn-without-slashing-prices" target="_blank" rel="noopener">industry benchmarks</a>. MVNO and prepaid wireless monthly churn runs <strong>3-5%</strong>. The <a href="https://www.userintuition.ai/reference-guides/onboarding-and-churn-the-first-7-30-and-90-days/" target="_blank" rel="noopener">first 90 days</a> carry disproportionate risk; the <a href="https://www.fullstory.com/blog/predicting-customer-churn/" target="_blank" rel="noopener">first 7-14 days are the most predictive</a> of long-term retention.</p>
+
+    <p>Four churn drivers that frequently show up:</p>
+    <ul>
+      <li><strong>Coverage gaps</strong> (often "silent churn," where the customer leaves without ever calling support)</li>
+      <li><strong>Bill shock at the promo cliff</strong></li>
+      <li><strong>Poor support experience</strong></li>
+      <li><strong>Onboarding or activation friction</strong></li>
+    </ul>
+
+    <div class="proof-annotation">
+      <div class="annotation-label">Insight</div>
+      <p><a href="https://www.computerweekly.com/blog/The-Full-Spectrum/How-churn-is-breaking-the-telecoms-market-and-what-service-providers-can-do-about-it" target="_blank" rel="noopener">Cricket Wireless</a> cut early churn <strong>37%</strong> by tightening consistency between sales promise, delivered service, and first bill.</p>
+    </div>
+  </div>
+
+  <div class="content-section alt">
+    <h3>Recommendation</h3>
+    <ul>
+      <li><strong style="color: var(--green)">Build an adaptive, componentized onboarding funnel</strong> that changes based on customer segment and risk tier.</li>
+      <li><strong style="color: var(--optimum-orange)">Launch a retention-tied referral program</strong> alongside promo codes (a second acquisition lever).</li>
+      <li><strong style="color: var(--optimum-blue)">Ship quick wins</strong> (chat routing, coverage transparency, promo-cliff communication) in parallel.</li>
+    </ul>
+
+    <p><strong>Target:</strong> 6-15% reduction in 90-day early churn within two quarters, validated by component-level A/B testing, without measurable impact on gross adds.</p>
+
+    <div class="recommendation">
+      <p><strong>Why this won't slow gross adds.</strong> The hypothesis is that the right friction at the top (coverage transparency, tiered identity verification, plan education that sets honest expectations on throttling) filters customers who would have churned in the first 30 days anyway. Higher quality customers, not fewer customers. The answer isn't slower onboarding; it's right-sized onboarding for who's coming through the door.</p>
+    </div>
+  </div>
+
+  <div class="tab-footer">
+    <p>Next, how the three approaches fit together. <a href="#approach">Approach →</a></p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 2: APPROACH -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-1" role="tabpanel">
+  <div class="concept-header">
+    <div class="concept-label">Section 2 · Options &amp; Tradeoffs</div>
+    <h2>Three approaches that fit together.</h2>
+    <p>The funnel is the foundation, the referral program increases lead quality/LTV, and unified support reduces confusion and churn.</p>
+  </div>
+
+  <div class="content-section">
+    <div class="approach-block">
+      <div class="approach-header">
+        <span class="approach-num">01</span>
+        <h3 class="approach-title">Adaptive componentized funnel</h3>
+        <span class="approach-pill">Foundational</span>
+      </div>
+      <p>Build onboarding as a library of modular components (coverage check, plan education, light or full eKYC, credit decision, deposit logic, activation, post-activation engagement) and assemble different paths per segment based on a real-time risk score. Fixed bundlers see four steps. Cold customers see seven. Same components, different path.</p>
+      <p>This aligns directly with the instinct on differentiated fraud flows. ID scanning isn't on or off. It's one tier in a graduated identity system. Light eKYC for referred customers, full eKYC for cold promo signups, skip entirely for verified Fixed bundlers.</p>
+
+      <div class="tradeoff-grid">
+        <div class="tradeoff pros">
+          <h5>Pros</h5>
+          <ul>
+            <li>Maximum compliance flexibility</li>
+            <li>Supports today's bundle base AND tomorrow's standalone play</li>
+            <li>Every component is independently A/B testable</li>
+          </ul>
+        </div>
+        <div class="tradeoff cons">
+          <h5>Cons</h5>
+          <ul>
+            <li>Larger initial build</li>
+            <li>Requires modular front-end architecture</li>
+            <li>Decisioning service is a new platform component</li>
+          </ul>
+        </div>
+        <div class="tradeoff risks">
+          <h5>Risks &amp; Mitigations</h5>
+          <ul>
+            <li><strong>Decisioning is a single point of failure:</strong> fall back to "treat as cold" if down</li>
+            <li><strong>Flow sprawl:</strong> strict component ownership and shared analytics</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="compliance-annotation">
+        <div class="annotation-label">Track Record · I've Built This Before</div>
+        <p>At HVAC.com I owned a 7-step funnel. The whole thing was instrumented for A/B testing: I could reorder steps, update the copy within them, and remove steps entirely, then measure the conversion impact of each change.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section alt">
+    <h3>Modular Funnel: Same Components, Variable Steps</h3>
+    <p>Four customer segments use the same components, but follow different journeys. Click a customer segment to see how the funnel adapts.</p>
+
+    <div class="funnel-widget">
+      <div class="widget-header">
+        <h4>Adaptive Funnel by Segment <span class="interactive-badge">Interactive</span></h4>
+        <p class="hint"><strong class="click-cta">Click a customer segment</strong> to see how the funnel adapts.</p>
+      </div>
+
+      <div class="segment-selector" id="segment-selector">
+        <button class="segment-btn selected" data-segment="fixed">Fixed Bundler</button>
+        <button class="segment-btn" data-segment="returning">Returning</button>
+        <button class="segment-btn" data-segment="referred">Referred</button>
+        <button class="segment-btn" data-segment="cold">Cold (Promo)</button>
+      </div>
+
+      <div class="segment-context">
+        <p id="segment-description"></p>
+      </div>
+
+      <div class="funnel-track" id="funnel-track">
+        <div class="component-card" data-component="coverage">
+          <div>
+            <div class="comp-num">01</div>
+            <div class="comp-name">Coverage Check</div>
+          </div>
+          <div class="comp-state"></div>
+        </div>
+        <div class="component-card" data-component="plan">
+          <div>
+            <div class="comp-num">02</div>
+            <div class="comp-name">Plan Education</div>
+          </div>
+          <div class="comp-state"></div>
+        </div>
+        <div class="component-card" data-component="identity">
+          <div>
+            <div class="comp-num">03</div>
+            <div class="comp-name">Identity / eKYC</div>
+          </div>
+          <div class="comp-state"></div>
+        </div>
+        <div class="component-card" data-component="credit">
+          <div>
+            <div class="comp-num">04</div>
+            <div class="comp-name">Credit Decision</div>
+          </div>
+          <div class="comp-state"></div>
+        </div>
+        <div class="component-card" data-component="deposit">
+          <div>
+            <div class="comp-num">05</div>
+            <div class="comp-name">Deposit Logic</div>
+          </div>
+          <div class="comp-state"></div>
+        </div>
+        <div class="component-card" data-component="activation">
+          <div>
+            <div class="comp-num">06</div>
+            <div class="comp-name">Activation</div>
+          </div>
+          <div class="comp-state"></div>
+        </div>
+        <div class="component-card" data-component="engagement">
+          <div>
+            <div class="comp-num">07</div>
+            <div class="comp-name">Post-Activation</div>
+          </div>
+          <div class="comp-state"></div>
+        </div>
+      </div>
+
+      <div class="funnel-legend">
+        <div class="legend-item"><span class="legend-dot full"></span>Full depth</div>
+        <div class="legend-item"><span class="legend-dot light"></span>Light depth</div>
+        <div class="legend-item"><span class="legend-dot conditional"></span>Conditional</div>
+        <div class="legend-item"><span class="legend-dot skip"></span>Skipped</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="approach-block">
+      <div class="approach-header">
+        <span class="approach-num">02</span>
+        <h3 class="approach-title">Retention-tied referral program</h3>
+        <span class="approach-pill blue">Acquisition + Retention</span>
+      </div>
+      <p>Add a Mobile referral program alongside promo codes. Both referrer and new customer earn <strong>$10 at activation and $20 more at 90 days</strong>, with the larger credit gated on staying through the promo cliff. This extends Optimum's existing <a href="https://refer.optimum.com" target="_blank" rel="noopener">Fixed-side referral program</a> ($50, 60-day vesting), with smaller credits sized to Mobile and two vesting milestones instead of one.</p>
+
+      <div class="tradeoff-grid">
+        <div class="tradeoff pros">
+          <h5>Pros</h5>
+          <ul>
+            <li>Better-quality leads (referrers self-select for fit)</li>
+            <li>Stickier than promo codes</li>
+          </ul>
+        </div>
+        <div class="tradeoff cons">
+          <h5>Cons</h5>
+          <ul>
+            <li>Slower top-of-funnel in months 1-2 while seeding</li>
+            <li>Introduces a new fraud surface</li>
+            <li>Requires Fixed-side technical alignment</li>
+          </ul>
+        </div>
+        <div class="tradeoff risks">
+          <h5>Risks &amp; Mitigations</h5>
+          <ul>
+            <li><strong>Referral abuse:</strong> identity-tied accounts plus 90-day vesting</li>
+            <li><strong>Cannibalizing promo signups:</strong> run both in parallel, compare the LTV delta</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section alt">
+    <div class="approach-block">
+      <div class="approach-header">
+        <span class="approach-num">03</span>
+        <h3 class="approach-title">Unified, context-aware support</h3>
+        <span class="approach-pill green">Quick Wins</span>
+      </div>
+      <p>Today the mobile <a href="https://www.optimum.com/mobile/" target="_blank" rel="noopener">homepage chatbot</a> and the <a href="https://support.optimummobile.com/hc/en-us/" target="_blank" rel="noopener">Allie support bot</a> are two different experiences, and a user mid-onboarding can land on either. Unify both into a single chat that gets users where they need to go, regardless of where they entered from.</p>
+
+      <div class="tradeoff-grid">
+        <div class="tradeoff pros">
+          <h5>Pros</h5>
+          <ul>
+            <li>Smaller scope, faster to ship</li>
+            <li>Addresses the support-cost half of the brief directly</li>
+            <li>Existing chat infrastructure to build on</li>
+          </ul>
+        </div>
+        <div class="tradeoff cons">
+          <h5>Cons</h5>
+          <ul>
+            <li>Requires content coordination with the content team</li>
+            <li>Chat platform may have routing constraints</li>
+          </ul>
+        </div>
+        <div class="tradeoff risks">
+          <h5>Risks &amp; Mitigations</h5>
+          <ul>
+            <li><strong>Routing complexity:</strong> start simple with page and intent signals, expand only when measurable problems demand it</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>Why all three, in what order</h3>
+    <p>Each approach hits a different churn driver. The funnel hits onboarding friction and bill-shock prevention. The referral program hits customer quality at the top. Unified support hits support friction and ticket volume per new customer.</p>
+    <p>Sequence the work to deliver value while the bigger build is in flight. Unified chat ships first as quick wins and instrumentation. The modular funnel builds in parallel. The referral program layers on once the funnel can receive segment-aware traffic. The Execution tab walks through the wave-by-wave plan.</p>
+  </div>
+
+  <div class="tab-footer">
+    <p>Next, the five metrics that tell us whether it's working. <a href="#metrics">Metrics →</a></p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 3: METRICS -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-2" role="tabpanel">
+  <div class="concept-header">
+    <div class="concept-label">Section 3 · Metrics &amp; Validation</div>
+    <h2>What we measure, what we test, what we validate first.</h2>
+  </div>
+
+  <div class="content-section">
+    <h3>Primary Metrics</h3>
+    <p>Track five metrics to see if the changes are working. Cut each by segment so we can tell when one kind of customer is getting better while another may be getting worse.</p>
+
+    <div class="metric-hierarchy">
+      <div class="metric-hero">
+        <div class="metric-hero-label">Headline Metric</div>
+        <h4 class="metric-hero-name">90-Day Churn Rate</h4>
+        <div class="metric-hero-target"><span class="metric-hero-arrow">↓</span>6-15%</div>
+        <div class="metric-hero-target-label">Reduction within two quarters, cut by segment. The top-line measure of whether the program is working.</div>
+      </div>
+      <div class="metric-secondary">
+        <div class="metric-mini">
+          <div class="metric-mini-arrow">↑</div>
+          <div class="metric-mini-text">
+            <div class="metric-mini-name">Activation Completion Rate</div>
+            <p class="metric-mini-desc">Cut by funnel variant. Did the customer finish the path they were assigned?</p>
+          </div>
+        </div>
+        <div class="metric-mini">
+          <div class="metric-mini-arrow">↓</div>
+          <div class="metric-mini-text">
+            <div class="metric-mini-name">Support Contact Rate</div>
+            <p class="metric-mini-desc">Per new customer in the first 30 days. Tracks support load and serves as an onboarding-experience proxy.</p>
+          </div>
+        </div>
+        <div class="metric-mini">
+          <div class="metric-mini-arrow">→</div>
+          <div class="metric-mini-text">
+            <div class="metric-mini-name">Gross Adds</div>
+            <p class="metric-mini-desc">The protected constraint from the brief. Watch for any meaningful negative delta.</p>
+          </div>
+        </div>
+        <div class="metric-mini">
+          <div class="metric-mini-arrow">↓</div>
+          <div class="metric-mini-text">
+            <div class="metric-mini-name">Cost-to-Serve</div>
+            <p class="metric-mini-desc">Per onboarded customer, online versus in-store. Tracks the economics of each channel as volume shifts.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section alt">
+    <h3>Secondary &amp; Diagnostic Metrics</h3>
+    <p>Used to diagnose moves in primary metrics:</p>
+    <ul class="compact-list">
+      <li><strong>Coverage-check completion &amp; exit reasons:</strong> who finishes the step, and how many exit because of no coverage?</li>
+      <li><strong>Referrer and referred retention</strong> at activation, day 30, day 90: do dual-vesting credits actually pull both parties through the promo cliff?</li>
+      <li><strong>Promo-cliff churn:</strong> within 30 days of promo expiration</li>
+      <li><strong>Bill-shock proxy:</strong> support tickets mentioning billing in days 30-45</li>
+      <li><strong>Activation completion time:</strong> by segment; long times in the cold flow are early warnings</li>
+    </ul>
+  </div>
+
+  <div class="content-section">
+    <h3>Validation Approach</h3>
+    <div class="validation-grid">
+      <div class="validation-prose">
+        <p>Modular architecture pays off here: we can run separate experiments on coverage check placement, eKYC step ordering, deposit messaging, and welcome emails without touching adjacent components. Existing flow as control, new adaptive flow as treatment, evaluated separately by segment.</p>
+        <p><strong>The first and easiest test:</strong> make the existing coverage checker (<a href="https://www.optimum.com/mobile/network" target="_blank" rel="noopener">optimum.com/mobile/network</a>) a required Step 1 of onboarding (auto-confirmed for Fixed bundlers since we already have their address). The example here shows a multi-zip coverage checker flow: home, work, and other, so that you can easily check your most-visited locations in one shot. Mint Mobile makes coverage check a hard requirement at signup. Coverage gaps are a leading silent-churn driver. Customers who exit at this step aren't lost gross adds, they're 30-day churns we surfaced early and didn't pay support, SIM, and activation costs to discover later.</p>
+        <p><strong>The metric to watch:</strong> 90-day churn delta between the new flow (with required coverage check) and the existing flow (no coverage step in onboarding). Coverage-related exits get their own bucket, not counted as funnel abandonment.</p>
+        <p><strong>The target:</strong> 6-15% reduction in 90-day churn. That's the conservative end of a 6-20% range from industry case studies. We'll adjust once we see internal numbers.</p>
+      </div>
+      <div class="coverage-mock" id="coverage-mock" title="Hover to pause, click to skip to results">
+        <div class="coverage-mock-toprow">
+          <div class="coverage-mock-header">Coverage Check</div>
+          <div class="coverage-mock-step">Onboarding · Step 1</div>
+        </div>
+        <div class="coverage-mock-subtitle">Where do you need service?</div>
+        <div class="coverage-mock-fields">
+          <div class="coverage-field"><span class="coverage-field-label">Home</span><span class="coverage-zip-input"></span></div>
+          <div class="coverage-field is-hidden"><span class="coverage-field-label">Work</span><span class="coverage-zip-input"></span></div>
+          <div class="coverage-field is-hidden"><span class="coverage-field-label">Other</span><span class="coverage-zip-input"></span></div>
+        </div>
+        <button class="coverage-add-btn" type="button"><span class="coverage-add-icon">+</span> Add another</button>
+        <button class="coverage-check-btn" type="button">Check Coverage</button>
+        <div class="coverage-results"></div>
+        <div class="coverage-mock-caption">Required Step 1 of signup. Filters customers who would have churned at week 2 over coverage, before we paid activation costs.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>Seven components, seven test surfaces</h3>
+    <p>Each card below shows what one component actually looks like, plus the experiment we'd run on it.</p>
+
+    <div class="funnel-mocks-grid">
+
+      <!-- 01 Coverage Check -->
+      <div class="funnel-mock" id="fm-coverage" title="Hover to pause, click to skip ahead">
+        <div class="funnel-mock-toprow">
+          <div class="funnel-mock-header">Coverage Check</div>
+          <div class="funnel-mock-step">Step 1</div>
+        </div>
+        <div class="funnel-mock-subtitle">Where do you need service?</div>
+        <div class="funnel-mock-body">
+          <div class="fm-field"><span class="fm-field-label">Home</span><span class="fm-field-value" data-final="11225"></span></div>
+          <div class="fm-field is-hidden"><span class="fm-field-label">Work</span><span class="fm-field-value" data-final="10018"></span></div>
+          <div class="fm-field is-hidden"><span class="fm-field-label">Other</span><span class="fm-field-value" data-final="07030"></span></div>
+          <button class="coverage-add-btn" type="button"><span class="coverage-add-icon">+</span> Add another</button>
+        </div>
+        <div class="funnel-mock-caption"><strong>Test:</strong> required Step 1 vs no coverage step at signup.<br><strong>Metric:</strong> 90-day churn delta + pre-commitment exits.</div>
+      </div>
+
+      <!-- 02 Plan Education -->
+      <div class="funnel-mock" id="fm-plan" title="Hover to pause, click to skip ahead">
+        <div class="funnel-mock-toprow">
+          <div class="funnel-mock-header">Choose a Plan</div>
+          <div class="funnel-mock-step">Step 2</div>
+        </div>
+        <div class="funnel-mock-subtitle">What fits your usage?</div>
+        <div class="funnel-mock-body">
+          <div class="fm-plan-tile"><span class="fm-plan-name">1 GB</span><span class="fm-plan-price">$15</span></div>
+          <div class="fm-plan-tile"><span class="fm-plan-name">5 GB</span><span class="fm-plan-price">$25</span></div>
+          <div class="fm-plan-tile"><span class="fm-plan-name">Unlimited</span><span class="fm-plan-price">$20<span class="fm-plan-suffix">/line · 3+ lines</span></span></div>
+          <div class="fm-plan-tile"><span class="fm-plan-name">Unlimited Max</span><span class="fm-plan-price">$26.67<span class="fm-plan-suffix">/line · 3+ lines</span></span></div>
+          <div class="fm-fineprint fm-fade">Speeds may slow on heavy use.</div>
+        </div>
+        <div class="funnel-mock-caption"><strong>Test:</strong> honest throttling copy vs marketing-only.<br><strong>Metric:</strong> bill-shock tickets in days 30-45.</div>
+      </div>
+
+      <!-- 03 Identity / eKYC -->
+      <div class="funnel-mock" id="fm-identity" title="Hover to pause, click to skip ahead">
+        <div class="funnel-mock-toprow">
+          <div class="funnel-mock-header">Verify Identity</div>
+          <div class="funnel-mock-step">Step 3</div>
+        </div>
+        <div class="funnel-mock-subtitle">Tier: Full eKYC</div>
+        <div class="funnel-mock-body">
+          <div class="fm-field"><span class="fm-field-label">SSN</span><span class="fm-field-value" data-final="●●●-●●-●●●●"></span></div>
+          <div class="fm-field"><span class="fm-field-label">DOB</span><span class="fm-field-value" data-final="04 / 15 / 1989" data-placeholder="MM / DD / YYYY"></span></div>
+          <div class="fm-upload">
+            <div class="fm-upload-icon">↑</div>
+            <div class="fm-upload-text">Upload Government ID</div>
+          </div>
+        </div>
+        <div class="funnel-mock-caption"><strong>Test:</strong> light vs full vs ID scan, by risk tier.<br><strong>Metric:</strong> fraud rate × completion rate.</div>
+      </div>
+
+      <!-- 04 Credit Decision -->
+      <div class="funnel-mock" id="fm-credit" title="Hover to pause, click to skip ahead">
+        <div class="funnel-mock-toprow">
+          <div class="funnel-mock-header">Credit Decision</div>
+          <div class="funnel-mock-step">Step 4</div>
+        </div>
+        <div class="funnel-mock-subtitle">Real-time decisioning</div>
+        <div class="funnel-mock-body">
+          <div class="fm-credit-stage">
+            <div class="fm-spinner">
+              <div class="fm-spinner-ring"></div>
+              <div class="fm-spinner-text">Reviewing...</div>
+            </div>
+            <div class="fm-decision">
+              <div class="fm-decision-icon">✓</div>
+              <div class="fm-decision-status">Approved</div>
+              <div class="fm-decision-tier">Tier 2 · Standard deposit</div>
+            </div>
+          </div>
+        </div>
+        <div class="funnel-mock-caption"><strong>Test:</strong> model thresholds and decline messaging.<br><strong>Metric:</strong> deposit acceptance, churn by tier.</div>
+      </div>
+
+      <!-- 05 Deposit Logic -->
+      <div class="funnel-mock" id="fm-deposit" title="Hover to pause, click to skip ahead">
+        <div class="funnel-mock-toprow">
+          <div class="funnel-mock-header">Refundable Deposit</div>
+          <div class="funnel-mock-step">Step 5</div>
+        </div>
+        <div class="funnel-mock-subtitle">Based on credit tier</div>
+        <div class="funnel-mock-body">
+          <div class="fm-amount">
+            <div class="fm-amount-value" data-final="$50">$0</div>
+            <div class="fm-amount-note">Refundable</div>
+          </div>
+          <div class="fm-bullet fm-fade">Returned after 6 on-time bills</div>
+          <div class="fm-bullet fm-fade">Soft pull, no impact on credit</div>
+        </div>
+        <div class="funnel-mock-caption"><strong>Test:</strong> amount, refund timing, soft vs hard pull copy.<br><strong>Metric:</strong> completion-after-deposit, retention.</div>
+      </div>
+
+      <!-- 06 Activation -->
+      <div class="funnel-mock" id="fm-activation" title="Hover to pause, click to skip ahead">
+        <div class="funnel-mock-toprow">
+          <div class="funnel-mock-header">Activation</div>
+          <div class="funnel-mock-step">Step 6</div>
+        </div>
+        <div class="funnel-mock-subtitle">Choose your SIM</div>
+        <div class="funnel-mock-body">
+          <div class="fm-radio"><span class="fm-radio-dot"></span>eSIM (instant)</div>
+          <div class="fm-radio"><span class="fm-radio-dot"></span>Physical SIM (ship)</div>
+          <div class="fm-field"><span class="fm-field-label">Port</span><span class="fm-field-value" data-final="(212) 555-0142"></span></div>
+        </div>
+        <div class="funnel-mock-caption"><strong>Test:</strong> SIM vs eSIM default, port-in ordering.<br><strong>Metric:</strong> time-to-activation, abandon rate.</div>
+      </div>
+
+      <!-- 07 Post-Activation -->
+      <div class="funnel-mock" id="fm-engagement" title="Hover to pause, click to skip ahead">
+        <div class="funnel-mock-toprow">
+          <div class="funnel-mock-header">Welcome Aboard</div>
+          <div class="funnel-mock-step">Step 7</div>
+        </div>
+        <div class="funnel-mock-subtitle">Your first bill preview</div>
+        <div class="funnel-mock-body">
+          <div class="fm-bill-preview">
+            <div class="fm-bill-row fm-fade"><span>Today (promo)</span><span class="fm-bill-amt">$30.00</span></div>
+            <div class="fm-bill-row muted fm-fade"><span>After promo</span><span class="fm-bill-amt">$45.00</span></div>
+            <div class="fm-bill-note fm-fade">Promo ends Aug 24</div>
+          </div>
+        </div>
+        <div class="funnel-mock-caption"><strong>Test:</strong> bill preview timing, day-0 vs day-30 nudge.<br><strong>Metric:</strong> 30-day retention, contact rate.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="tab-footer">
+    <p>Next, how we'd sequence the build over six months. <a href="#execution">Execution →</a></p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 4: EXECUTION -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-3" role="tabpanel">
+  <div class="concept-header">
+    <div class="concept-label">Section 4 · Execution &amp; Sequencing</div>
+    <h2>Three waves so we deliver value while the bigger build is in flight.</h2>
+    <p>Quick wins in weeks 1-6. Modular funnel through month 4. Referral program by month 6. Each wave produces signal that informs the next.</p>
+  </div>
+
+  <div class="content-section">
+    <h3>Three Waves</h3>
+
+    <div class="wave-grid">
+      <div class="wave-card wave-1">
+        <div class="wave-header">
+          <span class="wave-label">Wave 1</span>
+          <span class="wave-time">Weeks 1-6</span>
+        </div>
+        <h4>Quick wins &amp; instrumentation</h4>
+        <ul>
+          <li><strong>Unify chat into a single experience</strong> that gets users where they need to go, regardless of where they are on the site.</li>
+          <li><strong>Surface the existing coverage checker</strong> (<a href="https://www.optimum.com/mobile/network" target="_blank" rel="noopener">optimum.com/mobile/network</a>) as part of onboarding. A/B against the current flow where it sits on a separate page.</li>
+          <li class="bullet-active"><strong>Extend Optimum's existing bill SMS with proactive promo expectation-setting</strong>: an activation welcome that previews the cliff, and a warning before it hits. Also suppress conflicting marketing offers to recent signups. No more surprise bills.</li>
+          <li><strong>Stand up a 90-day churn dashboard</strong> cut by segment.</li>
+        </ul>
+
+        <div class="sms-preview" id="sms-preview">
+          <div class="preview-header">
+            <span class="preview-label">SMS sequence</span>
+            <span class="preview-counter"><span class="sms-counter">1</span> of 4</span>
+          </div>
+          <div class="sms-stage">
+            <div class="sms-bubble active">
+              <div class="sms-sender">Optimum Mobile</div>
+              Welcome to Optimum Mobile! Line ending in 0001 is active. First bill of $30 due May 16. Heads up: promo ends Aug 24, monthly becomes $45.
+            </div>
+            <div class="sms-bubble">
+              <div class="sms-sender">Optimum Mobile</div>
+              View your Optimum Mobile bill ending in 0001 at optimum.com/billview. Total amount due of $30 will be automatically paid on May 16.
+            </div>
+            <div class="sms-bubble">
+              <div class="sms-sender">Optimum Mobile</div>
+              Thanks for your recent payment of $30. It will be applied to your Optimum Mobile account ending in 0001.
+            </div>
+            <div class="sms-bubble">
+              <div class="sms-sender">Optimum Mobile</div>
+              Heads up: your promo period ends in 7 days. Your next bill will be $45 (vs $30 previously). Auto-pay is on.
+            </div>
+          </div>
+          <div class="sms-dots">
+            <span class="sms-dot active"></span>
+            <span class="sms-dot"></span>
+            <span class="sms-dot"></span>
+            <span class="sms-dot"></span>
+          </div>
+        </div>
+
+        <div class="wave-outcome">
+          <strong>Outcome:</strong> Quick wins shipped before engineering capacity is absorbed by the bigger build.
+        </div>
+      </div>
+
+      <div class="wave-card wave-2">
+        <div class="wave-header">
+          <span class="wave-label">Wave 2</span>
+          <span class="wave-time">Months 2-4</span>
+        </div>
+        <h4>Build the modular funnel</h4>
+        <ul>
+          <li class="bullet-active"><strong>Define and own components</strong>: coverage, plan, light eKYC, full eKYC, credit, deposit, activation, engagement.</li>
+          <li><strong>Build the risk-tier decisioning service</strong> with Credit &amp; Collections (tier definitions, fall-back behavior, audit logging).</li>
+          <li><strong>Ship the Fixed-bundler flow first</strong>. Lowest risk, fastest signal, biggest near-term LTV impact.</li>
+          <li><strong>Layer in the cold-customer flow</strong> with full eKYC second.</li>
+        </ul>
+
+
+        <div class="wave-outcome">
+          <strong>Outcome:</strong> Two real segment paths running. Decisioning service ready for the rest of the segments.
+        </div>
+      </div>
+
+      <div class="wave-card wave-3">
+        <div class="wave-header">
+          <span class="wave-label">Wave 3</span>
+          <span class="wave-time">Months 4-6</span>
+        </div>
+        <h4>Referral program</h4>
+        <ul>
+          <li><strong>Extend Optimum's existing Fixed-side referral program</strong> at <a href="https://refer.optimum.com" target="_blank" rel="noopener">refer.optimum.com</a> ($50 each, vested at 60 days). Scope the Mobile path.</li>
+          <li><strong>Pilot with bundled customers referring friends or family</strong> to add Mobile. Lowest-risk audience for a new program.</li>
+          <li class="bullet-active"><strong>Dual-incentive vesting</strong>: small credit at activation, larger credit at 90 days, both parties.</li>
+        </ul>
+
+        <div class="sms-preview">
+          <div class="preview-header">
+            <span class="preview-label">Referral SMS sequence</span>
+            <span class="preview-counter"><span class="sms-counter">1</span> of 3</span>
+          </div>
+          <div class="sms-stage">
+            <div class="sms-bubble active">
+              <div class="sms-sender">Optimum Mobile</div>
+              Maya just invited you to Optimum Mobile! Sign up at optimum.com/m/abcd. You both earn $10 at activation, $20 more after 90 days on network.
+            </div>
+            <div class="sms-bubble">
+              <div class="sms-sender">Optimum Mobile</div>
+              Welcome! Your $10 referral credit is applied to your account ending in 0001. Stay on network 90 days and you and Maya each earn $20 more.
+            </div>
+            <div class="sms-bubble">
+              <div class="sms-sender">Optimum Mobile</div>
+              You did it! 90 days on Optimum Mobile. $20 referral credit applied to your next bill. Maya just earned hers too.
+            </div>
+          </div>
+          <div class="sms-dots">
+            <span class="sms-dot active"></span>
+            <span class="sms-dot"></span>
+            <span class="sms-dot"></span>
+          </div>
+        </div>
+
+        <div class="wave-outcome">
+          <strong>Outcome:</strong> Referral becomes a measurable acquisition channel with built-in retention incentive.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section alt">
+    <h3>Dependencies</h3>
+    <p>Five teams own pieces of this. Each one is essential to at least one wave.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h4>Engineering</h4>
+        <p>Modular front-end architecture. Decisioning service. Component-level analytics infrastructure.</p>
+      </div>
+      <div class="card">
+        <h4>Credit &amp; Collections</h4>
+        <p>eKYC vendor selection. Deposit policy by tier. Risk-tier definitions and audit logging for the model.</p>
+      </div>
+      <div class="card">
+        <h4>Legal</h4>
+        <p>Honest messaging today (<abbr title="Telephone Consumer Protection Act">TCPA</abbr>). Required disclosures when declining credit (<abbr title="Fair Credit Reporting Act">FCRA</abbr>). Readiness for the upcoming <abbr title="Federal Communications Commission">FCC</abbr> <abbr title="FCC rule: when a customer asks a business to stop messaging them, the opt-out applies to every type of communication from that business, not just the one they originally signed up for. One stop covers everything.">Revoke-All</abbr> rule.</p>
+      </div>
+      <div class="card">
+        <h4>Content (Mobile site)</h4>
+        <p>Chat routing logic and copy. Coverage-check standalone landing page. Plan-comparison clarity on throttle behavior.</p>
+      </div>
+      <div class="card">
+        <h4>Network Engineering</h4>
+        <p>Device compatibility messaging during the 5G SA migration. Coverage data accuracy at zip-code level.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>Risks</h3>
+
+    <div class="risk-list">
+      <div class="risk-row">
+        <div class="risk-name">Modular complexity</div>
+        <div class="risk-mitigation">Strict component ownership. Each component has a single PM owner. Shared analytics so cross-component effects are visible.</div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-name">Referral fraud</div>
+        <div class="risk-mitigation">Identity-tied accounts plus 90-day vesting. Both parties have to be real and stick around to collect.</div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-name">Bundle vs. standalone bet</div>
+        <div class="risk-mitigation">Build for both scenarios. Same components serve bundle and returning customers today, standalone signups tomorrow.</div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-name">Regulatory changes</div>
+        <div class="risk-mitigation">Getting compliance wrong means fines and forced product changes. Store consent rules (what customers see, when, how they revoke) as settings, not code. When rules shift (like the upcoming <abbr title="FCC rule: when a customer asks a business to stop messaging them, the opt-out applies to every type of communication from that business, not just the one they originally signed up for. One stop covers everything.">Revoke-All</abbr> rule), we update settings instead of rebuilding features.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section alt">
+    <div class="recommendation">
+      <div class="rec-label">Where I'd Dig In</div>
+      <p><strong>First-week priorities:</strong></p>
+      <ul>
+        <li><strong style="color: var(--optimum-orange)">90-day churn data, cut by segment.</strong> So we have a real baseline instead of an industry one.</li>
+        <li><strong style="color: var(--optimum-blue)">Which compliance rules are locked, and where we have flexibility.</strong> Some are fixed (the exact language we must use when declining credit), others are policy choices (how and when we ask for consent). Tells me how aggressive the risk-tier system can be.</li>
+        <li><strong style="color: var(--green)">Which channels are in scope (online, retail, B2B), and what it costs to onboard a customer in each.</strong> Different channels need different onboarding flows, and the cost difference between online and in-store onboarding tells us where to push customers.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tab-footer">
+    <p>Next: <a href="#ai">How I Use AI →</a></p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 5: HOW I USE AI -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-4" role="tabpanel">
+  <div class="concept-header" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+    <div class="concept-label">Section 5 · AI Usage Disclosure</div>
+    <h2>How I Use AI</h2>
+  </div>
+
+  <div class="content-section">
+    <div class="recommendation">
+      <p>AI is a research accelerator and a drafting partner. I'd use it the same way on Optimum's product work: speed up discovery, stress-test framing, surface counterarguments, and produce drafts I review, edit, and own.</p>
+    </div>
+
+    <div class="ai-log">
+      <div class="ai-stage">
+        <div class="ai-stage-num">01</div>
+        <div class="ai-stage-content">
+          <h4>Post-interview note capture</h4>
+          <div class="ai-action kevin-did"><strong>I did:</strong> Brain-dumped fresh after the onsite, set the structure, edited for tone and emphasis.</div>
+          <div class="ai-action ai-did"><strong>AI:</strong> Structured 4 sessions of raw debrief into organized notes by session.</div>
+        </div>
+      </div>
+
+      <div class="ai-stage">
+        <div class="ai-stage-num">02</div>
+        <div class="ai-stage-content">
+          <h4>Problem space exploration</h4>
+          <div class="ai-action kevin-did"><strong>I did:</strong> Generated the ideas from interview cues, set the categorization criteria, decided which threads to develop.</div>
+          <div class="ai-action ai-did"><strong>AI:</strong> Categorized brainstormed ideas by usefulness for the exercise, sorted by problem stage and segment.</div>
+        </div>
+      </div>
+
+      <div class="ai-stage">
+        <div class="ai-stage-num">03</div>
+        <div class="ai-stage-content">
+          <h4>Competitive and industry research</h4>
+          <div class="ai-action kevin-did"><strong>I did:</strong> Identified the gaps that needed research, ranked which findings to use, committed to specific numbers in the brief based on what I could defend.</div>
+          <div class="ai-action ai-did"><strong>AI:</strong> Verified claims about Optimum's pricing position, the T-Mobile 5G SA migration, eKYC industry standards, <abbr title="Federal Communications Commission">FCC</abbr> and <abbr title="Telephone Consumer Protection Act">TCPA</abbr> regulatory context, and churn benchmarks across multiple sources.</div>
+        </div>
+      </div>
+
+      <div class="ai-stage">
+        <div class="ai-stage-num">04</div>
+        <div class="ai-stage-content">
+          <h4>Drafting the brief</h4>
+          <div class="kevin-did ai-action"><strong>I did:</strong> Defined the recommendation, picked the "three approaches that fit together" framing, made the call on what stays and what goes. Every claim, example, and number is mine.</div>
+          <div class="ai-action ai-did"><strong>AI:</strong> Assisted with framing against my outline and pushed back on my framing when I asked for it.</div>
+        </div>
+      </div>
+
+      <div class="ai-stage">
+        <div class="ai-stage-num">05</div>
+        <div class="ai-stage-content">
+          <h4>Building this interactive document</h4>
+          <div class="ai-action kevin-did"><strong>I did:</strong> Decided to make it interactive instead of a static doc, designed the funnel widget concept, set the brand styling rules, reviewed every tab for tone and accuracy before sign-off.</div>
+          <div class="ai-action ai-did"><strong>AI:</strong> Wrote the HTML, CSS, and JavaScript for this site (including the funnel widget) against my design specifications. Iterated tab by tab with me reviewing each.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tab-footer">
+    <p>AI made this faster to build.</p>
+  </div>
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+
+const tabSlugs = ['problem', 'approach', 'metrics', 'execution', 'ai'];
+
+function switchTab(index, pushHash) {
+  document.querySelectorAll('.tab').forEach((tab, i) => {
+    tab.classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.tab-content').forEach((content, i) => {
+    content.classList.toggle('active', i === index);
+  });
+  if (pushHash !== false) {
+    history.replaceState(null, '', '#' + tabSlugs[index]);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Open tab from URL hash on load
+(function() {
+  const hash = location.hash.replace('#', '');
+  if (hash) {
+    const idx = tabSlugs.indexOf(hash);
+    if (idx >= 0) switchTab(idx, false);
+  }
+})();
+
+// Handle back/forward
+window.addEventListener('hashchange', () => {
+  const hash = location.hash.replace('#', '');
+  const idx = tabSlugs.indexOf(hash);
+  if (idx >= 0) switchTab(idx, false);
+});
+
+// Keyboard navigation: left/right arrows
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') return;
+  const current = Array.from(document.querySelectorAll('.tab')).findIndex(t => t.classList.contains('active'));
+  if (e.key === 'ArrowRight' && current < tabSlugs.length - 1) switchTab(current + 1);
+  if (e.key === 'ArrowLeft' && current > 0) switchTab(current - 1);
+});
+
+// ===== Funnel widget =====
+const funnelData = {
+  fixed: {
+    name: "Fixed Bundler",
+    description: "Already verified, billing history on file. Lowest fraud and churn risk. The flow rewards the existing relationship: confirm coverage if they want, light cross-sell on plan, straight to activation.",
+    components: { coverage: 'light', plan: 'light', identity: 'skip', credit: 'skip', deposit: 'skip', activation: 'full', engagement: 'light' }
+  },
+  returning: {
+    name: "Returning",
+    description: "Known entity, variable risk. Identity is on file but plans and pricing have likely changed since they left. Re-educate, re-check credit lightly, and adjust deposit terms based on history.",
+    components: { coverage: 'light', plan: 'full', identity: 'skip', credit: 'light', deposit: 'conditional', activation: 'full', engagement: 'light' }
+  },
+  referred: {
+    name: "Referred",
+    description: "A referral comes pre-qualified by trust. The referred customer earns a smoother identity step (SSN soft pull, no ID scan). Both parties earn credits at activation and 90 days, so both have reason to stay past the promo expiration.",
+    components: { coverage: 'full', plan: 'full', identity: 'light', credit: 'full', deposit: 'conditional', activation: 'full', engagement: 'full' }
+  },
+  cold: {
+    name: "Cold (Promo-Driven)",
+    description: "No relationship, no trust signal. Highest fraud and churn risk, hardest to make profitable. Coverage transparency filters bad-fit customers before signup. Full eKYC verifies identity; a credit check determines deposit terms.",
+    components: { coverage: 'full', plan: 'full', identity: 'full', credit: 'full', deposit: 'conditional', activation: 'full', engagement: 'full' }
+  }
+};
+
+const stateLabels = { full: 'Full', light: 'Light', conditional: 'Conditional', skip: 'Skip' };
+
+function showSegment(segmentKey) {
+  const data = funnelData[segmentKey];
+  if (!data) return;
+
+  document.querySelectorAll('.segment-btn').forEach(btn => {
+    btn.classList.toggle('selected', btn.dataset.segment === segmentKey);
+  });
+
+  const desc = document.getElementById('segment-description');
+  if (desc) desc.textContent = data.description;
+
+  document.querySelectorAll('.component-card').forEach(card => {
+    const compKey = card.dataset.component;
+    const state = data.components[compKey] || 'skip';
+    card.classList.remove('full', 'light', 'conditional', 'skip');
+    card.classList.add(state);
+    const stateEl = card.querySelector('.comp-state');
+    if (stateEl) stateEl.textContent = stateLabels[state];
+  });
+}
+
+document.querySelectorAll('.segment-btn').forEach(btn => {
+  btn.addEventListener('click', () => showSegment(btn.dataset.segment));
+});
+
+// Initialize widget with default segment
+showSegment('fixed');
+
+// ===== Helper: build a hover-pause + click-advance auto-rotator =====
+function buildRotator(preview, items, dots, counter, intervalMs, onAdvance) {
+  let current = 0;
+  let intervalId = null;
+  const transitionMs = 550; // matches CSS transition duration
+
+  function advance() {
+    const prevIdx = current;
+    current = (current + 1) % items.length;
+
+    items[prevIdx].classList.remove('active');
+    items[prevIdx].classList.add('exiting');
+    setTimeout(() => {
+      items[prevIdx].classList.remove('exiting');
+    }, transitionMs);
+
+    items[current].classList.add('active');
+
+    if (dots && dots.length) {
+      dots.forEach((dot, i) => {
+        dot.classList.remove('active', 'completed');
+        if (i < current) dot.classList.add('completed');
+        if (i === current) dot.classList.add('active');
+      });
+    }
+    if (counter) counter.textContent = current + 1;
+    if (onAdvance) onAdvance(current);
+  }
+
+  function startAutoplay() {
+    if (intervalId) return;
+    intervalId = setInterval(advance, intervalMs);
+  }
+  function stopAutoplay() {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  preview.addEventListener('mouseenter', stopAutoplay);
+  preview.addEventListener('mouseleave', startAutoplay);
+  preview.addEventListener('click', () => {
+    advance();
+    if (intervalId) {
+      // Reset the interval so the next auto-advance is a full cycle from the click
+      stopAutoplay();
+      startAutoplay();
+    }
+  });
+
+  startAutoplay();
+}
+
+// ===== SMS preview rotation (Waves 1 and 3) =====
+document.querySelectorAll('.sms-preview').forEach(preview => {
+  const bubbles = Array.from(preview.querySelectorAll('.sms-bubble'));
+  const dots = Array.from(preview.querySelectorAll('.sms-dot'));
+  const counter = preview.querySelector('.sms-counter');
+  if (bubbles.length === 0) return;
+  buildRotator(preview, bubbles, dots, counter, 4000);
+});
+
+// ===== Coverage check mock (Tab 3) =====
+(function() {
+  const mock = document.getElementById('coverage-mock');
+  if (!mock) return;
+
+  const fields = Array.from(mock.querySelectorAll('.coverage-field'));
+  const inputs = Array.from(mock.querySelectorAll('.coverage-zip-input'));
+  const addBtn = mock.querySelector('.coverage-add-btn');
+  const button = mock.querySelector('.coverage-check-btn');
+  const results = mock.querySelector('.coverage-results');
+
+  const data = [
+    { zip: '11101', tier: '5G' },     // Long Island City
+    { zip: '10001', tier: '5G' },     // NYC
+    { zip: '11215', tier: '4G LTE' }  // Brooklyn
+  ];
+
+  let timers = [];
+  let paused = false;
+
+  function clearTimers() {
+    timers.forEach(t => clearTimeout(t));
+    timers = [];
+  }
+  function reset() {
+    inputs.forEach(input => input.textContent = '');
+    fields.forEach((f, i) => {
+      f.classList.remove('active', 'complete', 'is-appearing');
+      if (i > 0) f.classList.add('is-hidden');
+      else f.classList.remove('is-hidden');
+    });
+    if (addBtn) addBtn.classList.remove('flash');
+    button.classList.remove('active');
+    results.innerHTML = '';
+    results.classList.remove('visible');
+  }
+  function flashAddAndReveal(nextIdx, onDone) {
+    if (paused) return;
+    if (addBtn) addBtn.classList.add('flash');
+    timers.push(setTimeout(() => {
+      if (paused) return;
+      if (addBtn) addBtn.classList.remove('flash');
+      const field = fields[nextIdx];
+      field.classList.remove('is-hidden');
+      // force reflow to enable animation after display change
+      void field.offsetHeight;
+      field.classList.add('is-appearing');
+      timers.push(setTimeout(() => {
+        if (paused) return;
+        field.classList.remove('is-appearing');
+        onDone();
+      }, 340));
+    }, 260));
+  }
+  function typeZip(idx, charIdx) {
+    if (paused) return;
+    if (charIdx === 0) fields[idx].classList.add('active');
+    if (charIdx <= data[idx].zip.length) {
+      inputs[idx].textContent = data[idx].zip.substring(0, charIdx);
+      timers.push(setTimeout(() => typeZip(idx, charIdx + 1), 110));
+    } else {
+      fields[idx].classList.remove('active');
+      fields[idx].classList.add('complete');
+      timers.push(setTimeout(() => {
+        if (paused) return;
+        if (idx + 1 < data.length) {
+          flashAddAndReveal(idx + 1, () => typeZip(idx + 1, 0));
+        } else {
+          showButton();
+        }
+      }, 380));
+    }
+  }
+  function showButton() {
+    if (paused) return;
+    button.classList.add('active');
+    timers.push(setTimeout(showResults, 700));
+  }
+  function showResults() {
+    if (paused) return;
+    results.innerHTML = data.map(d =>
+      '<div class="coverage-result-item">' +
+        '<div class="coverage-result-icon">&check;</div>' +
+        '<span class="coverage-result-zip">' + d.zip + '</span>' +
+        '<span class="coverage-result-tier">' + d.tier + '</span>' +
+      '</div>'
+    ).join('');
+    results.classList.add('visible');
+    timers.push(setTimeout(restart, 5000));
+  }
+  function restart() {
+    if (paused) return;
+    reset();
+    timers.push(setTimeout(() => typeZip(0, 0), 700));
+  }
+  function start() {
+    reset();
+    timers.push(setTimeout(() => typeZip(0, 0), 800));
+  }
+
+  start();
+
+  mock.addEventListener('mouseenter', () => {
+    paused = true;
+    clearTimers();
+  });
+  mock.addEventListener('mouseleave', () => {
+    paused = false;
+    start();
+  });
+  mock.addEventListener('click', () => {
+    clearTimers();
+    paused = false;
+    inputs.forEach((input, i) => {
+      input.textContent = data[i].zip;
+      fields[i].classList.remove('active', 'is-hidden', 'is-appearing');
+      fields[i].classList.add('complete');
+    });
+    if (addBtn) addBtn.classList.remove('flash');
+    button.classList.add('active');
+    timers.push(setTimeout(showResults, 200));
+  });
+})();
+
+// ===== Flow preview rotation (Wave 2) =====
+(function() {
+  const preview = document.getElementById('flow-preview');
+  if (!preview) return;
+  const panels = Array.from(preview.querySelectorAll('.flow-screen-content'));
+  const dots = Array.from(preview.querySelectorAll('.flow-dot'));
+  const numEl = document.getElementById('flow-step-num');
+  if (!panels.length) return;
+  buildRotator(preview, panels, dots, null, 1700, (current) => {
+    if (numEl) numEl.textContent = current + 1;
+  });
+})();
+
+// ===== Funnel mocks (Tab 3 / Validation) =====
+function makeMock(id, runAnim, finalizeAll, loopHoldMs, postClickHoldMs) {
+  const mock = document.getElementById(id);
+  if (!mock) return;
+  loopHoldMs = loopHoldMs || 2400;
+  postClickHoldMs = postClickHoldMs || 3200;
+  let timers = [];
+  let paused = false;
+  let abort = { v: false };
+  const clear = () => { timers.forEach(t => clearTimeout(t)); timers = []; };
+  const after = (ms, fn) => timers.push(setTimeout(fn, ms));
+  function play() {
+    if (paused) return;
+    abort = { v: false };
+    runAnim(after, abort, () => {
+      if (paused || abort.v) return;
+      after(loopHoldMs, () => { if (!paused && !abort.v) play(); });
+    });
+  }
+  function jumpToEnd() {
+    abort.v = true;
+    clear();
+    finalizeAll();
+    after(postClickHoldMs, () => { paused = false; play(); });
+  }
+  mock.addEventListener('mouseenter', () => { paused = true; abort.v = true; clear(); });
+  mock.addEventListener('mouseleave', () => { if (paused) { paused = false; clear(); play(); } });
+  mock.addEventListener('click', jumpToEnd);
+  play();
+}
+
+// 01 Coverage Check (mini)
+(function() {
+  const id = 'fm-coverage';
+  const mock = document.getElementById(id);
+  if (!mock) return;
+  const fields = Array.from(mock.querySelectorAll('.fm-field'));
+  const inputs = Array.from(mock.querySelectorAll('.fm-field-value'));
+  const addBtn = mock.querySelector('.coverage-add-btn');
+  const reset = () => {
+    fields.forEach((f, i) => {
+      f.classList.remove('active', 'is-appearing');
+      if (i > 0) f.classList.add('is-hidden');
+      else f.classList.remove('is-hidden');
+    });
+    inputs.forEach(i => i.textContent = '');
+    if (addBtn) addBtn.classList.remove('flash');
+  };
+  const finalize = () => {
+    fields.forEach(f => f.classList.remove('active', 'is-hidden', 'is-appearing'));
+    inputs.forEach(i => i.textContent = i.dataset.final || '');
+    if (addBtn) addBtn.classList.remove('flash');
+  };
+  function runAnim(after, abort, onDone) {
+    reset();
+    function typeField(idx, charIdx, onFieldDone) {
+      if (abort.v) return;
+      const target = inputs[idx].dataset.final || '';
+      if (charIdx === 0) fields[idx].classList.add('active');
+      if (charIdx <= target.length) {
+        inputs[idx].textContent = target.substring(0, charIdx);
+        after(85, () => typeField(idx, charIdx + 1, onFieldDone));
+      } else {
+        fields[idx].classList.remove('active');
+        onFieldDone();
+      }
+    }
+    function flashAddAndReveal(nextIdx, callback) {
+      if (abort.v) return;
+      if (addBtn) addBtn.classList.add('flash');
+      after(220, () => {
+        if (abort.v) return;
+        if (addBtn) addBtn.classList.remove('flash');
+        if (nextIdx >= fields.length) { callback(); return; }
+        const field = fields[nextIdx];
+        field.classList.remove('is-hidden');
+        void field.offsetHeight;
+        field.classList.add('is-appearing');
+        after(330, () => {
+          if (abort.v) return;
+          field.classList.remove('is-appearing');
+          callback();
+        });
+      });
+    }
+    after(500, () => typeField(0, 0, () => {
+      after(280, () => flashAddAndReveal(1, () => {
+        after(160, () => typeField(1, 0, () => {
+          after(280, () => flashAddAndReveal(2, () => {
+            after(160, () => typeField(2, 0, () => {
+              after(400, onDone);
+            }));
+          }));
+        }));
+      }));
+    }));
+  }
+  makeMock(id, runAnim, finalize, 2400);
+})();
+
+// 02 Plan Education
+(function() {
+  const id = 'fm-plan';
+  const mock = document.getElementById(id);
+  if (!mock) return;
+  const tiles = Array.from(mock.querySelectorAll('.fm-plan-tile'));
+  const fineprint = mock.querySelector('.fm-fineprint');
+  const SELECT_INDEX = 2; // Unlimited
+  const reset = () => {
+    tiles.forEach(t => t.classList.remove('selected'));
+    if (fineprint) fineprint.classList.remove('shown');
+  };
+  const finalize = () => {
+    tiles.forEach((t, i) => t.classList.toggle('selected', i === SELECT_INDEX));
+    if (fineprint) fineprint.classList.add('shown');
+  };
+  function runAnim(after, abort, onDone) {
+    reset();
+    let delay = 600;
+    tiles.forEach((tile) => {
+      after(delay, () => {
+        if (abort.v) return;
+        tiles.forEach(t => t.classList.remove('selected'));
+        tile.classList.add('selected');
+      });
+      delay += 420;
+    });
+    // settle on the selected plan
+    after(delay, () => {
+      if (abort.v) return;
+      tiles.forEach((t, i) => t.classList.toggle('selected', i === SELECT_INDEX));
+    });
+    after(delay + 200, () => { if (!abort.v && fineprint) fineprint.classList.add('shown'); });
+    after(delay + 700, onDone);
+  }
+  makeMock(id, runAnim, finalize, 2400);
+})();
+
+// 03 Identity / eKYC
+(function() {
+  const id = 'fm-identity';
+  const mock = document.getElementById(id);
+  if (!mock) return;
+  const fields = Array.from(mock.querySelectorAll('.fm-field'));
+  const inputs = Array.from(mock.querySelectorAll('.fm-field-value'));
+  const upload = mock.querySelector('.fm-upload');
+  const uploadIcon = upload && upload.querySelector('.fm-upload-icon');
+  const uploadText = upload && upload.querySelector('.fm-upload-text');
+  const reset = () => {
+    fields.forEach(f => f.classList.remove('active'));
+    inputs.forEach(i => { i.textContent = ''; });
+    if (upload) upload.classList.remove('complete');
+    if (uploadIcon) uploadIcon.textContent = '↑';
+    if (uploadText) uploadText.textContent = 'Upload Government ID';
+  };
+  const finalize = () => {
+    fields.forEach(f => f.classList.remove('active'));
+    inputs.forEach(i => { i.textContent = i.dataset.final || ''; });
+    if (upload) upload.classList.add('complete');
+    if (uploadIcon) uploadIcon.textContent = '✓';
+    if (uploadText) uploadText.textContent = 'ID Captured';
+  };
+  function runAnim(after, abort, onDone) {
+    reset();
+    function typeField(idx, charIdx, onFieldDone) {
+      if (abort.v) return;
+      const target = inputs[idx].dataset.final || '';
+      if (charIdx === 0) {
+        fields[idx].classList.add('active');
+        inputs[idx].textContent = '';
+      }
+      if (charIdx <= target.length) {
+        inputs[idx].textContent = target.substring(0, charIdx);
+        after(70, () => typeField(idx, charIdx + 1, onFieldDone));
+      } else {
+        fields[idx].classList.remove('active');
+        after(300, onFieldDone);
+      }
+    }
+    after(500, () => typeField(0, 0, () => {
+      typeField(1, 0, () => {
+        if (abort.v) return;
+        after(400, () => {
+          if (abort.v || !upload) return onDone();
+          upload.classList.add('complete');
+          if (uploadIcon) uploadIcon.textContent = '✓';
+          if (uploadText) uploadText.textContent = 'ID Captured';
+          onDone();
+        });
+      });
+    }));
+  }
+  makeMock(id, runAnim, finalize, 2400);
+})();
+
+// 04 Credit Decision
+(function() {
+  const id = 'fm-credit';
+  const mock = document.getElementById(id);
+  if (!mock) return;
+  const stage = mock.querySelector('.fm-credit-stage');
+  const reset = () => { if (stage) stage.classList.remove('loaded'); };
+  const finalize = () => { if (stage) stage.classList.add('loaded'); };
+  function runAnim(after, abort, onDone) {
+    reset();
+    after(1500, () => {
+      if (abort.v) return;
+      if (stage) stage.classList.add('loaded');
+      after(550, onDone);
+    });
+  }
+  makeMock(id, runAnim, finalize, 2600);
+})();
+
+// 05 Deposit Logic
+(function() {
+  const id = 'fm-deposit';
+  const mock = document.getElementById(id);
+  if (!mock) return;
+  const amountEl = mock.querySelector('.fm-amount-value');
+  const bullets = Array.from(mock.querySelectorAll('.fm-bullet'));
+  const STEPS = ['$0', '$10', '$25', '$40', '$50'];
+  const reset = () => {
+    if (amountEl) amountEl.textContent = STEPS[0];
+    bullets.forEach(b => b.classList.remove('shown'));
+  };
+  const finalize = () => {
+    if (amountEl) amountEl.textContent = amountEl.dataset.final || '$50';
+    bullets.forEach(b => b.classList.add('shown'));
+  };
+  function runAnim(after, abort, onDone) {
+    reset();
+    let delay = 500;
+    STEPS.forEach((val) => {
+      after(delay, () => { if (!abort.v && amountEl) amountEl.textContent = val; });
+      delay += 180;
+    });
+    delay += 200;
+    bullets.forEach((b) => {
+      after(delay, () => { if (!abort.v) b.classList.add('shown'); });
+      delay += 380;
+    });
+    after(delay + 100, onDone);
+  }
+  makeMock(id, runAnim, finalize, 2400);
+})();
+
+// 06 Activation
+(function() {
+  const id = 'fm-activation';
+  const mock = document.getElementById(id);
+  if (!mock) return;
+  const radios = Array.from(mock.querySelectorAll('.fm-radio'));
+  const portField = mock.querySelector('.fm-field');
+  const portInput = mock.querySelector('.fm-field-value');
+  const reset = () => {
+    radios.forEach(r => r.classList.remove('selected'));
+    if (portField) portField.classList.remove('active');
+    if (portInput) portInput.textContent = '';
+  };
+  const finalize = () => {
+    radios.forEach((r, i) => r.classList.toggle('selected', i === 0));
+    if (portField) portField.classList.remove('active');
+    if (portInput) portInput.textContent = portInput.dataset.final || '';
+  };
+  function runAnim(after, abort, onDone) {
+    reset();
+    after(700, () => { if (!abort.v && radios[0]) radios[0].classList.add('selected'); });
+    after(1300, () => {
+      if (abort.v) return;
+      if (portField) portField.classList.add('active');
+      const target = (portInput && portInput.dataset.final) || '';
+      let charIdx = 0;
+      function typeChar() {
+        if (abort.v) return;
+        if (charIdx <= target.length) {
+          if (portInput) portInput.textContent = target.substring(0, charIdx);
+          charIdx++;
+          after(75, typeChar);
+        } else {
+          if (portField) portField.classList.remove('active');
+          onDone();
+        }
+      }
+      typeChar();
+    });
+  }
+  makeMock(id, runAnim, finalize, 2400);
+})();
+
+// 07 Post-Activation (bill preview)
+(function() {
+  const id = 'fm-engagement';
+  const mock = document.getElementById(id);
+  if (!mock) return;
+  const fades = Array.from(mock.querySelectorAll('.fm-fade'));
+  const reset = () => fades.forEach(el => el.classList.remove('shown'));
+  const finalize = () => fades.forEach(el => el.classList.add('shown'));
+  function runAnim(after, abort, onDone) {
+    reset();
+    let delay = 600;
+    fades.forEach((el) => {
+      after(delay, () => { if (!abort.v) el.classList.add('shown'); });
+      delay += 600;
+    });
+    after(delay, onDone);
+  }
+  makeMock(id, runAnim, finalize, 2600);
+})();
+</script>
+
+</body>
+</html>
