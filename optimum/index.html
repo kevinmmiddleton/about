@@ -564,6 +564,24 @@ abbr[title]:hover::after { opacity: 1; }
   transform: none;
   box-shadow: 0 2px 6px rgba(246,102,8,0.28);
 }
+/* Click-me hint: rotating pulse on unselected segment buttons */
+@keyframes segment-hint-pulse {
+  0%, 100% {
+    border-color: var(--gray-border);
+    color: var(--slate);
+    transform: translateY(0);
+    box-shadow: 0 0 0 0 rgba(246,102,8,0);
+  }
+  50% {
+    border-color: var(--optimum-orange);
+    color: var(--optimum-orange);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(246,102,8,0.20);
+  }
+}
+.segment-btn.is-hint:not(.selected):not(:hover) {
+  animation: segment-hint-pulse 1.4s ease-in-out;
+}
 
 /* Click-to-explore CTA inside hint */
 .click-cta {
@@ -2159,6 +2177,13 @@ abbr[title]:hover::after { opacity: 1; }
 }
 body.locked { overflow: hidden; }
 </style>
+
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-3rPGnbiIdzOgW-THBj7ev.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
 </head>
 <body>
 
@@ -3053,6 +3078,18 @@ body.locked { overflow: hidden; }
 <!-- ===== JAVASCRIPT ===== -->
 <script>
 
+// ===== Plausible event tracking helper =====
+function track(eventName, props) {
+  if (typeof window.plausible !== 'function') return;
+  try {
+    if (props && Object.keys(props).length) {
+      window.plausible(eventName, { props: props });
+    } else {
+      window.plausible(eventName);
+    }
+  } catch (e) { /* ignore */ }
+}
+
 // ===== Surface-level password gate =====
 (function() {
   const KEY = 'optimum-unlock';
@@ -3080,18 +3117,21 @@ body.locked { overflow: hidden; }
       try { localStorage.setItem(KEY, 'true'); } catch (e) { /* ignore */ }
       screen.classList.add('hidden');
       document.body.classList.remove('locked');
+      track('Unlock', { result: 'success' });
     } else {
       if (errEl) errEl.textContent = 'Wrong password.';
       input.classList.add('error');
       input.select();
       setTimeout(() => input.classList.remove('error'), 800);
+      track('Unlock', { result: 'fail' });
     }
   });
 })();
 
 const tabSlugs = ['problem', 'approach', 'metrics', 'execution', 'ai'];
+const tabNames = ['Problem', 'Approach', 'Metrics', 'Execution', 'How I Use AI'];
 
-function switchTab(index, pushHash) {
+function switchTab(index, pushHash, method) {
   document.querySelectorAll('.tab').forEach((tab, i) => {
     tab.classList.toggle('active', i === index);
   });
@@ -3102,6 +3142,7 @@ function switchTab(index, pushHash) {
     history.replaceState(null, '', '#' + tabSlugs[index]);
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  track('Tab View', { tab: tabNames[index], method: method || 'click' });
 }
 
 // Open tab from URL hash on load
@@ -3109,7 +3150,7 @@ function switchTab(index, pushHash) {
   const hash = location.hash.replace('#', '');
   if (hash) {
     const idx = tabSlugs.indexOf(hash);
-    if (idx >= 0) switchTab(idx, false);
+    if (idx >= 0) switchTab(idx, false, 'deep-link');
   }
 })();
 
@@ -3117,15 +3158,23 @@ function switchTab(index, pushHash) {
 window.addEventListener('hashchange', () => {
   const hash = location.hash.replace('#', '');
   const idx = tabSlugs.indexOf(hash);
-  if (idx >= 0) switchTab(idx, false);
+  if (idx >= 0) switchTab(idx, false, 'hash');
 });
 
 // Keyboard navigation: left/right arrows
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') return;
   const current = Array.from(document.querySelectorAll('.tab')).findIndex(t => t.classList.contains('active'));
-  if (e.key === 'ArrowRight' && current < tabSlugs.length - 1) switchTab(current + 1);
-  if (e.key === 'ArrowLeft' && current > 0) switchTab(current - 1);
+  if (e.key === 'ArrowRight' && current < tabSlugs.length - 1) switchTab(current + 1, true, 'keyboard');
+  if (e.key === 'ArrowLeft' && current > 0) switchTab(current - 1, true, 'keyboard');
+});
+
+// Footer CTA clicks (Continue to Section X)
+document.querySelectorAll('.tab-footer a[href^="#"]').forEach(a => {
+  a.addEventListener('click', () => {
+    const dest = (a.getAttribute('href') || '').replace('#', '');
+    track('Footer CTA', { destination: dest });
+  });
 });
 
 // ===== Funnel widget =====
@@ -3176,14 +3225,56 @@ function showSegment(segmentKey) {
 }
 
 document.querySelectorAll('.segment-btn').forEach(btn => {
-  btn.addEventListener('click', () => showSegment(btn.dataset.segment));
+  btn.addEventListener('click', () => {
+    showSegment(btn.dataset.segment);
+    track('Segment Selected', { segment: btn.dataset.segment });
+  });
 });
 
-// Initialize widget with default segment
+// Initialize widget with default segment (no tracking — not user action)
 showSegment('fixed');
 
+// ===== Rotating click-me hint on segment buttons =====
+(function() {
+  const btns = Array.from(document.querySelectorAll('.segment-btn'));
+  if (btns.length === 0) return;
+  let idx = -1;
+  let timer = null;
+  let stopped = false;
+
+  function nextUnselectedIdx() {
+    for (let i = 1; i <= btns.length; i++) {
+      const candidate = (idx + i) % btns.length;
+      if (!btns[candidate].classList.contains('selected')) return candidate;
+    }
+    return -1;
+  }
+
+  function pulse() {
+    if (stopped) return;
+    btns.forEach(b => b.classList.remove('is-hint'));
+    const next = nextUnselectedIdx();
+    if (next === -1) { timer = setTimeout(pulse, 1600); return; }
+    idx = next;
+    btns[idx].classList.add('is-hint');
+    timer = setTimeout(() => {
+      if (btns[idx]) btns[idx].classList.remove('is-hint');
+      timer = setTimeout(pulse, 250);
+    }, 1400);
+  }
+
+  btns.forEach(b => b.addEventListener('click', () => {
+    stopped = true;
+    if (timer) { clearTimeout(timer); timer = null; }
+    btns.forEach(b => b.classList.remove('is-hint'));
+  }));
+
+  // Delay start so it doesn't fire instantly on landing
+  timer = setTimeout(pulse, 1800);
+})();
+
 // ===== Helper: build a hover-pause + click-advance auto-rotator =====
-function buildRotator(preview, items, dots, counter, intervalMs, onAdvance) {
+function buildRotator(preview, items, dots, counter, intervalMs, onAdvance, trackingLabel) {
   let current = 0;
   let intervalId = null;
   const transitionMs = 550; // matches CSS transition duration
@@ -3226,6 +3317,9 @@ function buildRotator(preview, items, dots, counter, intervalMs, onAdvance) {
   preview.addEventListener('mouseleave', startAutoplay);
   preview.addEventListener('click', () => {
     advance();
+    if (trackingLabel) {
+      track('Rotator Click', { widget: trackingLabel, advanced_to: current + 1 });
+    }
     if (intervalId) {
       // Reset the interval so the next auto-advance is a full cycle from the click
       stopAutoplay();
@@ -3242,7 +3336,11 @@ document.querySelectorAll('.sms-preview').forEach(preview => {
   const dots = Array.from(preview.querySelectorAll('.sms-dot'));
   const counter = preview.querySelector('.sms-counter');
   if (bubbles.length === 0) return;
-  buildRotator(preview, bubbles, dots, counter, 4000);
+  const waveCard = preview.closest('.wave-card');
+  let label = 'SMS Preview';
+  if (waveCard && waveCard.classList.contains('wave-1')) label = 'Wave 1 SMS';
+  else if (waveCard && waveCard.classList.contains('wave-3')) label = 'Wave 3 SMS';
+  buildRotator(preview, bubbles, dots, counter, 4000, null, label);
 });
 
 // ===== Coverage check mock (Tab 3) =====
@@ -3366,6 +3464,7 @@ document.querySelectorAll('.sms-preview').forEach(preview => {
     if (addBtn) addBtn.classList.remove('flash');
     button.classList.add('active');
     timers.push(setTimeout(showResults, 200));
+    track('Mock Click', { mock: 'coverage-validation' });
   });
 })();
 
@@ -3409,7 +3508,10 @@ function makeMock(id, runAnim, finalizeAll, loopHoldMs, postClickHoldMs) {
   }
   mock.addEventListener('mouseenter', () => { paused = true; abort.v = true; clear(); });
   mock.addEventListener('mouseleave', () => { if (paused) { paused = false; clear(); play(); } });
-  mock.addEventListener('click', jumpToEnd);
+  mock.addEventListener('click', () => {
+    jumpToEnd();
+    track('Mock Click', { mock: id });
+  });
   play();
 }
 
@@ -3691,6 +3793,24 @@ function makeMock(id, runAnim, finalizeAll, loopHoldMs, postClickHoldMs) {
   }
   makeMock(id, runAnim, finalize, 2600);
 })();
+
+// ===== Outbound link tracking =====
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  const href = a.getAttribute('href') || '';
+  if (!href.startsWith('http')) return;
+  try {
+    const url = new URL(href);
+    if (url.host === window.location.host) return;
+    const label = (a.textContent || '').trim().slice(0, 60);
+    track('Outbound Click', {
+      url: url.host + url.pathname,
+      label: label,
+      tab: tabNames[Array.from(document.querySelectorAll('.tab')).findIndex(t => t.classList.contains('active'))] || 'unknown'
+    });
+  } catch (e) { /* ignore */ }
+});
 </script>
 
 </body>
