@@ -414,15 +414,26 @@ abbr[title]:hover::after { opacity: 1; }
   margin: 0;
   max-width: none;
 }
-.tab-footer a {
-  color: var(--optimum-orange);
+.tab-footer a.tab-cta {
+  display: inline-block;
+  background: var(--optimum-orange);
+  color: white;
+  padding: 13px 26px;
+  border-radius: 8px;
   font-weight: 700;
+  font-size: 14px;
   font-style: normal;
   text-decoration: none;
-  margin-left: 6px;
-  transition: opacity 0.15s ease;
+  letter-spacing: 0.2px;
+  margin: 0;
+  box-shadow: 0 2px 6px rgba(246,102,8,0.22);
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
-.tab-footer a:hover { opacity: 0.75; }
+.tab-footer a.tab-cta:hover {
+  background: var(--optimum-orange-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(246,102,8,0.32);
+}
 
 /* ===== PLACEHOLDER ===== */
 .placeholder {
@@ -2351,7 +2362,7 @@ body.locked { overflow: hidden; }
   </div>
 
   <div class="tab-footer">
-    <p>Continue to <a href="#approach">Section 2: Options &amp; Tradeoffs →</a></p>
+    <a href="#approach" class="tab-cta">Continue to Section 2: Options &amp; Tradeoffs →</a>
   </div>
 </div>
 
@@ -2568,7 +2579,7 @@ body.locked { overflow: hidden; }
   </div>
 
   <div class="tab-footer">
-    <p>Continue to <a href="#metrics">Section 3: Metrics &amp; Validation →</a></p>
+    <a href="#metrics" class="tab-cta">Continue to Section 3: Metrics &amp; Validation →</a>
   </div>
 </div>
 
@@ -2799,7 +2810,7 @@ body.locked { overflow: hidden; }
   </div>
 
   <div class="tab-footer">
-    <p>Continue to <a href="#execution">Section 4: Execution &amp; Sequencing →</a></p>
+    <a href="#execution" class="tab-cta">Continue to Section 4: Execution &amp; Sequencing →</a>
   </div>
 </div>
 
@@ -3030,7 +3041,7 @@ body.locked { overflow: hidden; }
   </div>
 
   <div class="tab-footer">
-    <p>Continue to <a href="#ai">Section 5: AI Usage Disclosure →</a></p>
+    <a href="#ai" class="tab-cta">Continue to Section 5: AI Usage Disclosure →</a>
   </div>
 </div>
 
