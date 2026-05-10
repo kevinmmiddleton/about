@@ -1561,6 +1561,57 @@ abbr[title]:hover::after { opacity: 1; }
 /* hover pause cursor */
 .funnel-mock { cursor: pointer; }
 
+/* ===== BUILD ORDER (Tab 4 / Wave 2) ===== */
+.build-order {
+  background: var(--optimum-blue-dark);
+  border-radius: 14px;
+  padding: 18px;
+  margin: 16px 0 14px;
+}
+.build-order-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 12px;
+}
+.build-order-item {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.build-order-item:first-of-type { border-top: none; padding-top: 0; }
+.build-order-item:last-of-type { padding-bottom: 0; }
+.build-order-num {
+  background: var(--optimum-orange);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.build-order-name {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+.build-order-why {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 /* ===== SMS PREVIEW (Tab 4 / Wave 1) ===== */
 .sms-preview {
   background: #1a1a2e;
@@ -1570,7 +1621,48 @@ abbr[title]:hover::after { opacity: 1; }
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 220px;
+  min-height: 280px;
+  overflow: hidden;
+}
+/* iOS conversation header (centered avatar + name + Text Message · SMS) */
+.ios-conversation-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 14px;
+}
+.ios-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--optimum-blue-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.14);
+  margin-bottom: 6px;
+}
+.ios-avatar::after {
+  content: "";
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--optimum-orange);
+}
+.ios-contact-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.2px;
+}
+.ios-contact-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 2px;
+  letter-spacing: 0.2px;
 }
 .sms-preview-label {
   font-size: 10px;
@@ -1589,19 +1681,38 @@ abbr[title]:hover::after { opacity: 1; }
 .sms-bubble {
   background: #e5e5ea;
   color: #1c1c1e;
-  border-radius: 16px;
-  padding: 10px 14px;
-  max-width: 92%;
+  border-radius: 25px;
+  padding: 10px 20px;
+  max-width: calc(92% - 28px);
   font-size: 12.5px;
-  line-height: 1.45;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+  line-height: 1.5;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 28px;
   opacity: 0;
   transform: translateY(115%);
   transition: opacity 0.5s ease, transform 0.55s cubic-bezier(0.32, 0.72, 0.24, 1);
   pointer-events: none;
+}
+/* iOS chat tail (Samuel Kraft technique) */
+.sms-bubble::before,
+.sms-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 25px;
+}
+.sms-bubble::before {
+  left: -7px;
+  width: 20px;
+  background: #e5e5ea;
+  border-bottom-right-radius: 16px 14px;
+}
+.sms-bubble::after {
+  left: -26px;
+  width: 26px;
+  background: #1a1a2e;
+  border-bottom-right-radius: 10px;
 }
 .sms-bubble.active {
   opacity: 1;
@@ -1611,6 +1722,11 @@ abbr[title]:hover::after { opacity: 1; }
 .sms-bubble.exiting {
   opacity: 0;
   transform: translateY(-115%);
+}
+.sms-bubble .sms-link {
+  color: #007AFF;
+  text-decoration: underline;
+  border-bottom: none;
 }
 .sms-sender {
   font-size: 9.5px;
@@ -1653,9 +1769,18 @@ abbr[title]:hover::after { opacity: 1; }
   border-radius: var(--radius);
   padding: 22px;
   box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
 }
+/* Center the widget vertically in the 1fr row (Waves 1, 3) */
+.wave-card .sms-frame {
+  align-self: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+.wave-card .sms-frame .sms-preview { margin: 0; }
+/* Build-order in Wave 2 sits at the top of its row (natural position) */
+.wave-card .build-order { align-self: start; }
 .wave-card.wave-1 { border-top-color: var(--green); }
 .wave-card.wave-2 { border-top-color: var(--optimum-orange); }
 .wave-card.wave-3 { border-top-color: var(--optimum-blue); }
@@ -2649,30 +2774,32 @@ body.locked { overflow: hidden; }
         <ul>
           <li><strong>Unify chat into a single experience</strong> that gets users where they need to go, regardless of where they are on the site.</li>
           <li><strong>Surface the existing coverage checker</strong> (<a href="https://www.optimum.com/mobile/network" target="_blank" rel="noopener">optimum.com/mobile/network</a>) as part of onboarding. A/B against the current flow where it sits on a separate page.</li>
-          <li class="bullet-active"><strong>Extend Optimum's existing bill SMS with proactive promo expectation-setting</strong>: an activation welcome that previews the cliff, and a warning before it hits. Also suppress conflicting marketing offers to recent signups. No more surprise bills.</li>
+          <li class="bullet-active"><strong>Add two new messages to Optimum's existing bill SMS</strong>: an activation welcome previewing the promo cliff, and a warning before it hits. No more surprise bills.</li>
           <li><strong>Stand up a 90-day churn dashboard</strong> cut by segment.</li>
         </ul>
 
+        <div class="sms-frame">
         <div class="sms-preview" id="sms-preview">
           <div class="preview-header">
-            <span class="preview-label">SMS sequence</span>
+            <span class="preview-label">Bill expectation SMS sequence</span>
             <span class="preview-counter"><span class="sms-counter">1</span> of 4</span>
+          </div>
+          <div class="ios-conversation-header">
+            <span class="ios-avatar"></span>
+            <span class="ios-contact-name">Optimum Mobile</span>
+            <span class="ios-contact-sub">Text Message · SMS</span>
           </div>
           <div class="sms-stage">
             <div class="sms-bubble active">
-              <div class="sms-sender">Optimum Mobile</div>
-              Welcome to Optimum Mobile! Line ending in 0001 is active. First bill of $30 due May 16. Heads up: promo ends Aug 24, monthly becomes $45.
+              Welcome to Optimum Mobile! Line ending in 5309 is active. First bill of $30 due May 16. Heads up: promo ends Aug 24, monthly becomes $45.
             </div>
             <div class="sms-bubble">
-              <div class="sms-sender">Optimum Mobile</div>
-              View your Optimum Mobile bill ending in 0001 at optimum.com/billview. Total amount due of $30 will be automatically paid on May 16.
+              View your Optimum Mobile bill ending in 5309 at <a href="#" class="sms-link" onclick="return false;">optimum.com/billview</a>. Total amount due of $30 will be automatically paid on May 16.
             </div>
             <div class="sms-bubble">
-              <div class="sms-sender">Optimum Mobile</div>
-              Thanks for your recent payment of $30. It will be applied to your Optimum Mobile account ending in 0001.
+              Thanks for your recent payment of $30. It will be applied to your Optimum Mobile account ending in 5309.
             </div>
             <div class="sms-bubble">
-              <div class="sms-sender">Optimum Mobile</div>
               Heads up: your promo period ends in 7 days. Your next bill will be $45 (vs $30 previously). Auto-pay is on.
             </div>
           </div>
@@ -2682,6 +2809,7 @@ body.locked { overflow: hidden; }
             <span class="sms-dot"></span>
             <span class="sms-dot"></span>
           </div>
+        </div>
         </div>
 
         <div class="wave-outcome">
@@ -2698,13 +2826,42 @@ body.locked { overflow: hidden; }
         <ul>
           <li class="bullet-active"><strong>Define and own components</strong>: coverage, plan, light eKYC, full eKYC, credit, deposit, activation, engagement.</li>
           <li><strong>Build the risk-tier decisioning service</strong> with Credit &amp; Collections (tier definitions, fall-back behavior, audit logging).</li>
-          <li><strong>Ship the Fixed-bundler flow first</strong>. Lowest risk, fastest signal, biggest near-term LTV impact.</li>
-          <li><strong>Layer in the cold-customer flow</strong> with full eKYC second.</li>
         </ul>
 
+        <div class="build-order">
+          <div class="build-order-label">Modular funnel build order · by segment</div>
+          <div class="build-order-item">
+            <div class="build-order-num">1</div>
+            <div>
+              <div class="build-order-name">Fixed bundlers</div>
+              <div class="build-order-why">Lowest risk. Validates the architecture with the simplest case.</div>
+            </div>
+          </div>
+          <div class="build-order-item">
+            <div class="build-order-num">2</div>
+            <div>
+              <div class="build-order-name">Returning customers</div>
+              <div class="build-order-why">Known identity and credit. Light extension of Fixed.</div>
+            </div>
+          </div>
+          <div class="build-order-item">
+            <div class="build-order-num">3</div>
+            <div>
+              <div class="build-order-name">Referred customers</div>
+              <div class="build-order-why">Trust signal + dual-vesting lower the risk. Ships with Wave 3 referral program.</div>
+            </div>
+          </div>
+          <div class="build-order-item">
+            <div class="build-order-num">4</div>
+            <div>
+              <div class="build-order-name">Cold customers (full eKYC)</div>
+              <div class="build-order-why">Highest risk, biggest upside. Ships last.</div>
+            </div>
+          </div>
+        </div>
 
         <div class="wave-outcome">
-          <strong>Outcome:</strong> Two real segment paths running. Decisioning service ready for the rest of the segments.
+          <strong>Outcome:</strong> Segment paths built in priority order (Fixed, Returning, Referred, Cold). Decisioning service powers the adaptive funnel.
         </div>
       </div>
 
@@ -2720,23 +2877,26 @@ body.locked { overflow: hidden; }
           <li class="bullet-active"><strong>Dual-incentive vesting</strong>: small credit at activation, larger credit at 90 days, both parties.</li>
         </ul>
 
+        <div class="sms-frame">
         <div class="sms-preview">
           <div class="preview-header">
             <span class="preview-label">Referral SMS sequence</span>
             <span class="preview-counter"><span class="sms-counter">1</span> of 3</span>
           </div>
+          <div class="ios-conversation-header">
+            <span class="ios-avatar"></span>
+            <span class="ios-contact-name">Optimum Mobile</span>
+            <span class="ios-contact-sub">Text Message · SMS</span>
+          </div>
           <div class="sms-stage">
             <div class="sms-bubble active">
-              <div class="sms-sender">Optimum Mobile</div>
-              Maya just invited you to Optimum Mobile! Sign up at optimum.com/m/abcd. You both earn $10 at activation, $20 more after 90 days on network.
+              Your Optimum Mobile invite to Maya is sent. You both earn $10 at activation, $20 more once Maya hits 90 days on network.
             </div>
             <div class="sms-bubble">
-              <div class="sms-sender">Optimum Mobile</div>
-              Welcome! Your $10 referral credit is applied to your account ending in 0001. Stay on network 90 days and you and Maya each earn $20 more.
+              Maya just activated Optimum Mobile! $10 referral credit applied to your next bill. $20 more after 90 days on network.
             </div>
             <div class="sms-bubble">
-              <div class="sms-sender">Optimum Mobile</div>
-              You did it! 90 days on Optimum Mobile. $20 referral credit applied to your next bill. Maya just earned hers too.
+              Maya hit 90 days on Optimum Mobile. $20 referral credit applied to your next bill. Thanks for the referral.
             </div>
           </div>
           <div class="sms-dots">
@@ -2744,6 +2904,7 @@ body.locked { overflow: hidden; }
             <span class="sms-dot"></span>
             <span class="sms-dot"></span>
           </div>
+        </div>
         </div>
 
         <div class="wave-outcome">
@@ -2867,7 +3028,7 @@ body.locked { overflow: hidden; }
         <div class="ai-stage-num">04</div>
         <div class="ai-stage-content">
           <h4>Drafting the brief</h4>
-          <div class="kevin-did ai-action"><strong>I did:</strong> Defined the recommendation, picked the "three approaches that fit together" framing, made the call on what stays and what goes. Every claim, example, and number is mine.</div>
+          <div class="ai-action kevin-did"><strong>I did:</strong> Defined the recommendation, picked the "three approaches that fit together" framing, made the call on what stays and what goes. Every claim, example, and number is mine.</div>
           <div class="ai-action ai-did"><strong>AI:</strong> Assisted with framing against my outline and pushed back on my framing when I asked for it.</div>
         </div>
       </div>
