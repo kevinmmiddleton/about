@@ -1624,11 +1624,37 @@ abbr[title]:hover::after { opacity: 1; }
   font-weight: 700;
   font-size: 13px;
   margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 .build-order-why {
   color: rgba(255, 255, 255, 0.7);
   font-size: 12px;
   line-height: 1.5;
+}
+.build-order-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 2px 6px 1px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  line-height: 1.3;
+}
+.build-order-tag.wave3 {
+  background: rgba(123, 182, 255, 0.14);
+  color: #9FC6FF;
+  border-color: rgba(123, 182, 255, 0.3);
+}
+.build-order-tag.later {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 /* ===== SMS PREVIEW (Tab 4 / Wave 1) ===== */
@@ -1798,8 +1824,8 @@ abbr[title]:hover::after { opacity: 1; }
   margin-bottom: 16px;
 }
 .wave-card .sms-frame .sms-preview { margin: 0; }
-/* Build-order in Wave 2 sits at the top of its row (natural position) */
-.wave-card .build-order { align-self: start; }
+/* Build-order in Wave 2 vertically centered in its row */
+.wave-card .build-order { align-self: center; width: 100%; margin: 16px 0; }
 .wave-card.wave-1 { border-top-color: var(--green); }
 .wave-card.wave-2 { border-top-color: var(--optimum-orange); }
 .wave-card.wave-3 { border-top-color: var(--optimum-blue); }
@@ -2873,15 +2899,15 @@ body.locked { overflow: hidden; }
           <div class="build-order-item">
             <div class="build-order-num">3</div>
             <div>
-              <div class="build-order-name">Referred customers</div>
-              <div class="build-order-why">Trust signal + dual-vesting lower the risk. Ships with Wave 3 referral program.</div>
+              <div class="build-order-name">Referred customers <span class="build-order-tag wave3">Wave 3</span></div>
+              <div class="build-order-why">Trust signal + dual-vesting lower the risk. Ships with the referral program.</div>
             </div>
           </div>
           <div class="build-order-item">
             <div class="build-order-num">4</div>
             <div>
-              <div class="build-order-name">Cold customers (full eKYC)</div>
-              <div class="build-order-why">Highest risk, biggest upside. Ships last.</div>
+              <div class="build-order-name">Cold customers (full eKYC) <span class="build-order-tag later">Later</span></div>
+              <div class="build-order-why">Highest risk, biggest upside.</div>
             </div>
           </div>
         </div>
