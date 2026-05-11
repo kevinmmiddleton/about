@@ -129,6 +129,7 @@
       tagline: null,
       badge: null,
       background: null,
+      url: "middleton.io",
       filename: "kevin-middleton-og.png",
     },
     officehours: {
@@ -137,6 +138,7 @@
       tagline: null,
       badge: "Free · Product Thinking · AI Workflows",
       background: "officehours/images/hero.jpg",
+      url: "middleton.io/officehours",
       filename: "kevin-middleton-officehours-og.png",
     },
   };
@@ -163,6 +165,10 @@
 
   if (page.background) {
     document.querySelector('.hero-bg').style.backgroundImage = `url('${page.background}')`;
+  }
+
+  if (page.url) {
+    document.querySelector('.url').textContent = page.url;
   }
 
   function preloadBg(src) {
