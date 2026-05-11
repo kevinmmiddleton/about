@@ -3209,9 +3209,14 @@ document.addEventListener('keydown', (e) => {
 
 // Footer CTA clicks (Continue to Section X)
 document.querySelectorAll('.tab-footer a[href^="#"]').forEach(a => {
-  a.addEventListener('click', () => {
+  a.addEventListener('click', (e) => {
     const dest = (a.getAttribute('href') || '').replace('#', '');
     track('Footer CTA', { destination: dest });
+    const idx = tabSlugs.indexOf(dest);
+    if (idx >= 0) {
+      e.preventDefault();
+      switchTab(idx, true, 'footer-cta');
+    }
   });
 });
 
