@@ -313,11 +313,13 @@
           prompts.style.display = 'none';
 
           if (action === 'tour') {
+            if (window.plausible) window.plausible('KevBot+Prompt+Tour');
             // Start tour immediately - tour system handles narration
             if (window.startTour) {
               window.startTour();
             }
           } else if (action === 'contact') {
+            if (window.plausible) window.plausible('KevBot+Prompt+Contact');
             // Scroll to connect section
             const connectEl = document.querySelector('#connect');
             if (connectEl) {
@@ -326,6 +328,7 @@
             // Close KevBot
             this.toggle();
           } else if (promptText) {
+            if (window.plausible) window.plausible('KevBot+Prompt+WhatDoesKevinDo');
             this.inputEl.value = promptText;
             this.send();
           }
@@ -351,6 +354,7 @@
         btn.className = 'kevbot-prompt';
         btn.textContent = text;
         btn.addEventListener('click', () => {
+          if (window.plausible) window.plausible('KevBot+FollowUp+Clicked');
           this.inputEl.value = text;
           this.send();
         });
@@ -375,6 +379,9 @@
       this.panel.classList.toggle('open', this.isOpen);
       if (this.isOpen) {
         this.inputEl.focus();
+        if (window.plausible) window.plausible('KevBot+Open');
+      } else {
+        if (window.plausible) window.plausible('KevBot+Close');
       }
     },
 
@@ -412,6 +419,29 @@
       return typing;
     },
 
+    classifyMessage: function(text) {
+      const lower = text.toLowerCase();
+      const categories = [
+        { topic: 'contact',    keywords: ['hire', 'hiring', 'contact', 'email', 'calendly', 'reach out', 'get in touch', 'talk to', 'opportunity', 'opportunities'] },
+        { topic: 'projects',   keywords: ['quietfeed', 'visionbort', 'kevinos', 'kevbot', 'side project', 'build with claude'] },
+        { topic: 'experience', keywords: ['experience', 'background', 'career', 'company', 'companies', 'role', 'roles', 'job', 'worked', 'gridstrong', 'grid strong', 'hvac', 'lever', 'sendoso', 'rocket lawyer', 'oracle', 'hurd'] },
+        { topic: 'skills',     keywords: ['skill', 'tools', 'technical', 'sql', 'figma', 'jira', 'mixpanel', 'amplitude', 'fullstory', 'api', 'system design', 'integration', 'a/b'] },
+        { topic: 'personal',   keywords: ['cat', 'cats', 'cook', 'cooking', 'recipe', 'recipes', 'virginia tech', 'hobby', 'hobbies', 'nyc', 'new york'] },
+      ];
+      let topic = 'misc';
+      for (const cat of categories) {
+        if (cat.keywords.some(kw => lower.includes(kw))) {
+          topic = cat.topic;
+          break;
+        }
+      }
+      let length_bucket;
+      if (text.length <= 50) length_bucket = 'short';
+      else if (text.length <= 200) length_bucket = 'medium';
+      else length_bucket = 'long';
+      return { topic, length_bucket };
+    },
+
     async send() {
       const text = this.inputEl.value.trim();
       if (!text) return;
@@ -425,6 +455,10 @@
       if (followups) followups.remove();
 
       this.addMessage('user', text);
+      if (window.plausible) {
+        const meta = this.classifyMessage(text);
+        window.plausible('KevBot+Message+Sent', { props: meta });
+      }
       const typing = this.showTyping();
 
       try {
@@ -442,6 +476,7 @@
 
         if (data.error) {
           this.addMessage('bot', "Oops, something went wrong. Try again?");
+          if (window.plausible) window.plausible('KevBot+Error');
         } else {
           this.addMessage('bot', data.reply);
           // Update history for context
@@ -457,6 +492,7 @@
       } catch (error) {
         typing.remove();
         this.addMessage('bot', "Couldn't connect. Check your internet and try again!");
+        if (window.plausible) window.plausible('KevBot+Error');
       }
 
       this.inputEl.disabled = false;
