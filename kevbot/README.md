@@ -40,4 +40,4 @@ To customize colors, edit the CSS variables in `kevbot.js`:
 ## Cost
 
 - Cloudflare Workers: Free tier includes 100,000 requests/day
-- Anthropic API: ~$0.003 per conversation turn with Claude 3.5 Sonnet
+- Anthropic API: ~$0.003 per conversation turn with Claude Haiku 4.5

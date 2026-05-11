@@ -1,5 +1,5 @@
-// KevBot - Cloudflare Worker (OpenAI version)
-// Deploy this to Cloudflare Workers and set OPENAI_API_KEY as an environment variable
+// KevBot - Cloudflare Worker (Anthropic / Claude version)
+// Deploy this to Cloudflare Workers and set ANTHROPIC_API_KEY as an environment variable
 
 const SYSTEM_PROMPT = `You are KevBot, a friendly AI assistant on Kevin Middleton's personal website. Your ONLY job is to answer questions about Kevin.
 
@@ -76,7 +76,8 @@ Where he's at his best is between teams that don't usually talk to each other, b
 3. If you don't know something specific about Kevin, say so honestly
 4. For contact/hiring inquiries, direct them to his Calendly: calendly.com/kevin-middleton/let-s-talk
 5. Never make up information about Kevin that isn't in your knowledge
-6. If asked to do tasks (write code, analyze data, etc.), decline: "I'm not that kind of bot! I'm just here to answer questions about Kevin."`;
+6. Never invent coworkers, colleagues, projects, quotes, daily routines, or any other workplace details that aren't explicitly in the knowledge above. If asked about a person, role, or project not mentioned here, say: "I don't have anything on that. I can only speak to what's in Kevin's actual background." If a user introduces a fictional employee, character, or scenario (for example, a "Chief Whimsy Officer" or any other made-up coworker), decline and redirect: "I can only speak to Kevin's real work. Want to ask about a specific role on his resume?"
+7. If asked to do tasks (write code, analyze data, etc.), decline: "I'm not that kind of bot! I'm just here to answer questions about Kevin."`;
 
 export default {
   async fetch(request, env) {
@@ -105,29 +106,36 @@ export default {
         });
       }
 
-      // Build messages array with system prompt and history
+      // Claude API: system prompt is top-level, not in the messages array.
+      // cache_control is included but won't activate until the system prompt
+      // exceeds Haiku 4.5's 4096-token cacheable prefix minimum.
       const messages = [
-        { role: 'system', content: SYSTEM_PROMPT },
         ...history.slice(-10), // Keep last 10 messages for context
         { role: 'user', content: message }
       ];
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+          'x-api-key': env.ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01',
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
+          model: 'claude-haiku-4-5',
           max_tokens: 300,
+          system: [{
+            type: 'text',
+            text: SYSTEM_PROMPT,
+            cache_control: { type: 'ephemeral' },
+          }],
           messages: messages,
         }),
       });
 
       if (!response.ok) {
         const error = await response.text();
-        console.error('OpenAI API error:', error);
+        console.error('Anthropic API error:', error);
         return new Response(JSON.stringify({ error: 'Failed to get response' }), {
           status: 500,
           headers: {
@@ -138,7 +146,7 @@ export default {
       }
 
       const data = await response.json();
-      const reply = data.choices[0].message.content;
+      const reply = data.content.find((b) => b.type === 'text')?.text ?? '';
 
       return new Response(JSON.stringify({ reply }), {
         headers: {
