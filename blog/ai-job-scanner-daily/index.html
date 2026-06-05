@@ -22,7 +22,7 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="What Running an AI Job Scanner Daily Actually Looks Like">
-    <meta name="twitter:description" content="The field report after two weeks: what broke, what I fixed, and what actually held up.">
+    <meta name="twitter:description" content="Two weeks running my AI job scanner. The field report: extraction failures, a temporary block, duplicate noise, and what actually held up.">
     <meta name="twitter:image" content="https://middleton.io/blog/ai-job-scanner-daily/cover.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,7 +58,14 @@
         "url": "https://middleton.io/blog/ai-job-scanner-daily/",
         "image": "https://middleton.io/blog/ai-job-scanner-daily/cover.jpg",
         "articleSection": "Blog",
-        "keywords": ["AI Workflows", "Job Search", "Automation", "Web Scraping", "Reliability", "Product Management"],
+        "keywords": [
+            "AI Workflows",
+            "Job Search",
+            "Automation",
+            "Web Scraping",
+            "Reliability",
+            "Product Management"
+        ],
         "datePublished": "2026-03-06",
         "dateModified": "2026-06-04"
     }
@@ -70,9 +77,24 @@
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://middleton.io/"},
-            {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://middleton.io/blog/"},
-            {"@type": "ListItem", "position": 3, "name": "What Running an AI Job Scanner Daily Actually Looks Like", "item": "https://middleton.io/blog/ai-job-scanner-daily/"}
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://middleton.io/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://middleton.io/blog/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "What Running an AI Job Scanner Daily Actually Looks Like",
+                "item": "https://middleton.io/blog/ai-job-scanner-daily/"
+            }
         ]
     }
     </script>
@@ -85,7 +107,6 @@
     </script>
 </head>
 <body>
-    <!-- Site header (matches middleton.io) -->
     <header class="header name-visible">
         <nav class="nav-container has-cta">
             <a href="/" class="logo">
@@ -95,9 +116,7 @@
                 </span>
             </a>
             <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
             <ul id="menu" class="nav-menu">
                 <li><a href="/#building">Building</a></li>
@@ -124,74 +143,74 @@
             <a href="https://www.linkedin.com/pulse/what-running-ai-job-scanner-daily-actually-looks-like-kevin-middleton-kwige/" target="_blank" rel="noopener">First published on LinkedIn</a>
         </div>
 
-        <img class="article-hero" src="cover.jpg" alt="Job Search Automation: Two Weeks Later. The pipeline diagram with an error badge on Terminal, a check on Claude, and a warning on iMessage." width="1280" height="720">
+        <img class="article-hero" src="/blog/ai-job-scanner-daily/cover.jpg" alt="Job Search Automation: Two Weeks Later. The pipeline diagram with an error badge on Terminal, a check on Claude, and a warning on iMessage.">
 
         <div class="article-body">
-            <p class="callout">Part 3 of a series on building with AI. Missed the start? Begin with <a href="/blog/ai-job-search-assistant/">I Built an AI Job Search Assistant That Texts Me</a>.</p>
+<p class="callout">Part 3 of a series on Building with AI. Start at the beginning: <a href="/blog/ai-job-search-assistant/">I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To</a>.</p>
 
-            <p>My AI job scanner has been running for two weeks. It broke in interesting ways, and I learned things I didn't expect. Here's the field report.</p>
+<p>My AI job scanner has been running for two weeks. It broke in interesting ways, and I learned things I didn't expect. Here's the field report.</p>
 
-            <h2>When a Third of Your Results Are Noise</h2>
+<h2>When a Third of Your Results Are Noise</h2>
 
-            <p>The system was built to scan 60 LinkedIn job cards per run, twice a day. Each scan sends those listings to an AI model along with my preferences, my skip list, and a de-dupe file containing every role I've already applied to, skipped, or been rejected from.</p>
+<p>The system was built to scan 60 LinkedIn job cards per run, twice a day. Each scan sends those listings to an AI model along with my preferences, my skip list, and a de-dupe file containing every role I've already applied to, skipped, or been rejected from.</p>
 
-            <p>In the first week, that de-dupe file was about 5KB. Two weeks later, it hit 32KB. That's roughly 670 company/role pairs the model has to cross-reference against every scan. The full prompt payload grew from 47KB to 73KB in the same period. Still well within the model's limits, but it's a trajectory worth watching.</p>
+<p>In the first week, that de-dupe file was about 5KB. Two weeks later, it hit 32KB. That's roughly 670 company/role pairs the model has to cross-reference against every scan. The full prompt payload grew from 47KB to 73KB in the same period. Still well within the model's limits, but it's a trajectory worth watching.</p>
 
-            <p>The real problem wasn't size. It was accuracy.</p>
+<p>The real problem wasn't size. It was accuracy.</p>
 
-            <p>The AI model was supposed to match incoming jobs against my de-dupe list, but it's fuzzy matching at best. Same company, slightly different role title? Comes through as "new." Same role reposted with a fresh URL? Also "new." On one scan, I got 24 results and at least 8 were duplicates of roles I'd already seen or applied to.</p>
+<p>The AI model was supposed to match incoming jobs against my de-dupe list, but it's fuzzy matching at best. Same company, slightly different role title? Comes through as "new." Same role reposted with a fresh URL? Also "new." On one scan, I got 24 results and at least 8 were duplicates of roles I'd already seen or applied to.</p>
 
-            <p>When a third of your results are noise, the system is creating work instead of saving it.</p>
+<p>When a third of your results are noise, the system is creating work instead of saving it.</p>
 
-            <h2>Don't Ask the AI to Do What Code Can Do Better</h2>
+<h2>Don't Ask the AI to Do What Code Can Do Better</h2>
 
-            <p>This was the key insight. URL matching is a perfect deterministic task. No interpretation needed. Either you've seen this exact URL before or you haven't.</p>
+<p>This was the key insight. URL matching is a perfect deterministic task. No interpretation needed. Either you've seen this exact URL before or you haven't.</p>
 
-            <p>So I built a pre-filter. A file called <code>seen_urls.txt</code> stores every LinkedIn job URL the scanner has ever encountered. Before the AI model even sees the listings, a Python script strips out any URLs already in that file. After the scan, all new URLs get appended, whether they were included or excluded.</p>
+<p>So I built a pre-filter. A file called <code>seen_urls.txt</code> stores every LinkedIn job URL the scanner has ever encountered. Before the AI model even sees the listings, a Python script strips out any URLs already in that file. After the scan, all new URLs get appended, whether they were included or excluded.</p>
 
-            <p>The first scan with the pre-filter active processed 60 jobs and filtered zero, because the seed file only had 50 URLs from that morning. But every scan after that catches repeats instantly. No model needed, no fuzzy matching, no cost.</p>
+<p>The first scan with the pre-filter active processed 60 jobs and filtered zero, because the seed file only had 50 URLs from that morning. But every scan after that catches repeats instantly. No model needed, no fuzzy matching, no cost.</p>
 
-            <p>And if every job in a scan is a repeat? The system short-circuits entirely. No API call. It just texts me "No new PM roles." Saves the API cost for that run, which isn't much per scan, but adds up over weeks.</p>
+<p>And if every job in a scan is a repeat? The system short-circuits entirely. No API call. It just texts me "No new PM roles." Saves the API cost for that run, which isn't much per scan, but adds up over weeks.</p>
 
-            <p>The lesson: if a task has a definitive right answer, don't make the AI guess. Use code for what code is good at and save the model for what actually requires judgment.</p>
+<p>The lesson: if a task has a definitive right answer, don't make the AI guess. Use code for what code is good at and save the model for what actually requires judgment.</p>
 
-            <h2>What Broke (and What's Still Annoying)</h2>
+<h2>What Broke (and What's Still Annoying)</h2>
 
-            <p>Any system that scrapes a website is one HTML change away from failing. Two weeks gave me a solid reminder of that.</p>
+<p>Any system that scrapes a website is one HTML change away from failing. Two weeks gave me a solid reminder of that.</p>
 
-            <p>On February 17th, LinkedIn returned 1.4MB of HTML but zero job cards extracted. The HTML structure had shifted slightly and my CSS selectors didn't match anymore. The scan failed three times that morning before I caught it and adjusted the selectors. Straightforward fix, but a reminder that scraping is always borrowed time.</p>
+<p>On February 17th, LinkedIn returned 1.4MB of HTML but zero job cards extracted. The HTML structure had shifted slightly and my CSS selectors didn't match anymore. The scan failed three times that morning before I caught it and adjusted the selectors. Straightforward fix, but a reminder that scraping is always borrowed time.</p>
 
-            <p>Three days later, a morning scan got back 39 bytes. Not 39KB. 39 bytes. LinkedIn had either rate-limited or temporarily blocked the request entirely. The evening scan worked fine. Probably a temporary IP thing, but that morning's data was just gone.</p>
+<p>Three days later, a morning scan got back 39 bytes. Not 39KB. 39 bytes. LinkedIn had either rate-limited or temporarily blocked the request entirely. The evening scan worked fine. Probably a temporary IP thing, but that morning's data was just gone.</p>
 
-            <p>Both times, the system handled the failure correctly. It texted me that something was wrong instead of silently returning nothing. That distinction matters more than it sounds. Silence meaning failure, not success, was one of the best design decisions in the whole build.</p>
+<p>Both times, the system handled the failure correctly. It texted me that something was wrong instead of silently returning nothing. That distinction matters more than it sounds. Silence meaning failure, not success, was one of the best design decisions in the whole build.</p>
 
-            <p>The most annoying ongoing task is authentication. LinkedIn doesn't offer a public job search API, so the scanner requires periodic manual re-authentication every few days. I built a macOS Shortcut to make it quick, about 30 seconds, but it's still manual. Everything else runs hands-off.</p>
+<p>The most annoying ongoing task is authentication. LinkedIn doesn't offer a public job search API, so the scanner requires periodic manual re-authentication every few days. I built a macOS Shortcut to make it quick, about 30 seconds, but it's still manual. Everything else runs hands-off.</p>
 
-            <p>The other recurring annoyance: LinkedIn's location filter doesn't do what you think it does. I search for "New York, New York" explicitly. LinkedIn still returns roles in Jersey City, Newark, sometimes Philadelphia-area postings. The AI catches most of these and excludes them, but some slip through. This isn't a bug in my system. It's a known behavior with LinkedIn's search. Worth knowing if you build something similar.</p>
+<p>The other recurring annoyance: LinkedIn's location filter doesn't do what you think it does. I search for "New York, New York" explicitly. LinkedIn still returns roles in Jersey City, Newark, sometimes Philadelphia-area postings. The AI catches most of these and excludes them, but some slip through. This isn't a bug in my system. It's a known behavior with LinkedIn's search. Worth knowing if you build something similar.</p>
 
-            <h2>What's Working Well</h2>
+<h2>What's Working Well</h2>
 
-            <p>The three-file system has held up. A Google Sheet acts as my master tracker (400+ rows and growing). A local text file handles de-dupe for the scanner. A markdown file serves as a staging area for new scan results. Three locations, manually synced, but the separation is intentional. The scanner never touches my master data. If the scanner breaks, my sheet is fine.</p>
+<p>The three-file system has held up. A Google Sheet acts as my master tracker (400+ rows and growing). A local text file handles de-dupe for the scanner. A markdown file serves as a staging area for new scan results. Three locations, manually synced, but the separation is intentional. The scanner never touches my master data. If the scanner breaks, my sheet is fine.</p>
 
-            <p>The interview pipeline is real. Multiple active interviews came directly through roles this system surfaced. The scanner found the initial postings, I applied manually, and the pipeline grew from there. Speed matters here. The system finds newly posted roles within about 12 hours of posting, and recruiters can start reviewing applications within days. Getting in early can make a difference.</p>
+<p>The interview pipeline is real. Multiple active interviews came directly through roles this system surfaced. The scanner found the initial postings, I applied manually, and the pipeline grew from there. Speed matters here. The system finds newly posted roles within about 12 hours of posting, and recruiters can start reviewing applications within days. Getting in early can make a difference.</p>
 
-            <p>And the economics still work. The AI classification costs about $0.06 per day. The second model I use for a different classification pass is still free. For a system that processes roughly 1,800 job cards across 30+ scans and maintains a 97% success rate post-stabilization, that's a pretty good deal.</p>
+<p>And the economics still work. The AI classification costs about $0.06 per day. The second model I use for a different classification pass is still free. For a system that processes roughly 1,800 job cards across 30+ scans and maintains a 97% success rate post-stabilization, that's a pretty good deal.</p>
 
-            <h2>The Honest Take</h2>
+<h2>The Honest Take</h2>
 
-            <p>Systems like this aren't "set it and forget it." In two weeks, I dealt with extraction failures, a temporary block, duplicate noise, cookie refreshes, and location filter weirdness. That's real maintenance.</p>
+<p>Systems like this aren't "set it and forget it." In two weeks, I dealt with extraction failures, a temporary block, duplicate noise, cookie refreshes, and location filter weirdness. That's real maintenance.</p>
 
-            <p>But the maintenance is minutes per week, not hours per day. And the alternative is manually checking LinkedIn twice a day, doom scrolling through 60 listings, and hoping I don't miss something. The scanner is imperfect, but it's consistently better than doing it by hand.</p>
+<p>But the maintenance is minutes per week, not hours per day. And the alternative is manually checking LinkedIn twice a day, doom scrolling through 60 listings, and hoping I don't miss something. The scanner is imperfect, but it's consistently better than doing it by hand.</p>
 
-            <p>I would not call any of this production-ready. But it's perfectly serviceable for me, and that's the point. I don't need it to scale. I need it to work. For personal projects, AI is incredible at unblocking things that would've been stuck behind access to engineering resources. There's never been a better time for the value you get from these tools.</p>
+<p>I would not call any of this production-ready. But it's perfectly serviceable for me, and that's the point. I don't need it to scale. I need it to work. For personal projects, AI is incredible at unblocking things that would've been stuck behind access to engineering resources. There's never been a better time for the value you get from these tools.</p>
 
-            <p>I've been thinking a lot about the data that flows through this system and why I'm sending all of it to cloud APIs. More on that here: <a href="/blog/owning-your-context/">I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</a></p>
+<p>I've been thinking a lot about the data that flows through this system and why I'm sending all of it to cloud APIs. More on that here: <a href="/blog/owning-your-context/">I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</a></p>
 
-            <p class="callout">Next in the series: <a href="/blog/ai-tools-non-technical/">We're not building great AI tools for non-technical audiences (yet)</a>.</p>
+<p class="callout">Next in the series: <a href="/blog/ai-tools-non-technical/">We're not building great AI tools for non-technical audiences (yet)</a>.</p>
 
-            <div class="article-bio">
-                <p>Kevin Middleton is a Full Stack Product Manager who builds systems that help product teams not lose their minds. Currently looking for his next role in NYC. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
-            </div>
+<div class="article-bio">
+  <p>Kevin Middleton is a Full Stack Product Manager who builds systems that help product teams not lose their minds. Currently looking for his next role in NYC. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
+</div>
         </div>
     </article>
     </main>
@@ -202,7 +221,6 @@
         </div>
     </footer>
 
-    <!-- Lightbox (matches middleton.io markup) -->
     <div id="lightbox" class="lightbox">
         <span class="close-lightbox">&times;</span>
         <div class="lightbox-content">

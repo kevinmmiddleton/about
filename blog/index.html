@@ -38,7 +38,11 @@
         "@type": "Blog",
         "name": "Kevin Middleton's Blog",
         "url": "https://middleton.io/blog/",
-        "author": { "@type": "Person", "name": "Kevin Middleton", "url": "https://middleton.io" },
+        "author": {
+            "@type": "Person",
+            "name": "Kevin Middleton",
+            "url": "https://middleton.io"
+        },
         "blogPost": [
             {
                 "@type": "BlogPosting",
@@ -74,8 +78,18 @@
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://middleton.io/"},
-            {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://middleton.io/blog/"}
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://middleton.io/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://middleton.io/blog/"
+            }
         ]
     }
     </script>
@@ -88,7 +102,6 @@
     </script>
 </head>
 <body>
-    <!-- Site header (matches middleton.io) -->
     <header class="header name-visible">
         <nav class="nav-container has-cta">
             <a href="/" class="logo">
@@ -98,9 +111,7 @@
                 </span>
             </a>
             <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
             <ul id="menu" class="nav-menu">
                 <li><a href="/#building">Building</a></li>
@@ -124,17 +135,17 @@
 
         <div class="post-list">
             <a class="post-card" href="/blog/ai-tools-non-technical/">
-                <img class="post-card__thumb" src="/blog/ai-tools-non-technical/cover.jpg" alt="" loading="lazy" width="1280" height="720">
+                <img class="post-card__thumb" src="/blog/ai-tools-non-technical/cover.jpg" alt="" loading="lazy">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Building with AI</p>
                     <h2>We're not building great AI tools for non-technical audiences (yet)</h2>
-                    <p>I built a job scanner that runs while I sleep. I couldn't hand it to a smart, motivated friend. The gap between "I want that" and "I can do that" is still enormous.</p>
+                    <p>I built a job scanner that runs while I sleep. I couldn't hand it to a smart, motivated friend. The gap between 'I want that' and 'I can do that' is still enormous.</p>
                     <span class="post-date">March 20, 2026</span>
                 </div>
             </a>
 
             <a class="post-card" href="/blog/ai-job-scanner-daily/">
-                <img class="post-card__thumb" src="/blog/ai-job-scanner-daily/cover.jpg" alt="" loading="lazy" width="1280" height="720">
+                <img class="post-card__thumb" src="/blog/ai-job-scanner-daily/cover.jpg" alt="" loading="lazy">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Building with AI</p>
                     <h2>What Running an AI Job Scanner Daily Actually Looks Like</h2>
@@ -144,7 +155,7 @@
             </a>
 
             <a class="post-card" href="/blog/owning-your-context/">
-                <img class="post-card__thumb" src="/blog/owning-your-context/cover.jpg" alt="" loading="lazy" width="1280" height="720">
+                <img class="post-card__thumb" src="/blog/owning-your-context/cover.jpg" alt="" loading="lazy">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Building with AI</p>
                     <h2>I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</h2>
@@ -154,7 +165,7 @@
             </a>
 
             <a class="post-card" href="/blog/ai-job-search-assistant/">
-                <img class="post-card__thumb" src="/blog/ai-job-search-assistant/cover.jpg" alt="" loading="lazy" width="1280" height="720">
+                <img class="post-card__thumb" src="/blog/ai-job-search-assistant/cover.jpg" alt="" loading="lazy">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Building with AI</p>
                     <h2>I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To</h2>
