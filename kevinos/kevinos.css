@@ -84,7 +84,7 @@
     --font-sans: 'Outfit', sans-serif;
     --radius: 12px;
     --taskbar: 0px;
-    --desktop-bg: url('https://middleton.io/images/darkmode-bg.png');
+    --desktop-bg: url('https://middleton.io/images/darkmode-bg.jpg');
 
     /* Game colors (always dark, theme-independent) */
     --game-bg: #0a0a0f;
@@ -119,7 +119,7 @@
         --mint-hover: #047857;
         --yellow: #d97706;
         --peach: #ea580c;
-        --desktop-bg: url('https://middleton.io/images/lightmode-bg.png');
+        --desktop-bg: url('https://middleton.io/images/lightmode-bg.jpg');
     }
 }
 
@@ -141,7 +141,7 @@
     --mint-hover: #047857;
     --yellow: #d97706;
     --peach: #ea580c;
-    --desktop-bg: url('https://middleton.io/images/lightmode-bg.png');
+    --desktop-bg: url('https://middleton.io/images/lightmode-bg.jpg');
 }
 
 [data-theme="dark"] {
@@ -161,7 +161,7 @@
     --mint-hover: #3cc890;
     --yellow: #ffc048;
     --peach: #ff9f6a;
-    --desktop-bg: url('https://middleton.io/images/darkmode-bg.png');
+    --desktop-bg: url('https://middleton.io/images/darkmode-bg.jpg');
 }
 
 html,

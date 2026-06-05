@@ -8,8 +8,8 @@ window.addEventListener('load', () => {
     // Critical assets to preload during boot
     const criticalAssets = [
         // Backgrounds
-        'https://middleton.io/images/darkmode-bg.png',
-        'https://middleton.io/images/lightmode-bg.png',
+        'https://middleton.io/images/darkmode-bg.jpg',
+        'https://middleton.io/images/lightmode-bg.jpg',
         // Profile & photos
         'https://middleton.io/images/profile-picture.jpg',
         'https://middleton.io/images/cat-illustration.png',

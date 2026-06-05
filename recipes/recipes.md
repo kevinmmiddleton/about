@@ -271,7 +271,7 @@ These taste like the Costco muffins, which is the whole point.
 ---
 tags: chicken, main, weeknight, low-carb
 servings: 2
-photo: https://middleton.io/recipes/images/chicken-asparagus.png
+photo: https://middleton.io/recipes/images/chicken-asparagus.jpg
 notes: Easy Pyrex dinner. Chicken seasons the vegetables naturally. Add broth partway through for a silky pan sauce without extra dishes.
 ---
 
@@ -317,7 +317,7 @@ Roast first, shallow braise second. One dish, no babysitting.
 ---
 tags: chicken, main, weeknight
 servings: 2-3
-photo: https://middleton.io/recipes/images/herb-chicken-potatoes.png
+photo: https://middleton.io/recipes/images/herb-chicken-potatoes.jpg
 notes: Halve the fingerlings and lay them cut-side down for maximum browning. Single layer or they steam.
 ---
 
@@ -361,7 +361,7 @@ Sheet pan comfort food. Herbs on everything.
 ---
 tags: pork, main, weeknight, low-carb
 servings: 3-4
-photo: https://middleton.io/recipes/images/pork-meatballs.png
+photo: https://middleton.io/recipes/images/pork-meatballs.jpg
 notes: Sub ground turkey or beef for the pork if you like. Use marinara, arrabiata, or any red sauce you have on hand. The fennel and red pepper flakes give it that Italian sausage flavor.
 ---
 
