@@ -343,27 +343,60 @@ img {
   color: var(--accent);
 }
 
+.nav-cta-mobile { display: none; }  /* desktop uses the separate .header-cta button */
+
 @media (max-width: 900px) {
   .menu-toggle {
     display: flex;
   }
 
+  /* Full-width menu sheet under the header */
   .nav-menu {
     position: absolute;
     top: 100%;
-    right: var(--spacing-md);
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 0;
     background: var(--surface);
-    border-radius: var(--radius-md);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    border-top: 1px solid var(--border);
     box-shadow: var(--shadow-lg);
-    padding: var(--spacing-sm);
+    padding: 4px 0 10px;
     flex-direction: column;
-    min-width: 200px;
+    gap: 0;
     display: none;
   }
 
   .nav-menu.active {
     display: flex;
   }
+
+  .nav-menu li { width: 100%; }
+  .nav-menu li a {
+    display: block;
+    width: 100%;
+    padding: 15px var(--spacing-md);
+    font-size: 1.05rem;
+    border-radius: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-menu li:not(.nav-cta-mobile):last-of-type a { border-bottom: none; }
+
+  /* Office Hours: primary action pinned to the bottom of the sheet */
+  .nav-cta-mobile { display: block; padding: 12px var(--spacing-md) 2px; }
+  .nav-cta-mobile a {
+    display: block;
+    text-align: center;
+    background: var(--accent);
+    color: var(--white);
+    border: none !important;
+    border-radius: 10px;
+    padding: 13px 16px !important;
+    font-size: 1rem !important;
+    font-weight: 600;
+  }
+  .nav-cta-mobile a:hover { background: var(--accent-hover); color: var(--white); }
 }
 
 /* ========== Hero Section (base — kept for non-v2 pages) ========== */
