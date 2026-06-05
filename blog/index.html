@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4A6A8C">
+    <title>Blog | Kevin Middleton</title>
+    <meta name="description" content="Kevin Middleton on building with AI, product, and the systems in between. Essays on AI workflows, automation, privacy, and where personal AI is headed.">
+
+    <link rel="canonical" href="https://middleton.io/blog/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://middleton.io/blog/">
+    <meta property="og:title" content="Blog | Kevin Middleton">
+    <meta property="og:description" content="Essays on building with AI, product, and the systems in between.">
+    <meta property="og:image" content="https://middleton.io/images/kevin-middleton-og.png">
+    <meta property="og:site_name" content="Kevin Middleton">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Blog | Kevin Middleton">
+    <meta name="twitter:description" content="Essays on building with AI, product, and the systems in between.">
+    <meta name="twitter:image" content="https://middleton.io/images/kevin-middleton-og.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles-merged.css">
+    <link rel="stylesheet" href="/blog/blog.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- JSON-LD: Blog + posts -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Kevin Middleton's Blog",
+        "url": "https://middleton.io/blog/",
+        "author": { "@type": "Person", "name": "Kevin Middleton", "url": "https://middleton.io" },
+        "blogPost": [
+            {
+                "@type": "BlogPosting",
+                "headline": "We're not building great AI tools for non-technical audiences (yet)",
+                "url": "https://middleton.io/blog/ai-tools-non-technical/",
+                "datePublished": "2026-03-20"
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": "What Running an AI Job Scanner Daily Actually Looks Like",
+                "url": "https://middleton.io/blog/ai-job-scanner-daily/",
+                "datePublished": "2026-03-06"
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": "I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.",
+                "url": "https://middleton.io/blog/owning-your-context/",
+                "datePublished": "2026-03-02"
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": "I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To",
+                "url": "https://middleton.io/blog/ai-job-search-assistant/",
+                "datePublished": "2026-02-23"
+            }
+        ]
+    }
+    </script>
+
+    <!-- JSON-LD: Breadcrumb -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://middleton.io/"},
+            {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://middleton.io/blog/"}
+        ]
+    }
+    </script>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+    <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+    </script>
+</head>
+<body>
+    <!-- Site header (matches middleton.io) -->
+    <header class="header">
+        <nav class="nav-container has-cta">
+            <a href="/" class="logo">
+                <span class="logo-text">
+                    <span class="logo-name">Kevin Middleton</span>
+                    <span class="logo-subtitle">Full Stack Product Manager</span>
+                </span>
+            </a>
+            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul id="menu" class="nav-menu">
+                <li><a href="/#building">Building</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="/#experience">Experience</a></li>
+                <li><a href="/#projects">Case Studies</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/#connect">Let's Talk</a></li>
+            </ul>
+            <a href="/officehours/" class="header-cta">Office Hours</a>
+        </nav>
+    </header>
+
+    <main>
+    <section class="blog-index">
+        <div class="blog-index-header">
+            <h1>Blog</h1>
+            <p>Essays on building with AI, product, and the systems in between. Long-form, hands-on, and occasionally about what broke.</p>
+        </div>
+
+        <div class="post-list">
+            <a class="post-card" href="/blog/ai-tools-non-technical/">
+                <p class="post-eyebrow">Building with AI</p>
+                <h2>We're not building great AI tools for non-technical audiences (yet)</h2>
+                <p>I built a job scanner that runs while I sleep. I couldn't hand it to a smart, motivated friend. The gap between "I want that" and "I can do that" is still enormous.</p>
+                <span class="post-date">March 20, 2026</span>
+            </a>
+
+            <a class="post-card" href="/blog/ai-job-scanner-daily/">
+                <p class="post-eyebrow">Building with AI</p>
+                <h2>What Running an AI Job Scanner Daily Actually Looks Like</h2>
+                <p>Two weeks running my AI job scanner. The field report: extraction failures, a temporary block, duplicate noise, and what actually held up.</p>
+                <span class="post-date">March 6, 2026</span>
+            </a>
+
+            <a class="post-card" href="/blog/owning-your-context/">
+                <p class="post-eyebrow">Building with AI</p>
+                <h2>I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</h2>
+                <p>I pay a service to scrub my data from hundreds of brokers. Then I hand an AI my taxes, my finances, my fears. Where should that personal context actually live?</p>
+                <span class="post-date">March 2, 2026</span>
+            </a>
+
+            <a class="post-card" href="/blog/ai-job-search-assistant/">
+                <p class="post-eyebrow">Building with AI</p>
+                <h2>I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To</h2>
+                <p>How a Mac Mini in my apartment scans LinkedIn twice a day, filters for roles that match my profile, and texts me the results, for about six cents a day.</p>
+                <span class="post-date">February 23, 2026</span>
+            </a>
+        </div>
+    </section>
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="container footer-content">
+            <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        var t = document.getElementById('menu-toggle'), m = document.getElementById('menu');
+        if (t && m) {
+            t.addEventListener('click', function () { m.classList.toggle('active'); });
+            m.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { m.classList.remove('active'); }); });
+        }
+    })();
+    </script>
+</body>
+</html>
