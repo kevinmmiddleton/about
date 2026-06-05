@@ -89,7 +89,7 @@
 </head>
 <body>
     <!-- Site header (matches middleton.io) -->
-    <header class="header">
+    <header class="header name-visible">
         <nav class="nav-container has-cta">
             <a href="/" class="logo">
                 <span class="logo-text visible" id="header-name">
@@ -171,14 +171,6 @@
         </div>
     </footer>
 
-    <script>
-    (function () {
-        var t = document.getElementById('menu-toggle'), m = document.getElementById('menu');
-        if (t && m) {
-            t.addEventListener('click', function () { m.classList.toggle('active'); });
-            m.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { m.classList.remove('active'); }); });
-        }
-    })();
-    </script>
+    <script src="/blog/blog-nav.js"></script>
 </body>
 </html>

@@ -86,7 +86,7 @@
 </head>
 <body>
     <!-- Site header (matches middleton.io) -->
-    <header class="header">
+    <header class="header name-visible">
         <nav class="nav-container has-cta">
             <a href="/" class="logo">
                 <span class="logo-text visible" id="header-name">
@@ -194,25 +194,6 @@
         </div>
     </div>
 
-    <script>
-    (function () {
-        var t = document.getElementById('menu-toggle'), m = document.getElementById('menu');
-        if (t && m) {
-            t.addEventListener('click', function () { m.classList.toggle('active'); });
-            m.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { m.classList.remove('active'); }); });
-        }
-    })();
-    (function () {
-        var lb = document.getElementById('lightbox'),
-            img = document.getElementById('lightbox-image'),
-            close = lb && lb.querySelector('.close-lightbox');
-        document.querySelectorAll('.article-body figure img').forEach(function (el) {
-            el.addEventListener('click', function () { img.src = el.src; lb.classList.add('active'); });
-        });
-        function hide() { lb.classList.remove('active'); }
-        if (lb) lb.addEventListener('click', hide);
-        if (close) close.addEventListener('click', hide);
-    })();
-    </script>
+    <script src="/blog/blog-nav.js"></script>
 </body>
 </html>
