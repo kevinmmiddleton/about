@@ -365,6 +365,38 @@ function updateLlms(posts) {
   console.warn('  ! llms.txt markers not found; skipped'); return false;
 }
 
+// ---------- localize Supabase-hosted images into the repo ----------
+// Board uploads land in Supabase Storage (blog-images). At publish we pull them
+// into blog/<slug>/ and rewrite the refs so the live site serves them from
+// middleton.io (same-origin). Uploaded filenames are unique, so skip-if-exists.
+const STORAGE_MARK = '/storage/v1/object/public/blog-images/';
+async function localizeImages(post) {
+  const dir = resolve(BLOG_DIR, post.slug);
+  mkdirSync(dir, { recursive: true });
+  const cache = new Map();
+  async function pull(url) {
+    if (cache.has(url)) return cache.get(url);
+    const base = decodeURIComponent(url.split(STORAGE_MARK)[1].split('/').pop().split('?')[0]);
+    const dest = resolve(dir, base);
+    if (!existsSync(dest)) {
+      const r = await fetch(url);
+      if (!r.ok) { console.warn(`    ! image ${url} -> ${r.status}`); cache.set(url, url); return url; }
+      writeFileSync(dest, Buffer.from(await r.arrayBuffer()));
+      console.log(`    localized -> blog/${post.slug}/${base}`);
+    }
+    cache.set(url, base); return base; // relative to the page
+  }
+  if (post.cover_image && post.cover_image.includes(STORAGE_MARK)) {
+    const ref = await pull(post.cover_image);
+    post.cover_image = ref.startsWith('http') ? ref : `/blog/${post.slug}/${ref}`;
+  }
+  const urls = [...new Set([...(post.body_markdown || '').matchAll(/\((https?:\/\/[^)\s"]*\/storage\/v1\/object\/public\/blog-images\/[^)\s"]+)/g)].map(m => m[1]))];
+  for (const url of urls) {
+    const ref = await pull(url);
+    if (ref !== url) post.body_markdown = post.body_markdown.split(url).join(ref);
+  }
+}
+
 // ---------- main ----------
 async function main() {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/blog_posts?status=eq.published&select=*&order=published_at.desc`, {
@@ -375,6 +407,7 @@ async function main() {
   for (const p of posts) {
     const dir = resolve(BLOG_DIR, p.slug);
     mkdirSync(dir, { recursive: true });
+    await localizeImages(p);
     writeFileSync(resolve(dir,'index.html'), articlePage(p, posts));
     console.log(`  wrote blog/${p.slug}/index.html`);
   }
