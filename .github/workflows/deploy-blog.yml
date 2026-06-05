@@ -6,13 +6,13 @@ name: Publish blog
 #   - workflow_dispatch: run manually from the Actions tab
 #   - repository_dispatch (type: blog-publish): fire instantly from a Supabase
 #     webhook when a post is published (requires a token YOU create — see notes)
-#   - schedule: safety-net poll so a flip to "published" goes live within ~15 min
+#   - schedule: once-daily safety net in case a dispatch is ever missed
 on:
   workflow_dispatch:
   repository_dispatch:
     types: [blog-publish]
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '0 9 * * *'
 
 permissions:
   contents: write
