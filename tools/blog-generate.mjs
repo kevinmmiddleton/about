@@ -346,8 +346,10 @@ function replaceRegion(text, start, end, replacement) {
 function updateSitemap(posts) {
   const f = resolve(ROOT,'sitemap.xml');
   let xml = readFileSync(f,'utf8');
-  const today = isoDate(new Date().toISOString());
-  const entries = [`  <url>\n    <loc>${SITE}/blog/</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>`]
+  // deterministic hub lastmod = most recent post date (so re-runs with an
+  // unchanged DB produce no diff — safe for a scheduled/auto job)
+  const latest = posts.map(p => isoDate(p.updated_at) || isoDate(p.published_at)).filter(Boolean).sort().pop() || '';
+  const entries = [`  <url>\n    <loc>${SITE}/blog/</loc>\n    <lastmod>${latest}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>`]
     .concat(posts.map(p=>`  <url>\n    <loc>${SITE}/blog/${p.slug}/</loc>\n    <lastmod>${isoDate(p.updated_at)||isoDate(p.published_at)}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`)).join('\n');
   const out = replaceRegion(xml, '<!-- BLOG:START -->', '<!-- BLOG:END -->', entries);
   if (out) { writeFileSync(f, out); return true; }

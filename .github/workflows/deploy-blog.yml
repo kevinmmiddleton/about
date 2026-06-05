@@ -1,0 +1,45 @@
+name: Publish blog
+
+# Regenerates /blog/ from the Supabase `blog_posts` table and commits the
+# result (push to main → GitHub Pages deploys). The generator reads with the
+# public anon key, so no secrets are required. Triggers:
+#   - workflow_dispatch: run manually from the Actions tab
+#   - repository_dispatch (type: blog-publish): fire instantly from a Supabase
+#     webhook when a post is published (requires a token YOU create — see notes)
+#   - schedule: safety-net poll so a flip to "published" goes live within ~15 min
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [blog-publish]
+  schedule:
+    - cron: '*/15 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-blog
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Generate /blog from Supabase
+        run: node tools/blog-generate.mjs
+      - name: Commit & push if the output changed
+        run: |
+          git config user.name "blog-bot"
+          git config user.email "noreply@middleton.io"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "Auto-publish blog from blog_posts"
+            git push
+            echo "Published changes."
+          else
+            echo "No changes to publish."
+          fi
