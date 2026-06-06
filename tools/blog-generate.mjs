@@ -72,17 +72,24 @@ function renderMarkdown(md='') {
     // heading
     let h = line.match(/^(#{2,3})\s+(.*)$/);
     if (h) { const lvl = h[1].length; out.push(`<h${lvl}>${inline(h[2])}</h${lvl}>`); i++; continue; }
-    // list
+    // list (unordered)
     if (/^[-*]\s+/.test(line)) {
       const items = [];
       while (i < lines.length && /^[-*]\s+/.test(lines[i])) { items.push(`<li>${inline(lines[i].replace(/^[-*]\s+/,''))}</li>`); i++; }
       out.push(`<ul>\n${items.join('\n')}\n</ul>`);
       continue;
     }
+    // list (ordered)
+    if (/^\d+\.\s+/.test(line)) {
+      const items = [];
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i])) { items.push(`<li>${inline(lines[i].replace(/^\d+\.\s+/,''))}</li>`); i++; }
+      out.push(`<ol>\n${items.join('\n')}\n</ol>`);
+      continue;
+    }
     // paragraph (gather until blank / block start)
     const para = [];
     while (i < lines.length && lines[i].trim() !== '' && !lines[i].trim().startsWith('```')
-           && !/^(#{2,3})\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i]) && !lines[i].trim().match(IMG_LINE)) {
+           && !/^(#{2,3})\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i]) && !lines[i].trim().match(IMG_LINE)) {
       para.push(lines[i]); i++;
     }
     out.push(`<p>${inline(para.join(' '))}</p>`);
