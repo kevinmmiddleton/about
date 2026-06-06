@@ -38,4 +38,30 @@
     lb.addEventListener('click', hide);
     if (close) close.addEventListener('click', hide);
   }
+
+  // Plausible custom goal: fire once when the reader reaches the end of an article's body.
+  // (Office Hours CTA + post-card clicks are tagged via CSS classes in the markup instead.)
+  var articleBody = document.querySelector('.article-body');
+  if (articleBody && 'IntersectionObserver' in window) {
+    var m = location.pathname.match(/\/blog\/([^/]+)\//);
+    var slug = m ? m[1] : location.pathname;
+    var sentinel = document.createElement('span');
+    sentinel.setAttribute('aria-hidden', 'true');
+    articleBody.appendChild(sentinel);
+    var sent = false;
+    var io = new IntersectionObserver(function (entries) {
+      if (sent) return;
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          sent = true;
+          if (typeof window.plausible === 'function') {
+            window.plausible('Read Complete', { props: { post: slug } });
+          }
+          io.disconnect();
+          break;
+        }
+      }
+    });
+    io.observe(sentinel);
+  }
 })();

@@ -154,9 +154,9 @@ const HEADER = `    <header class="header name-visible">
                 <li><a href="/#projects">Case Studies</a></li>
                 <li><a href="/blog/">Blog</a></li>
                 <li><a href="/#connect">Let's Talk</a></li>
-                <li class="nav-cta-mobile"><a href="/officehours/">Office Hours</a></li>
+                <li class="nav-cta-mobile"><a href="/officehours/" class="plausible-event-name=Office+Hours plausible-event-location=blog">Office Hours</a></li>
             </ul>
-            <a href="/officehours/" class="header-cta">Office Hours</a>
+            <a href="/officehours/" class="header-cta plausible-event-name=Office+Hours plausible-event-location=blog">Office Hours</a>
         </nav>
     </header>`;
 const FOOTER = `    <footer id="footer" class="footer">
@@ -286,7 +286,7 @@ function hubPage(posts) {
   const crumbs = {"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[
     {"@type":"ListItem",position:1,name:"Home",item:`${SITE}/`},
     {"@type":"ListItem",position:2,name:"Blog",item:`${SITE}/blog/`}]};
-  const cards = posts.map(p=>`            <a class="post-card" href="/blog/${p.slug}/">
+  const cards = posts.map(p=>`            <a class="post-card plausible-event-name=Blog+Card+Click plausible-event-post=${p.slug}" href="/blog/${p.slug}/">
                 <img class="post-card__thumb" src="${escAttr(p.cover_image||'')}" alt="" loading="lazy">
                 <div class="post-card__body">
                     <p class="post-eyebrow">${esc(p.topic||'')}</p>
