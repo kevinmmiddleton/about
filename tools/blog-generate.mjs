@@ -183,6 +183,8 @@ function articlePage(post, all) {
   const body = [top, renderMarkdown(post.body_markdown), bottom,
     `<div class="article-bio">\n  <p>Kevin Middleton is a Full Stack Product Manager who builds systems that help product teams not lose their minds. Currently looking for his next role in NYC. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>\n</div>`
   ].filter(Boolean).join('\n\n');
+  // every link in the article body opens in a new tab
+  const bodyLinked = body.replace(/<a (?![^>]*\btarget=)/g, '<a target="_blank" rel="noopener" ');
 
   return `<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -241,7 +243,7 @@ ${HEADER}
         <img class="article-hero" src="${escAttr(post.cover_image||'')}" alt="${escAttr(post.cover_alt||post.title)}">
 
         <div class="article-body">
-${body}
+${bodyLinked}
         </div>
     </article>
     </main>
