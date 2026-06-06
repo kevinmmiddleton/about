@@ -388,28 +388,29 @@ function updateLlms(posts) {
 
 // ---------- localize Supabase-hosted images into the repo ----------
 // Board uploads land in Supabase Storage (blog-images). At publish we pull them
-// into blog/<slug>/ and rewrite the refs so the live site serves them from
-// middleton.io (same-origin). Uploaded filenames are unique, so skip-if-exists.
+// into a single shared blog/images/ folder and rewrite the refs so the live site
+// serves them from middleton.io (same-origin). Uploaded filenames are unique
+// (timestamp-prefixed), so they don't collide across posts; skip-if-exists.
 const STORAGE_MARK = '/storage/v1/object/public/blog-images/';
+const IMAGES_DIR = resolve(BLOG_DIR, 'images');
 async function localizeImages(post) {
-  const dir = resolve(BLOG_DIR, post.slug);
-  mkdirSync(dir, { recursive: true });
+  mkdirSync(IMAGES_DIR, { recursive: true });
   const cache = new Map();
   async function pull(url) {
     if (cache.has(url)) return cache.get(url);
     const base = decodeURIComponent(url.split(STORAGE_MARK)[1].split('/').pop().split('?')[0]);
-    const dest = resolve(dir, base);
+    const dest = resolve(IMAGES_DIR, base);
     if (!existsSync(dest)) {
       const r = await fetch(url);
       if (!r.ok) { console.warn(`    ! image ${url} -> ${r.status}`); cache.set(url, url); return url; }
       writeFileSync(dest, Buffer.from(await r.arrayBuffer()));
-      console.log(`    localized -> blog/${post.slug}/${base}`);
+      console.log(`    localized -> blog/images/${base}`);
     }
-    cache.set(url, base); return base; // relative to the page
+    const ref = `/blog/images/${base}`;   // absolute, shared folder
+    cache.set(url, ref); return ref;
   }
   if (post.cover_image && post.cover_image.includes(STORAGE_MARK)) {
-    const ref = await pull(post.cover_image);
-    post.cover_image = ref.startsWith('http') ? ref : `/blog/${post.slug}/${ref}`;
+    post.cover_image = await pull(post.cover_image);
   }
   const urls = [...new Set([...(post.body_markdown || '').matchAll(/\((https?:\/\/[^)\s"]*\/storage\/v1\/object\/public\/blog-images\/[^)\s"]+)/g)].map(m => m[1]))];
   for (const url of urls) {
