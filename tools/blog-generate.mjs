@@ -72,17 +72,25 @@ function renderMarkdown(md='') {
     // heading
     let h = line.match(/^(#{2,3})\s+(.*)$/);
     if (h) { const lvl = h[1].length; out.push(`<h${lvl}>${inline(h[2])}</h${lvl}>`); i++; continue; }
-    // list (unordered)
+    // list (unordered) — tolerates blank lines between items (one list, not many)
     if (/^[-*]\s+/.test(line)) {
       const items = [];
-      while (i < lines.length && /^[-*]\s+/.test(lines[i])) { items.push(`<li>${inline(lines[i].replace(/^[-*]\s+/,''))}</li>`); i++; }
+      while (i < lines.length) {
+        if (/^[-*]\s+/.test(lines[i])) { items.push(`<li>${inline(lines[i].replace(/^[-*]\s+/,''))}</li>`); i++; }
+        else if (lines[i].trim() === '') { let j = i; while (j < lines.length && lines[j].trim() === '') j++; if (/^[-*]\s+/.test(lines[j] || '')) i = j; else break; }
+        else break;
+      }
       out.push(`<ul>\n${items.join('\n')}\n</ul>`);
       continue;
     }
-    // list (ordered)
+    // list (ordered) — tolerates blank lines between items so numbering stays continuous
     if (/^\d+\.\s+/.test(line)) {
       const items = [];
-      while (i < lines.length && /^\d+\.\s+/.test(lines[i])) { items.push(`<li>${inline(lines[i].replace(/^\d+\.\s+/,''))}</li>`); i++; }
+      while (i < lines.length) {
+        if (/^\d+\.\s+/.test(lines[i])) { items.push(`<li>${inline(lines[i].replace(/^\d+\.\s+/,''))}</li>`); i++; }
+        else if (lines[i].trim() === '') { let j = i; while (j < lines.length && lines[j].trim() === '') j++; if (/^\d+\.\s+/.test(lines[j] || '')) i = j; else break; }
+        else break;
+      }
       out.push(`<ol>\n${items.join('\n')}\n</ol>`);
       continue;
     }
