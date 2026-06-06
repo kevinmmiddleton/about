@@ -14,7 +14,7 @@
     <meta property="og:url" content="https://middleton.io/blog/ai-job-search-assistant/">
     <meta property="og:title" content="I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To">
     <meta property="og:description" content="How a Mac Mini in my apartment scans LinkedIn twice a day, filters for roles that match my profile, and texts me the results, for about six cents a day.">
-    <meta property="og:image" content="https://middleton.io/blog/ai-job-search-assistant/cover.jpg">
+    <meta property="og:image" content="https://middleton.io/blog/images/ai-job-search-assistant-cover.jpg">
     <meta property="og:site_name" content="Kevin Middleton">
     <meta property="article:published_time" content="2026-02-23">
     <meta property="article:author" content="Kevin Middleton">
@@ -23,7 +23,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To">
     <meta name="twitter:description" content="How a Mac Mini in my apartment scans LinkedIn twice a day, filters for roles that match my profile, and texts me the results, for about six cents a day.">
-    <meta name="twitter:image" content="https://middleton.io/blog/ai-job-search-assistant/cover.jpg">
+    <meta name="twitter:image" content="https://middleton.io/blog/images/ai-job-search-assistant-cover.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +56,7 @@
             "@id": "https://middleton.io/blog/ai-job-search-assistant/"
         },
         "url": "https://middleton.io/blog/ai-job-search-assistant/",
-        "image": "https://middleton.io/blog/ai-job-search-assistant/cover.jpg",
+        "image": "https://middleton.io/blog/images/ai-job-search-assistant-cover.jpg",
         "articleSection": "Blog",
         "keywords": [
             "AI Workflows",
@@ -144,7 +144,7 @@
             <a href="https://www.linkedin.com/pulse/i-built-ai-job-search-assistant-texts-me-when-finds-roles-middleton-nawxe/" target="_blank" rel="noopener">First published on LinkedIn</a>
         </div>
 
-        <img class="article-hero" src="/blog/ai-job-search-assistant/cover.jpg" alt="Diagram of the job search automation: Apple Shortcuts triggers a Terminal script, Claude classifies roles, results flow from LinkedIn to iMessage.">
+        <img class="article-hero" src="/blog/images/ai-job-search-assistant-cover.jpg" alt="Diagram of the job search automation: Apple Shortcuts triggers a Terminal script, Claude classifies roles, results flow from LinkedIn to iMessage.">
 
         <div class="article-body">
 <p class="callout">This is Part 1 of a series on Building with AI.</p>
@@ -178,17 +178,17 @@
 <p>You can customize the keywords, location, and experience level for any role. The <code>f_TPR</code> parameter is the magic.</p>
 
 <figure>
-  <img src="shortcuts-automation.jpg" alt="Apple Shortcuts automation list showing two scheduled Run Shell Script actions: one at 8:00 AM daily and one at 6:00 PM daily." loading="lazy">
+  <img src="/blog/images/shortcuts-automation.jpg" alt="Apple Shortcuts automation list showing two scheduled Run Shell Script actions: one at 8:00 AM daily and one at 6:00 PM daily." loading="lazy">
   <figcaption>Two scans a day, triggered by Apple Shortcuts at 8am and 6pm. I don't open LinkedIn. It comes to me.</figcaption>
 </figure>
 
 <figure>
-  <img src="linkedin-search.jpg" alt="LinkedIn job search results for product manager roles in New York, filtered to the last 24 hours and sorted by most recent." loading="lazy">
+  <img src="/blog/images/linkedin-search.jpg" alt="LinkedIn job search results for product manager roles in New York, filtered to the last 24 hours and sorted by most recent." loading="lazy">
   <figcaption>What my agent sees every morning. New product manager roles in New York, filtered to the last 12 hours and sorted by most recent.</figcaption>
 </figure>
 
 <figure>
-  <img src="imessage-scan.jpg" alt="An iMessage from the job scan listing eight new product manager roles with clickable links." loading="lazy">
+  <img src="/blog/images/imessage-scan.jpg" alt="An iMessage from the job scan listing eight new product manager roles with clickable links." loading="lazy">
   <figcaption>A morning text from my job scan. Eight new roles, clickable links, no scrolling required.</figcaption>
 </figure>
 
@@ -219,7 +219,7 @@
 <p>So now I'm running both side by side: Haiku at six cents a day, Gemini at zero. Both produce accurate results. The whole system costs less per month than a single cup of coffee, and half of it is literally free.</p>
 
 <figure>
-  <img src="cost-dashboard.jpg" alt="Anthropic API cost dashboard showing a total token cost of $1.94 over 30 days, with a daily cost of about six cents for Claude Haiku." loading="lazy">
+  <img src="/blog/images/cost-dashboard.jpg" alt="Anthropic API cost dashboard showing a total token cost of $1.94 over 30 days, with a daily cost of about six cents for Claude Haiku." loading="lazy">
   <figcaption>I got my job agent down to six (6!) cents per day.</figcaption>
 </figure>
 
