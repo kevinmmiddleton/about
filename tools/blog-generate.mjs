@@ -176,6 +176,10 @@ function articlePage(post, all) {
   const url = `${SITE}/blog/${post.slug}/`;
   const cover = post.cover_image || `${SITE}/images/kevin-middleton-og.png`;
   const coverAbs = cover.startsWith('http') ? cover : `${SITE}${cover.startsWith('/')?'':'/'}${cover}`;
+  // OG/Twitter share images must be raster (JPG/PNG). SVG or missing covers fall back to the
+  // branded default so a shared link never previews blank.
+  const ogImage = (post.cover_image && !/\.svg(\?|#|$)/i.test(post.cover_image))
+    ? coverAbs : `${SITE}/images/kevin-middleton-og.png`;
   const pub = isoDate(post.published_at);
   const mod = isoDate(post.updated_at) || pub;
   const { top, bottom } = seriesCallouts(post, all);
@@ -217,7 +221,7 @@ function articlePage(post, all) {
     <meta property="og:url" content="${url}">
     <meta property="og:title" content="${escAttr(post.title)}">
     <meta property="og:description" content="${escAttr(post.excerpt)}">
-    <meta property="og:image" content="${escAttr(coverAbs)}">
+    <meta property="og:image" content="${escAttr(ogImage)}">
     <meta property="og:site_name" content="Kevin Middleton">
     <meta property="article:published_time" content="${pub}">
     <meta property="article:author" content="Kevin Middleton">
@@ -226,7 +230,7 @@ function articlePage(post, all) {
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${escAttr(post.title)}">
     <meta name="twitter:description" content="${escAttr(post.excerpt)}">
-    <meta name="twitter:image" content="${escAttr(coverAbs)}">
+    <meta name="twitter:image" content="${escAttr(ogImage)}">
 
 ${HEAD_LINKS}
 
