@@ -1,0 +1,34 @@
+# Sveltia CMS config — PROTOTYPE
+# Edits commit to the `sveltia-prototype` branch, never to main/live.
+backend:
+  name: github
+  repo: kevinmmiddleton/about
+  branch: sveltia-prototype
+  # Sign in with a GitHub Personal Access Token (no backend needed for a solo author).
+  # If you later want a "Login with GitHub" button, deploy sveltia-cms-auth and add base_url here.
+
+# All images go into one shared folder, same as the live site convention.
+media_folder: blog/images
+public_folder: /blog/images
+
+collections:
+  - name: blog
+    label: Blog posts
+    label_singular: Blog post
+    folder: blog/_posts
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    # filename = slug
+    slug: "{{fields.slug | default: slug}}"
+    summary: "{{title}}  ·  {{status}}"
+    sortable_fields: [published_at, title, status]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: status, label: Status, widget: select, options: [draft, ready, published, archived], default: draft }
+      - { name: published_at, label: Published date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { name: topic, label: Topic, widget: string, required: false, default: "Building with AI" }
+      - { name: excerpt, label: Excerpt, widget: text, required: false }
+      - { name: cover_image, label: Cover image, widget: image, required: false }
+      - { name: cover_alt, label: Cover alt text, widget: string, required: false }
+      - { name: body, label: Body, widget: markdown }
