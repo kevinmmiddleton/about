@@ -1,0 +1,41 @@
+# Sveltia CMS config — live (middleton.io/admin)
+# A save commits to main; pushing to main rebuilds the blog + deploys via Pages.
+backend:
+  name: github
+  repo: kevinmmiddleton/about
+  branch: main
+  # Solo author: sign in with a GitHub Personal Access Token (no backend needed).
+  # For a "Login with GitHub" button instead, deploy sveltia-cms-auth and add base_url.
+
+# One shared folder for all images, matching the live site convention.
+media_folder: blog/images
+public_folder: /blog/images
+
+collections:
+  - name: blog
+    label: Blog posts
+    label_singular: Blog post
+    folder: blog/_posts
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: title
+    summary: "{{title}}  ·  {{status}}"
+    sortable_fields: [published_at, title, status]
+    # Declare EVERY frontmatter field so Sveltia round-trips them (undeclared fields get dropped on save).
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: status, label: Status, widget: select, options: [draft, ready, published, archived], default: draft }
+      - { name: published_at, label: Published date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { name: updated_at, label: Updated date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { name: topic, label: Topic, widget: string, required: false, default: "Building with AI" }
+      - { name: series, label: Series, widget: string, required: false }
+      - { name: series_order, label: Series order, widget: number, value_type: int, required: false }
+      - { name: tags, label: Tags, widget: list, required: false }
+      - { name: featured, label: Featured, widget: boolean, default: false, required: false }
+      - { name: sort_order, label: Sort order, widget: number, value_type: int, required: false }
+      - { name: excerpt, label: Excerpt, widget: text, required: false }
+      - { name: cover_image, label: Cover image, widget: image, required: false }
+      - { name: cover_alt, label: Cover alt text, widget: string, required: false }
+      - { name: linkedin_url, label: LinkedIn URL, widget: string, required: false }
+      - { name: body, label: Body, widget: markdown }
