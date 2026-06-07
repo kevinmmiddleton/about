@@ -2,10 +2,17 @@
 title: "We're not building great AI tools for non-technical audiences (yet)"
 status: "published"
 published_at: "2026-03-20"
+updated_at: "2026-06-06"
 topic: "Building with AI"
+series: "Building with AI"
+series_order: 4
+tags: ["AI Tools", "Product Management", "Accessibility", "Automation", "No-Code", "Personal AI"]
+featured: false
+sort_order: 4
 excerpt: "I built a job scanner that runs while I sleep. I couldn't hand it to a smart, motivated friend. The gap between 'I want that' and 'I can do that' is still enormous."
 cover_image: "/blog/images/ai-tools-non-technical-cover.jpg"
 cover_alt: "A triptych: AI for Engineers (a code editor), AI for Power Users (a visual workflow builder), and AI for All."
+linkedin_url: "https://www.linkedin.com/pulse/were-building-great-ai-tools-non-technical-audiences-yet-middleton-rj0if/"
 ---
 
 A friend recently asked if I'd help someone with "this little job scanner thing" I built.

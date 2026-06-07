@@ -9,9 +9,10 @@
 // The anon key below is the PUBLIC, SELECT-only key (same one the board uses
 // client-side). No write access. Safe to commit.
 
-import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import matter from 'gray-matter';
 
 const SUPABASE_URL = 'https://drtyjjegimjocxvjdszh.supabase.co';
 const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRydHlqamVnaW1qb2N4dmpkc3poIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NTYxNTQsImV4cCI6MjA4NTIzMjE1NH0.Bcq9FH7nNlhbQDExwnHXjzwPw39HeMsFqJaKZZuZ1QI';
@@ -419,21 +420,33 @@ async function localizeImages(post) {
   }
 }
 
+// ---------- load posts from markdown (blog/_posts/*.md) ----------
+// Source of truth is markdown-in-repo (edited via Sveltia CMS at /admin).
+// Filename = slug. Frontmatter -> post fields; document body -> body_markdown.
+const POSTS_DIR = resolve(BLOG_DIR, '_posts');
+function loadPosts() {
+  if (!existsSync(POSTS_DIR)) return [];
+  return readdirSync(POSTS_DIR).filter(f => f.endsWith('.md')).map(f => {
+    const slug = f.replace(/\.md$/, '');
+    const { data, content } = matter(readFileSync(resolve(POSTS_DIR, f), 'utf8'));
+    return { ...data, slug, id: slug, body_markdown: content };
+  });
+}
+
 // ---------- main ----------
 async function main() {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/blog_posts?status=eq.published&select=*&order=published_at.desc`, {
-    headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` }});
-  if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
-  const posts = await res.json();
-  console.log(`Fetched ${posts.length} published post(s).`);
+  const all = loadPosts();
+  const posts = all
+    .filter(p => p.status === 'published')
+    .sort((a, b) => new Date(b.published_at || 0) - new Date(a.published_at || 0));
+  console.log(`Loaded ${all.length} post file(s); ${posts.length} published.`);
   for (const p of posts) {
     const dir = resolve(BLOG_DIR, p.slug);
     mkdirSync(dir, { recursive: true });
-    await localizeImages(p);
-    writeFileSync(resolve(dir,'index.html'), articlePage(p, posts));
+    writeFileSync(resolve(dir, 'index.html'), articlePage(p, posts));
     console.log(`  wrote blog/${p.slug}/index.html`);
   }
-  writeFileSync(resolve(BLOG_DIR,'index.html'), hubPage(posts));
+  writeFileSync(resolve(BLOG_DIR, 'index.html'), hubPage(posts));
   console.log('  wrote blog/index.html (hub)');
   updateSitemap(posts);
   updateLlms(posts);
