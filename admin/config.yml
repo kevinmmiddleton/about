@@ -1,10 +1,11 @@
-# Sveltia CMS config — PROTOTYPE
-# Edits commit to the `sveltia-prototype` branch, never to main/live (for now).
+# Sveltia CMS config — live (middleton.io/admin)
+# A save commits to main; pushing to main rebuilds the blog + deploys via Pages.
 backend:
   name: github
   repo: kevinmmiddleton/about
-  branch: sveltia-prototype
+  branch: main
   # Solo author: sign in with a GitHub Personal Access Token (no backend needed).
+  # For a "Login with GitHub" button instead, deploy sveltia-cms-auth and add base_url.
 
 # One shared folder for all images, matching the live site convention.
 media_folder: blog/images

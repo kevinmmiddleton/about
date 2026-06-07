@@ -1,16 +1,21 @@
 name: Publish blog
 
-# Regenerates /blog/ from the Supabase `blog_posts` table and commits the
-# result (push to main → GitHub Pages deploys). The generator reads with the
-# public anon key, so no secrets are required. Triggers:
+# Builds /blog/ from markdown in blog/_posts/ (authored via Sveltia CMS at
+# /admin). A push that changes a post or the generator triggers a rebuild; the
+# generated HTML is committed back (push to main -> GitHub Pages deploys).
+# No secrets needed. Triggers:
+#   - push to main touching posts/generator (the normal publish path)
 #   - workflow_dispatch: run manually from the Actions tab
-#   - repository_dispatch (type: blog-publish): fire instantly from a Supabase
-#     webhook when a post is published (requires a token YOU create — see notes)
-#   - schedule: once-daily safety net in case a dispatch is ever missed
+#   - schedule: once-daily safety net
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/_posts/**'
+      - 'tools/blog-generate.mjs'
+      - 'package.json'
+      - 'package-lock.json'
   workflow_dispatch:
-  repository_dispatch:
-    types: [blog-publish]
   schedule:
     - cron: '0 9 * * *'
 
@@ -29,7 +34,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Generate /blog from Supabase
+      - name: Install deps
+        run: npm ci
+      - name: Build /blog from markdown
         run: node tools/blog-generate.mjs
       - name: Commit & push if the output changed
         run: |
@@ -37,7 +44,7 @@ jobs:
           git config user.email "noreply@middleton.io"
           if [ -n "$(git status --porcelain)" ]; then
             git add -A
-            git commit -m "Auto-publish blog from blog_posts"
+            git commit -m "Auto-build blog from markdown"
             git push
             echo "Published changes."
           else
