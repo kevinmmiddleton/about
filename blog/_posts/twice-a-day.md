@@ -1,14 +1,21 @@
 ---
-title: "How I Stopped Stressing About the Job Search (I Built My Own Assistant)"
-status: "ready"
-updated_at: "2026-06-07"
-topic: "Building with AI"
-tags: ["AI", "Job Search", "Productivity"]
+title: How I Stopped Stressing About the Job Search (I Built My Own Assistant)
+status: ready
+published_at: ''
+updated_at: 2026-06-07
+topic: Building with AI
+series: ''
+series_order: null
+tags:
+  - AI
+  - Job Search
+  - Productivity
 featured: false
 sort_order: 1000
-excerpt: "I check my inbox twice a day. Here's what a morning briefing from my AI assistant gave me back in a brutal job market."
-cover_image: "https://drtyjjegimjocxvjdszh.supabase.co/storage/v1/object/public/blog-images/twice-a-day/1780766970030-3153b2f6ded6b556f7041ee1690548f5.jpeg"
-cover_alt: "Robot avatar of my AI assistant"
+excerpt: I check my inbox twice a day. Here's what a morning briefing from my AI assistant gave me back in a brutal job market.
+cover_image: /blog/images/robot-assistant.png
+cover_alt: Robot avatar of my AI assistant
+linkedin_url: ''
 ---
 
 I check my inbox twice a day. That's enough.
@@ -23,7 +30,7 @@ For previous job searches, email and LinkedIn ran my entire day. A reply would l
 
 Instead of repeating that, this time I built an AI assistant that handles the heavier parts of the process. It runs on a Mac Mini in my office, has its own email address and iMessage account, and texts me twice a day. It sends me a morning briefing, new job leads, a rejection summary, and my HomePod also reads it aloud while I have my breakfast.
 
-The assistant is one-way: it texts me, I don't text it. A chat interface is on the table eventually, but the whole point right now is to interact with technology less, not more. Push is what changes the habit.
+The assistant is one-way: it texts me, I don't text it. A chat interface is on the table eventually, but the whole point right now is to interact with technology less, not more.
 
 Giving the machine its own identity sounds like a gimmick, but it solved real problems: you can't cleanly text yourself, and I can pin the conversation so it's one tap away on every device.
 
@@ -49,7 +56,7 @@ The practical side keeps me sharp. Building a real product, even one with an aud
 
 Then there's the calm. I get to choose when to engage instead of being summoned. I get to be present at lunch, in interviews, in office hours, in my actual life outside of the inbox. The job search is still hard, it just isn't consuming all of my attention.
 
-## The try-hard
+## **24/7 isn't a job search strategy**
 
 There's a version of job searching, and of modern work in general, that runs on the assumption you have to be available all the time to be trying hard. Refresh the inbox. Watch the connection requests. Ride every dopamine spike and cortisol drop in real time, so you can prove you're in the fight.
 
