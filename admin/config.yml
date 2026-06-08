@@ -4,8 +4,9 @@ backend:
   name: github
   repo: kevinmmiddleton/about
   branch: main
-  # Solo author: sign in with a GitHub Personal Access Token (no backend needed).
-  # For a "Login with GitHub" button instead, deploy sveltia-cms-auth and add base_url.
+  # "Login with GitHub" via the sveltia-cms-auth Worker (OAuth broker).
+  base_url: https://sveltia-cms-auth.kevin-middleton.workers.dev
+  # (Token sign-in still works too, no backend needed.)
 
 # One shared folder for all images, matching the live site convention.
 media_folder: blog/images
