@@ -22,7 +22,7 @@ I check my inbox twice a day. That's enough.
 
 Once at 8am, once at 6pm. It's the closest thing to a real digital detox I've done, and I'm doing it in the middle of the most competitive job market I've ever seen.
 
-> **A lighter, open-source version of this assistant is available as a [Claude Code plugin you can install yourself](https://middleton.io/blog/job-search-agent/).**
+> **A lighter, open-source version of this assistant is available as a** [**Claude Code plugin you can install yourself**](https://middleton.io/blog/job-search-agent/)**.**
 
 I see this every week in office hours: people come in already at a higher state of stress than most. The competitive market is one thing. The 24/7 notification and inbox roulette on top of it is what wears people down. Anything I can do intentionally to dial that down is worth doing.
 
@@ -74,4 +74,4 @@ If you're in the thick of a search and it's wearing you down, you don't have to 
 
 But you might be surprised how much lighter it feels to hand even one tedious piece to a system and never touch it again
 
-> **If you want a smaller starting point, the open-source version of this assistant is [a Claude Code plugin](https://middleton.io/blog/job-search-agent/) you can install yourself.**
+> **If you want a smaller starting point, the open-source version of this assistant is** [**a Claude Code plugin**](https://middleton.io/blog/job-search-agent/) **you can install yourself.**
