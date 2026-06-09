@@ -161,6 +161,19 @@ figcaption {
 }
 .callout a { color: var(--accent); }
 
+/* Blockquotes — same left-accent treatment as callouts */
+.article-body blockquote {
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: 14px 18px;
+    margin: 24px 0;
+    color: var(--text-secondary);
+}
+.article-body blockquote p { margin: 0; }
+.article-body blockquote p + p { margin-top: 12px; }
+.article-body blockquote a { color: var(--accent); }
+
 /* End-of-article author bio */
 .article-bio {
     margin-top: 56px;

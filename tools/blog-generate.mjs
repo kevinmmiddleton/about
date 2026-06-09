@@ -95,10 +95,19 @@ function renderMarkdown(md='') {
       out.push(`<ol>\n${items.join('\n')}\n</ol>`);
       continue;
     }
+    // blockquote (> ...) — one or more lines, blank-line-separated paragraphs inside
+    if (/^>\s?/.test(line)) {
+      const buf = [];
+      while (i < lines.length && /^>\s?/.test(lines[i])) { buf.push(lines[i].replace(/^>\s?/, '')); i++; }
+      const inner = buf.join('\n').split(/\n{2,}/).map(s => s.trim()).filter(Boolean)
+        .map(s => `<p>${inline(s.replace(/\n/g, ' '))}</p>`).join('\n  ');
+      out.push(`<blockquote>\n  ${inner}\n</blockquote>`);
+      continue;
+    }
     // paragraph (gather until blank / block start)
     const para = [];
     while (i < lines.length && lines[i].trim() !== '' && !lines[i].trim().startsWith('```')
-           && !/^(#{2,3})\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i]) && !lines[i].trim().match(IMG_LINE)) {
+           && !/^(#{2,3})\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i]) && !/^>\s?/.test(lines[i]) && !lines[i].trim().match(IMG_LINE)) {
       para.push(lines[i]); i++;
     }
     out.push(`<p>${inline(para.join(' '))}</p>`);
