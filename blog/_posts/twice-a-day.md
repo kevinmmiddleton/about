@@ -1,11 +1,11 @@
 ---
 title: How to Digitally Detox Right Now (Even If You're Job Searching)
-status: ready
-published_at: ''
+status: published
+published_at: 2026-06-08
 updated_at: 2026-06-07
 topic: Building with AI
-series: ''
-series_order: null
+series: Building with AI
+series_order: 6
 tags:
   - AI
   - Job Search
