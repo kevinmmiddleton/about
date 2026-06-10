@@ -56,11 +56,11 @@ It's specific, results-first proof, published in places you control, with the sa
 
 The builder version, since I run my own site:
 
-- Publishing long-form on middleton.io instead of LinkedIn Pulse, so the canonical URL is mine
+- Publishing long-form on middleton.io instead of LinkedIn
 - Person and Article JSON-LD on the site, so AI crawlers have structured facts to anchor to
 - An \`llms.txt\` pointing AI crawlers to the work I want them to find
 
-The non-builder version, which is most of the work anyway:
+The lo-fi version, which is most of the work anyway:
 
 - Same name, same title, same one-line description of what you do, across LinkedIn, GitHub, personal site, conference bios, podcast guest pages, anywhere your name shows up
 - A portfolio updated and live at a URL you own when possible
