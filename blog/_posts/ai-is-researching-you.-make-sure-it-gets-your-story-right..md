@@ -13,7 +13,7 @@ tags:
 featured: false
 sort_order: null
 excerpt: ChatGPT showed up in my site's referrer logs. Companies are worrying about how they appear in AI search. The same logic applies to many of us.
-cover_image: /blog/images/GEO Screenshot.png
+cover_image: /blog/images/AEO.png
 cover_alt: 'Claude.ai chat window with the prompt typed in: "What do you know about Kevin Middleton? I''m trying to figure out who he is professionally."'
 linkedin_url: ''
 ---
