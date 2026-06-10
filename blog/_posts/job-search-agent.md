@@ -1,5 +1,6 @@
 ---
 title: "Need an AI recruiter that works for you? Try this one."
+slug: job-search-agent
 status: "published"
 published_at: "2026-06-06"
 updated_at: "2026-06-06"

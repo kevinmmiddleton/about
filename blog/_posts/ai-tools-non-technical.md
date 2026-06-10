@@ -1,5 +1,6 @@
 ---
 title: "We're not building great AI tools for non-technical audiences (yet)"
+slug: ai-tools-non-technical
 status: "published"
 published_at: "2026-03-20"
 updated_at: "2026-06-06"

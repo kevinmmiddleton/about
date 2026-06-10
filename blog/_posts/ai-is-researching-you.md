@@ -1,5 +1,6 @@
 ---
 title: AI is researching you. Make sure it gets your story right.
+slug: ai-is-researching-you
 status: ready
 published_at: ''
 updated_at: ''

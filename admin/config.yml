@@ -21,11 +21,18 @@ collections:
     extension: md
     format: yaml-frontmatter
     identifier_field: title
+    # Filename (= URL slug) comes from the explicit slug field, not the title.
+    slug: "{{fields.slug}}"
     summary: "{{title}}  ·  {{status}}"
     sortable_fields: [published_at, title, status]
     # Declare EVERY frontmatter field so Sveltia round-trips them (undeclared fields get dropped on save).
     fields:
       - { name: title, label: Title, widget: string }
+      - name: slug
+        label: Slug
+        widget: string
+        hint: "URL: middleton.io/blog/<slug>/ — lowercase words with hyphens, e.g. show-me-economy. Set once; changing it after publish changes the URL."
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', 'lowercase letters/numbers with hyphens only']
       - { name: status, label: Status, widget: select, options: [draft, ready, published, archived], default: draft }
       - { name: published_at, label: Published date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { name: updated_at, label: Updated date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }

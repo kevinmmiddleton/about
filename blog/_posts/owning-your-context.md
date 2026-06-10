@@ -1,5 +1,6 @@
 ---
 title: "I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI."
+slug: owning-your-context
 status: "published"
 published_at: "2026-03-02"
 updated_at: "2026-06-06"

@@ -1,5 +1,6 @@
 ---
 title: "Can We Automate How We Handle Rejection?"
+slug: can-we-automate-how-we-handle-rejection
 status: "draft"
 updated_at: "2026-06-05"
 topic: "Building with AI"

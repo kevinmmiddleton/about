@@ -1,5 +1,6 @@
 ---
 title: "It Didn't Fail at Scale. It Failed at Automation."
+slug: it-didnt-fail-at-scale-it-failed-at-automation
 status: "draft"
 updated_at: "2026-06-05"
 topic: "Building with AI"

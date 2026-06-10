@@ -1,5 +1,6 @@
 ---
 title: "I Built an Executive Assistant With Opinions"
+slug: i-built-an-executive-assistant-with-opinions
 status: "draft"
 updated_at: "2026-06-05"
 topic: "Building with AI"

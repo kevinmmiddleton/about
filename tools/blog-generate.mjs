@@ -1,21 +1,16 @@
 #!/usr/bin/env node
 // Static blog generator for middleton.io
-// Reads published rows from Supabase `blog_posts`, renders each through the
-// site's blog template, and writes static HTML into ../blog/. The blog never
-// reads Supabase at runtime — this runs at publish time; commit+push deploys.
+// Reads markdown posts from blog/_posts/ (authored via Sveltia CMS at /admin),
+// renders each through the site's blog template, and writes static HTML into
+// ../blog/. Runs at publish time via GitHub Actions; commit+push deploys.
 //
 // Usage:  node tools/blog-generate.mjs        (from the repo root)
-//
-// The anon key below is the PUBLIC, SELECT-only key (same one the board uses
-// client-side). No write access. Safe to commit.
 
-import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync, rmSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 
-const SUPABASE_URL = 'https://drtyjjegimjocxvjdszh.supabase.co';
-const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRydHlqamVnaW1qb2N4dmpkc3poIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NTYxNTQsImV4cCI6MjA4NTIzMjE1NH0.Bcq9FH7nNlhbQDExwnHXjzwPw39HeMsFqJaKZZuZ1QI';
 const SITE = 'https://middleton.io';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -396,48 +391,16 @@ function updateLlms(posts) {
   console.warn('  ! llms.txt markers not found; skipped'); return false;
 }
 
-// ---------- localize Supabase-hosted images into the repo ----------
-// Board uploads land in Supabase Storage (blog-images). At publish we pull them
-// into a single shared blog/images/ folder and rewrite the refs so the live site
-// serves them from middleton.io (same-origin). Uploaded filenames are unique
-// (timestamp-prefixed), so they don't collide across posts; skip-if-exists.
-const STORAGE_MARK = '/storage/v1/object/public/blog-images/';
-const IMAGES_DIR = resolve(BLOG_DIR, 'images');
-async function localizeImages(post) {
-  mkdirSync(IMAGES_DIR, { recursive: true });
-  const cache = new Map();
-  async function pull(url) {
-    if (cache.has(url)) return cache.get(url);
-    const base = decodeURIComponent(url.split(STORAGE_MARK)[1].split('/').pop().split('?')[0]);
-    const dest = resolve(IMAGES_DIR, base);
-    if (!existsSync(dest)) {
-      const r = await fetch(url);
-      if (!r.ok) { console.warn(`    ! image ${url} -> ${r.status}`); cache.set(url, url); return url; }
-      writeFileSync(dest, Buffer.from(await r.arrayBuffer()));
-      console.log(`    localized -> blog/images/${base}`);
-    }
-    const ref = `/blog/images/${base}`;   // absolute, shared folder
-    cache.set(url, ref); return ref;
-  }
-  if (post.cover_image && post.cover_image.includes(STORAGE_MARK)) {
-    post.cover_image = await pull(post.cover_image);
-  }
-  const urls = [...new Set([...(post.body_markdown || '').matchAll(/\((https?:\/\/[^)\s"]*\/storage\/v1\/object\/public\/blog-images\/[^)\s"]+)/g)].map(m => m[1]))];
-  for (const url of urls) {
-    const ref = await pull(url);
-    if (ref !== url) post.body_markdown = post.body_markdown.split(url).join(ref);
-  }
-}
-
 // ---------- load posts from markdown (blog/_posts/*.md) ----------
 // Source of truth is markdown-in-repo (edited via Sveltia CMS at /admin).
-// Filename = slug. Frontmatter -> post fields; document body -> body_markdown.
+// Slug = frontmatter `slug` field (falls back to filename for older posts).
+// Frontmatter -> post fields; document body -> body_markdown.
 const POSTS_DIR = resolve(BLOG_DIR, '_posts');
 function loadPosts() {
   if (!existsSync(POSTS_DIR)) return [];
   return readdirSync(POSTS_DIR).filter(f => f.endsWith('.md')).map(f => {
-    const slug = f.replace(/\.md$/, '');
     const { data, content } = matter(readFileSync(resolve(POSTS_DIR, f), 'utf8'));
+    const slug = (data.slug || f.replace(/\.md$/, '')).toString().trim();
     return { ...data, slug, id: slug, body_markdown: content };
   });
 }
@@ -445,8 +408,10 @@ function loadPosts() {
 // ---------- main ----------
 async function main() {
   const all = loadPosts();
+  const skipped = all.filter(p => p.status === 'published' && !p.published_at);
+  for (const p of skipped) console.warn(`  ! SKIPPED "${p.slug}": status=published but published_at is empty — set a date to publish.`);
   const posts = all
-    .filter(p => p.status === 'published')
+    .filter(p => p.status === 'published' && p.published_at)
     .sort((a, b) => new Date(b.published_at || 0) - new Date(a.published_at || 0));
   console.log(`Loaded ${all.length} post file(s); ${posts.length} published.`);
   for (const p of posts) {
@@ -457,6 +422,20 @@ async function main() {
   }
   writeFileSync(resolve(BLOG_DIR, 'index.html'), hubPage(posts));
   console.log('  wrote blog/index.html (hub)');
+  // Clean up article dirs whose post was unpublished or renamed. Only dirs that
+  // contain just a generated index.html are removed; anything else is left alone.
+  const keep = new Set([...posts.map(p => p.slug), 'images', '_posts']);
+  for (const entry of readdirSync(BLOG_DIR, { withFileTypes: true })) {
+    if (!entry.isDirectory() || keep.has(entry.name)) continue;
+    const dir = resolve(BLOG_DIR, entry.name);
+    const contents = readdirSync(dir);
+    if (contents.length <= 1 && (contents.length === 0 || contents[0] === 'index.html')) {
+      rmSync(dir, { recursive: true });
+      console.log(`  removed stale blog/${entry.name}/`);
+    } else {
+      console.warn(`  ! blog/${entry.name}/ is not a published post but has extra files — left in place.`);
+    }
+  }
   updateSitemap(posts);
   updateLlms(posts);
   console.log('Done.');

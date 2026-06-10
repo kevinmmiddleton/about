@@ -1,5 +1,6 @@
 ---
 title: "I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To"
+slug: ai-job-search-assistant
 status: "published"
 published_at: "2026-02-23"
 updated_at: "2026-06-06"

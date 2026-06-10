@@ -1,5 +1,6 @@
 ---
 title: "What Running an AI Job Scanner Daily Actually Looks Like"
+slug: ai-job-scanner-daily
 status: "published"
 published_at: "2026-03-06"
 updated_at: "2026-06-06"

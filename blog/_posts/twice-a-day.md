@@ -1,5 +1,6 @@
 ---
 title: How to Digitally Detox Right Now (Even If You're Job Searching)
+slug: twice-a-day
 status: published
 published_at: 2026-06-08
 updated_at: 2026-06-07
@@ -34,7 +35,7 @@ The assistant is one-way: it texts me, I don't text it. A chat interface is on t
 
 ## What 8am looks like
 
-![Screenshot of a Messages conversation with "Assistant," showing the 8am morning briefing](https://drtyjjegimjocxvjdszh.supabase.co/storage/v1/object/public/blog-images/twice-a-day/1780771691239-Morning-Briefing.png "The 8am text. Today's schedule, what's in my inbox, what to prep for, and an overnight rejection roundup at the bottom.")
+![Screenshot of a Messages conversation with "Assistant," showing the 8am morning briefing](/blog/images/twice-a-day-morning-briefing.jpg "The 8am text. Today's schedule, what's in my inbox, what to prep for, and an overnight rejection roundup at the bottom.")
 
 The 8am text breaks the day down. Today: A haircut, lunch with a friend, interview at 2pm. Inbox: nothing that needs a reply right now, but a round two is confirmed for Monday and one company sent a rejection. Prep: a link to my interview-guide doc to review at 1pm before the interview. And at the bottom, the heads-up: a couple of packages to grab, and three rejections that came in overnight.
 
@@ -42,7 +43,7 @@ Before this, I would have absorbed those across the day as three separate cortis
 
 ## What my job scan report looks like
 
-![Screenshot of a Messages conversation with "Assistant," showing an 8am job scan](https://drtyjjegimjocxvjdszh.supabase.co/storage/v1/object/public/blog-images/twice-a-day/1780771921920-Job-Scan.png "The 8am job scan (also repeats at 6pm). New roles that match what I'm actually looking for, with links for each job post.")
+![Screenshot of a Messages conversation with "Assistant," showing an 8am job scan](/blog/images/twice-a-day-job-scan.jpg "The 8am job scan (also repeats at 6pm). New roles that match what I'm actually looking for, with links for each job post.")
 
 The next text is the morning job scan (which also repeats at 6pm). A handful of new roles, surfaced from the boards, filtered for what I'm actually targeting, with a one-line note on why each one fits. Instead of opening LinkedIn and scrolling past hundreds of listings, I open the few that already match and apply to those midmorning.
 

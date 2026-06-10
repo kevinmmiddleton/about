@@ -1,5 +1,6 @@
 ---
 title: "I Gave My Mac Mini Its Own Apple ID"
+slug: i-gave-my-mac-mini-its-own-apple-id
 status: "draft"
 updated_at: "2026-06-05"
 topic: "Building with AI"

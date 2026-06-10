@@ -1,5 +1,6 @@
 ---
 title: "I Don't Check Job Boards. My Mac Mini Does."
+slug: i-dont-check-job-boards-my-mac-mini-does
 status: "draft"
 updated_at: "2026-06-05"
 topic: "Building with AI"

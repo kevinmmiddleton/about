@@ -1,5 +1,6 @@
 ---
 title: "I Built My Own Project Board for an Audience of One"
+slug: i-built-my-own-project-board-for-an-audience-of-one
 status: "draft"
 updated_at: "2026-06-05"
 topic: "Building with AI"
