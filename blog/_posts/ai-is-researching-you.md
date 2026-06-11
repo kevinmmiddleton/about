@@ -25,6 +25,8 @@ That's not a click from someone who Googled me. That's someone, or something act
 
 I'd been watching the same thing happen at scale. Companies are starting to worry about AEO (answer engine optimization) and GEO (generative engine optimization) the way they worry about SEO. It's the same idea for knowledge workers: when a customer or candidate looks us up, do they find the real story, or an incorrect or outdated version?
 
+![Subway ad from AirOps that reads: ChatGPT has a favorite brand. Make sure it's yours. Own your narrative. Win AI Search.](/blog/images/IMG_6088.jpeg "Saw this on the subway this week. Companies are buying train ads about winning AI search. Your name is in the same race, just without the ad budget.")
+
 I'm not a brand, but I'm a name recruiters, hiring managers, colleagues, and even old friends may occasionally look up. And increasingly, agents will be doing these searches on their behalf.
 
 Two goals: be less invisible in AI search, and be consistent across the answers it gives.
