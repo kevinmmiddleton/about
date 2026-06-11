@@ -1,8 +1,8 @@
 ---
 title: AI is researching you. Make sure it gets your story right.
 slug: ai-is-researching-you
-status: ready
-published_at: ''
+status: published
+published_at: 2026-06-10
 updated_at: ''
 topic: Building with AI
 series: Building with AI
