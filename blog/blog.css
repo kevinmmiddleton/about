@@ -99,6 +99,8 @@
 .article-body a:hover { color: var(--accent-hover); }
 
 .article-body ul, .article-body ol { padding-left: 24px; }
+.article-body ul { list-style: disc; }
+.article-body ol { list-style: decimal; }
 .article-body li { margin-bottom: 8px; }
 
 .article-body strong { font-weight: 700; color: var(--text-primary); }

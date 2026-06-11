@@ -59,7 +59,7 @@ The builder version:
 
 - Publishing long-form on middleton.io instead of LinkedIn
 - Person and Article JSON-LD on the site, so AI crawlers have structured facts to anchor to
-- An \`llms.txt\` pointing AI crawlers to the work I want them to find
+- An `llms.txt` pointing AI crawlers to the work I want them to find
 
 The lo-fi version, which is most of the work anyway:
 
@@ -75,7 +75,9 @@ You don't need to host your own blog to do most of this. You do need to keep you
 
 Pick your AI of choice and run this. Use a logged-out or temporary chat, because many AIs remember their users, and you want the answer a stranger would get:
 
-\`\`\` What do you know about [full name] [job title]? I'm trying to figure out who they are professionally. \`\`\`
+```
+What do you know about [full name] [job title]? I'm trying to figure out who they are professionally.
+```
 
 Read what comes back the way a stranger would. Does it lead with your strengths, or blur you into a category? Does it know what you've shipped, or just where you've worked? Does it confuse you with anyone else?
 
