@@ -23,7 +23,7 @@ I track how people find my site. Occupational hazard. Lately something new showe
 
 That's not a click from someone who Googled me. That's someone, or something acting on their behalf, asking ChatGPT about me, getting an answer that included a link, and following it back.
 
-I'd been watching the same thing happen at scale. Companies are starting to worry about AEO (answer engine optimization) and GEO (generative engine optimization) the way they worry about SEO. It's the same idea for knowledge workers: when a customer or candidate looks us up, do they find the real story, or an incorrect or outdated version?
+I've been watching the same thing happen at scale. Companies are starting to worry about AEO (answer engine optimization) and GEO (generative engine optimization) the way they worry about SEO. It's the same idea for knowledge workers: when a customer or candidate looks us up, do they find the real story, or an incorrect or outdated version?
 
 ![Subway ad from AirOps that reads: ChatGPT has a favorite brand. Make sure it's yours. Own your narrative. Win AI Search.](/blog/images/IMG_6088.jpeg "Saw this on the subway this week. Companies are buying train ads about winning AI search. Your name is in the same race, just without the ad budget.")
 
@@ -53,11 +53,11 @@ That's why consistency matters. If you don't make it easy for an agent to tell w
 
 ## The fix isn't louder marketing
 
-It's specific, results-first proof, published in places you control, with the same name and the same story across every surface.
+It's specific, results-first proof, published in places you control, with the same name and story across every place you're mentioned on the web.
 
 ## What I'm doing about it (and what you can do too)
 
-The builder version, since I run my own site:
+The builder version:
 
 - Publishing long-form on middleton.io instead of LinkedIn
 - Person and Article JSON-LD on the site, so AI crawlers have structured facts to anchor to
