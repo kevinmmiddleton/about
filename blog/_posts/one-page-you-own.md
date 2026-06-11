@@ -1,5 +1,5 @@
 ---
-title: Reclaiming your narrative starts with one page you own
+title: You should have a website. And you can build it in an hour with Claude.
 slug: one-page-you-own
 status: published
 published_at: 2026-06-11
