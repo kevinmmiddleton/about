@@ -385,7 +385,8 @@ img {
 
   /* Office Hours: primary action pinned to the bottom of the sheet */
   .nav-cta-mobile { display: block; padding: 12px var(--spacing-md) 2px; }
-  .nav-cta-mobile a {
+  /* high specificity so the dark-mode '.header .nav-menu a' color rule can't gray this out */
+  .header .nav-menu .nav-cta-mobile a {
     display: block;
     text-align: center;
     background: var(--accent);
@@ -396,7 +397,7 @@ img {
     font-size: 1rem !important;
     font-weight: 600;
   }
-  .nav-cta-mobile a:hover { background: var(--accent-hover); color: var(--white); }
+  .header .nav-menu .nav-cta-mobile a:hover { background: var(--accent-hover); color: var(--white); }
 }
 
 /* ========== Hero Section (base — kept for non-v2 pages) ========== */
