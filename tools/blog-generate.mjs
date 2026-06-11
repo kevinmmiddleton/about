@@ -30,7 +30,11 @@ function isoDate(iso) { return iso ? new Date(iso).toISOString().slice(0,10) : '
 
 // ---------- mini markdown ----------
 function inline(text) {
-  let s = esc(text);
+  // backslash-escaped punctuation (\` \* \[ etc., e.g. from CMS paste-escaping)
+  // renders as the literal character with no formatting, per markdown spec
+  const lit = [];
+  let s = String(text).replace(/\\([\\`*_\[\](){}#+\-.!>~])/g, (_, c) => { lit.push(c); return `\x00${lit.length - 1}\x01`; });
+  s = esc(s);
   // inline code
   s = s.replace(/`([^`]+)`/g, (_,c)=>`<code>${c}</code>`);
   // links [text](url)
@@ -39,6 +43,7 @@ function inline(text) {
   s = s.replace(/\*\*([^*]+)\*\*/g, (_,t)=>`<strong>${t}</strong>`);
   // italic *text*
   s = s.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, (_,p,t)=>`${p}<em>${t}</em>`);
+  s = s.replace(/\x00(\d+)\x01/g, (_, n) => esc(lit[+n]));
   return s;
 }
 const IMG_LINE = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/;
@@ -52,6 +57,12 @@ function renderMarkdown(md='') {
     if (line.trim() === '') { i++; continue; }
     // fenced code / prompt block
     if (line.trim().startsWith('```')) {
+      const t = line.trim();
+      // single-line fence: ``` content ```
+      if (t.length > 6 && t.endsWith('```')) {
+        out.push(`<div class="prompt-block">${esc(t.slice(3, -3).trim())}</div>`);
+        i++; continue;
+      }
       i++; const buf = [];
       while (i < lines.length && !lines[i].trim().startsWith('```')) { buf.push(lines[i]); i++; }
       i++; // closing fence
