@@ -73,7 +73,7 @@ You don't need to host your own blog to do most of this. You do need to keep you
 
 ## Try it on yourself
 
-Pick your AI of choice and run this:
+Pick your AI of choice and run this. Use a logged-out or temporary chat, because many AIs remember their users, and you want the answer a stranger would get:
 
 \`\`\` What do you know about [full name] [job title]? I'm trying to figure out who they are professionally. \`\`\`
 
