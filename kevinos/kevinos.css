@@ -7532,26 +7532,80 @@ body {
   }
 }
 
-/* building/ + writing/ windows: simple link rows */
+/* ===================
+   building/ + writing/ windows (themed)
+   =================== */
 .kos-intro { color: var(--text-dim); font-size: 0.92rem; margin: 0 0 14px; }
 .kos-intro a { color: var(--blue); }
-.kos-list { display: flex; flex-direction: column; gap: 6px; }
-.kos-item {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 10px 12px;
+
+/* writing/: terminal header + markdown file listing */
+.kos-term {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--game-bg);
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--surface-2);
-  text-decoration: none;
-  transition: border-color 0.15s, transform 0.15s;
+  padding: 10px 14px;
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
 }
-.kos-item:hover { border-color: var(--blue); transform: translateX(2px); }
-.kos-item-title { color: var(--text); font-weight: 600; font-size: 0.95rem; }
-.kos-item-sub { color: var(--text-dim); font-size: 0.82rem; }
+.kos-term-prompt { color: var(--mint); }
+.kos-term-cmd { color: var(--game-text); }
+
+.kos-files { display: flex; flex-direction: column; gap: 8px; }
+.kos-file {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+.kos-file:hover { border-color: var(--blue); background: rgba(92, 138, 255, 0.06); transform: translateX(2px); }
+.kos-file-icon { font-size: 1.05rem; flex-shrink: 0; margin-top: 1px; }
+.kos-file-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.kos-file-name { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kos-file-title { color: var(--text); font-weight: 600; font-size: 0.88rem; line-height: 1.3; }
+.kos-file-date { font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); flex-shrink: 0; margin-top: 3px; }
 .kos-browse-all { display: inline-block; margin-top: 14px; color: var(--blue); font-size: 0.9rem; text-decoration: none; }
 .kos-browse-all:hover { color: var(--blue-hover); text-decoration: underline; }
+
+/* building/: app grid (auto-fits 1 col in the narrow default window, 2+ when wider) */
+.kos-app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.kos-app {
+  position: relative;
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+.kos-app:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.04); }
+.kos-app-icon {
+  width: 40px; height: 40px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.kos-app-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.kos-app-name { color: var(--text); font-weight: 600; font-size: 0.9rem; }
+.kos-app-sub { color: var(--text-dim); font-size: 0.78rem; line-height: 1.35; }
+.kos-app-ext { position: absolute; top: 8px; right: 10px; font-size: 0.8rem; color: var(--text-muted); opacity: 0.7; transition: color 0.15s, opacity 0.15s; }
+.kos-app:hover .kos-app-ext { opacity: 1; }
+/* accent cycle (matches values-card color language) */
+.kos-app.blue:hover   { border-color: var(--blue); }
+.kos-app.blue:hover .kos-app-ext   { color: var(--blue); }
+.kos-app.purple:hover { border-color: var(--purple); }
+.kos-app.purple:hover .kos-app-ext { color: var(--purple); }
+.kos-app.pink:hover   { border-color: var(--pink); }
+.kos-app.pink:hover .kos-app-ext   { color: var(--pink); }
+.kos-app.mint:hover   { border-color: var(--mint); }
+.kos-app.mint:hover .kos-app-ext   { color: var(--mint); }
 
 /* Visually hidden, available to screen readers */
 .sr-only {

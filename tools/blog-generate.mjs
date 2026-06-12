@@ -426,9 +426,13 @@ function updateKevinosWriting(posts) {
   if (!existsSync(f)) return false;
   let html = readFileSync(f, 'utf8');
   const items = posts.slice(0, 5).map(p =>
-    `                        <a href="${SITE}/blog/${p.slug}/?from=kevinos" target="_blank" class="kos-item plausible-event-name=Writing+Click plausible-event-post=${p.slug}">\n` +
-    `                            <span class="kos-item-title">${esc(p.title)}</span>\n` +
-    `                            <span class="kos-item-sub">${fmtDate(p.published_at)}</span>\n` +
+    `                        <a href="${SITE}/blog/${p.slug}/?from=kevinos" target="_blank" class="kos-file plausible-event-name=Writing+Click plausible-event-post=${p.slug}">\n` +
+    `                            <span class="kos-file-icon">📄</span>\n` +
+    `                            <div class="kos-file-info">\n` +
+    `                                <span class="kos-file-name">${p.slug}.md</span>\n` +
+    `                                <span class="kos-file-title">${esc(p.title)}</span>\n` +
+    `                            </div>\n` +
+    `                            <span class="kos-file-date">${fmtDate(p.published_at)}</span>\n` +
     `                        </a>`).join('\n');
   const out = replaceRegion(html, '<!-- KEVINOS-WRITING:START -->', '<!-- KEVINOS-WRITING:END -->', items);
   if (out) { writeFileSync(f, out); return true; }

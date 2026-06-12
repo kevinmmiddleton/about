@@ -4611,8 +4611,9 @@ loadKevinRecipes();
         setTimeout(() => {
             // Set positions for cascading layout
             const aboutWin = document.querySelector('[data-window="about"]');
-            const valuesWin = document.querySelector('[data-window="values"]');
             const expWin = document.querySelector('[data-window="experience"]');
+            const buildingWin = document.querySelector('[data-window="building"]');
+            const writingWin = document.querySelector('[data-window="writing"]');
 
             // Profile (about) - left side, below widget, full width
             if (aboutWin) {
@@ -4629,24 +4630,29 @@ loadKevinRecipes();
                 expWin.style.height = 'calc(100vh - 40px - 100px)';
             }
 
-            // Values - right side, stacked layout for initial load
-            if (valuesWin) {
-                valuesWin.style.left = '1120px';
-                valuesWin.style.top = '90px';
-                valuesWin.style.width = '300px';
-                // Add stacked class for 1-column layout on initial load
-                const valuesGrid = valuesWin.querySelector('.values-grid');
-                if (valuesGrid) valuesGrid.classList.add('stacked');
+            // Writing + Building - right column, viewport-aware so 1280w still fits
+            const rightCol = Math.min(1120, window.innerWidth - 350);
+            if (writingWin) {
+                writingWin.style.left = rightCol + 'px';
+                writingWin.style.top = '40px';
+                writingWin.style.width = '320px';
+                writingWin.style.height = '46vh';
+            }
+            if (buildingWin) {
+                buildingWin.style.left = rightCol + 'px';
+                buildingWin.style.top = 'calc(46vh + 70px)';
+                buildingWin.style.width = '320px';
+                buildingWin.style.height = 'calc(54vh - 170px)';
             }
 
             // Mark these windows as having initial load positioning
             if (expWin) expWin.dataset.initialLoad = 'true';
-            if (valuesWin) valuesWin.dataset.initialLoad = 'true';
 
             // Open windows in order (last one gets focus)
             openWindow('about');
-            openWindow('values');
             openWindow('experience');
+            openWindow('building');
+            openWindow('writing');
         }, 150);
     }
 })();
