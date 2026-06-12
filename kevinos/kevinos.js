@@ -96,10 +96,21 @@ function kosSyncUrl(push) {
 function openWindow(id) {
     const win = document.querySelector(`.window[data-window="${id}"]`);
     if (!win) return;
+    const wasOpen = win.classList.contains('window-open');
     zIndex++;
     win.style.zIndex = zIndex;
 
     win.classList.add('window-open');
+    // First open only: keep the window inside the viewport (CSS default
+    // positions assume a wide screen; don't fight the user's own drags)
+    if (!wasOpen && !isMobile()) {
+        const vw = window.innerWidth;
+        if (win.offsetWidth > vw - 24) win.style.width = (vw - 24) + 'px';
+        if (win.offsetLeft + win.offsetWidth > vw - 12) {
+            win.style.left = Math.max(12, vw - 12 - win.offsetWidth) + 'px';
+        }
+        if (win.offsetLeft < 12) win.style.left = '12px';
+    }
     win.classList.remove('window-minimized');
     // Mark this window's dock/icon as active (don't remove others)
     allNavItems.forEach(i => {
@@ -4656,32 +4667,44 @@ loadKevinRecipes();
     // No URL param - open default windows on desktop only
     if (!isMobile()) {
         setTimeout(() => {
-            // Set positions for cascading layout
             const aboutWin = document.querySelector('[data-window="about"]');
             const buildingWin = document.querySelector('[data-window="building"]');
             const writingWin = document.querySelector('[data-window="writing"]');
+            const vw = window.innerWidth;
 
-            // Profile (about) - left side, below widget, full width
-            if (aboutWin) {
-                aboutWin.style.left = '30px';
-                aboutWin.style.top = '190px';
-                aboutWin.style.width = '680px';
-            }
-
-            // Writing - right column, viewport-aware so 1280w still fits
-            const rightCol = Math.min(1120, window.innerWidth - 350);
-            if (writingWin) {
-                writingWin.style.left = rightCol + 'px';
-                writingWin.style.top = '40px';
-                writingWin.style.width = '320px';
-            }
-
-            // Building - takes the middle stage (builder story front and center),
-            // width shrinks on narrower viewports so it never slides under writing
-            if (buildingWin) {
-                buildingWin.style.left = '690px';
-                buildingWin.style.top = '40px';
-                buildingWin.style.width = Math.min(380, rightCol - 700) + 'px';
+            if (vw >= 1180) {
+                // Three columns, sized from the right edge in: feed, store, profile
+                const margin = 30, gap = 14;
+                const writingW = 320;
+                const buildingW = Math.min(400, Math.max(330, Math.round(vw * 0.27)));
+                const writingLeft = vw - margin - writingW;
+                const buildingLeft = writingLeft - gap - buildingW;
+                const aboutW = Math.min(680, buildingLeft - gap - margin);
+                if (aboutWin) {
+                    aboutWin.style.left = margin + 'px';
+                    aboutWin.style.top = '190px';
+                    aboutWin.style.width = aboutW + 'px';
+                }
+                if (writingWin) {
+                    writingWin.style.left = writingLeft + 'px';
+                    writingWin.style.top = '40px';
+                    writingWin.style.width = writingW + 'px';
+                }
+                if (buildingWin) {
+                    buildingWin.style.left = buildingLeft + 'px';
+                    buildingWin.style.top = '40px';
+                    buildingWin.style.width = buildingW + 'px';
+                }
+            } else {
+                // Narrower desktops can't fit three columns; cascade instead
+                // of squeezing windows into slivers
+                const w = Math.min(560, vw - 120);
+                [aboutWin, writingWin, buildingWin].forEach((win, i) => {
+                    if (!win) return;
+                    win.style.left = (40 + i * 56) + 'px';
+                    win.style.top = (56 + i * 46) + 'px';
+                    win.style.width = w + 'px';
+                });
             }
 
             // Open windows in order (last one gets focus)

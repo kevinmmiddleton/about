@@ -2594,6 +2594,23 @@ body {
     /* ===================
        MOBILE WINDOW OVERLAY (iOS Sheet Style)
        =================== */
+    #recipesdb.mobile-fullscreen-ready {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Sheets are the scroller; hide the indicator so it doesn't flash a
+       line down the edge every time an overlay slides in */
+    .mobile-window-overlay {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .mobile-window-overlay::-webkit-scrollbar {
+        display: none;
+        width: 0;
+    }
+
     .mobile-window-overlay {
         display: block;
         position: fixed;
@@ -3376,6 +3393,9 @@ body {
         width: 100% !important;
         visibility: visible !important;
         opacity: 1 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: var(--game-bg) !important;
     }
 
     .mobile-active-game .window-header {
