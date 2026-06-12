@@ -4891,6 +4891,8 @@ const mobileWindowConfig = {
     values: { title: 'Values' },
     experience: { title: 'Experience' },
     projects: { title: 'Projects' },
+    building: { title: 'Building' },
+    writing: { title: 'Writing' },
     skills: { title: 'Skills' },
     recommendations: { title: 'Reviews' },
     games: { title: 'Games' }
