@@ -7533,79 +7533,100 @@ body {
 }
 
 /* ===================
-   building/ + writing/ windows (themed)
+   writing/ = terminal app · building/ = App Store page
    =================== */
-.kos-intro { color: var(--text-dim); font-size: 0.92rem; margin: 0 0 14px; }
-.kos-intro a { color: var(--blue); }
 
-/* writing/: terminal header + markdown file listing */
-.kos-term {
-  display: flex; align-items: center; gap: 8px;
+/* writing/: the whole window content is one terminal surface (always dark, like connect.sh) */
+.kos-shell {
   background: var(--game-bg);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 10px 14px;
-  margin: 0 0 12px;
+  padding: 14px;
   font-family: var(--font-mono);
   font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-.kos-term-prompt { color: var(--mint); }
-.kos-term-cmd { color: var(--game-text); }
+.kos-sh-line { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; color: var(--game-text); padding: 2px 4px; }
+.kos-sh-user { color: var(--mint); }
+.kos-sh-path { color: #5c8aff; margin-left: -6px; }
+.kos-sh-dollar { color: var(--mint); }
+.kos-sh-cmd { color: var(--game-text); }
+.kos-sh-ext { color: var(--game-text-dim); }
+a.kos-sh-line { text-decoration: none; border-radius: 6px; transition: background 0.15s; }
+a.kos-sh-line:hover, a.kos-sh-line:focus-visible { background: rgba(74, 224, 160, 0.10); }
 
-.kos-files { display: flex; flex-direction: column; gap: 8px; }
-.kos-file {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+.kos-sh-rows { display: flex; flex-direction: column; gap: 2px; margin: 6px 0; }
+.kos-sh-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 8px;
+  border-radius: 6px;
   text-decoration: none;
-  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+  transition: background 0.15s;
 }
-.kos-file:hover { border-color: var(--blue); background: rgba(92, 138, 255, 0.06); transform: translateX(2px); }
-.kos-file-icon { font-size: 1.05rem; flex-shrink: 0; margin-top: 1px; }
-.kos-file-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
-.kos-file-name { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.kos-file-title { color: var(--text); font-weight: 600; font-size: 0.88rem; line-height: 1.3; }
-.kos-file-date { font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); flex-shrink: 0; margin-top: 3px; }
-.kos-browse-all { display: inline-block; margin-top: 14px; color: var(--blue); font-size: 0.9rem; text-decoration: none; }
-.kos-browse-all:hover { color: var(--blue-hover); text-decoration: underline; }
+.kos-sh-row:hover, .kos-sh-row:focus-visible { background: rgba(92, 138, 255, 0.10); }
+.kos-sh-file { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; }
+.kos-sh-name { color: #5c8aff; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kos-sh-date { color: var(--game-text-dim); font-size: 10px; flex-shrink: 0; }
+.kos-sh-title { color: var(--game-text); font-size: 13px; font-weight: 600; line-height: 1.35; }
 
-/* building/: app grid (auto-fits 1 col in the narrow default window, 2+ when wider) */
-.kos-app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-.kos-app {
-  position: relative;
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+/* building/: App Store listing */
+.kos-store-sub { color: var(--text-dim); font-size: 11px; margin: 0 0 8px; letter-spacing: 0.02em; }
+.kos-store-sub a { color: var(--blue); text-decoration: none; }
+.kos-store-sub a:hover { text-decoration: underline; }
+.kos-store { display: flex; flex-direction: column; }
+.kos-store-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--border);
   text-decoration: none;
-  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+  transition: background 0.15s;
 }
-.kos-app:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.04); }
-.kos-app-icon {
-  width: 40px; height: 40px; flex-shrink: 0;
+.kos-store-row:last-child { border-bottom: none; }
+.kos-store-row:hover, .kos-store-row:focus-visible { background: rgba(128, 128, 160, 0.06); }
+.kos-store-icon {
+  width: 48px; height: 48px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.25rem;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  font-size: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
-.kos-app-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.kos-app-name { color: var(--text); font-weight: 600; font-size: 0.9rem; }
-.kos-app-sub { color: var(--text-dim); font-size: 0.78rem; line-height: 1.35; }
-.kos-app-ext { position: absolute; top: 8px; right: 10px; font-size: 0.8rem; color: var(--text-muted); opacity: 0.7; transition: color 0.15s, opacity 0.15s; }
-.kos-app:hover .kos-app-ext { opacity: 1; }
-/* accent cycle (matches values-card color language) */
-.kos-app.blue:hover   { border-color: var(--blue); }
-.kos-app.blue:hover .kos-app-ext   { color: var(--blue); }
-.kos-app.purple:hover { border-color: var(--purple); }
-.kos-app.purple:hover .kos-app-ext { color: var(--purple); }
-.kos-app.pink:hover   { border-color: var(--pink); }
-.kos-app.pink:hover .kos-app-ext   { color: var(--pink); }
-.kos-app.mint:hover   { border-color: var(--mint); }
-.kos-app.mint:hover .kos-app-ext   { color: var(--mint); }
+.kos-store-row.blue .kos-store-icon   { background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.04)), var(--blue); }
+.kos-store-row.purple .kos-store-icon { background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.04)), var(--purple); }
+.kos-store-row.pink .kos-store-icon   { background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.04)), var(--pink); }
+.kos-store-row.mint .kos-store-icon   { background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.04)), var(--mint); }
+.kos-store-row.peach .kos-store-icon  { background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.04)), var(--peach); }
+.kos-store-row.yellow .kos-store-icon { background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.04)), var(--yellow); }
+.kos-store-info { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
+.kos-store-name { color: var(--text); font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kos-store-tag { color: var(--text-dim); font-size: 0.78rem; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kos-store-cat { color: var(--text-muted); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+.kos-pill {
+  flex-shrink: 0;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: background 0.15s, color 0.15s;
+}
+.kos-store-row.blue .kos-pill   { background: rgba(92, 138, 255, 0.16); color: var(--blue); }
+.kos-store-row.purple .kos-pill { background: rgba(160, 120, 255, 0.16); color: var(--purple); }
+.kos-store-row.pink .kos-pill   { background: rgba(255, 110, 180, 0.16); color: var(--pink); }
+.kos-store-row.mint .kos-pill   { background: rgba(74, 224, 160, 0.16); color: var(--mint); }
+.kos-store-row.peach .kos-pill  { background: rgba(255, 159, 106, 0.18); color: var(--peach); }
+.kos-store-row.yellow .kos-pill { background: rgba(255, 192, 72, 0.18); color: var(--yellow); }
+.kos-store-row.blue:hover .kos-pill,   .kos-store-row.blue:focus-visible .kos-pill   { background: var(--blue); color: #fff; }
+.kos-store-row.purple:hover .kos-pill, .kos-store-row.purple:focus-visible .kos-pill { background: var(--purple); color: #fff; }
+.kos-store-row.pink:hover .kos-pill,   .kos-store-row.pink:focus-visible .kos-pill   { background: var(--pink); color: #fff; }
+.kos-store-row.mint:hover .kos-pill,   .kos-store-row.mint:focus-visible .kos-pill   { background: var(--mint); color: #082818; }
+.kos-store-row.peach:hover .kos-pill,  .kos-store-row.peach:focus-visible .kos-pill  { background: var(--peach); color: #2c1408; }
+.kos-store-row.yellow:hover .kos-pill, .kos-store-row.yellow:focus-visible .kos-pill { background: var(--yellow); color: #2c2208; }
 
 /* Visually hidden, available to screen readers */
 .sr-only {
