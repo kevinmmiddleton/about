@@ -131,6 +131,16 @@
         window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
         plausible.init()
     </script>
+    <script>
+        // Decide mobile vs desktop ONCE at load. Rotating a phone to landscape
+        // makes innerWidth > 768, which must not flip the OS to desktop mid-session.
+        (function () {
+            var coarse = window.matchMedia('(pointer: coarse)').matches;
+            if (window.innerWidth <= 768 || (coarse && Math.min(window.innerWidth, window.innerHeight) <= 768)) {
+                document.documentElement.classList.add('kos-mobile');
+            }
+        })();
+    </script>
 </head>
 
 <body>
@@ -224,6 +234,12 @@
                 <span class="icon-emoji">🗑️</span>
                 <span class="icon-label">Recycle Bin</span>
             </button>
+
+            <!-- Escape hatch back to the regular site -->
+            <a class="desktop-icon plausible-event-name=Website+Mode plausible-event-location=desktop" href="https://middleton.io/?from=kevinos">
+                <span class="icon-emoji">🌐</span>
+                <span class="icon-label">website-mode.url</span>
+            </a>
         </nav>
 
         <!-- Windows Container -->
@@ -948,6 +964,10 @@
                 </header>
                 <div class="window-content">
                     <p class="kos-store-sub">When something annoys me enough, I build the fix. These made the cut.</p>
+                    <label class="kos-store-search">
+                        <span aria-hidden="true">🔍</span>
+                        <input type="search" placeholder="Search my apps" aria-label="Search apps">
+                    </label>
                     <div class="kos-store">
                         <a href="https://quietfeed.com?from=kevinos" target="_blank" class="kos-store-row blue plausible-event-name=Building+QuietFeed">
                             <span class="kos-store-icon kos-logo-tile" aria-hidden="true"><img src="/kevinos/images/quietfeed-logo.svg" alt=""></span>
@@ -1003,6 +1023,7 @@
                             </span>
                             <span class="kos-pill" aria-hidden="true">GET</span>
                         </a>
+                        <div class="kos-store-empty" hidden>No matches. Sounds like my next project.</div>
                     </div>
                 </div>
             </section>
@@ -1027,6 +1048,10 @@
                             <span class="kos-feed-meta">
                                 <span class="kos-feed-title">Kevin's Blog</span>
                                 <span class="kos-feed-sub">middleton.io · Subscribed <span class="kos-feed-check">✓</span></span>
+                            </span>
+                            <span class="kos-feed-actions">
+                                <button type="button" class="kos-feed-btn kos-feed-refresh" title="Check for new posts" aria-label="Check for new posts">⟳</button>
+                                <button type="button" class="kos-feed-btn kos-feed-markread" title="Mark all as read" aria-label="Mark all as read">✓</button>
                             </span>
                         </div>
                         <div class="kos-feed-rows">
@@ -1951,6 +1976,11 @@
                 <span class="icon-emoji apps-folder-icon"><span class="folder-mini-grid"><span>🎮</span><span>🎵</span><span>🍳</span><span></span></span></span>
                 <span class="icon-label">Apps</span>
             </button>
+            <!-- Escape hatch back to the regular site -->
+            <a class="mobile-grid-icon plausible-event-name=Website+Mode plausible-event-location=mobile" href="https://middleton.io/?from=kevinos">
+                <span class="icon-emoji">🌐</span>
+                <span class="icon-label">Website</span>
+            </a>
         </nav>
 
         <!-- Recycle Bin Window -->
@@ -2314,6 +2344,12 @@
     </div>
     <div class="mobile-video-player" id="mobileVideoPlayer">
         <video src="/kevinos/images/rickroll-meme.mp4" class="mobile-video-gif" autoplay loop muted playsinline aria-label="Video"></video>
+    </div>
+
+    <!-- Landscape nudge (mobile only): the springboard is portrait-designed -->
+    <div class="kos-rotate-lock" role="status">
+        <span class="kos-rotate-icon" aria-hidden="true">📱</span>
+        <p>KevinOS works best in portrait.<br>Rotate back to keep exploring.</p>
     </div>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

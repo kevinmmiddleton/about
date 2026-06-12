@@ -1,4 +1,12 @@
 // ===================
+// MOBILE MODE (sticky)
+// ===================
+// Decided once at load (a head script tags <html> with .kos-mobile).
+// Rotating a phone to landscape pushes innerWidth past 768, which used to
+// flip the whole OS to desktop mid-session and break open games/overlays.
+const KOS_MOBILE = document.documentElement.classList.contains('kos-mobile');
+
+// ===================
 // BOOT LOADER
 // ===================
 window.addEventListener('load', () => {
@@ -51,6 +59,40 @@ const dockItems = document.querySelectorAll('.dock-item[data-window]');
 const allNavItems = document.querySelectorAll('.desktop-icon[data-window], .dock-item[data-window]');
 
 
+// ===================
+// LIVE URL STATE
+// ===================
+// The URL mirrors the open windows (?open=a,b,c — last one focused), so any
+// view of KevinOS is shareable and the back button closes the latest window.
+let kosUrlReady = false;            // suppress sync while the boot sequence opens defaults
+let kosSyncingFromHistory = false;  // suppress sync while popstate reconciles
+
+function kosOpenWindowIds() {
+    return [...document.querySelectorAll('.window.window-open[data-window]')]
+        .filter(w => !w.classList.contains('window-minimized'))
+        .sort((a, b) => (parseInt(a.style.zIndex, 10) || 0) - (parseInt(b.style.zIndex, 10) || 0))
+        .map(w => w.dataset.window);
+}
+
+function kosBuildUrl(ids) {
+    const params = new URLSearchParams(window.location.search);
+    params.delete('open');
+    params.delete('game');
+    if (ids.length) params.set('open', ids.join(','));
+    const qs = params.toString().replace(/%2C/gi, ','); // commas are legal in queries; keep the URL readable
+    return window.location.pathname + (qs ? '?' + qs : '');
+}
+
+function kosSyncUrl(push) {
+    if (!kosUrlReady || kosSyncingFromHistory || isMobile()) return;
+    const ids = kosOpenWindowIds();
+    const url = kosBuildUrl(ids);
+    if (url === window.location.pathname + window.location.search) return;
+    const state = { kosWindows: ids };
+    if (push) history.pushState(state, '', url);
+    else history.replaceState(state, '', url);
+}
+
 function openWindow(id) {
     const win = document.querySelector(`.window[data-window="${id}"]`);
     if (!win) return;
@@ -69,6 +111,7 @@ function openWindow(id) {
     if (typeof setWindowFocus === 'function') {
         setWindowFocus(win);
     }
+    kosSyncUrl(true);
 }
 
 function closeWindow(id) {
@@ -89,7 +132,7 @@ function closeWindow(id) {
     }
 
     // Clean up mobile recipes state if closing recipes on mobile
-    if (id === 'recipesdb' && window.innerWidth <= 768) {
+    if (id === 'recipesdb' && isMobile()) {
         const windowsArea = document.querySelector('.windows-area');
         if (windowsArea && windowsArea.classList.contains('mobile-recipes-open')) {
             windowsArea.style.removeProperty('display');
@@ -120,6 +163,7 @@ function closeWindow(id) {
     allNavItems.forEach(i => {
         if (i.dataset.window === id) i.classList.remove('active');
     });
+    kosSyncUrl(false);
 }
 
 function minimizeWindow(id) {
@@ -129,6 +173,7 @@ function minimizeWindow(id) {
     allNavItems.forEach(i => {
         if (i.dataset.window === id) i.classList.remove('active');
     });
+    kosSyncUrl(false);
 }
 
 // Click handlers for both icons and dock items
@@ -211,6 +256,7 @@ windows.forEach(win => {
             if (i.dataset.window === win.dataset.window) i.classList.add('active');
         });
         setWindowFocus(win);
+        kosSyncUrl(false);
     });
     win.querySelectorAll('.window-dot').forEach(dot => {
         dot.addEventListener('click', e => {
@@ -1188,7 +1234,7 @@ function openMobileRecipes() {
     const recipesWindow = document.getElementById('recipesdb');
     const windowsArea = document.querySelector('.windows-area');
 
-    if (window.innerWidth <= 768) {
+    if (isMobile()) {
         // First, prepare everything while hidden
         if (recipesWindow) {
             // Add class for mobile state before showing
@@ -1890,7 +1936,7 @@ function gameLoop() {
 }
 
 function isMobile() {
-    return window.innerWidth <= 768;
+    return KOS_MOBILE;
 }
 
 function startGame() {
@@ -4542,7 +4588,7 @@ loadKevinRecipes();
 
     // Handle ?game= parameter (e.g., ?game=invaders)
     if (gameToOpen && validGames.includes(gameToOpen)) {
-        if (window.innerWidth <= 768) {
+        if (isMobile()) {
             setTimeout(() => openGameOverlay(gameToOpen), 100);
         } else {
             setTimeout(() => {
@@ -4560,7 +4606,7 @@ loadKevinRecipes();
 
     // Handle recipes
     if (windowToOpen === 'recipes' || windowToOpen === 'recipesdb') {
-        if (window.innerWidth <= 768) {
+        if (isMobile()) {
             setTimeout(() => openMobileOverlay('recipesdb'), 100);
         } else {
             setTimeout(() => openMobileRecipes(), 100);
@@ -4570,7 +4616,7 @@ loadKevinRecipes();
 
     // Handle games folder
     if (windowToOpen === 'games') {
-        if (window.innerWidth <= 768) {
+        if (isMobile()) {
             setTimeout(() => openMobileGamesFolder(), 100);
         } else {
             setTimeout(() => openWindow('games'), 100);
@@ -4580,7 +4626,7 @@ loadKevinRecipes();
 
     // Handle specific game by name via ?open= param
     if (validGames.includes(windowToOpen)) {
-        if (window.innerWidth <= 768) {
+        if (isMobile()) {
             setTimeout(() => openGameOverlay(windowToOpen), 100);
         } else {
             setTimeout(() => {
@@ -4596,18 +4642,19 @@ loadKevinRecipes();
         return;
     }
 
-    // Handle other windows normally (e.g., ?open=about, ?open=connect)
+    // Handle other windows normally (e.g., ?open=about, ?open=about,building)
     if (windowToOpen) {
-        if (window.innerWidth <= 768) {
-            setTimeout(() => openMobileOverlay(windowToOpen), 100);
+        const ids = windowToOpen.split(',').filter(Boolean);
+        if (isMobile()) {
+            setTimeout(() => openMobileOverlay(ids[0]), 100); // one overlay at a time on mobile
         } else {
-            setTimeout(() => openWindow(windowToOpen), 100);
+            setTimeout(() => ids.forEach(id => openWindow(id)), 100);
         }
         return;
     }
 
     // No URL param - open default windows on desktop only
-    if (window.innerWidth > 768) {
+    if (!isMobile()) {
         setTimeout(() => {
             // Set positions for cascading layout
             const aboutWin = document.querySelector('[data-window="about"]');
@@ -4644,6 +4691,71 @@ loadKevinRecipes();
         }, 150);
     }
 })();
+
+// ===================
+// FEED + STORE GARNISH
+// ===================
+// Delegated handlers: mobile overlays clone window content, so listeners
+// bound to the original nodes would be lost in the clones.
+document.addEventListener('click', (e) => {
+    const refresh = e.target.closest('.kos-feed-refresh');
+    if (refresh) {
+        if (refresh.classList.contains('spinning')) return;
+        const feed = refresh.closest('.kos-feed');
+        const sub = feed ? feed.querySelector('.kos-feed-sub') : null;
+        refresh.classList.add('spinning');
+        setTimeout(() => {
+            refresh.classList.remove('spinning');
+            if (sub && !sub.dataset.restoring) {
+                sub.dataset.restoring = '1';
+                const original = sub.innerHTML;
+                sub.textContent = 'Checked just now · you\u2019re all caught up';
+                setTimeout(() => {
+                    sub.innerHTML = original;
+                    delete sub.dataset.restoring;
+                }, 2200);
+            }
+        }, 900);
+        return;
+    }
+    const mark = e.target.closest('.kos-feed-markread');
+    if (mark) {
+        const feed = mark.closest('.kos-feed');
+        if (feed) feed.querySelectorAll('.kos-feed-row.unread').forEach(r => r.classList.remove('unread'));
+    }
+});
+
+document.addEventListener('input', (e) => {
+    if (!e.target.matches('.kos-store-search input')) return;
+    const scope = e.target.closest('.window-content, .mobile-overlay-content') || document;
+    const q = e.target.value.trim().toLowerCase();
+    let shown = 0;
+    scope.querySelectorAll('.kos-store-row').forEach(row => {
+        const hit = !q || row.textContent.toLowerCase().includes(q);
+        row.style.display = hit ? '' : 'none';
+        if (hit) shown++;
+    });
+    const empty = scope.querySelector('.kos-store-empty');
+    if (empty) empty.hidden = !q || shown > 0;
+});
+
+// Once the boot sequence has opened its windows, start mirroring state to the
+// URL. For a mobile overlay deep-link, layer its entry over a clean baseline so
+// the back button closes the overlay instead of leaving the site.
+setTimeout(() => {
+    kosUrlReady = true;
+    if (isMobile()) {
+        if (activeMobileOverlay) {
+            const id = activeMobileOverlay.id.replace('mobile-overlay-', '');
+            history.replaceState({}, '', kosBuildUrl([]));
+            const params = new URLSearchParams(window.location.search);
+            params.set('open', id);
+            history.pushState({ kosOverlay: id }, '', window.location.pathname + '?' + params.toString());
+        }
+        return;
+    }
+    kosSyncUrl(false);
+}, 700);
 
 // Reset experience and values windows when reopened after close
 (function() {
@@ -4700,6 +4812,7 @@ loadKevinRecipes();
 
 // Clear recipes inline style when resizing to desktop (so close button works)
 window.addEventListener('resize', () => {
+    if (isMobile()) return; // sticky mobile: rotating to landscape must not strip mobile styles
     if (window.innerWidth > 768) {
         const recipesWindow = document.getElementById('recipesdb');
         const windowsArea = document.querySelector('.windows-area');
@@ -4821,13 +4934,21 @@ function openMobileOverlay(windowId) {
     activeMobileOverlay = overlay;
     document.body.style.overflow = 'hidden';
 
+    // Back button should close the overlay, not leave the site
+    if (kosUrlReady) {
+        const params = new URLSearchParams(window.location.search);
+        params.set('open', windowId);
+        params.delete('game');
+        history.pushState({ kosOverlay: windowId }, '', window.location.pathname + '?' + params.toString());
+    }
+
     // Track with Plausible if available
     if (window.plausible) {
         plausible('Mobile Overlay Open', { props: { window: windowId } });
     }
 }
 
-function closeMobileOverlay() {
+function closeMobileOverlay(fromPop) {
     if (!activeMobileOverlay) return;
 
     const overlayToClose = activeMobileOverlay;
@@ -4840,6 +4961,11 @@ function closeMobileOverlay() {
     // Remove active class - CSS will animate it down
     overlayToClose.classList.remove('active');
     document.body.style.overflow = '';
+
+    // X-button/handle close: pop our history entry so the URL stays accurate
+    if (fromPop !== true && history.state && history.state.kosOverlay) {
+        history.back();
+    }
 }
 
 // Swipe-to-dismiss for mobile overlays (Safari only - other browsers trigger pull-to-refresh)
@@ -4907,6 +5033,9 @@ function setupSwipeToDismiss(overlay) {
                     }
                 }, 300);
                 activeMobileOverlay = null;
+                if (history.state && history.state.kosOverlay) {
+                    history.back();
+                }
             } else {
                 overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
                 overlay.style.transform = 'translateY(0)';
@@ -5122,11 +5251,21 @@ function initMobileIconGrid() {
     setInterval(updateMobileTime, 60000);
 }
 
-// Handle back button/swipe to close overlay
-window.addEventListener('popstate', () => {
-    if (activeMobileOverlay) {
-        closeMobileOverlay();
+// Handle back button: mobile closes the open overlay, desktop restores the
+// window set recorded in the history entry (back = undo the last open).
+window.addEventListener('popstate', (e) => {
+    if (isMobile()) {
+        if (activeMobileOverlay) closeMobileOverlay(true);
+        return;
     }
+    const ids = (e.state && e.state.kosWindows) ||
+        (new URLSearchParams(window.location.search).get('open') || '').split(',').filter(Boolean);
+    kosSyncingFromHistory = true;
+    document.querySelectorAll('.window.window-open[data-window]').forEach(w => {
+        if (!ids.includes(w.dataset.window)) closeWindow(w.dataset.window);
+    });
+    ids.forEach(id => openWindow(id)); // in z-order; last regains focus
+    kosSyncingFromHistory = false;
 });
 
 // Initialize on DOM ready

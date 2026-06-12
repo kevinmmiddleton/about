@@ -316,7 +316,7 @@ body {
 }
 
 /* Hide menubar on mobile */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
     .menubar {
         display: none;
     }
@@ -453,7 +453,7 @@ body {
 }
 
 /* Hide desktop widget on mobile */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
     .desktop-widget {
         display: none;
     }
@@ -2322,7 +2322,7 @@ body {
 /* ===================
    MOBILE FALLBACK
    =================== */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
 
     html,
     body {
@@ -4575,7 +4575,7 @@ body {
     color: var(--text-dim);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
     .folder-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
@@ -4845,7 +4845,7 @@ body {
     max-height: 400px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
     .standup-game {
         height: auto;
         max-height: none;
@@ -5688,7 +5688,7 @@ body {
 }
 
 /* Mobile responsive */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
     .interview-terminal {
         padding: 16px;
     }
@@ -6023,7 +6023,7 @@ body {
 }
 
 /* Mobile adjustments for recipes */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
     /* Hide desktop window chrome on mobile */
     #recipesdb .window-header {
         display: none !important;
@@ -6516,7 +6516,7 @@ body {
 }
 
 /* Hide recycle/notepad/video on mobile */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
     .recycle-window,
     .notepad-window,
     .video-window {
@@ -6643,7 +6643,7 @@ body {
     border-radius: 12px 0 0 12px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
     .mobile-video-tab {
         display: block;
     }
@@ -6771,11 +6771,9 @@ body {
 }
 
 /* Hide share sheet on desktop */
-@media (min-width: 769px) {
-    .share-sheet,
-    .share-sheet-backdrop {
-        display: none !important;
-    }
+html:not(.kos-mobile) .share-sheet,
+html:not(.kos-mobile) .share-sheet-backdrop {
+    display: none !important;
 }
 
 /* ===================
@@ -7506,7 +7504,7 @@ body {
 }
 
 /* Hide macOS features on mobile */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
     .spotlight-overlay,
     .notification-center,
     .nc-backdrop,
@@ -7658,3 +7656,145 @@ body {
 /* Real product logos inside icon tiles (e.g. QuietFeed) */
 .kos-logo-tile { background: none !important; padding: 0; overflow: hidden; }
 .kos-logo-tile img { width: 100%; height: 100%; display: block; border-radius: inherit; }
+
+
+/* ===================
+   MOBILE SCROLL + ROTATION LOCK
+   =================== */
+/* iOS rubber-bands the body even with overflow:hidden; pinning it is the
+   only reliable scroll lock. Overlays scroll internally (position: fixed). */
+html.kos-mobile,
+html.kos-mobile body {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+.kos-rotate-lock {
+    display: none;
+}
+
+@media (orientation: landscape) {
+    html.kos-mobile .kos-rotate-lock {
+        position: fixed;
+        inset: 0;
+        z-index: 100000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        background: var(--bg);
+        color: var(--text);
+        text-align: center;
+        padding: 24px;
+    }
+}
+
+.kos-rotate-icon {
+    font-size: 44px;
+    animation: kosRotateNudge 2s ease-in-out infinite;
+}
+
+.kos-rotate-lock p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+    margin: 0;
+}
+
+@keyframes kosRotateNudge {
+    0%, 55%, 100% { transform: rotate(0deg); }
+    25%, 35% { transform: rotate(90deg); }
+}
+
+
+/* ===================
+   FEED + STORE GARNISH
+   =================== */
+.kos-feed-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.kos-feed-btn {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.kos-feed-btn:hover {
+    background: rgba(128, 128, 160, 0.14);
+    color: var(--text);
+}
+
+.kos-feed-refresh.spinning {
+    animation: kosFeedSpin 0.9s ease-in-out;
+}
+
+@keyframes kosFeedSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.kos-store-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    margin: 0 0 10px;
+    border-radius: 9px;
+    background: rgba(128, 128, 160, 0.12);
+    font-size: 12px;
+    cursor: text;
+    transition: box-shadow 0.15s ease;
+}
+
+.kos-store-search:focus-within {
+    box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.35);
+}
+
+.kos-store-search span {
+    font-size: 11px;
+    opacity: 0.6;
+}
+
+.kos-store-search input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+}
+
+.kos-store-search input::placeholder {
+    color: var(--text-muted);
+}
+
+.kos-store-search input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+.kos-store-empty {
+    padding: 18px 6px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+}
