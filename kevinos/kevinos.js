@@ -4590,6 +4590,52 @@ if (dbBackBtn) {
 // Load recipes on page load
 loadKevinRecipes();
 
+// Position the home trio (about / building / writing) for the current
+// viewport: three columns when they fit, a cascade when they don't. The
+// cluster is centered on very wide screens instead of hugging the edges.
+function applyHomeLayout() {
+    const aboutWin = document.querySelector('[data-window="about"]');
+    const buildingWin = document.querySelector('[data-window="building"]');
+    const writingWin = document.querySelector('[data-window="writing"]');
+    const vw = window.innerWidth;
+
+    if (vw >= 1180) {
+        const margin = Math.max(30, Math.round((vw - 1460) / 2));
+        const gap = 14;
+        const span = vw - margin * 2;
+        const writingW = 320;
+        const writingLeft = vw - margin - writingW;
+        const buildingW = Math.min(400, Math.max(330, Math.round(span * 0.27)));
+        const buildingLeft = writingLeft - gap - buildingW;
+        const aboutW = Math.min(680, buildingLeft - gap - margin);
+        if (aboutWin) {
+            aboutWin.style.left = margin + 'px';
+            aboutWin.style.top = '190px';
+            aboutWin.style.width = aboutW + 'px';
+        }
+        if (writingWin) {
+            writingWin.style.left = writingLeft + 'px';
+            writingWin.style.top = '40px';
+            writingWin.style.width = writingW + 'px';
+        }
+        if (buildingWin) {
+            buildingWin.style.left = buildingLeft + 'px';
+            buildingWin.style.top = '40px';
+            buildingWin.style.width = buildingW + 'px';
+        }
+    } else {
+        // Narrower desktops can't fit three columns; cascade instead of
+        // squeezing windows into slivers
+        const w = Math.min(560, vw - 120);
+        [aboutWin, writingWin, buildingWin].forEach((win, i) => {
+            if (!win) return;
+            win.style.left = (40 + i * 56) + 'px';
+            win.style.top = (56 + i * 46) + 'px';
+            win.style.width = w + 'px';
+        });
+    }
+}
+
 // Handle URL parameters to open specific windows/games
 (function handleUrlParams() {
     const params = new URLSearchParams(window.location.search);
@@ -4659,7 +4705,15 @@ loadKevinRecipes();
         if (isMobile()) {
             setTimeout(() => openMobileOverlay(ids[0]), 100); // one overlay at a time on mobile
         } else {
-            setTimeout(() => ids.forEach(id => openWindow(id)), 100);
+            setTimeout(() => {
+                // Deep links / reloads skip the boot layout, so windows would
+                // open at raw CSS defaults (centered, stacked). Give the home
+                // trio their designed spots first.
+                if (ids.some(id => ['about', 'writing', 'building'].includes(id))) {
+                    applyHomeLayout();
+                }
+                ids.forEach(id => openWindow(id));
+            }, 100);
         }
         return;
     }
@@ -4667,46 +4721,7 @@ loadKevinRecipes();
     // No URL param - open default windows on desktop only
     if (!isMobile()) {
         setTimeout(() => {
-            const aboutWin = document.querySelector('[data-window="about"]');
-            const buildingWin = document.querySelector('[data-window="building"]');
-            const writingWin = document.querySelector('[data-window="writing"]');
-            const vw = window.innerWidth;
-
-            if (vw >= 1180) {
-                // Three columns, sized from the right edge in: feed, store, profile
-                const margin = 30, gap = 14;
-                const writingW = 320;
-                const buildingW = Math.min(400, Math.max(330, Math.round(vw * 0.27)));
-                const writingLeft = vw - margin - writingW;
-                const buildingLeft = writingLeft - gap - buildingW;
-                const aboutW = Math.min(680, buildingLeft - gap - margin);
-                if (aboutWin) {
-                    aboutWin.style.left = margin + 'px';
-                    aboutWin.style.top = '190px';
-                    aboutWin.style.width = aboutW + 'px';
-                }
-                if (writingWin) {
-                    writingWin.style.left = writingLeft + 'px';
-                    writingWin.style.top = '40px';
-                    writingWin.style.width = writingW + 'px';
-                }
-                if (buildingWin) {
-                    buildingWin.style.left = buildingLeft + 'px';
-                    buildingWin.style.top = '40px';
-                    buildingWin.style.width = buildingW + 'px';
-                }
-            } else {
-                // Narrower desktops can't fit three columns; cascade instead
-                // of squeezing windows into slivers
-                const w = Math.min(560, vw - 120);
-                [aboutWin, writingWin, buildingWin].forEach((win, i) => {
-                    if (!win) return;
-                    win.style.left = (40 + i * 56) + 'px';
-                    win.style.top = (56 + i * 46) + 'px';
-                    win.style.width = w + 'px';
-                });
-            }
-
+            applyHomeLayout();
             // Open windows in order (last one gets focus)
             openWindow('about');
             openWindow('writing');
