@@ -7658,3 +7658,7 @@ body {
   white-space: nowrap;
   border: 0;
 }
+
+/* Real product logos inside icon tiles (e.g. QuietFeed) */
+.kos-logo-tile { background: none !important; padding: 0; overflow: hidden; }
+.kos-logo-tile img { width: 100%; height: 100%; display: block; border-radius: inherit; }
