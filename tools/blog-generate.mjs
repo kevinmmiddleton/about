@@ -401,6 +401,25 @@ function updateLlms(posts) {
   if (out) { writeFileSync(f, out); return true; }
   console.warn('  ! llms.txt markers not found; skipped'); return false;
 }
+// Homepage "Writing on AI" card: featured posts first (newest first), topped up
+// with the newest non-featured, 4 total. Injected between WRITING markers in
+// index.htm so the homepage never goes stale.
+function updateWriting(posts) {
+  const f = resolve(ROOT, 'index.htm');
+  let html = readFileSync(f, 'utf8');
+  const featured = posts.filter(p => p.featured);
+  const rest = posts.filter(p => !p.featured);
+  const picks = featured.concat(rest).slice(0, 4);
+  const colors = ['#3b82f6', '#e07caa', '#f59e0b', '#7c5ce0'];
+  const trim = t => t.length > 64 ? t.slice(0, 64).replace(/\s+\S*$/, '') + '…' : t;
+  const items = picks.map((p, i) =>
+    `                        <a href="/blog/${p.slug}/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=${p.slug}">\n` +
+    `                            <span class="writing-dot" style="background:${colors[i % colors.length]}"></span>${esc(trim(p.title))}\n` +
+    `                        </a>`).join('\n');
+  const out = replaceRegion(html, '<!-- WRITING:START -->', '<!-- WRITING:END -->', items);
+  if (out) { writeFileSync(f, out); return true; }
+  console.warn('  ! index.htm WRITING markers not found; skipped'); return false;
+}
 
 // ---------- load posts from markdown (blog/_posts/*.md) ----------
 // Source of truth is markdown-in-repo (edited via Sveltia CMS at /admin).
@@ -449,6 +468,7 @@ async function main() {
   }
   updateSitemap(posts);
   updateLlms(posts);
+  if (updateWriting(posts)) console.log('  updated index.htm writing card');
   console.log('Done.');
 }
 main().catch(e => { console.error(e); process.exit(1); });

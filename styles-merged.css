@@ -1599,6 +1599,30 @@ a.bento-card:hover::before {
   margin-top: 5px;
 }
 
+/* Claude Plugins card: list rows like the writing card, on the coral gradient */
+.card-claude { gap: 10px; }
+.card-claude .writing-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+  z-index: 1;
+}
+.card-claude .writing-item:hover { color: var(--white); }
+.card-claude .writing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
 @media (max-width: 768px) {
   .bento { grid-template-columns: 1fr; }
   .card-quietfeed, .card-visionbort, .card-claude, .card-office, .card-writing {
