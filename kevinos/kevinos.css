@@ -711,6 +711,12 @@ body {
     border-radius: 3px;
 }
 
+/* domain-style labels read wrong when broken mid-word */
+.icon-label-nowrap {
+    max-width: none;
+    white-space: nowrap;
+}
+
 /* ===================
    WINDOWS AREA
    =================== */
