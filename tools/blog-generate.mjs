@@ -426,10 +426,15 @@ function updateKevinosWriting(posts) {
   if (!existsSync(f)) return false;
   let html = readFileSync(f, 'utf8');
   const shortDate = iso => { const d = new Date(iso); return `${MONTHS[d.getUTCMonth()].slice(0, 3)} ${d.getUTCDate()}`; };
-  const items = posts.slice(0, 5).map(p =>
-    `                        <a href="${SITE}/blog/${p.slug}/?from=kevinos" target="_blank" class="kos-sh-row plausible-event-name=Writing+Click plausible-event-post=${p.slug}">\n` +
-    `                            <span class="kos-sh-file"><span class="kos-sh-name">${p.slug}.md</span><span class="kos-sh-date">${shortDate(p.published_at)}</span></span>\n` +
-    `                            <span class="kos-sh-title">${esc(p.title)}</span>\n` +
+  // "unread" = the two newest posts, positionally — deterministic, so re-runs stay diff-free
+  const items = posts.slice(0, 5).map((p, i) =>
+    `                        <a href="${SITE}/blog/${p.slug}/?from=kevinos" target="_blank" class="kos-feed-row${i < 2 ? ' unread' : ''} plausible-event-name=Writing+Click plausible-event-post=${p.slug}">\n` +
+    `                            <span class="kos-feed-dot" aria-hidden="true"></span>\n` +
+    `                            <span class="kos-feed-info">\n` +
+    `                                <span class="kos-feed-row-title">${esc(p.title)}</span>\n` +
+    `                                <span class="kos-feed-excerpt">${esc(p.excerpt || '')}</span>\n` +
+    `                                <span class="kos-feed-date">${shortDate(p.published_at)}</span>\n` +
+    `                            </span>\n` +
     `                        </a>`).join('\n');
   const out = replaceRegion(html, '<!-- KEVINOS-WRITING:START -->', '<!-- KEVINOS-WRITING:END -->', items);
   if (out) { writeFileSync(f, out); return true; }
