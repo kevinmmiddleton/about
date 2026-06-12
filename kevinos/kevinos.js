@@ -4738,21 +4738,20 @@ function applyHomeLayout() {
 document.addEventListener('click', (e) => {
     const refresh = e.target.closest('.kos-feed-refresh');
     if (refresh) {
-        if (refresh.classList.contains('spinning')) return;
-        const feed = refresh.closest('.kos-feed');
-        const sub = feed ? feed.querySelector('.kos-feed-sub') : null;
+        // Feedback lives in the button itself (spin, then a brief check) so
+        // the header text never changes and the rows never shift
+        if (refresh.dataset.busy) return;
+        refresh.dataset.busy = '1';
         refresh.classList.add('spinning');
         setTimeout(() => {
             refresh.classList.remove('spinning');
-            if (sub && !sub.dataset.restoring) {
-                sub.dataset.restoring = '1';
-                const original = sub.innerHTML;
-                sub.textContent = 'Checked just now · you\u2019re all caught up';
-                setTimeout(() => {
-                    sub.innerHTML = original;
-                    delete sub.dataset.restoring;
-                }, 2200);
-            }
+            refresh.textContent = '✓';
+            refresh.classList.add('done');
+            setTimeout(() => {
+                refresh.textContent = '⟳';
+                refresh.classList.remove('done');
+                delete refresh.dataset.busy;
+            }, 1400);
         }, 900);
         return;
     }

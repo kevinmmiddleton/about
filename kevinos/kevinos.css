@@ -7749,19 +7749,23 @@ html.kos-mobile body {
 }
 
 .kos-feed-btn {
-    width: 26px;
-    height: 26px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 7px;
+    border-radius: 8px;
     background: transparent;
     color: var(--text-dim);
-    font-size: 14px;
+    font-size: 17px;
     line-height: 1;
     cursor: pointer;
     transition: background 0.15s ease, color 0.15s ease;
+}
+
+.kos-feed-refresh.done {
+    color: var(--mint);
 }
 
 .kos-feed-btn:hover {
