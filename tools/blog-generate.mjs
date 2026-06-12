@@ -420,6 +420,20 @@ function updateWriting(posts) {
   if (out) { writeFileSync(f, out); return true; }
   console.warn('  ! index.htm WRITING markers not found; skipped'); return false;
 }
+// KevinOS writing/ window: latest 5 published posts between KEVINOS-WRITING markers.
+function updateKevinosWriting(posts) {
+  const f = resolve(ROOT, 'kevinos', 'index.html');
+  if (!existsSync(f)) return false;
+  let html = readFileSync(f, 'utf8');
+  const items = posts.slice(0, 5).map(p =>
+    `                        <a href="${SITE}/blog/${p.slug}/?from=kevinos" target="_blank" class="kos-item plausible-event-name=Writing+Click plausible-event-post=${p.slug}">\n` +
+    `                            <span class="kos-item-title">${esc(p.title)}</span>\n` +
+    `                            <span class="kos-item-sub">${fmtDate(p.published_at)}</span>\n` +
+    `                        </a>`).join('\n');
+  const out = replaceRegion(html, '<!-- KEVINOS-WRITING:START -->', '<!-- KEVINOS-WRITING:END -->', items);
+  if (out) { writeFileSync(f, out); return true; }
+  console.warn('  ! kevinos KEVINOS-WRITING markers not found; skipped'); return false;
+}
 
 // ---------- load posts from markdown (blog/_posts/*.md) ----------
 // Source of truth is markdown-in-repo (edited via Sveltia CMS at /admin).
@@ -469,6 +483,7 @@ async function main() {
   updateSitemap(posts);
   updateLlms(posts);
   if (updateWriting(posts)) console.log('  updated index.htm writing card');
+  if (updateKevinosWriting(posts)) console.log('  updated kevinos writing window');
   console.log('Done.');
 }
 main().catch(e => { console.error(e); process.exit(1); });

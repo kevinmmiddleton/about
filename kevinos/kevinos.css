@@ -7521,3 +7521,34 @@ body {
         display: none !important;
     }
 }
+
+/* Respect reduced-motion preferences: collapse all animation/transition timing */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* building/ + writing/ windows: simple link rows */
+.kos-intro { color: var(--text-dim); font-size: 0.92rem; margin: 0 0 14px; }
+.kos-intro a { color: var(--blue); }
+.kos-list { display: flex; flex-direction: column; gap: 6px; }
+.kos-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.kos-item:hover { border-color: var(--blue); transform: translateX(2px); }
+.kos-item-title { color: var(--text); font-weight: 600; font-size: 0.95rem; }
+.kos-item-sub { color: var(--text-dim); font-size: 0.82rem; }
+.kos-browse-all { display: inline-block; margin-top: 14px; color: var(--blue); font-size: 0.9rem; text-decoration: none; }
+.kos-browse-all:hover { color: var(--blue-hover); text-decoration: underline; }

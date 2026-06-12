@@ -12,7 +12,7 @@ window.addEventListener('load', () => {
         'https://middleton.io/images/lightmode-bg.jpg',
         // Profile & photos
         'https://middleton.io/images/profile-picture.jpg',
-        'https://middleton.io/images/cat-illustration.png',
+        'https://middleton.io/images/cat-illustration.jpg',
         'https://middleton.io/images/cats-photo.jpg',
         'https://middleton.io/images/carne-asada-fries-homemade.jpg',
         // Company logos (visible on initial load)
