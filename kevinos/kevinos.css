@@ -7766,6 +7766,7 @@ html.kos-mobile body {
 
 .kos-feed-refresh.done {
     color: var(--mint);
+    transition: color 0.3s ease;
 }
 
 .kos-feed-btn:hover {

@@ -4745,21 +4745,17 @@ document.addEventListener('click', (e) => {
         refresh.classList.add('spinning');
         setTimeout(() => {
             refresh.classList.remove('spinning');
-            refresh.textContent = '✓';
             refresh.classList.add('done');
             setTimeout(() => {
-                refresh.textContent = '⟳';
                 refresh.classList.remove('done');
                 delete refresh.dataset.busy;
-            }, 1400);
+            }, 1000);
         }, 900);
         return;
     }
-    const mark = e.target.closest('.kos-feed-markread');
-    if (mark) {
-        const feed = mark.closest('.kos-feed');
-        if (feed) feed.querySelectorAll('.kos-feed-row.unread').forEach(r => r.classList.remove('unread'));
-    }
+    // Reading a post clears its unread dot, like a real reader
+    const row = e.target.closest('.kos-feed-row.unread');
+    if (row) row.classList.remove('unread');
 });
 
 document.addEventListener('input', (e) => {
