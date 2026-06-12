@@ -4611,7 +4611,6 @@ loadKevinRecipes();
         setTimeout(() => {
             // Set positions for cascading layout
             const aboutWin = document.querySelector('[data-window="about"]');
-            const expWin = document.querySelector('[data-window="experience"]');
             const buildingWin = document.querySelector('[data-window="building"]');
             const writingWin = document.querySelector('[data-window="writing"]');
 
@@ -4622,37 +4621,26 @@ loadKevinRecipes();
                 aboutWin.style.width = '680px';
             }
 
-            // Experience - middle, tall but clears the dock (~80px dock + padding)
-            if (expWin) {
-                expWin.style.left = '690px';
-                expWin.style.top = '40px';
-                expWin.style.width = '420px';
-                expWin.style.height = 'calc(100vh - 40px - 100px)';
-            }
-
-            // Writing + Building - right column, viewport-aware so 1280w still fits
+            // Writing - right column, viewport-aware so 1280w still fits
             const rightCol = Math.min(1120, window.innerWidth - 350);
             if (writingWin) {
                 writingWin.style.left = rightCol + 'px';
                 writingWin.style.top = '40px';
                 writingWin.style.width = '320px';
-                writingWin.style.height = '46vh';
-            }
-            if (buildingWin) {
-                buildingWin.style.left = rightCol + 'px';
-                buildingWin.style.top = 'calc(46vh + 70px)';
-                buildingWin.style.width = '320px';
-                buildingWin.style.height = 'calc(54vh - 170px)';
             }
 
-            // Mark these windows as having initial load positioning
-            if (expWin) expWin.dataset.initialLoad = 'true';
+            // Building - takes the middle stage (builder story front and center),
+            // width shrinks on narrower viewports so it never slides under writing
+            if (buildingWin) {
+                buildingWin.style.left = '690px';
+                buildingWin.style.top = '40px';
+                buildingWin.style.width = Math.min(380, rightCol - 700) + 'px';
+            }
 
             // Open windows in order (last one gets focus)
             openWindow('about');
-            openWindow('experience');
-            openWindow('building');
             openWindow('writing');
+            openWindow('building');
         }, 150);
     }
 })();
