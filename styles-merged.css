@@ -1563,6 +1563,18 @@ a.bento-card:hover::before {
 .card-office { grid-column: 2 / 3; grid-row: 1 / 2; background: linear-gradient(150deg, var(--teal), var(--teal-deep)); }
 .card-visionbort { grid-column: 1 / 2; grid-row: 2 / 3; background: linear-gradient(150deg, var(--amber), var(--amber-deep)); }
 .card-claude { grid-column: 2 / 3; grid-row: 2 / 3; background: linear-gradient(150deg, var(--coral), var(--coral-hover)); }
+.card-kevinos { background: linear-gradient(150deg, #7c5ce0, #5b3fc4); }
+
+/* Column-1 row-2 pair: Visionbort + KevinOS share the slot so the column
+   height balances against the taller Claude Plugins card */
+.bento-stack {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.bento-stack .bento-card { flex: 1; grid-column: auto; grid-row: auto; }
 
 .card-writing {
   grid-column: 3 / 4;
@@ -1625,6 +1637,7 @@ a.bento-card:hover::before {
 
 @media (max-width: 768px) {
   .bento { grid-template-columns: 1fr; }
+  .bento-stack { grid-column: 1 / -1; grid-row: auto; }
   .card-quietfeed, .card-visionbort, .card-claude, .card-office, .card-writing {
     grid-column: 1 / -1;
     grid-row: auto;
