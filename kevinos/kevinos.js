@@ -4291,7 +4291,17 @@ let kevinRecipes = [];
 
 async function loadKevinRecipes() {
     try {
-        const response = await fetch(RECIPES_MD_URL);
+        let response;
+        for (let attempt = 0; ; attempt++) {
+            try {
+                response = await fetch(RECIPES_MD_URL);
+                if (response.ok) break;
+                throw new Error('HTTP ' + response.status);
+            } catch (err) {
+                if (attempt >= 2) throw err;
+                await new Promise(r => setTimeout(r, 500 * (attempt + 1)));
+            }
+        }
         const md = await response.text();
         kevinRecipes = parseKevinRecipes(md);
         
@@ -5240,6 +5250,8 @@ const searchableItems = [
     // Proof of work
     { type: 'window', id: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
     { type: 'window', id: 'projects', icon: '📊', title: 'Projects', subtitle: 'projects/' },
+    { type: 'window', id: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
+    { type: 'window', id: 'writing', icon: '✍️', title: 'Writing', subtitle: 'writing/' },
     { type: 'window', id: 'skills', icon: '⚙️', title: 'Skills', subtitle: 'skills.config' },
     { type: 'window', id: 'recommendations', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
     // Fun/personality
@@ -5744,3 +5756,6 @@ window.openWindow = function(id) {
     }
     originalOpenWindow(id);
 };
+
+// Stop music if the user leaves the page
+window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} });

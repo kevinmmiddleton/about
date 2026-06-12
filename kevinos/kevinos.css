@@ -7552,3 +7552,14 @@ body {
 .kos-item-sub { color: var(--text-dim); font-size: 0.82rem; }
 .kos-browse-all { display: inline-block; margin-top: 14px; color: var(--blue); font-size: 0.9rem; text-decoration: none; }
 .kos-browse-all:hover { color: var(--blue-hover); text-decoration: underline; }
+
+/* Visually hidden, available to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
