@@ -15,8 +15,8 @@ tags:
 featured: false
 sort_order: null
 excerpt: An old colleague got laid off, shipped a personal site ten days after I sent him a starter kit, and took back his story online. So I turned the starter into a free plugin.
-cover_image: ''
-cover_alt: ''
+cover_image: /blog/images/personal-site-blog-cover.png
+cover_alt: 'Personal Site plugin banner: arcade-style pixel lettering reading PERSONAL SITE, with the flow Resume to Claude to Your Site'
 linkedin_url: ''
 ---
 
