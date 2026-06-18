@@ -1,7 +1,7 @@
 ---
 title: Everyone can build now. The fundamentals shouldn't change.
 slug: everyone-can-build-now
-status: draft
+status: published
 published_at: 2026-06-23
 updated_at: ''
 topic: Leadership
