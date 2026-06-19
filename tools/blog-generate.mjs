@@ -47,6 +47,8 @@ function inline(text) {
   return s;
 }
 const IMG_LINE = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/;
+// linked image: [![alt](src "title")](url) -> figure whose image is a link
+const IMG_LINK_LINE = /^\[!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)\]\(([^)\s]+)\)$/;
 
 function renderMarkdown(md='') {
   const lines = md.replace(/\r\n/g,'\n').split('\n');
@@ -68,6 +70,14 @@ function renderMarkdown(md='') {
       i++; // closing fence
       out.push(`<div class="prompt-block">${esc(buf.join('\n'))}</div>`);
       continue;
+    }
+    // linked image -> figure with the image wrapped in a link (check first;
+    // its pattern is a superset of the standalone image)
+    const iml = line.trim().match(IMG_LINK_LINE);
+    if (iml) {
+      const [, alt, src, cap, url] = iml;
+      out.push(`<figure>\n  <a href="${escAttr(url)}" target="_blank" rel="noopener noreferrer"><img src="${escAttr(src)}" alt="${escAttr(alt)}" loading="lazy"></a>${cap?`\n  <figcaption>${inline(cap)}</figcaption>`:''}\n</figure>`);
+      i++; continue;
     }
     // standalone image -> figure
     const im = line.trim().match(IMG_LINE);
@@ -113,7 +123,7 @@ function renderMarkdown(md='') {
     // paragraph (gather until blank / block start)
     const para = [];
     while (i < lines.length && lines[i].trim() !== '' && !lines[i].trim().startsWith('```')
-           && !/^(#{2,3})\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i]) && !/^>\s?/.test(lines[i]) && !lines[i].trim().match(IMG_LINE)) {
+           && !/^(#{2,3})\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i]) && !/^>\s?/.test(lines[i]) && !lines[i].trim().match(IMG_LINE) && !lines[i].trim().match(IMG_LINK_LINE)) {
       para.push(lines[i]); i++;
     }
     out.push(`<p>${inline(para.join(' '))}</p>`);
