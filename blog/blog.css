@@ -11,7 +11,8 @@
     padding: calc(80px + 2.5rem) 24px 2rem;
 }
 
-.article-eyebrow {
+.article-eyebrow,
+.eyebrow {
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -201,7 +202,7 @@ figcaption {
     color: var(--text-primary);
     margin-bottom: 12px;
 }
-.blog-index-header p { font-size: 18px; color: var(--text-secondary); max-width: 60ch; }
+.blog-index-header .subhead { font-size: 18px; color: var(--text-secondary); max-width: 60ch; }
 .blog-rss {
     display: inline-flex;
     align-items: center;
