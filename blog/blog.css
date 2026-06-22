@@ -23,12 +23,13 @@
 
 .article-title {
     font-family: var(--font-heading);
-    font-size: clamp(30px, 5vw, 46px);
+    font-size: clamp(30px, 5vw, 40px);
     line-height: 1.12;
     letter-spacing: -0.02em;
     font-weight: 800;
     color: var(--text-primary);
     margin-bottom: 18px;
+    text-wrap: balance;
 }
 
 .article-meta {
