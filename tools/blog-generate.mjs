@@ -6,7 +6,7 @@
 //
 // Usage:  node tools/blog-generate.mjs        (from the repo root)
 
-import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync, rmSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync, rmSync, statSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
@@ -429,16 +429,37 @@ function absolutize(html) {
   return html.replace(/(\b(?:src|href)=")(\/[^"]*)"/g, (_, p, path) => `${p}${SITE}${path}"`);
 }
 function cdata(s) { return `<![CDATA[${String(s).replace(/]]>/g, ']]]]><![CDATA[>')}]]>`; }
+const IMG_MIME = { png:'image/png', jpg:'image/jpeg', jpeg:'image/jpeg', gif:'image/gif', webp:'image/webp', avif:'image/avif' };
+// The post's hero image, resolved for the feed: absolute URL, mime type, and
+// real byte length. Without this readers guess by scraping the first <img> in
+// the body — which is often an inline screenshot, not the hero. SVG or missing
+// covers fall back to the branded raster (same rule as the OG tags).
+function feedImage(p) {
+  let path = p.cover_image;
+  if (!path || /\.svg(\?|#|$)/i.test(path)) path = '/images/kevin-middleton-og.png';
+  const abs = path.startsWith('http') ? path : `${SITE}${path.startsWith('/') ? '' : '/'}${path}`;
+  const ext = (abs.toLowerCase().replace(/[?#].*$/, '').match(/\.([a-z0-9]+)$/) || [])[1] || '';
+  const type = IMG_MIME[ext] || 'image/png';
+  let length = 0;
+  if (!path.startsWith('http')) {
+    try { length = statSync(resolve(ROOT, path.replace(/^\//, ''))).size; } catch {}
+  }
+  return { abs, type, length };
+}
 function writeFeed(posts) {
   const items = posts.slice(0, 20).map(p => {
     const url = `${SITE}/blog/${p.slug}/`;
     const html = absolutize(renderMarkdown(p.body_markdown));
+    const img = feedImage(p);
     return `    <item>
       <title>${esc(p.title)}</title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <pubDate>${rfc822(p.published_at)}</pubDate>
       <description>${esc(p.excerpt || '')}</description>
+      <enclosure url="${escAttr(img.abs)}" type="${img.type}" length="${img.length}"/>
+      <media:content url="${escAttr(img.abs)}" medium="image" type="${img.type}"/>
+      <media:thumbnail url="${escAttr(img.abs)}"/>
       <content:encoded>${cdata(html)}</content:encoded>
     </item>`;
   }).join('\n');
@@ -446,7 +467,7 @@ function writeFeed(posts) {
   // Derive lastBuildDate from it (not now()) so re-runs stay byte-identical.
   const built = posts.length ? posts[0].published_at : '';
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>Kevin Middleton</title>
     <link>${SITE}/blog/</link>

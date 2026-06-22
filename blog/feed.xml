@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>Kevin Middleton</title>
     <link>https://middleton.io/blog/</link>
@@ -13,6 +13,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/everyone-can-build-now/</guid>
       <pubDate>Tue, 23 Jun 2026 00:00:00 GMT</pubDate>
       <description>AI made everyone a builder. It didn't say who orchestrates them, or who validates and integrates all the prototypes.</description>
+      <enclosure url="https://middleton.io/blog/images/prototype-customer-problems.png" type="image/png" length="6025054"/>
+      <media:content url="https://middleton.io/blog/images/prototype-customer-problems.png" medium="image" type="image/png"/>
+      <media:thumbnail url="https://middleton.io/blog/images/prototype-customer-problems.png"/>
       <content:encoded><![CDATA[<p>In my career group last week we got into how AI is fundamentally changing organizations. AI is a new tool and while it can be used to accelerate outcomes, it shouldn't overwrite good process. Most of what I'm watching isn't organizations getting reinvented. It's organizations mistaking a tooling change for a process change, and loudly skipping the parts that were always the actual product work.</p>
 
 <p>Here's the distinction I think matters. What AI changed is real: who does the work, how fast a first version appears, and what that version looks like to someone watching.</p>
@@ -73,6 +76,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/one-page-you-own/</guid>
       <pubDate>Thu, 11 Jun 2026 00:00:00 GMT</pubDate>
       <description>An old colleague got laid off, shipped a personal site ten days after I sent him a starter kit, and took back his story online. So I turned the starter into a free plugin.</description>
+      <enclosure url="https://middleton.io/blog/images/personal-site-blog-cover.png" type="image/png" length="50034"/>
+      <media:content url="https://middleton.io/blog/images/personal-site-blog-cover.png" medium="image" type="image/png"/>
+      <media:thumbnail url="https://middleton.io/blog/images/personal-site-blog-cover.png"/>
       <content:encoded><![CDATA[<p>An old work colleague of mine got laid off at the start of May. He'd come to my office hours, and somewhere in that conversation I nudged him to build himself a personal site.</p>
 
 <p>He took some time to process the layoff, stewed on the idea, and came back with a better version of it than the one I pitched him: an interactive resume. Surface level at first glance, deeper wherever someone wants to click. A timeline, the skills, the major projects, maybe the personal stuff too. He'd been thinking about how he highlights himself, how he works, and what he's actually accomplished.</p>
@@ -127,6 +133,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/ai-is-researching-you/</guid>
       <pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate>
       <description>ChatGPT showed up in my site's referrer logs. Companies are worrying about how they appear in AI search. The same logic applies to many of us.</description>
+      <enclosure url="https://middleton.io/blog/images/janet-from-accounting.png" type="image/png" length="282933"/>
+      <media:content url="https://middleton.io/blog/images/janet-from-accounting.png" medium="image" type="image/png"/>
+      <media:thumbnail url="https://middleton.io/blog/images/janet-from-accounting.png"/>
       <content:encoded><![CDATA[<p>I track how people find my site. Occupational hazard. Lately something new showed up in the referrers: ChatGPT.</p>
 
 <p>That's not a click from someone who Googled me. That's someone, or something acting on their behalf, asking ChatGPT about me, getting an answer that included a link, and following it back.</p>
@@ -208,6 +217,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/twice-a-day/</guid>
       <pubDate>Mon, 08 Jun 2026 00:00:00 GMT</pubDate>
       <description>I check my inbox twice a day. Here's what a morning briefing from my AI assistant gave me back in a brutal job market.</description>
+      <enclosure url="https://middleton.io/blog/images/robot-assistant.png" type="image/png" length="167813"/>
+      <media:content url="https://middleton.io/blog/images/robot-assistant.png" medium="image" type="image/png"/>
+      <media:thumbnail url="https://middleton.io/blog/images/robot-assistant.png"/>
       <content:encoded><![CDATA[<p>I check my inbox twice a day. That's enough.</p>
 
 <p>Once at 8am, once at 6pm. It's the closest thing to a real digital detox I've done, and I'm doing it in the middle of the most competitive job market I've ever seen.</p>
@@ -282,6 +294,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/job-search-agent/</guid>
       <pubDate>Sat, 06 Jun 2026 00:00:00 GMT</pubDate>
       <description>Open-sourced a Claude Code plugin that turns Claude into your job search assistant. The accessible version of the system I built for myself, free on GitHub.</description>
+      <enclosure url="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png" type="image/png" length="59781"/>
+      <media:content url="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png" medium="image" type="image/png"/>
+      <media:thumbnail url="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png"/>
       <content:encoded><![CDATA[<p>I built an AI job-search system <a href="https://middleton.io/blog/ai-job-search-assistant/">for myself first</a>. A Mac Mini sitting in my office, scanning the boards twice a day, texting me only the roles worth a look, costing about a penny per run. I've written about how it works in the previous posts in this series.</p>
 
 <p>But the biggest thing that really bothered me was that most of the people who need automation like this either don't have the time or can't build it themselves.</p>
@@ -335,6 +350,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/build-with-claude/</guid>
       <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
       <description>No code, no IDE, just a Telegram message. A Mac at home runs Claude Code, and a free guide gets you the same setup.</description>
+      <enclosure url="https://middleton.io/blog/images/build-with-claude-cover.png" type="image/png" length="62089"/>
+      <media:content url="https://middleton.io/blog/images/build-with-claude-cover.png" medium="image" type="image/png"/>
+      <media:thumbnail url="https://middleton.io/blog/images/build-with-claude-cover.png"/>
       <content:encoded><![CDATA[<p>I build web apps from my phone. Real ones, with logins, databases, and payments, live on the internet. I describe what I want in a Telegram message, and a few minutes later there's a link in the chat.</p>
 
 <blockquote>
@@ -361,6 +379,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/ai-tools-non-technical/</guid>
       <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
       <description>I built a job scanner that runs while I sleep. I couldn't hand it to a smart, motivated friend. The gap between 'I want that' and 'I can do that' is still enormous.</description>
+      <enclosure url="https://middleton.io/blog/images/ai-tools-non-technical-cover.jpg" type="image/jpeg" length="192240"/>
+      <media:content url="https://middleton.io/blog/images/ai-tools-non-technical-cover.jpg" medium="image" type="image/jpeg"/>
+      <media:thumbnail url="https://middleton.io/blog/images/ai-tools-non-technical-cover.jpg"/>
       <content:encoded><![CDATA[<p>A friend recently asked if I'd help someone with "this little job scanner thing" I built.</p>
 
 <p>The "little job scanner thing" is a shell script running on a Mac Mini, two AI-powered classifiers, a Python parser, a bridge server, and an Apple Shortcuts automation that texts me job listings twice a day. I've written two articles about it. It took weeks to build and still requires manual maintenance.</p>
@@ -481,6 +502,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/ai-job-scanner-daily/</guid>
       <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
       <description>Two weeks running my AI job scanner. The field report: extraction failures, a temporary block, duplicate noise, and what actually held up.</description>
+      <enclosure url="https://middleton.io/blog/images/ai-job-scanner-daily-cover.jpg" type="image/jpeg" length="94381"/>
+      <media:content url="https://middleton.io/blog/images/ai-job-scanner-daily-cover.jpg" medium="image" type="image/jpeg"/>
+      <media:thumbnail url="https://middleton.io/blog/images/ai-job-scanner-daily-cover.jpg"/>
       <content:encoded><![CDATA[<p>My AI job scanner has been running for two weeks. It broke in interesting ways, and I learned things I didn't expect. Here's the field report.</p>
 
 <h2>When a Third of Your Results Are Noise</h2>
@@ -545,6 +569,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/owning-your-context/</guid>
       <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
       <description>I pay a service to scrub my data from hundreds of brokers. Then I hand an AI my taxes, my finances, my fears. Where should that personal context actually live?</description>
+      <enclosure url="https://middleton.io/blog/images/owning-your-context-cover.jpg" type="image/jpeg" length="59870"/>
+      <media:content url="https://middleton.io/blog/images/owning-your-context-cover.jpg" medium="image" type="image/jpeg"/>
+      <media:thumbnail url="https://middleton.io/blog/images/owning-your-context-cover.jpg"/>
       <content:encoded><![CDATA[<p>Data brokers are companies that collect and sell your personal information. Your address, income range, employment history, purchasing habits. Most people don't know they exist. Most people don't know they already have a profile on hundreds of them.</p>
 
 <p>I use a service called Incogni to send removal requests on my behalf. It's identified 223 brokers that had my data, sent 1,127 removal requests, and completed 1,041 of them. Hundreds of companies had built profiles on me, and I'm paying a service to scrub them one by one.</p>
@@ -594,6 +621,9 @@
       <guid isPermaLink="true">https://middleton.io/blog/ai-job-search-assistant/</guid>
       <pubDate>Mon, 23 Feb 2026 00:00:00 GMT</pubDate>
       <description>How a Mac Mini in my apartment scans LinkedIn twice a day, filters for roles that match my profile, and texts me the results, for about six cents a day.</description>
+      <enclosure url="https://middleton.io/blog/images/ai-job-search-assistant-cover.jpg" type="image/jpeg" length="83995"/>
+      <media:content url="https://middleton.io/blog/images/ai-job-search-assistant-cover.jpg" medium="image" type="image/jpeg"/>
+      <media:thumbnail url="https://middleton.io/blog/images/ai-job-search-assistant-cover.jpg"/>
       <content:encoded><![CDATA[<p>Most job seekers refresh LinkedIn like it's a slot machine. Open the app, scroll, scroll, scroll, close the app, feel vaguely bad about it. Repeat three hours later.</p>
 
 <p>I decided to stop doing that.</p>
