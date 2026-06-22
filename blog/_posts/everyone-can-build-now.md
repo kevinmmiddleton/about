@@ -39,6 +39,8 @@ My own guardrail against this is a ladder. When a problem lands on my desk, I wo
 
 ## Design becomes "the people who make it pretty"
 
+![Three hiring-software homepages side by side, Lever, Jobvite, and JazzHR. Despite being different brands, all three share a nearly identical layout: a centered pill label, a large two-line headline with one word in a brand color, a short subhead, a single call-to-action button, and a product screenshot below.](/blog/images/hiring-platforms-side-by-side.png "These sites share a parent company, but that shouldn't mean they share a homepage. They used to have distinct personalities. Now they look one-shotted out of the same prompt.")
+
 This is the trend I think is coming next, and it's going to have real consequences for organizations and users.
 
 Good design can look deceptively easy, but it's not. Great UX makes experiences engaging and usable. That distinction is easy to lose right now, because there's a real movement toward "design builders," designers who also ship front-end code. On its own, that's not necessarily a bad thing. It pushes on the boundary between design and engineering, and some of that pressure is healthy.
@@ -59,7 +61,7 @@ Leadership has always been frustrated with how long development takes. A lot of 
 
 Now a C-suite leader can (re-)build the thing themselves. Stand up a proof of concept, watch it "work," and reasonably ask why the "real" version took so long to build. The trap is that the prototype was never the hard part. The prototype skips integration, security, scale, the existing systems it has to support, and every workflow it touches. Proving an idea works in isolation and shipping it into a running business is a completely different beast. Congrats, you rebuilt part of the app, but what's your plan for the rest of our customers still using 90% of the now "legacy" app?
 
-[![Reddit r/SaaS post titled "The AI slop refactor wave is coming." A consultant describes picking up two repos from a non-technical exec who got bored of his AI-built apps: every file looks fine but the system doesn't hold together, with missing fundamentals and migrations bolted on as an afterthought. Their take: you can speed up the typing, but the systems thinking has to happen somewhere or it gets paid for later.](/blog/images/AI-slop-refactor-reddit.png "On r/SaaS: the AI 'builder' cleanup wave looks a lot like 2010's offshore hangover, and the rates will increase accordingly.")](https://www.reddit.com/r/SaaS/comments/1u6f84g/the_ai_slop_refactor_wave_is_coming_and_i_havent/)
+![Reddit r/SaaS post titled "The AI slop refactor wave is coming." A consultant describes picking up two repos from a non-technical exec who got bored of his AI-built apps: every file looks fine but the system doesn't hold together, with missing fundamentals and migrations bolted on as an afterthought. Their take: you can speed up the typing, but the systems thinking has to happen somewhere or it gets paid for later.](/blog/images/AI-slop-refactor-reddit.png "On r/SaaS: the AI 'builder' cleanup wave looks a lot like 2010's offshore hangover, and the rates will increase accordingly.")
 
 ## Where this goes next
 
