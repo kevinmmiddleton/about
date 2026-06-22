@@ -203,11 +203,19 @@ figcaption {
     margin-bottom: 12px;
 }
 .blog-index-header .subhead { font-size: 18px; color: var(--text-secondary); max-width: 60ch; }
+.blog-index-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+.blog-index-top .eyebrow { margin-bottom: 0; }
 .blog-rss {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    margin-top: 16px;
+    flex-shrink: 0;
     padding: 6px 14px;
     border: 1px solid var(--border, rgba(0,0,0,0.12));
     border-radius: 999px;
