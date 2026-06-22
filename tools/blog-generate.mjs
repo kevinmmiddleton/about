@@ -241,6 +241,7 @@ function articlePage(post, all) {
     <meta name="description" content="${escAttr(post.excerpt)}">
 
     <link rel="canonical" href="${url}">
+    <link rel="alternate" type="application/rss+xml" title="Kevin Middleton" href="${SITE}/blog/feed.xml">
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
@@ -331,6 +332,7 @@ function hubPage(posts) {
     <meta name="description" content="Kevin Middleton on building with AI, product, and the systems in between. Essays on AI workflows, automation, privacy, and where personal AI is headed.">
 
     <link rel="canonical" href="${SITE}/blog/">
+    <link rel="alternate" type="application/rss+xml" title="Kevin Middleton" href="${SITE}/blog/feed.xml">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -368,6 +370,10 @@ ${HEADER}
         <div class="blog-index-header">
             <h1>Blog</h1>
             <p>Essays on building with AI, product, and the systems in between. Long-form, hands-on, and occasionally about what broke.</p>
+            <a class="blog-rss" href="/blog/feed.xml">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+                Subscribe via RSS
+            </a>
         </div>
 
         <div class="post-list">
@@ -410,6 +416,47 @@ function updateLlms(posts) {
   const out = replaceRegion(txt, '<!-- BLOG:START -->', '<!-- BLOG:END -->', lines);
   if (out) { writeFileSync(f, out); return true; }
   console.warn('  ! llms.txt markers not found; skipped'); return false;
+}
+// RSS 2.0 feed at /blog/feed.xml — full-content (content:encoded), newest first.
+// Reader apps (and QuietFeed) subscribe to this. lastBuildDate is derived from
+// the newest post date, not now(), so re-runs stay byte-identical (idempotent).
+function rfc822(iso) { return iso ? new Date(iso).toUTCString() : ''; }
+// make relative src/href absolute so the content reads correctly inside a reader
+function absolutize(html) {
+  return html.replace(/(\b(?:src|href)=")(\/[^"]*)"/g, (_, p, path) => `${p}${SITE}${path}"`);
+}
+function cdata(s) { return `<![CDATA[${String(s).replace(/]]>/g, ']]]]><![CDATA[>')}]]>`; }
+function writeFeed(posts) {
+  const items = posts.slice(0, 20).map(p => {
+    const url = `${SITE}/blog/${p.slug}/`;
+    const html = absolutize(renderMarkdown(p.body_markdown));
+    return `    <item>
+      <title>${esc(p.title)}</title>
+      <link>${url}</link>
+      <guid isPermaLink="true">${url}</guid>
+      <pubDate>${rfc822(p.published_at)}</pubDate>
+      <description>${esc(p.excerpt || '')}</description>
+      <content:encoded>${cdata(html)}</content:encoded>
+    </item>`;
+  }).join('\n');
+  // posts arrives sorted newest-first, so the head post carries the latest date.
+  // Derive lastBuildDate from it (not now()) so re-runs stay byte-identical.
+  const built = posts.length ? posts[0].published_at : '';
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kevin Middleton</title>
+    <link>${SITE}/blog/</link>
+    <atom:link href="${SITE}/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Essays on building with AI, product, and the systems in between.</description>
+    <language>en-us</language>
+    <lastBuildDate>${rfc822(built)}</lastBuildDate>
+${items}
+  </channel>
+</rss>
+`;
+  writeFileSync(resolve(BLOG_DIR, 'feed.xml'), xml);
+  return true;
 }
 // Homepage "Writing on AI" card: featured posts first (newest first), topped up
 // with the newest non-featured, 4 total. Injected between WRITING markers in
@@ -498,6 +545,7 @@ async function main() {
   }
   updateSitemap(posts);
   updateLlms(posts);
+  if (writeFeed(posts)) console.log('  wrote blog/feed.xml');
   if (updateWriting(posts)) console.log('  updated index.htm writing card');
   if (updateKevinosWriting(posts)) console.log('  updated kevinos writing window');
   console.log('Done.');

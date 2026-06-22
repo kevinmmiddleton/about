@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kevin Middleton</title>
+    <link>https://middleton.io/blog/</link>
+    <atom:link href="https://middleton.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Essays on building with AI, product, and the systems in between.</description>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Everyone can build now. The fundamentals shouldn't change.</title>
+      <link>https://middleton.io/blog/everyone-can-build-now/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/everyone-can-build-now/</guid>
+      <pubDate>Tue, 23 Jun 2026 00:00:00 GMT</pubDate>
+      <description>AI made everyone a builder. It didn't say who orchestrates them, or who validates and integrates all the prototypes.</description>
+      <content:encoded><![CDATA[<p>In my career group last week we got into how AI is fundamentally changing organizations. AI is a new tool and while it can be used to accelerate outcomes, it shouldn't overwrite good process. Most of what I'm watching isn't organizations getting reinvented. It's organizations mistaking a tooling change for a process change, and loudly skipping the parts that were always the actual product work.</p>
+
+<p>Here's the distinction I think matters. What AI changed is real: who does the work, how fast a first version appears, and what that version looks like to someone watching.</p>
+
+<p>What it didn't change is the part that was always hard: rooting what you build in a real customer problem, ruthlessly prioritizing, making something usable, not just visible, coordinating across stakeholders and bringing the org along, making systems actually connect. Those didn't get easier. They got hidden behind a seemingly working prototype, which is a different thing entirely.</p>
+
+<p>I'm seeing the same move play out in four places.</p>
+
+<h2>Everyone can build now, so everyone skips to the solution</h2>
+
+<p>When anyone can stand something up in an afternoon, the temptation is to jump straight to the solution and work backwards to find a problem it solves. I get the appeal. Building feels like progress in a way that discovery never does.</p>
+
+<p>But the fundamentals of product didn't change because the tooling did. You still have to start from a customer need, not from the thing you already built. You still have to prioritize against everything else competing for attention. You still have to coordinate with the people who'll have to support, sell, and live with the thing. Rebrand the role as "builder" if you want, that's fine, the title was never the point, the discipline behind it is.</p>
+
+<p>My own guardrail against this is a ladder. When a problem lands on my desk, I work up from the cheapest fix before I reach for the expensive one. Can a process change solve it? A clearer workflow? Plain rules-based automation? AI only earns the top rung when the problem actually needs judgment, language, or pattern-finding the simpler tools can't provide. If a rules engine does the job, ship the rules engine. The tooling got faster, but starting from the problem instead of the thing you already built is still the work.</p>
+
+<h2>Design becomes "the people who make it pretty"</h2>
+
+<p>This is the trend I think is coming next, and it's going to have real consequences for organizations and users.</p>
+
+<p>Good design can look deceptively easy, but it's not. Great UX makes experiences engaging and usable. That distinction is easy to lose right now, because there's a real movement toward "design builders," designers who also ship front-end code. On its own, that's not necessarily a bad thing. It pushes on the boundary between design and engineering, and some of that pressure is healthy.</p>
+
+<p>But, I do worry that in blending the design and engineering, you may lose sharpness on both sides. And the other part I'd watch is what happens to full-time design once a B2B product locks in its core patterns. Once enough of the design system is built and live, a lot of the remaining work is seen as variations on a theme. It's not hard to imagine leadership looking at that and deciding ongoing design is a luxury, something you rent from an agency for the occasional big swing rather than staff full-time. If that happens, it's a boon for design agencies and a direct hit to in-house design. And the thing being cut won't be "making it pretty." It'll be the usability work that was always the real job, just less visible than the engineering bill next to it.</p>
+
+<h2>Tokenmaxxing was never the point</h2>
+
+<p>For a while the flex has been token usage. Leaderboards of who burned the most tokens. Someone in my career group mentioned spending a thousand dollars last month, and that figure was being treated as the measure of success. Not outcomes, not even outputs. Just tokens and dollars.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/meaningless-metrics.jpeg" alt="Black-and-white cartoon titled &quot;Museum of Meaningless Metrics.&quot; Four museum display cases, each with a placard: &quot;Lines of Code&quot; holds a towering stack of printouts, &quot;Story Points&quot; shows cards with the Fibonacci numbers 1, 2, 3, 5, 8, 13, 21, &quot;Pull Requests&quot; displays a tangle of nodes, checkmarks, and comment bubbles, and &quot;Tokens Spent&quot; sits on a black marble pedestal behind a velvet rope, showing a counter that reads 9,876,543,210. A docent in a suit gestures proudly toward the Tokens Spent case while two visitors look on. The cartoon's caption reads &quot;Our newest exhibit.&quot;" loading="lazy">
+  <figcaption>Tokens spent joins a long, proud line of things we counted instead of outcomes.</figcaption>
+</figure>
+
+<p>So of course the correction is already swinging the other way, toward restricting access to the frontier models and capping spend. Which tells you the original metric was wrong in both directions. The question was never how much you spent or how little. It's whether any of it produced an outcome worth having. Are we tokenmaxxing, or are we outcomemaxxing? Most orgs can't answer that yet, which is the actual problem.</p>
+
+<h2>The C-suite can build now, and that won't turn out well</h2>
+
+<p>Leadership has always been frustrated with how long development takes. A lot of that frustration came from the hard parts being invisible to them. Integration, edge cases, the slow work of making everything connect and keep working. That difficulty got obfuscated, so from the top it looked like product development was just "slow."</p>
+
+<p>Now a C-suite leader can (re-)build the thing themselves. Stand up a proof of concept, watch it "work," and reasonably ask why the "real" version took so long to build. The trap is that the prototype was never the hard part. The prototype skips integration, security, scale, the existing systems it has to support, and every workflow it touches. Proving an idea works in isolation and shipping it into a running business is a completely different beast. Congrats, you rebuilt part of the app, but what's your plan for the rest of our customers still using 90% of the now "legacy" app?</p>
+
+<figure>
+  <a href="https://www.reddit.com/r/SaaS/comments/1u6f84g/the_ai_slop_refactor_wave_is_coming_and_i_havent/" target="_blank" rel="noopener noreferrer"><img src="https://middleton.io/blog/images/AI-slop-refactor-reddit.png" alt="Reddit r/SaaS post titled &quot;The AI slop refactor wave is coming.&quot; A consultant describes picking up two repos from a non-technical exec who got bored of his AI-built apps: every file looks fine but the system doesn't hold together, with missing fundamentals and migrations bolted on as an afterthought. Their take: you can speed up the typing, but the systems thinking has to happen somewhere or it gets paid for later." loading="lazy"></a>
+  <figcaption>The bill, coming due in real time. A consultant on r/SaaS watching the cleanup market form around abandoned 'builder' apps.</figcaption>
+</figure>
+
+<h2>Where this goes next</h2>
+
+<p>After tokens and dollars, I think the next stop is justification-based usage: employees asked to defend their AI spend against company goals, maybe capped to specific models by level, maybe with the actual prompts and conversations surfaced in vendor reports for managers to audit. I can already picture the support-ticket template with a justification field.</p>
+
+<p>I am worried that organizations are about to unnecessarily rewrite the fundamentals without an eye on outcomes. We're already seeing reversals on AI firings, reductions in AI spend, and I think that the next conversation will be a pendulum swing back to first principles.</p>
+
+<p>I don't think organizations need to be fundamentally reinvented. The tools are new and the fundamentals didn't move. Customer problems, usability, outcomes, and the glue that holds it together were the work before, and they're still the work. The orgs that remember that will be fine. The ones redrawing the org chart around the tool are going to relearn it the expensive way.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>You should have a website. And you can build it in an hour with Claude.</title>
+      <link>https://middleton.io/blog/one-page-you-own/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/one-page-you-own/</guid>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 GMT</pubDate>
+      <description>An old colleague got laid off, shipped a personal site ten days after I sent him a starter kit, and took back his story online. So I turned the starter into a free plugin.</description>
+      <content:encoded><![CDATA[<p>An old work colleague of mine got laid off at the start of May. He'd come to my office hours, and somewhere in that conversation I nudged him to build himself a personal site.</p>
+
+<p>He took some time to process the layoff, stewed on the idea, and came back with a better version of it than the one I pitched him: an interactive resume. Surface level at first glance, deeper wherever someone wants to click. A timeline, the skills, the major projects, maybe the personal stuff too. He'd been thinking about how he highlights himself, how he works, and what he's actually accomplished.</p>
+
+<blockquote>
+  <p><strong>The starter kit from this story is now a free</strong> <a href="https://github.com/kevinmmiddleton/personal-site/releases/latest"><strong>Claude plugin you can install and run yourself</strong></a><strong>.</strong></p>
+</blockquote>
+
+<p>I told him yes, a hundred times yes. Here's how I use mine. It's the link at the top of my resume. It's the screen share in an interview when you can sense the interviewer is cool. And it's where your impact lives on after a company turns off your badge.</p>
+
+<p>Then I did the thing I do, and built him a starter, two days before my first vacation in three years.</p>
+
+<h2>Getting someone off the blank page</h2>
+
+<p>The zip I sent had three files: a skeleton site, a design rulebook, and a START-HERE guide with one prompt to paste into Claude. The note with it said: consider this a skeleton, not a finished thing. Every word, color, and layout is yours to change. It's just here to get you off the blank page.</p>
+
+<p>His reply the next morning: "THIS. IS. AMAZING."</p>
+
+<p>Ten days later, between interviews and family stuff, he shipped a rough draft. His headline, his framing, his projects, written like him rather than like a template. I sent back two pieces of mobile feedback, he fed them straight to Claude, and the next note from me was "ship it."</p>
+
+<p>What's amazing is that he now owns a little piece of the web that he controls, and with it his own narrative beyond LinkedIn.</p>
+
+<h2>Why a page you own is step one</h2>
+
+<p>I wrote recently about <a href="https://middleton.io/blog/ai-is-researching-you/">what happens when AI researches you</a>. Short version: people and their AI agents are already looking you up, and if you don't make the answer easy to find, they get a wrong or outdated one.</p>
+
+<p>A personal site is step one of the fix. It's the one place on the internet where you control every word of your story: what leads, what's emphasized, what a recruiter or an AI research pass finds when your name goes in. LinkedIn decides what gets seen on LinkedIn. Your page answers to you.</p>
+
+<p>The old excuse was real: building a site meant learning web development or paying someone. I hear the modern version every week in office hours, "I'm not technical enough to build it," and it's almost never true anymore. The blank page is the only real obstacle left. So I started handing people a way past it.</p>
+
+<h2>I turned the starter into a plugin</h2>
+
+<p>He's the third person I've helped get a site live, and three is about the number where you stop doing it one at a time. So I cleaned up the starter and packaged it as a free plugin for Claude, so (almost) anyone can build their own.</p>
+
+<p>It runs as a guided interview, about an hour end to end. Three questions about the site's purpose and audience. Your resume, pasted or dropped in. A quick voice check, including what you don't want to sound like. Ten color palettes pulled from 2026 forecasts, four headline fonts, your photo, your scheduling link. Claude generates the site, walks you through QA'ing every line against your real resume, then gets it live on GitHub Pages for free, with an optional $10 domain. It still takes a little comfort with following technical steps, but Claude walks you through pretty much all of the tough stuff.</p>
+
+<p>My favorite detail: it sets up free analytics with a small trick. The link you put on your resume carries a <code>?ref=resume</code> tag, so you can literally see when a recruiter clicked through from your resume.</p>
+
+<p>And one opinionated choice. Most AI-built sites have a tell: the same font, the same pill buttons, the same icon-card grids. The plugin ships a real editorial backbone and a do-not-use list that Claude reads before it writes anything, then runs a final check for the tells anyway. If your page looks like everyone else's page, you haven't reclaimed much.</p>
+
+<p>It's free. <a href="https://github.com/kevinmmiddleton/personal-site/releases/latest">Grab the plugin here</a>, drop it into Claude's Cowork mode, and say "build me a personal site."</p>
+
+<h2>An hour from now</h2>
+
+<p>His site is live. His story is solid, his proof is one click deep, and the next recruiter who looks him up finds the version he wants them to read, organized and laid out exactly how he wants them to experience it.</p>
+
+<p>That's available to you this afternoon. And if you want company while you build it, my office hours are right there: <a href="https://middleton.io/officehours">middleton.io/officehours</a>. Bring the "probably dumb" questions. Those are my favorite.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>AI is researching you. Make sure it gets your story right.</title>
+      <link>https://middleton.io/blog/ai-is-researching-you/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/ai-is-researching-you/</guid>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate>
+      <description>ChatGPT showed up in my site's referrer logs. Companies are worrying about how they appear in AI search. The same logic applies to many of us.</description>
+      <content:encoded><![CDATA[<p>I track how people find my site. Occupational hazard. Lately something new showed up in the referrers: ChatGPT.</p>
+
+<p>That's not a click from someone who Googled me. That's someone, or something acting on their behalf, asking ChatGPT about me, getting an answer that included a link, and following it back.</p>
+
+<p>I've been watching the same thing happen at scale. Companies are starting to worry about AEO (answer engine optimization) and GEO (generative engine optimization) the way they worry about SEO. It's the same idea for knowledge workers: when a customer or candidate looks us up, do they find the real story, or an incorrect or outdated version?</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/IMG_6088.jpeg" alt="Subway ad from AirOps that reads: ChatGPT has a favorite brand. Make sure it's yours. Own your narrative. Win AI Search." loading="lazy">
+  <figcaption>Saw this on the subway this week. Companies are buying train ads about winning AI search. Your name is in the same race, just without the ad budget.</figcaption>
+</figure>
+
+<p>I'm not a brand, but I'm a name recruiters, hiring managers, colleagues, and even old friends may occasionally look up. And increasingly, agents will be doing these searches on their behalf.</p>
+
+<p>Three goals: be less invisible in AI search, be consistent across the answers it gives, and lead with the work you'd want leading.</p>
+
+<h2>Why I started hosting my own blog</h2>
+
+<p>It's the same reason cereal brands fight for the eye-level shelf.</p>
+
+<p>Hosting my own blog means I control the metadata. Person and Article JSON-LD, OpenGraph tags, canonical URLs, robots.txt allowances for AI crawlers. None of that is exotic, but you don't get to set any of it on LinkedIn or Medium.</p>
+
+<p>It also means I expand my digital shelf space in a way I control. Every piece I publish on middleton.io is inventory that's mine, points to me, and teaches AI models who I am the way I want them taught. On someone else's platform, it's their shelf. They decide what gets seen. On mine, I decide what goes on the box.</p>
+
+<h2>The cold test</h2>
+
+<p>I ran it on myself. Asked Claude about me, cold, the way a stranger would.</p>
+
+<p>Mostly good news. It knew the real me: the actual work, the companies, what I've shipped. Specific, not generic.</p>
+
+<p>But there's another Kevin Middleton out there, an AI and automation strategist. In one of the runs, the AI blended us. It pulled bits of his career into mine. From the outside you wouldn't know which parts were wrong unless you knew me. You'd never call him a Full Stack PM, for instance. But to an AI doing a 30-second research pass, the difference isn't obvious.</p>
+
+<p>That's why consistency matters. If you don't make it easy for an agent to tell who you are, it'll make up a version of you and hand it to a stranger.</p>
+
+<h2>The fix isn't louder marketing</h2>
+
+<p>It's specific, results-first proof, published in places you control, with the same name and story across every place you're mentioned on the web.</p>
+
+<h2>What I'm doing about it (and what you can do too)</h2>
+
+<p>The builder version:</p>
+
+<ul>
+<li>Publishing long-form on middleton.io instead of LinkedIn</li>
+<li>Person and Article JSON-LD on the site, so AI crawlers have structured facts to anchor to</li>
+<li>An `llms.txt` pointing AI crawlers to the work I want them to find</li>
+</ul>
+
+<p>The lo-fi version, which is most of the work anyway:</p>
+
+<ul>
+<li>Same name, same title, same one-line description of what you do, across LinkedIn, GitHub, personal site, conference bios, podcast guest pages, anywhere your name shows up</li>
+<li>A portfolio updated and live at a URL you own when possible</li>
+<li>Profile photos consistent enough that an AI scraping them can tell they're the same person</li>
+<li>A bio that leads with the specific (role plus shipped outcomes), not the generic ("curious leader passionate about innovation")</li>
+<li>On any page you control, the basics: meta description, OpenGraph image, structured data if the platform supports it</li>
+</ul>
+
+<p>You don't need to host your own blog to do most of this. You do need to keep your story straight across the places your name lives.</p>
+
+<h2>Try it on yourself</h2>
+
+<p>Pick your AI of choice and run this. Use a logged-out or temporary chat, because many AIs remember their users, and you want the answer a stranger would get:</p>
+
+<p>``` What do you know about [full name] [job title]? I'm trying to figure out who they are professionally. ```</p>
+
+<p>Read what comes back the way a stranger would. Does it lead with your strengths, or blur you into a category? Does it know what you've shipped, or just where you've worked? Does it confuse you with anyone else?</p>
+
+<p>If the answer to any of those isn't what you'd want a recruiter to read, you have a project. Start tomorrow.</p>
+
+<h2>Make it a habit</h2>
+
+<p>Run this check every couple of months. The web moves, AI models retrain, old bios get pulled in, new content overshadows old, the doppelgänger gains followers. There's never a bad time to ask what an AI says about you.</p>
+
+<p>Then ask yourself what you want it to say six months from now. The work to get from there to here is the only marketing that compounds.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>How to Digitally Detox Right Now (Even If You're Job Searching)</title>
+      <link>https://middleton.io/blog/twice-a-day/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/twice-a-day/</guid>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 GMT</pubDate>
+      <description>I check my inbox twice a day. Here's what a morning briefing from my AI assistant gave me back in a brutal job market.</description>
+      <content:encoded><![CDATA[<p>I check my inbox twice a day. That's enough.</p>
+
+<p>Once at 8am, once at 6pm. It's the closest thing to a real digital detox I've done, and I'm doing it in the middle of the most competitive job market I've ever seen.</p>
+
+<blockquote>
+  <p><strong>A lighter, open-source version of this assistant is available as a</strong> <a href="https://middleton.io/blog/job-search-agent/"><strong>Claude Code plugin you can install yourself</strong></a><strong>.</strong></p>
+</blockquote>
+
+<p>I see this every week in office hours: people come in already at a higher state of stress than most. The competitive market is one thing. The 24/7 notification and inbox roulette on top of it is what wears people down. Anything I can do intentionally to dial that down is worth doing.</p>
+
+<p>For previous job searches, email, calendar, and LinkedIn ran my entire day. A reply would land and I'd context-switch. A rejection would land and I'd go to update my tracker and thank the recruiter. What I felt all day was whatever the inbox decided to send me, in the order it arrived.</p>
+
+<p>This time around, I built an AI assistant that handles the heavier parts of the process. It runs on a Mac Mini in my office, has its own email address and iMessage account, and texts me twice a day. It sends me a morning briefing, new job leads, a rejection summary, and my HomePod also reads it aloud while I start my day.</p>
+
+<p>The assistant is one-way: it texts me, I don't text it. A chat interface is on the table eventually, but the whole point right now is to interact with technology less, not more.</p>
+
+<h2>What 8am looks like</h2>
+
+<figure>
+  <img src="https://middleton.io/blog/images/twice-a-day-morning-briefing.jpg" alt="Screenshot of a Messages conversation with &quot;Assistant,&quot; showing the 8am morning briefing" loading="lazy">
+  <figcaption>The 8am text. Today's schedule, what's in my inbox, what to prep for, and an overnight rejection roundup at the bottom.</figcaption>
+</figure>
+
+<p>The 8am text breaks the day down. Today: A haircut, lunch with a friend, interview at 2pm. Inbox: nothing that needs a reply right now, but a round two is confirmed for Monday and one company sent a rejection. Prep: a link to my interview-guide doc to review at 1pm before the interview. And at the bottom, the heads-up: a couple of packages to grab, and three rejections that came in overnight.</p>
+
+<p>Before this, I would have absorbed those across the day as three separate cortisol hits the moment each email landed. With this, I read them once in context. Same information, a single cortisol hit.</p>
+
+<h2>What my job scan report looks like</h2>
+
+<figure>
+  <img src="https://middleton.io/blog/images/twice-a-day-job-scan.jpg" alt="Screenshot of a Messages conversation with &quot;Assistant,&quot; showing an 8am job scan" loading="lazy">
+  <figcaption>The 8am job scan (also repeats at 6pm). New roles that match what I'm actually looking for, with links for each job post.</figcaption>
+</figure>
+
+<p>The next text is the morning job scan (which also repeats at 6pm). A handful of new roles, surfaced from the boards, filtered for what I'm actually targeting, with a one-line note on why each one fits. Instead of opening LinkedIn and scrolling past hundreds of listings, I open the few that already match and apply to those midmorning.</p>
+
+<h2>What I get out of it</h2>
+
+<p>Two things:</p>
+
+<p>Doing projects like this keeps me sharp. Building a real product, even one with an audience of one, is the closest thing to PM work when I'm between roles. I'm shipping, debugging, deciding what's in scope, making it useful enough that I actually use it. This is what is keeping me ready for the next interview when I get asked, “What have you built with AI?"</p>
+
+<p>Then there's the calm. I get to choose when to engage instead of being summoned. I get to be present with friends and family, in interviews, in office hours, in my actual life outside of my inbox. The job search is still hard, it just isn't consuming <em>all</em> of my attention.</p>
+
+<h2><strong>24/7 isn't a job search strategy</strong></h2>
+
+<p>There's a version of job searching, and of modern work in general, that runs on the assumption that you have to be available all the time to be trying hard. Refresh the inbox, check your notifications, watch those connection requests, and ride every dopamine spike and cortisol drop in real time, so you can prove you're in the fight.</p>
+
+<p>I think the constant refreshing and checking is the thing that wears most people down, leaving them less energized for interviews, meetings, and follow-ups.</p>
+
+<p>That's how I landed on twice a day (8am, 6pm). Everything else, the assistant handles. I get to spend the rest of my time on what I actually want to be doing.</p>
+
+<h2>The goal is to touch technology less</h2>
+
+<p>Here's the part that feels backwards for someone who loves this stuff: I'm building all of this so I can interact with technology less, not more. The dream is a quick conversation with my assistant, the thing gets done, and I go live my life.</p>
+
+<p>I'm not all the way there. Some days, building the system is its own time sink. But the search already feels less like roulette and more like something I have a handle on, and that alone has been worth it.</p>
+
+<p>The point isn't the system. I show up better when I'm not bracing for the next notification. For my family, my friends, the interviews I'm in, and the work I actually want to be doing.</p>
+
+<p>If you're in the thick of a search and it's wearing you down, you don't have to build all of this.</p>
+
+<p>But you might be surprised how much lighter it feels to hand even one tedious piece to a system and never touch it again</p>
+
+<blockquote>
+  <p><strong>If you want a smaller starting point, the open-source version of this assistant is</strong> <a href="https://middleton.io/blog/job-search-agent/"><strong>a Claude Code plugin</strong></a> <strong>you can install yourself.</strong></p>
+</blockquote>]]></content:encoded>
+    </item>
+    <item>
+      <title>Need an AI recruiter that works for you? Try this one.</title>
+      <link>https://middleton.io/blog/job-search-agent/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/job-search-agent/</guid>
+      <pubDate>Sat, 06 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Open-sourced a Claude Code plugin that turns Claude into your job search assistant. The accessible version of the system I built for myself, free on GitHub.</description>
+      <content:encoded><![CDATA[<p>I built an AI job-search system <a href="https://middleton.io/blog/ai-job-search-assistant/">for myself first</a>. A Mac Mini sitting in my office, scanning the boards twice a day, texting me only the roles worth a look, costing about a penny per run. I've written about how it works in the previous posts in this series.</p>
+
+<p>But the biggest thing that really bothered me was that most of the people who need automation like this either don't have the time or can't build it themselves.</p>
+
+<p>A setup like mine takes a spare always-on machine, API keys, some patience with the command line, and time to debug when things break. Anyone hunting for a job already has none of those things. They've got rejection emails to triage, applications to send, recruiter pings to chase, and a low-grade hum of stress that doesn't turn off.</p>
+
+<p>So I started porting the useful parts of my personal setup into something anyone with Claude Code can install. Today it's live on <a href="https://github.com/kevinmmiddleton/job-search-agent">GitHub</a>, but you can download it directly here: <a href="https://github.com/kevinmmiddleton/job-search-agent/releases/download/v0.1.0/job-search-agent.plugin">job-search-agent.plugin</a></p>
+
+<p>It's open source and does the things you actually want a job-search assistant to do: scan job boards for roles that fit your career profile and goals, track your applications in a plain CSV you own, build interview guides from job descriptions. No always-on machine, no servers, no $200-a-month SaaS. Runs on whatever laptop you already have.</p>
+
+<h2>Two paths if you want to try it</h2>
+
+<ol>
+<li>Download <a href="https://github.com/kevinmmiddleton/job-search-agent/raw/main/job-search-agent.plugin"><code>job-search-agent.plugin</code></a> and open it with Cowork. That's the whole install.</li>
+<li>Or hand the <a href="https://github.com/kevinmmiddleton/job-search-agent">GitHub</a> link to Claude and ask it to help you get started. Building tools to install other tools is exactly what Claude is good at.</li>
+</ol>
+
+<p>If you fork it, improve it, or break it, tell me. Issues and PRs welcome.</p>
+
+<h2>How to use it</h2>
+
+<ul>
+<li>"Set up my job search" → onboarding + saved search</li>
+<li>"Scan for jobs" / "any new roles?" → on-demand scan against your saved search</li>
+<li>"I applied to X" / "what's in my pipeline?" → tracker</li>
+<li>"Prep me for my interview with [Company]" + paste the JD → interview guide</li>
+<li>"Can this run automatically?" → automation options</li>
+</ul>
+
+<h2>Why share it</h2>
+
+<p>A few things I keep coming back to from my own search:</p>
+
+<ul>
+<li>Whether you're qualified usually isn't the problem. You probably are.</li>
+<li>Applying early matters more than applying polished. In a crowded market, being one of the first 50 applicants beats being a perfectly tailored 200th.</li>
+<li>The constant LinkedIn-and-email roulette is its own tax. Every notification hijacks dopamine and cortisol, all day, every day. Most of what you find won't be relevant. Most of what's relevant won't respond.</li>
+</ul>
+
+<p>Automation doesn't fix the market. But it does pull the noise off your plate so the energy you have left can go to what actually moves the needle: writing better cover notes, prepping harder for interviews, talking to people who matter.</p>
+
+<h2>Why open</h2>
+
+<p>I've shared this with a handful of friends already. Putting it in public was the obvious next step. The alternative, keeping a useful tool in my own pocket, felt wrong. We should be sharing the things that make this part of life less brutal, not hoarding them.</p>
+
+<p>This is the first thing I've open-sourced from my personal job search system. Hopefully more will follow. It's the least I can do.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>I build web apps from my phone. Here's the whole setup.</title>
+      <link>https://middleton.io/blog/build-with-claude/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/build-with-claude/</guid>
+      <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+      <description>No code, no IDE, just a Telegram message. A Mac at home runs Claude Code, and a free guide gets you the same setup.</description>
+      <content:encoded><![CDATA[<p>I build web apps from my phone. Real ones, with logins, databases, and payments, live on the internet. I describe what I want in a Telegram message, and a few minutes later there's a link in the chat.</p>
+
+<blockquote>
+  <p><strong>The whole setup is a free guide and a</strong> <a href="https://github.com/kevinmmiddleton/build-with-claude"><strong>Cowork plugin you can install yourself</strong></a><strong>.</strong></p>
+</blockquote>
+
+<p>Here's the trick: there is no trick, just plumbing. A Mac at home runs Claude Code. Telegram is the remote control. A message goes from my phone to the Mac, Claude writes the code, pushes it to GitHub, and Vercel puts it on the internet. Supabase handles the database and logins, Stripe handles payments, Resend sends the emails. Everything runs on free tiers; the only real cost is the Claude subscription.</p>
+
+<p>I've been building this way for months. QuietFeed, my RSS reader, took shape largely from the couch and the train. Something looks off, I send another message. The app updates while I'm making dinner.</p>
+
+<h2>Get yours running</h2>
+
+<p>I wrote the whole thing up so you don't have to reverse-engineer mine. One command in Terminal installs everything, then the guide walks you through the rest a chapter at a time: the Telegram bot, the accounts, the first deploy. If you have Claude's Cowork mode, the plugin does the walking for you. Say "set me up to build with Claude from my phone" and follow along.</p>
+
+<p>What you actually need: any Mac that can stay on (the Mac is the brain; if it sleeps, your bot sleeps), a phone with Telegram, a Claude Pro or Max subscription, and curiosity. That last one is the real requirement.</p>
+
+<p>Everything's free on GitHub: <a href="https://github.com/kevinmmiddleton/build-with-claude">github.com/kevinmmiddleton/build-with-claude</a>.</p>
+
+<p>Happy building!</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>We're not building great AI tools for non-technical audiences (yet)</title>
+      <link>https://middleton.io/blog/ai-tools-non-technical/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/ai-tools-non-technical/</guid>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
+      <description>I built a job scanner that runs while I sleep. I couldn't hand it to a smart, motivated friend. The gap between 'I want that' and 'I can do that' is still enormous.</description>
+      <content:encoded><![CDATA[<p>A friend recently asked if I'd help someone with "this little job scanner thing" I built.</p>
+
+<p>The "little job scanner thing" is a shell script running on a Mac Mini, two AI-powered classifiers, a Python parser, a bridge server, and an Apple Shortcuts automation that texts me job listings twice a day. I've written two articles about it. It took weeks to build and still requires manual maintenance.</p>
+
+<p>But to everyone outside the bubble, it's a little scanner thing. And honestly? That's what it should be. A little thing that scans for you. It just isn't that simple... yet.</p>
+
+<h2>You Can't Just Hand This to Someone</h2>
+
+<p>A colleague connected me with a fellow job seeker who was "getting overwhelmed refreshing on LinkedIn." She thought I could help her set up something similar to what I'd built.</p>
+
+<p>My first question: "Does she have an always-on Mac and an iPhone?"</p>
+
+<p>That's when I realized how far this was from something I could hand to someone.</p>
+
+<p>I met with her and we talked about the job market, how to stay sane during a search, and then I pulled up my automation. I immediately knew I'd need to scale it way down. My full setup requires hardware she doesn't have, technical concepts she hasn't encountered, and ongoing maintenance that would become a second job.</p>
+
+<p>So I assigned homework instead: get a $20 Claude subscription, install the Chrome extension, and just play with it. Get comfortable talking to an AI. We'd build from there.</p>
+
+<p>To show her what was possible, I pointed Claude at my LinkedIn notification emails with a simple prompt: "Scan for LinkedIn emails, focus in on healthcare or adjacent roles, output direct URLs to interesting roles."</p>
+
+<p>It worked. Claude pulled back a categorized list of healthcare-adjacent roles with direct links, organized by company type. No scrolling through LinkedIn. No clicking into 40 listings. Just the ones that mattered, ready to review.</p>
+
+<p>But that "simple" demo took 100+ steps for Claude in Chrome (thankfully automated). And it only works when you're sitting at the computer, actively running it. My version runs while I sleep. Hers requires her to be there, with a browser open, every time.</p>
+
+<p>The gap between what I built and what most people can actually use is enormous. And she was motivated, smart, and actively looking for help. Imagine the gap for everyone else.</p>
+
+<h2>What It Actually Takes</h2>
+
+<p>I want to be specific about what my system requires, because I think people underestimate the stack.</p>
+
+<ul>
+<li><strong>Hardware:</strong> An always-on Mac Mini. Not a laptop that sleeps when you close it. A dedicated machine that runs 24/7.</li>
+<li><strong>Technical knowledge:</strong> Shell scripting. Knowing what an API key is and how to create one. Understanding browser cookies well enough to open developer tools, find a specific cookie value, and paste it into a config file. Knowing what "inspect element" means. Basic Python. Familiarity with cron-like scheduling.</li>
+<li><strong>Ongoing maintenance:</strong> LinkedIn changes its HTML structure without warning, so my CSS selectors break and I have to fix them. The login cookie expires every few weeks and I have to manually grab a new one. LinkedIn occasionally rate-limits the requests. The AI model sometimes misclassifies roles and I have to refine the prompt.</li>
+</ul>
+
+<p>Each one of those steps is a gate. Every gate filters out more people. By the time you get through all of them, you're left with a pretty small group: people who are both technical enough to build it and patient enough to maintain it.</p>
+
+<p>This is what "a little scanner thing" actually looks like under the hood.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/shell-script.jpg" alt="A code editor showing the shell script that powers the job scanner." loading="lazy">
+  <figcaption>This is what a little scanner thing actually looks like under the hood.</figcaption>
+</figure>
+
+<p>In my third article in this series, I wrote, "I would not call any of this production-ready. But it's perfectly serviceable for me, and that's the point. I don't need it to scale."</p>
+
+<p>I meant that. But I'm starting to think about what "scale" would actually look like.</p>
+
+<h2>Today's AI Tools: Almost, But Not Quite</h2>
+
+<p>Something is starting to emerge between "build it yourself in Terminal" and "just tell Jarvis what you want."</p>
+
+<p>Google recently launched Workspace Studio, which lets you build AI workflows visually: Step 1 is a schedule. Step 2 is "Ask Gemini" with a prompt. Step 3 is a notification via Google Chat or email. Three steps. No code. A friend set up a daily news briefing with it, and while the setup was easy, the results were underwhelming. The output wasn't much better than what you'd get scrolling a news site for 30 seconds. The tool worked. The result didn't.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/workspace-studio.jpg" alt="Google Workspace Studio showing a visual three-step AI workflow: a schedule trigger, an Ask Gemini step, and an email notification." loading="lazy">
+  <figcaption>Google Workspace Studio: three steps, no code, but the output still wasn't great.</figcaption>
+</figure>
+
+<p>That's the tension. Even when the setup is simple, you still need to write a good prompt, understand what you're connecting, and know what to ask for. That's approachable if you already think in workflows. It's opaque if you don't.</p>
+
+<p>Apple Shortcuts has a similar shape. You can build automations and even share them with other people, which is a step in the right direction. But have you ever tried to build a Shortcut from scratch? The interface is powerful but painful. It's built for power users who are willing to fight through it, not for people who just want their phone to do a thing.</p>
+
+<p>The model that keeps coming back to me is IFTTT. Years ago, IFTTT had this concept of "recipes": pre-built automations you could install with one click and then tweak to your needs. "If I get an email from this sender, save the attachment to Dropbox." One click. Done. You didn't have to understand the plumbing.</p>
+
+<p>Imagine that for AI workflows. A shared library where someone like me publishes "Job Scanner for PMs in NYC" and anyone can install it, change the job title and location, and just run it. No shell scripts. No cookies. No Mac Mini.</p>
+
+<p>We're not there yet. But the shape of it is starting to show up.</p>
+
+<h2>Who Gets Left Behind</h2>
+
+<p>I wrote a post recently about the AI knowledge gap: most people hear "AI" and think it means asking ChatGPT a question or using Gemini to make a fun image. They're not connecting it to what's actually possible. The AI conversation happening on LinkedIn is mostly people like me talking to other people like me.</p>
+
+<p>This article is the other side of that coin. Even if someone understood what was possible, could they actually build it?</p>
+
+<ul>
+<li>There's a <strong>knowledge gap</strong>: most people don't know what AI can do for them.</li>
+<li>There's a <strong>hardware gap</strong>: my workflow requires a dedicated computer running 24/7, and not everyone has that.</li>
+<li>There's a <strong>cost gap</strong>: a $20/month AI subscription is cheap to me. It's real money to a lot of people. API keys add up. Always-on hardware adds up.</li>
+<li>And there's a <strong>personalization gap</strong>: my system is built around my job search criteria, my skip list, my phone, my schedule. Even if I packaged it perfectly, someone else would need to customize every piece. Some workflows are universal (a daily news briefing works for anyone). A job search scanner with nuanced inclusion and exclusion rules is deeply personal.</li>
+</ul>
+
+<p>The tools are getting better. But they're getting better for people who already know how to use tools.</p>
+
+<h2>Where This Is Going</h2>
+
+<p>I keep coming back to the same image: the workshop scene in Iron Man. Tony Stark talks to Jarvis, tells it what he wants, and the system figures out the rest. No prompts. No variables. No workflow builder. Just: "Find me this. Do that. Let me know."</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/ironman-jarvis.jpg" alt="The workshop scene from Iron Man, with Tony Stark working alongside his AI assistant Jarvis." loading="lazy">
+  <figcaption>The workshop scene in Iron Man: Tony talks, Jarvis figures out the rest. We're not close yet.</figcaption>
+</figure>
+
+<p>This is the endgame (get it?). We're not close.</p>
+
+<p>That's where personal AI needs to go.</p>
+
+<p>Not "here's a visual workflow builder so you can connect Step 1 to Step 2." Not "here's a prompt template, just fill in the blanks." Full abstraction. You say "scan LinkedIn for product manager roles in New York and text me every morning." The AI figures out the schedule, the data source, the filtering, the notification. It handles the maintenance when something breaks. And maybe, when you get it working, you share it with a friend as easily as sending a link.</p>
+
+<p>In my second article, I wrote about wanting my personal AI context to live locally, on a device I own, encrypted and under my control. That vision connects here too. The fully abstracted personal AI of the future has to solve both problems: it has to be easy enough for anyone to use, and it has to be private enough that you trust it with your real life. (More on that: <a href="https://middleton.io/blog/owning-your-context/">Owning Your Context in the Age of Data Brokers</a>.)</p>
+
+<p>We're closer than we were a year ago. Apple is investing heavily in on-device AI. Local models are getting better fast. Visual workflow builders are starting to appear. But we're still building tools for builders.</p>
+
+<h2>Where We Are Now: The Awkward Middle</h2>
+
+<p>When I showed the simplified version of my setup, she could see the value immediately. The problem was never motivation or comprehension. The problem was the distance between "I want that" and "I can do that."</p>
+
+<p>I think about my colleague calling it a "little scanner thing." She wasn't being dismissive. She was describing what it should be. A little thing that scans for you. Simple. Helpful. Not requiring a computer science background to set up.</p>
+
+<p>We'll get there. The pieces are starting to come together. But right now, we're in the awkward middle: too advanced for most people, not advanced enough for it to not matter.</p>
+
+<p>The people building AI tools have a choice: keep building for each other, or start building for everyone. I know which one I'm hoping for.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>What Running an AI Job Scanner Daily Actually Looks Like</title>
+      <link>https://middleton.io/blog/ai-job-scanner-daily/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/ai-job-scanner-daily/</guid>
+      <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
+      <description>Two weeks running my AI job scanner. The field report: extraction failures, a temporary block, duplicate noise, and what actually held up.</description>
+      <content:encoded><![CDATA[<p>My AI job scanner has been running for two weeks. It broke in interesting ways, and I learned things I didn't expect. Here's the field report.</p>
+
+<h2>When a Third of Your Results Are Noise</h2>
+
+<p>The system was built to scan 60 LinkedIn job cards per run, twice a day. Each scan sends those listings to an AI model along with my preferences, my skip list, and a de-dupe file containing every role I've already applied to, skipped, or been rejected from.</p>
+
+<p>In the first week, that de-dupe file was about 5KB. Two weeks later, it hit 32KB. That's roughly 670 company/role pairs the model has to cross-reference against every scan. The full prompt payload grew from 47KB to 73KB in the same period. Still well within the model's limits, but it's a trajectory worth watching.</p>
+
+<p>The real problem wasn't size. It was accuracy.</p>
+
+<p>The AI model was supposed to match incoming jobs against my de-dupe list, but it's fuzzy matching at best. Same company, slightly different role title? Comes through as "new." Same role reposted with a fresh URL? Also "new." On one scan, I got 24 results and at least 8 were duplicates of roles I'd already seen or applied to.</p>
+
+<p>When a third of your results are noise, the system is creating work instead of saving it.</p>
+
+<h2>Don't Ask the AI to Do What Code Can Do Better</h2>
+
+<p>This was the key insight. URL matching is a perfect deterministic task. No interpretation needed. Either you've seen this exact URL before or you haven't.</p>
+
+<p>So I built a pre-filter. A file called <code>seen_urls.txt</code> stores every LinkedIn job URL the scanner has ever encountered. Before the AI model even sees the listings, a Python script strips out any URLs already in that file. After the scan, all new URLs get appended, whether they were included or excluded.</p>
+
+<p>The first scan with the pre-filter active processed 60 jobs and filtered zero, because the seed file only had 50 URLs from that morning. But every scan after that catches repeats instantly. No model needed, no fuzzy matching, no cost.</p>
+
+<p>And if every job in a scan is a repeat? The system short-circuits entirely. No API call. It just texts me "No new PM roles." Saves the API cost for that run, which isn't much per scan, but adds up over weeks.</p>
+
+<p>The lesson: if a task has a definitive right answer, don't make the AI guess. Use code for what code is good at and save the model for what actually requires judgment.</p>
+
+<h2>What Broke (and What's Still Annoying)</h2>
+
+<p>Any system that scrapes a website is one HTML change away from failing. Two weeks gave me a solid reminder of that.</p>
+
+<p>On February 17th, LinkedIn returned 1.4MB of HTML but zero job cards extracted. The HTML structure had shifted slightly and my CSS selectors didn't match anymore. The scan failed three times that morning before I caught it and adjusted the selectors. Straightforward fix, but a reminder that scraping is always borrowed time.</p>
+
+<p>Three days later, a morning scan got back 39 bytes. Not 39KB. 39 bytes. LinkedIn had either rate-limited or temporarily blocked the request entirely. The evening scan worked fine. Probably a temporary IP thing, but that morning's data was just gone.</p>
+
+<p>Both times, the system handled the failure correctly. It texted me that something was wrong instead of silently returning nothing. That distinction matters more than it sounds. Silence meaning failure, not success, was one of the best design decisions in the whole build.</p>
+
+<p>The most annoying ongoing task is authentication. LinkedIn doesn't offer a public job search API, so the scanner requires periodic manual re-authentication every few days. I built a macOS Shortcut to make it quick, about 30 seconds, but it's still manual. Everything else runs hands-off.</p>
+
+<p>The other recurring annoyance: LinkedIn's location filter doesn't do what you think it does. I search for "New York, New York" explicitly. LinkedIn still returns roles in Jersey City, Newark, sometimes Philadelphia-area postings. The AI catches most of these and excludes them, but some slip through. This isn't a bug in my system. It's a known behavior with LinkedIn's search. Worth knowing if you build something similar.</p>
+
+<h2>What's Working Well</h2>
+
+<p>The three-file system has held up. A Google Sheet acts as my master tracker (400+ rows and growing). A local text file handles de-dupe for the scanner. A markdown file serves as a staging area for new scan results. Three locations, manually synced, but the separation is intentional. The scanner never touches my master data. If the scanner breaks, my sheet is fine.</p>
+
+<p>The interview pipeline is real. Multiple active interviews came directly through roles this system surfaced. The scanner found the initial postings, I applied manually, and the pipeline grew from there. Speed matters here. The system finds newly posted roles within about 12 hours of posting, and recruiters can start reviewing applications within days. Getting in early can make a difference.</p>
+
+<p>And the economics still work. The AI classification costs about $0.06 per day. The second model I use for a different classification pass is still free. For a system that processes roughly 1,800 job cards across 30+ scans and maintains a 97% success rate post-stabilization, that's a pretty good deal.</p>
+
+<h2>The Honest Take</h2>
+
+<p>Systems like this aren't "set it and forget it." In two weeks, I dealt with extraction failures, a temporary block, duplicate noise, cookie refreshes, and location filter weirdness. That's real maintenance.</p>
+
+<p>But the maintenance is minutes per week, not hours per day. And the alternative is manually checking LinkedIn twice a day, doom scrolling through 60 listings, and hoping I don't miss something. The scanner is imperfect, but it's consistently better than doing it by hand.</p>
+
+<p>I would not call any of this production-ready. But it's perfectly serviceable for me, and that's the point. I don't need it to scale. I need it to work. For personal projects, AI is incredible at unblocking things that would've been stuck behind access to engineering resources. There's never been a better time for the value you get from these tools.</p>
+
+<p>I've been thinking a lot about the data that flows through this system and why I'm sending all of it to cloud APIs. More on that here: <a href="https://middleton.io/blog/owning-your-context/">I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</a></p>]]></content:encoded>
+    </item>
+    <item>
+      <title>I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</title>
+      <link>https://middleton.io/blog/owning-your-context/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/owning-your-context/</guid>
+      <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
+      <description>I pay a service to scrub my data from hundreds of brokers. Then I hand an AI my taxes, my finances, my fears. Where should that personal context actually live?</description>
+      <content:encoded><![CDATA[<p>Data brokers are companies that collect and sell your personal information. Your address, income range, employment history, purchasing habits. Most people don't know they exist. Most people don't know they already have a profile on hundreds of them.</p>
+
+<p>I use a service called Incogni to send removal requests on my behalf. It's identified 223 brokers that had my data, sent 1,127 removal requests, and completed 1,041 of them. Hundreds of companies had built profiles on me, and I'm paying a service to scrub them one by one.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/incogni-dashboard.jpg" alt="A data privacy dashboard showing 223 brokers covered, 1,127 removal requests sent, and 1,041 completed." loading="lazy">
+  <figcaption>My data privacy dashboard. 223 brokers found, 1,127 removal requests sent, 1,041 completed.</figcaption>
+</figure>
+
+<p>But every day, I send an AI all kinds of deeply specific and personal information about me in the name of personal automation. In the last month alone, I've used AI to prep my 2025 taxes, price out a move across town, edit personal essays, and workshop LinkedIn posts about my career. I've shared what I earn, what I'm afraid of, and what I'm not willing to settle for.</p>
+
+<p>That's more personal than anything those data brokers had. And I'm not unusual. Anyone using AI seriously is doing the same thing.</p>
+
+<p>If I care enough to pay Incogni to scrub my info from brokers, it follows that I'd want this even more personal context protected too. The question is where it lives.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/context-today-vs-future.jpg" alt="A two-panel diagram. Today: your context lives in the cloud, exposed to ads, data brokers, and third parties. The future: your context lives at home, with the cloud fetching info only as needed." loading="lazy">
+  <figcaption>Your personal context today, and where it should live tomorrow.</figcaption>
+</figure>
+
+<h2>Where I Think This Is Going</h2>
+
+<p>Apple is already investing heavily in on-device AI. I can see a near future where your personal context lives locally in your home, encrypted and under your control. A home device running a capable local model that handles your personal knowledge base. Nothing leaves your network unless you want it to.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/apple-home-hub.jpg" alt="A news article screenshot about Apple's upcoming home hub device with a robotic swiveling base." loading="lazy">
+  <figcaption>Apple's upcoming home hub. Now imagine your personal AI context living here, encrypted and local. (Image: MacRumors)</figcaption>
+</figure>
+
+<p>The infrastructure is already there. Tools like Ollama have made running local models accessible. The missing piece is model quality at smaller sizes, and that gap is closing fast. The quality jumps between model generations have been massive. Hardware costs are dropping every year. The machines capable of running personal AI workflows are getting cheaper and more powerful at the same time.</p>
+
+<p>I tested local models for my own workflow last fall. They couldn't handle the nuance I needed. But that gap is closing faster than most people realize. Microsoft's Phi-4, a 14B parameter model, is already outperforming GPT-4o on certain benchmarks. "Not yet" has a shorter shelf life than it used to.</p>
+
+<h2>Ownership, Control, Encryption</h2>
+
+<p>I already pay to scrub my data from hundreds of brokers because I believe that information is mine. The logical extension is wanting my AI context to stay mine too.</p>
+
+<p>Not because cloud APIs are bad. I use them daily and they work well. But because ownership matters. Control matters. Encryption you hold the keys to matters. And as AI assistants get more personal, as we start trusting them with the things we wouldn't share anywhere else, where that data lives becomes a real question.</p>
+
+<p>The day a model I can run at home handles the work I currently send to the cloud, the whole thing comes home.</p>
+
+<p>Your personal context is yours. It should stay yours.</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To</title>
+      <link>https://middleton.io/blog/ai-job-search-assistant/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/ai-job-search-assistant/</guid>
+      <pubDate>Mon, 23 Feb 2026 00:00:00 GMT</pubDate>
+      <description>How a Mac Mini in my apartment scans LinkedIn twice a day, filters for roles that match my profile, and texts me the results, for about six cents a day.</description>
+      <content:encoded><![CDATA[<p>Most job seekers refresh LinkedIn like it's a slot machine. Open the app, scroll, scroll, scroll, close the app, feel vaguely bad about it. Repeat three hours later.</p>
+
+<p>I decided to stop doing that.</p>
+
+<p>Instead, I built a system that scans LinkedIn twice a day, filters for roles that match my profile, and texts me the results. Just a text that says "here are 4 new PM roles" or "nothing new, scan ran clean." No refreshing. No doom-scrolling. And after a few weeks of optimizing, it costs $0/month to run.</p>
+
+<p>Here's how it works, what I learned testing five different AI models, and a prompt you can copy to try this yourself in 5 minutes.</p>
+
+<h2>The Problem</h2>
+
+<p>Postings fill fast. A role that goes up at 9am might have 200 applicants by 5pm. If you're only checking once a day, you're already behind.</p>
+
+<p>A friend of mine manually checks LinkedIn three times a day on a schedule. He inspired me to automate this, because the thought of doing that manually wasn't something that exactly thrilled me.</p>
+
+<h2>How It Works</h2>
+
+<p>My Mac Mini runs a script twice a day (8am and 6pm). The whole pipeline: the Mac Mini fires on schedule, <code>curl</code> fetches LinkedIn with a 12-hour time filter, Python strips the HTML and extracts the job data, an AI model classifies each role as INCLUDE or EXCLUDE, and a bridge server hands the results to Apple Shortcuts, which texts me over iMessage. (That last hop is a pattern from u/ai_brews on r/mac.)</p>
+
+<p>New roles get saved to a file. If there's nothing new, it still texts me so I know it ran. Silence means something broke.</p>
+
+<p>One gotcha: LinkedIn doesn't offer an API for job search, so the script uses <code>curl</code> with a valid LinkedIn login cookie. That cookie expires periodically, so you need to refresh it by grabbing a new one from your browser every few weeks. The script also checks whether LinkedIn returned a logged-out page, so if the cookie goes stale, the scan tells me instead of silently returning garbage data.</p>
+
+<p>The key ingredient is a LinkedIn URL trick most people don't know about. LinkedIn's search URL accepts a parameter called <code>f_TPR</code> that filters by time posted, in seconds. <code>f_TPR=r43200</code> means "posted in the last 12 hours." Two scans a day with a 12-hour window gives full 24-hour coverage:</p>
+
+<div class="prompt-block">https://www.linkedin.com/jobs/search/?f_TPR=r43200&amp;keywords=product%20manager&amp;location=New%20York&amp;f_E=4%2C5%2C6&amp;sortBy=DD</div>
+
+<p>You can customize the keywords, location, and experience level for any role. The <code>f_TPR</code> parameter is the magic.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/shortcuts-automation.jpg" alt="Apple Shortcuts automation list showing two scheduled Run Shell Script actions: one at 8:00 AM daily and one at 6:00 PM daily." loading="lazy">
+  <figcaption>Two scans a day, triggered by Apple Shortcuts at 8am and 6pm. I don't open LinkedIn. It comes to me.</figcaption>
+</figure>
+
+<figure>
+  <img src="https://middleton.io/blog/images/linkedin-search.jpg" alt="LinkedIn job search results for product manager roles in New York, filtered to the last 24 hours and sorted by most recent." loading="lazy">
+  <figcaption>What my agent sees every morning. New product manager roles in New York, filtered to the last 12 hours and sorted by most recent.</figcaption>
+</figure>
+
+<figure>
+  <img src="https://middleton.io/blog/images/imessage-scan.jpg" alt="An iMessage from the job scan listing eight new product manager roles with clickable links." loading="lazy">
+  <figcaption>A morning text from my job scan. Eight new roles, clickable links, no scrolling required.</figcaption>
+</figure>
+
+<h2>Getting the Cost to Zero</h2>
+
+<p>The first version of this system used an expensive AI model and sent it roughly 300KB of data per scan: raw HTML, navigation junk, CSS, historical notes the scan didn't need. It worked, but it burned through API credits.</p>
+
+<p>After a few rounds of cutting, I got each scan down to about 20KB of actual job data and switched to Anthropic's smallest model, Haiku. Cost went from dollars per day to about six cents. Not six cents per scan. Six cents per day.</p>
+
+<p>But I wanted to see if I could get it to zero.</p>
+
+<h2>The Model Experiment</h2>
+
+<p>I installed Ollama, which runs open-source AI models locally, and tested five models on the same LinkedIn scan.</p>
+
+<ul>
+<li><strong>Qwen 2.5 14B</strong> timed out. Too large for my hardware.</li>
+<li><strong>Qwen 2.5 7B</strong> worked, but the one role it found was a coding bootcamp posting. It could follow the output format but couldn't tell the difference between "Product Manager" and "not a Product Manager."</li>
+<li><strong>Gemma 2 9B</strong> completely ignored the instructions and gave me career coaching advice. I asked it to be a filter and it decided to be a life coach.</li>
+<li><strong>Llama 3.1 8B</strong> followed the format perfectly but excluded every single job, including legitimate roles at companies I'd never applied to. The reason for every exclusion? "Skip list." It couldn't distinguish between "this company is hard-blocked" and "exclude for a different reason." Right format, wrong answers.</li>
+<li><strong>Mistral 7B</strong> had the opposite problem. It included everything with "Manager" in the title. Accountants. Catering supervisors. Sweater sales reps.</li>
+</ul>
+
+<p>The pattern: small models can follow a structured output format, but they can't do nuanced classification. My filter has real exceptions (ML PM roles are excluded, but AI tooling PM roles are fine; banks are good, but trading product PM roles are not). That's too much reasoning for a 7B model. I uninstalled Ollama and got 25GB of disk space back.</p>
+
+<p>Then I tried Gemini. Google's Gemini Flash has a free API tier. Not "free trial" free. Free as in no billing required. The first test: it correctly classified every single job. Accurate exclusion reasons. Not one mistake.</p>
+
+<p>So now I'm running both side by side: Haiku at six cents a day, Gemini at zero. Both produce accurate results. The whole system costs less per month than a single cup of coffee, and half of it is literally free.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/cost-dashboard.jpg" alt="Anthropic API cost dashboard showing a total token cost of $1.94 over 30 days, with a daily cost of about six cents for Claude Haiku." loading="lazy">
+  <figcaption>I got my job agent down to six (6!) cents per day.</figcaption>
+</figure>
+
+<h2>What Broke Along the Way</h2>
+
+<p>I want to be honest: I didn't know how to fix any of these. I'm a product manager, not a systems engineer. Claude (Anthropic's AI assistant) walked me through every one, and actually wrote all of the code.</p>
+
+<p><strong>Claude diagnosed its own auth problem.</strong> Claude Code uses OAuth through the macOS Keychain, which requires a UI. That doesn't exist at 8am when nobody's at the computer. Claude figured out its own authentication mechanism was the problem and told me to create an API key instead. There's something funny about an AI diagnosing why it can't authenticate itself.</p>
+
+<p><strong>Local models hallucinated URLs.</strong> The Ollama models fabricated LinkedIn job URLs. Completely made-up sequential IDs that looked real but went nowhere. The fix was architectural: Python extracts the real URLs, the model only decides INCLUDE or EXCLUDE by job number, and the model never touches a URL. This made the whole pipeline more reliable regardless of which model does the filtering.</p>
+
+<p><strong>Silent failures everywhere.</strong> Most of the problems I hit produced zero error output. The automation just... didn't run, or ran and produced garbage. The single best decision was making the scan text me even when there are no new roles. If I don't get a text, I know something broke.</p>
+
+<h2>Try It Yourself</h2>
+
+<p>You don't need a Mac Mini or any code. Here's a prompt you can paste into Claude (or any AI assistant) right now:</p>
+
+<div class="prompt-block">I want you to be my job search assistant. Here's my profile:
+
+Role: [your target title, e.g., "Senior Software Engineer"]
+Level: [e.g., "Senior, Staff, Principal"]
+Location: [e.g., "NYC or Remote US"]
+Min compensation: [e.g., "$180K base"]
+Companies to skip: [list any]
+
+Here's what I need you to do:
+
+1. Open this LinkedIn URL and find new postings that match my profile:
+https://www.linkedin.com/jobs/search/?f_TPR=r43200&amp;keywords=[YOUR KEYWORDS]&amp;location=[YOUR LOCATION]&amp;f_E=4%2C5%2C6&amp;sortBy=DD
+
+2. Skip staffing agencies, roles below my level, and companies on my skip list.
+
+3. For each match, give me:
+Company | Role | Comp (if listed) | Location | URL
+
+If there's nothing new, say "no new roles."</div>
+
+<p>Five minutes. If you want the full automated setup or the bridge server code, drop a comment or DM me.</p>]]></content:encoded>
+    </item>
+  </channel>
+</rss>
