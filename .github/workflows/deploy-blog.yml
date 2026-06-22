@@ -12,6 +12,7 @@ on:
     branches: [main]
     paths:
       - 'blog/_posts/**'
+      - 'blog/images/**'
       - 'tools/blog-generate.mjs'
       - 'package.json'
       - 'package-lock.json'

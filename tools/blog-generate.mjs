@@ -6,7 +6,7 @@
 //
 // Usage:  node tools/blog-generate.mjs        (from the repo root)
 
-import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync, rmSync, statSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync, rmSync, statSync, copyFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
@@ -522,6 +522,54 @@ function updateKevinosWriting(posts) {
   console.warn('  ! kevinos KEVINOS-WRITING markers not found; skipped'); return false;
 }
 
+// ---------- image optimization ----------
+// Keep full-size originals in the repo (blog/images/_originals/), serve resized
+// copies from blog/images/. An image is optimized only when it's BOTH wide
+// (> MAX_IMG_W) AND heavy (> MAX_IMG_BYTES): heavy is the real cost, and "wide
+// too" guarantees resizing has room to actually shrink it — so the result is
+// always smaller and <= MAX_IMG_W, which means re-runs skip it (idempotent) and
+// CI/Linux and a local Mac never fight over bytes. A small-but-wide graphic
+// (e.g. a 60KB banner) is left untouched, so we never bloat an already-lean file.
+// A re-upload (fresh heavy+wide file at the same name) re-triggers and refreshes
+// its original. As a final guard the resized copy is only adopted if it's
+// genuinely smaller. Format is preserved so a cover_image / inline ref never
+// breaks. Resilient: if sharp is missing, optimization is skipped and the blog
+// still publishes.
+const MAX_IMG_W = 1600;
+const MAX_IMG_BYTES = 500 * 1024;
+const IMG_DIR = resolve(BLOG_DIR, 'images');
+const IMG_ORIGINALS = resolve(IMG_DIR, '_originals');
+async function optimizeImages() {
+  if (!existsSync(IMG_DIR)) return;
+  let sharp;
+  try { sharp = (await import('sharp')).default; }
+  catch { console.warn('  ! sharp not installed; skipping image optimization'); return; }
+  let changed = 0;
+  for (const name of readdirSync(IMG_DIR)) {
+    if (!/\.(png|jpe?g)$/i.test(name)) continue; // skips _originals/ (a dir) too
+    const file = resolve(IMG_DIR, name);
+    const bytes = statSync(file).size;
+    if (bytes <= MAX_IMG_BYTES) continue; // already lean -> leave it (idempotent)
+    let width;
+    try { ({ width } = await sharp(file).metadata()); } catch { continue; }
+    if (!width || width <= MAX_IMG_W) continue; // heavy but not wide -> nothing safe to trim
+    // resize + recompress, keeping the same format/extension
+    const ext = name.toLowerCase().match(/\.(png|jpe?g)$/)[1];
+    const pipe = sharp(file).resize({ width: MAX_IMG_W, withoutEnlargement: true });
+    const buf = ext === 'png'
+      ? await pipe.png({ compressionLevel: 9 }).toBuffer()
+      : await pipe.jpeg({ quality: 82, mozjpeg: true }).toBuffer();
+    if (buf.length >= bytes) continue; // re-encode didn't help -> don't bloat it
+    // preserve (or refresh, on re-upload) the full-size original, then serve the smaller copy
+    mkdirSync(IMG_ORIGINALS, { recursive: true });
+    copyFileSync(file, resolve(IMG_ORIGINALS, name));
+    writeFileSync(file, buf);
+    changed++;
+    console.log(`  optimized blog/images/${name} (${width}px/${Math.round(bytes/1024)}KB -> ${MAX_IMG_W}px/${Math.round(buf.length/1024)}KB; original kept in _originals/)`);
+  }
+  if (!changed) console.log('  images: all web-sized, nothing to optimize');
+}
+
 // ---------- load posts from markdown (blog/_posts/*.md) ----------
 // Source of truth is markdown-in-repo (edited via Sveltia CMS at /admin).
 // Slug = frontmatter `slug` field (falls back to filename for older posts).
@@ -538,6 +586,7 @@ function loadPosts() {
 
 // ---------- main ----------
 async function main() {
+  await optimizeImages(); // resize oversized images before anything reads their size
   const all = loadPosts();
   const skipped = all.filter(p => p.status === 'published' && !p.published_at);
   for (const p of skipped) console.warn(`  ! SKIPPED "${p.slug}": status=published but published_at is empty — set a date to publish.`);
