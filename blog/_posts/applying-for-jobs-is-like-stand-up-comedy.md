@@ -46,7 +46,9 @@ That's the lens I'd use on most job-search advice going around right now, becaus
 
 I once had a hiring manager tell me, on video, to my face, that she had so many strong options that it would be hard to pick me, even though I had a strong background, because I didn't have direct experience with their SEO tooling (this is very easy to pick up). I personally view that as a miss on their part, especially given how quickly I get up to speed on new concepts and verticals. But c'est la vie. It really is what it is in those moments, and the only useful move is on to the next.
 
-**You won't win by arguing with a heckler**. You finish the set and you book the next one.
+**You won't win by arguing with a heckler**. You finish the set and you book the next one. 
+
+Some hecklers you can see coming. "So why did you leave?" is a big one right now, and it's easy to let it swallow half the call. Don't. The market's been rough and short stints are everywhere, so a calm, crisp "that was a layoff" beats a long defensive answer every time. Name it, then steer back to the impact you had while you were there.
 
 **Sometimes they don't see the fit, even when it's obvious**. I've been a really strong fit for roles and still gotten the no. I've applied to roles that felt like I wrote the job descriptions myself. Early on in your interviewing process, that messes with your head. But the takeaway isn't that you're not good. It's that there are a lot of talented people looking right now, and plenty of them are great fits too. The math is brutal. The verdict on you isn't.
 
