@@ -14,7 +14,7 @@ tags:
   - Resilience
 featured: false
 sort_order: null
-excerpt: A lot of the standard job-search advice is bunk, and the rest is easier to follow if you treat the whole thing like an open mic. Go up rusty, test your material, learn to handle a heckler.
+excerpt: A lot of the standard job search advice is bunk, and the rest is easier to follow if you treat the whole thing like an open mic. Go up rusty, test your material, learn to handle hecklers.
 cover_image: /blog/images/applying-for-jobs-is-like-stand-up-comedy.png
 cover_alt: ''
 linkedin_url: ''
@@ -30,13 +30,13 @@ That's the lens I'd use on most job-search advice going around right now, becaus
 
 **"Don't apply to everything."** I agree with that one.
 
-**But being hyper-selective won't improve your resume response rate, not in this market, no matter how often some recruiters say so.** Being precise about fit is good. Whittling yourself down to five perfect roles and waiting on them is just sitting out the open mic because you're not sure the room is right. You need the reps more than you need the perfect room.
+**But being hyper-selective won't improve your resume response rate, not in this market, no matter how often some recruiters say so.** Being precise about fit is good. Whittling yourself down to five perfect roles and waiting for them is like skipping an open mic until the room feels right (it'll never feel right). You need the reps more than you need the perfect room.
 
-**To put it plainly**: apply where you fit at least 80% of the criteria. Depending on where you are in your career, that can be double digits a week. You're competing, so compete. Put yourself out there.
+**To put it plainly**: apply where you fit at least 80% of the criteria. Depending on where you are in your career, that can be double-digit applications per week. You're competing, so compete. Put yourself out there.
 
-**This filter helps more than you might think**: know what you _don't_ want. It's often a sharper screen than knowing what you do. When a role that hits your hard nos shows up, you bypass it in two seconds instead of agonizing, which keeps your reps pointed at jobs you'd actually take. That must-not list is straight out of the Mnookin Two-Pager in [Never Search Alone](https://www.neversearchalone.org/) (where I found my career group). And saying a role isn't for you is your own small form of rejection. Saying no sometimes feels _great_.
+**And this filter helps more than you might think**: know what you _don't_ want. It's often a sharper screen than knowing what you do. When a role that hits your hard nos shows up, you bypass it in two seconds instead of agonizing, which keeps your reps pointed at jobs you'd actually take. That must-not list is straight out of the Mnookin Two-Pager in [Never Search Alone](https://www.neversearchalone.org/) (where I found my career group). And saying a role isn't for you is your own small form of rejection. Saying no sometimes feels _great_.
 
-**The other bad advice here is about sequencing your applications.** People will tell you to apply to your B and C tier companies first to "warm up," then hit your A tier once you're polished. The problem is you don't control their timing. The A-tier role might close before you ever get to it. You have no idea when a req opens, when it fills, or when a hiring manager loses budget.
+**Sequencing your applications is dated advice, don't do it.** People will tell you to apply to your B and C tier companies first to "warm up," then hit your A tier once you're polished. The problem is you don't control the timing. The A-tier role might close before you ever get to it. You have no idea when a req opens, when it fills, or when a hiring manager loses budget.
 
 **My advice is simpler**: apply early and hope for the best. Get your material in front of the room while the room is still there.
 
