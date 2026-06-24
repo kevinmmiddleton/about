@@ -37,6 +37,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; col
 }
 
 .card {
+  position: relative;
   display: block;
   background: white;
   border: 1px solid #e2e8f0;
@@ -48,6 +49,22 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; col
 }
 .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
 
+.card-logo {
+  float: right;
+  height: 30px;
+  max-width: 130px;
+  object-fit: contain;
+  object-position: right top;
+  margin: 2px 0 16px 24px;
+}
+/* white knockout logos sit on a brand-color tile so they're visible */
+.card-logo.tile {
+  height: 38px;
+  padding: 8px 11px;
+  background: #112337;
+  border-radius: 7px;
+  box-sizing: border-box;
+}
 .card-label {
   font-size: 11px;
   font-weight: 600;
@@ -113,12 +130,13 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; col
 
 <div class="header">
   <h1>Prototypes</h1>
-  <p>Work samples built for real conversations.</p>
+  <p>Product ideas I built instead of just pitching them.</p>
   <p style="margin-top: 8px;"><a href="https://middleton.io/">Back to Portfolio</a></p>
 </div>
 
 <div class="grid">
   <a href="amex/" class="card">
+    <img class="card-logo" src="logos/amex.svg" alt="American Express">
     <div class="card-label">American Express Digital Labs</div>
     <h2>Resy x AI Agents</h2>
     <p>Customer journey mapped to API endpoints, then to MCP server tools for AI agent-facilitated dining experiences. Includes guardrails, governance, and the agentic roadmap.</p>
@@ -126,24 +144,25 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; col
   </a>
 
   <a href="baldor/" class="card">
+    <img class="card-logo" src="logos/baldor.png" alt="Baldor Specialty Foods">
     <div class="card-label">Baldor Specialty Foods</div>
     <h2>Growth Experiments</h2>
-    <p>Interactive React prototype exploring discovery, personalization, and seasonal merchandising for a B2B food distributor.</p>
+    <p>Interactive prototype exploring discovery, personalization, and seasonal merchandising for a B2B food distributor.</p>
     <div class="card-tags"><span class="card-tag">Growth</span><span class="card-tag">B2B</span></div>
   </a>
 
   <a href="sa/" class="card">
-    <div class="card-label">SA</div>
+    <img class="card-logo tile" src="logos/success-academy.svg" alt="Success Academy">
     <h2>Website Improvement Concepts</h2>
     <p>Annotated mockups and concept pages for website redesign, with technical and product callouts.</p>
     <div class="card-tags"><span class="card-tag">User Journey</span><span class="card-tag">UX</span><span class="card-tag">Platform Consolidation</span></div>
   </a>
 
   <a href="hvac/" class="card">
-    <div class="card-label">HVAC.com</div>
-    <h2>Product Prototype</h2>
-    <p>Interactive product prototype for HVAC services platform.</p>
-    <div class="card-tags"><span class="card-tag">User Journey</span><span class="card-tag">Growth</span><span class="card-tag">B2C</span></div>
+    <img class="card-logo" src="logos/hvac.png" alt="HVAC.com">
+    <h2>Marketplace Product Challenge</h2>
+    <p>A take-home product challenge: problem framing, comparative analysis, a proposed user journey, and an A/B testing plan for matching homeowners with contractors.</p>
+    <div class="card-tags"><span class="card-tag">Product Strategy</span><span class="card-tag">User Journey</span><span class="card-tag">Growth</span><span class="card-tag">B2C</span></div>
   </a>
 </div>
 
