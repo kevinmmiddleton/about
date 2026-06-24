@@ -849,15 +849,18 @@ function Exp4({ onToggle }) {
   );
 }
 
-// ─── Live Iframe Component ──────────────────────────────────────────────────
+// ─── Live Preview Component ─────────────────────────────────────────────────
+// baldorfood.com sends X-Frame-Options: SAMEORIGIN, so it can't be embedded in
+// an iframe here. We show a captured screenshot of the real page instead, with
+// the browser chrome around it, and make it click-through to the live page.
 
-const IFRAME_URLS = {
-  hp: "https://www.baldorfood.com",
-  pdp: "https://www.baldorfood.com/product/lemons/l-choice-lemons",
-  ro: "https://www.baldorfood.com",
+const PREVIEWS = {
+  hp:  { url: "https://www.baldorfood.com", img: "baldor-homepage.jpg" },
+  pdp: { url: "https://www.baldorfood.com/product/lemons/l-choice-lemons", img: "baldor-lemons.jpg" },
+  ro:  { url: "https://www.baldorfood.com", img: "baldor-homepage.jpg" },
 };
 
-function LiveFrame({ url, visible }) {
+function LiveFrame({ url, img, visible }) {
   return (
     <div style={{ display: visible ? "block" : "none", marginTop: 8 }}>
       <div style={{
@@ -875,8 +878,11 @@ function LiveFrame({ url, visible }) {
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#28c840" }} />
           </span>
           <span style={{ flex: 1, background: "white", borderRadius: 4, padding: "3px 10px", border: `1px solid ${C.borderLight}`, fontSize: 11, color: C.textLight }}>{url}</span>
+          <a href={url} target="_blank" rel="noopener" style={{ fontSize: 11, color: C.green, textDecoration: "none", fontWeight: 600, whiteSpace: "nowrap" }}>Open live ↗</a>
         </div>
-        <iframe src={url} style={{ width: "100%", height: 700, border: "none", display: "block" }} title={url} />
+        <a href={url} target="_blank" rel="noopener" title="Open the live page" style={{ display: "block", maxHeight: 700, overflow: "hidden" }}>
+          <img src={img} alt={url} style={{ width: "100%", display: "block" }} loading="lazy" />
+        </a>
       </div>
     </div>
   );
@@ -921,14 +927,9 @@ function App() {
 
       <div style={{ padding: "24px 28px 48px" }}>
         <View onToggle={(val) => setToggles(prev => ({ ...prev, [tab]: val }))} />
-        {/* Live iframe for current tab's control state */}
-        {IFRAME_URLS[tab] && <LiveFrame url={IFRAME_URLS[tab]} visible={!toggles[tab]} />}
+        {/* Screenshot of the live page for the current tab's control state */}
+        {PREVIEWS[tab] && <LiveFrame {...PREVIEWS[tab]} visible={!toggles[tab]} />}
       </div>
-
-      {/* Preload iframes off-screen so they're cached when you switch tabs */}
-      {Object.entries(IFRAME_URLS).map(([id, url]) => (
-        id !== tab && <iframe key={id} src={url} style={{ position: "absolute", width: 0, height: 0, border: "none", visibility: "hidden" }} title={`preload-${id}`} />
-      ))}
 
       <div style={{ borderTop: `1px solid ${C.border}`, padding: "16px 28px", textAlign: "center", fontSize: 11, color: C.textLight, background: "white" }}>
         Prototype for discussion purposes · Not affiliated with Baldor Specialty Foods · Built by Kevin Middleton · <a href="https://middleton.io" style={{ color: C.green, textDecoration: "none" }}>middleton.io</a>
