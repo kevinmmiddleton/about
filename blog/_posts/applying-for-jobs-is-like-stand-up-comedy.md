@@ -1,5 +1,5 @@
 ---
-title: Applying for jobs? Think of stand-up comedy.
+title: Applying for jobs is like stand-up comedy
 slug: applying-for-jobs-is-like-stand-up-comedy
 status: ready
 published_at: ''
