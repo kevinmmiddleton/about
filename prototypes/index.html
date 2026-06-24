@@ -58,9 +58,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; col
 }
 .card h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
 .card p { font-size: 14px; color: #64748b; line-height: 1.6; }
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
 .card-tag {
   display: inline-block;
-  margin-top: 12px;
   font-size: 12px;
   font-weight: 500;
   padding: 4px 10px;
@@ -117,28 +122,28 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; col
     <div class="card-label">American Express Digital Labs</div>
     <h2>Resy x AI Agents</h2>
     <p>Customer journey mapped to API endpoints, then to MCP server tools for AI agent-facilitated dining experiences. Includes guardrails, governance, and the agentic roadmap.</p>
-    <span class="card-tag">MCP, Agentic AI, API Design</span>
+    <div class="card-tags"><span class="card-tag">MCP</span><span class="card-tag">Agentic AI</span><span class="card-tag">API Design</span></div>
   </a>
 
   <a href="baldor/" class="card">
     <div class="card-label">Baldor Specialty Foods</div>
     <h2>Growth Experiments</h2>
     <p>Interactive React prototype exploring discovery, personalization, and seasonal merchandising for a B2B food distributor.</p>
-    <span class="card-tag">Growth, B2B</span>
+    <div class="card-tags"><span class="card-tag">Growth</span><span class="card-tag">B2B</span></div>
   </a>
 
   <a href="sa/" class="card">
     <div class="card-label">SA</div>
     <h2>Website Improvement Concepts</h2>
     <p>Annotated mockups and concept pages for website redesign, with technical and product callouts.</p>
-    <span class="card-tag">User Journey, UX, Platform Consolidation</span>
+    <div class="card-tags"><span class="card-tag">User Journey</span><span class="card-tag">UX</span><span class="card-tag">Platform Consolidation</span></div>
   </a>
 
   <a href="hvac/" class="card">
     <div class="card-label">HVAC.com</div>
     <h2>Product Prototype</h2>
     <p>Interactive product prototype for HVAC services platform.</p>
-    <span class="card-tag">User Journey, Growth, B2C</span>
+    <div class="card-tags"><span class="card-tag">User Journey</span><span class="card-tag">Growth</span><span class="card-tag">B2C</span></div>
   </a>
 </div>
 
