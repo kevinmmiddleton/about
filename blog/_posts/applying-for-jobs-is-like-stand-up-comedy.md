@@ -1,8 +1,8 @@
 ---
 title: Applying for jobs is like stand-up comedy
 slug: applying-for-jobs-is-like-stand-up-comedy
-status: ready
-published_at: ''
+status: published
+published_at: 2026-06-23
 updated_at: ''
 topic: Career
 series: ''
@@ -24,35 +24,29 @@ When talking about interviewing, I often say that applying for jobs is like stan
 
 You're rusty and out of practice. Interviewing is decidedly not the same as the job itself. You have to get on stage and perform before you're ready. You try out material you think is good, then find out in the room what actually lands. Some days you bomb. Some days a heckler interrupts you for no reason. And if you keep showing up, you eventually find a groove where you're comfortable even when the room is cold. Nobody gets there by waiting until they feel ready. They get there by doing reps.
 
-That's the lens I'd use on most job-search advice going around right now, because a fair amount of it is bunk, and the rest gets easier once you stop trying to perfect the set before you've performed it.
-
 ## The advice that keeps you off the stage
 
 **"Don't apply to everything."** I agree with that one.
 
 **But being hyper-selective won't improve your resume response rate, not in this market, no matter how often some recruiters say so.** Being precise about fit is good. Whittling yourself down to five perfect roles and waiting for them is like skipping an open mic until the room feels right (it'll never feel right). You need the reps more than you need the perfect room.
 
-**To put it plainly**: apply where you fit at least 80% of the criteria. Depending on where you are in your career, that can be double-digit applications per week. You're competing, so compete. Put yourself out there.
+**Apply where you fit at least 80% of the criteria**. Depending on where you are in your career, that can be double-digit applications per week. You're competing, so compete. Put yourself out there.
 
-**And this filter helps more than you might think**: know what you _don't_ want. It's often a sharper screen than knowing what you do. When a role that hits your hard nos shows up, you bypass it in two seconds instead of agonizing, which keeps your reps pointed at jobs you'd actually take. That must-not list is straight out of the Mnookin Two-Pager in [Never Search Alone](https://www.neversearchalone.org/) (where I found my career group). And saying a role isn't for you is your own small form of rejection. Saying no sometimes feels _great_.
+**Know what you _don't_ want**. It's often a sharper screen than knowing what you do. When a role that hits your hard nos shows up, you bypass it in two seconds instead of agonizing, which keeps your reps pointed at jobs you'd actually take. That must-not list is straight out of the Mnookin Two-Pager in [Never Search Alone](https://www.neversearchalone.org/) (where I found my career group). And saying a role isn't for you is your own small form of rejection. Saying no sometimes feels _great_.
 
 **Sequencing your applications is dated advice, don't do it.** People will tell you to apply to your B and C tier companies first to "warm up," then hit your A tier once you're polished. The problem is you don't control the timing. The A-tier role might close before you ever get to it. You have no idea when a req opens, when it fills, or when a hiring manager loses budget.
 
-**My advice is simpler**: apply early and hope for the best. Get your material in front of the room while the room is still there.
+**Apply early and hope for the best**. Get your material in front of the room while the room is still there.
 
 ## Try not to take it personally, even when it might be
 
-**Sometimes you do everything right and they still don't like it.**
+**Sometimes you do everything right and they still don't like it**. I once had a hiring manager tell me, on video, to my face, that she had so many strong options that it would be hard to pick me, even though I had a strong background, because I didn't have direct experience with their SEO tooling (this is very easy to pick up). I personally view that as a miss on their part, especially given how quickly I get up to speed on new concepts and verticals. But c'est la vie. It really is what it is in those moments, and the only useful move is on to the next.
 
-I once had a hiring manager tell me, on video, to my face, that she had so many strong options that it would be hard to pick me, even though I had a strong background, because I didn't have direct experience with their SEO tooling (this is very easy to pick up). I personally view that as a miss on their part, especially given how quickly I get up to speed on new concepts and verticals. But c'est la vie. It really is what it is in those moments, and the only useful move is on to the next.
-
-**You won't win by arguing with a heckler**. You finish the set and you book the next one. 
-
-Some hecklers you can see coming. "So why did you leave?" is a big one right now, and it's easy to let it swallow half the call. Don't. The market's been rough and short stints are everywhere, so a calm, crisp "that was a layoff" beats a long defensive answer every time. Name it, then steer back to the impact you had while you were there.
+**You won't win by arguing with a heckler**. So just finish the set and book the next one. Some hecklers you can see coming. "So why did you leave?" is a big one right now, and it's easy to let it swallow half the call. Don't. The market's been rough and short stints are everywhere, so a calm, crisp "that was a layoff" beats a long defensive answer every time. Name it, then steer back to the impact you had while you were there.
 
 **Sometimes they don't see the fit, even when it's obvious**. I've been a really strong fit for roles and still gotten the no. I've applied to roles that felt like I wrote the job descriptions myself. Early on in your interviewing process, that messes with your head. But the takeaway isn't that you're not good. It's that there are a lot of talented people looking right now, and plenty of them are great fits too. The math is brutal. The verdict on you isn't.
 
-**So do not forget that you are good**. You've been doing this for years. A single no (or even a dozen) doesn't undo that. And when one doesn't come through, keep the line open with the recruiter, which is my last tactical tip: if you hit it off, stay in touch. Keep a running list of the recruiters you connected with and check in every so often. The role that wasn't right in March can turn into the intro that lands in September.
+**Do not forget that you are good**. You've been doing this for years. A single no (or even a dozen) doesn't undo that. And when one doesn't come through, keep the line open with the recruiter, which is my last tactical tip: if you hit it off, stay in touch. Keep a running list of the recruiters you connected with and check in every so often. The role that wasn't right in March can turn into the intro that lands in September.
 
 ## Protect your peace
 
