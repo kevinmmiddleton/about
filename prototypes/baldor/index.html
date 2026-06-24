@@ -56,12 +56,14 @@
     <div id="root"></div>
     <noscript><h1>Baldor Growth Experiments</h1><p>This prototype requires JavaScript to run.</p></noscript>
 
-    <!-- React 18 from CDN -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <!-- Babel Standalone for JSX transformation -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- React 18 from CDN — pinned to exact versions so the prototype can't
+         silently break when a CDN "latest" tag rolls forward (a Babel 7->8 bump
+         flipping the default JSX runtime is what broke this page before). -->
+    <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel Standalone for JSX transformation (pinned) -->
+    <script src="https://unpkg.com/@babel/standalone@8.0.2/babel.min.js"></script>
 
     <script type="text/jsx" id="baldor-app">
 const { useState } = React;
