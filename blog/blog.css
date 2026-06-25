@@ -45,6 +45,22 @@
 .article-meta a:hover { color: var(--accent); }
 .article-meta .dot { opacity: 0.5; }
 
+.article-back {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-bottom: 22px;
+    transition: color 0.15s ease;
+}
+.article-back:hover { color: var(--accent); }
+.article-back-bottom {
+    margin: 40px 0 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
 /* Hero image */
 .article-hero {
     width: 100%;

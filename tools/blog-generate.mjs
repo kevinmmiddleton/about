@@ -278,6 +278,7 @@ ${HEADER}
 
     <main>
     <article class="article">
+        <a class="article-back" href="/blog/">← Back to the Blog</a>
         <p class="article-eyebrow">${esc(post.topic||'')}</p>
         <h1 class="article-title">${esc(post.title)}</h1>
         <div class="article-meta">
@@ -291,6 +292,7 @@ ${HEADER}
         <div class="article-body">
 ${bodyLinked}
         </div>
+        <a class="article-back article-back-bottom" href="/blog/">← Back to the Blog</a>
     </article>
     </main>
 
