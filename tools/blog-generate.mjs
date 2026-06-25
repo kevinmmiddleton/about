@@ -43,6 +43,10 @@ function inline(text) {
   s = s.replace(/\*\*([^*]+)\*\*/g, (_,t)=>`<strong>${t}</strong>`);
   // italic *text*
   s = s.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, (_,p,t)=>`${p}<em>${t}</em>`);
+  // bold __text__ / italic _text_ (underscore style, as Sveltia emits). The
+  // (^|[^\w]) / (?!\w) guards keep underscores intraword (file_name, URLs) literal.
+  s = s.replace(/(^|[^\w])__([^_]+)__(?!\w)/g, (_,p,t)=>`${p}<strong>${t}</strong>`);
+  s = s.replace(/(^|[^\w])_([^_]+)_(?!\w)/g, (_,p,t)=>`${p}<em>${t}</em>`);
   s = s.replace(/\x00(\d+)\x01/g, (_, n) => esc(lit[+n]));
   return s;
 }
