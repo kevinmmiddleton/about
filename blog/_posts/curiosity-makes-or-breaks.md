@@ -1,5 +1,5 @@
 ---
-title: Curiosity will make or break your next role
+title: At work, curiosity is the difference between thriving and surviving
 slug: curiosity-makes-or-breaks
 status: published
 published_at: 2026-06-29
