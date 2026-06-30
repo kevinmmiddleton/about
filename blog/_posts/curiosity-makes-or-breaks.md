@@ -1,5 +1,5 @@
 ---
-title: At work, curiosity is the difference between thriving and surviving
+title: At work, curiosity can be the difference between thriving and surviving
 slug: curiosity-makes-or-breaks
 status: published
 published_at: 2026-06-29
