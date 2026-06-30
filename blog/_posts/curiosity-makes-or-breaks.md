@@ -38,33 +38,26 @@ The wild part is that both kinds of companies can look identical from the outsid
 
 This is the environment where curiosity compounds, so spend it freely.
 
-**Ask the questions other people are thinking but won't say out loud**. In a safe room, you become the person who says the quiet thing, and that's the person teams want to keep around.
-
-**Follow your curiosity across team lines**. Go understand how sales actually sells, how support actually supports, how the thing you build gets used. The more of the system you understand, the harder you are to replace.
-
-**Share what you learn out loud**. Write the doc, give the demo, post the takeaway. In a curious org, useful information travels, and your reputation travels with it.
-
-**Take real swings**. The whole point of psychological safety is that you can try something that might not work without it ending you. Use it. That's where the best work comes from.
+- **Ask the questions other people are thinking but won't say out loud**. In a safe room, you become the person who says the quiet thing, and that's the person teams want to keep around.
+- **Follow your curiosity across team lines**. Go understand how sales actually sells, how support actually supports, how the thing you build gets used. The more of the system you understand, the harder you are to replace.
+- **Share what you learn out loud**. Write the doc, give the demo, post the takeaway. In a curious org, useful information travels, and your reputation travels with it.
+- **Take real swings**. The whole point of psychological safety is that you can try something that might not work without it ending you. Use it. That's where the best work comes from.
 
 ### If you're in a closed place, here's how to survive
 
 You can still do good work in a closed environment. You just have to spend your curiosity more carefully and plan your exit.
 
-**Pick your moments**. Save your "why" for the questions that actually matter, and aim them at the goal, not the person. "How does this help the outcome we agreed on?" lands very differently from "why would we ever do it that way?"
-
-**Find your pocket**. Even in a closed company, there's usually one manager or one team where curiosity is still welcome. Get close to them. A single safe corner can carry you for a long time.
-
-**Feed your curiosity outside of work**. Build something, learn something, write something on your own time, so the part of you that needs to ask "what if" doesn't go dormant while you wait for a better situation.
-
-**Keep a quiet list of what you'd do differently**. It keeps you sane in the moment, and it turns into your best material the day you interview somewhere new.
-
-**And know the difference between bad luck and a bad environment**. If careful, well-aimed curiosity keeps getting you in trouble no matter what, the environment is telling you who it is. Believe it, and start looking.
+- **Pick your moments**. Save your "why" for the questions that actually matter, and aim them at the goal, not the person. "How does this help the outcome we agreed on?" lands very differently from "why would we ever do it that way?"
+- **Find your pocket**. Even in a closed company, there's usually one manager or one team where curiosity is still welcome. Get close to them. A single safe corner can carry you for a long time.
+- **Feed your curiosity outside of work**. Build something, learn something, write something on your own time, so the part of you that needs to ask "what if" doesn't go dormant while you wait for a better situation.
+- **Keep a quiet list of what you'd do differently**. It keeps you sane in the moment, and it turns into your best material the day you interview somewhere new.
+- **And know the difference between bad luck and a bad environment**. If careful, well-aimed curiosity keeps getting you in trouble no matter what, the environment is telling you who it is. Believe it, and start looking.
 
 ### How to spot it before you take the job
 
 The best time to learn which kind of place you're walking into is the interview, while you still have a choice.
 
-So interview them back. Ask questions that force the culture to show itself.
+**So interview them back**. Ask questions that force the culture to show itself.
 
 - "Tell me about a time someone challenged a decision here, and what happened."
 - "How does this team handle being wrong?"
