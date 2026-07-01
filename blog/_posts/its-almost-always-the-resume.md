@@ -1,8 +1,8 @@
 ---
 title: It's almost always the resume
 slug: its-almost-always-the-resume
-status: ready
-published_at: 2026-06-30
+status: published
+published_at: 2026-07-01
 updated_at: ''
 topic: Career
 series: ''
@@ -20,7 +20,7 @@ cover_alt: A resume on a screen with a vague responsibility crossed out and a me
 linkedin_url: ''
 ---
 
-A design leader I know was applying everywhere and hearing nothing. He was sure the problem was his portfolio, so that's where all his energy went. I cut him off and said, "send me your resume." It had emojis, it was too casual, and it was way too light on actual outcomes. Two of us gave him blunt feedback, he made the changes, and he started getting bites almost immediately.
+A design leader I know was applying everywhere and hearing nothing. He was sure the problem was his portfolio, so that's where all his energy went. I cut him off and said, "send me your resume." It had emojis, it was too casual, and it was way too light on actual outcomes. Another colleague and I gave him blunt feedback, he made the changes, and he started getting bites almost immediately.
 
 The portfolio was never the problem. The resume was.
 
@@ -28,7 +28,7 @@ I think of the resume as the front door. A lot of people treat their portfolio o
 
 ## It's almost always the resume
 
-When someone tells me their search has stalled, it's almost always the resume. Not the ATS. Not an AI gatekeeper quietly trashing your file. Not ghost jobs or the economy, though the market is genuinely brutal. The resume is just the first thing I check, and it's usually where the problem lives.
+When someone tells me their search has stalled, it's almost always the resume. Not the ATS. Not an AI gatekeeper automatically trashing your file. Not ghost jobs or the economy, though the market is really brutal right now. The resume is the first thing I check, and it's usually where the problem lies.
 
 "The system is rigged against me" is a more comforting story than "my resume isn't landing." But only one of those is something you can fix this weekend.
 
