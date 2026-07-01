@@ -1,19 +1,25 @@
 ---
-title: "We're not building great AI tools for non-technical audiences (yet)"
+title: We're not building great AI tools for non-technical audiences (yet)
 slug: ai-tools-non-technical
-status: "published"
-published_at: "2026-03-20"
-updated_at: "2026-06-06"
-topic: "Building with AI"
-series: "Building with AI"
+status: published
+published_at: 2026-03-20
+updated_at: 2026-06-06
+topic: Building with AI
+series: Building with AI
 series_order: 4
-tags: ["AI Tools", "Product Management", "Accessibility", "Automation", "No-Code", "Personal AI"]
+tags:
+  - AI Tools
+  - Product Management
+  - Accessibility
+  - Automation
+  - No-Code
+  - Personal AI
 featured: false
 sort_order: 4
-excerpt: "I built a job scanner that runs while I sleep. I couldn't hand it to a smart, motivated friend. The gap between 'I want that' and 'I can do that' is still enormous."
-cover_image: "/blog/images/ai-tools-non-technical-cover.jpg"
-cover_alt: "A triptych: AI for Engineers (a code editor), AI for Power Users (a visual workflow builder), and AI for All."
-linkedin_url: "https://www.linkedin.com/pulse/were-building-great-ai-tools-non-technical-audiences-yet-middleton-rj0if/"
+excerpt: I built a job scanner that runs while I sleep. I couldn't hand it to a smart, motivated friend. The gap between 'I want that' and 'I can do that' is still enormous.
+cover_image: /blog/images/ai-tools-non-technical-cover.jpg
+cover_alt: 'A triptych: AI for Engineers (a code editor), AI for Power Users (a visual workflow builder), and AI for All.'
+linkedin_url: https://www.linkedin.com/pulse/were-building-great-ai-tools-non-technical-audiences-yet-middleton-rj0if/
 ---
 
 A friend recently asked if I'd help someone with "this little job scanner thing" I built.
@@ -34,7 +40,11 @@ I met with her and we talked about the job market, how to stay sane during a sea
 
 So I assigned homework instead: get a $20 Claude subscription, install the Chrome extension, and just play with it. Get comfortable talking to an AI. We'd build from there.
 
-To show her what was possible, I pointed Claude at my LinkedIn notification emails with a simple prompt: "Scan for LinkedIn emails, focus in on healthcare or adjacent roles, output direct URLs to interesting roles."
+To show her what was possible, I pointed Claude at my LinkedIn notification emails with a simple prompt: 
+
+```
+Scan for LinkedIn emails, focus in on healthcare or adjacent roles, output direct URLs to interesting roles.
+```
 
 It worked. Claude pulled back a categorized list of healthcare-adjacent roles with direct links, organized by company type. No scrolling through LinkedIn. No clicking into 40 listings. Just the ones that mattered, ready to review.
 
