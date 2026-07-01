@@ -170,6 +170,10 @@ figcaption {
     color: var(--text-primary);
     overflow-x: auto;
 }
+/* Extra top room so the copy button (top-right) never overlaps the first line. */
+.prompt-block:has(.copy-btn) {
+    padding-top: 46px;
+}
 
 /* Copy button injected onto code/prompt blocks by blog-nav.js */
 .copy-btn {
