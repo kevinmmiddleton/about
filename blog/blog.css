@@ -195,6 +195,17 @@ figcaption {
 .copy-btn:hover { color: var(--text-primary); border-color: var(--accent); background: rgba(128, 128, 140, 0.22); }
 .copy-btn.copied { color: var(--accent); border-color: var(--accent); }
 
+/* Inline code (single-backtick spans) — subtle mono chip, distinct from prose */
+.article-body code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.88em;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 6px;
+    word-break: break-word;
+}
+
 /* Pull-callout (e.g. series note) */
 .callout {
     border-left: 3px solid var(--accent);

@@ -30,13 +30,21 @@ function isoDate(iso) { return iso ? new Date(iso).toISOString().slice(0,10) : '
 
 // ---------- mini markdown ----------
 function inline(text) {
-  // backslash-escaped punctuation (\` \* \[ etc., e.g. from CMS paste-escaping)
-  // renders as the literal character with no formatting, per markdown spec
-  const lit = [];
-  let s = String(text).replace(/\\([\\`*_\[\](){}#+\-.!>~])/g, (_, c) => { lit.push(c); return `\x00${lit.length - 1}\x01`; });
+  const lit = [];   // backslash-escaped literals
+  const code = [];  // inline-code spans (pre-escaped, shielded from further processing)
+  let s = String(text);
+  // Inline code FIRST — before emphasis and before the escape pass — so * and _
+  // inside a span aren't mangled. Accept real backticks (`x`) AND Sveltia's
+  // paste-escaped backticks (\`x\`), which is what the CMS actually emits.
+  s = s.replace(/\\?`([^`\n]+?)\\?`/g, (_, c) => {
+    const unesc = c.replace(/\\([\\`*_\[\](){}#+\-.!>~])/g, '$1'); // undo CMS escaping inside the span
+    const e = unesc.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    code.push(e);
+    return `\x02${code.length - 1}\x03`;
+  });
+  // remaining backslash-escaped punctuation (\* \[ etc.) renders as the literal char
+  s = s.replace(/\\([\\`*_\[\](){}#+\-.!>~])/g, (_, c) => { lit.push(c); return `\x00${lit.length - 1}\x01`; });
   s = esc(s);
-  // inline code
-  s = s.replace(/`([^`]+)`/g, (_,c)=>`<code>${c}</code>`);
   // links [text](url)
   s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_,t,u)=>`<a href="${u}">${t}</a>`);
   // bold **text**
@@ -48,6 +56,7 @@ function inline(text) {
   s = s.replace(/(^|[^\w])__([^_]+)__(?!\w)/g, (_,p,t)=>`${p}<strong>${t}</strong>`);
   s = s.replace(/(^|[^\w])_([^_]+)_(?!\w)/g, (_,p,t)=>`${p}<em>${t}</em>`);
   s = s.replace(/\x00(\d+)\x01/g, (_, n) => esc(lit[+n]));
+  s = s.replace(/\x02(\d+)\x03/g, (_, n) => `<code>${code[+n]}</code>`);
   return s;
 }
 const IMG_LINE = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/;
