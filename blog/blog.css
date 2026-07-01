@@ -156,6 +156,7 @@ figcaption {
 
 /* Copyable prompt / code block */
 .prompt-block {
+    position: relative;
     font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
     font-size: 13.5px;
     line-height: 1.6;
@@ -169,6 +170,26 @@ figcaption {
     color: var(--text-primary);
     overflow-x: auto;
 }
+
+/* Copy button injected onto code/prompt blocks by blog-nav.js */
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 6px 11px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: rgba(128, 128, 140, 0.14);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.copy-btn:hover { color: var(--text-primary); border-color: var(--accent); background: rgba(128, 128, 140, 0.22); }
+.copy-btn.copied { color: var(--accent); border-color: var(--accent); }
 
 /* Pull-callout (e.g. series note) */
 .callout {

@@ -64,4 +64,34 @@
     });
     io.observe(sentinel);
   }
+
+  // Copy button on code / prompt blocks — lets readers grab a prompt or snippet
+  // in one tap to paste into their AI of choice. Progressive enhancement: the
+  // button only appears where the Clipboard API is available.
+  var blocks = document.querySelectorAll('.article-body .prompt-block');
+  if (blocks.length && navigator.clipboard) {
+    var copySlug = (location.pathname.match(/\/blog\/([^/]+)\//) || [])[1] || location.pathname;
+    blocks.forEach(function (block) {
+      var code = block.textContent; // capture the code BEFORE we add the button
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.setAttribute('aria-label', 'Copy to clipboard');
+      btn.addEventListener('click', function () {
+        navigator.clipboard.writeText(code).then(function () {
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          if (typeof window.plausible === 'function') {
+            window.plausible('Copy Code', { props: { post: copySlug } });
+          }
+          setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+        }).catch(function () {
+          btn.textContent = 'Press ⌘C';
+          setTimeout(function () { btn.textContent = 'Copy'; }, 1800);
+        });
+      });
+      block.appendChild(btn);
+    });
+  }
 })();
