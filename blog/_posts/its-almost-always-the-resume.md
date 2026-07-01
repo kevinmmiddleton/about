@@ -34,19 +34,6 @@ When someone tells me their search has stalled, it's almost always the resume. N
 
 And the scoreboard that matters is simple: count the interviews your resume has generated, not the applications you've sent. If you've fired off eighty applications and gotten two screens, applying harder just scales the broken step.
 
-## So I took my own advice
-
-I say this to people constantly, so I owed it to myself to actually do it. I just overhauled my own resume. The bones were already solid, so the work was mostly in the story it told, and I worked through the changes with a recruiter I know, someone who sees what actually makes a hiring manager say yes. (That kind of relationship is worth building long before you need it.)
-
-The biggest change was the goal itself. I stopped trying to look impressive and started trying to look like a safe hire who can hit the ground running. Steady, low-ego, the collaborative glue a team actually wants. Once that was the target, every edit got easy. Here's what changed:
-
-- **I led every bullet with impact, and cut the filler that buried it.** "Led cross-functional teams around a roadmap" says nothing. I deleted the glue-work lines so the real numbers had room to land: 50x conversion, 11.5 million users, bulk uploads from days to minutes. Outcome first, mechanics second.
-- **I added my longest tenure back.** I'd cut my earliest jobs to keep the resume to two pages and feel recent. But once I trimmed the filler, the space opened back up, so I put them back. One was my first job out of school as an engineer, the other a six-year run as a consultant. Those two entries probably do a lot more for my credibility than anything I dropped to make room. The six-year consultant run is genuine long tenure, and together they anchor the engineer-who-became-a-PM story and subtly put stability back on the page. Keeping things recent was costing me more than it saved.
-- **I made the recent moves read as deliberate, not drift.** Two short stints back-to-back can look like restlessness. So I made the logic explicit for each one: why I joined, what I shipped, why I left. Same timeline, completely different read.
-- **I chose findable over clever.** I like "Full Stack Product Manager" as a personal brand, but recruiters search "Senior Product Manager." I'd rather be found than clever, so I changed the headline and rewrote my summary to lead with how I actually work: an engineer who became a PM and builds zero to one.
-- **I made it honest enough to survive an interview.** I'd written that I "sourced" a grant. The truer version is that I "helped secure" it, so that's what it says now. Anything on your resume you can't defend calmly in the room will work against you, not for you.
-- **I told one story everywhere.** My resume, my [LinkedIn](https://www.linkedin.com/in/kevinmiddleton), and my [website](https://middleton.io) now line up, so a recruiter who cross-checks meets one consistent person instead of three different drafts. It's the same reason I keep an eye on [what AI says about me](https://middleton.io/blog/ai-is-researching-you/) when someone looks me up.
-
 ## You don't need a custom resume for every job
 
 The standard advice is to tailor your resume to every posting. I don't, and I tell people not to.
@@ -59,9 +46,22 @@ If it can't, one of two things is true. Either the resume isn't sharp enough yet
 
 Your next move: one competitive resume that leads with impact and covers your real targets, instead of fifty tailored ones that trip a recruiter's "too targeted" radar.
 
-## The part that surprised me
+## So I took my own advice
 
-The throughline of all of it: less "look how much I've done," more "here's exactly what you get." I expected that to feel like shrinking. It did the opposite. Naming exactly what you bring is a more confident position than piling on everything you've ever touched.
+I say this to people constantly, so I owed it to myself to actually do it. I just overhauled my own resume. The bones were already solid, so the work was mostly in the story it told, and I worked through the changes with a recruiter I know, someone who sees what actually makes a hiring manager say yes. (That kind of relationship is worth building long before you need it.)
+
+The biggest change was the goal itself. I stopped trying to look impressive and started trying to look like a safe hire who can hit the ground running. Steady, low-ego, the collaborative glue a team actually wants. Once that was the target, every edit got easy. Here's what changed:
+
+- **I led every bullet with impact, and cut the filler that buried it.** "Led cross-functional teams around a roadmap" says nothing. I deleted the glue-work lines so the real numbers had room to land: 50x conversion, 11.5 million users, bulk uploads from days to minutes. Outcome first, mechanics second.
+- **I put my longest tenure back on the page.** I'd cut my earliest jobs to keep the resume to two pages and feel recent. But once I trimmed the filler, the space opened back up, so I put them back. One was my first job out of school as an engineer, the other a six-year run as a consultant. Those two entries probably do a lot more for my credibility than anything I dropped to make room. The six-year consultant run is genuine long tenure, and together they anchor the engineer-who-became-a-PM story and subtly put stability back on the page. Keeping things recent was costing me more than it saved.
+- **I made the recent moves read as deliberate, not drift.** Two short stints back-to-back can look like restlessness. So I made the logic explicit for each one: why I joined, what I shipped, why I left. Same timeline, completely different read.
+- **I chose findable over clever.** I like "Full Stack Product Manager" as a personal brand, but recruiters search "Senior Product Manager." I'd rather be found than clever, so I changed the headline and rewrote my summary to lead with how I actually work: an engineer who became a PM and builds zero to one.
+- **I made it honest enough to survive an interview.** I'd written that I "sourced" a grant. The truer version is that I "helped secure" it, so that's what it says now. Anything on your resume you can't defend calmly in the room will work against you, not for you.
+- **I told one story everywhere.** My resume, my [LinkedIn](https://www.linkedin.com/in/kevinmiddleton), and my [website](https://middleton.io) now line up, so a recruiter who cross-checks meets one consistent person instead of three different drafts. It's the same reason I keep an eye on [what AI says about me](https://middleton.io/blog/ai-is-researching-you/) when someone looks me up.
+
+## I was afraid to cut.
+
+I didn't want to lose those lines. It felt like erasing work I was proud of. But all that detail was jumbling the message, not adding to it. The throughline of every change: less "look how much I've done," more "here's exactly what you get." I expected that to feel like shrinking. It did the opposite. Naming exactly what you bring is a more confident position than piling on everything you've ever touched.
 
 So if your applications aren't turning into interviews, the most fixable problem you have is sitting in a document right now. Pick the one thing you want a stranger to walk away believing about you, and rebuild around it.
 
