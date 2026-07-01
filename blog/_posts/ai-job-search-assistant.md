@@ -1,19 +1,26 @@
 ---
-title: "I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To"
+title: I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To
 slug: ai-job-search-assistant
-status: "published"
-published_at: "2026-02-23"
-updated_at: "2026-06-06"
-topic: "Building with AI"
-series: "Building with AI"
+status: published
+published_at: 2026-02-23
+updated_at: 2026-06-06
+topic: Building with AI
+series: Building with AI
 series_order: 1
-tags: ["AI Workflows", "Job Search", "Automation", "LLM", "Product Management", "Claude", "Local Models"]
+tags:
+  - AI Workflows
+  - Job Search
+  - Automation
+  - LLM
+  - Product Management
+  - Claude
+  - Local Models
 featured: false
 sort_order: 1
-excerpt: "How a Mac Mini in my apartment scans LinkedIn twice a day, filters for roles that match my profile, and texts me the results, for about six cents a day."
-cover_image: "/blog/images/ai-job-search-assistant-cover.jpg"
-cover_alt: "Diagram of the job search automation: Apple Shortcuts triggers a Terminal script, Claude classifies roles, results flow from LinkedIn to iMessage."
-linkedin_url: "https://www.linkedin.com/pulse/i-built-ai-job-search-assistant-texts-me-when-finds-roles-middleton-nawxe/"
+excerpt: How a Mac Mini in my apartment scans LinkedIn twice a day, filters for roles that match my profile, and texts me the results, for about six cents a day.
+cover_image: /blog/images/ai-job-search-assistant-cover.jpg
+cover_alt: 'Diagram of the job search automation: Apple Shortcuts triggers a Terminal script, Claude classifies roles, results flow from LinkedIn to iMessage.'
+linkedin_url: https://www.linkedin.com/pulse/i-built-ai-job-search-assistant-texts-me-when-finds-roles-middleton-nawxe/
 ---
 
 Most job seekers refresh LinkedIn like it's a slot machine. Open the app, scroll, scroll, scroll, close the app, feel vaguely bad about it. Repeat three hours later.
@@ -40,7 +47,7 @@ One gotcha: LinkedIn doesn't offer an API for job search, so the script uses `cu
 
 The key ingredient is a LinkedIn URL trick most people don't know about. LinkedIn's search URL accepts a parameter called `f_TPR` that filters by time posted, in seconds. `f_TPR=r43200` means "posted in the last 12 hours." Two scans a day with a 12-hour window gives full 24-hour coverage:
 
-```
+```plain
 https://www.linkedin.com/jobs/search/?f_TPR=r43200&keywords=product%20manager&location=New%20York&f_E=4%2C5%2C6&sortBy=DD
 ```
 
