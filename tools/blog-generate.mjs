@@ -505,12 +505,11 @@ function updateWriting(posts) {
   let html = readFileSync(f, 'utf8');
   const featured = posts.filter(p => p.featured);
   const rest = posts.filter(p => !p.featured);
-  const picks = featured.concat(rest).slice(0, 4);
-  const colors = ['#3b82f6', '#e07caa', '#f59e0b', '#7c5ce0'];
-  const trim = t => t.length > 64 ? t.slice(0, 64).replace(/\s+\S*$/, '') + '…' : t;
+  const picks = featured.concat(rest).slice(0, 6);
+  const colors = ['#3b82f6', '#e07caa', '#f59e0b', '#7c5ce0', '#14b8a6', '#f97316'];
   const items = picks.map((p, i) =>
     `                        <a href="/blog/${p.slug}/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=${p.slug}">\n` +
-    `                            <span class="writing-dot" style="background:${colors[i % colors.length]}"></span>${esc(trim(p.title))}\n` +
+    `                            <span class="writing-dot" style="background:${colors[i % colors.length]}"></span>${esc(p.title)}\n` +
     `                        </a>`).join('\n');
   const out = replaceRegion(html, '<!-- WRITING:START -->', '<!-- WRITING:END -->', items);
   if (out) { writeFileSync(f, out); return true; }
