@@ -1596,13 +1596,13 @@ a.bento-card:hover::before {
   align-items: flex-start;
   gap: 10px;
   font-size: 0.88rem;
-  color: var(--text-muted);
+  color: var(--text-light);
   line-height: 1.45;
   text-decoration: none;
   transition: color 0.2s;
   padding: 6px 0;
 }
-.card-writing .writing-item:hover { color: var(--text-light); }
+.card-writing .writing-item:hover { color: var(--accent); }
 .card-writing .writing-dot {
   width: 8px;
   height: 8px;
@@ -1621,17 +1621,14 @@ a.bento-card:hover::before {
   line-height: 1.45;
   color: rgba(var(--white-rgb), 0.92);
   text-decoration: none;
-  border-radius: 8px;
-  transition: color 0.2s, background 0.2s, box-shadow 0.2s;
-  position: relative;
-  z-index: 1;
+  transition: color 0.2s;
 }
-/* Visible row highlight on hover (box-shadow spread => no layout shift). The
-   card is a fixed coral gradient, so this reads the same in light and dark. */
+/* Underline on hover so the rows read unmistakably as links (no box => no
+   layout shift). The card is a fixed coral gradient, same in light and dark. */
 .card-claude .writing-item:hover {
   color: var(--white);
-  background: rgba(var(--white-rgb), 0.16);
-  box-shadow: 0 0 0 6px rgba(var(--white-rgb), 0.16);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .card-claude .writing-dot {
   width: 8px;

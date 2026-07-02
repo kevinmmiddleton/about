@@ -497,8 +497,8 @@ ${items}
   writeFileSync(resolve(BLOG_DIR, 'feed.xml'), xml);
   return true;
 }
-// Homepage "Writing on AI" card: featured posts first (newest first), topped up
-// with the newest non-featured, 4 total. Injected between WRITING markers in
+// Homepage "Writing on AI & Work" card: featured posts first (newest first),
+// topped up with the newest non-featured, 6 total. Injected between WRITING markers in
 // index.htm so the homepage never goes stale.
 function updateWriting(posts) {
   const f = resolve(ROOT, 'index.htm');
