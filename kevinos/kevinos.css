@@ -1215,7 +1215,12 @@ body {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    justify-content: center;
     gap: 24px;
+    /* Cap + center the block so a maximized window doesn't sprawl text to giant
+       line lengths; also centers the photo when it wraps to its own row. */
+    max-width: 720px;
+    margin-inline: auto;
 }
 
 .profile-photos {
@@ -1305,8 +1310,9 @@ body {
 }
 
 .profile-connect-btn {
-    display: inline-block;
-    margin-top: 20px;
+    display: block;
+    width: fit-content;
+    margin: 24px auto 0;
     padding: 12px 24px;
     background: var(--blue);
     color: #fff;
