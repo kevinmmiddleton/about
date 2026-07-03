@@ -463,6 +463,7 @@ const musicBase = 'https://middleton.io/music/';
 let currentTrack = 0;
 let isPlaying = false;
 const audio = new Audio();
+audio.preload = 'none'; // don't download a ~4-5MB track on load; fetch on first play
 
 const playerTitle = document.querySelector('.player-title');
 const playerArtist = document.querySelector('.player-artist');
