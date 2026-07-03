@@ -760,6 +760,12 @@ body {
     display: none !important;
 }
 
+/* The window is a programmatic focus target (focus moves here on open for
+   screen-reader/keyboard users); it's not a Tab stop, so no focus ring needed. */
+.window:focus {
+    outline: none;
+}
+
 @keyframes windowOpen {
     from {
         opacity: 0;
@@ -1410,6 +1416,10 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    /* Cap + center so long-form role details keep readable line lengths in a
+       maximized window (no effect at the default window width). */
+    max-width: 760px;
+    margin-inline: auto;
 }
 
 .exp-item {

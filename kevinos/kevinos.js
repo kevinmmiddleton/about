@@ -122,6 +122,15 @@ function openWindow(id) {
     if (typeof setWindowFocus === 'function') {
         setWindowFocus(win);
     }
+    // On a genuine user-initiated open (not the boot sequence restoring defaults),
+    // move keyboard focus into the window for screen-reader / keyboard users, and
+    // log the open. kosUrlReady is false until boot finishes opening defaults.
+    if (!wasOpen && kosUrlReady && !isMobile()) {
+        try { win.focus({ preventScroll: true }); } catch (e) { win.focus(); }
+        if (window.plausible) {
+            plausible('Window Open', { props: { window: id } });
+        }
+    }
     kosSyncUrl(true);
 }
 
@@ -251,7 +260,29 @@ function setWindowFocus(focusedWin) {
     });
 }
 
+// Escape closes the focused desktop window (keyboard a11y). Guarded so it never
+// fires while typing, while a lightbox is open, or on mobile (its overlay handles
+// its own back/Escape). Games don't listen for Escape, so there's no conflict.
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || isMobile()) return;
+    const t = e.target;
+    if (t && t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return;
+    const lb = document.getElementById('lightboxOverlay');
+    if (lb && lb.classList.contains('active')) return;
+    const focused = document.querySelector('.window.window-open.window-focused');
+    if (!focused) return;
+    const id = focused.dataset.window;
+    closeWindow(id);
+    // Return focus to the launcher (dock/desktop icon) that opened the window.
+    const opener = document.querySelector(`.dock-item[data-window="${id}"], .desktop-icon[data-window="${id}"]`);
+    if (opener) opener.focus();
+    e.preventDefault();
+});
+
 windows.forEach(win => {
+    // Focusable as a programmatic target (a11y: focus lands here when a window
+    // opens) but kept out of the Tab sequence.
+    win.setAttribute('tabindex', '-1');
     win.addEventListener('mousedown', () => {
         zIndex = Math.min(zIndex + 1, 549);
         win.style.setProperty('z-index', zIndex, 'important');
