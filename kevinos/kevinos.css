@@ -1212,8 +1212,9 @@ body {
    PROFILE
    =================== */
 .profile-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 24px;
 }
 
@@ -1222,6 +1223,15 @@ body {
     flex-direction: column;
     gap: 8px;
     width: 280px;
+    flex-shrink: 0;
+}
+
+/* Photo left / text right when the window is wide; once the text column would
+   drop below ~260px the whole text block wraps to a full-width row below the
+   photo (instead of a crushed column). */
+.profile-text {
+    flex: 1 1 260px;
+    min-width: 0;
 }
 
 .profile-img {
