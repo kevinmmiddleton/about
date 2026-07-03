@@ -89,14 +89,14 @@ function renderMarkdown(md='') {
     const iml = line.trim().match(IMG_LINK_LINE);
     if (iml) {
       const [, alt, src, cap, url] = iml;
-      out.push(`<figure>\n  <a href="${escAttr(url)}" target="_blank" rel="noopener noreferrer"><img src="${escAttr(src)}" alt="${escAttr(alt)}" loading="lazy"></a>${cap?`\n  <figcaption>${inline(cap)}</figcaption>`:''}\n</figure>`);
+      out.push(`<figure>\n  <a href="${escAttr(url)}" target="_blank" rel="noopener noreferrer"><img src="${escAttr(src)}"${dimAttrs(src)} alt="${escAttr(alt)}" loading="lazy"></a>${cap?`\n  <figcaption>${inline(cap)}</figcaption>`:''}\n</figure>`);
       i++; continue;
     }
     // standalone image -> figure
     const im = line.trim().match(IMG_LINE);
     if (im) {
       const [, alt, src, cap] = im;
-      out.push(`<figure>\n  <img src="${escAttr(src)}" alt="${escAttr(alt)}" loading="lazy">${cap?`\n  <figcaption>${inline(cap)}</figcaption>`:''}\n</figure>`);
+      out.push(`<figure>\n  <img src="${escAttr(src)}"${dimAttrs(src)} alt="${escAttr(alt)}" loading="lazy">${cap?`\n  <figcaption>${inline(cap)}</figcaption>`:''}\n</figure>`);
       i++; continue;
     }
     // heading
@@ -231,6 +231,7 @@ function articlePage(post, all) {
     publisher:{"@type":"Person",name:"Kevin Middleton",url:SITE},
     mainEntityOfPage:{"@type":"WebPage","@id":url}, url, image: coverAbs,
     articleSection:"Blog", keywords: post.tags||[],
+    wordCount: (post.body_markdown||'').split(/\s+/).filter(Boolean).length,
     datePublished: pub, dateModified: mod };
   const crumbs = {
     "@context":"https://schema.org","@type":"BreadcrumbList",
@@ -300,7 +301,7 @@ ${HEADER}
             <span>${fmtDate(post.published_at)}</span>${metaLink}
         </div>
 
-        <img class="article-hero" src="${escAttr(post.cover_image||'')}" alt="${escAttr(post.cover_alt||post.title)}">
+        <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)} alt="${escAttr(post.cover_alt||post.title)}">
 
         <div class="article-body">
 ${bodyLinked}
@@ -584,6 +585,29 @@ async function optimizeImages() {
   if (!changed) console.log('  images: all web-sized, nothing to optimize');
 }
 
+// Intrinsic dimensions for blog images so rendered <img> can reserve space and
+// avoid layout shift (CLS). Read once after optimization; paired with the CSS
+// (width:100%; height:auto) this keeps images responsive AND stable.
+let IMG_DIMS = {};
+async function loadImageDims() {
+  if (!existsSync(IMG_DIR)) return;
+  let sharp;
+  try { sharp = (await import('sharp')).default; } catch { return; }
+  for (const name of readdirSync(IMG_DIR)) {
+    if (!/\.(png|jpe?g|webp|gif)$/i.test(name)) continue;
+    try {
+      const { width, height } = await sharp(resolve(IMG_DIR, name)).metadata();
+      if (width && height) IMG_DIMS[name] = { w: width, h: height };
+    } catch {}
+  }
+}
+function dimAttrs(src) {
+  if (!src) return '';
+  const base = src.split('/').pop().split('?')[0].split('#')[0];
+  const d = IMG_DIMS[base];
+  return d ? ` width="${d.w}" height="${d.h}"` : '';
+}
+
 // ---------- load posts from markdown (blog/_posts/*.md) ----------
 // Source of truth is markdown-in-repo (edited via Sveltia CMS at /admin).
 // Slug = frontmatter `slug` field (falls back to filename for older posts).
@@ -601,6 +625,7 @@ function loadPosts() {
 // ---------- main ----------
 async function main() {
   await optimizeImages(); // resize oversized images before anything reads their size
+  await loadImageDims();  // then capture final dimensions for CLS-safe <img> tags
   const all = loadPosts();
   const skipped = all.filter(p => p.status === 'published' && !p.published_at);
   for (const p of skipped) console.warn(`  ! SKIPPED "${p.slug}": status=published but published_at is empty — set a date to publish.`);
