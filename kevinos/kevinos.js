@@ -5353,64 +5353,75 @@ async function fetchWeather() {
     // Need at least one set of elements
     if (!weatherIcon && !desktopWeatherIcon) return;
 
-    try {
-        // NYC coordinates
-        const lat = 40.7128;
-        const lon = -74.0060;
+    const lat = 40.7128;   // NYC
+    const lon = -74.0060;
 
-        const response = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`
-        );
-
-        if (!response.ok) throw new Error('Weather fetch failed');
-
-        const data = await response.json();
-        const temp = Math.round(data.current.temperature_2m);
-        const code = data.current.weather_code;
-
-        // Map weather codes to emojis
-        const weatherEmojis = {
-            0: '☀️',      // Clear sky
-            1: '🌤️',     // Mainly clear
-            2: '⛅',      // Partly cloudy
-            3: '☁️',      // Overcast
-            45: '🌫️',    // Foggy
-            48: '🌫️',    // Depositing rime fog
-            51: '🌧️',    // Light drizzle
-            53: '🌧️',    // Moderate drizzle
-            55: '🌧️',    // Dense drizzle
-            61: '🌧️',    // Slight rain
-            63: '🌧️',    // Moderate rain
-            65: '🌧️',    // Heavy rain
-            71: '🌨️',    // Slight snow
-            73: '🌨️',    // Moderate snow
-            75: '❄️',     // Heavy snow
-            77: '🌨️',    // Snow grains
-            80: '🌦️',    // Slight rain showers
-            81: '🌦️',    // Moderate rain showers
-            82: '🌧️',    // Violent rain showers
-            85: '🌨️',    // Slight snow showers
-            86: '🌨️',    // Heavy snow showers
-            95: '⛈️',    // Thunderstorm
-            96: '⛈️',    // Thunderstorm with slight hail
-            99: '⛈️',    // Thunderstorm with heavy hail
-        };
-
-        const emoji = weatherEmojis[code] || '🌡️';
-        const tempStr = `${temp}°F`;
-
-        // Update mobile widget
-        if (weatherIcon) weatherIcon.textContent = emoji;
-        if (weatherTemp) weatherTemp.textContent = tempStr;
-
-        // Update desktop widget
-        if (desktopWeatherIcon) desktopWeatherIcon.textContent = emoji;
-        if (desktopWeatherTemp) desktopWeatherTemp.textContent = tempStr;
-
-    } catch (error) {
-        console.log('Weather fetch error:', error);
-        // Leave as default --
+    // Fetch with an abort timeout so an unreachable provider fails fast.
+    async function timedFetch(url, ms) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), ms);
+        try { return await fetch(url, { signal: ctrl.signal }); }
+        finally { clearTimeout(timer); }
     }
+
+    // Open-Meteo WMO weather codes -> emoji
+    const wmoEmoji = {
+        0: '☀️',      // Clear sky
+        1: '🌤️',     // Mainly clear
+        2: '⛅',      // Partly cloudy
+        3: '☁️',      // Overcast
+        45: '🌫️', 48: '🌫️',                 // Fog
+        51: '🌧️', 53: '🌧️', 55: '🌧️',       // Drizzle
+        61: '🌧️', 63: '🌧️', 65: '🌧️',       // Rain
+        71: '🌨️', 73: '🌨️', 75: '❄️', 77: '🌨️', // Snow
+        80: '🌦️', 81: '🌦️', 82: '🌧️',       // Rain showers
+        85: '🌨️', 86: '🌨️',                 // Snow showers
+        95: '⛈️', 96: '⛈️', 99: '⛈️',        // Thunderstorm
+    };
+
+    // wttr.in reports a text description -> emoji (keyword match)
+    function descToEmoji(desc) {
+        const d = (desc || '').toLowerCase();
+        if (d.includes('thunder')) return '⛈️';
+        if (d.includes('snow') || d.includes('blizzard') || d.includes('ice')) return '❄️';
+        if (d.includes('sleet')) return '🌨️';
+        if (d.includes('rain') || d.includes('drizzle') || d.includes('shower')) return '🌧️';
+        if (d.includes('fog') || d.includes('mist')) return '🌫️';
+        if (d.includes('overcast')) return '☁️';
+        if (d.includes('cloud')) return '⛅';
+        if (d.includes('sunny') || d.includes('clear')) return '☀️';
+        return '🌡️';
+    }
+
+    // Two keyless, CORS-enabled providers, raced so the fastest healthy one wins
+    // and an outage of either (e.g. open-meteo going dark) never blanks the widget.
+    async function fromOpenMeteo() {
+        const r = await timedFetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`, 6000);
+        if (!r.ok) throw new Error('open-meteo ' + r.status);
+        const d = await r.json();
+        return { temp: Math.round(d.current.temperature_2m), emoji: wmoEmoji[d.current.weather_code] || '🌡️' };
+    }
+    async function fromWttr() {
+        const r = await timedFetch(`https://wttr.in/${lat},${lon}?format=j1`, 6000);
+        if (!r.ok) throw new Error('wttr ' + r.status);
+        const d = await r.json();
+        const c = d.current_condition[0];
+        return { temp: Math.round(Number(c.temp_F)), emoji: descToEmoji(c.weatherDesc && c.weatherDesc[0] && c.weatherDesc[0].value) };
+    }
+
+    let w;
+    try {
+        w = await Promise.any([fromOpenMeteo(), fromWttr()]);
+    } catch (error) {
+        console.log('Weather unavailable (all providers failed):', error);
+        return;  // leave the default "--"
+    }
+
+    const tempStr = `${w.temp}°F`;
+    if (weatherIcon) weatherIcon.textContent = w.emoji;
+    if (weatherTemp) weatherTemp.textContent = tempStr;
+    if (desktopWeatherIcon) desktopWeatherIcon.textContent = w.emoji;
+    if (desktopWeatherTemp) desktopWeatherTemp.textContent = tempStr;
 }
 
 // Fetch weather on load
