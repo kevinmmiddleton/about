@@ -1612,7 +1612,9 @@ a.bento-card:hover::before {
 }
 
 /* Claude Plugins card: list rows like the writing card, on the coral gradient */
-.card-claude { gap: 10px; }
+/* Reserve room at the bottom for the "GitHub ↗" corner arrow so it never
+   underlaps the repo rows (matters on mobile, where the card has no spare height). */
+.card-claude { gap: 10px; padding-bottom: 50px; }
 .card-claude .writing-item {
   display: flex;
   align-items: flex-start;
@@ -1663,15 +1665,6 @@ a.bento-card:hover::before {
 }
 .card-header-link:hover { color: rgba(var(--white-rgb), 0.8); }
 .card-header-link:hover .hl-arrow { transform: translate(2px, -2px); }
-@media (max-width: 768px) {
-  /* Top-right on mobile, vertically centered against the 44px header icon
-     (top = card padding-top; height = icon height) so it aligns with the title. */
-  .card-header-link {
-    top: 24px;
-    bottom: auto;
-    height: 44px;
-  }
-}
 
 @media (max-width: 768px) {
   .bento { grid-template-columns: 1fr; }
