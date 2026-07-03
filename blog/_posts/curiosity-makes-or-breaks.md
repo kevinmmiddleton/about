@@ -15,7 +15,7 @@ tags:
 featured: false
 sort_order: null
 excerpt: You can usually tell within a few weeks whether you'll thrive at a company or just survive it. It comes down to what happens when you ask one simple question.
-cover_image: /blog/images/product-managers-backstreet-boys-4-year-olds-venn.png
+cover_image: /blog/images/product-managers-backstreet-boys-4-year-olds-venn.jpg
 cover_alt: Three glossy translucent glass discs arranged as a Venn diagram on a soft white surface. Product Managers, Backstreet Boys, and 4 Year Olds overlap in the center on "Tell Me Why."
 linkedin_url: ''
 ---

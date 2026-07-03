@@ -15,7 +15,7 @@ tags:
 featured: false
 sort_order: null
 excerpt: A lot of the standard job search advice is bunk, and the rest is easier to follow if you treat the whole thing like an open mic. Go up rusty, test your material, learn to handle hecklers.
-cover_image: /blog/images/applying-for-jobs-is-like-stand-up-comedy.png
+cover_image: /blog/images/applying-for-jobs-is-like-stand-up-comedy.jpg
 cover_alt: ''
 linkedin_url: ''
 ---

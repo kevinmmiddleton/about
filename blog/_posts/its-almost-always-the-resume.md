@@ -15,7 +15,7 @@ tags:
 featured: false
 sort_order: null
 excerpt: When a search stalls, people blame the ATS, the AI, the economy. Almost every time I look, it's the resume. So I overhauled my own. Here's exactly what changed and why.
-cover_image: /blog/images/resume-red-pen-markup.png
+cover_image: /blog/images/resume-red-pen-markup.jpg
 cover_alt: A resume on a screen with a vague responsibility crossed out and a measurable outcome written in its place.
 linkedin_url: ''
 ---
