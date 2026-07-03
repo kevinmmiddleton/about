@@ -1638,6 +1638,26 @@ a.bento-card:hover::before {
   margin-top: 5px;
   background: rgba(var(--white-rgb), 0.9);
 }
+/* Right-aligned "GitHub ↗" action in the card header (title left, action right) */
+.card-header-link {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(var(--white-rgb), 0.85);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.card-header-link:hover {
+  color: var(--white);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.card-header-link svg { opacity: 0.9; }
 
 @media (max-width: 768px) {
   .bento { grid-template-columns: 1fr; }
