@@ -174,6 +174,7 @@
   .sigpad-actions { margin-top: 8px; display: flex; justify-content: flex-end; }
   .sigpad-wrap.needsign { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,92,52,0.30); }
   .sign-reminder { color: var(--accent-hover); font-weight: 700; font-size: 13px; margin-top: 6px; }
+  .done-check { width: 64px; height: 64px; border-radius: 50%; background: var(--jade); color: #fff; font-size: 32px; font-weight: 700; line-height: 64px; margin: 6px auto 0; box-shadow: 0 0 0 6px rgba(174,184,160,0.28); }
 
   /* Optional Claude letter-review panel */
   .review-block { margin-top: 16px; }
@@ -346,7 +347,7 @@
   // Pre-fills the "how long known" and "how we met" answers with the true way this
   // person knows us (they can edit), and greets them by name. The personal-memory
   // questions stay generic so the specifics are genuinely theirs.
-  var RECIPIENTS = {"maykon": "eyJoaSI6ICJNYXlrb24iLCAibmFtZSI6ICJNYXlrb24gQW5kcmFkZSIsICJwaG9uZSI6ICIoNDE1KSA5MDItMjEwMSIsICJjaXR5IjogIk5ldyBZb3JrLCBOWSIsICJrbm93biI6ICJmb3IgeWVhcnMgbm93LCBhbmQgd2UndmUgZ3Jvd24gY2xvc2Ugb3ZlciB0aGF0IHRpbWUgYXMgdGhleSBidWlsdCB0aGVpciBsaWZlIHRvZ2V0aGVyIGFuZCBtb3ZlZCB0byBOZXcgWW9yay4iLCAibWV0IjogIndoZW4gSSBiZWNhbWUgVG9tJ3MgcGVyc29uYWwgdHJhaW5lciBpbiBTYW4gRnJhbmNpc2NvLiBXZSBoaXQgaXQgb2ZmLCBiZWNhbWUgZnJpZW5kcyBiZXlvbmQgdGhlIGd5bSwgYW5kIEkgZ290IHRvIGtub3cgS2V2aW4gdGhyb3VnaCBoaW0uIn0=", "wes": "eyJoaSI6ICJXZXMiLCAibmFtZSI6ICJXZXNsZXkgQmFybmVzIiwgImVtYWlsIjogIndlc2xleWFiYXJuZXNAZ21haWwuY29tIiwgInBob25lIjogIig0MDQpIDI0NS0yNjExIiwgInN0cmVldCI6ICIzNDEgMTB0aCBTdHJlZXQsIEFwdCAxNkUiLCAiY2l0eSI6ICJCcm9va2x5biwgTlkgMTEyMTUiLCAia25vd24iOiAiZm9yIGEgd2hpbGUgbm93LiBLZXZpbiBhbmQgSSBmaXJzdCBrbmV3IGVhY2ggb3RoZXIgYXMgY29sbGVhZ3VlcywgYW5kIEkndmUga25vd24gdGhlIHR3byBvZiB0aGVtIGFzIGEgY291cGxlIHNpbmNlIHRoZXkgbW92ZWQgdG8gTmV3IFlvcmsgaW4gMjAyMy4iLCAibWV0IjogIndoZW4gS2V2aW4gYW5kIEkgc3RhcnRlZCB3b3JraW5nIHRvZ2V0aGVyIGluIDIwMTMuIEkgYmVjYW1lIGhpcyBtYW5hZ2VyIGF0IE9yYWNsZSBpbiAyMDE2LCBhbmQgSSBnb3QgdG8ga25vdyBUb20gYXMgaGUgYW5kIEtldmluIGJ1aWx0IHRoZWlyIGxpZmUgdG9nZXRoZXIuIiwgIm9jY2FzaW9uIjogInRoZWlyIHJlY2VudCBob3VzZXdhcm1pbmcuIEl0IHdhcyBncmVhdCB0byBzZWUgdGhlbSBpbiB0aGVpciBuZXcgaG9tZSBhbmQgY29ubmVjdCB3aXRoIHNvbWUgb2YgdGhlaXIgZnJpZW5kcyBmcm9tIGRpZmZlcmVudCBjaXJjbGVzLiJ9", "orme": "eyJoaSI6ICJPcm1lIiwgIm5hbWUiOiAiT3JtZSBEb21pbmlxdWUiLCAiZW1haWwiOiAib3JtZS5kb21pbmlxdWVAZ21haWwuY29tIiwgInBob25lIjogIig0MTUpIDMwNS01ODI3IiwgImNpdHkiOiAiTmV3IFlvcmssIE5ZIiwgImtub3duIjogImZvciBvdmVyIHRlbiB5ZWFycy4gS2V2aW4gaXMgb25lIG9mIG15IGNsb3Nlc3QgZnJpZW5kcywgYW5kIFRvbSBoYXMgYmVjb21lIGZhbWlseSB0b28uIiwgIm1ldCI6ICJhdCBhIExpZ2h0cyBEb3duIExvdyBzaG93IChEdWtlIER1bW9udCBhbmQgQ3lyaWwgSGFobikgaW4gU2FuIEZyYW5jaXNjbyBpbiBKdWx5IDIwMTMsIHdoZXJlIEtldmluIGFuZCBJIGhpdCBpdCBvZmYuIFdlJ3ZlIGJlZW4gY2xvc2UgZXZlciBzaW5jZSwgYW5kIEkgZ290IHRvIGtub3cgVG9tIHdlbGwgaGVyZSBpbiBOZXcgWW9yaywgd2hlcmUgSSBsaXZlIHRvby4ifQ==", "cody": "eyJoaSI6ICJDb2R5IiwgIm5hbWUiOiAiQ29keSBSaXNoZWxsIiwgImVtYWlsIjogImNvY2lqbzUwMDBAZ21haWwuY29tIiwgInBob25lIjogIig0MTUpIDk0MC0xODM1IiwgImNpdHkiOiAiTmV3IFlvcmssIE5ZIiwgImtub3duIjogImZvciB5ZWFycyBub3csIHNpbmNlIG15IHBhcnRuZXIgT3JtZSBhbmQgS2V2aW4gZ28gd2F5IGJhY2suIiwgIm1ldCI6ICJ0aHJvdWdoIE9ybWUncyBsb25nIGZyaWVuZHNoaXAgd2l0aCBLZXZpbi4gSSBtZXQgVG9tIGFyb3VuZCB0aGUgc2FtZSB0aW1lLCBhbmQgd2UndmUgYmVlbiBjb3VwbGUgZnJpZW5kcyBldmVyIHNpbmNlLiJ9", "jack": "eyJoaSI6ICJKYWNrIiwgIm5hbWUiOiAiSmFjayBGbG95ZCIsICJwaG9uZSI6ICIoNDE0KSA3MDgtNzg0NiIsICJjaXR5IjogIk5ldyBZb3JrLCBOWSIsICJrbm93biI6ICJmb3IgYSBjb3VwbGUgb2YgeWVhcnMgbm93LCBhbmQgSSd2ZSBnb3R0ZW4gdG8ga25vdyBib3RoIG9mIHRoZW0gd2VsbC4gV2UgaGFuZyBvdXQgc29jaWFsbHkgZmFpcmx5IG9mdGVuLCBiZXlvbmQganVzdCBvdXIgbGVhZ3VlIG5pZ2h0cy4iLCAibWV0IjogImF0IG91ciBCaWcgQXBwbGUgUmVjIFNwb3J0cyBib3dsaW5nIGxlYWd1ZSBoZXJlIGluIE5ldyBZb3JrLiBUaGF0J3Mgd2hlcmUgSSBnb3QgdG8ga25vdyBUb20sIGFuZCBJIGdvdCB0byBrbm93IEtldmluIHRocm91Z2ggaGltLiIsICJvY2Nhc2lvbiI6ICJ0aGVpciBob3VzZXdhcm1pbmcgdGhpcyB5ZWFyLiBJJ3ZlIGJlZW4gdG8gdGhlaXIgaG9tZSBzZXZlcmFsIHRpbWVzIGZvciBwYXJ0aWVzLCBhbmQgSSBjYW1lIHRvIHRoZWlyIGxhc3QgdHdvIEV1cm92aXNpb24gcGFydGllcy4ifQ==", "brandon": "eyJoaSI6ICJCcmFuZG9uIiwgIm5hbWUiOiAiQnJhbmRvbiBQcm9hbm8iLCAicGhvbmUiOiAiKDkxNykgMjQ0LTA2OTYiLCAiY2l0eSI6ICJOZXcgWW9yaywgTlkiLCAia25vd24iOiAiZm9yIGEgbGl0dGxlIHdoaWxlIG5vdywgYW5kIEkndmUgZ290dGVuIHRvIGtub3cgYm90aCBvZiB0aGVtLiBXZSBoYW5nIG91dCBzb2NpYWxseSwgbm90IGp1c3QgYXQgdGhlIGxlYWd1ZS4iLCAibWV0IjogImF0IG91ciBCaWcgQXBwbGUgUmVjIFNwb3J0cyBib3dsaW5nIGxlYWd1ZSBoZXJlIGluIE5ldyBZb3JrLiBUaGF0J3Mgd2hlcmUgSSBnb3QgdG8ga25vdyBUb20sIGFuZCBJIGdvdCB0byBrbm93IEtldmluIHRocm91Z2ggaGltLiIsICJvY2Nhc2lvbiI6ICJ0aGVpciByZWNlbnQgaG91c2V3YXJtaW5nLiBJJ3ZlIGJlZW4gdG8gdGhlaXIgaG9tZSBzZXZlcmFsIHRpbWVzIGZvciBob3VzZSBwYXJ0aWVzLiJ9"};
+  var RECIPIENTS = {"maykon": "eyJoaSI6ICJNYXlrb24iLCAibmFtZSI6ICJNYXlrb24gQW5kcmFkZSIsICJwaG9uZSI6ICIoNDE1KSA5MDItMjEwMSIsICJjaXR5IjogIkFzdG9yaWEsIE5ZIiwgImtub3duIjogImZvciB5ZWFycyBub3csIGFuZCB3ZSd2ZSBncm93biBjbG9zZSBvdmVyIHRoYXQgdGltZSBhcyB0aGV5IGJ1aWx0IHRoZWlyIGxpZmUgdG9nZXRoZXIgYW5kIG1vdmVkIHRvIE5ldyBZb3JrLiIsICJtZXQiOiAid2hlbiBJIGJlY2FtZSBUb20ncyBwZXJzb25hbCB0cmFpbmVyIGluIFNhbiBGcmFuY2lzY28uIFdlIGhpdCBpdCBvZmYsIGJlY2FtZSBmcmllbmRzIGJleW9uZCB0aGUgZ3ltLCBhbmQgSSBnb3QgdG8ga25vdyBLZXZpbiB0aHJvdWdoIGhpbS4ifQ==", "wes": "eyJoaSI6ICJXZXMiLCAibmFtZSI6ICJXZXNsZXkgQmFybmVzIiwgImVtYWlsIjogIndlc2xleWFiYXJuZXNAZ21haWwuY29tIiwgInBob25lIjogIig0MDQpIDI0NS0yNjExIiwgInN0cmVldCI6ICIzNDEgMTB0aCBTdHJlZXQsIEFwdCAxNkUiLCAiY2l0eSI6ICJCcm9va2x5biwgTlkgMTEyMTUiLCAia25vd24iOiAiZm9yIGEgd2hpbGUgbm93LiBLZXZpbiBhbmQgSSBmaXJzdCBrbmV3IGVhY2ggb3RoZXIgYXMgY29sbGVhZ3VlcywgYW5kIEkndmUga25vd24gdGhlIHR3byBvZiB0aGVtIGFzIGEgY291cGxlIHNpbmNlIHRoZXkgbW92ZWQgdG8gTmV3IFlvcmsgaW4gMjAyMy4iLCAibWV0IjogIndoZW4gS2V2aW4gYW5kIEkgc3RhcnRlZCB3b3JraW5nIHRvZ2V0aGVyIGluIDIwMTMuIEkgYmVjYW1lIGhpcyBtYW5hZ2VyIGF0IE9yYWNsZSBpbiAyMDE2LCBhbmQgSSBnb3QgdG8ga25vdyBUb20gYXMgaGUgYW5kIEtldmluIGJ1aWx0IHRoZWlyIGxpZmUgdG9nZXRoZXIuIiwgIm9jY2FzaW9uIjogInRoZWlyIHJlY2VudCBob3VzZXdhcm1pbmcuIEl0IHdhcyBncmVhdCB0byBzZWUgdGhlbSBpbiB0aGVpciBuZXcgaG9tZSBhbmQgY29ubmVjdCB3aXRoIHNvbWUgb2YgdGhlaXIgZnJpZW5kcyBmcm9tIGRpZmZlcmVudCBjaXJjbGVzLiJ9", "orme": "eyJoaSI6ICJPcm1lIiwgIm5hbWUiOiAiT3JtZSBEb21pbmlxdWUiLCAiZW1haWwiOiAib3JtZS5kb21pbmlxdWVAZ21haWwuY29tIiwgInBob25lIjogIig0MTUpIDMwNS01ODI3IiwgImNpdHkiOiAiTmV3IFlvcmssIE5ZIiwgImtub3duIjogImZvciBvdmVyIHRlbiB5ZWFycy4gS2V2aW4gaXMgb25lIG9mIG15IGNsb3Nlc3QgZnJpZW5kcywgYW5kIFRvbSBoYXMgYmVjb21lIGZhbWlseSB0b28uIiwgIm1ldCI6ICJhdCBhIExpZ2h0cyBEb3duIExvdyBzaG93IChEdWtlIER1bW9udCBhbmQgQ3lyaWwgSGFobikgaW4gU2FuIEZyYW5jaXNjbyBpbiBKdWx5IDIwMTMsIHdoZXJlIEtldmluIGFuZCBJIGhpdCBpdCBvZmYuIFdlJ3ZlIGJlZW4gY2xvc2UgZXZlciBzaW5jZSwgYW5kIEkgZ290IHRvIGtub3cgVG9tIHdlbGwgaGVyZSBpbiBOZXcgWW9yaywgd2hlcmUgSSBsaXZlIHRvby4ifQ==", "cody": "eyJoaSI6ICJDb2R5IiwgIm5hbWUiOiAiQ29keSBSaXNoZWxsIiwgImVtYWlsIjogImNvY2lqbzUwMDBAZ21haWwuY29tIiwgInBob25lIjogIig0MTUpIDk0MC0xODM1IiwgImNpdHkiOiAiTmV3IFlvcmssIE5ZIiwgImtub3duIjogImZvciB5ZWFycyBub3csIHNpbmNlIG15IHBhcnRuZXIgT3JtZSBhbmQgS2V2aW4gZ28gd2F5IGJhY2suIiwgIm1ldCI6ICJ0aHJvdWdoIE9ybWUncyBsb25nIGZyaWVuZHNoaXAgd2l0aCBLZXZpbi4gSSBtZXQgVG9tIGFyb3VuZCB0aGUgc2FtZSB0aW1lLCBhbmQgd2UndmUgYmVlbiBjb3VwbGUgZnJpZW5kcyBldmVyIHNpbmNlLiJ9", "jack": "eyJoaSI6ICJKYWNrIiwgIm5hbWUiOiAiSmFjayBGbG95ZCIsICJwaG9uZSI6ICIoNDE0KSA3MDgtNzg0NiIsICJjaXR5IjogIkJyb29rbHluLCBOWSIsICJrbm93biI6ICJmb3IgYSBjb3VwbGUgb2YgeWVhcnMgbm93LCBhbmQgSSd2ZSBnb3R0ZW4gdG8ga25vdyBib3RoIG9mIHRoZW0gd2VsbC4gV2UgaGFuZyBvdXQgc29jaWFsbHkgZmFpcmx5IG9mdGVuLCBiZXlvbmQganVzdCBvdXIgbGVhZ3VlIG5pZ2h0cy4iLCAibWV0IjogImF0IG91ciBCaWcgQXBwbGUgUmVjIFNwb3J0cyBib3dsaW5nIGxlYWd1ZSBoZXJlIGluIE5ldyBZb3JrLiBUaGF0J3Mgd2hlcmUgSSBnb3QgdG8ga25vdyBUb20sIGFuZCBJIGdvdCB0byBrbm93IEtldmluIHRocm91Z2ggaGltLiIsICJvY2Nhc2lvbiI6ICJ0aGVpciBob3VzZXdhcm1pbmcgdGhpcyB5ZWFyLiBJJ3ZlIGJlZW4gdG8gdGhlaXIgaG9tZSBzZXZlcmFsIHRpbWVzIGZvciBwYXJ0aWVzLCBhbmQgSSBjYW1lIHRvIHRoZWlyIGxhc3QgdHdvIEV1cm92aXNpb24gcGFydGllcy4ifQ==", "brandon": "eyJoaSI6ICJCcmFuZG9uIiwgIm5hbWUiOiAiQnJhbmRvbiBQcm9hbm8iLCAicGhvbmUiOiAiKDkxNykgMjQ0LTA2OTYiLCAiY2l0eSI6ICJRdWVlbnMsIE5ZIiwgImtub3duIjogImZvciBhIGxpdHRsZSB3aGlsZSBub3csIGFuZCBJJ3ZlIGdvdHRlbiB0byBrbm93IGJvdGggb2YgdGhlbS4gV2UgaGFuZyBvdXQgc29jaWFsbHksIG5vdCBqdXN0IGF0IHRoZSBsZWFndWUuIiwgIm1ldCI6ICJhdCBvdXIgQmlnIEFwcGxlIFJlYyBTcG9ydHMgYm93bGluZyBsZWFndWUgaGVyZSBpbiBOZXcgWW9yay4gVGhhdCdzIHdoZXJlIEkgZ290IHRvIGtub3cgVG9tLCBhbmQgSSBnb3QgdG8ga25vdyBLZXZpbiB0aHJvdWdoIGhpbS4iLCAib2NjYXNpb24iOiAidGhlaXIgcmVjZW50IGhvdXNld2FybWluZy4gSSd2ZSBiZWVuIHRvIHRoZWlyIGhvbWUgc2V2ZXJhbCB0aW1lcyBmb3IgaG91c2UgcGFydGllcy4ifQ=="};
   (function applyRecipient() {
     var who = '';
     try { who = (new URLSearchParams(location.search).get('p') || '').trim().toLowerCase(); } catch (e) {}
@@ -727,6 +728,17 @@
       modalEl.hidden = false;
       document.getElementById('sentClose').onclick = function () { modalEl.hidden = true; };
     }
+    function renderThankYou() {
+      wrap.classList.remove('wide');
+      var copy = s.email.trim() ? ' A copy is on its way to your inbox, too.' : '';
+      card.innerHTML =
+        '<div class="center" style="padding:22px 6px;">' +
+          '<div class="done-check">✓</div>' +
+          '<h2 class="question" style="margin-top:14px;">All done, thank you! 💛</h2>' +
+          '<p class="qhelp" style="font-size:15px;max-width:460px;margin:10px auto 4px;">Your letter is on its way to Kevin and Tom.' + copy + ' That’s everything, you can close this tab.</p>' +
+        '</div>';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     // Fallback if auto-send can’t reach the server: save the PDF and let them email it.
     function showSendManual() {
       var nm = s.name.trim();
@@ -760,7 +772,7 @@
       if (w) { w.classList.add('needsign'); w.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     }
 
-    var reviewedOnce = false, reviewGated = false;
+    var reviewedOnce = false, reviewGated = false, sentOnce = false;
     function requireReview() {
       reviewGated = true;
       var out = document.getElementById('reviewOut');
@@ -789,6 +801,7 @@
     var sendBtn = document.getElementById('sendBtn');
     if (sendBtn) sendBtn.onclick = function () { runSend(this); };
     function runSend(btn) {
+      if (sentOnce) return; // already submitted; no double-send
       if (!s.signature) { remindToSign(); return; }
       if (REVIEW_WORKER_URL && !reviewedOnce) { requireReview(); return; }
       if (!s.name.trim() || !bodyParagraphs().length) {
@@ -809,7 +822,7 @@
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (res) {
           btn.textContent = label; btn.disabled = false;
-          if (res.ok && res.d && res.d.ok) { showSent(); }
+          if (res.ok && res.d && res.d.ok) { sentOnce = true; renderThankYou(); }
           else { try { buildPdf(filename); } catch (e) {} showSendManual(); }
         })
         .catch(function () {
