@@ -607,7 +607,7 @@
           '<p class="edit-sub">Read it on the left. The whole letter is yours to rewrite below in your own voice, and the last paragraph is your closing thought. It updates as you type. When it sounds like you, grab the PDF.</p>' +
           editFields +
           (REVIEW_WORKER_URL ? ('<div class="review-block">' +
-              '<button class="ghost" id="reviewBtn">✨ Have Claude read it over</button>' +
+              '<button class="ghost" id="reviewBtn">✨ Spelling, grammar, and flow check</button>' +
               '<div class="review-out" id="reviewOut" hidden></div>' +
             '</div>') : '') +
           '<div class="toolbar" style="margin-top:18px;"><button class="primary" id="downloadBtn2">Download PDF</button></div>' +
@@ -721,7 +721,7 @@
       var out = document.getElementById('reviewOut');
       var text = (s.bodyText || '').trim();
       if (!text) { out.hidden = false; out.innerHTML = '<p class="review-err">Write your letter first, then I can read it over.</p>'; return; }
-      var label = btn.textContent; btn.textContent = 'Reading it over…'; btn.disabled = true;
+      var label = btn.textContent; btn.textContent = 'Checking…'; btn.disabled = true;
       out.hidden = false; out.innerHTML = '<p class="review-loading">One sec, giving it a careful read…</p>';
       var headers = { 'Content-Type': 'application/json' };
       if (REVIEW_TOKEN) headers['X-Portal-Token'] = REVIEW_TOKEN;
