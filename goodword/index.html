@@ -84,7 +84,7 @@
 
   /* Review layout */
   .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
-  @media (max-width: 900px) { .review-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .review-grid { grid-template-columns: 1fr; } .edit-col { order: -1; } }
   .review-grid > * { min-width: 0; } /* let columns shrink so text wraps */
   .preview-shell { position: static; min-width: 0; }
   .paper {
@@ -186,6 +186,33 @@
   .review-loading { color: var(--muted); margin: 0; }
   .review-err { color: var(--accent-hover); font-weight: 600; margin: 0; }
   #usePolished { margin-top: 4px; }
+
+  /* Single finish bar */
+  .finish-bar { margin-top: 26px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .finish-bar .primary { min-width: 260px; font-size: 16px; padding: 14px 28px; }
+
+  /* "Easier on a computer" nudge — shown only on small screens */
+  .device-note { display: none; background: var(--wasabi); color: var(--plum); border-radius: 12px;
+    padding: 12px 42px 12px 15px; font-size: 13.5px; line-height: 1.5; position: relative; margin: 0 0 18px; }
+  .device-note b { font-weight: 700; }
+  .device-note .x { position: absolute; top: 7px; right: 9px; cursor: pointer; border: none; background: transparent;
+    font-size: 18px; color: var(--plum); line-height: 1; padding: 2px 7px; }
+
+  /* Mobile polish */
+  @media (max-width: 700px) {
+    .device-note { display: block; }
+    .card { padding: 22px 18px; }
+    .review-grid { gap: 20px; }
+    .finish-bar .primary { width: 100%; min-width: 0; }
+    .nav { flex-wrap: wrap; }
+  }
+  @media (max-width: 560px) {
+    input[type=text], input[type=email], input[type=tel], textarea { font-size: 16px; } /* stop iOS zoom-on-focus */
+    .paper { padding: 26px 22px; min-height: auto; }
+    .wrap { padding: 24px 14px 80px; }
+    header.intro h1 { font-size: 22px; }
+    .question { font-size: 19px; }
+  }
 </style>
 </head>
 <body>
@@ -213,6 +240,11 @@
 </div>
 
 <div class="wrap" id="wrap" style="display:none">
+
+  <div class="device-note" id="deviceNote">
+    <b>Psst — this is easiest on a computer.</b> You can absolutely do it on your phone, but the final step saves a PDF to email over to us, which is smoother on a laptop.
+    <button class="x" type="button" aria-label="Dismiss" onclick="this.parentNode.style.display='none'">×</button>
+  </div>
 
   <header class="intro" id="introHeader">
     <h1>Put in a good word for Kevin &amp; Tom</h1>
@@ -597,22 +629,21 @@
             '<div class="sigpad-actions"><button class="subtle" id="sigClear">Clear</button></div>' +
             '<div class="sign-reminder" id="signReminder" hidden>Add your signature above, then download.</div>' +
           '</div>' +
-          '<div class="toolbar">' +
-            '<button class="primary" id="downloadBtn">Download PDF</button>' +
-          '</div>' +
-          '<div class="signnote"><strong>Signing:</strong> sign right in the box above with your mouse or finger and it drops straight into the letter. After you download, an email option pops up to send it our way. No notary, no fuss.</div>' +
+          '<div class="signnote"><strong>Signing:</strong> sign right in the box with your mouse or finger and it drops straight into the letter. No notary, no fuss.</div>' +
         '</div>' +
-        '<div>' +
-          '<div class="edit-head">Ta-da. Here’s your draft.</div>' +
-          '<p class="edit-sub">Read it on the left. The whole letter is yours to rewrite below in your own voice, and the last paragraph is your closing thought. It updates as you type. When it sounds like you, grab the PDF.</p>' +
+        '<div class="edit-col">' +
+          '<div class="edit-head">Here’s your draft.</div>' +
+          '<p class="edit-sub">Stitched together from your answers. Make it yours below in your own voice — it updates live as you type. Run the quick check, then grab the PDF.</p>' +
           editFields +
           (REVIEW_WORKER_URL ? ('<div class="review-block">' +
               '<button class="ghost" id="reviewBtn">✨ Spelling, grammar, and flow check</button>' +
               '<div class="review-out" id="reviewOut" hidden></div>' +
             '</div>') : '') +
-          '<div class="toolbar" style="margin-top:18px;"><button class="primary" id="downloadBtn2">Download PDF</button></div>' +
-          '<div class="nav"><span></span><button class="subtle" id="restartBtn">Start over</button></div>' +
         '</div>' +
+      '</div>' +
+      '<div class="finish-bar">' +
+        '<button class="primary" id="downloadBtn">Download PDF</button>' +
+        '<button class="subtle" id="restartBtn">Start over</button>' +
       '</div>';
 
     function refresh() { document.getElementById('docBody').innerHTML = buildBodyHTML(true); }
@@ -695,8 +726,17 @@
       if (w) { w.classList.add('needsign'); w.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     }
 
+    var reviewedOnce = false, reviewGated = false;
+    function requireReview() {
+      reviewGated = true;
+      var out = document.getElementById('reviewOut');
+      if (out) out.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var rb = document.getElementById('reviewBtn');
+      if (rb) runReview(rb);
+    }
     function runDownload(btn) {
       if (!s.signature) { remindToSign(); return; } // must e-sign before downloading
+      if (REVIEW_WORKER_URL && !reviewedOnce) { requireReview(); return; } // grammar check required first
       if (!s.name.trim() || !bodyParagraphs().length) {
         if (!confirm('Looks like your name or your letter is still empty. Download anyway?')) return;
       }
@@ -712,7 +752,6 @@
       btn.textContent = label; btn.disabled = false;
     }
     document.getElementById('downloadBtn').onclick = function () { runDownload(this); };
-    document.getElementById('downloadBtn2').onclick = function () { runDownload(this); };
 
     // Optional: send the letter to the Claude review Worker and show suggestions.
     var reviewBtn = document.getElementById('reviewBtn');
@@ -729,6 +768,7 @@
         .then(function (r) { return r.json(); })
         .then(function (d) {
           btn.textContent = label; btn.disabled = false;
+          reviewedOnce = true;
           if (d.error) { out.innerHTML = '<p class="review-err">Couldn’t reach the review helper: ' + esc(d.error) + '. You can still finish and download.</p>'; return; }
           var html = '';
           if (d.summary) html += '<p class="review-summary">' + esc(d.summary) + '</p>';
@@ -743,9 +783,11 @@
             refresh();
             up.textContent = 'Applied ✓'; up.disabled = true;
           };
+          if (reviewGated) { reviewGated = false; out.insertAdjacentHTML('beforeend', '<p class="review-summary" style="margin-top:10px">When you’re happy with it, click Download PDF below to finish.</p>'); }
         })
         .catch(function () {
           btn.textContent = label; btn.disabled = false;
+          reviewedOnce = true;
           out.innerHTML = '<p class="review-err">Something went wrong reaching the review helper. You can still finish and download.</p>';
         });
     }
