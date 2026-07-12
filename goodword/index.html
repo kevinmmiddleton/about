@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex" />
+<title>A Letter for Kevin &amp; Tom</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    /* Pinterest 2026 palette */
+    --plum: #351E28;        /* plum noir */
+    --persimmon: #FF5C34;
+    --persimmon-deep: #E84A25;
+    --cool-blue: #D7EFFF;
+    --jade: #AEB8A0;
+    --wasabi: #E9F056;
+
+    --ink: #351E28;         /* plum noir for text */
+    --muted: #7A6B73;       /* muted plum-gray */
+    --line: #DDE3DA;        /* jade-tinted hairline */
+    --accent: #FF5C34;      /* persimmon */
+    --accent-hover: #E84A25;
+    --accent-soft: #D7EFFF; /* cool blue */
+    --bg: #EAF2F8;          /* pale cool blue */
+    --paper: #ffffff;
+    --doc-font: Georgia, "Times New Roman", serif; /* randomized per letter via JS */
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink); background: var(--bg); line-height: 1.5;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 34px 20px 90px; }
+  .wrap.wide { max-width: 1160px; }
+  header.intro { text-align: center; margin-bottom: 22px; }
+  header.intro h1 { font-size: 26px; margin: 0 0 8px; letter-spacing: -0.01em; }
+  header.intro p { color: var(--muted); margin: 6px 0; font-size: 15px; }
+
+  .card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
+    padding: 30px; box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+  }
+
+  .progress { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; margin-bottom: 6px; }
+  .progress > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; transition: width .25s ease; }
+  .stepcount { font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 18px; }
+
+  .qmark { font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+  .question { font-size: 21px; font-weight: 650; line-height: 1.35; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .qhelp { color: var(--muted); font-size: 14.5px; margin: 0 0 18px; }
+
+  .stem { font-family: Georgia, "Times New Roman", serif; font-size: 17px; color: var(--ink); background: #fff;
+          border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; }
+  .stem b { font-weight: 700; }
+
+  label { display: block; font-weight: 600; font-size: 14px; margin: 16px 0 5px; }
+  label .hint { display: block; font-weight: 400; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  input[type=text], input[type=email], input[type=tel], textarea {
+    width: 100%; padding: 11px 13px; border: 1px solid var(--line); border-radius: 10px;
+    font: inherit; color: var(--ink); background: #fff;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  textarea { resize: vertical; min-height: 96px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+
+  .nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 26px; }
+  button {
+    font: inherit; font-weight: 600; font-size: 15px; cursor: pointer;
+    border-radius: 10px; padding: 12px 22px; border: 1px solid var(--accent);
+  }
+  button.primary { background: var(--accent); color: #fff; font-weight: 700; border-color: var(--accent); }
+  button.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+  button.ghost { background: #fff; color: var(--accent); }
+  button.ghost:hover { background: var(--accent-soft); }
+  button.subtle { border-color: transparent; background: transparent; color: var(--muted); padding-left: 4px; }
+  button.subtle:hover { color: var(--ink); }
+  button:disabled { opacity: .4; cursor: default; }
+
+  .center { text-align: center; }
+  .begin-meta { color: var(--muted); font-size: 14px; margin-top: 18px; }
+
+  /* Review layout */
+  .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  @media (max-width: 900px) { .review-grid { grid-template-columns: 1fr; } }
+  .review-grid > * { min-width: 0; } /* let columns shrink so text wraps */
+  .preview-shell { position: static; min-width: 0; }
+  .paper {
+    background: #fff; border: 1px solid var(--line); border-radius: 6px;
+    padding: 52px 54px; min-height: 720px; box-shadow: 0 8px 28px rgba(53,30,40,0.10);
+    font-family: var(--doc-font, Georgia, "Times New Roman", serif); color: var(--ink);
+  }
+  .paper h3.doc-title { text-align: center; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 4px; }
+  .paper .doc-sub { text-align: center; font-size: 12.5px; color: #444; margin: 0 0 26px; font-style: italic; }
+  .paper p { font-size: 14.5px; line-height: 1.7; margin: 0 0 14px; text-align: justify; overflow-wrap: break-word; word-break: break-word; }
+  .paper .placeholder { color: #b6bcc6; font-style: italic; }
+  .paper .sig-block { margin-top: 40px; }
+  .paper .sig-line { border-top: 1px solid var(--ink); width: 280px; padding-top: 4px; font-size: 13px; }
+  .paper .sig-meta { font-size: 13px; margin: 3px 0; color: var(--ink); }
+  .paper .sig-img { display: block; height: 56px; max-width: 300px; object-fit: contain; margin-bottom: 2px; }
+  .paper .sig-rule { border-top: 1px solid var(--ink); width: 280px; padding-top: 4px; font-size: 12px; color: var(--muted); }
+
+  .edit-head { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); font-weight: 700; margin: 4px 0 4px; }
+  .edit-sub { color: var(--muted); font-size: 13.5px; margin: 0 0 14px; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+  .signnote { background: var(--accent-soft); border: 1px solid #bfe0f5; color: var(--ink); border-radius: 10px; padding: 12px 14px; font-size: 13.5px; margin-top: 16px; }
+  .signnote strong { color: var(--accent-hover); }
+  .editfield label { margin-top: 14px; }
+  footer.fine { text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 18px; }
+
+  /* Ever-present timeline */
+  .timeline { margin-top: 38px; border-top: 1px solid var(--line); padding-top: 22px; }
+  .tl-title { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 26px; }
+  .tl-title b { color: var(--ink); font-weight: 700; }
+  .tl-title span { display: inline-block; margin-left: 6px; opacity: .85; font-size: 12px; }
+  .tl-track { position: relative; display: flex; justify-content: space-between; align-items: flex-start; max-width: 720px; margin: 0 auto; padding: 0 6px; }
+  .tl-line { position: absolute; left: 28px; right: 28px; top: 7px; height: 2px; background: var(--line); z-index: 0; }
+  .tl-dot { position: relative; z-index: 1; background: transparent; border: none; padding: 0 4px; cursor: pointer; display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .tl-dot::before { content: ""; width: 15px; height: 15px; border-radius: 50%; background: var(--persimmon); border: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(53,30,40,0.12); transition: transform .15s ease, box-shadow .15s ease; }
+  .tl-dot:hover::before, .tl-dot.open::before { transform: scale(1.28); box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(53,30,40,0.26); }
+  .tl-track .tl-dot:nth-of-type(1)::before { background: var(--persimmon); }
+  .tl-track .tl-dot:nth-of-type(2)::before { background: var(--wasabi); }
+  .tl-track .tl-dot:nth-of-type(3)::before { background: var(--plum); }
+  .tl-track .tl-dot:nth-of-type(4)::before { background: var(--jade); }
+  .tl-track .tl-dot:nth-of-type(5)::before { background: var(--wasabi); }
+  .tl-track .tl-dot:nth-of-type(6)::before { background: var(--persimmon); }
+  .tl-dot.wed::before { background: var(--plum); box-shadow: 0 0 0 2px #fff, 0 0 0 5px var(--wasabi); transform: scale(1.08); }
+  .tl-when { margin-top: 9px; font-size: 12px; color: var(--ink); font-weight: 600; white-space: nowrap; }
+  .tl-pop { position: absolute; bottom: 100%; margin-bottom: 14px; left: 50%; transform: translateX(-50%);
+            width: 214px; background: var(--plum); color: #fff; font-size: 12.5px; line-height: 1.55; text-align: left;
+            padding: 11px 13px; border-radius: 10px; opacity: 0; visibility: hidden; transition: opacity .15s ease;
+            box-shadow: 0 10px 26px rgba(53,30,40,.28); z-index: 5; }
+  .tl-pop b { color: var(--wasabi); }
+  .tl-pop::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--plum); }
+  .tl-dot:hover .tl-pop, .tl-dot:focus-within .tl-pop, .tl-dot.open .tl-pop { opacity: 1; visibility: visible; }
+  .tl-pop.left { left: 0; transform: none; }
+  .tl-pop.left::after { left: 24px; }
+  .tl-pop.right { left: auto; right: 0; transform: none; }
+  .tl-pop.right::after { left: auto; right: 24px; }
+  @media (max-width: 560px) { .tl-pop { width: 168px; } .tl-when { font-size: 11px; } .tl-line { left: 22px; right: 22px; } }
+
+  /* Password gate */
+  .gate { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 22px; z-index: 50; }
+  .gate-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 36px 30px; max-width: 390px; width: 100%; text-align: center; box-shadow: 0 16px 40px rgba(53,30,40,0.14); border-top: 5px solid var(--accent); }
+  .gate-card h1 { font-size: 22px; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .gate-card p { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+  .gate-card input { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font: inherit; margin-bottom: 12px; text-align: center; }
+  .gate-card input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .gate-card .primary { width: 100%; }
+  .gate-err { color: var(--accent-hover); font-weight: 700; margin: 12px 0 0 !important; }
+
+  /* Send modal */
+  .modal { position: fixed; inset: 0; background: rgba(53,30,40,0.45); display: flex; align-items: center; justify-content: center; padding: 22px; z-index: 60; }
+  .modal[hidden] { display: none; }
+  .modal-card { background: #fff; border-radius: 18px; padding: 30px; max-width: 430px; width: 100%; text-align: center; box-shadow: 0 20px 50px rgba(53,30,40,0.28); border-top: 5px solid var(--accent); }
+  .modal-card h2 { font-size: 21px; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .modal-card p { color: var(--muted); font-size: 14.5px; margin: 0 0 18px; line-height: 1.55; }
+  .modal-card p b { color: var(--ink); }
+  .modal-actions { display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; }
+  .modal-actions .primary, .modal-actions .ghost { width: 100%; }
+  .modal-actions a.maillink { box-sizing: border-box; display: block; text-align: center; text-decoration: none;
+    font: inherit; font-weight: 600; font-size: 15px; padding: 12px 22px; border-radius: 10px;
+    border: 1px solid var(--accent); background: #fff; color: var(--accent); }
+  .modal-actions a.maillink:hover { background: var(--accent-soft); }
+
+  /* Signature pad */
+  .sigpad-wrap { margin-top: 16px; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: #fff; }
+  .sigpad-head { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .sigpad-head span { font-weight: 400; color: var(--muted); margin-left: 6px; font-size: 12px; }
+  .sigpad { width: 100%; height: 130px; border: 1px dashed var(--jade); border-radius: 10px; background: #fff; display: block; touch-action: none; cursor: crosshair; }
+  .sigpad-actions { margin-top: 8px; display: flex; justify-content: flex-end; }
+  .sigpad-wrap.needsign { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,92,52,0.30); }
+  .sign-reminder { color: var(--accent-hover); font-weight: 700; font-size: 13px; margin-top: 6px; }
+
+  /* Optional Claude letter-review panel */
+  .review-block { margin-top: 16px; }
+  .review-block .ghost { width: 100%; }
+  .review-out { margin-top: 12px; background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 12px; padding: 14px 16px; font-size: 14px; }
+  .review-out[hidden] { display: none; }
+  .review-summary { font-weight: 650; margin: 0 0 8px; }
+  .review-notes { margin: 0 0 10px; padding-left: 18px; }
+  .review-notes li { margin: 5px 0; line-height: 1.5; }
+  .review-loading { color: var(--muted); margin: 0; }
+  .review-err { color: var(--accent-hover); font-weight: 600; margin: 0; }
+  #usePolished { margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <h1>Psst. What’s the password?</h1>
+    <p>We sent it along with this link. Drop it in below.</p>
+    <input type="password" id="gateInput" placeholder="the password" autocomplete="off" autocapitalize="off" spellcheck="false" />
+    <button class="primary" id="gateBtn">Let me in</button>
+    <p class="gate-err" id="gateErr" hidden>Hmm, that’s not it. Try again?</p>
+  </div>
+</div>
+
+<div class="modal" id="sendModal" hidden>
+  <div class="modal-card">
+    <h2>Downloaded! One last step.</h2>
+    <p>Send it over to us. Pick your email app, <b>attach the PDF you just downloaded</b>, and hit send. (Browsers can’t attach it for you, sorry.)</p>
+    <div class="modal-actions">
+      <button class="primary" id="gmailBtn">Open in Gmail</button>
+      <a class="ghost maillink" id="mailBtn" role="button" href="#">Open in Email</a>
+    </div>
+    <button class="subtle" id="modalClose">I’ll send it myself</button>
+  </div>
+</div>
+
+<div class="wrap" id="wrap" style="display:none">
+
+  <header class="intro" id="introHeader">
+    <h1>Put in a good word for Kevin &amp; Tom</h1>
+    <p>Tom has a 2-year green card, and to trade it in for the permanent one, the government wants proof us two lovebirds are actually, genuinely, building-a-life married. A letter from you lovely folks who knows us as a couple carries real weight. That's you. Thank you, truly. ❤️</p>
+  </header>
+
+  <div class="card" id="card"></div>
+
+  <div class="timeline" aria-label="Kevin and Tom timeline">
+    <div class="tl-title"><b>Our Story</b> <span>tap a dot for a milestone</span></div>
+    <div class="tl-track">
+      <div class="tl-line"></div>
+      <button type="button" class="tl-dot">
+        <span class="tl-pop left"><b>June 17, 2022</b><br/>Met at a comedy show at Oasis in San Francisco, while Tom was getting his MBA. We hit it off instantly.</span>
+        <span class="tl-when">Jun 2022</span>
+      </button>
+      <button type="button" class="tl-dot">
+        <span class="tl-pop"><b>July 2023</b><br/>Moved to New York City together, to the Lower East Side.</span>
+        <span class="tl-when">Jul 2023</span>
+      </button>
+      <button type="button" class="tl-dot wed">
+        <span class="tl-pop"><b>February 9, 2024</b><br/>We got married!</span>
+        <span class="tl-when">Feb 9, 2024</span>
+      </button>
+      <button type="button" class="tl-dot">
+        <span class="tl-pop"><b>February 2024</b><br/>Moved to Roosevelt Island (The Octagon).</span>
+        <span class="tl-when">Feb 2024</span>
+      </button>
+      <button type="button" class="tl-dot">
+        <span class="tl-pop"><b>September 26, 2024</b><br/>Tom's conditional green card began. The two-year period this letter supports.</span>
+        <span class="tl-when">Sep 2024</span>
+      </button>
+      <button type="button" class="tl-dot">
+        <span class="tl-pop right"><b>April 2026</b><br/>Moved to Long Island City (Lumen), where we live now.</span>
+        <span class="tl-when">Apr 2026</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- Password gate ----
+// Change the password here. Keep it simple; friends will type it.
+(function () {
+  var PASSWORD = 'cats';
+  var KEY = 'klt_unlocked';
+  var gate = document.getElementById('gate');
+  var wrapEl = document.getElementById('wrap');
+  function unlock() { gate.style.display = 'none'; wrapEl.style.display = ''; }
+  try { if (sessionStorage.getItem(KEY) === '1') { unlock(); return; } } catch (e) {}
+  var input = document.getElementById('gateInput');
+  var err = document.getElementById('gateErr');
+  function attempt() {
+    if (input.value.trim().toLowerCase() === PASSWORD.toLowerCase()) {
+      try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+      unlock();
+    } else { err.hidden = false; input.value = ''; input.focus(); }
+  }
+  document.getElementById('gateBtn').onclick = attempt;
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') attempt(); });
+  input.focus();
+})();
+
+(function () {
+  // ---- optional: Claude letter-review helper ----
+  // Paste your deployed Cloudflare Worker URL to turn on the "Have Claude read it
+  // over" button on the review screen. Leave blank to hide the button entirely.
+  // The Worker holds the Anthropic API key as a secret; this page never sees it.
+  // REVIEW_TOKEN is optional — only set it if you set PORTAL_TOKEN on the Worker.
+  var REVIEW_WORKER_URL = 'https://affidavit-review.kevin-middleton.workers.dev';
+  var REVIEW_TOKEN = '';
+
+  // ---- state ----
+  var s = {
+    name: '', street: '', city: '', country: 'United States', phone: '', email: '',
+    known: '', met: '', occasion: '', dynamic: '', support: '', extra: '', signature: '', bodyText: null
+  };
+  function resetState() {
+    s = { name: '', street: '', city: '', country: 'United States', phone: '', email: '',
+          known: '', met: '', occasion: '', dynamic: '', support: '', extra: '', signature: '', bodyText: null };
+  }
+
+  // sentence-completion interview questions
+  var QUESTIONS = [
+    { key: 'known', mark: 'First things first',
+      q: 'How long have you known us?',
+      help: 'Ballpark is fine. Just finish the sentence.',
+      stem: 'I have known Kevin and Tom', placeholder: 'for about eight years now, since Kevin and I worked together.' },
+    { key: 'met', mark: 'Origin story',
+      q: 'How did we first cross paths?',
+      help: 'A line on how we wandered into your life.',
+      stem: 'We first met', placeholder: 'when Kevin and I were coworkers back in 2017, and I got to know Tom not long after.' },
+    { key: 'occasion', mark: 'Proof of life',
+      q: 'Tell me about a time you actually hung out with us.',
+      help: 'A wedding, a dinner, a holiday, a random Tuesday. Roughly when, and what went down.',
+      stem: 'One time that stands out was', placeholder: 'the housewarming they threw in 2024, where I got to see the life they have built together.' },
+    { key: 'dynamic', mark: 'The vibe',
+      q: 'What are we like together?',
+      help: 'The little stuff you notice when you’re around us.',
+      stem: 'When I am around the two of them, I have noticed', placeholder: 'how easily they share daily life, cooking together and finishing each other’s sentences.' },
+    { key: 'support', mark: 'Ride or die',
+      q: 'Ever seen us show up for each other?',
+      help: 'A move, a job change, a rough week, family stuff. Anything real you witnessed.',
+      stem: 'I have watched them support each other when', placeholder: 'Tom started a new job and they rebuilt their whole routine around it together.' },
+    { key: 'extra', mark: 'Mic drop', optional: true,
+      q: 'Anything else you want to throw in?',
+      help: 'Optional. Your closing thought, however you’d put it. Or leave it blank and call it done.',
+      stem: '', placeholder: 'Honestly, they’re one of the most solid couples I know.' }
+  ];
+
+  // Questions follow a fixed narrative flow (how long known -> how we met -> a
+  // specific memory -> what they're like together -> how they support each other
+  // -> closing). Letters differ through each friend's own words plus the rotating
+  // title / preamble / closing and serif font below, not through scrambled order.
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+
+  // Rotating boilerplate + serif font so no two letters read identically. The
+  // penalty-of-perjury sentence itself never changes (it has to stay valid).
+  var PREAMBLES = [
+    function (nm, ad) { return 'I, ' + nm + ', residing at ' + ad + ', being over the age of eighteen and of sound mind, declare the following to be true based on my own personal knowledge:'; },
+    function (nm, ad) { return 'My name is ' + nm + ', and I reside at ' + ad + '. I am over eighteen years of age and fully competent to make this statement, which is based on my own personal knowledge:'; },
+    function (nm, ad) { return 'I, ' + nm + ', of ' + ad + ', offer the following statement of my own free will, based on what I personally know to be true:'; }
+  ];
+  var CLOSERS = [
+    'I make this statement freely, without any promise or expectation of benefit.',
+    'I provide this statement willingly and without any expectation of reward.',
+    'I offer this account of my own accord, expecting nothing in return.'
+  ];
+  var TITLES = ['Affidavit', 'Declaration', 'Statement in Support'];
+  var FONTS = ['Georgia, serif', '"Times New Roman", Times, serif', '"Palatino Linotype", "Book Antiqua", Palatino, serif', 'Cambria, Georgia, serif', 'Garamond, "Times New Roman", serif'];
+  var DOC = { preamble: pick(PREAMBLES), closer: pick(CLOSERS), title: pick(TITLES), font: pick(FONTS), pdfFont: pick(['times', 'helvetica']) };
+  try { document.documentElement.style.setProperty('--doc-font', DOC.font); } catch (e) {}
+
+  // step list: 0 intro, 1 details, 2..(2+Q) questions, last = review
+  var firstQ = 2;
+  var reviewIndex = firstQ + QUESTIONS.length;
+  var totalSteps = reviewIndex + 1;
+  var step = 0;
+
+  var card = document.getElementById('card');
+  var wrap = document.getElementById('wrap');
+  var introHeader = document.getElementById('introHeader');
+
+  // Each step rotates a soft palette tint (with a matching accent bar / progress).
+  var THEMES = [
+    { bg: '#FFEDE6', bar: '#FF5C34' }, // persimmon
+    { bg: '#E8F4FF', bar: '#86C9EF' }, // cool blue
+    { bg: '#E9EFE1', bar: '#AEB8A0' }, // jade
+    { bg: '#F6F8CE', bar: '#D8DF3A' }, // wasabi
+    { bg: '#EFE6EC', bar: '#351E28' }  // plum noir
+  ];
+  function themeFor() { return THEMES[((step % THEMES.length) + THEMES.length) % THEMES.length]; }
+  function applyCardTheme() {
+    var t = themeFor();
+    card.style.background = t.bg;
+    card.style.borderTop = '5px solid ' + t.bar;
+    card.style.transition = 'background .25s ease, border-color .25s ease';
+  }
+
+  function esc(t) { return (t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function go(n) { step = n; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+  function progressBar(label) {
+    var pct = Math.round((step) / (totalSteps - 1) * 100);
+    return '<div class="progress"><i style="width:' + pct + '%;background:' + themeFor().bar + '"></i></div>' +
+           '<div class="stepcount">' + label + '</div>';
+  }
+
+  // ---- weaving: build the document body from answers ----
+  function sentence(stem, ans) {
+    ans = (ans || '').trim();
+    if (!ans) return null;
+    var out = (stem ? (stem + ' ' + ans) : ans).trim();
+    out = out.replace(/[\s,;:]+$/, '');           // drop trailing spaces or a dangling comma/semicolon
+    if (!/[.!?]["'’”)\]]?$/.test(out)) out += '.'; // end with a period unless it already ends in . ! or ?
+    return out;
+  }
+  // The body of the letter is one editable blob, seeded from the interview and
+  // freely rewritable on the review screen. Split it on blank lines.
+  function bodyParagraphs() {
+    return (s.bodyText || '').split(/\n\s*\n/).map(function (p) { return p.trim(); }).filter(Boolean);
+  }
+  function seedBody() {
+    if (s.bodyText !== null) return; // only seed once
+    var seed = [];
+    QUESTIONS.forEach(function (q) { var line = sentence(q.stem, s[q.key]); if (line) seed.push(line); });
+    s.bodyText = seed.join('\n\n');
+  }
+  function answeredCount() {
+    return QUESTIONS.filter(function (q) { return !q.optional && s[q.key].trim(); }).length;
+  }
+  function buildBodyHTML(forPreview) {
+    var ph = function (txt) { return forPreview ? '<span class="placeholder">' + txt + '</span>' : ''; };
+    var nameVal = s.name.trim();
+    var addrParts = [s.street, s.city, s.country].filter(function (x) { return x && x.trim(); });
+    var addr = addrParts.length ? esc(addrParts.join(', ')) : (forPreview ? '<span class="placeholder">[your address]</span>' : '');
+
+    var nameHTML = nameVal ? esc(nameVal) : (forPreview ? '<span class="placeholder">[your full name]</span>' : '');
+
+    var html = '';
+    html += '<p>' + DOC.preamble(nameHTML, addr) + '</p>';
+
+    // Body is one editable blob (seeded from the interview answers).
+    var bps = bodyParagraphs();
+    if (bps.length) bps.forEach(function (p) { html += '<p>' + esc(p).replace(/\n/g, '<br/>') + '</p>'; });
+    else if (forPreview) html += '<p>' + ph('[Your letter will appear here.]') + '</p>';
+
+    html += '<p>' + DOC.closer + ' I declare under penalty of perjury under the laws of the United States of America that the foregoing is true and correct.</p>';
+
+    // signature block
+    var d = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    var nameDisplay = nameVal ? esc(nameVal) : (forPreview ? '<span class="placeholder">[printed name]</span>' : '');
+    html += '<div class="sig-block">';
+    if (s.signature) {
+      html += '<img class="sig-img" src="' + s.signature + '" alt="signature" />';
+      html += '<div class="sig-rule">Signature</div>';
+      html += '<div class="sig-meta" style="margin-top:10px;">' + nameDisplay + '</div>';
+    } else {
+      html += '<div class="sig-line">Signature</div>';
+      html += '<div class="sig-meta" style="margin-top:14px;">' + nameDisplay + '</div>';
+    }
+    var contact = [s.phone.trim(), s.email.trim()].filter(Boolean).map(esc).join('  •  ');
+    if (contact) html += '<div class="sig-meta">' + contact + '</div>';
+    html += '<div class="sig-meta">Date: ' + d + '</div></div>';
+    return html;
+  }
+
+  function paperHTML() {
+    return '<div class="paper" id="paper">' +
+      '<h3 class="doc-title">' + DOC.title + '</h3>' +
+      '<p class="doc-sub">In support of the petition to remove conditions on residence (Form I-751)<br/>for Tom Peters and Kevin Michael Middleton</p>' +
+      '<div id="docBody">' + buildBodyHTML(true) + '</div></div>';
+  }
+
+  // ---- PDF (jsPDF: real text, deterministic, selectable) ----
+  function pdfClean(t) {
+    return (t || '')
+      .replace(/[‘’]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/[–—]/g, '-')
+      .replace(/[•]/g, '-')
+      .replace(/[…]/g, '...');
+  }
+  function letterParagraphs() {
+    var nameVal = s.name.trim();
+    var addrParts = [s.street, s.city, s.country].filter(function (x) { return x && x.trim(); });
+    var addr = addrParts.join(', ');
+    var paras = [DOC.preamble(nameVal, addr)].concat(bodyParagraphs());
+    paras.push(DOC.closer + ' I declare under penalty of perjury under the laws of the United States of America that the foregoing is true and correct.');
+    return paras.map(pdfClean);
+  }
+  function buildPdf(filename) {
+    var JsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+    var doc = new JsPDF({ unit: 'pt', format: 'letter', compress: true });
+    var pageW = doc.internal.pageSize.getWidth();
+    var pageH = doc.internal.pageSize.getHeight();
+    var margin = 64, x = margin, maxW = pageW - margin * 2, y = margin;
+    var font = DOC.pdfFont || 'times';
+    function ensure(space) { if (y + space > pageH - margin) { doc.addPage(); y = margin; } }
+
+    doc.setFont(font, 'bold'); doc.setFontSize(15); doc.setTextColor(30);
+    doc.text(pdfClean(DOC.title).toUpperCase(), pageW / 2, y, { align: 'center' }); y += 24;
+    doc.setFont(font, 'italic'); doc.setFontSize(10.5); doc.setTextColor(70);
+    doc.text('In support of the petition to remove conditions on residence (Form I-751)', pageW / 2, y, { align: 'center' }); y += 14;
+    doc.text('for Tom Peters and Kevin Michael Middleton', pageW / 2, y, { align: 'center' }); y += 30;
+
+    doc.setFont(font, 'normal'); doc.setFontSize(11.5); doc.setTextColor(20);
+    var lineH = 16;
+    letterParagraphs().forEach(function (par) {
+      doc.splitTextToSize(par, maxW).forEach(function (ln) { ensure(lineH); doc.text(ln, x, y); y += lineH; });
+      y += 9;
+    });
+
+    ensure(120); y += 16;
+    if (s.signature) {
+      try { doc.addImage(s.signature, 'PNG', x, y, 168, 52); } catch (e) {}
+      y += 56;
+    }
+    doc.setDrawColor(30); doc.setLineWidth(0.8); doc.line(x, y, x + 230, y); y += 13;
+    doc.setFont(font, 'normal'); doc.setFontSize(9.5); doc.setTextColor(110);
+    doc.text('Signature', x, y); y += 19;
+    if (s.name.trim()) { doc.setFontSize(11); doc.setTextColor(25); doc.text(pdfClean(s.name.trim()), x, y); y += 15; }
+    doc.setFontSize(10); doc.setTextColor(60);
+    if (s.phone.trim()) { doc.text(pdfClean(s.phone.trim()), x, y); y += 13; }
+    if (s.email.trim()) { doc.text(pdfClean(s.email.trim()), x, y); y += 13; }
+    var dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    doc.text('Date: ' + dateStr, x, y);
+    doc.save(filename);
+  }
+
+  // ---- step renderers ----
+  function renderIntro() {
+    wrap.classList.remove('wide');
+    introHeader.style.display = '';
+    card.innerHTML =
+      '<div class="center">' +
+      '<p class="question" style="font-size:19px;font-weight:600;">Five minutes, tops. Promise.</p>' +
+      '<p class="qhelp">Just a few easy questions that’ll go into a letter you sign and download at the end. Talk about us like you would to a friend. You’ll see the whole thing at the end and can fix anything before you download it to sign.</p>' +
+      '<button class="primary" id="beginBtn" style="margin-top:8px;">Okay, let’s do this</button>' +
+      '</div>';
+    document.getElementById('beginBtn').onclick = function () { go(1); };
+  }
+
+  function bindInput(id, key) {
+    var el = document.getElementById(id);
+    el.value = s[key];
+    el.addEventListener('input', function () { s[key] = el.value; });
+  }
+
+  function renderDetails() {
+    wrap.classList.remove('wide');
+    introHeader.style.display = 'none';
+    card.innerHTML =
+      progressBar('Step 1 of ' + (totalSteps - 1)) +
+      '<div class="qmark">The basics</div>' +
+      '<h2 class="question">First, who are you?</h2>' +
+      '<p class="qhelp">This goes at the top and bottom of the letter, so immigration can find you if they have questions. They almost certainly won’t.</p>' +
+      '<label>Your full legal name<span class="hint">As you’d sign it.</span><input type="text" id="f_name" autocomplete="name" placeholder="Jordan A. Rivera" /></label>' +
+      '<label>Street address<input type="text" id="f_street" autocomplete="address-line1" placeholder="123 Example St, Apt 4" /></label>' +
+      '<div class="row">' +
+        '<label>City, State ZIP<input type="text" id="f_city" placeholder="Brooklyn, NY 11211" /></label>' +
+        '<label>Country<input type="text" id="f_country" placeholder="United States" /></label>' +
+      '</div>' +
+      '<div class="row">' +
+        '<label>Phone<input type="tel" id="f_phone" autocomplete="tel" placeholder="(555) 123-4567" /></label>' +
+        '<label>Email<input type="email" id="f_email" autocomplete="email" placeholder="you@email.com" /></label>' +
+      '</div>' +
+      '<div class="nav">' +
+        '<button class="subtle" id="backBtn">Back</button>' +
+        '<button class="primary" id="nextBtn">Onward</button>' +
+      '</div>';
+    bindInput('f_name', 'name'); bindInput('f_street', 'street'); bindInput('f_city', 'city');
+    bindInput('f_country', 'country'); bindInput('f_phone', 'phone'); bindInput('f_email', 'email');
+    document.getElementById('backBtn').onclick = function () { go(0); };
+    document.getElementById('nextBtn').onclick = function () { go(firstQ); };
+  }
+
+  function renderQuestion() {
+    wrap.classList.remove('wide');
+    introHeader.style.display = 'none';
+    var idx = step - firstQ;
+    var q = QUESTIONS[idx];
+    card.innerHTML =
+      progressBar('Step ' + (step) + ' of ' + (totalSteps - 1)) +
+      '<div class="qmark">' + esc(q.mark) + (q.optional ? ' · optional' : '') + '</div>' +
+      '<h2 class="question">' + esc(q.q) + '</h2>' +
+      '<p class="qhelp">' + esc(q.help) + '</p>' +
+      (q.stem ? '<div class="stem"><b>' + esc(q.stem) + '</b> …</div>' : '') +
+      '<textarea id="q_input" placeholder="' + esc(q.placeholder) + '"></textarea>' +
+      '<div class="nav">' +
+        '<button class="subtle" id="backBtn">Back</button>' +
+        '<span><button class="subtle" id="skipBtn" style="margin-right:6px;">Skip</button>' +
+        '<button class="primary" id="nextBtn">' + (idx === QUESTIONS.length - 1 ? 'Show me the letter' : 'Next') + '</button></span>' +
+      '</div>';
+    var ta = document.getElementById('q_input');
+    ta.value = s[q.key];
+    ta.focus();
+    ta.addEventListener('input', function () { s[q.key] = ta.value; });
+    document.getElementById('backBtn').onclick = function () { go(step - 1); };
+    document.getElementById('nextBtn').onclick = function () { go(step + 1); };
+    document.getElementById('skipBtn').onclick = function () { go(step + 1); };
+  }
+
+  function renderReview() {
+    wrap.classList.add('wide');
+    introHeader.style.display = 'none';
+    seedBody(); // collapse the interview answers into one editable letter
+    var editFields = '';
+    editFields += '<div class="editfield"><label>Your name<input type="text" id="e_name"></label>' +
+                  '<div class="row"><label>Phone<input type="tel" id="e_phone"></label><label>Email<input type="email" id="e_email"></label></div></div>';
+    editFields += '<div class="editfield"><label>Your letter' +
+      '<span class="hint">Your draft, pulled together from the questions. Rewrite it however you like, in your own voice. Leave a blank line between paragraphs.</span>' +
+      '<textarea id="e_body" rows="16"></textarea></label></div>';
+
+    card.innerHTML =
+      progressBar('Final step') +
+      '<div class="review-grid">' +
+        '<div class="preview-shell">' + paperHTML() +
+          '<div class="sigpad-wrap" id="sigpadWrap">' +
+            '<div class="sigpad-head">Sign here <span>mouse, trackpad, or finger</span></div>' +
+            '<canvas id="sigpad" class="sigpad"></canvas>' +
+            '<div class="sigpad-actions"><button class="subtle" id="sigClear">Clear</button></div>' +
+            '<div class="sign-reminder" id="signReminder" hidden>Add your signature above, then download.</div>' +
+          '</div>' +
+          '<div class="toolbar">' +
+            '<button class="primary" id="downloadBtn">Download PDF</button>' +
+          '</div>' +
+          '<div class="signnote"><strong>Signing:</strong> sign right in the box above with your mouse or finger and it drops straight into the letter. After you download, an email option pops up to send it our way. No notary, no fuss.</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="edit-head">Ta-da. Here’s your draft.</div>' +
+          '<p class="edit-sub">Read it on the left. The whole letter is yours to rewrite below in your own voice, and the last paragraph is your closing thought. It updates as you type. When it sounds like you, grab the PDF.</p>' +
+          editFields +
+          (REVIEW_WORKER_URL ? ('<div class="review-block">' +
+              '<button class="ghost" id="reviewBtn">✨ Have Claude read it over</button>' +
+              '<div class="review-out" id="reviewOut" hidden></div>' +
+            '</div>') : '') +
+          '<div class="toolbar" style="margin-top:18px;"><button class="primary" id="downloadBtn2">Download PDF</button></div>' +
+          '<div class="nav"><span></span><button class="subtle" id="restartBtn">Start over</button></div>' +
+        '</div>' +
+      '</div>';
+
+    function refresh() { document.getElementById('docBody').innerHTML = buildBodyHTML(true); }
+    function bindEdit(id, key) {
+      var el = document.getElementById(id); el.value = s[key];
+      el.addEventListener('input', function () { s[key] = el.value; refresh(); });
+    }
+    bindEdit('e_name', 'name'); bindEdit('e_phone', 'phone'); bindEdit('e_email', 'email');
+    var bodyEl = document.getElementById('e_body');
+    bodyEl.value = s.bodyText || '';
+    bodyEl.addEventListener('input', function () { s.bodyText = bodyEl.value; refresh(); });
+
+    // Signature pad: draw with mouse / trackpad / finger, embed into the letter.
+    (function () {
+      var c = document.getElementById('sigpad'); if (!c || !c.getContext) return;
+      var ctx = c.getContext('2d');
+      var rect = c.getBoundingClientRect();
+      var ratio = window.devicePixelRatio || 1;
+      c.width = Math.max(1, Math.round(rect.width * ratio));
+      c.height = Math.max(1, Math.round(rect.height * ratio));
+      ctx.scale(ratio, ratio);
+      ctx.lineWidth = 2.2; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#23121c';
+      var drawing = false, last = null, inked = false;
+      function pos(e) {
+        var r = c.getBoundingClientRect();
+        var t = (e.touches && e.touches[0]) ? e.touches[0] : e;
+        return { x: t.clientX - r.left, y: t.clientY - r.top };
+      }
+      function start(e) { drawing = true; last = pos(e); e.preventDefault(); }
+      function move(e) {
+        if (!drawing) return;
+        var p = pos(e);
+        ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+        last = p; inked = true; e.preventDefault();
+      }
+      function end() {
+        if (drawing && inked) {
+          s.signature = c.toDataURL('image/png'); refresh();
+          var r = document.getElementById('signReminder'); if (r) r.hidden = true;
+          var w = document.getElementById('sigpadWrap'); if (w) w.classList.remove('needsign');
+        }
+        drawing = false;
+      }
+      c.addEventListener('mousedown', start);
+      c.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', end);
+      c.addEventListener('touchstart', start, { passive: false });
+      c.addEventListener('touchmove', move, { passive: false });
+      c.addEventListener('touchend', end);
+      document.getElementById('sigClear').onclick = function () {
+        ctx.clearRect(0, 0, c.width, c.height); inked = false; s.signature = ''; refresh();
+      };
+    })();
+
+    function showSendModal() {
+      var nm = s.name.trim();
+      var to = 'kevin.middleton@gmail.com,tom.peters.nyc@gmail.com';
+      var subject = 'Letter of support for Kevin & Tom' + (nm ? ' (from ' + nm + ')' : '');
+      var body = 'Hi Kevin and Tom,\n\nAttached is my signed letter for your green card filing. Sending love.\n\n' + (nm || '');
+      var gmail = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(to) +
+                  '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      var mailto = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      var modal = document.getElementById('sendModal');
+      modal.hidden = false;
+      document.getElementById('gmailBtn').onclick = function () { window.open(gmail, '_blank'); };
+      // The email option is a real <a href="mailto:…"> so the browser hands it to
+      // the default mail app natively — the most reliable way to open mailto.
+      document.getElementById('mailBtn').href = mailto;
+      document.getElementById('modalClose').onclick = function () { modal.hidden = true; };
+    }
+
+    document.getElementById('restartBtn').onclick = function () {
+      if (confirm('Wipe everything and start fresh?')) { resetState(); go(0); }
+    };
+
+    function remindToSign() {
+      var w = document.getElementById('sigpadWrap');
+      var r = document.getElementById('signReminder');
+      if (r) r.hidden = false;
+      if (w) { w.classList.add('needsign'); w.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    }
+
+    function runDownload(btn) {
+      if (!s.signature) { remindToSign(); return; } // must e-sign before downloading
+      if (!s.name.trim() || !bodyParagraphs().length) {
+        if (!confirm('Looks like your name or your letter is still empty. Download anyway?')) return;
+      }
+      var n = s.name.trim().replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '').toLowerCase();
+
+      var label = btn.textContent; btn.textContent = 'Building PDF…'; btn.disabled = true;
+      try {
+        buildPdf('affidavit-' + (n || 'kevin-and-tom') + '.pdf');
+        showSendModal();
+      } catch (e) {
+        alert('Something went wrong building the PDF. Details: ' + (e && e.message ? e.message : e));
+      }
+      btn.textContent = label; btn.disabled = false;
+    }
+    document.getElementById('downloadBtn').onclick = function () { runDownload(this); };
+    document.getElementById('downloadBtn2').onclick = function () { runDownload(this); };
+
+    // Optional: send the letter to the Claude review Worker and show suggestions.
+    var reviewBtn = document.getElementById('reviewBtn');
+    if (reviewBtn) reviewBtn.onclick = function () { runReview(this); };
+    function runReview(btn) {
+      var out = document.getElementById('reviewOut');
+      var text = (s.bodyText || '').trim();
+      if (!text) { out.hidden = false; out.innerHTML = '<p class="review-err">Write your letter first, then I can read it over.</p>'; return; }
+      var label = btn.textContent; btn.textContent = 'Reading it over…'; btn.disabled = true;
+      out.hidden = false; out.innerHTML = '<p class="review-loading">One sec, giving it a careful read…</p>';
+      var headers = { 'Content-Type': 'application/json' };
+      if (REVIEW_TOKEN) headers['X-Portal-Token'] = REVIEW_TOKEN;
+      fetch(REVIEW_WORKER_URL, { method: 'POST', headers: headers, body: JSON.stringify({ text: text, affiantName: s.name }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          btn.textContent = label; btn.disabled = false;
+          if (d.error) { out.innerHTML = '<p class="review-err">Couldn’t reach the review helper: ' + esc(d.error) + '. You can still finish and download.</p>'; return; }
+          var html = '';
+          if (d.summary) html += '<p class="review-summary">' + esc(d.summary) + '</p>';
+          if (d.notes && d.notes.length) html += '<ul class="review-notes">' + d.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>';
+          var polished = (d.polished || '').trim();
+          if (polished && polished !== text) html += '<button class="ghost" id="usePolished">Use the polished version</button>';
+          out.innerHTML = html || '<p class="review-summary">Reads great as is. 💛</p>';
+          var up = document.getElementById('usePolished');
+          if (up) up.onclick = function () {
+            s.bodyText = polished;
+            var be = document.getElementById('e_body'); if (be) be.value = polished;
+            refresh();
+            up.textContent = 'Applied ✓'; up.disabled = true;
+          };
+        })
+        .catch(function () {
+          btn.textContent = label; btn.disabled = false;
+          out.innerHTML = '<p class="review-err">Something went wrong reaching the review helper. You can still finish and download.</p>';
+        });
+    }
+  }
+
+  function render() {
+    if (step === 0) renderIntro();
+    else if (step === 1) renderDetails();
+    else if (step >= firstQ && step < reviewIndex) renderQuestion();
+    else renderReview();
+    applyCardTheme();
+  }
+
+  render();
+
+  // Timeline: tap to toggle a popover (hover/focus handled by CSS for desktop).
+  (function initTimeline() {
+    var dots = Array.prototype.slice.call(document.querySelectorAll('.tl-dot'));
+    dots.forEach(function (d) {
+      d.addEventListener('click', function (e) {
+        var open = d.classList.contains('open');
+        dots.forEach(function (x) { x.classList.remove('open'); });
+        if (!open) d.classList.add('open');
+        e.stopPropagation();
+      });
+    });
+    document.addEventListener('click', function () {
+      dots.forEach(function (x) { x.classList.remove('open'); });
+    });
+  })();
+})();
+</script>
+</body>
+</html>
