@@ -189,21 +189,13 @@
 
   /* Single finish bar */
   .finish-bar { margin-top: 26px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-  .finish-bar .primary { min-width: 260px; font-size: 16px; padding: 14px 28px; }
-
-  /* "Easier on a computer" nudge — shown only on small screens */
-  .device-note { display: none; background: var(--wasabi); color: var(--plum); border-radius: 12px;
-    padding: 12px 42px 12px 15px; font-size: 13.5px; line-height: 1.5; position: relative; margin: 0 0 18px; }
-  .device-note b { font-weight: 700; }
-  .device-note .x { position: absolute; top: 7px; right: 9px; cursor: pointer; border: none; background: transparent;
-    font-size: 18px; color: var(--plum); line-height: 1; padding: 2px 7px; }
+  .finish-bar .primary, .finish-bar .ghost { min-width: 260px; font-size: 16px; padding: 14px 28px; }
 
   /* Mobile polish */
   @media (max-width: 700px) {
-    .device-note { display: block; }
     .card { padding: 22px 18px; }
     .review-grid { gap: 20px; }
-    .finish-bar .primary { width: 100%; min-width: 0; }
+    .finish-bar .primary, .finish-bar .ghost { width: 100%; min-width: 0; }
     .nav { flex-wrap: wrap; }
   }
   @media (max-width: 560px) {
@@ -240,11 +232,6 @@
 </div>
 
 <div class="wrap" id="wrap" style="display:none">
-
-  <div class="device-note" id="deviceNote">
-    <b>Psst — this is easiest on a computer.</b> You can absolutely do it on your phone, but the final step saves a PDF to email over to us, which is smoother on a laptop.
-    <button class="x" type="button" aria-label="Dismiss" onclick="this.parentNode.style.display='none'">×</button>
-  </div>
 
   <header class="intro" id="introHeader">
     <h1>Put in a good word for Kevin &amp; Tom</h1>
@@ -496,7 +483,7 @@
     paras.push(DOC.closer + ' I declare under penalty of perjury under the laws of the United States of America that the foregoing is true and correct.');
     return paras.map(pdfClean);
   }
-  function buildPdf(filename) {
+  function buildPdfDoc() {
     var JsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
     var doc = new JsPDF({ unit: 'pt', format: 'letter', compress: true });
     var pageW = doc.internal.pageSize.getWidth();
@@ -532,8 +519,10 @@
     if (s.email.trim()) { doc.text(pdfClean(s.email.trim()), x, y); y += 13; }
     var dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     doc.text('Date: ' + dateStr, x, y);
-    doc.save(filename);
+    return doc;
   }
+  function buildPdf(filename) { buildPdfDoc().save(filename); }
+  function buildPdfBase64() { var uri = buildPdfDoc().output('datauristring'); var c = uri.indexOf(','); return c >= 0 ? uri.slice(c + 1) : uri; }
 
   // ---- step renderers ----
   function renderIntro() {
@@ -642,7 +631,8 @@
         '</div>' +
       '</div>' +
       '<div class="finish-bar">' +
-        '<button class="primary" id="downloadBtn">Download PDF</button>' +
+        (REVIEW_WORKER_URL ? '<button class="primary" id="sendBtn">Send to Kevin &amp; Tom ❤️</button>' : '') +
+        '<button class="' + (REVIEW_WORKER_URL ? 'ghost' : 'primary') + '" id="downloadBtn">' + (REVIEW_WORKER_URL ? 'Just download a copy' : 'Download PDF') + '</button>' +
         '<button class="subtle" id="restartBtn">Start over</button>' +
       '</div>';
 
@@ -698,7 +688,19 @@
       };
     })();
 
-    function showSendModal() {
+    var modalEl = document.getElementById('sendModal');
+    var modalCard = modalEl.querySelector('.modal-card');
+    function showSent() {
+      var copy = s.email.trim() ? ' A copy is on its way to your inbox, too.' : '';
+      modalCard.innerHTML =
+        '<h2>Sent! 💛</h2>' +
+        '<p>Your letter is on its way to Kevin and Tom.' + copy + ' Thank you so much — this really means a lot.</p>' +
+        '<div class="modal-actions"><button class="primary" id="sentClose">You’re welcome</button></div>';
+      modalEl.hidden = false;
+      document.getElementById('sentClose').onclick = function () { modalEl.hidden = true; };
+    }
+    // Fallback if auto-send can’t reach the server: save the PDF and let them email it.
+    function showSendManual() {
       var nm = s.name.trim();
       var to = 'kevin.middleton@gmail.com,tom.peters.nyc@gmail.com';
       var subject = 'Letter of support for Kevin & Tom' + (nm ? ' (from ' + nm + ')' : '');
@@ -706,13 +708,17 @@
       var gmail = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(to) +
                   '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
       var mailto = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      var modal = document.getElementById('sendModal');
-      modal.hidden = false;
+      modalCard.innerHTML =
+        '<h2>One quick step to send it</h2>' +
+        '<p>We saved the PDF to your device. Pick your email app, <b>attach that PDF</b>, and hit send.</p>' +
+        '<div class="modal-actions">' +
+          '<button class="primary" id="gmailBtn">Open in Gmail</button>' +
+          '<a class="ghost maillink" id="mailBtn" role="button" href="' + mailto + '">Open in Email</a>' +
+        '</div>' +
+        '<button class="subtle" id="modalClose">I’ll send it myself</button>';
+      modalEl.hidden = false;
       document.getElementById('gmailBtn').onclick = function () { window.open(gmail, '_blank'); };
-      // The email option is a real <a href="mailto:…"> so the browser hands it to
-      // the default mail app natively — the most reliable way to open mailto.
-      document.getElementById('mailBtn').href = mailto;
-      document.getElementById('modalClose').onclick = function () { modal.hidden = true; };
+      document.getElementById('modalClose').onclick = function () { modalEl.hidden = true; };
     }
 
     document.getElementById('restartBtn').onclick = function () {
@@ -745,13 +751,45 @@
       var label = btn.textContent; btn.textContent = 'Building PDF…'; btn.disabled = true;
       try {
         buildPdf('affidavit-' + (n || 'kevin-and-tom') + '.pdf');
-        showSendModal();
+        if (!REVIEW_WORKER_URL) showSendManual(); // no auto-send configured -> prompt manual email
       } catch (e) {
         alert('Something went wrong building the PDF. Details: ' + (e && e.message ? e.message : e));
       }
       btn.textContent = label; btn.disabled = false;
     }
     document.getElementById('downloadBtn').onclick = function () { runDownload(this); };
+    var sendBtn = document.getElementById('sendBtn');
+    if (sendBtn) sendBtn.onclick = function () { runSend(this); };
+    function runSend(btn) {
+      if (!s.signature) { remindToSign(); return; }
+      if (REVIEW_WORKER_URL && !reviewedOnce) { requireReview(); return; }
+      if (!s.name.trim() || !bodyParagraphs().length) {
+        if (!confirm('Your name or your letter is still empty. Send anyway?')) return;
+      }
+      var n = s.name.trim().replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '').toLowerCase();
+      var filename = 'affidavit-' + (n || 'kevin-and-tom') + '.pdf';
+      var label = btn.textContent; btn.textContent = 'Sending…'; btn.disabled = true;
+      var b64;
+      try { b64 = buildPdfBase64(); }
+      catch (e) { btn.textContent = label; btn.disabled = false; alert('Could not build the PDF: ' + (e && e.message ? e.message : e)); return; }
+      var headers = { 'Content-Type': 'application/json' };
+      if (REVIEW_TOKEN) headers['X-Portal-Token'] = REVIEW_TOKEN;
+      fetch(REVIEW_WORKER_URL.replace(/\/+$/, '') + '/send', {
+        method: 'POST', headers: headers,
+        body: JSON.stringify({ pdfBase64: b64, filename: filename, affiantName: s.name, affiantEmail: s.email })
+      })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          btn.textContent = label; btn.disabled = false;
+          if (res.ok && res.d && res.d.ok) { showSent(); }
+          else { try { buildPdf(filename); } catch (e) {} showSendManual(); }
+        })
+        .catch(function () {
+          btn.textContent = label; btn.disabled = false;
+          try { buildPdf(filename); } catch (e) {}
+          showSendManual();
+        });
+    }
 
     // Optional: send the letter to the Claude review Worker and show suggestions.
     var reviewBtn = document.getElementById('reviewBtn');
@@ -783,7 +821,7 @@
             refresh();
             up.textContent = 'Applied ✓'; up.disabled = true;
           };
-          if (reviewGated) { reviewGated = false; out.insertAdjacentHTML('beforeend', '<p class="review-summary" style="margin-top:10px">When you’re happy with it, click Download PDF below to finish.</p>'); }
+          if (reviewGated) { reviewGated = false; out.insertAdjacentHTML('beforeend', '<p class="review-summary" style="margin-top:10px">When you’re happy with it, use the button below to finish.</p>'); }
         })
         .catch(function () {
           btn.textContent = label; btn.disabled = false;
