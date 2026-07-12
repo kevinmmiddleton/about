@@ -1,6 +1,7 @@
 # Welcome, crawlers!
 User-agent: *
 Allow: /
+Disallow: /goodword/
 Disallow: /*?from=*
 
 # Old/archive/OG-generator pages (unlinked; keep out of search)
@@ -19,42 +20,55 @@ Disallow: /officehours/index-archive.htm
 # Explicitly allow major AI crawlers (training + inference)
 User-agent: GPTBot
 Allow: /
+Disallow: /goodword/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /goodword/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /goodword/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /goodword/
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /goodword/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /goodword/
 
 User-agent: Perplexity-User
 Allow: /
+Disallow: /goodword/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /goodword/
 
 User-agent: GoogleOther
 Allow: /
+Disallow: /goodword/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /goodword/
 
 User-agent: CCBot
 Allow: /
+Disallow: /goodword/
 
 User-agent: Amazonbot
 Allow: /
+Disallow: /goodword/
 
 User-agent: Bytespider
 Allow: /
+Disallow: /goodword/
 
 # Sitemap location
 Sitemap: https://middleton.io/sitemap.xml
