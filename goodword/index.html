@@ -342,6 +342,45 @@
       stem: '', placeholder: 'Honestly, they’re one of the most solid couples I know.' }
   ];
 
+  // ---- Per-recipient personalization (open with ?p=slug in the link) ----
+  // Pre-fills the "how long known" and "how we met" answers with the true way this
+  // person knows us (they can edit), and greets them by name. The personal-memory
+  // questions stay generic so the specifics are genuinely theirs.
+  var RECIPIENTS = {
+    maykon: { hi: 'Maykon', name: 'Maykon Andrade',
+      known: 'for years — I started out as Tom’s personal trainer in San Francisco, and we became close friends, staying in touch as they built their life together and moved to New York.',
+      met: 'when I became Tom’s personal trainer in San Francisco; we stayed close and kept spending time together as they moved to New York.' },
+    wes: { hi: 'Wes', name: 'Wesley Barnes',
+      known: 'since Kevin and Tom moved to New York City in 2023 — Kevin worked for me at Oracle, and I’ve known them both as a couple ever since.',
+      met: 'through Kevin at Oracle, and I got to know both of them as a couple after they moved to New York in 2023.' },
+    orme: { hi: 'Orme', name: 'Orme Dominique',
+      known: 'for over ten years — Kevin is one of my closest friends, and I’ve gotten to know Tom well since they came to New York, where I live too.',
+      met: 'years ago through Kevin, who has been one of my closest friends ever since; I got to know Tom here in New York.' },
+    cody: { hi: 'Cody', name: 'Cody Rishell',
+      known: 'through my partner, Orme, who has been close with Kevin for years — I met Tom around the same time and we’ve been couple friends since.',
+      met: 'through my partner Orme and his long friendship with Kevin; I met Tom around the same time.' },
+    jack: { hi: 'Jack', name: 'Jack Floyd',
+      known: 'from our bowling league here in New York — I know Tom on his own, apart from Kevin.',
+      met: 'at our bowling league here in New York, where I got to know Tom.' },
+    brandon: { hi: 'Brandon', name: 'Brandon',
+      known: 'from bowling here in New York — we’re newer friends, but I’ve gotten to know Tom well on the lanes.',
+      met: 'through bowling here in New York.' }
+  };
+  (function applyRecipient() {
+    var who = '';
+    try { who = (new URLSearchParams(location.search).get('p') || '').trim().toLowerCase(); } catch (e) {}
+    var R = who && RECIPIENTS[who];
+    if (!R) return;
+    s.name = R.name; s.known = R.known; s.met = R.met;
+    QUESTIONS.forEach(function (q) {
+      if (q.key === 'known') { q.placeholder = R.known; q.help = 'We dropped in a starting point based on how you know us — just tweak it so it’s accurate to you.'; }
+      if (q.key === 'met') { q.placeholder = R.met; q.help = 'Started this one for you too — edit it however you like.'; }
+    });
+    var ih = document.getElementById('introHeader');
+    var h1 = ih && ih.querySelector('h1');
+    if (h1) h1.textContent = 'Hi ' + R.hi + ' — ' + h1.textContent.charAt(0).toLowerCase() + h1.textContent.slice(1);
+  })();
+
   // Questions follow a fixed narrative flow (how long known -> how we met -> a
   // specific memory -> what they're like together -> how they support each other
   // -> closing). Letters differ through each friend's own words plus the rotating
