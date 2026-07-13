@@ -177,6 +177,10 @@
   .done-check { width: 64px; height: 64px; border-radius: 50%; background: var(--jade); color: #fff; font-size: 32px; font-weight: 700; line-height: 64px; margin: 6px auto 0; box-shadow: 0 0 0 6px rgba(174,184,160,0.28); }
   .invalid { border-color: var(--accent-hover) !important; box-shadow: 0 0 0 3px rgba(232,74,37,0.18) !important; }
   .det-err { color: var(--accent-hover); font-weight: 600; font-size: 13.5px; margin-top: 14px; }
+  .check-btn { display: block; width: 100%; font: inherit; font-weight: 700; cursor: pointer; border-radius: 10px; padding: 13px 22px; border: 1.5px solid var(--accent); background: #FFEDE6; color: var(--accent-hover); }
+  .check-btn:hover { background: #ffe0d3; }
+  .check-btn:disabled { opacity: .5; cursor: default; }
+  #reviewBtnTop { margin: 2px 0 14px; }
 
   /* Optional Claude letter-review panel */
   .review-block { margin-top: 16px; }
@@ -670,23 +674,24 @@
             '<div class="sigpad-head">Sign here <span>mouse, trackpad, or finger</span></div>' +
             '<canvas id="sigpad" class="sigpad"></canvas>' +
             '<div class="sigpad-actions"><button class="subtle" id="sigClear">Clear</button></div>' +
-            '<div class="sign-reminder" id="signReminder" hidden>Add your signature above, then download.</div>' +
+            '<div class="sign-reminder" id="signReminder" hidden>Add your signature above, then send.</div>' +
           '</div>' +
           '<div class="signnote"><strong>Signing:</strong> sign right in the box with your mouse or finger and it drops straight into the letter. No notary, no fuss.</div>' +
         '</div>' +
         '<div class="edit-col">' +
           '<div class="edit-head">Here’s your draft.</div>' +
-          '<p class="edit-sub">Stitched together from your answers. Make it yours below in your own voice, and it updates live as you type. Run the quick check, then grab the PDF.</p>' +
+          '<p class="edit-sub">Stitched together from your answers. Make it yours below in your own voice, and it updates live as you type. Run the check, then send it below.</p>' +
+          (REVIEW_WORKER_URL ? '<button class="check-btn" id="reviewBtnTop">✨ Spelling, grammar, and flow check</button>' : '') +
           editFields +
           (REVIEW_WORKER_URL ? ('<div class="review-block">' +
-              '<button class="ghost" id="reviewBtn">✨ Spelling, grammar, and flow check</button>' +
+              '<button class="check-btn" id="reviewBtn">✨ Spelling, grammar, and flow check</button>' +
               '<div class="review-out" id="reviewOut" hidden></div>' +
             '</div>') : '') +
         '</div>' +
       '</div>' +
       '<div class="finish-bar">' +
         (REVIEW_WORKER_URL ? '<button class="primary" id="sendBtn">Send to Kevin &amp; Tom ❤️</button>' : '') +
-        '<button class="' + (REVIEW_WORKER_URL ? 'ghost' : 'primary') + '" id="downloadBtn">' + (REVIEW_WORKER_URL ? 'Just download a copy' : 'Download PDF') + '</button>' +
+        '<button class="' + (REVIEW_WORKER_URL ? 'ghost' : 'primary') + '" id="downloadBtn"' + (REVIEW_WORKER_URL ? ' hidden' : '') + '>' + (REVIEW_WORKER_URL ? 'Just download a copy' : 'Download PDF') + '</button>' +
         '<button class="subtle" id="restartBtn">Start over</button>' +
       '</div>';
 
@@ -860,6 +865,8 @@
     // Optional: send the letter to the Claude review Worker and show suggestions.
     var reviewBtn = document.getElementById('reviewBtn');
     if (reviewBtn) reviewBtn.onclick = function () { runReview(this); };
+    var reviewBtnTop = document.getElementById('reviewBtnTop');
+    if (reviewBtnTop) reviewBtnTop.onclick = function () { runReview(this); };
     function runReview(btn) {
       var out = document.getElementById('reviewOut');
       var text = (s.bodyText || '').trim();
@@ -880,6 +887,7 @@
           var polished = (d.polished || '').trim();
           if (polished && polished !== text) html += '<button class="ghost" id="usePolished">Use the polished version</button>';
           out.innerHTML = html || '<p class="review-summary">Reads great as is. 💛</p>';
+          out.scrollIntoView({ behavior: 'smooth', block: 'center' });
           var up = document.getElementById('usePolished');
           if (up) up.onclick = function () {
             s.bodyText = polished;
