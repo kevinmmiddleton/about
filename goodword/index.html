@@ -180,6 +180,9 @@
   .check-btn { display: block; width: 100%; font: inherit; font-weight: 700; cursor: pointer; border-radius: 10px; padding: 13px 22px; border: 1.5px solid var(--accent); background: #FFEDE6; color: var(--accent-hover); }
   .check-btn:hover { background: #ffe0d3; }
   .check-btn:disabled { opacity: .5; cursor: default; }
+  .check-btn.confirm-btn { border-color: var(--jade); color: #4d5a3f; background: #eef3e6; }
+  .check-btn.confirm-btn:hover { background: #e6efd9; }
+  .ready-note { color: #4d5a3f; font-weight: 650; margin: 0; }
   #reviewBtnTop { margin: 2px 0 14px; }
 
   /* Optional Claude letter-review panel */
@@ -192,7 +195,6 @@
   .review-notes li { margin: 5px 0; line-height: 1.5; }
   .review-loading { color: var(--muted); margin: 0; }
   .review-err { color: var(--accent-hover); font-weight: 600; margin: 0; }
-  #usePolished { margin-top: 4px; }
 
   /* Single finish bar */
   .finish-bar { margin-top: 26px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -694,7 +696,7 @@
         '</div>' +
         '<div class="edit-col">' +
           '<div class="edit-head">Here’s your draft.</div>' +
-          '<p class="edit-sub">Stitched together from your answers. Make it yours below in your own voice, and it updates live as you type. Run the check, then send it below.</p>' +
+          '<p class="edit-sub">Stitched together from your answers. Make it yours below in your own voice, and it updates live as you type. When you’re happy, run the flow check, give it a reread, then sign and send.</p>' +
           (REVIEW_WORKER_URL ? '<button class="check-btn desktop-check" id="reviewBtnTop">✨ Spelling, grammar, and flow check</button>' : '') +
           editFields +
           (REVIEW_WORKER_URL ? ('<div class="review-block">' +
@@ -820,20 +822,28 @@
       if (w) { w.classList.add('needsign'); w.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
     }
 
-    var reviewedOnce = false, reviewGated = false, sentOnce = false;
-    // Send is "ready" only once the letter's been checked and the affiant has signed.
-    // We keep the button clickable while dimmed so a tap explains what's still missing.
+    var reviewRan = false, reviewConfirmed = false, sentOnce = false;
+    // The flow check tidies the letter and drops it back in; then the affiant confirms
+    // they've reread it ("Done reviewing"), signs, and sends. Send stays dimmed (but
+    // clickable, so a tap explains what's left) until review is confirmed and signed.
+    function setReviewStage(stage) {
+      ['reviewBtnTop', 'reviewBtn', 'reviewBtnBar'].forEach(function (id) {
+        var b = document.getElementById(id); if (!b) return;
+        if (stage === 'confirm') { b.textContent = '✓ Done reviewing'; b.disabled = false; b.classList.add('confirm-btn'); b.style.display = ''; b.onclick = function () { confirmReview(); }; }
+        else if (stage === 'done') { b.style.display = 'none'; }
+        else { b.textContent = '✨ Spelling, grammar, and flow check'; b.disabled = false; b.classList.remove('confirm-btn'); b.style.display = ''; b.onclick = function () { runReview(this); }; }
+      });
+    }
     function reflectReady() {
-      var needCheck = REVIEW_WORKER_URL && !reviewedOnce;
+      var needReview = REVIEW_WORKER_URL && !reviewConfirmed;
       var needSign = !s.signature;
       var sb = document.getElementById('sendBtn');
-      if (sb) sb.classList.toggle('notready', needCheck || needSign);
+      if (sb) sb.classList.toggle('notready', needReview || needSign);
       var hint = document.getElementById('sendHint'); if (!hint) return;
-      var need = [];
-      if (needCheck) need.push('run the flow check ✨');
-      if (needSign) need.push('add your signature ✍️');
-      hint.hidden = false;
-      if (need.length) { hint.classList.remove('ready'); hint.textContent = 'Before sending, ' + need.join(' and ') + '.'; }
+      hint.hidden = false; hint.classList.remove('ready');
+      if (REVIEW_WORKER_URL && !reviewRan) hint.textContent = 'Run the flow check ✨, then reread it and sign.';
+      else if (REVIEW_WORKER_URL && !reviewConfirmed) hint.textContent = 'Give it a reread, then tap Done reviewing ✓.';
+      else if (needSign) hint.textContent = 'Add your signature ✍️, then send.';
       else { hint.classList.add('ready'); hint.textContent = 'All set. Ready to send 💛'; }
     }
     function visibleCheckBtn() {
@@ -841,16 +851,9 @@
       for (var i = 0; i < ids.length; i++) { var el = document.getElementById(ids[i]); if (el && el.offsetParent !== null) return el; }
       return document.getElementById('reviewBtn');
     }
-    function requireReview() {
-      reviewGated = true;
-      var out = document.getElementById('reviewOut');
-      if (out) out.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      var rb = document.getElementById('reviewBtn');
-      if (rb) runReview(rb);
-    }
     function runDownload(btn) {
       if (!s.signature) { remindToSign(); return; } // must e-sign before downloading
-      if (REVIEW_WORKER_URL && !reviewedOnce) { requireReview(); return; } // grammar check required first
+      if (REVIEW_WORKER_URL && !reviewConfirmed) { var rbd = visibleCheckBtn(); if (rbd) rbd.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
       if (!s.name.trim() || !bodyParagraphs().length) {
         if (!confirm('Looks like your name or your letter is still empty. Download anyway?')) return;
       }
@@ -870,14 +873,14 @@
     if (sendBtn) sendBtn.onclick = function () { runSend(this); };
     function runSend(btn) {
       if (sentOnce) return; // already submitted; no double-send
-      var needCheck = REVIEW_WORKER_URL && !reviewedOnce;
+      var needReview = REVIEW_WORKER_URL && !reviewConfirmed;
       var needSign = !s.signature;
-      if (needCheck || needSign) { // tell them exactly what's left before sending
+      if (needReview || needSign) { // tell them exactly what's left before sending
         reflectReady();
         var hint = document.getElementById('sendHint');
         if (hint) { hint.classList.remove('flash'); void hint.offsetWidth; hint.classList.add('flash'); }
-        if (needSign) remindToSign();
-        else { var rb = visibleCheckBtn(); if (rb) rb.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        if (needReview) { var rb = visibleCheckBtn(); if (rb) rb.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        else remindToSign();
         return;
       }
       if (!s.name.trim() || !bodyParagraphs().length) {
@@ -908,48 +911,62 @@
         });
     }
 
-    // Optional: send the letter to the Claude review Worker and show suggestions.
+    // Flow check: send to the Worker, drop the tidied text straight into the letter,
+    // then flip the button to "Done reviewing" so they confirm they've reread it.
     var reviewBtn = document.getElementById('reviewBtn');
     if (reviewBtn) reviewBtn.onclick = function () { runReview(this); };
     var reviewBtnTop = document.getElementById('reviewBtnTop');
     if (reviewBtnTop) reviewBtnTop.onclick = function () { runReview(this); };
     var reviewBtnBar = document.getElementById('reviewBtnBar');
     if (reviewBtnBar) reviewBtnBar.onclick = function () { runReview(this); };
-    reflectReady(); // show the "before sending" hint from the start
+    reflectReady(); // show the guiding hint from the start
+    function confirmReview() {
+      reviewConfirmed = true;
+      setReviewStage('done');
+      var out = document.getElementById('reviewOut');
+      if (out) { out.hidden = false; out.innerHTML = '<p class="ready-note">Perfect. Now add your signature below, then send. ✍️</p>'; }
+      reflectReady();
+      var w = document.getElementById('sigpadWrap');
+      if (w && !s.signature) w.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    function applyPolish(text) {
+      s.bodyText = text;
+      var be = document.getElementById('e_body'); if (be) be.value = text;
+      refresh();
+    }
     function runReview(btn) {
       var out = document.getElementById('reviewOut');
       var text = (s.bodyText || '').trim();
-      if (!text) { out.hidden = false; out.innerHTML = '<p class="review-err">Write your letter first, then I can read it over.</p>'; return; }
-      var label = btn.textContent; btn.textContent = 'Checking…'; btn.disabled = true;
-      out.hidden = false; out.innerHTML = '<p class="review-loading">One sec, giving it a careful read…</p>';
+      if (!text) { out.hidden = false; out.innerHTML = '<p class="review-err">Write your letter first, then I can tidy it up.</p>'; return; }
+      ['reviewBtnTop', 'reviewBtn', 'reviewBtnBar'].forEach(function (id) { var b = document.getElementById(id); if (b) b.disabled = true; });
+      if (btn) btn.textContent = 'Checking…';
+      out.hidden = false; out.innerHTML = '<p class="review-loading">One sec, tidying up spelling, grammar, and flow…</p>';
       var headers = { 'Content-Type': 'application/json' };
       if (REVIEW_TOKEN) headers['X-Portal-Token'] = REVIEW_TOKEN;
       fetch(REVIEW_WORKER_URL, { method: 'POST', headers: headers, body: JSON.stringify({ text: text, affiantName: s.name }) })
         .then(function (r) { return r.json(); })
         .then(function (d) {
-          btn.textContent = label; btn.disabled = false;
-          reviewedOnce = true; reflectReady();
-          if (d.error) { out.innerHTML = '<p class="review-err">Couldn’t reach the review helper: ' + esc(d.error) + '. You can still finish and download.</p>'; return; }
-          var html = '';
-          if (d.summary) html += '<p class="review-summary">' + esc(d.summary) + '</p>';
-          if (d.notes && d.notes.length) html += '<ul class="review-notes">' + d.notes.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>';
-          var polished = (d.polished || '').trim();
-          if (polished && polished !== text) html += '<button class="ghost" id="usePolished">Use the polished version</button>';
-          out.innerHTML = html || '<p class="review-summary">Reads great as is. 💛</p>';
+          reviewRan = true;
+          if (d && !d.error) {
+            var polished = (d.polished || '').trim();
+            if (polished && polished !== text) {
+              applyPolish(polished);
+              out.innerHTML = '<p class="review-summary">I tidied up the spelling, grammar, and flow and dropped it right into your letter. Give it a reread to make sure it still sounds like you, then tap <b>Done reviewing</b>.</p>';
+            } else {
+              out.innerHTML = '<p class="review-summary">This reads great as is, I didn’t change anything. Give it a look, then tap <b>Done reviewing</b>.</p>';
+            }
+          } else {
+            out.innerHTML = '<p class="review-err">I couldn’t reach the checker just now, but your letter is fine to use. Give it a reread, then tap <b>Done reviewing</b>.</p>';
+          }
+          setReviewStage('confirm');
+          reflectReady();
           out.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          var up = document.getElementById('usePolished');
-          if (up) up.onclick = function () {
-            s.bodyText = polished;
-            var be = document.getElementById('e_body'); if (be) be.value = polished;
-            refresh();
-            up.textContent = 'Applied ✓'; up.disabled = true;
-          };
-          if (reviewGated) { reviewGated = false; out.insertAdjacentHTML('beforeend', '<p class="review-summary" style="margin-top:10px">When you’re happy with it, use the button below to finish.</p>'); }
         })
         .catch(function () {
-          btn.textContent = label; btn.disabled = false;
-          reviewedOnce = true; reflectReady();
-          out.innerHTML = '<p class="review-err">Something went wrong reaching the review helper. You can still finish and download.</p>';
+          reviewRan = true;
+          out.innerHTML = '<p class="review-err">I couldn’t reach the checker just now, but your letter is fine to use. Give it a reread, then tap <b>Done reviewing</b>.</p>';
+          setReviewStage('confirm');
+          reflectReady();
         });
     }
   }
