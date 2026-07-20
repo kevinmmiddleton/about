@@ -1,5 +1,5 @@
 ---
-title: AI guilt is a trap
+title: AI guilt is the new recycling
 slug: ai-guilt-is-the-new-recycling
 status: published
 published_at: 2026-07-19
@@ -36,7 +36,7 @@ Here's a real example I ran into from one of my friends. I have painted portrait
 
 We are taking real, structural problems and turning them into a morality test. Do you use it? How much and what use cases? Do you feel bad about it? These are the wrong questions, and we've asked them before.
 
-### AI use is the new recycling
+### We could never recycle enough
 
 For years we were told the climate crisis came down to individuals (and fwiw, I recycle and you should, too). Your straws, sorted glass, and personal carbon footprint under scrutiny. Recycling was pushed hard by the oil industry, which [knew most plastic would never actually be recycled](https://www.npr.org/2020/09/11/897692090/how-big-oil-misled-the-public-into-believing-plastic-would-be-recycled) and sold us on it anyway, because a public busy sorting its trash is a public that keeps buying plastic. The point was to move the story from who is producing this to what are you, personally, doing about it. Individual guilt was the product, and it kept us rinsing yogurt cups and side-eyeing our neighbors' bins while the companies doing the real damage carried on at a scale no amount of personal virtue could touch. I do think regulation and smart usage of AI is what we need, not scrutinizing friends' AI usage. BTW, I will still side-eye you for not recycling, but I think AI use is a bit different. ;)
 
