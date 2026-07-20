@@ -14,7 +14,7 @@ tags:
   - Job Search
 featured: false
 sort_order: null
-excerpt: AI guilt is everywhere, and it is landing on exhausted people instead of the leaders who earned it. We have done this before. Last time we called it recycling."
+excerpt: AI guilt is everywhere, and it is landing on exhausted people instead of the leaders who earned it. We have done this before. Last time we called it recycling.
 cover_image: /blog/images/ai-guilt-recycling-cover.png
 cover_alt: 'A tall mound of mixed recycling piled against a plain light background: crushed plastic bottles, dented aluminum cans, flattened cardboard boxes, stacked newspapers, and glass jars in blue, pink, green, and amber, drawn in a flat, bold-outlined editorial illustration style.'
 linkedin_url: ''
