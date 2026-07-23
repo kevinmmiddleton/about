@@ -246,11 +246,13 @@ data-improvement index:
 
   /* ------- empowered ------- */
   .empowered{background:var(--lightblue);}
-  .emp-grid{display:grid;grid-template-columns:420px 1fr;gap:64px;max-width:1080px;margin:0 auto;align-items:center;}
-  .emp-photos{display:flex;flex-direction:column;gap:22px;}
+  .emp-grid{display:grid;grid-template-columns:250px minmax(0,600px);column-gap:clamp(48px,19vw,265px);justify-content:start;align-items:center;padding-left:clamp(24px,6vw,82px);}
+  section.empowered.sec-pad{padding:18px 24px 0 0;}
+  .emp-copy h2.sec-title{font-size:clamp(34px,4.6vw,62px);line-height:1.04;max-width:580px;}
+  .emp-photos{display:flex;flex-direction:column;gap:14px;}
   .emp-photos .tcard img{aspect-ratio:auto;}
   .emp-copy h2{text-align:left;}
-  .emp-copy p{font-size:clamp(17px,1.6vw,20px);margin-top:24px;line-height:1.45;max-width:460px;}
+  .emp-copy p{font-size:clamp(17px,1.6vw,20px);margin-top:24px;line-height:1.45;max-width:560px;}
   .emp-copy .btn{margin-top:32px;min-width:300px;}
 
   /* ------- science / quote ------- */
@@ -282,7 +284,7 @@ data-improvement index:
 
   /* ------- footer ------- */
   footer{background:var(--periwinkle);margin-top:14px;border-radius:30px 30px 0 0;overflow:hidden;}
-  .foot-top{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;padding:72px 0 40px;align-items:start;}
+  .foot-top{display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;padding:72px 0 40px;align-items:stretch;}
   .news-card{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);border-radius:18px;padding:34px 32px;}
   .news-card h3{font-size:26px;font-weight:800;}
   .news-card p{margin-top:10px;font-size:15px;line-height:1.5;}
@@ -300,8 +302,8 @@ data-improvement index:
   .app-card .star img{width:30px;height:38px;display:block;}
   .app-card .star{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.35);color:#fff;display:flex;
     align-items:center;justify-content:center;font-size:24px;flex:none;}
-  .phone-art{border-radius:24px;overflow:hidden;align-self:start;}
-  .phone-art img{width:100%;max-width:420px;display:block;}
+  .phone-art{overflow:hidden;align-self:stretch;display:flex;align-items:flex-start;justify-content:center;}
+  .phone-art img{width:min(34vw,470px);max-width:none;display:block;}
   .foot-links{display:grid;grid-template-columns:repeat(5,auto) 1fr;gap:40px;padding:34px 0;font-size:13.5px;}
   .foot-links h4{font-size:14.5px;margin-bottom:14px;}
   .foot-links ul{list-style:none;}
@@ -375,11 +377,13 @@ data-improvement index:
     .hero-marquee{width:26vw;}
     .plan-cards{grid-template-columns:1fr;max-width:640px;}
     .price-grid{grid-template-columns:1fr;max-width:560px;}
-    .emp-grid{grid-template-columns:1fr;gap:40px;}
+    .emp-grid{grid-template-columns:1fr;gap:40px;padding-left:0;justify-content:stretch;}
+    section.empowered.sec-pad{padding:56px 24px;}
     .emp-photos{flex-direction:row;}
     .j-row{grid-template-columns:1fr;gap:14px;}
     .j-row img{width:90px;}
     .foot-top{grid-template-columns:1fr;}
+    .phone-art{display:none;}
     .foot-links{grid-template-columns:1fr 1fr;gap:26px;}
     .country{justify-self:start;}
     .socials{justify-content:flex-start;}
