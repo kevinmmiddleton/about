@@ -151,17 +151,17 @@
   </div>
   <p class="lede" style="font-size:13.5px;margin-top:12px;color:var(--muted)">One rule throughout: a signup lift that doesn't activate is a red flag, not a win — every test below carries an activation guardrail.</p>
 
-  <h2>The six workstreams</h2>
+  <h2>Six workstreams</h2>
   <ul class="clean">
-    <li><span class="num">1</span><b>Floating mobile CTAs.</b> No page on the site has a persistent mobile CTA — key pages run 12–20 screens deep with conversion out of view for most of the scroll. A primary + secondary floating bar is now in both page mocks. <a class="golink" href="#" onclick="showTab('homepage');return false;">Homepage demo →</a> <a class="golink" href="#" onclick="showTab('blog');return false;">Blog demo →</a>
+    <li><span class="num">1</span><b>Floating mobile CTAs.</b> No page on the site has a persistent mobile CTA — key pages run 12–20 screens deep with conversion out of view for most of the scroll. A primary + secondary floating bar is now in both page mocks. <a class="golink" href="#" onclick="showTab('homepage','mobile');return false;">Homepage demo →</a> <a class="golink" href="#" onclick="showTab('blog','mobile');return false;">Blog demo →</a>
       <span class="pmline"><b>Hypothesis:</b> a persistent CTA converts intent that forms mid-scroll. <b>Validate:</b> A/B vs current, with a guardrail that hero-CTA clicks don't just shift. <b>Metric:</b> mobile new-customer CVR; secondary: bar CTR, checkout starts.</span></li>
-    <li><span class="num">2</span><b>Blog margin → product promotion.</b> Article body is a 768px column pinned left; ~450px of desktop margin sits unused. Now a sticky promo rail + two mid-content CTA banners. <a class="golink" href="#" onclick="showTab('blog');return false;">Blog demo →</a>
+    <li><span class="num">2</span><b>Blog margin → product promotion.</b> Article body is a 768px column pinned left; ~450px of desktop margin sits unused. Now a sticky promo rail + two mid-content CTA banners. <a class="golink" href="#" onclick="showTab('blog','desktop');return false;">Blog demo →</a>
       <span class="pmline"><b>Hypothesis:</b> the empty rail can carry product promos without hurting reading. <b>Validate:</b> A/B rail on/off with read-completion as the guardrail; MVT banner placement. <b>Metric:</b> blog→product CTR, blog-attributed signups.</span></li>
     <li><span class="num">3</span><b>Interactive experiences.</b> They exist — a 5-step plan finder and a GLP-1 cost estimator — but both are hard to find, and the estimator asks for an email before showing the estimate. Two new ungated experiences built, plus the existing quiz surfaced prominently on the homepage. <a class="golink" href="#" onclick="showTab('interactive');return false;">Interactive demos →</a> <a class="golink" href="#" onclick="showTab('homepage');return false;">Homepage demo →</a>
       <span class="pmline"><b>Hypothesis:</b> value-first (ungated) tools complete more often and produce better-qualified leads. <b>Validate:</b> A/B gated vs ungated with the email ask moved after the estimate; watch lead quality, not just volume. <b>Metric:</b> estimator completion rate, Med+ signup CVR, CAC.</span></li>
     <li><span class="num">4</span><b>Affordability on the homepage.</b> Today, price appears once — “as low as $12/mo” in microcopy. Now a transparent pricing section with per-day framing, the 50% offer as a first-class card, and an insurance-check entry point. <a class="golink" href="#" onclick="showTab('homepage');return false;">Homepage demo →</a>
       <span class="pmline"><b>Hypothesis:</b> removing price uncertainty on the homepage lifts qualified plan-page traffic. <b>Validate:</b> section-level A/B; MVT the framing ($/day vs $/mo vs savings-led). <b>Metric:</b> homepage→plans CTR, new-customer CVR, 30-day activation as guardrail.</span></li>
-    <li><span class="num">5</span><b>Merged blog hero + title.</b> Title block + standfirst + byline + date + hero image currently stack ~2 screens tall before content. Now one compact split header (~half the height). <a class="golink" href="#" onclick="showTab('blog');return false;">Blog demo →</a>
+    <li><span class="num">5</span><b>Merged blog hero + title.</b> Title block + standfirst + byline + date + hero image currently stack ~2 screens tall before content. Now one compact split header (~half the height). <a class="golink" href="#" onclick="showTab('blog','desktop');return false;">Blog demo →</a>
       <span class="pmline"><b>Hypothesis:</b> a shorter header gets more readers into the content and to the first CTA sooner. <b>Validate:</b> template-level A/B. <b>Metric:</b> scroll-past-fold rate, read starts, first-CTA viewability.</span></li>
     <li><span class="num">6</span><b>Full editorial scan.</b> 63 findings across 9 pages in both viewports, each linked to the live page and capture — the depth behind the bets above. <a class="golink" href="#" onclick="showTab('findings');return false;">Editorial scan →</a></li>
   </ul>
@@ -841,11 +841,17 @@ function findingLinks(f){
 }
 
 // tabs
-function showTab(name){
+function showTab(name, vp){
   document.querySelectorAll('section.tab').forEach(s=>s.classList.toggle('active', s.id==='tab-'+name));
   document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
   window.scrollTo({top:0});
   scaleFrames(); // hidden tabs have clientWidth 0 at load; rescale now that this tab is visible
+  // deep links can specify a viewport — flip the tab's Desktop/Mobile segment to match
+  if(vp){
+    document.querySelectorAll('#tab-'+name+' .seg button[data-vp="'+vp+'"]').forEach(btn=>{
+      if(!btn.classList.contains('active')) btn.click();
+    });
+  }
   try{ plausible('WW Proto: Tab View', {props:{tab:name}}); }catch(e){}
 }
 document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
