@@ -293,9 +293,15 @@ data-improvement index:
   .news-consent input{margin-top:3px;}
   .app-card{margin-top:22px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);border-radius:18px;
     padding:26px 32px;display:flex;align-items:center;gap:18px;font-size:19px;font-weight:800;}
-  .app-card .star{width:52px;height:52px;border-radius:50%;background:var(--blurple);color:#fff;display:flex;
+  .app-row{display:flex;gap:14px;align-items:stretch;margin-top:22px;}
+  .app-row .app-card{margin-top:0;flex:1;}
+  .qr-card{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);border-radius:18px;display:flex;align-items:center;justify-content:center;padding:14px;}
+  .qr-card img{width:84px;height:84px;display:block;}
+  .app-card .star img{width:30px;height:38px;display:block;}
+  .app-card .star{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.35);color:#fff;display:flex;
     align-items:center;justify-content:center;font-size:24px;flex:none;}
-  .phone-art{border-radius:24px;background:rgba(255,255,255,.25);min-height:300px;display:none;}
+  .phone-art{border-radius:24px;overflow:hidden;align-self:start;}
+  .phone-art img{width:100%;max-width:420px;display:block;}
   .foot-links{display:grid;grid-template-columns:repeat(5,auto) 1fr;gap:40px;padding:34px 0;font-size:13.5px;}
   .foot-links h4{font-size:14.5px;margin-bottom:14px;}
   .foot-links ul{list-style:none;}
@@ -528,7 +534,7 @@ data-improvement index:
   <p class="sec-sub">Weight Watchers brings science, guidance, and support together to help you reach your goals.</p>
   <div class="plan-cards">
     <div class="plan-card card-core">
-      <img class="art" src="https://a.storyblok.com/f/286334833788875/220x220/d7938934ab/core.png/m/415x500/filters:quality(75)" alt="">
+      <img class="art" src="img/app-phone-angled.webp" alt="">
       <h3>Get started<br><span class="em">with Core or Core+</span></h3>
       <p>Build habits for weight loss with the #1 doctor-recommended Points® Program*—plus tools that make it easy.</p>
       <div class="card-btns">
@@ -537,7 +543,7 @@ data-improvement index:
       </div>
     </div>
     <div class="plan-card card-med">
-      <img class="art" src="https://a.storyblok.com/f/286334833788875/181x225/563d69d67c/3_pens_fanned_no_labels_v1_alpha_blue-1.png/m/415x500/filters:quality(75)" alt="">
+      <img class="art" src="img/med-pens.webp" alt="">
       <h3>Access<br><span class="em">Med+</span></h3>
       <p>GLP-1s and other weight-loss medications. Includes complimentary access to our GLP-1 Success Program, including dosage tracking, side-effect support, and expert coaching.</p>
       <div class="card-btns">
@@ -626,7 +632,7 @@ data-improvement index:
   <p class="sec-sub">Members prescribed a GLP-1 medication through our Med+ program lose an average of 7.4 lbs within their first four weeks of starting treatment.*</p>
   <div class="med-row">
     <div class="med-card">
-      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/201x200/21ebb756ae/lilly_ofg_tabletoval_g4-lilly_angled.png/m/400x400/filters:quality(75)" alt="Foundayo pill"></div>
+      <div class="med-img"><img src="img/foundayo.webp" alt="Foundayo pill"></div>
       <h3>Foundayo®<br>(orforglipron)</h3>
       <p class="price">Self-pay starting at $149/mo. <a href="#">Offer Terms</a></p>
       <p class="req">Separate WW Med+ membership required</p>
@@ -635,7 +641,7 @@ data-improvement index:
       <a class="btn btn-outline-navy" href="#">Learn more</a>
     </div>
     <div class="med-card">
-      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/398x413/cf9f21276b/hero-2_floating-pills_1-5-mg_masked.png/m/400x400/filters:quality(75)" alt="Wegovy pills"></div>
+      <div class="med-img"><img src="img/wegovy-pills.webp" alt="Wegovy pills"></div>
       <h3>Wegovy® pill</h3>
       <p class="price">Self pay starting at $149/mo. <a href="#">Offer Terms</a></p>
       <p class="req">Separate WW Med+ membership required</p>
@@ -644,7 +650,7 @@ data-improvement index:
       <a class="btn btn-outline-navy" href="#">Learn more</a>
     </div>
     <div class="med-card">
-      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/1759x1770/3ccea29eb3/group-1533210802-2x.png/m/400x400/filters:quality(75)" alt="Zepbound pens"></div>
+      <div class="med-img"><img src="img/zepbound.webp" alt="Zepbound pens"></div>
       <h3>Zepbound®</h3>
       <p class="price">Self pay starting at $299/mo. <a href="#">Offer Terms</a></p>
       <p class="req">Separate WW Med+ membership required</p>
@@ -653,7 +659,7 @@ data-improvement index:
       <a class="btn btn-outline-navy" href="#">Learn more</a>
     </div>
     <div class="med-card">
-      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/553x532/6cf1e3f6dd/ozempic-new.png/m/400x400/filters:quality(75)" alt="Ozempic pen"></div>
+      <div class="med-img"><img src="img/ozempic.webp" alt="Ozempic pen"></div>
       <h3>Ozempic®</h3>
       <p class="price">Self pay starting at $149/mo (pill) and $199/mo (injectable pen). <a href="#">Offer Terms</a></p>
       <p class="req">Separate WW Med+ membership required</p>
@@ -662,7 +668,7 @@ data-improvement index:
       <a class="btn btn-outline-navy" href="#">Learn more</a>
     </div>
     <div class="med-card">
-      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/398x416/3503f13b17/wegovy.png/m/400x400/filters:quality(75)" alt="Wegovy pen"></div>
+      <div class="med-img"><img src="img/wegovy-pen.webp" alt="Wegovy pen"></div>
       <h3>Wegovy®</h3>
       <p class="price">Self pay starting at $199/mo. <a href="#">Offer Terms</a></p>
       <p class="req">Separate WW Med+ membership required</p>
@@ -671,7 +677,7 @@ data-improvement index:
       <a class="btn btn-outline-navy" href="#">Learn more</a>
     </div>
     <div class="med-card">
-      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/398x416/1ed05d8b83/saxenda.png/m/400x400/filters:quality(75)" alt="Saxenda pen"></div>
+      <div class="med-img"><img src="img/saxenda.webp" alt="Saxenda pen"></div>
       <h3>Saxenda®</h3>
       <p class="price">Cost may vary depending on insurance.</p>
       <p class="req">Separate WW Med+ membership required</p>
@@ -737,7 +743,7 @@ data-improvement index:
   <div class="emp-grid">
     <div class="emp-photos">
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/cfc692c743/maria_kimberley_lori_jessie_color_027-2.png/m/350x455/filters:quality(75)" alt="Maria, Kimberly, Lori and Jessie"></div>
-      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/d0ef255e22/rachel_madi.png/m/350x455/filters:quality(75)" alt="Rachel and Madi"><div class="tlabel" style="left:12px;right:auto;text-align:left;">Rachel<small>-9 lb</small></div><div class="tlabel">Madi<small>-33 lb</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/d0ef255e22/rachel_madi.png/m/350x455/filters:quality(75)" alt="Rachel and Madi"></div>
     </div>
     <div class="emp-copy">
       <h2 class="sec-title" style="text-align:left;">We've empowered tens of millions of members to lose weight.</h2>
@@ -836,9 +842,9 @@ data-improvement index:
           </div>
           <label class="news-consent"><input type="checkbox"> I confirm that I am 18 years of age or older and would like to receive the WW newsletter and be informed about offers and events via e-mail. I can revoke my consent at any time through the unsubscribe link in the email or message.</label>
         </div>
-        <div class="app-card"><span class="star">★</span> Download the new app for iOS and Android</div>
+        <div class="app-row"><div class="app-card"><span class="star"><img src="img/award.svg" alt=""></span> Download the new app for iOS and Android</div><div class="qr-card"><img src="img/app-qr.webp" alt="QR code to download the WW app"></div></div>
       </div>
-      <div class="phone-art"></div>
+      <div class="phone-art"><img src="img/app-phone.webp" alt="WeightWatchers app"></div>
     </div>
 
     <div class="foot-links">

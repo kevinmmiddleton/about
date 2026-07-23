@@ -1,0 +1,51 @@
+<svg width="63" height="80" viewBox="0 0 63 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ribbon -->
+  <path
+    d="M17.5774 59.2355C21.6848 61.2313 26.2993 62.3505 31.1746 62.3505C36.0499 62.3505 40.6608 61.2313 44.7718 59.2355L51.5415 66.0667C52.3782 66.9034 52.3782 68.2617 51.5415 69.0984L41.8814 78.7583C41.0447 79.595 39.6864 79.595 38.8498 78.7583L31.1783 71.0869L23.5067 78.7583C22.67 79.595 21.3118 79.595 20.4751 78.7583L10.815 69.0984C9.97833 68.2617 9.97833 66.9034 10.815 66.0667L17.5774 59.2355Z"
+    fill="url(#ribbonGradient)"
+  />
+
+  <!-- Main circle -->
+  <circle
+    cx="31.1751"
+    cy="31.1749"
+    r="30.8"
+    fill="url(#glassFill)"
+    stroke="rgba(255,255,255,0.55)"
+    stroke-width="1.2"
+  />
+
+  <!-- Glass highlight -->
+  <path
+    d="M8 53C13 58 21 62 31.2 62C41.3 62 49.8 58 54.5 53L31.2 29L8 53Z"
+    fill="url(#glassHighlight)"
+    opacity="0.45"
+  />
+
+  <!-- Star -->
+  <path
+    d="M32.3816 18.1422L35.7682 24.6039C35.9711 24.9914 36.3405 25.2595 36.7716 25.3319L43.965 26.5562C45.0769 26.7445 45.5188 28.1064 44.7292 28.9105L39.6294 34.1262C39.3251 34.4377 39.1839 34.876 39.2454 35.307L40.3031 42.5258C40.4661 43.6414 39.3106 44.4817 38.3001 43.9818L31.7623 40.7437C31.3711 40.5518 30.9111 40.5518 30.5199 40.7437L23.9821 43.9818C22.9715 44.4817 21.8161 43.6414 21.9791 42.5258L23.0367 35.307C23.0983 34.876 22.957 34.4377 22.6528 34.1262L17.5529 28.9105C16.7633 28.1028 17.2052 26.7445 18.3172 26.5562L25.5106 25.3319C25.9416 25.2595 26.3111 24.9878 26.5139 24.6039L29.9005 18.1422C30.4221 17.1425 31.8528 17.1425 32.378 18.1422H32.3816Z"
+    fill="rgba(255,255,255,0.92)"
+  />
+
+  <defs>
+    <!-- Frosted circle -->
+    <linearGradient id="glassFill" x1="6" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.32" />
+      <stop offset="1" stop-color="#DCE8FF" stop-opacity="0.18" />
+    </linearGradient>
+
+    <!-- Diagonal inner sheen -->
+    <linearGradient id="glassHighlight" x1="13" y1="58" x2="38" y2="33" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.05" />
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.35" />
+    </linearGradient>
+
+    <!-- Blue ribbon -->
+    <linearGradient id="ribbonGradient" x1="10" y1="59" x2="52" y2="79" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5D84FF" />
+      <stop offset="0.55" stop-color="#3F68F2" />
+      <stop offset="1" stop-color="#2448D8" />
+    </linearGradient>
+  </defs>
+</svg>
