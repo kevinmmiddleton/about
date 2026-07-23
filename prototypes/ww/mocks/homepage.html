@@ -975,27 +975,17 @@ document.querySelectorAll('.faq-q').forEach(function(btn){
 });
 
 /* ---------- floating mobile CTA (improvement 1) ---------- */
+/* always in view on mobile — no scroll trigger */
 (function(){
   var bar=document.getElementById('float-cta');
-  var hero=document.getElementById('hero');
   var mq=window.matchMedia('(max-width: 768px)');
-  function update(pastHero){
-    var show=mq.matches&&pastHero;
+  function update(){
+    var show=mq.matches;
     bar.classList.toggle('visible',show);
     document.body.classList.toggle('cta-space',show);
   }
-  var past=false;
-  if('IntersectionObserver' in window){
-    new IntersectionObserver(function(entries){
-      past=!entries[0].isIntersecting;
-      update(past);
-    },{threshold:0}).observe(hero);
-  }
-  window.addEventListener('scroll',function(){
-    past=window.scrollY>hero.offsetTop+hero.offsetHeight-60;
-    update(past);
-  },{passive:true});
-  mq.addEventListener?mq.addEventListener('change',function(){update(past);}):mq.addListener(function(){update(past);});
+  update();
+  mq.addEventListener?mq.addEventListener('change',update):mq.addListener(update);
 })();
 
 /* ---------- find-my-plan quiz (improvement 3) ---------- */

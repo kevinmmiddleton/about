@@ -500,17 +500,14 @@
     sync();
   })();
 
-  // floating mobile CTA: show after scrolling past the hero/header
+  // floating mobile CTA: always in view on mobile — no scroll trigger
   (function(){
     var bar = document.getElementById('mobile-cta');
-    var hero = document.getElementById('hero');
     function update(){
-      if (window.innerWidth > 768) { bar.classList.remove('visible'); document.body.classList.remove('cta-active'); return; }
-      var past = window.scrollY > (hero.offsetTop + hero.offsetHeight - 80);
-      bar.classList.toggle('visible', past);
-      document.body.classList.toggle('cta-active', past);
+      var show = window.innerWidth <= 768;
+      bar.classList.toggle('visible', show);
+      document.body.classList.toggle('cta-active', show);
     }
-    window.addEventListener('scroll', update, {passive:true});
     window.addEventListener('resize', update);
     update();
   })();
