@@ -110,6 +110,8 @@
 
   .banner-note{background:var(--navy);color:#fff;border-radius:var(--radius);padding:18px 22px;margin-top:20px;font-size:14.5px}
   .banner-note b{color:#9db6ff}
+  /* Editorial scan parked for now (2026-07-23) — delete the .scan-only rule below to restore it everywhere */
+  .scan-only{display:none!important}
   footer{border-top:1px solid #e2e4ec;padding:26px 0;color:var(--muted);font-size:13px}
 </style>
 </head>
@@ -123,7 +125,7 @@
       <button data-tab="homepage">Homepage</button>
       <button data-tab="blog">Blog article</button>
       <button data-tab="interactive">Interactive experiences</button>
-      <button data-tab="findings">Editorial scan</button>
+      <button data-tab="findings" class="scan-only">Editorial scan</button>
     </nav>
   </div>
 </header>
@@ -167,11 +169,11 @@
       <span class="pmline"><b>Hypothesis:</b> removing price uncertainty on the homepage lifts qualified plan-page traffic. <b>Validate:</b> section-level A/B; MVT the framing ($/day vs $/mo vs savings-led). <b>Metric:</b> homepage→plans CTR, new-customer CVR, 30-day activation as guardrail.</span></li>
     <li><span class="num">5</span><b>Merged blog hero + title.</b> Title block + standfirst + byline + date + hero image currently stack ~2 screens tall before content. Now one compact split header (~half the height). <a class="golink" href="#" onclick="showTab('blog','desktop');return false;">Blog demo →</a>
       <span class="pmline"><b>Hypothesis:</b> a shorter header gets more readers into the content and to the first CTA sooner. <b>Validate:</b> template-level A/B. <b>Metric:</b> scroll-past-fold rate, read starts, first-CTA viewability.</span></li>
-    <li><span class="num">6</span><b>Full editorial scan.</b> 63 findings across 9 pages in both viewports, each linked to the live page and capture — the depth behind the bets above. <a class="golink" href="#" onclick="showTab('findings');return false;">Editorial scan →</a></li>
+    <li class="scan-only"><span class="num">6</span><b>Full editorial scan.</b> 63 findings across 9 pages in both viewports, each linked to the live page and capture — the depth behind the bets above. <a class="golink" href="#" onclick="showTab('findings');return false;">Editorial scan →</a></li>
   </ul>
 
   <h2>Where I'd focus first — highest-risk, highest-impact findings</h2>
-  <p class="lede" style="font-size:14.5px">Five findings from the full scan I'd bring to the first working session — each one framed as something to validate together and, if it holds, act on. <a class="golink" href="#" onclick="showTab('findings');return false;">All 63 findings, filterable by severity, page, and issue type →</a></p>
+  <p class="lede" style="font-size:14.5px">Five findings from a fuller 63-finding editorial scan I'd bring to the first working session — each one framed as something to validate together and, if it holds, act on.<span class="scan-only"> <a class="golink" href="#" onclick="showTab('findings');return false;">All 63 findings, filterable by severity, page, and issue type →</a></span></p>
   <ul class="clean">
     <li><span class="num">1</span><b>Headline stats and their footnotes look out of sync.</b> The homepage's “61% more body weight… at one month*” stat carries a single-asterisk footnote that describes a different analysis (a 92,160-member average-weight-loss read at 4 weeks); the only footnote that does describe Success Program participation — 166 survey responses from a 6-month trial — is marked ** and no stat on the page carries that marker (verified on the live site today). In a medical category this is a potential compliance exposure worth legal/regulatory review; I'd inventory every stat/footnote pair as step one.</li>
     <li><span class="num">2</span><b>The Foundayo card's “Important safety information” link resolved to the homepage</b> rather than a safety page — the only one of the six med cards to do so (as of the July 23, 2026 capture). A quick, high-trust fix worth confirming and shipping same-day.</li>
