@@ -928,8 +928,13 @@ data-improvement index:
 <script>
 /* ---------- improvements toggle ---------- */
 var impBtn=document.getElementById('imp-toggle');
-// embedded in the report, the report's own header switch drives improvements — hide the duplicate
-if (window.self !== window.top) impBtn.style.display='none';
+// embedded in the report, the report's own header switch drives improvements and the report page
+// carries the test-plan context — hide both the duplicate toggle and the PM panel
+if (window.self !== window.top){
+  impBtn.style.display='none';
+  var pmp=document.getElementById('pm-panel');
+  if (pmp) pmp.style.display='none';
+}
 impBtn.addEventListener('click',function(){
   document.body.classList.toggle('show-improvements');
   var on=document.body.classList.contains('show-improvements');
