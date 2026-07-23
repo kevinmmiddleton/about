@@ -77,7 +77,8 @@ data-improvement index:
   .promo a{text-decoration:underline;font-weight:700;margin-left:6px;}
 
   /* ------- hero ------- */
-  .hero{background:var(--cream);position:relative;overflow:hidden;padding-bottom:56px;}
+  .hero-zone{position:relative;overflow:hidden;}
+  .hero{background:var(--cream);position:relative;overflow:visible;padding-bottom:56px;}
   .hero-wordmark{position:relative;z-index:2;padding:28px 24px 0;}
   .hero-wordmark img{width:100%;height:auto;}
   .hero-grid{position:relative;}
@@ -118,7 +119,7 @@ data-improvement index:
   /* keep the quiz card clear of the vertical photo marquee that runs down the right rail */
   @media (min-width:1025px){ .quiz-wrap{padding-right:calc(min(24vw,330px) + 64px);} }
   @media (min-width:769px) and (max-width:1024px){ .quiz-wrap{padding-right:calc(26vw + 40px);} }
-  .quiz-card{max-width:880px;margin:0 auto;background:#fff;border:2px solid var(--navy);border-radius:28px;
+  .quiz-card{position:relative;z-index:2;max-width:880px;margin:0 auto;background:#fff;border:2px solid var(--navy);border-radius:28px;
     padding:44px 40px 40px;box-shadow:0 14px 40px -18px rgba(2,11,70,.35);position:relative;}
   .quiz-kicker{display:inline-flex;align-items:center;gap:8px;background:var(--blurple);color:#fff;
     font-size:13px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;border-radius:999px;padding:8px 16px;}
@@ -450,7 +451,7 @@ data-improvement index:
 <div class="promo">Kickstart your weight-loss journey now—save 50% on a 12-month plan!<a href="#">Offer Terms</a></div>
 
 <!-- ============ HERO ============ -->
-<section class="hero" id="hero">
+<div class="hero-zone">
   <!-- vertical testimonial marquee (desktop) -->
   <div class="hero-marquee" aria-hidden="true">
     <div class="mq-track" id="mqv-track">
@@ -470,6 +471,7 @@ data-improvement index:
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/5b1bb4f2bd/emily_color_076-1.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Emily<small>-98 lbs</small></div></div>
     </div>
   </div>
+<section class="hero" id="hero">
 
   <div class="hero-wordmark">
     <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="WEIGHT WATCHERS">
@@ -531,6 +533,7 @@ data-improvement index:
     <p class="quiz-legal">By continuing, you agree that WeightWatchers may collect data related to your health, use that data to provide this assessment and information about our services, and disclose that data to our service providers (for these same purposes). See <a href="#">Privacy Policy</a> for details.</p>
   </section>
 </div>
+</div><!-- /hero-zone -->
 
 <!-- ============ BETTER RESULTS ============ -->
 <section class="panel better sec-pad">
