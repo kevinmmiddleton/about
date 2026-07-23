@@ -925,7 +925,7 @@ data-improvement index:
 </aside>
 
 <!-- ============ IMPROVEMENTS TOGGLE ============ -->
-<button class="imp-toggle" id="imp-toggle">✨ Show improvements</button>
+<button class="imp-toggle" id="imp-toggle">✨ Highlight improvements</button>
 
 <script>
 /* ---------- improvements toggle ---------- */
@@ -941,7 +941,7 @@ impBtn.addEventListener('click',function(){
   document.body.classList.toggle('show-improvements');
   var on=document.body.classList.contains('show-improvements');
   impBtn.classList.toggle('on',on);
-  impBtn.textContent=on?'✨ Hide improvements':'✨ Show improvements';
+  impBtn.textContent=on?'✨ Hide highlights':'✨ Highlight improvements';
 });
 
 /* ---------- PM validation panel ---------- */

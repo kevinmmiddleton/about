@@ -133,7 +133,7 @@
 <!-- ============ OVERVIEW ============ -->
 <section class="tab active" id="tab-overview">
   <h2>What this is</h2>
-  <p class="lede">A working pass at the improvements we discussed: every mock below is a faithful recreation of the live page with the changes applied — same copy, same design language, different decisions. Toggle <b>“✨ Show improvements”</b> inside any mock to see exactly what changed. Everything is interactive; nothing is a static picture except the “current state” columns.</p>
+  <p class="lede">A working pass at the improvements we discussed: every mock below is a faithful recreation of the live page with the changes applied — same copy, same design language, different decisions. Toggle <b>“✨ Highlight improvements”</b> on any mock to see exactly what changed. Everything is interactive; nothing is a static picture except the “current state” columns.</p>
 
   <div class="grid cards-3" style="margin-top:18px">
     <div class="card"><div class="stat">9<small>pages audited, desktop + mobile</small></div></div>
@@ -202,7 +202,7 @@
       <div class="viewport" id="homepage-current"><img loading="lazy" src="img/home-desktop-full.jpg" alt="Current homepage"></div>
     </div>
     <div class="pane">
-      <div class="label"><span class="label-left">Proposed <button class="imp-switch" data-frame="homepage-proposed">✨ Improvements on</button></span> <span class="tag proposed">working mock</span></div>
+      <div class="label"><span class="label-left">Proposed <button class="imp-switch" data-frame="homepage-proposed">✨ Highlights on</button></span> <span class="tag proposed">working mock</span></div>
       <div class="frame-host desktop" id="homepage-proposed"><iframe loading="lazy" src="../mocks/homepage.html" title="Proposed homepage"></iframe></div>
     </div>
   </div>
@@ -234,7 +234,7 @@
       <div class="viewport" id="blog-current"><img loading="lazy" src="img/article-1-desktop-full.jpg" alt="Current blog article"></div>
     </div>
     <div class="pane">
-      <div class="label"><span class="label-left">Proposed <button class="imp-switch" data-frame="blog-proposed">✨ Improvements on</button></span> <span class="tag proposed">working mock</span></div>
+      <div class="label"><span class="label-left">Proposed <button class="imp-switch" data-frame="blog-proposed">✨ Highlights on</button></span> <span class="tag proposed">working mock</span></div>
       <div class="frame-host desktop" id="blog-proposed"><iframe loading="lazy" src="../mocks/blog-article.html" title="Proposed blog article"></iframe></div>
     </div>
   </div>
@@ -879,7 +879,7 @@ function setImprovements(hostId, on, collapsePanel){
 function syncSwitch(btn){
   const on=improvementsOn(mockDoc(btn.dataset.frame));
   btn.classList.toggle('on', on);
-  btn.textContent = on ? '✨ Improvements on' : '✨ Improvements off';
+  btn.textContent = on ? '✨ Highlights on' : '✨ Highlight improvements';
 }
 document.querySelectorAll('.imp-switch').forEach(btn=>{
   const iframe=document.querySelector('#'+btn.dataset.frame+' iframe');
