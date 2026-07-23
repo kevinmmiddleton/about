@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>WeightWatchers — Prototype Access</title>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+<script>
+  window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
+  plausible.init()
+</script>
 <style>
   :root{--navy:#020B46;--blurple:#0222D0;--cream:#FBF5EB;}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -77,8 +83,11 @@ document.getElementById('gate').addEventListener('submit', async (e)=>{
   const val = document.getElementById('pw').value.trim().toLowerCase();
   if(await sha256(val) === HASH){
     try{ sessionStorage.setItem('ww_proto_ok','1'); }catch(err){}
-    location.href = 'report/';
+    try{ plausible('WW Proto: Unlocked'); }catch(err){}
+    // brief pause so the event beacon isn't cancelled by navigation
+    setTimeout(()=>{ location.href = 'report/'; }, 250);
   } else {
+    try{ plausible('WW Proto: Wrong Password'); }catch(err){}
     void card.offsetWidth; // restart animation
     card.classList.add('wrong');
     document.getElementById('pw').select();

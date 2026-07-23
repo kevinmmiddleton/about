@@ -5,6 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WeightWatchers — Site Improvement Concepts</title>
+<!-- Privacy-friendly analytics by Plausible (auto-ignores localhost) -->
+<script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+<script>
+  window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
+  plausible.init()
+</script>
 <style>
   :root{
     --navy:#020B46; --blue:#0222D0; --accent:#477BFF; --cream:#FBF5EB;
@@ -101,7 +107,7 @@
 <header class="masthead">
   <div class="wrap">
     <div class="brand">Weight Watchers</div>
-    <div class="sub"><b>Site improvement concepts</b> — current experience vs. proposed, wired up in&nbsp;working&nbsp;HTML.</div>
+    <div class="sub"><b>Site improvement concepts</b></div>
     <nav class="tabs" id="tabs">
       <button data-tab="overview" class="active">Overview</button>
       <button data-tab="homepage">Homepage</button>
@@ -374,8 +380,13 @@ function showTab(name){
   document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
   window.scrollTo({top:0});
   scaleFrames(); // hidden tabs have clientWidth 0 at load; rescale now that this tab is visible
+  try{ plausible('WW Proto: Tab View', {props:{tab:name}}); }catch(e){}
 }
 document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+// track full-screen mock opens
+document.querySelectorAll('a.open').forEach(a=>a.addEventListener('click',()=>{
+  try{ plausible('WW Proto: Mock Opened', {props:{mock:(a.getAttribute('href')||'').split('/').pop()}}); }catch(e){}
+}));
 
 // device toggles
 const IMG = {

@@ -17,6 +17,9 @@ data-improvement index:
 <html lang="en">
 <head>
 <script>try{if(sessionStorage.getItem('ww_proto_ok')!=='1')location.replace('/prototypes/ww/')}catch(e){location.replace('/prototypes/ww/')}</script><meta name="robots" content="noindex, nofollow">
+<!-- Privacy-friendly analytics by Plausible (auto-ignores localhost) -->
+<script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+<script>window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} }; plausible.init()</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Weight Loss Program | WeightWatchers — Improved Mock</title>
@@ -85,7 +88,8 @@ data-improvement index:
   .hero-copy .btn{margin-top:36px;min-width:340px;}
   .hero-copy .pricenote{margin-top:22px;font-size:16px;font-weight:600;}
   /* vertical testimonial marquee (desktop) */
-  .hero-marquee{position:absolute;top:-360px;right:24px;bottom:0;width:min(24vw,330px);overflow:hidden;z-index:1;}
+  .hero-marquee{position:absolute;top:0;right:44px;bottom:0;width:min(25.5vw,350px);overflow:hidden;z-index:1;}
+  .tcard.tall img{aspect-ratio:350/600;}
   .hero-marquee .mq-track{display:flex;flex-direction:column;gap:18px;animation:mqv 45s linear infinite;}
   @keyframes mqv{from{transform:translateY(0);}to{transform:translateY(-50%);}}
   .tcard{position:relative;border-radius:14px;overflow:hidden;flex:none;}
@@ -98,6 +102,7 @@ data-improvement index:
   .hero-marquee-h .mq-track{display:flex;gap:14px;animation:mqh 40s linear infinite;width:max-content;}
   @keyframes mqh{from{transform:translateX(0);}to{transform:translateX(-50%);}}
   .hero-marquee-h .tcard{width:200px;}
+  .hero-marquee-h .tcard.tall img{aspect-ratio:350/455;}
 
   /* ------- section panels ------- */
   .panel{margin:14px;border-radius:30px;overflow:hidden;}
@@ -412,14 +417,14 @@ data-improvement index:
   <div class="hero-marquee" aria-hidden="true">
     <div class="mq-track" id="mqv-track">
       <!-- set A -->
-      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
+      <div class="tcard tall"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x600/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/b4d55c352f/cheria_bw_156-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Cheria<small>-80 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/722x774/75349c3f77/40.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lori<small>-114 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/a44046b63e/palmer_color_186.jpg/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Palmer<small>-10 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/ebdc4339bc/madi_bw_286-bw-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Madi<small>-33 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/5b1bb4f2bd/emily_color_076-1.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Emily<small>-98 lbs</small></div></div>
       <!-- set B (duplicate for loop) -->
-      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
+      <div class="tcard tall"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x600/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/b4d55c352f/cheria_bw_156-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Cheria<small>-80 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/722x774/75349c3f77/40.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lori<small>-114 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/a44046b63e/palmer_color_186.jpg/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Palmer<small>-10 lbs</small></div></div>
@@ -444,13 +449,13 @@ data-improvement index:
   <!-- horizontal testimonial marquee (mobile) -->
   <div class="hero-marquee-h" aria-hidden="true">
     <div class="mq-track">
-      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
+      <div class="tcard tall"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x600/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/b4d55c352f/cheria_bw_156-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Cheria<small>-80 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/722x774/75349c3f77/40.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lori<small>-114 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/a44046b63e/palmer_color_186.jpg/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Palmer<small>-10 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/ebdc4339bc/madi_bw_286-bw-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Madi<small>-33 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/5b1bb4f2bd/emily_color_076-1.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Emily<small>-98 lbs</small></div></div>
-      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
+      <div class="tcard tall"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x600/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/b4d55c352f/cheria_bw_156-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Cheria<small>-80 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/722x774/75349c3f77/40.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lori<small>-114 lbs</small></div></div>
       <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/a44046b63e/palmer_color_186.jpg/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Palmer<small>-10 lbs</small></div></div>
