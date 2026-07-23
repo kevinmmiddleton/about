@@ -335,6 +335,8 @@ data-improvement index:
   body.show-improvements .improvement::before{content:"✨ " attr(data-label);position:absolute;top:-14px;left:12px;
     z-index:500;background:var(--flag);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.4px;
     padding:5px 12px;border-radius:999px;white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis;}
+  /* panels clip their own children (border-radius + overflow:hidden), so their badge sits inside the top corner */
+  body.show-improvements .panel.improvement::before{top:16px;left:20px;}
 
   /* ------- PM validation panel (annotation layer, shows with improvements) ------- */
   .pm-panel{position:fixed;right:16px;bottom:16px;z-index:9500;width:360px;max-width:calc(100vw - 32px);
