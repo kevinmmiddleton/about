@@ -48,6 +48,12 @@
   .pill.high{background:#fdeceb;color:var(--high)} .pill.medium{background:#fdf3e3;color:var(--med)} .pill.low{background:#e9f0fa;color:var(--low)}
   .pill.done{background:#e7f4ec;color:var(--ok)}
   ul.clean{list-style:none} ul.clean li{padding:10px 0;border-bottom:1px solid #eef0f5}
+  .pmline{display:block;margin:8px 0 0 36px;padding:9px 12px;background:#f7f8fc;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;font-size:13px;line-height:1.55;color:#3a3f5c}
+  .pmline b{color:var(--navy)}
+  .bet{background:var(--card);border:2px solid var(--navy);border-radius:var(--radius);padding:20px 22px}
+  .bet .why{margin-top:10px;font-size:13.5px;color:#3a3f5c;line-height:1.55}
+  .bet .why b{color:var(--navy)}
+  .bets{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:14px}
   ul.clean li:last-child{border-bottom:0}
   .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:13px;margin-right:10px;flex:none}
 
@@ -131,24 +137,43 @@
     <div class="card"><div class="stat">4<small>working mocks, wired in HTML</small></div></div>
   </div>
 
+  <h2>Where I'd start</h2>
+  <p class="lede" style="font-size:15px">Six workstreams and 63 findings is a lot — so here's the sequencing. Two bets first, both top-of-funnel acquisition plays: they're the cheapest friction cuts closest to the money, the fastest to put behind a test, and the clearest reads on new-customer CVR and CAC. Everything else below is here for depth.</p>
+  <div class="bets">
+    <div class="bet">
+      <b style="color:var(--navy);font-size:17px">1 · Ungate the GLP-1 cost estimator</b>
+      <div class="why">Show the estimate first; ask for the email after the value. <b>Why first:</b> it's the single cheapest friction cut at the top of the highest-value funnel, it ships in days, and it reads cleanly in an A/B. <b>Measure:</b> estimator completions, Med+ signup CVR, CAC. <a class="golink" href="#" onclick="showTab('interactive');return false;">See the working version →</a></div>
+    </div>
+    <div class="bet">
+      <b style="color:var(--navy);font-size:17px">2 · Homepage affordability reframe</b>
+      <div class="why">Real prices, per-day framing, the 50% offer as a first-class card. <b>Why first:</b> price uncertainty is a top drop-off driver and today price appears once, in microcopy; a section-level A/B is contained and fast. <b>Measure:</b> homepage→plans CTR, new-customer CVR, with 30-day activation as the quality guardrail. <a class="golink" href="#" onclick="showTab('homepage');return false;">See the working version →</a></div>
+    </div>
+  </div>
+  <p class="lede" style="font-size:13.5px;margin-top:12px;color:var(--muted)">One rule throughout: a signup lift that doesn't activate is a red flag, not a win — every test below carries an activation guardrail.</p>
+
   <h2>The six workstreams</h2>
   <ul class="clean">
-    <li><span class="num">1</span><b>Floating mobile CTAs.</b> No page on the site has a persistent mobile CTA — key pages run 12–20 screens deep with conversion buried in scroll. A primary + secondary floating bar is now in both page mocks. <a class="golink" href="#" onclick="showTab('homepage');return false;">Homepage demo →</a> <a class="golink" href="#" onclick="showTab('blog');return false;">Blog demo →</a></li>
-    <li><span class="num">2</span><b>Blog margin → product promotion.</b> Article body is a 768px column pinned left; ~450px of desktop margin sits empty. Now a sticky promo rail + two mid-content CTA banners. <a class="golink" href="#" onclick="showTab('blog');return false;">Blog demo →</a></li>
-    <li><span class="num">3</span><b>Interactive experiences.</b> They exist — a 5-step plan finder and a GLP-1 cost estimator — but both are buried and the estimator is email-gated before it shows anything. Two new ungated experiences built, plus the existing quiz surfaced prominently on the homepage. <a class="golink" href="#" onclick="showTab('interactive');return false;">Interactive demos →</a> <a class="golink" href="#" onclick="showTab('homepage');return false;">Homepage demo →</a></li>
-    <li><span class="num">4</span><b>Affordability on the homepage.</b> Today, price appears once — “as low as $12/mo” in microcopy. Now a transparent pricing section with per-day framing, the 50% offer as a first-class card, and an insurance-check entry point. <a class="golink" href="#" onclick="showTab('homepage');return false;">Homepage demo →</a></li>
-    <li><span class="num">5</span><b>Merged blog hero + title.</b> Title block + standfirst + byline + date + hero image currently stack ~2 screens tall before content. Now one compact split header (~half the height). <a class="golink" href="#" onclick="showTab('blog');return false;">Blog demo →</a></li>
-    <li><span class="num">6</span><b>Full editorial scan.</b> 63 findings across 9 pages in both viewports, each linked to the live page and capture. <a class="golink" href="#" onclick="showTab('findings');return false;">Editorial scan →</a></li>
+    <li><span class="num">1</span><b>Floating mobile CTAs.</b> No page on the site has a persistent mobile CTA — key pages run 12–20 screens deep with conversion out of view for most of the scroll. A primary + secondary floating bar is now in both page mocks. <a class="golink" href="#" onclick="showTab('homepage');return false;">Homepage demo →</a> <a class="golink" href="#" onclick="showTab('blog');return false;">Blog demo →</a>
+      <span class="pmline"><b>Hypothesis:</b> a persistent CTA converts intent that forms mid-scroll. <b>Validate:</b> A/B vs current, with a guardrail that hero-CTA clicks don't just shift. <b>Metric:</b> mobile new-customer CVR; secondary: bar CTR, checkout starts.</span></li>
+    <li><span class="num">2</span><b>Blog margin → product promotion.</b> Article body is a 768px column pinned left; ~450px of desktop margin sits unused. Now a sticky promo rail + two mid-content CTA banners. <a class="golink" href="#" onclick="showTab('blog');return false;">Blog demo →</a>
+      <span class="pmline"><b>Hypothesis:</b> the empty rail can carry product promos without hurting reading. <b>Validate:</b> A/B rail on/off with read-completion as the guardrail; MVT banner placement. <b>Metric:</b> blog→product CTR, blog-attributed signups.</span></li>
+    <li><span class="num">3</span><b>Interactive experiences.</b> They exist — a 5-step plan finder and a GLP-1 cost estimator — but both are hard to find, and the estimator asks for an email before showing the estimate. Two new ungated experiences built, plus the existing quiz surfaced prominently on the homepage. <a class="golink" href="#" onclick="showTab('interactive');return false;">Interactive demos →</a> <a class="golink" href="#" onclick="showTab('homepage');return false;">Homepage demo →</a>
+      <span class="pmline"><b>Hypothesis:</b> value-first (ungated) tools complete more often and produce better-qualified leads. <b>Validate:</b> A/B gated vs ungated with the email ask moved after the estimate; watch lead quality, not just volume. <b>Metric:</b> estimator completion rate, Med+ signup CVR, CAC.</span></li>
+    <li><span class="num">4</span><b>Affordability on the homepage.</b> Today, price appears once — “as low as $12/mo” in microcopy. Now a transparent pricing section with per-day framing, the 50% offer as a first-class card, and an insurance-check entry point. <a class="golink" href="#" onclick="showTab('homepage');return false;">Homepage demo →</a>
+      <span class="pmline"><b>Hypothesis:</b> removing price uncertainty on the homepage lifts qualified plan-page traffic. <b>Validate:</b> section-level A/B; MVT the framing ($/day vs $/mo vs savings-led). <b>Metric:</b> homepage→plans CTR, new-customer CVR, 30-day activation as guardrail.</span></li>
+    <li><span class="num">5</span><b>Merged blog hero + title.</b> Title block + standfirst + byline + date + hero image currently stack ~2 screens tall before content. Now one compact split header (~half the height). <a class="golink" href="#" onclick="showTab('blog');return false;">Blog demo →</a>
+      <span class="pmline"><b>Hypothesis:</b> a shorter header gets more readers into the content and to the first CTA sooner. <b>Validate:</b> template-level A/B. <b>Metric:</b> scroll-past-fold rate, read starts, first-CTA viewability.</span></li>
+    <li><span class="num">6</span><b>Full editorial scan.</b> 63 findings across 9 pages in both viewports, each linked to the live page and capture — the depth behind the bets above. <a class="golink" href="#" onclick="showTab('findings');return false;">Editorial scan →</a></li>
   </ul>
 
-  <h2>The most egregious findings from the scan</h2>
-  <p class="lede" style="font-size:14.5px">These five are pulled from the full editorial scan — the ones I'd lead with in a CMO conversation. <a class="golink" href="#" onclick="showTab('findings');return false;">Read all 63 findings, filterable by severity and page, on the Editorial scan tab →</a></p>
+  <h2>Where I'd focus first — highest-risk, highest-impact findings</h2>
+  <p class="lede" style="font-size:14.5px">Five findings from the full scan I'd bring to the first working session — each one framed as something to validate together and, if it holds, act on. <a class="golink" href="#" onclick="showTab('findings');return false;">All 63 findings, filterable by severity, page, and issue type →</a></p>
   <ul class="clean">
-    <li><span class="num">1</span><b>Claim/footnote integrity is broken site-wide.</b> Headline stats are backed by mismatched or orphaned footnotes (e.g. “61% more body weight at one month*” footnoted by a 6-month survey of 166 people). Compliance-grade risk in a medical category.</li>
-    <li><span class="num">2</span><b>A broken drug-safety link on the highest-traffic page.</b> The Foundayo card's “Important safety information” links to the homepage itself.</li>
-    <li><span class="num">3</span><b>The “free estimate in seconds” asks for your email first</b> — with marketing consent attached. The funnel's biggest self-inflicted friction.</li>
-    <li><span class="num">4</span><b>Two unreconciled lead offers run at once</b> — “50% off 12 months” vs “66% off first month / $25” — and the $74 ongoing Med+ price is missing from the plans comparison table.</li>
-    <li><span class="num">5</span><b>The blog contradicts the “new WW” story</b> — rails still surface “low-SmartPoints” titles from 2017–2019, and one section renders five cards with broken images.</li>
+    <li><span class="num">1</span><b>Headline stats and their footnotes look out of sync.</b> The homepage's “61% more body weight… at one month*” stat carries a single-asterisk footnote that describes a different analysis (a 92,160-member average-weight-loss read at 4 weeks); the only footnote that does describe Success Program participation — 166 survey responses from a 6-month trial — is marked ** and no stat on the page carries that marker (verified on the live site today). In a medical category this is a potential compliance exposure worth legal/regulatory review; I'd inventory every stat/footnote pair as step one.</li>
+    <li><span class="num">2</span><b>The Foundayo card's “Important safety information” link resolved to the homepage</b> rather than a safety page — the only one of the six med cards to do so (as of the July 23, 2026 capture). A quick, high-trust fix worth confirming and shipping same-day.</li>
+    <li><span class="num">3</span><b>The “free estimate in seconds” asks for an email first</b> — email is the form's first field, with marketing-consent copy attached (verified live today). The most valuable friction cut available; I'd validate with an ungated A/B where the email ask comes after the estimate.</li>
+    <li><span class="num">4</span><b>Two lead offers run in parallel, not yet reconciled</b> — “save 50% on a 12-month plan” vs “66% off your first month of Med+ / $25.” The Med+ pricing card does disclose “Then, $74/month” — but the plans page's side-by-side comparison table shows only “Starting at $25/first month^,” with the ongoing $74 relegated to the footnote below it (verified live today). Worth aligning into one price story; I'd test transparency-forward framing.</li>
+    <li><span class="num">5</span><b>The blog is off-message for the new WW story in places</b> — curated rails still surface recipe roundups dated 2017 and 2019 titled with retired program names (SmartPoints, PersonalPoints — still live today), and two adjacent sections rendered seven cards with blank images in the July 23, 2026 capture. A content refresh plus a QA pass on the rails.</li>
   </ul>
 
   <div class="banner-note"><b>How to read the mocks:</b> each one is the real page rebuilt, not a redesign. If it looks the same, that's the point — the improvements sit inside the existing system. Use the ✨ toggle in the bottom-left corner of each mock to outline what changed.</div>
@@ -222,7 +247,7 @@
 <!-- ============ INTERACTIVE ============ -->
 <section class="tab" id="tab-interactive">
   <h2>Interactive experiences</h2>
-  <p class="lede">WW already owns two good tools — a 5-step plan finder and a GLP-1 cost estimator — but neither is presented as an experience, and the estimator email-gates its “free estimate in seconds.” Below: two new ungated experiences, built to be embedded anywhere (homepage, blog rail, paid landing pages).</p>
+  <p class="lede">WW already owns two good tools — a 5-step plan finder and a GLP-1 cost estimator — but neither is presented as an experience yet, and the estimator asks for an email before showing the estimate. Below: two new ungated experiences, built to be embedded anywhere (homepage, blog rail, paid landing pages).</p>
 
   <h3>1 · “Build your plan, see your price” — affordability calculator</h3>
   <p class="lede" style="font-size:14.5px">Live price transparency: pick a membership, commitment, and (for Med+) a medication and insurance status — see monthly cost, per-day framing, and savings vs. typical GLP-1 list price. No email required.</p>
@@ -251,10 +276,10 @@
   </div>
 
   <div class="improve-list card" style="margin-top:24px">
-    <h3 style="margin-top:0">Where the current tools fall short</h3>
-    <div class="item"><span class="num">1</span><div><b>The cost estimator asks for email before showing anything</b> — with marketing consent attached. Estimate first, email after, converts better and reads more honest.</div></div>
-    <div class="item"><span class="num">2</span><div><b>The plan finder is a funnel step, not an experience</b> — it's only reachable via text links; nothing on the homepage signals it exists.</div></div>
-    <div class="item"><span class="num">3</span><div><b>Nothing is embeddable</b> — both tools live on their own URLs; neither can sit in a blog rail or a landing page section where the intent actually forms.</div></div>
+    <h3 style="margin-top:0">Where the current tools could work harder</h3>
+    <div class="item"><span class="num">1</span><div><b>The cost estimator asks for an email before showing the estimate</b> — with marketing consent attached. I'd validate an estimate-first flow with the email ask after the value; my hypothesis is it completes more often and reads more honest.</div></div>
+    <div class="item"><span class="num">2</span><div><b>The plan finder is a funnel step more than an experience</b> — today it's reachable via text links, and nothing on the homepage signals it exists. Surfacing it is a cheap test.</div></div>
+    <div class="item"><span class="num">3</span><div><b>Neither tool is embeddable yet</b> — both live on their own URLs. Making them embeddable lets them sit in a blog rail or landing-page section, where the intent actually forms.</div></div>
   </div>
 </section>
 
@@ -281,69 +306,510 @@
 
 <script>
 const FINDINGS = [
-  {"page": "home", "viewport": "both", "severity": "high", "category": "redundancy", "finding": "Full quiz module (What is your weight-loss goal? headline, 5 answer pills, health-data consent paragraph) appears twice in its entirety: mid-page under 'Interested in GLP-1 medications?' and again above the newsletter block.", "recommendation": "Keep one instance high on the page; replace the duplicate with a one-line CTA band."},
-  {"page": "home", "viewport": "both", "severity": "high", "category": "cta-strategy", "finding": "Approximately 30 CTA buttons/links with 8+ labels (Get Started, Get started, Join Core, Join Core+, See if you qualify, Get special offer, Find your plan x7, Join now x2, Let's go), most resolving to the same plan-finder or clinical intake.", "recommendation": "Define one CTA verb per journey (core vs meds); demote all other actions to text links."},
-  {"page": "home", "viewport": "both", "severity": "high", "category": "pricing-transparency", "finding": "Hero claims 'Start today for as low as $12/mo.' with no adjacent disclosure that the price requires a 12-month auto-renewing commitment; terms sit behind 'Offer Terms' links that appear 6+ times on the page.", "recommendation": "Add 'with a 12-month plan' inline next to every teaser price."},
-  {"page": "home", "viewport": "both", "severity": "high", "category": "footnote-integrity", "finding": "GLP-1 Success card claims 'lost 61% more body weight ... at one month.*' but the only matching footnote is marked ** and describes survey responses of 166 participants in a 6-month clinical trial - marker mismatch and claim/support mismatch.", "recommendation": "Run a claim-to-footnote audit; renumber footnotes with superscript digits; match claim timeframe to study design."},
-  {"page": "home", "viewport": "both", "severity": "high", "category": "broken-link", "finding": "Foundayo medication card's 'Important safety information' link points to /us (the homepage) instead of a safety page, and the card is the only med card missing 'Check insurance coverage' (link target verified in captured HTML; card visible in screenshots).", "recommendation": "Fix the safety-information href immediately and add the missing insurance link."},
-  {"page": "home", "viewport": "both", "severity": "medium", "category": "choice-overload", "finding": "Six-product medication carousel on the homepage, each card with 4 links; the Get started buttons route to different clinical intake quizzes (clinical-v4 vs clinical-v3-3 per captured HTML).", "recommendation": "Replace with a single Med+ entry point on home; keep product-level detail on the med landing page with one intake flow."},
-  {"page": "home", "viewport": "both", "severity": "medium", "category": "redundancy", "finding": "Member headshot carousel with weight-loss labels renders at the top and again in the 'We've empowered tens of millions' section with the same people (Justine -40 lbs, Jess -15 lbs visible in both).", "recommendation": "One social-proof block per page."},
-  {"page": "home", "viewport": "mobile", "severity": "medium", "category": "mobile-ux", "finding": "Homepage runs approximately 15 phone screens deep including duplicated modules; no sticky/persistent CTA is visible in the mobile capture.", "recommendation": "Add a mobile sticky bottom CTA and remove duplicate modules to cut roughly a third of scroll depth."},
-  {"page": "home", "viewport": "both", "severity": "medium", "category": "consistency", "finding": "Weight-loss labels formatted inconsistently on one page: 'LESLEY -35 lbs' in hero vs '-9 LB' and '-33 LB' in later carousel (casing and singular/plural vary).", "recommendation": "Standardize on one format, e.g. '-35 lbs'."},
-  {"page": "home", "viewport": "both", "severity": "medium", "category": "footnote-load", "finding": "Six 'Offer Terms' links, three footnote symbol systems (*, **, ^), and two ~40-word methodology footnotes (n=92,160) on a single page.", "recommendation": "Consolidate to one terms link per section and a single numbered footnote block."},
-  {"page": "home", "viewport": "both", "severity": "low", "category": "accessibility", "finding": "Giant decorative WEIGHT WATCHERS wordmark overlaps the hero member photo; name/weight labels sit directly on photos; long footnotes render in small light text on tinted backgrounds.", "recommendation": "Run a WCAG contrast audit on text-over-image and footnote styles."},
-  {"page": "home", "viewport": "both", "severity": "low", "category": "editorial-voice", "finding": "Three brand renderings on one page: 'WeightWatchers', 'Weight Watchers', and 'WW' (cards, FAQ copy, footer trademark line).", "recommendation": "Pick one rendering in the styleguide and enforce it."},
-  {"page": "home", "viewport": "both", "severity": "low", "category": "copy-accuracy", "finding": "FAQ copy (in captured page source, collapsed accordion) spells 'registered dieticians' while the page elsewhere links 'Registered Dietitians'; home FAQ claims 'more than 140 publications' vs 175 on plans and points pages.", "recommendation": "Reconcile the publication count and fix the spelling in one copy pass."},
-  {"page": "plans", "viewport": "both", "severity": "high", "category": "pricing-transparency", "finding": "Med+ ongoing price ($74/mo) appears on the hero card but the mid-page comparison table shows only '$25/first month^' with the recurring price relegated to a footnote; all plan prices require a 12-month auto-renewing commitment disclosed only in footnotes.", "recommendation": "Display ongoing cost at equal visual weight to the teaser price wherever the teaser appears, including the comparison table."},
-  {"page": "plans", "viewport": "both", "severity": "medium", "category": "comparison-design", "finding": "In 'See what's included' roughly 12 of 16 rows are checked for all three plans, and the CORE row '2 free weeks^^' uses a ^^ marker with no matching footnote below the table (only ^ is defined).", "recommendation": "Collapse shared rows into 'Everything in Core, plus...' framing and fix the orphaned ^^ footnote."},
-  {"page": "plans", "viewport": "both", "severity": "medium", "category": "footnote-integrity", "finding": "Orphaned footnotes under the testimonial carousel: '^At 6 months...12 lbs' and '^^Eligible WW Med+ patients lost...21% (-48 lbs)' with no ^ or ^^ markers in any of the quotes above.", "recommendation": "Attach markers to the relevant claims or delete the footnotes."},
-  {"page": "plans", "viewport": "both", "severity": "medium", "category": "typography", "finding": "Same card row shows '$12/Month*' (capital M) on CORE vs '$22/month*' on CORE+; the typo repeats where the module is reused on the points-program page.", "recommendation": "Fix the casing once in the shared pricing component."},
-  {"page": "plans", "viewport": "both", "severity": "medium", "category": "brand-consistency", "finding": "Sticky sub-nav tab reads 'WHY WEIGHTWATCHERS?' while the section it anchors is headed 'WHY WEIGHT WATCHERS? BECAUSE IT WORKS.' - two brand spellings for the same label.", "recommendation": "Use one brand rendering for the anchor and heading."},
-  {"page": "plans", "viewport": "mobile", "severity": "medium", "category": "mobile-ux", "finding": "Plan cards and the comparison table become horizontal swipe carousels showing one plan per viewport, preventing side-by-side comparison; page is ~12.5 phone screens.", "recommendation": "Use a stacked accordion comparison pattern on mobile."},
-  {"page": "plans", "viewport": "both", "severity": "low", "category": "cta-strategy", "finding": "Hero uses a third label 'Take Our Quiz' for the same plan-finder that is 'Get Started' in the nav and 'Find your plan' elsewhere.", "recommendation": "Standardize the plan-finder CTA label."},
-  {"page": "med-landing", "viewport": "both", "severity": "high", "category": "stat-consistency", "finding": "At least six efficacy figures with three marker systems on one page: 21% at 12 months, 29% more weight, 31.6 lbs at 6 months, 94% diabetes-progression reduction, 53% quality-of-life, 197% self-esteem increase - while home leads with 7.4 lbs at 4 weeks and 61% more.", "recommendation": "Select 2-3 defensible hero stats site-wide with one substantiation format; retire the rest."},
-  {"page": "med-landing", "viewport": "both", "severity": "high", "category": "cta-strategy", "finding": "Four competing entry points: $25 first-month banner, 'lowest price' pill hero (See if you qualify), Med+ membership card (Join MED+), and six med cards each with Get started routing to different clinical intake flows.", "recommendation": "Converge on one qualification funnel with a single repeated primary CTA."},
-  {"page": "med-landing", "viewport": "both", "severity": "medium", "category": "redundancy", "finding": "Six-card medication carousel, Med+ pricing card, and safety disclaimers repeat homepage content nearly verbatim; mobile page is the deepest in the audit at roughly 20 phone screens (33,922px).", "recommendation": "Remove modules duplicated from home; sequence qualify, price, proof once each."},
-  {"page": "med-landing", "viewport": "both", "severity": "medium", "category": "footnote-integrity", "finding": "'*At 6 months, members lost on average 31.6 lbs...' sits below the 'Real medication. Real support. Real results.' carousel with no visible asterisk referent (visible quote 'Maria T, -55 lbs' carries no marker).", "recommendation": "Attach the footnote to a marked claim or remove it."},
-  {"page": "med-landing", "viewport": "both", "severity": "medium", "category": "visual-bug", "finding": "In the testimonial carousel a navy quote card overlaps an empty white card on desktop, and on mobile a fully blank navy card renders with no quote content.", "recommendation": "QA the testimonial carousel component in both breakpoints."},
-  {"page": "med-landing", "viewport": "both", "severity": "medium", "category": "copy-consistency", "finding": "Support bullets say 'Available 24/7 ... in the WW app' while the adjacent card grid says Care Team 'available almost 24/7'; also British spelling 'counselling' and headline 'pre diabetes' vs footnote 'prediabetes'.", "recommendation": "Copyedit pass to resolve the 24/7 contradiction and Americanize spellings."},
-  {"page": "med-landing", "viewport": "mobile", "severity": "medium", "category": "message-consistency", "finding": "Mobile hero headline differs from desktop ('New! Wegovy pill' vs 'New oral GLP-1 pills') and runs white text plus a low-contrast disclaimer over a black-and-white close-up photo of an open mouth with a branded pill on the teeth.", "recommendation": "Align hero message across devices and test the polarizing creative; fix text-over-image contrast."},
-  {"page": "med-landing", "viewport": "both", "severity": "low", "category": "trust-signals", "finding": "LegitScript and TRUSTe badges appear in the med-page footer (strongest trust treatment in the audit); the 'affiliated medical group' disclosure repeats four times on the page.", "recommendation": "Keep the badges; consolidate the repeated disclosure."},
-  {"page": "points-program", "viewport": "both", "severity": "high", "category": "claim-substantiation", "finding": "Hero headline 'Simple nutrition. Real weight loss.*' footnotes the weight-loss claim to a diet-quality RCT (Healthy Eating Index improvement), which does not substantiate weight loss; the hero stacks *, **, and ^ with a 4-line footnote block directly under the CTA.", "recommendation": "Substantiate with a weight-loss study or soften the claim; move footnotes off the hero."},
-  {"page": "points-program", "viewport": "both", "severity": "medium", "category": "redundancy", "finding": "Full 3-card pricing module duplicated verbatim from /plans (including the /Month vs /month typo) plus a second quiz cross-sell band; page runs about 13 phone screens.", "recommendation": "Link to /plans instead of duplicating the module, or share one governed component."},
-  {"page": "points-program", "viewport": "both", "severity": "medium", "category": "footnote-integrity", "finding": "'^At 6 months, participants in a clinical trial...' appears under the 'What members say' testimonials but none of the five quotes carries a ^ marker.", "recommendation": "Attach the marker to a claim or delete the footnote."},
-  {"page": "points-program", "viewport": "both", "severity": "low", "category": "cta-strategy", "finding": "On this Core landing page the Coaches section CTA is 'Start with Core+' while neighboring modules say 'Join now' and 'Get started' - three labels, one upselling a different plan.", "recommendation": "Use one consistent CTA and keep plan upsell to a labeled comparison module."},
-  {"page": "points-program", "viewport": "both", "severity": "low", "category": "stat-framing", "finding": "'has empowered millions of members.*' is footnoted 'Based on total sign-ups since 2001' while the homepage claims 'tens of millions' without a footnote - magnitude and counting method disagree.", "recommendation": "Agree on one membership scale claim and substantiation."},
-  {"page": "find-my-plan", "viewport": "both", "severity": "medium", "category": "trust-signals", "finding": "The quiz page has no WW logo, header, or footer - a bare page with a back arrow - so users arriving from ads or the many CTAs pointing here get no brand confirmation and no navigation escape.", "recommendation": "Add a minimal branded header with logo and an exit link."},
-  {"page": "find-my-plan", "viewport": "both", "severity": "low", "category": "consistency", "finding": "Answer order differs from the homepage-embedded version of the same question ('Maintain weight and get fit' first on home, fourth here); the Next button renders in a low-contrast disabled state.", "recommendation": "Align option order across quiz instances; increase disabled-state contrast."},
-  {"page": "find-my-plan", "viewport": "both", "severity": "low", "category": "conversion-friction", "finding": "Besides the question, the only copy is a health-data consent paragraph - no '2-minute quiz' framing (promised on the points page) or indication of what the user gets at the end.", "recommendation": "Add time-to-complete and outcome reassurance copy."},
-  {"page": "cost-estimator", "viewport": "both", "severity": "high", "category": "conversion-friction", "finding": "Email is the first required field of the 'free estimate' form, with consent copy stating the address can be used for tips, recipes, and offers - a marketing email gate on a pricing tool promised to take 'seconds'.", "recommendation": "Show the estimate without email; offer email capture to save or send results afterward."},
-  {"page": "cost-estimator", "viewport": "both", "severity": "medium", "category": "cta-strategy", "finding": "The STEP 01 explainer card contains its own 'Get my estimate' button that scrolls back to the form; the same CTA appears three times on a three-section page.", "recommendation": "One form, one CTA; make explainer steps non-interactive."},
-  {"page": "cost-estimator", "viewport": "both", "severity": "low", "category": "footnote-integrity", "finding": "'(double-dagger) GLP-1 cost not included.' floats under the closing CTA; the dagger symbol appears nowhere else on the page.", "recommendation": "Attach the qualifier to the relevant price claim or remove the symbol."},
-  {"page": "cost-estimator", "viewport": "both", "severity": "low", "category": "copy-accuracy", "finding": "Step copy reads 'Enter your height, weight, range, insurance and desired medication' - misplaced comma splits 'weight range'.", "recommendation": "Fix to 'height, weight range, insurance, and desired medication'."},
-  {"page": "cost-estimator", "viewport": "mobile", "severity": "low", "category": "mobile-ux", "finding": "Banner plus hero copy push the estimator form below the first screen on mobile; roughly 6 screens total for a single-form tool.", "recommendation": "Collapse hero copy on mobile so the form starts on screen one."},
-  {"page": "blog-index", "viewport": "both", "severity": "high", "category": "content-freshness", "finding": "Curated recipe rail surfaces articles titled with retired points systems - '27 Low-PersonalPoints Recipes...' (2019) and '19 low-SmartPoints value recipes...' (2017) - directly under a 'Delicious ways to use your Points' heading.", "recommendation": "Retitle and refresh legacy posts or exclude legacy-branded titles from curated rails."},
-  {"page": "blog-index", "viewport": "both", "severity": "high", "category": "broken-imagery", "finding": "All five cards in the 'Stay healthy' section render with blank images; the featured 'Guide to nuts and seeds' card shows a navy WW-logo placeholder instead of a photo and appears twice in its rail per captured markup.", "recommendation": "Fix the image pipeline, add fallbacks, and dedupe rail contents."},
-  {"page": "blog-index", "viewport": "both", "severity": "medium", "category": "footnote-integrity", "finding": "Closing band 'Join the #1 doctor recommended weight-loss program*' has no footnote anywhere on the page resolving the asterisk; 'doctor recommended' is also unhyphenated here vs 'doctor-recommended' elsewhere.", "recommendation": "Add the Cerner Enviza citation or drop the asterisk; hyphenate consistently."},
-  {"page": "blog-index", "viewport": "both", "severity": "medium", "category": "visual-consistency", "finding": "Blog footer differs from product footer: 'Download the WW app' beside a blank white square (missing icon/QR vs product QR code), Our Programs list omits Med+, and the trademark line wording differs.", "recommendation": "Use one governed footer component across product and blog."},
-  {"page": "blog-index", "viewport": "both", "severity": "medium", "category": "editorial-consistency", "finding": "Card titles mix title case and sentence case; dates mix formats ('13 SEP 2017', '11 APRIL 2017', '5 JUNE 2024'); several titles truncate mid-phrase with ellipses.", "recommendation": "Adopt sentence-case titles, one date format, and character limits that avoid truncation."},
-  {"page": "blog-index", "viewport": "both", "severity": "medium", "category": "layout-spacing", "finding": "A roughly 600px empty band sits between the program-links block and 'Trending now'; the page is a ~13,000px stack of similar card rails ending in five identical 'View more' buttons.", "recommendation": "Close the spacing gap and vary rail treatments or paginate."},
-  {"page": "blog-index", "viewport": "both", "severity": "low", "category": "cta-strategy", "finding": "Content-hub hero CTA is 'Join now' before any content value; the mid-page plan cross-sell shows only Core and Core+ with no Med+.", "recommendation": "Lead the hub with content value; align the cross-sell module with the full plan lineup."},
-  {"page": "article-1", "viewport": "both", "severity": "medium", "category": "editorial-voice", "finding": "Newsletter module headline 'Trust: You need this newsletter.' uses a commanding, jokey register bolted onto a carefully sourced, expert-cited article; the identical module repeats on every article.", "recommendation": "Rewrite to match the clinical-credibility positioning, e.g. 'Evidence-based weight health, weekly'."},
-  {"page": "article-1", "viewport": "both", "severity": "medium", "category": "layout-spacing", "finding": "Desktop body renders in a narrow right column with the entire left column blank below the short TOC; mobile runs about 14 screens for a ~1,600-word article due to TOC, related links, newsletter, and oversized footer.", "recommendation": "Widen the reading column or use the left rail for sticky TOC; trim end-of-article stack on mobile."},
-  {"page": "article-1", "viewport": "both", "severity": "low", "category": "copy-accuracy", "finding": "Body text switches the expert's name from 'Barron' to 'Baron says' in the kickstart section; occasional double spaces are visible in body copy.", "recommendation": "Proofread pass; enforce single spacing."},
-  {"page": "article-1", "viewport": "both", "severity": "low", "category": "ux-detail", "finding": "Share row includes an Instagram icon although Instagram has no web share target - a dead-end control (also present on article 2).", "recommendation": "Remove Instagram from share rows or link to the brand profile explicitly."},
-  {"page": "article-1", "viewport": "both", "severity": "low", "category": "conversion-strategy", "finding": "The article's natural product moment ('speak to your healthcare provider... weight loss medication') is not linked to WW's med program; only conversion paths are the top banner and end-of-page modules.", "recommendation": "Decide deliberately: add one contextual link to the med qualification flow or keep articles conversion-clean as policy."},
-  {"page": "article-2", "viewport": "both", "severity": "medium", "category": "editorial-consistency", "finding": "TOC jump-link labels do not match their section headings ('Best Starbucks Coffee Drinks' vs 'Best coffee drinks'; 'Healthier Lunch Options' vs 'Healthier Starbucks lunches'), and the TOC pattern differs entirely from article 1's numbered 'In this article:' module.", "recommendation": "Ship one article TOC component with labels generated from headings."},
-  {"page": "article-2", "viewport": "both", "severity": "medium", "category": "claim-substantiation", "finding": "States 'everything on the Starbucks menu can fit into your weight-loss plan' - an absolute claim above the article's own 16-Point sandwich listing.", "recommendation": "Soften to 'almost anything, with planning' to protect credibility."},
-  {"page": "article-2", "viewport": "both", "severity": "low", "category": "trust-signals", "finding": "Byline is the house 'By Weight Watchers' on a scientifically reviewed piece while article 1 carries a named journalist - inconsistent authorship signal on same-template pages.", "recommendation": "Use named authors (or a consistent editorial-team byline standard) across articles."},
-  {"page": "article-2", "viewport": "both", "severity": "low", "category": "content-usefulness", "finding": "Points values are listed with no benchmark (no mention of a typical daily Points budget for context) and photos are generic stock food shots rather than the named Starbucks items.", "recommendation": "Add one line of budget context for non-members and use accurate item imagery."},
-  {"page": "article-2", "viewport": "both", "severity": "low", "category": "content-freshness", "finding": "Blog index dates the article 15 DEC 2022 while the article page says 'Last updated September 30, 2025' - visible date mismatch invites doubt that menu items and values are current.", "recommendation": "Surface one canonical date consistently across index cards and article pages."},
-  {"page": "site-wide", "viewport": "both", "severity": "high", "category": "offer-coherence", "finding": "Two lead offers run simultaneously with no reconciliation: 'save 50% on a 12-month plan' (home, plans, points, blog, articles) vs 'Save 66% on your first month of Med+ - $25' (med landing, cost estimator).", "recommendation": "Run one master offer per audience, or label banners by plan so cross-page math is coherent."},
-  {"page": "site-wide", "viewport": "both", "severity": "high", "category": "footnote-integrity", "finding": "Footnote symbols (*, **, ^, ^^, dagger, double-dagger) carry different meanings page to page with at least five orphaned markers or footnotes documented across home, plans, med landing, blog index, and cost estimator.", "recommendation": "Move to numbered superscripts with a single per-page footnote block; audit every claim-footnote pair."},
-  {"page": "site-wide", "viewport": "both", "severity": "medium", "category": "brand-consistency", "finding": "'WeightWatchers', 'Weight Watchers', and 'WW' alternate across and within pages, including nav vs heading on /plans and differing product vs blog trademark lines.", "recommendation": "Issue a styleguide ruling on the brand rendering and apply it in one sweep."},
-  {"page": "site-wide", "viewport": "mobile", "severity": "medium", "category": "mobile-ux", "finding": "No sticky or persistent CTA is visible in any mobile capture despite pages running 10-20 phone screens deep; the two most commercial pages are the deepest (med landing ~20 screens, home ~15).", "recommendation": "Add a sticky bottom CTA on commercial pages and cut duplicated modules to reduce scroll depth."},
-  {"page": "site-wide", "viewport": "both", "severity": "medium", "category": "component-governance", "finding": "The same plan-card module, med-card carousel, quiz module, testimonial carousel, and newsletter block are reused across pages with drifting details - labels, typos, and footnotes differ between instances.", "recommendation": "Establish a single source of truth per component so fixes propagate everywhere."}
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "high",
+  "category": "redundancy",
+  "finding": "Full quiz module (What is your weight-loss goal? headline, 5 answer pills, health-data consent paragraph) appears twice in its entirety: mid-page under 'Interested in GLP-1 medications?' and again above the newsletter block.",
+  "recommendation": "I'd keep one instance high on the page and test replacing the duplicate with a one-line CTA band."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "high",
+  "category": "cta-strategy",
+  "finding": "Approximately 30 CTA buttons/links with 8+ labels (Get Started, Get started, Join Core, Join Core+, See if you qualify, Get special offer, Find your plan x7, Join now x2, Let's go), most resolving to the same plan-finder or clinical intake.",
+  "recommendation": "Worth aligning on one CTA verb per journey (core vs meds), demoting other actions to text links; A/B it."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "high",
+  "category": "pricing-transparency",
+  "finding": "Hero leads with 'Start today for as low as $12/mo.' without the 12-month auto-renewing commitment context nearby; terms sit behind 'Offer Terms' links that appear 6+ times on the page.",
+  "recommendation": "Quick win: add 'with a 12-month plan' inline next to every teaser price."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "high",
+  "category": "footnote-integrity",
+  "finding": "GLP-1 Success card states 'lost 61% more body weight ... at one month.*' — but the single-asterisk footnote describes a different analysis (92,160 members' average weight loss at a 4-week weigh-in, not an engaged-vs-not comparison). The only footnote that does describe Success Program participation — 166 survey responses from a 6-month clinical trial — is marked ** and no stat on the page carries that marker (verified live July 23, 2026). The pairing is worth legal/regulatory review.",
+  "recommendation": "Run a claim-to-footnote pass with legal; renumber footnotes with superscript digits and match claim timeframe to study design."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "high",
+  "category": "broken-link",
+  "finding": "Foundayo medication card's 'Important safety information' link resolves to /us (the homepage) rather than a safety page, and the card is the only med card without 'Check insurance coverage' (link target verified in captured HTML; card visible in screenshots).",
+  "recommendation": "Quick win: point the safety-information href at the safety page and add the missing insurance link."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "choice-overload",
+  "finding": "Six-product medication carousel on the homepage, each card with 4 links; the Get started buttons route to different clinical intake quizzes (clinical-v4 vs clinical-v3-3 per captured HTML).",
+  "recommendation": "I'd test a single Med+ entry point on home, keeping product-level detail on the med landing page with one intake flow."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "redundancy",
+  "finding": "Member headshot carousel with weight-loss labels renders at the top and again in the 'We've empowered tens of millions' section with the same people (Justine -40 lbs, Jess -15 lbs visible in both).",
+  "recommendation": "Consolidate to one social-proof block."
+ },
+ {
+  "page": "home",
+  "viewport": "mobile",
+  "severity": "medium",
+  "category": "mobile-ux",
+  "finding": "Homepage runs approximately 15 phone screens deep including duplicated modules; no sticky/persistent CTA is visible in the mobile capture.",
+  "recommendation": "Worth testing a mobile sticky bottom CTA and trimming duplicate modules to cut roughly a third of scroll depth."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "consistency",
+  "finding": "Weight-loss labels formatted inconsistently on one page: 'LESLEY -35 lbs' in hero vs '-9 LB' and '-33 LB' in later carousel (casing and singular/plural vary).",
+  "recommendation": "Standardize on one format, e.g. '-35 lbs'."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "footnote-load",
+  "finding": "Six 'Offer Terms' links, three footnote symbol systems (*, **, ^), and two ~40-word methodology footnotes (n=92,160) on a single page.",
+  "recommendation": "An opportunity to consolidate: one terms link per section and a single numbered footnote block."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "low",
+  "category": "accessibility",
+  "finding": "Giant decorative WEIGHT WATCHERS wordmark overlaps the hero member photo; name/weight labels sit directly on photos; long footnotes render in small light text on tinted backgrounds.",
+  "recommendation": "Worth a WCAG contrast pass on text-over-image and footnote styles."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "low",
+  "category": "editorial-voice",
+  "finding": "Three brand renderings on one page: 'WeightWatchers', 'Weight Watchers', and 'WW' (cards, FAQ copy, footer trademark line).",
+  "recommendation": "Pick one rendering in the styleguide and apply it consistently."
+ },
+ {
+  "page": "home",
+  "viewport": "both",
+  "severity": "low",
+  "category": "copy-accuracy",
+  "finding": "FAQ copy (in captured page source, collapsed accordion) spells 'registered dieticians' while the page elsewhere links 'Registered Dietitians'; home FAQ cites 'more than 140 publications' vs 175 on plans and points pages - the counts appear out of sync.",
+  "recommendation": "Reconcile the publication count and align the spelling in one copy pass."
+ },
+ {
+  "page": "plans",
+  "viewport": "both",
+  "severity": "high",
+  "category": "pricing-transparency",
+  "finding": "Med+ ongoing price ($74/mo) appears on the hero card but the mid-page comparison table shows only '$25/first month^' with the recurring price carried in a footnote; all plan prices involve a 12-month auto-renewing commitment disclosed in footnotes only.",
+  "recommendation": "I'd test showing ongoing cost at equal visual weight to the teaser price wherever the teaser appears, including the comparison table."
+ },
+ {
+  "page": "plans",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "comparison-design",
+  "finding": "In 'See what's included' roughly 12 of 16 rows are checked for all three plans, and the CORE row '2 free weeks^^' uses a ^^ marker with no matching footnote below the table (only ^ is defined).",
+  "recommendation": "Worth testing 'Everything in Core, plus...' framing for the shared rows; resolve the unmatched ^^ footnote."
+ },
+ {
+  "page": "plans",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "footnote-integrity",
+  "finding": "Footnotes without visible referents under the testimonial carousel: '^At 6 months...12 lbs' and '^^Eligible WW Med+ patients lost...21% (-48 lbs)' with no ^ or ^^ markers in any of the quotes above.",
+  "recommendation": "Attach markers to the relevant claims or retire the footnotes."
+ },
+ {
+  "page": "plans",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "typography",
+  "finding": "Same card row shows '$12/Month*' (capital M) on CORE vs '$22/month*' on CORE+; the casing carries over where the module is reused on the points-program page.",
+  "recommendation": "Fix the casing once in the shared pricing component."
+ },
+ {
+  "page": "plans",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "brand-consistency",
+  "finding": "Sticky sub-nav tab reads 'WHY WEIGHTWATCHERS?' while the section it anchors is headed 'WHY WEIGHT WATCHERS? BECAUSE IT WORKS.' - two brand spellings for the same label.",
+  "recommendation": "Use one brand rendering for the anchor and heading."
+ },
+ {
+  "page": "plans",
+  "viewport": "mobile",
+  "severity": "medium",
+  "category": "mobile-ux",
+  "finding": "Plan cards and the comparison table become horizontal swipe carousels showing one plan per viewport, which makes side-by-side comparison harder; page is ~12.5 phone screens.",
+  "recommendation": "Worth testing a stacked accordion comparison pattern on mobile."
+ },
+ {
+  "page": "plans",
+  "viewport": "both",
+  "severity": "low",
+  "category": "cta-strategy",
+  "finding": "Hero uses a third label 'Take Our Quiz' for the same plan-finder that is 'Get Started' in the nav and 'Find your plan' elsewhere.",
+  "recommendation": "Standardize the plan-finder CTA label."
+ },
+ {
+  "page": "med-landing",
+  "viewport": "both",
+  "severity": "high",
+  "category": "stat-consistency",
+  "finding": "At least six efficacy figures with three marker systems on one page: 21% at 12 months, 29% more weight, 31.6 lbs at 6 months, 94% diabetes-progression reduction, 53% quality-of-life, 197% self-esteem increase - while home leads with 7.4 lbs at 4 weeks and 61% more. The stat story isn't yet reconciled across pages.",
+  "recommendation": "I'd align on 2-3 hero stats site-wide with one substantiation format, and retire the rest."
+ },
+ {
+  "page": "med-landing",
+  "viewport": "both",
+  "severity": "high",
+  "category": "cta-strategy",
+  "finding": "Four parallel entry points: $25 first-month banner, 'lowest price' pill hero (See if you qualify), Med+ membership card (Join MED+), and six med cards each with Get started routing to different clinical intake flows.",
+  "recommendation": "Worth converging on one qualification funnel with a single repeated primary CTA; A/B it."
+ },
+ {
+  "page": "med-landing",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "redundancy",
+  "finding": "Six-card medication carousel, Med+ pricing card, and safety disclaimers repeat homepage content nearly verbatim; mobile page is the deepest in the audit at roughly 20 phone screens (33,922px).",
+  "recommendation": "I'd trim modules duplicated from home and sequence qualify, price, proof once each."
+ },
+ {
+  "page": "med-landing",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "footnote-integrity",
+  "finding": "'*At 6 months, members lost on average 31.6 lbs...' sits below the 'Real medication. Real support. Real results.' carousel with no visible asterisk referent (visible quote 'Maria T, -55 lbs' carries no marker).",
+  "recommendation": "Attach the footnote to a marked claim or retire it."
+ },
+ {
+  "page": "med-landing",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "visual-bug",
+  "finding": "In the testimonial carousel a navy quote card overlaps an empty white card on desktop, and on mobile a fully blank navy card renders with no quote content.",
+  "recommendation": "QA the testimonial carousel component in both breakpoints."
+ },
+ {
+  "page": "med-landing",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "copy-consistency",
+  "finding": "Support bullets say 'Available 24/7 ... in the WW app' while the adjacent card grid says Care Team 'available almost 24/7' - the two statements appear out of sync; also British spelling 'counselling' and headline 'pre diabetes' vs footnote 'prediabetes'.",
+  "recommendation": "Copyedit pass to reconcile the 24/7 language and Americanize spellings."
+ },
+ {
+  "page": "med-landing",
+  "viewport": "mobile",
+  "severity": "medium",
+  "category": "message-consistency",
+  "finding": "Mobile hero headline differs from desktop ('New! Wegovy pill' vs 'New oral GLP-1 pills') and runs white text plus a low-contrast disclaimer over a black-and-white close-up photo of an open mouth with a branded pill on the teeth.",
+  "recommendation": "I'd align the hero message across devices, audience-test the bold creative, and lift text-over-image contrast."
+ },
+ {
+  "page": "med-landing",
+  "viewport": "both",
+  "severity": "low",
+  "category": "trust-signals",
+  "finding": "LegitScript and TRUSTe badges appear in the med-page footer (strongest trust treatment in the audit); the 'affiliated medical group' disclosure repeats four times on the page.",
+  "recommendation": "Keep the badges; consolidate the repeated disclosure."
+ },
+ {
+  "page": "points-program",
+  "viewport": "both",
+  "severity": "high",
+  "category": "claim-substantiation",
+  "finding": "Hero headline 'Simple nutrition. Real weight loss.*' footnotes the weight-loss claim to a diet-quality RCT (Healthy Eating Index improvement), which supports diet quality rather than weight loss - a potential compliance exposure worth legal/regulatory review; the hero stacks *, **, and ^ with a 4-line footnote block directly under the CTA.",
+  "recommendation": "I'd pair the claim with a weight-loss study or soften the headline, and move footnotes off the hero."
+ },
+ {
+  "page": "points-program",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "redundancy",
+  "finding": "Full 3-card pricing module duplicated verbatim from /plans (including the same /Month vs /month casing) plus a second quiz cross-sell band; page runs about 13 phone screens.",
+  "recommendation": "Link to /plans instead of duplicating the module, or share one governed component."
+ },
+ {
+  "page": "points-program",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "footnote-integrity",
+  "finding": "'^At 6 months, participants in a clinical trial...' appears under the 'What members say' testimonials but none of the five quotes carries a ^ marker.",
+  "recommendation": "Attach the marker to a claim or retire the footnote."
+ },
+ {
+  "page": "points-program",
+  "viewport": "both",
+  "severity": "low",
+  "category": "cta-strategy",
+  "finding": "On this Core landing page the Coaches section CTA is 'Start with Core+' while neighboring modules say 'Join now' and 'Get started' - three labels, one upselling a different plan.",
+  "recommendation": "Use one consistent CTA and keep plan upsell to a labeled comparison module."
+ },
+ {
+  "page": "points-program",
+  "viewport": "both",
+  "severity": "low",
+  "category": "stat-framing",
+  "finding": "'has empowered millions of members.*' is footnoted 'Based on total sign-ups since 2001' while the homepage says 'tens of millions' without a footnote - the magnitude and counting method aren't yet reconciled.",
+  "recommendation": "Agree on one membership scale claim and substantiation."
+ },
+ {
+  "page": "find-my-plan",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "trust-signals",
+  "finding": "The quiz page has no WW logo, header, or footer - a bare page with a back arrow - so users arriving from ads or the many CTAs pointing here get no brand confirmation and no navigation escape.",
+  "recommendation": "Quick win to test: a minimal branded header with logo and an exit link."
+ },
+ {
+  "page": "find-my-plan",
+  "viewport": "both",
+  "severity": "low",
+  "category": "consistency",
+  "finding": "Answer order differs from the homepage-embedded version of the same question ('Maintain weight and get fit' first on home, fourth here); the Next button renders in a low-contrast disabled state.",
+  "recommendation": "Align option order across quiz instances; increase disabled-state contrast."
+ },
+ {
+  "page": "find-my-plan",
+  "viewport": "both",
+  "severity": "low",
+  "category": "conversion-friction",
+  "finding": "Besides the question, the only copy is a health-data consent paragraph - no '2-minute quiz' framing (promised on the points page) or indication of what the user gets at the end.",
+  "recommendation": "Worth testing time-to-complete and outcome reassurance copy."
+ },
+ {
+  "page": "cost-estimator",
+  "viewport": "both",
+  "severity": "high",
+  "category": "conversion-friction",
+  "finding": "Email is the first required field of the 'free estimate' form, with consent copy stating the address can be used for tips, recipes, and offers - an email capture placed ahead of a pricing tool promised to take 'seconds'.",
+  "recommendation": "Worth an A/B: show the estimate without email, then offer email capture to save or send results afterward."
+ },
+ {
+  "page": "cost-estimator",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "cta-strategy",
+  "finding": "The STEP 01 explainer card contains its own 'Get my estimate' button that scrolls back to the form; the same CTA appears three times on a three-section page.",
+  "recommendation": "One form, one CTA; make explainer steps non-interactive."
+ },
+ {
+  "page": "cost-estimator",
+  "viewport": "both",
+  "severity": "low",
+  "category": "footnote-integrity",
+  "finding": "'(double-dagger) GLP-1 cost not included.' sits under the closing CTA without a visible referent; the dagger symbol appears nowhere else on the page.",
+  "recommendation": "Attach the qualifier to the relevant price claim or remove the symbol."
+ },
+ {
+  "page": "cost-estimator",
+  "viewport": "both",
+  "severity": "low",
+  "category": "copy-accuracy",
+  "finding": "Step copy reads 'Enter your height, weight, range, insurance and desired medication' - a misplaced comma splits 'weight range'.",
+  "recommendation": "Fix to 'height, weight range, insurance, and desired medication'."
+ },
+ {
+  "page": "cost-estimator",
+  "viewport": "mobile",
+  "severity": "low",
+  "category": "mobile-ux",
+  "finding": "Banner plus hero copy push the estimator form below the first screen on mobile; roughly 6 screens total for a single-form tool.",
+  "recommendation": "Worth testing collapsed hero copy on mobile so the form starts on screen one."
+ },
+ {
+  "page": "blog-index",
+  "viewport": "both",
+  "severity": "high",
+  "category": "content-freshness",
+  "finding": "Curated recipe rail surfaces articles titled with earlier points systems - '27 Low-PersonalPoints Recipes...' (2019) and '19 low-SmartPoints value recipes...' (2017) - directly under a 'Delicious ways to use your Points' heading.",
+  "recommendation": "An opportunity to retitle and refresh legacy posts, or exclude legacy-branded titles from curated rails."
+ },
+ {
+  "page": "blog-index",
+  "viewport": "both",
+  "severity": "high",
+  "category": "broken-imagery",
+  "finding": "All five cards in the 'Stay healthy' section — plus two in the adjacent 'Get better sleep' rail — rendered with blank images in the July 23, 2026 capture (the DOM contains valid image URLs, so images appear to fail at load/render time); the featured 'Guide to nuts and seeds' card shows a navy WW-logo placeholder instead of a photo and appears twice in its rail per captured markup.",
+  "recommendation": "I'd trace the image pipeline, add fallbacks, and dedupe rail contents."
+ },
+ {
+  "page": "blog-index",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "footnote-integrity",
+  "finding": "Closing band 'Join the #1 doctor recommended weight-loss program*' has no footnote on the page resolving the asterisk - worth a legal/regulatory look; 'doctor recommended' is also unhyphenated here vs 'doctor-recommended' elsewhere.",
+  "recommendation": "Add the Cerner Enviza citation or drop the asterisk; hyphenate consistently."
+ },
+ {
+  "page": "blog-index",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "visual-consistency",
+  "finding": "Blog footer differs from product footer: 'Download the WW app' beside a blank white square (missing icon/QR vs product QR code), Our Programs list omits Med+, and the trademark line wording differs.",
+  "recommendation": "Use one governed footer component across product and blog."
+ },
+ {
+  "page": "blog-index",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "editorial-consistency",
+  "finding": "Card titles mix title case and sentence case; dates mix formats ('13 SEP 2017', '11 APRIL 2017', '5 JUNE 2024'); several titles truncate mid-phrase with ellipses.",
+  "recommendation": "Adopt sentence-case titles, one date format, and character limits that avoid truncation."
+ },
+ {
+  "page": "blog-index",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "layout-spacing",
+  "finding": "A roughly 600px empty band sits between the program-links block and 'Trending now'; the page is a ~13,000px stack of similar card rails ending in five identical 'View more' buttons.",
+  "recommendation": "Close the spacing gap and vary rail treatments or paginate."
+ },
+ {
+  "page": "blog-index",
+  "viewport": "both",
+  "severity": "low",
+  "category": "cta-strategy",
+  "finding": "Content-hub hero CTA is 'Join now' before any content value; the mid-page plan cross-sell shows only Core and Core+ with no Med+.",
+  "recommendation": "Worth testing a content-value lead for the hub; align the cross-sell module with the full plan lineup."
+ },
+ {
+  "page": "article-1",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "editorial-voice",
+  "finding": "Newsletter module headline 'Trust: You need this newsletter.' uses a jokey, commanding register that sits apart from a carefully sourced, expert-cited article; the identical module repeats on every article.",
+  "recommendation": "Worth testing a rewrite matched to the clinical-credibility positioning, e.g. 'Evidence-based weight health, weekly'."
+ },
+ {
+  "page": "article-1",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "layout-spacing",
+  "finding": "Desktop body renders in a narrow right column with the entire left column blank below the short TOC; mobile runs about 14 screens for a ~1,600-word article due to TOC, related links, newsletter, and oversized footer.",
+  "recommendation": "I'd widen the reading column or use the left rail for a sticky TOC, and trim the end-of-article stack on mobile."
+ },
+ {
+  "page": "article-1",
+  "viewport": "both",
+  "severity": "low",
+  "category": "copy-accuracy",
+  "finding": "Body text switches the expert's name from 'Barron' to 'Baron says' in the kickstart section; occasional double spaces are visible in body copy.",
+  "recommendation": "Proofread pass; enforce single spacing."
+ },
+ {
+  "page": "article-1",
+  "viewport": "both",
+  "severity": "low",
+  "category": "ux-detail",
+  "finding": "Share row includes an Instagram icon although Instagram has no web share target, so the control has no destination (also present on article 2).",
+  "recommendation": "Remove Instagram from share rows or link to the brand profile explicitly."
+ },
+ {
+  "page": "article-1",
+  "viewport": "both",
+  "severity": "low",
+  "category": "conversion-strategy",
+  "finding": "The article's natural product moment ('speak to your healthcare provider... weight loss medication') is not linked to WW's med program; only conversion paths are the top banner and end-of-page modules.",
+  "recommendation": "A deliberate call to make: test one contextual link to the med qualification flow, or keep articles conversion-clean as policy."
+ },
+ {
+  "page": "article-2",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "editorial-consistency",
+  "finding": "TOC jump-link labels do not match their section headings ('Best Starbucks Coffee Drinks' vs 'Best coffee drinks'; 'Healthier Lunch Options' vs 'Healthier Starbucks lunches'), and the TOC pattern differs entirely from article 1's numbered 'In this article:' module.",
+  "recommendation": "Ship one article TOC component with labels generated from headings."
+ },
+ {
+  "page": "article-2",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "claim-substantiation",
+  "finding": "States 'everything on the Starbucks menu can fit into your weight-loss plan' - an absolute claim worth a look, given the article's own 16-Point sandwich listing above it.",
+  "recommendation": "I'd soften to 'almost anything, with planning' to protect credibility."
+ },
+ {
+  "page": "article-2",
+  "viewport": "both",
+  "severity": "low",
+  "category": "trust-signals",
+  "finding": "Byline is the house 'By Weight Watchers' on a scientifically reviewed piece while article 1 carries a named journalist - inconsistent authorship signal on same-template pages.",
+  "recommendation": "Use named authors (or a consistent editorial-team byline standard) across articles."
+ },
+ {
+  "page": "article-2",
+  "viewport": "both",
+  "severity": "low",
+  "category": "content-usefulness",
+  "finding": "Points values are listed with no benchmark (no mention of a typical daily Points budget for context) and photos are generic stock food shots rather than the named Starbucks items.",
+  "recommendation": "Add one line of budget context for non-members and use accurate item imagery."
+ },
+ {
+  "page": "article-2",
+  "viewport": "both",
+  "severity": "low",
+  "category": "content-freshness",
+  "finding": "Blog index dates the article 15 DEC 2022 while the article page says 'Last updated September 30, 2025' - the two dates appear out of sync, which can undercut confidence that menu items and values are current.",
+  "recommendation": "Surface one canonical date consistently across index cards and article pages."
+ },
+ {
+  "page": "site-wide",
+  "viewport": "both",
+  "severity": "high",
+  "category": "offer-coherence",
+  "finding": "Two lead offers run simultaneously and aren't yet reconciled: 'save 50% on a 12-month plan' (home, plans, points, blog, articles) vs 'Save 66% on your first month of Med+ - $25' (med landing, cost estimator).",
+  "recommendation": "I'd run one master offer per audience, or label banners by plan so cross-page math is coherent."
+ },
+ {
+  "page": "site-wide",
+  "viewport": "both",
+  "severity": "high",
+  "category": "footnote-integrity",
+  "finding": "Footnote symbols (*, **, ^, ^^, dagger, double-dagger) carry different meanings page to page, with at least five unmatched markers or footnotes documented across home, plans, med landing, blog index, and cost estimator - a potential compliance exposure worth legal review.",
+  "recommendation": "Move to numbered superscripts with a single per-page footnote block, and walk every claim-footnote pair with legal."
+ },
+ {
+  "page": "site-wide",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "brand-consistency",
+  "finding": "'WeightWatchers', 'Weight Watchers', and 'WW' alternate across and within pages, including nav vs heading on /plans and differing product vs blog trademark lines.",
+  "recommendation": "Issue a styleguide ruling on the brand rendering and apply it in one sweep."
+ },
+ {
+  "page": "site-wide",
+  "viewport": "mobile",
+  "severity": "medium",
+  "category": "mobile-ux",
+  "finding": "No sticky or persistent CTA is visible in any mobile capture despite pages running 10-20 phone screens deep; the two most commercial pages are the deepest (med landing ~20 screens, home ~15).",
+  "recommendation": "Worth testing a sticky bottom CTA on commercial pages while trimming duplicated modules to reduce scroll depth."
+ },
+ {
+  "page": "site-wide",
+  "viewport": "both",
+  "severity": "medium",
+  "category": "component-governance",
+  "finding": "The same plan-card module, med-card carousel, quiz module, testimonial carousel, and newsletter block are reused across pages with details drifting between instances - labels, casing, and footnotes differ.",
+  "recommendation": "An opportunity to establish a single source of truth per component so fixes propagate everywhere."
+ }
 ];
 
 const PAGE_LABELS = {

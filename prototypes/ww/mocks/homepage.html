@@ -336,6 +336,32 @@ data-improvement index:
     z-index:500;background:var(--flag);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.4px;
     padding:5px 12px;border-radius:999px;white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis;}
 
+  /* ------- PM validation panel (annotation layer, shows with improvements) ------- */
+  .pm-panel{position:fixed;right:16px;bottom:16px;z-index:9500;width:360px;max-width:calc(100vw - 32px);
+    max-height:70vh;display:none;flex-direction:column;overflow:hidden;background:#fff;color:var(--navy);
+    border:1.5px solid rgba(2,11,70,.18);border-radius:16px;box-shadow:0 14px 40px -12px rgba(2,11,70,.45);
+    font-size:13px;line-height:1.45;text-align:left;}
+  body.show-improvements .pm-panel{display:flex;}
+  body.show-improvements .pm-panel.dismissed{display:none;}
+  .pm-head{display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--flag);color:#fff;flex:none;cursor:pointer;}
+  .pm-head .pm-title{flex:1;font-weight:800;font-size:13px;letter-spacing:.4px;}
+  .pm-head button{flex:none;width:24px;height:24px;border-radius:50%;border:none;background:rgba(255,255,255,.22);
+    color:#fff;font-size:15px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;font-family:inherit;}
+  .pm-body{overflow-y:auto;padding:12px 14px 14px;}
+  .pm-panel.collapsed .pm-body{display:none;}
+  .pm-card{border:1px solid rgba(2,11,70,.15);border-left:3px solid var(--flag);border-radius:10px;
+    padding:11px 12px;margin-bottom:10px;}
+  .pm-card:last-child{margin-bottom:0;}
+  .pm-card h4{font-size:13.5px;font-weight:800;margin:0 0 6px;line-height:1.3;}
+  .pm-card p{margin:0 0 5px;font-size:12.5px;line-height:1.5;}
+  .pm-card p:last-child{margin-bottom:0;}
+  .pm-k{color:var(--flag);font-weight:800;}
+  @media (max-width:768px){
+    .pm-panel{left:10px;right:10px;width:auto;max-width:none;max-height:46vh;
+      bottom:calc(62px + env(safe-area-inset-bottom,0px));}
+    body.cta-space .pm-panel{bottom:calc(152px + env(safe-area-inset-bottom,0px));}
+  }
+
   /* ================= responsive ================= */
   @media (max-width:1024px){
     .hero-marquee{width:26vw;}
@@ -866,6 +892,36 @@ data-improvement index:
   </div>
 </div>
 
+<!-- ============ PM VALIDATION PANEL (shows with improvements) ============ -->
+<aside class="pm-panel" id="pm-panel" aria-label="How we'd validate these improvements">
+  <div class="pm-head" id="pm-head">
+    <span class="pm-title">✨ How we'd test these</span>
+    <button id="pm-collapse" type="button" aria-label="Collapse panel">&ndash;</button>
+    <button id="pm-close" type="button" aria-label="Dismiss panel">&times;</button>
+  </div>
+  <div class="pm-body">
+    <div class="pm-card">
+      <h4>1 · Floating mobile CTA</h4>
+      <p><span class="pm-k">Hypothesis:</span> a persistent primary+secondary CTA converts intent that forms mid-scroll (the page runs ~15 screens on mobile with no CTA in view).</p>
+      <p><span class="pm-k">Validate:</span> A/B vs current; guardrail that hero-CTA clicks don't just shift, and that signups still activate.</p>
+      <p><span class="pm-k">Metric:</span> mobile new-customer CVR; secondary: bar CTR, checkout starts.</p>
+      <p><span class="pm-k">Note:</span> a signup lift that doesn't activate is a red flag, not a win.</p>
+    </div>
+    <div class="pm-card">
+      <h4>2 · Affordability section</h4>
+      <p><span class="pm-k">Hypothesis:</span> transparent pricing with per-day framing on the homepage removes price uncertainty for cost-anxious visitors before they click away.</p>
+      <p><span class="pm-k">Validate:</span> A/B section on/off; MVT the framing ($/day vs $/mo vs savings-led).</p>
+      <p><span class="pm-k">Metric:</span> homepage&rarr;plans CTR and new-customer CVR; watch 30-day activation as the quality guardrail.</p>
+    </div>
+    <div class="pm-card">
+      <h4>3 · Surfaced plan-match quiz</h4>
+      <p><span class="pm-k">Hypothesis:</span> presenting the buried goal-picker as an obviously interactive module lifts quiz starts and sends better-qualified traffic to plans.</p>
+      <p><span class="pm-k">Validate:</span> A/B module vs current text links.</p>
+      <p><span class="pm-k">Metric:</span> quiz starts and completions; downstream plan-page CVR.</p>
+    </div>
+  </div>
+</aside>
+
 <!-- ============ IMPROVEMENTS TOGGLE ============ -->
 <button class="imp-toggle" id="imp-toggle">✨ Show improvements</button>
 
@@ -878,6 +934,31 @@ impBtn.addEventListener('click',function(){
   impBtn.classList.toggle('on',on);
   impBtn.textContent=on?'✨ Hide improvements':'✨ Show improvements';
 });
+
+/* ---------- PM validation panel ---------- */
+(function(){
+  var panel=document.getElementById('pm-panel');
+  var head=document.getElementById('pm-head');
+  var collapse=document.getElementById('pm-collapse');
+  var close=document.getElementById('pm-close');
+  function sync(){
+    var c=panel.classList.contains('collapsed');
+    collapse.textContent=c?'+':'–';
+    collapse.setAttribute('aria-label',c?'Expand panel':'Collapse panel');
+  }
+  impBtn.addEventListener('click',function(){
+    if(document.body.classList.contains('show-improvements')){
+      panel.classList.remove('dismissed');
+      /* start collapsed on small screens so the sheet doesn't cover the page */
+      panel.classList.toggle('collapsed',window.matchMedia('(max-width: 768px)').matches);
+      sync();
+    }
+  });
+  head.addEventListener('click',function(){panel.classList.toggle('collapsed');sync();});
+  collapse.addEventListener('click',function(e){e.stopPropagation();panel.classList.toggle('collapsed');sync();});
+  close.addEventListener('click',function(e){e.stopPropagation();panel.classList.add('dismissed');});
+  sync();
+})();
 
 /* ---------- FAQ accordion ---------- */
 document.querySelectorAll('.faq-q').forEach(function(btn){

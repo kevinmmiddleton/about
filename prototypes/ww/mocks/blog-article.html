@@ -149,6 +149,26 @@
   body.show-improvements .mobile-cta{position:fixed}
   body.show-improvements .improvement::before{content:"✨ " attr(data-label);position:absolute;top:-12px;left:8px;background:#E0219E;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;z-index:500;white-space:nowrap}
 
+  /* ============ PM VALIDATION PANEL (annotation layer, shows with improvements) ============ */
+  .pm-panel{position:fixed;right:16px;bottom:16px;z-index:9500;width:360px;max-width:calc(100vw - 32px);
+    max-height:70vh;display:none;flex-direction:column;overflow:hidden;background:#fff;color:var(--navy);
+    border:1.5px solid rgba(2,11,70,.18);border-radius:16px;box-shadow:0 14px 40px -12px rgba(2,11,70,.45);
+    font-size:13px;line-height:1.45;text-align:left;font-family:var(--font)}
+  body.show-improvements .pm-panel{display:flex}
+  body.show-improvements .pm-panel.dismissed{display:none}
+  .pm-head{display:flex;align-items:center;gap:8px;padding:11px 14px;background:#E0219E;color:#fff;flex:none;cursor:pointer}
+  .pm-head .pm-title{flex:1;font-weight:800;font-size:13px;letter-spacing:.4px}
+  .pm-head button{flex:none;width:24px;height:24px;border-radius:50%;border:none;background:rgba(255,255,255,.22);
+    color:#fff;font-size:15px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;font-family:inherit}
+  .pm-body{overflow-y:auto;padding:12px 14px 14px}
+  .pm-panel.collapsed .pm-body{display:none}
+  .pm-card{border:1px solid rgba(2,11,70,.15);border-left:3px solid #E0219E;border-radius:10px;padding:11px 12px;margin-bottom:10px}
+  .pm-card:last-child{margin-bottom:0}
+  .pm-card h4{font-size:13.5px;font-weight:800;margin:0 0 6px;line-height:1.3;color:var(--navy)}
+  .pm-card p{margin:0 0 5px;font-size:12.5px;line-height:1.5;color:var(--navy)}
+  .pm-card p:last-child{margin-bottom:0}
+  .pm-k{color:#E0219E;font-weight:800}
+
   /* ============ RESPONSIVE ============ */
   @media (max-width:1200px){
     .page{grid-template-columns:200px minmax(0,1fr) 280px;gap:32px}
@@ -165,6 +185,9 @@
     .hero-media img{aspect-ratio:2/1;border-radius:12px}
   }
   @media (max-width:768px){
+    .pm-panel{left:10px;right:10px;width:auto;max-width:none;max-height:46vh;
+      bottom:calc(56px + env(safe-area-inset-bottom,0px))}
+    body.cta-active .pm-panel{bottom:calc(124px + env(safe-area-inset-bottom,0px))}
     .nav-left,.nav-right .navlink,.nav-right .btn,.nav-right .avatar{display:none}
     .hamburger{display:block;margin-left:auto}
     .site-header .inner{gap:12px}
@@ -399,6 +422,41 @@
   </div>
 </div>
 
+<!-- ======== PM VALIDATION PANEL (shows with improvements) ======== -->
+<aside class="pm-panel" id="pm-panel" aria-label="How we'd validate these improvements">
+  <div class="pm-head" id="pm-head">
+    <span class="pm-title">✨ How we'd test these</span>
+    <button id="pm-collapse" type="button" aria-label="Collapse panel">&ndash;</button>
+    <button id="pm-close" type="button" aria-label="Dismiss panel">&times;</button>
+  </div>
+  <div class="pm-body">
+    <div class="pm-card">
+      <h4>1 · Merged hero + title</h4>
+      <p><span class="pm-k">Hypothesis:</span> halving above-the-fold height gets more readers into the content and to the first CTA sooner.</p>
+      <p><span class="pm-k">Validate:</span> A/B the article template.</p>
+      <p><span class="pm-k">Metric:</span> scroll-past-fold rate, read starts, first-CTA viewability.</p>
+    </div>
+    <div class="pm-card">
+      <h4>2 · Sticky rail promos</h4>
+      <p><span class="pm-k">Hypothesis:</span> the empty right margin can carry product promos without hurting reading.</p>
+      <p><span class="pm-k">Validate:</span> A/B rail on/off with read-completion as guardrail.</p>
+      <p><span class="pm-k">Metric:</span> blog&rarr;product CTR and assisted signups.</p>
+    </div>
+    <div class="pm-card">
+      <h4>3 · Mid-content CTA banners</h4>
+      <p><span class="pm-k">Hypothesis:</span> contextual CTAs at natural decision moments outperform end-of-article links.</p>
+      <p><span class="pm-k">Validate:</span> MVT banner position and copy.</p>
+      <p><span class="pm-k">Metric:</span> banner CTR, blog-attributed signups.</p>
+    </div>
+    <div class="pm-card">
+      <h4>4 · Floating mobile CTA</h4>
+      <p><span class="pm-k">Hypothesis:</span> same pattern as homepage; blog mobile readers currently have no conversion path in view.</p>
+      <p><span class="pm-k">Validate:</span> A/B vs current.</p>
+      <p><span class="pm-k">Metric:</span> mobile blog-attributed CVR.</p>
+    </div>
+  </div>
+</aside>
+
 <!-- ======== IMPROVEMENT TOGGLE ======== -->
 <button class="imp-toggle" id="imp-toggle" type="button">✨ Show improvements</button>
 
@@ -409,6 +467,31 @@
     var on = document.body.classList.toggle('show-improvements');
     toggle.textContent = on ? '✨ Hide improvements' : '✨ Show improvements';
   });
+
+  // PM validation panel
+  (function(){
+    var panel = document.getElementById('pm-panel');
+    var head = document.getElementById('pm-head');
+    var collapse = document.getElementById('pm-collapse');
+    var close = document.getElementById('pm-close');
+    function sync(){
+      var c = panel.classList.contains('collapsed');
+      collapse.textContent = c ? '+' : '–';
+      collapse.setAttribute('aria-label', c ? 'Expand panel' : 'Collapse panel');
+    }
+    toggle.addEventListener('click', function(){
+      if (document.body.classList.contains('show-improvements')) {
+        panel.classList.remove('dismissed');
+        // start collapsed on small screens so the sheet doesn't cover the page
+        panel.classList.toggle('collapsed', window.matchMedia('(max-width: 768px)').matches);
+        sync();
+      }
+    });
+    head.addEventListener('click', function(){ panel.classList.toggle('collapsed'); sync(); });
+    collapse.addEventListener('click', function(e){ e.stopPropagation(); panel.classList.toggle('collapsed'); sync(); });
+    close.addEventListener('click', function(e){ e.stopPropagation(); panel.classList.add('dismissed'); });
+    sync();
+  })();
 
   // floating mobile CTA: show after scrolling past the hero/header
   (function(){
