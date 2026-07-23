@@ -463,6 +463,8 @@
 <script>
   // improvements toggle
   var toggle = document.getElementById('imp-toggle');
+  // embedded in the report, the report's own header switch drives improvements — hide the duplicate
+  if (window.self !== window.top) toggle.style.display='none';
   toggle.addEventListener('click', function(){
     var on = document.body.classList.toggle('show-improvements');
     toggle.textContent = on ? '✨ Hide improvements' : '✨ Show improvements';
