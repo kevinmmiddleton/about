@@ -1,0 +1,952 @@
+<!--
+data-improvement index:
+  1. floating-mobile-cta  — Fixed bottom bar on <=768px viewports that appears after scrolling past the hero.
+                            Primary "Get started" + secondary "Take the quiz" (anchors to #find-my-plan).
+                            Respects iOS safe-area inset, slide-up animation, adds body padding so no content is covered.
+  2. affordability        — New "Weight loss that fits your budget" section placed directly after the
+                            "Better results, with or without medication." plan cards. Real pricing from the live
+                            plans page (Core $12/mo, Core+ $22/mo, Med+ $25 first month then $74/mo, meds self-pay
+                            from $149/mo), per-day cost framing, the 50%-off 12-month offer as a proper card,
+                            insurance-coverage chip linking to the cost estimator, and a "pricing before checkout" note.
+  3. find-my-plan-module  — The "What is your weight-loss goal?" chooser (buried mid-page on the live site) is
+                            recreated as a prominent interactive mini-quiz card directly under the hero
+                            (id="find-my-plan"): 4-step tappable-pill stepper with progress indicator ending in a
+                            "See my plan match" CTA.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{if(sessionStorage.getItem('ww_proto_ok')!=='1')location.replace('/prototypes/ww/')}catch(e){location.replace('/prototypes/ww/')}</script><meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Weight Loss Program | WeightWatchers — Improved Mock</title>
+<style>
+  :root{
+    --navy:#020B46;
+    --btn-navy:#0B1250;
+    --blurple:#0222D0;
+    --accent:#477BFF;
+    --link:#1155CC;
+    --cream:#FBF5EB;
+    --lightblue:#DEE7FA;
+    --periwinkle:#80A5FD;
+    --midblue:#4B7DFE;
+    --deepcard:#081668;
+    --gray:#F1F3F8;
+    --flag:#E0218A;
+    --font:"Beacon","Inter",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font);color:var(--navy);background:#fff;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+  .container{max-width:1280px;margin:0 auto;padding:0 24px;}
+
+  /* ------- buttons ------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;
+    font-weight:700;font-size:17px;line-height:1;padding:19px 34px;border:2px solid transparent;
+    transition:opacity .15s, transform .1s;}
+  .btn:active{transform:scale(.97);}
+  .btn:hover{opacity:.85;}
+  .btn-navy{background:var(--btn-navy);color:#fff;}
+  .btn-blurple{background:var(--blurple);color:#fff;}
+  .btn-white{background:#fff;color:var(--navy);}
+  .btn-outline-white{background:transparent;color:#fff;border-color:#fff;}
+  .btn-outline-navy{background:transparent;color:var(--navy);border-color:var(--navy);}
+
+  /* ------- header ------- */
+  header{background:var(--cream);}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:84px;}
+  .nav-links{display:flex;gap:32px;font-weight:700;font-size:16px;}
+  .nav-logo img{height:26px;width:auto;}
+  .nav-right{display:flex;align-items:center;gap:28px;font-weight:700;font-size:16px;}
+  .nav .btn{padding:14px 26px;font-size:16px;}
+  .nav-account{width:38px;height:38px;border-radius:50%;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;}
+  .nav-burger{display:none;background:none;border:none;}
+  .nav-burger span{display:block;width:24px;height:3px;background:var(--blurple);margin:5px 0;border-radius:2px;}
+  .nav-logo-mobile{display:none;font-weight:900;font-size:26px;color:var(--blurple);letter-spacing:-1px;}
+
+  /* ------- promo banner ------- */
+  .promo{background:#04128A;background:var(--navy);color:#fff;text-align:center;padding:15px 20px;font-size:16px;}
+  .promo{background:#0A1470;}
+  .promo a{text-decoration:underline;font-weight:700;margin-left:6px;}
+
+  /* ------- hero ------- */
+  .hero{background:var(--cream);position:relative;overflow:hidden;padding-bottom:56px;}
+  .hero-wordmark{position:relative;z-index:2;padding:28px 24px 0;}
+  .hero-wordmark img{width:100%;height:auto;}
+  .hero-grid{position:relative;}
+  .hero-copy{max-width:620px;padding:56px 24px 0;position:relative;z-index:2;}
+  .hero-copy h1{font-size:clamp(34px,4.2vw,58px);line-height:1.08;font-weight:800;letter-spacing:-.5px;}
+  .hero-copy h1 .alt{color:var(--blurple);}
+  .hero-copy p.sub{font-size:clamp(19px,1.8vw,24px);font-weight:700;margin-top:34px;line-height:1.35;max-width:560px;}
+  .hero-copy .btn{margin-top:36px;min-width:340px;}
+  .hero-copy .pricenote{margin-top:22px;font-size:16px;font-weight:600;}
+  /* vertical testimonial marquee (desktop) */
+  .hero-marquee{position:absolute;top:-360px;right:24px;bottom:0;width:min(24vw,330px);overflow:hidden;z-index:1;}
+  .hero-marquee .mq-track{display:flex;flex-direction:column;gap:18px;animation:mqv 45s linear infinite;}
+  @keyframes mqv{from{transform:translateY(0);}to{transform:translateY(-50%);}}
+  .tcard{position:relative;border-radius:14px;overflow:hidden;flex:none;}
+  .tcard img{width:100%;aspect-ratio:350/455;object-fit:cover;}
+  .tcard .tlabel{position:absolute;right:12px;bottom:10px;text-align:right;color:var(--blurple);
+    font-weight:800;font-size:20px;line-height:1.05;text-transform:uppercase;letter-spacing:.3px;}
+  .tcard .tlabel small{display:block;font-size:20px;}
+  /* horizontal marquee (mobile) */
+  .hero-marquee-h{display:none;overflow:hidden;margin-top:44px;}
+  .hero-marquee-h .mq-track{display:flex;gap:14px;animation:mqh 40s linear infinite;width:max-content;}
+  @keyframes mqh{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .hero-marquee-h .tcard{width:200px;}
+
+  /* ------- section panels ------- */
+  .panel{margin:14px;border-radius:30px;overflow:hidden;}
+  .sec-pad{padding:88px 24px;}
+  h2.sec-title{font-size:clamp(32px,4vw,54px);font-weight:800;letter-spacing:-.5px;line-height:1.1;text-align:center;}
+  h2.sec-title .alt{color:var(--blurple);}
+  .sec-sub{text-align:center;font-size:clamp(17px,1.6vw,21px);margin:26px auto 0;max-width:760px;line-height:1.45;}
+  .footnote{font-size:12.5px;line-height:1.6;color:var(--navy);opacity:.85;max-width:1100px;margin:40px auto 0;}
+  .center{text-align:center;}
+
+  /* ------- find-my-plan quiz module (IMPROVEMENT 3) ------- */
+  .quiz-wrap{background:var(--cream);padding:0 24px 72px;}
+  /* keep the quiz card clear of the vertical photo marquee that runs down the right rail */
+  @media (min-width:1025px){ .quiz-wrap{padding-right:calc(min(24vw,330px) + 64px);} }
+  @media (min-width:769px) and (max-width:1024px){ .quiz-wrap{padding-right:calc(26vw + 40px);} }
+  .quiz-card{max-width:880px;margin:0 auto;background:#fff;border:2px solid var(--navy);border-radius:28px;
+    padding:44px 40px 40px;box-shadow:0 14px 40px -18px rgba(2,11,70,.35);position:relative;}
+  .quiz-kicker{display:inline-flex;align-items:center;gap:8px;background:var(--blurple);color:#fff;
+    font-size:13px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;border-radius:999px;padding:8px 16px;}
+  .quiz-card h2{font-size:clamp(26px,3vw,38px);font-weight:800;letter-spacing:-.4px;margin-top:18px;line-height:1.12;}
+  .quiz-card .quiz-sub{margin-top:10px;font-size:17px;line-height:1.45;color:var(--navy);}
+  .quiz-progress{display:flex;align-items:center;gap:14px;margin-top:28px;}
+  .quiz-progress .steps{font-weight:800;font-size:14px;white-space:nowrap;}
+  .quiz-bar{flex:1;height:8px;border-radius:999px;background:var(--lightblue);overflow:hidden;}
+  .quiz-bar i{display:block;height:100%;width:25%;background:var(--blurple);border-radius:999px;transition:width .3s ease;}
+  .quiz-q{margin-top:26px;font-size:21px;font-weight:800;}
+  .quiz-opts{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;}
+  .quiz-opts button{border:2px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;
+    padding:15px 24px;font-size:16px;font-weight:700;transition:all .12s;}
+  .quiz-opts button:hover{background:var(--lightblue);}
+  .quiz-opts button.sel{background:var(--blurple);border-color:var(--blurple);color:#fff;}
+  .quiz-done{display:none;margin-top:26px;text-align:center;padding:14px 0 6px;}
+  .quiz-done .match{font-size:26px;font-weight:800;margin-bottom:8px;}
+  .quiz-done p{font-size:16px;margin-bottom:22px;}
+  .quiz-back{margin-top:20px;background:none;border:none;font-size:14px;font-weight:700;text-decoration:underline;color:var(--link);display:none;}
+  .quiz-legal{margin-top:26px;font-size:11.5px;line-height:1.6;opacity:.75;}
+  .quiz-legal a{text-decoration:underline;color:var(--link);}
+
+  /* ------- better results ------- */
+  .better{background:var(--lightblue);}
+  .plan-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1060px;margin:52px auto 0;}
+  .plan-card{border-radius:22px;padding:36px 34px;position:relative;overflow:hidden;min-height:250px;}
+  .plan-card h3{font-size:26px;line-height:1.15;font-weight:800;}
+  .plan-card h3 span{display:block;}
+  .plan-card p{margin-top:14px;font-size:15.5px;line-height:1.5;max-width:330px;}
+  .plan-card .card-btns{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;}
+  .plan-card .btn{padding:15px 28px;font-size:15.5px;}
+  .plan-card img.art{position:absolute;top:-14px;right:-6px;width:130px;transform:rotate(6deg);}
+  .card-core{background:var(--midblue);color:#fff;}
+  .card-core h3 span{color:var(--navy);}
+  .card-core h3{color:#fff;}
+  .card-core h3 .em{color:#0A1470;}
+  .card-med{background:var(--deepcard);color:#fff;}
+  .card-med h3 .em{color:#9DB9FF;}
+
+  /* ------- affordability (IMPROVEMENT 2) ------- */
+  .afford{background:var(--cream);}
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1100px;margin:52px auto 0;}
+  .price-card{background:#fff;border:2px solid var(--navy);border-radius:22px;padding:32px 28px;display:flex;flex-direction:column;}
+  .price-card .tier{font-size:14px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;}
+  .price-card .amount{margin-top:14px;font-size:46px;font-weight:800;letter-spacing:-1px;line-height:1;}
+  .price-card .amount small{font-size:17px;font-weight:700;letter-spacing:0;}
+  .price-card .perday{display:inline-block;margin-top:12px;background:var(--lightblue);color:var(--navy);
+    border-radius:999px;padding:7px 14px;font-size:13.5px;font-weight:700;align-self:flex-start;}
+  .price-card .desc{margin-top:16px;font-size:14.5px;line-height:1.55;flex:1;}
+  .price-card .fine{margin-top:10px;font-size:11.5px;opacity:.7;line-height:1.5;}
+  .price-card .btn{margin-top:20px;padding:14px 24px;font-size:15px;align-self:stretch;}
+  .offer-card{max-width:1100px;margin:26px auto 0;background:var(--blurple);color:#fff;border-radius:22px;
+    padding:34px 36px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;}
+  .offer-card .badge{background:#fff;color:var(--blurple);font-weight:800;font-size:26px;border-radius:16px;
+    padding:16px 20px;line-height:1.05;text-align:center;}
+  .offer-card .badge small{display:block;font-size:12.5px;font-weight:700;}
+  .offer-card .offer-copy{flex:1;min-width:240px;}
+  .offer-card .offer-copy strong{font-size:21px;display:block;}
+  .offer-card .offer-copy span{font-size:14.5px;opacity:.9;display:block;margin-top:6px;line-height:1.5;}
+  .offer-card .btn{background:#fff;color:var(--blurple);}
+  .afford-extras{max-width:1100px;margin:26px auto 0;display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+  .ins-chip{display:inline-flex;align-items:center;gap:12px;border:2px solid var(--navy);border-radius:999px;
+    padding:14px 22px;font-weight:700;font-size:15.5px;background:#fff;transition:background .15s;}
+  .ins-chip:hover{background:var(--lightblue);}
+  .ins-chip .tick{width:26px;height:26px;border-radius:50%;background:var(--blurple);color:#fff;display:inline-flex;
+    align-items:center;justify-content:center;font-size:14px;flex:none;}
+  .no-surprises{display:inline-flex;align-items:center;gap:10px;font-size:14.5px;font-weight:600;opacity:.9;}
+  .no-surprises .dot{width:8px;height:8px;border-radius:50%;background:var(--blurple);flex:none;}
+
+  /* ------- interested / find your plan (gray) ------- */
+  .gray-sec{background:var(--gray);}
+  .steplist{max-width:720px;margin:40px auto 0;text-align:center;font-size:16.5px;line-height:1.5;}
+  .steplist .step{margin-bottom:8px;}
+  .steplist .step a{color:var(--link);}
+  .steplist .chev{color:var(--blurple);font-size:18px;line-height:1;margin:10px 0;font-weight:800;}
+  .goal-block h3{text-align:center;font-size:clamp(24px,2.6vw,32px);color:#0A1470;font-weight:800;margin-top:46px;line-height:1.2;}
+  .goal-opts{display:flex;flex-direction:column;gap:14px;max-width:520px;margin:30px auto 0;}
+  .goal-opts a{background:#fff;border-radius:999px;text-align:center;padding:19px 20px;font-size:16px;font-weight:600;
+    box-shadow:0 3px 10px -4px rgba(2,11,70,.18);transition:box-shadow .15s;}
+  .goal-opts a:hover{box-shadow:0 6px 16px -4px rgba(2,11,70,.3);}
+  .legal-sm{font-size:12px;text-align:center;max-width:760px;margin:34px auto 0;line-height:1.7;opacity:.85;}
+  .legal-sm a{text-decoration:underline;color:var(--link);}
+
+  /* ------- meds ------- */
+  .meds{background:var(--periwinkle);}
+  .med-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(280px,320px);gap:22px;overflow-x:auto;
+    padding:52px 8px 8px;scroll-snap-type:x mandatory;
+    scrollbar-width:none;}
+  .med-row::-webkit-scrollbar{display:none;}
+  .med-card{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:18px;
+    padding:26px 24px;scroll-snap-align:center;display:flex;flex-direction:column;}
+  .med-card .med-img{height:190px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+  .med-card .med-img img{max-height:180px;width:auto;}
+  .med-card h3{font-size:25px;font-weight:800;line-height:1.1;}
+  .med-card .price{margin-top:10px;font-size:14.5px;font-weight:700;line-height:1.45;}
+  .med-card .price a{text-decoration:underline;}
+  .med-card .req{margin-top:6px;font-size:13.5px;line-height:1.45;}
+  .med-card .links{margin-top:14px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;font-weight:700;flex:1;}
+  .med-card .links a{text-decoration:none;}
+  .med-card .btn{margin-top:16px;padding:14px 20px;font-size:15px;}
+  .med-card .btn + .btn{margin-top:10px;}
+
+  /* ------- coaches ------- */
+  .coaches{background:#03125B;color:#fff;}
+  .coaches h2{color:#fff;}
+  .coaches h2 .alt2{color:#9DB9FF;}
+  .coach-row{display:grid;grid-auto-flow:column;grid-auto-columns:300px;gap:24px;overflow-x:auto;padding:56px 8px 8px;
+    scrollbar-width:none;}
+  .coach-row::-webkit-scrollbar{display:none;}
+  .coach-card{position:relative;border-radius:16px;overflow:hidden;flex:none;}
+  .coach-card img{width:100%;aspect-ratio:806/1048;object-fit:cover;}
+  .coach-card .cname{position:absolute;left:14px;right:14px;bottom:14px;background:rgba(70,100,220,.55);
+    backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.4);border-radius:999px;color:#fff;
+    text-align:center;font-size:14.5px;font-weight:700;padding:12px 10px;}
+
+  /* ------- journey ------- */
+  .journey{background:var(--cream);}
+  .j-rows{max-width:1000px;margin:52px auto 0;display:flex;flex-direction:column;gap:18px;}
+  .j-row{border-radius:20px;color:#fff;padding:38px 36px;display:grid;grid-template-columns:1.1fr 1fr 110px;gap:28px;align-items:center;}
+  .j-row:nth-child(odd){background:#2C55F2;}
+  .j-row:nth-child(even){background:#0A1470;}
+  .j-row h3{font-size:clamp(22px,2.4vw,30px);font-weight:800;line-height:1.15;}
+  .j-row p{font-size:14.5px;line-height:1.55;}
+  .j-row img{width:110px;border-radius:12px;}
+
+  /* ------- empowered ------- */
+  .empowered{background:var(--lightblue);}
+  .emp-grid{display:grid;grid-template-columns:420px 1fr;gap:64px;max-width:1080px;margin:0 auto;align-items:center;}
+  .emp-photos{display:flex;flex-direction:column;gap:22px;}
+  .emp-photos .tcard img{aspect-ratio:auto;}
+  .emp-copy h2{text-align:left;}
+  .emp-copy p{font-size:clamp(17px,1.6vw,20px);margin-top:24px;line-height:1.45;max-width:460px;}
+  .emp-copy .btn{margin-top:32px;min-width:300px;}
+
+  /* ------- science / quote ------- */
+  .science{background:var(--blurple);color:#fff;}
+  .science h2{color:#fff;}
+  .science h2 .alt2{color:#9DB9FF;}
+  .quote-card{max-width:640px;margin:64px auto 0;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+    border:1px solid rgba(255,255,255,.35);border-radius:22px;padding:44px 42px;}
+  .quote-card p.q{font-size:19px;line-height:1.5;}
+  .quote-card .who{margin-top:26px;font-size:15px;}
+  .quote-card .who strong{display:block;font-weight:800;}
+  .science .btn{margin-top:56px;min-width:300px;}
+
+  /* ------- FAQ ------- */
+  .faq{background:var(--periwinkle);}
+  .faq h2{text-align:left;color:#0A1470;}
+  .faq-list{margin-top:48px;}
+  .faq-item{border-bottom:2px solid var(--navy);}
+  .faq-item button.faq-q{width:100%;background:none;border:none;display:flex;align-items:center;justify-content:space-between;
+    gap:20px;text-align:left;padding:26px 4px;font-size:clamp(17px,1.8vw,21px);font-weight:700;color:var(--navy);}
+  .faq-item .plus{width:44px;height:44px;border-radius:50%;background:#fff;color:var(--navy);flex:none;display:flex;
+    align-items:center;justify-content:center;font-size:26px;font-weight:500;transition:transform .2s;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:15.5px;line-height:1.6;}
+  .faq-item.open .faq-a{max-height:900px;}
+  .faq-a-inner{padding:0 4px 28px;max-width:860px;}
+  .faq-a ul{margin:10px 0 0 22px;}
+  .faq-a a{text-decoration:underline;}
+
+  /* ------- footer ------- */
+  footer{background:var(--periwinkle);margin-top:14px;border-radius:30px 30px 0 0;overflow:hidden;}
+  .foot-top{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;padding:72px 0 40px;align-items:start;}
+  .news-card{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);border-radius:18px;padding:34px 32px;}
+  .news-card h3{font-size:26px;font-weight:800;}
+  .news-card p{margin-top:10px;font-size:15px;line-height:1.5;}
+  .news-form{display:flex;gap:12px;margin-top:22px;}
+  .news-form input[type=email]{flex:1;border:none;border-radius:12px;padding:17px 18px;font-size:15px;font-family:inherit;}
+  .news-form .btn{padding:15px 26px;font-size:15px;}
+  .news-consent{display:flex;gap:10px;margin-top:18px;font-size:12px;line-height:1.55;}
+  .news-consent input{margin-top:3px;}
+  .app-card{margin-top:22px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);border-radius:18px;
+    padding:26px 32px;display:flex;align-items:center;gap:18px;font-size:19px;font-weight:800;}
+  .app-card .star{width:52px;height:52px;border-radius:50%;background:var(--blurple);color:#fff;display:flex;
+    align-items:center;justify-content:center;font-size:24px;flex:none;}
+  .phone-art{border-radius:24px;background:rgba(255,255,255,.25);min-height:300px;display:none;}
+  .foot-links{display:grid;grid-template-columns:repeat(5,auto) 1fr;gap:40px;padding:34px 0;font-size:13.5px;}
+  .foot-links h4{font-size:14.5px;margin-bottom:14px;}
+  .foot-links ul{list-style:none;}
+  .foot-links li{margin-bottom:11px;}
+  .foot-links a:hover{text-decoration:underline;}
+  .country{justify-self:end;font-weight:700;font-size:14.5px;white-space:nowrap;}
+  .socials{display:flex;gap:12px;justify-content:flex-end;padding:10px 0 26px;}
+  .socials a{width:38px;height:38px;border-radius:50%;background:#fff;color:var(--navy);display:flex;align-items:center;
+    justify-content:center;font-size:15px;font-weight:800;}
+  .foot-legal{font-size:12px;padding-bottom:8px;}
+  .foot-legal .row1 a{text-decoration:underline;margin-right:6px;}
+  .foot-legal .row2{margin-top:12px;padding-bottom:20px;}
+  .foot-marquee{overflow:hidden;padding:30px 0 42px;}
+  .foot-marquee .mq-track{display:flex;gap:40px;width:max-content;animation:mqh 30s linear infinite;}
+  .foot-marquee img{height:64px;width:auto;}
+
+  /* ------- floating mobile CTA (IMPROVEMENT 1) ------- */
+  .float-cta{position:fixed;left:0;right:0;bottom:0;z-index:900;display:none;
+    background:rgba(251,245,235,.96);backdrop-filter:blur(10px);
+    border-top:1.5px solid rgba(2,11,70,.15);box-shadow:0 -8px 28px -10px rgba(2,11,70,.3);
+    padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+    transform:translateY(110%);transition:transform .35s cubic-bezier(.2,.8,.3,1);}
+  .float-cta.visible{transform:translateY(0);}
+  .float-cta-inner{display:flex;gap:10px;max-width:560px;margin:0 auto;}
+  .float-cta .btn{flex:1;padding:16px 10px;font-size:16px;}
+  body.cta-space{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px));}
+
+  /* ------- improvements toggle ------- */
+  .imp-toggle{position:fixed;left:14px;bottom:14px;z-index:9999;background:#fff;color:var(--navy);
+    border:1.5px solid rgba(2,11,70,.3);border-radius:999px;padding:10px 16px;font-size:13px;font-weight:700;
+    box-shadow:0 4px 14px -4px rgba(2,11,70,.35);opacity:.92;}
+  .imp-toggle.on{background:var(--flag);border-color:var(--flag);color:#fff;}
+  body.cta-space .imp-toggle{bottom:calc(104px + env(safe-area-inset-bottom,0px));}
+  body.show-improvements .improvement{outline:3px dashed var(--flag);outline-offset:4px;position:relative;}
+  /* the floating CTA must stay fixed even in highlight mode */
+  body.show-improvements .float-cta{position:fixed;}
+  body.show-improvements .improvement::before{content:"✨ " attr(data-label);position:absolute;top:-14px;left:12px;
+    z-index:500;background:var(--flag);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.4px;
+    padding:5px 12px;border-radius:999px;white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis;}
+
+  /* ================= responsive ================= */
+  @media (max-width:1024px){
+    .hero-marquee{width:26vw;}
+    .plan-cards{grid-template-columns:1fr;max-width:640px;}
+    .price-grid{grid-template-columns:1fr;max-width:560px;}
+    .emp-grid{grid-template-columns:1fr;gap:40px;}
+    .emp-photos{flex-direction:row;}
+    .j-row{grid-template-columns:1fr;gap:14px;}
+    .j-row img{width:90px;}
+    .foot-top{grid-template-columns:1fr;}
+    .foot-links{grid-template-columns:1fr 1fr;gap:26px;}
+    .country{justify-self:start;}
+    .socials{justify-content:flex-start;}
+  }
+  @media (max-width:768px){
+    .nav{height:64px;}
+    .nav-links,.nav-right{display:none;}
+    .nav-burger{display:block;}
+    .nav-logo img{height:20px;}
+    .nav-logo-mobile{display:none;}
+    .promo{font-size:14px;line-height:1.5;}
+    .promo a{display:inline-block;}
+    .hero-marquee{display:none;}
+    .hero-marquee-h{display:block;}
+    .hero-copy{padding-top:36px;}
+    .hero-copy .btn{min-width:0;width:100%;}
+    .sec-pad{padding:64px 20px;}
+    .panel{margin:10px;border-radius:24px;}
+    .quiz-card{padding:32px 22px 30px;}
+    .offer-card{padding:28px 24px;}
+    .afford-extras{flex-direction:column;align-items:stretch;}
+    .ins-chip{justify-content:center;text-align:center;}
+    .no-surprises{justify-content:center;}
+    .plan-card img.art{width:96px;top:-10px;right:-2px;}
+    .plan-card h3{max-width:calc(100% - 96px);}
+    .plan-card p{max-width:none;padding-right:4px;}
+    .med-row{grid-auto-columns:260px;justify-content:start;}
+    .coach-row{grid-auto-columns:240px;}
+    .float-cta{display:block;}
+    .science .btn,.emp-copy .btn{width:100%;min-width:0;}
+    .news-form{flex-direction:column;}
+    .foot-marquee img{height:40px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-links">
+        <a href="#">Lose Weight</a>
+        <a href="#">GLP-1 Medications</a>
+        <a href="#">Expert Support</a>
+      </div>
+      <a class="nav-logo" href="#" aria-label="WeightWatchers home">
+        <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="Weight Watchers">
+      </a>
+      <div class="nav-right">
+        <a href="#">Community</a>
+        <a href="#">About Us</a>
+        <a class="btn btn-blurple" href="#">Get Started</a>
+        <a class="nav-account" href="#" aria-label="Account">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#020B46" stroke-width="2.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        </a>
+      </div>
+      <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ PROMO BANNER ============ -->
+<div class="promo">Kickstart your weight-loss journey now—save 50% on a 12-month plan!<a href="#">Offer Terms</a></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <!-- vertical testimonial marquee (desktop) -->
+  <div class="hero-marquee" aria-hidden="true">
+    <div class="mq-track" id="mqv-track">
+      <!-- set A -->
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/b4d55c352f/cheria_bw_156-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Cheria<small>-80 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/722x774/75349c3f77/40.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lori<small>-114 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/a44046b63e/palmer_color_186.jpg/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Palmer<small>-10 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/ebdc4339bc/madi_bw_286-bw-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Madi<small>-33 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/5b1bb4f2bd/emily_color_076-1.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Emily<small>-98 lbs</small></div></div>
+      <!-- set B (duplicate for loop) -->
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/b4d55c352f/cheria_bw_156-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Cheria<small>-80 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/722x774/75349c3f77/40.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lori<small>-114 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/a44046b63e/palmer_color_186.jpg/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Palmer<small>-10 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/ebdc4339bc/madi_bw_286-bw-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Madi<small>-33 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/5b1bb4f2bd/emily_color_076-1.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Emily<small>-98 lbs</small></div></div>
+    </div>
+  </div>
+
+  <div class="hero-wordmark">
+    <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="WEIGHT WATCHERS">
+  </div>
+
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <h1>Powered by science.<br><span class="alt">Proven by people.</span></h1>
+      <p class="sub">Your one stop shop: expert guidance, Coaches who care, smart nutrition, and access to weight-loss medication—for results that can last.</p>
+      <a class="btn btn-navy" href="#find-my-plan">Get started</a>
+      <p class="pricenote">Start today for as low as $12/mo.</p>
+    </div>
+  </div>
+
+  <!-- horizontal testimonial marquee (mobile) -->
+  <div class="hero-marquee-h" aria-hidden="true">
+    <div class="mq-track">
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/b4d55c352f/cheria_bw_156-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Cheria<small>-80 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/722x774/75349c3f77/40.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lori<small>-114 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/a44046b63e/palmer_color_186.jpg/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Palmer<small>-10 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/ebdc4339bc/madi_bw_286-bw-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Madi<small>-33 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/5b1bb4f2bd/emily_color_076-1.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Emily<small>-98 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/afb7db0d3f/lesley_bw_101-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lesley<small>-35 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/b4d55c352f/cheria_bw_156-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Cheria<small>-80 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/722x774/75349c3f77/40.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Lori<small>-114 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/a44046b63e/palmer_color_186.jpg/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Palmer<small>-10 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/ebdc4339bc/madi_bw_286-bw-v2.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Madi<small>-33 lbs</small></div></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/5b1bb4f2bd/emily_color_076-1.png/m/350x455/filters:quality(75)" alt=""><div class="tlabel">Emily<small>-98 lbs</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPROVEMENT 3: FIND MY PLAN QUIZ MODULE ============ -->
+<div class="quiz-wrap">
+  <section class="quiz-card improvement" id="find-my-plan" data-label="Improvement: surfaced interactive plan-match quiz">
+    <span class="quiz-kicker">✦ Find your plan</span>
+    <h2>Answer 4 quick questions,<br>get your plan match.</h2>
+    <p class="quiz-sub">Tap through—it takes about 30 seconds. No email needed to see your match.</p>
+
+    <div class="quiz-progress">
+      <span class="steps" id="quiz-step-label">Question 1 of 4</span>
+      <div class="quiz-bar"><i id="quiz-bar-fill"></i></div>
+    </div>
+
+    <div id="quiz-body">
+      <p class="quiz-q" id="quiz-question">What is your weight-loss goal?</p>
+      <div class="quiz-opts" id="quiz-opts"></div>
+      <button class="quiz-back" id="quiz-back">&larr; Back</button>
+    </div>
+
+    <div class="quiz-done" id="quiz-done">
+      <p class="match">You're matched.</p>
+      <p id="quiz-match-copy">Based on your answers, we'll point you to the plan that fits your goal, your budget, and how you like to be supported.</p>
+      <a class="btn btn-blurple" href="#" style="min-width:280px;">See my plan match</a>
+      <div><button class="quiz-back" id="quiz-restart" style="display:inline;margin-top:18px;">Start over</button></div>
+    </div>
+
+    <p class="quiz-legal">By continuing, you agree that WeightWatchers may collect data related to your health, use that data to provide this assessment and information about our services, and disclose that data to our service providers (for these same purposes). See <a href="#">Privacy Policy</a> for details.</p>
+  </section>
+</div>
+
+<!-- ============ BETTER RESULTS ============ -->
+<section class="panel better sec-pad">
+  <h2 class="sec-title">Better results, with or without medication.</h2>
+  <p class="sec-sub">Weight Watchers brings science, guidance, and support together to help you reach your goals.</p>
+  <div class="plan-cards">
+    <div class="plan-card card-core">
+      <img class="art" src="https://a.storyblok.com/f/286334833788875/220x220/d7938934ab/core.png/m/415x500/filters:quality(75)" alt="">
+      <h3>Get started<br><span class="em">with Core or Core+</span></h3>
+      <p>Build habits for weight loss with the #1 doctor-recommended Points® Program*—plus tools that make it easy.</p>
+      <div class="card-btns">
+        <a class="btn btn-navy" href="#">Join Core</a>
+        <a class="btn btn-outline-white" href="#">Join Core+</a>
+      </div>
+    </div>
+    <div class="plan-card card-med">
+      <img class="art" src="https://a.storyblok.com/f/286334833788875/181x225/563d69d67c/3_pens_fanned_no_labels_v1_alpha_blue-1.png/m/415x500/filters:quality(75)" alt="">
+      <h3>Access<br><span class="em">Med+</span></h3>
+      <p>GLP-1s and other weight-loss medications. Includes complimentary access to our GLP-1 Success Program, including dosage tracking, side-effect support, and expert coaching.</p>
+      <div class="card-btns">
+        <a class="btn btn-white" href="#">See if you qualify</a>
+        <a class="btn btn-outline-white" href="#">Get special offer</a>
+      </div>
+    </div>
+  </div>
+  <p class="footnote center">*Based on a 2023 survey by Cerner Enviza of 500 doctors.</p>
+</section>
+
+<!-- ============ IMPROVEMENT 2: AFFORDABILITY ============ -->
+<section class="panel afford sec-pad improvement" data-label="Improvement: transparent affordability section" id="affordability">
+  <h2 class="sec-title">Weight loss that <span class="alt">fits your budget.</span></h2>
+  <p class="sec-sub">Real prices, up front. Every plan shows its full cost before checkout—no surprises.</p>
+
+  <div class="price-grid">
+    <div class="price-card">
+      <span class="tier">Core</span>
+      <div class="amount">$12<small>/month*</small></div>
+      <span class="perday">That's about $0.40/day</span>
+      <p class="desc">A proven program to lose weight that fits your life—without giving up the good stuff. #1 doctor-recommended Points® Program**, AI Body Scanner, recipes, and community.</p>
+      <p class="fine">*With a 12-month plan. Auto-renews unless canceled.</p>
+      <a class="btn btn-navy" href="#">Join Core</a>
+    </div>
+    <div class="price-card">
+      <span class="tier">Core+</span>
+      <div class="amount">$22<small>/month*</small></div>
+      <span class="perday">That's about $0.73/day</span>
+      <p class="desc">More support. More results—on medication or not. Everything in Core, plus the GLP-1 Success Program with side-effect support and a tailored Menopause Program.</p>
+      <p class="fine">*With a 12-month plan. Auto-renews unless canceled.</p>
+      <a class="btn btn-navy" href="#">Join Core+</a>
+    </div>
+    <div class="price-card">
+      <span class="tier">Med+</span>
+      <div class="amount">$25<small>/first month^</small></div>
+      <span class="perday">Then $74/mo — about $2.43/day</span>
+      <p class="desc">Access to medication, clinical care, and comprehensive support. GLP-1 meds are billed separately—self-pay starts at $149/mo, always shown before you commit.</p>
+      <p class="fine">^$25/month for your first month with a 12-month plan, then $74/mo. Cost of GLP-1 medications not included.</p>
+      <a class="btn btn-navy" href="#">Join Med+</a>
+    </div>
+  </div>
+
+  <div class="offer-card">
+    <div class="badge">50% off<small>12-month plan</small></div>
+    <div class="offer-copy">
+      <strong>Kickstart your journey and save 50% on a 12-month plan.</strong>
+      <span>The prices above already reflect the offer—what you see is what you pay at checkout.</span>
+    </div>
+    <a class="btn" href="#">Get this offer</a>
+  </div>
+
+  <div class="afford-extras">
+    <a class="ins-chip" href="#"><span class="tick">✓</span> Is your GLP-1 covered by insurance? Check in 60 seconds &rarr;</a>
+    <span class="no-surprises"><span class="dot"></span> Pricing is shown before checkout—no surprises.</span>
+  </div>
+</section>
+
+<!-- ============ INTERESTED IN GLP-1 (gray, original placement) ============ -->
+<section class="panel gray-sec sec-pad">
+  <h2 class="sec-title">Interested in GLP-1 medications?</h2>
+  <div class="steplist">
+    <p class="step"><a href="#">See if you qualify and if meds might be right</a> for you and your weight loss goals</p>
+    <p class="chev">&#8250;&#8250;</p>
+    <p class="step"><a href="#">See if you're covered by your insurance</a> – or find affordable self-pay options</p>
+    <p class="chev">&#8250;&#8250;</p>
+    <p class="step"><a href="#">Get a prescription online</a> – (after signup and a call with an expert clinician*) – plus help achieving your goals</p>
+    <p class="chev">&#8250;&#8250;</p>
+  </div>
+  <div class="goal-block">
+    <h3>What is your<br>weight-loss goal?</h3>
+    <div class="goal-opts">
+      <a href="#find-my-plan">Maintain weight and get fit</a>
+      <a href="#find-my-plan">Lose 1-20 lbs for good</a>
+      <a href="#find-my-plan">Lose 21-50 lbs for good</a>
+      <a href="#find-my-plan">Lose over 50 lbs for good</a>
+      <a href="#find-my-plan">I haven't decided yet</a>
+    </div>
+  </div>
+  <p class="legal-sm">By continuing, you agree that WeightWatchers may collect data related to your health, use that data to provide this assessment and information about our services, and disclose that data to our service providers (for these same purposes). See <a href="#">Privacy Policy</a> for details.</p>
+</section>
+
+<!-- ============ MEDS ============ -->
+<section class="panel meds sec-pad">
+  <h2 class="sec-title" style="color:#0A1470;">Fast, reliable access to<br>FDA-approved GLP-1 medications</h2>
+  <p class="sec-sub">Members prescribed a GLP-1 medication through our Med+ program lose an average of 7.4 lbs within their first four weeks of starting treatment.*</p>
+  <div class="med-row">
+    <div class="med-card">
+      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/201x200/21ebb756ae/lilly_ofg_tabletoval_g4-lilly_angled.png/m/400x400/filters:quality(75)" alt="Foundayo pill"></div>
+      <h3>Foundayo®<br>(orforglipron)</h3>
+      <p class="price">Self-pay starting at $149/mo. <a href="#">Offer Terms</a></p>
+      <p class="req">Separate WW Med+ membership required</p>
+      <div class="links"><a href="#">Important safety information</a></div>
+      <a class="btn btn-navy" href="#">Get started</a>
+      <a class="btn btn-outline-navy" href="#">Learn more</a>
+    </div>
+    <div class="med-card">
+      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/398x413/cf9f21276b/hero-2_floating-pills_1-5-mg_masked.png/m/400x400/filters:quality(75)" alt="Wegovy pills"></div>
+      <h3>Wegovy® pill</h3>
+      <p class="price">Self pay starting at $149/mo. <a href="#">Offer Terms</a></p>
+      <p class="req">Separate WW Med+ membership required</p>
+      <div class="links"><a href="#">Check insurance coverage</a><a href="#">Important safety information</a></div>
+      <a class="btn btn-navy" href="#">Get started</a>
+      <a class="btn btn-outline-navy" href="#">Learn more</a>
+    </div>
+    <div class="med-card">
+      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/1759x1770/3ccea29eb3/group-1533210802-2x.png/m/400x400/filters:quality(75)" alt="Zepbound pens"></div>
+      <h3>Zepbound®</h3>
+      <p class="price">Self pay starting at $299/mo. <a href="#">Offer Terms</a></p>
+      <p class="req">Separate WW Med+ membership required</p>
+      <div class="links"><a href="#">Check insurance coverage</a><a href="#">Important safety information</a></div>
+      <a class="btn btn-navy" href="#">Get started</a>
+      <a class="btn btn-outline-navy" href="#">Learn more</a>
+    </div>
+    <div class="med-card">
+      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/553x532/6cf1e3f6dd/ozempic-new.png/m/400x400/filters:quality(75)" alt="Ozempic pen"></div>
+      <h3>Ozempic®</h3>
+      <p class="price">Self pay starting at $149/mo (pill) and $199/mo (injectable pen). <a href="#">Offer Terms</a></p>
+      <p class="req">Separate WW Med+ membership required</p>
+      <div class="links"><a href="#">Check insurance coverage</a><a href="#">Important safety information</a></div>
+      <a class="btn btn-navy" href="#">Get started</a>
+      <a class="btn btn-outline-navy" href="#">Learn more</a>
+    </div>
+    <div class="med-card">
+      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/398x416/3503f13b17/wegovy.png/m/400x400/filters:quality(75)" alt="Wegovy pen"></div>
+      <h3>Wegovy®</h3>
+      <p class="price">Self pay starting at $199/mo. <a href="#">Offer Terms</a></p>
+      <p class="req">Separate WW Med+ membership required</p>
+      <div class="links"><a href="#">Check insurance coverage</a><a href="#">Important safety information</a></div>
+      <a class="btn btn-navy" href="#">Get started</a>
+      <a class="btn btn-outline-navy" href="#">Learn more</a>
+    </div>
+    <div class="med-card">
+      <div class="med-img"><img src="https://a.storyblok.com/f/286334833788875/398x416/1ed05d8b83/saxenda.png/m/400x400/filters:quality(75)" alt="Saxenda pen"></div>
+      <h3>Saxenda®</h3>
+      <p class="price">Cost may vary depending on insurance.</p>
+      <p class="req">Separate WW Med+ membership required</p>
+      <div class="links"><a href="#">Check insurance coverage</a><a href="#">Important safety information</a></div>
+      <a class="btn btn-navy" href="#">Get started</a>
+      <a class="btn btn-outline-navy" href="#">Learn more</a>
+    </div>
+  </div>
+  <p class="center" style="margin-top:44px;"><a class="btn btn-navy" href="#find-my-plan" style="min-width:280px;">Find your plan</a></p>
+  <p class="footnote center">* Based on an internal analysis of 92,160 Med+ members who received a treatment plan, were prescribed a GLP-1 medication, and completed a weigh-in 4 weeks after start date.</p>
+</section>
+
+<!-- ============ COACHES ============ -->
+<section class="panel coaches sec-pad">
+  <h2 class="sec-title">Trusted Coaches, Clinicians, and Dietitians—always here <span class="alt2">for you, virtually.</span></h2>
+  <div class="coach-row">
+    <div class="coach-card"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/ef248ff20e/chloe_a_color_035-bw.jpg/m/806x1048/smart/filters:quality(75)" alt="Chloe A."><span class="cname">Chloe A., Coach Creator</span></div>
+    <div class="coach-card"><img src="https://a.storyblok.com/f/286334833788875/2565x3213/8fc93aee65/135875_06_bw.jpg/m/806x1048/smart/filters:quality(75)" alt="Katie Duke"><span class="cname">Katie Duke, NP</span></div>
+    <div class="coach-card"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/ba40404208/branneisha_color_029-bw-v2.jpg/m/806x1048/smart/filters:quality(75)" alt="Branneisha"><span class="cname">Branneisha, Coach Creator</span></div>
+    <div class="coach-card"><img src="https://a.storyblok.com/f/286334833788875/960x1440/1f1dcd7b40/sherry_bw_070.jpeg/m/806x1048/smart/filters:quality(75)" alt="Sherry"><span class="cname">Sherry, Coach Creator</span></div>
+    <div class="coach-card"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/94a5f1921f/hannah_color_116-bw-v2.jpg/m/806x1048/smart/filters:quality(75)" alt="Hannah"><span class="cname">Hannah, Coach Creator</span></div>
+    <div class="coach-card"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/7bfa7b93f6/chloe_duke_color_042-bw-v2.jpg/m/806x1048/smart/filters:quality(75)" alt="Chloe D."><span class="cname">Chloe D., Coach Creator</span></div>
+    <div class="coach-card"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/956c150f63/dr_ashley_odukoya_color_001-bw.jpg/m/806x1048/smart/filters:quality(75)" alt="Dr. Ashley Odukoya"><span class="cname">Dr. Ashley Odukoya</span></div>
+    <div class="coach-card"><img src="https://a.storyblok.com/f/286334833788875/1334x2000/c8f54f2e75/olivia_color_046-bw-v2.jpg/m/806x1048/smart/filters:quality(75)" alt="Olivia"><span class="cname">Olivia, Coach Creator</span></div>
+  </div>
+  <p class="center" style="margin-top:48px;"><a class="btn btn-white" href="#find-my-plan" style="min-width:280px;">Find your plan</a></p>
+</section>
+
+<!-- ============ GLP-1 JOURNEY ============ -->
+<section class="panel journey sec-pad">
+  <h2 class="sec-title">A better GLP-1 <span class="alt">journey starts here</span></h2>
+  <p class="sec-sub">Members prescribed a GLP-1 medication through our Med+ program lose an average of 7.4 lbs within their first four weeks of starting treatment.*</p>
+  <div class="j-rows">
+    <div class="j-row">
+      <h3>GLP-1 Success Program</h3>
+      <p>Med+ members on GLP-1s who engaged in the GLP-1 Success Program lost 61% more body weight than those who didn't, at one month.**</p>
+      <img src="https://a.storyblok.com/f/286334833788875/165x165/f6e4351af6/proven_glp1.png" alt="">
+    </div>
+    <div class="j-row">
+      <h3>Expert clinician support</h3>
+      <p>Meet with board-certified clinicians in convenient, virtual, online appointments on your schedule.</p>
+      <img src="https://a.storyblok.com/f/286334833788875/165x165/575e9d7ed1/expert-clinician-support.png" alt="">
+    </div>
+    <div class="j-row">
+      <h3>Insurance support</h3>
+      <p>We'll make the calls to find out what you're covered for, so you save the most.</p>
+      <img src="https://a.storyblok.com/f/286334833788875/165x165/85e34d335e/insurance-coordination.png" alt="">
+    </div>
+    <div class="j-row">
+      <h3>Coaching &amp; Community</h3>
+      <p>Guidance from expert Coaches and a community that gets it—so you're never alone on your GLP-1 journey.</p>
+      <img src="https://a.storyblok.com/f/286334833788875/165x165/421c9c6a68/coaching-workshops.png" alt="">
+    </div>
+  </div>
+  <p class="center" style="margin-top:48px;"><a class="btn btn-navy" href="#find-my-plan" style="min-width:280px;">Find your plan</a></p>
+  <p class="footnote">*Based on an internal data analysis of 92,160 members who received a treatment plan, were prescribed an injectable GLP-1 medication through WW Clinic, and recorded their starting weight and completed a weigh-in 4 weeks after starting their treatment plan.</p>
+  <p class="footnote" style="margin-top:14px;">**Based on survey responses of 166 participants in a 6-month clinical trial who had overweight or obesity, and were taking semaglutide/tirzepatide for weight loss within the WW Clinic Program and participating in the GLP-1 companion nutrition program.</p>
+  <p class="footnote" style="margin-top:14px;"><strong>All medical services are provided through our affiliated medical group, WeightWatchers Clinic.</strong></p>
+</section>
+
+<!-- ============ EMPOWERED ============ -->
+<section class="panel empowered sec-pad">
+  <div class="emp-grid">
+    <div class="emp-photos">
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/cfc692c743/maria_kimberley_lori_jessie_color_027-2.png/m/350x455/filters:quality(75)" alt="Maria, Kimberly, Lori and Jessie"></div>
+      <div class="tcard"><img src="https://a.storyblok.com/f/286334833788875/1050x1365/d0ef255e22/rachel_madi.png/m/350x455/filters:quality(75)" alt="Rachel and Madi"><div class="tlabel" style="left:12px;right:auto;text-align:left;">Rachel<small>-9 lb</small></div><div class="tlabel">Madi<small>-33 lb</small></div></div>
+    </div>
+    <div class="emp-copy">
+      <h2 class="sec-title" style="text-align:left;">We've empowered tens of millions of members to lose weight.</h2>
+      <p>Now it's your turn. Your journey is personal—but with us, you'll never walk it alone. Let's do this together.</p>
+      <a class="btn btn-navy" href="#find-my-plan">Join now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCIENCE QUOTE ============ -->
+<section class="panel science sec-pad">
+  <h2 class="sec-title">When your plan is rooted in<br><span class="alt2">science and built for you, it works</span></h2>
+  <div class="quote-card">
+    <p class="q">"GLP-1 medications are powerful tools, but they work best when paired with a behavioral change program that advances sustainable weight health. That's why Weight Watchers is committed to delivering innovative, evidence-based programs that support whole-person weight health."</p>
+    <p class="who"><strong>-Dr. Kim Boyd</strong>Weight Watchers Chief Medical Officer</p>
+  </div>
+  <p class="center"><a class="btn btn-white" href="#find-my-plan">Find your plan</a></p>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="panel faq sec-pad">
+  <div class="container" style="padding:0;">
+    <h2 class="sec-title" style="text-align:left;color:#0A1470;">Frequently asked questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">How is your program different from others? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">We help you lose weight and build healthy habits, one small step at a time. Fad weight-loss diets can be restrictive, and rarely work long term. We have more than 140 publications that show WeightWatchers' efficacy to help members lose weight <em>and</em> keep it off. See how <a href="#">WeightWatchers stacks up against the competition</a>.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">I've tried Weight Watchers before. What's new? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Our program is now easier to follow, easier to stick with, and more effective than ever before. Here's how we're making your journey better:
+          <ul>
+            <li>Meet with a <a href="#">Registered Dietitian</a> for easier, tailored meal planning</li>
+            <li>Use your camera to track meals and their Points® value</li>
+            <li>350+ ZeroPoint, no-track foods</li>
+            <li>Automatic macro tracking of any food you eat</li>
+            <li>Generate Points® value totals for any recipe on the internet</li>
+            <li>Access to more affordable weight-loss meds</li>
+          </ul></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What foods will I eat on the program? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">What you eat is up to you—and we'll show you how to enjoy your favorite foods in a way that gets you to your goals. With WeightWatchers, there are no "good" or "bad" foods—just nutritious and less nutritious ones.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Who are Weight Watchers experts? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Our team includes nutrition and behavioral scientists, registered dieticians, clinical researchers, and more. Together they help you overcome common weight-loss hurdles—like stress-eating or late-night snacking—while our exclusive Points system makes nutrition <em>easier</em>—so easy that healthier eating will feel like second nature. After you sign up, you'll answer a few questions to get a plan customized for you, and build healthy habits with proven behavior change techniques.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Will I have access to Coaches? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Always! Weight Watchers coaches are experts specially trained in our nutrition and behavior change science. You can chat with them right in the app. They also lead our in-person and virtual Workshops, teaching weight-loss techniques and providing live coaching to you and other members in the Workshop with you.<br><br>Members accessing weight-loss medication through Weight Watchers also get a dedicated Care Team consisting of clinicians, fitness coaches, and registered dietitians.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Does Weight Watchers offer in-person guidance? <span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Our Workshops (or Meetings, back in the day) are coach-led group sessions held in studio locations or online. You don't need to go, but the extra support can ramp up your results: Weight Watchers members who attend Workshops lose two times more weight than those who DIY.^ Workshops offer unlimited accountability from coaches and members who really get the weight-loss journey. In-person and virtual Workshops are also now available to Weight Watchers members on our medication plan. Get expert-led nutrition guidance and connect with others on similar journeys for even more success.<br><br><small>^Based on a 6-month multicenter trial. Apolzan JW, et al. A Scalable, Virtual Weight Management Program Tailored for Adults (n=136) with Type 2 Diabetes: Effects on Glycemic Control. Presented at American Diabetes Association's 82nd Scientific Sessions. 2022.</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FIND YOUR PLAN (gray, original bottom placement) ============ -->
+<section class="panel gray-sec sec-pad">
+  <h2 class="sec-title">Find your plan</h2>
+  <div class="steplist">
+    <p class="step"><a href="#">See if you qualify and if meds might be right</a> for you and your weight loss goals</p>
+    <p class="chev">&#8250;&#8250;</p>
+    <p class="step"><a href="#">See if you're covered by your insurance</a> – or find affordable self-pay options</p>
+    <p class="chev">&#8250;&#8250;</p>
+    <p class="step"><a href="#">Get a prescription online</a> – (after signup and a call with an expert clinician*) – plus help achieving your goals</p>
+    <p class="chev">&#8250;&#8250;</p>
+  </div>
+  <div class="goal-block">
+    <h3>What is your<br>weight-loss goal?</h3>
+    <div class="goal-opts">
+      <a href="#find-my-plan">Maintain weight and get fit</a>
+      <a href="#find-my-plan">Lose 1-20 lbs for good</a>
+      <a href="#find-my-plan">Lose 21-50 lbs for good</a>
+      <a href="#find-my-plan">Lose over 50 lbs for good</a>
+      <a href="#find-my-plan">I haven't decided yet</a>
+    </div>
+  </div>
+  <p class="legal-sm">By continuing, you agree that WeightWatchers may collect data related to your health, use that data to provide this assessment and information about our services, and disclose that data to our service providers (for these same purposes). See <a href="#">Privacy Policy</a> for details.</p>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="foot-top">
+      <div>
+        <div class="news-card">
+          <h3>Never miss an update</h3>
+          <p>Get the latest news, exclusive offers, and expert health content—straight to your inbox.</p>
+          <div class="news-form">
+            <input type="email" placeholder="Email" aria-label="Email">
+            <button class="btn btn-blurple">Let's go</button>
+          </div>
+          <label class="news-consent"><input type="checkbox"> I confirm that I am 18 years of age or older and would like to receive the WW newsletter and be informed about offers and events via e-mail. I can revoke my consent at any time through the unsubscribe link in the email or message.</label>
+        </div>
+        <div class="app-card"><span class="star">★</span> Download the new app for iOS and Android</div>
+      </div>
+      <div class="phone-art"></div>
+    </div>
+
+    <div class="foot-links">
+      <div>
+        <h4>Our Programs</h4>
+        <ul><li><a href="#">Core Program</a></li><li><a href="#">Core+</a></li><li><a href="#">Core+ Menopause</a></li><li><a href="#">Med+</a></li><li><a href="#">GLP-1 Success</a></li><li><a href="#">Support for Diabetes</a></li></ul>
+      </div>
+      <div>
+        <h4>Pricing &amp; Offers</h4>
+        <ul><li><a href="#">Compare plans &amp; pricing</a></li></ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul><li><a href="#">Affiliate program</a></li><li><a href="#">Media center</a></li></ul>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <ul><li><a href="#">Activate monthly pass</a></li><li><a href="#">Find a workshop</a></li></ul>
+      </div>
+      <div>
+        <h4>Our Company</h4>
+        <ul><li><a href="#">Our story</a></li><li><a href="#">Careers</a></li><li><a href="#">Blogs &amp; Recipes</a></li></ul>
+      </div>
+      <div class="country">🇺🇸 United States ▾</div>
+    </div>
+
+    <div class="socials">
+      <a href="#" aria-label="Facebook">f</a><a href="#" aria-label="X">𝕏</a><a href="#" aria-label="YouTube">▶</a><a href="#" aria-label="Pinterest">P</a><a href="#" aria-label="Instagram">◎</a><a href="#" aria-label="LinkedIn">in</a>
+    </div>
+
+    <div class="foot-legal">
+      <div class="row1"><a href="#">Terms and Conditions</a> - <a href="#">Notice of Privacy Practices</a> - <a href="#">Privacy Policy</a> - <a href="#">Do Not Sell My Personal Info</a> - <a href="#">Ad Choices</a></div>
+      <div class="row2">The WeightWatchers® Logo, WeightWatchers®, Points, and ZeroPoint are trademarks of WW International, Inc. ©2026 WW International, Inc. All rights reserved.</div>
+    </div>
+  </div>
+  <div class="foot-marquee" aria-hidden="true">
+    <div class="mq-track">
+      <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="">
+      <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="">
+      <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="">
+      <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="">
+      <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="">
+      <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="">
+    </div>
+  </div>
+</footer>
+
+<!-- ============ IMPROVEMENT 1: FLOATING MOBILE CTA ============ -->
+<div class="float-cta improvement" id="float-cta" data-label="Improvement: floating mobile CTA">
+  <div class="float-cta-inner">
+    <a class="btn btn-blurple" href="#">Get started</a>
+    <a class="btn btn-outline-navy" href="#find-my-plan">Take the quiz</a>
+  </div>
+</div>
+
+<!-- ============ IMPROVEMENTS TOGGLE ============ -->
+<button class="imp-toggle" id="imp-toggle">✨ Show improvements</button>
+
+<script>
+/* ---------- improvements toggle ---------- */
+var impBtn=document.getElementById('imp-toggle');
+impBtn.addEventListener('click',function(){
+  document.body.classList.toggle('show-improvements');
+  var on=document.body.classList.contains('show-improvements');
+  impBtn.classList.toggle('on',on);
+  impBtn.textContent=on?'✨ Hide improvements':'✨ Show improvements';
+});
+
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll('.faq-q').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    btn.closest('.faq-item').classList.toggle('open');
+  });
+});
+
+/* ---------- floating mobile CTA (improvement 1) ---------- */
+(function(){
+  var bar=document.getElementById('float-cta');
+  var hero=document.getElementById('hero');
+  var mq=window.matchMedia('(max-width: 768px)');
+  function update(pastHero){
+    var show=mq.matches&&pastHero;
+    bar.classList.toggle('visible',show);
+    document.body.classList.toggle('cta-space',show);
+  }
+  var past=false;
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      past=!entries[0].isIntersecting;
+      update(past);
+    },{threshold:0}).observe(hero);
+  }
+  window.addEventListener('scroll',function(){
+    past=window.scrollY>hero.offsetTop+hero.offsetHeight-60;
+    update(past);
+  },{passive:true});
+  mq.addEventListener?mq.addEventListener('change',function(){update(past);}):mq.addListener(function(){update(past);});
+})();
+
+/* ---------- find-my-plan quiz (improvement 3) ---------- */
+(function(){
+  var steps=[
+    {q:"What is your weight-loss goal?",opts:["Maintain weight and get fit","Lose 1-20 lbs for good","Lose 21-50 lbs for good","Lose over 50 lbs for good","I haven't decided yet"]},
+    {q:"Have you tried WeightWatchers before?",opts:["Yes, a while back","Yes, recently","No, I'm new here"]},
+    {q:"Are you interested in weight-loss medication?",opts:["Yes","Maybe—tell me more","No, program only"]},
+    {q:"How do you like to be supported?",opts:["App + tools, I've got this","Coaches & community","Clinicians & 1:1 care"]}
+  ];
+  var i=0;
+  var label=document.getElementById('quiz-step-label'),
+      fill=document.getElementById('quiz-bar-fill'),
+      qEl=document.getElementById('quiz-question'),
+      optsEl=document.getElementById('quiz-opts'),
+      body=document.getElementById('quiz-body'),
+      done=document.getElementById('quiz-done'),
+      back=document.getElementById('quiz-back');
+  function render(){
+    if(i>=steps.length){
+      body.style.display='none';done.style.display='block';
+      label.textContent='All done';fill.style.width='100%';
+      return;
+    }
+    body.style.display='block';done.style.display='none';
+    label.textContent='Question '+(i+1)+' of '+steps.length;
+    fill.style.width=(((i+1)/steps.length)*100)+'%';
+    qEl.textContent=steps[i].q;
+    optsEl.innerHTML='';
+    steps[i].opts.forEach(function(o){
+      var b=document.createElement('button');
+      b.textContent=o;
+      b.addEventListener('click',function(){
+        b.classList.add('sel');
+        setTimeout(function(){i++;render();},220);
+      });
+      optsEl.appendChild(b);
+    });
+    back.style.display=i>0?'inline-block':'none';
+  }
+  back.addEventListener('click',function(){if(i>0){i--;render();}});
+  document.getElementById('quiz-restart').addEventListener('click',function(){i=0;render();});
+  render();
+})();
+</script>
+</body>
+</html>

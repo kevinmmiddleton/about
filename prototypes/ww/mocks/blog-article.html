@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<!-- data-improvement index:
+  1. merged-hero — Hero image + title merged into one compact split header (title/standfirst/meta left, image right on desktop; condensed stacked block on mobile). Breadcrumb slimmed, byline+review+date collapsed to one metadata line. Above-the-fold height cut roughly in half vs. live site.
+  2. right-rail-promos — Sticky right rail (desktop >=1024px only) in the previously empty right margin: 50% plan offer card, GLP-1 qualification card, 60-second plan quiz teaser. On mobile the rail is hidden and a single inline promo appears in the body instead.
+  3. inline-cta-banners — Two contextual mid-article CTA banners inside the body column: app progress-tracking banner after section 2, plan-quiz/offer banner before "The bottom line".
+  4. mobile-floating-cta — Fixed bottom CTA bar on <=768px that appears after scrolling past the header: primary "Get started", secondary "Find my plan". Safe-area aware.
+-->
+<html lang="en">
+<head>
+<script>try{if(sessionStorage.getItem('ww_proto_ok')!=='1')location.replace('/prototypes/ww/')}catch(e){location.replace('/prototypes/ww/')}</script><meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3 reasons you’re losing inches but not weight | WeightWatchers</title>
+<style>
+  :root{
+    --navy:#020B46;
+    --blurple:#0222D0;
+    --accent:#477BFF;
+    --link:#1155CC;
+    --cream:#FBF5EB;
+    --lightgray:#F1F3F8;
+    --lightblue:#E4ECFF;
+    --font:"Beacon","Inter",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:#1a1a2e;background:#fff;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:var(--link)}
+
+  /* ============ HEADER ============ */
+  .site-header{background:var(--cream)}
+  .site-header .inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:28px}
+  .nav-left,.nav-right{display:flex;align-items:center;gap:28px;flex:1}
+  .nav-right{justify-content:flex-end}
+  .site-header a.navlink{color:var(--navy);text-decoration:none;font-weight:700;font-size:15px;white-space:nowrap}
+  .logo{flex:0 0 auto}
+  .logo img{height:34px;width:auto}
+  .btn{display:inline-block;border-radius:999px;font-weight:700;text-decoration:none;text-align:center;cursor:pointer;border:2px solid transparent;font-family:var(--font)}
+  .btn-primary{background:var(--blurple);color:#fff;padding:11px 26px;font-size:15px}
+  .btn-primary:hover{background:#0119a8}
+  .btn-secondary{background:#fff;color:var(--navy);border-color:var(--navy);padding:9px 22px;font-size:15px}
+  .avatar{width:34px;height:34px;border:2px solid var(--blurple);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .avatar svg{width:18px;height:18px}
+  .hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px}
+  .hamburger span{display:block;width:26px;height:3px;background:var(--blurple);margin:5px 0;border-radius:2px}
+
+  .promo-bar{background:#0B1D8F;color:#fff;text-align:center;padding:13px 20px;font-size:15px;font-weight:700}
+  .promo-bar a{color:#fff}
+
+  /* ============ IMPROVEMENT 1: MERGED HERO ============ */
+  .hero-wrap{max-width:1320px;margin:0 auto;padding:0 24px}
+  .breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:14px 0 10px;font-size:13px}
+  .breadcrumb a{color:var(--blurple);text-decoration:none}
+  .breadcrumb a:hover{text-decoration:underline}
+  .breadcrumb .sep{color:var(--blurple);font-size:11px}
+  .breadcrumb .current{color:var(--blurple)}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:8px 0 28px}
+  .hero-copy h1{color:var(--navy);font-size:clamp(30px,3.4vw,46px);line-height:1.08;letter-spacing:-0.01em;font-weight:800;margin-bottom:14px}
+  .standfirst{font-size:17px;line-height:1.5;color:#20233f;max-width:56ch;margin-bottom:14px}
+  .meta-line{font-size:14px;color:#3a3d55;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+  .meta-line a{color:var(--link)}
+  .meta-line .dot{color:#9aa0b8}
+  .share-row{display:flex;gap:10px;margin-top:14px}
+  .share-row a{width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+  .share-row svg{width:15px;height:15px;fill:#fff}
+  .hero-media img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:16px}
+
+  /* ============ LAYOUT ============ */
+  .page{max-width:1320px;margin:0 auto;padding:0 24px 64px;display:grid;grid-template-columns:230px minmax(0,680px) 300px;gap:48px}
+  .toc h2{color:var(--navy);font-size:24px;font-weight:800;margin-bottom:14px}
+  .toc ol{list-style:none}
+  .toc li{margin-bottom:10px;font-size:16px;line-height:1.35}
+  .toc .num{font-weight:800;color:var(--navy);margin-right:4px}
+  .toc a{color:var(--blurple);text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+
+  /* article body */
+  .article p{font-size:17px;line-height:1.65;margin-bottom:18px;color:#1c1f38}
+  .article h2{color:var(--navy);font-size:30px;line-height:1.15;font-weight:800;margin:38px 0 16px;scroll-margin-top:24px}
+  .article h3{color:var(--navy);font-size:22px;font-weight:800;margin:28px 0 12px}
+  .article ul{margin:0 0 18px 22px}
+  .article li{font-size:17px;line-height:1.6;margin-bottom:8px;color:#1c1f38}
+  .article a{color:var(--link)}
+  .article .btn-primary{color:#fff} /* keep button text white; .article a link color must not bleed into pill CTAs */
+
+  /* ============ IMPROVEMENT 2: RIGHT RAIL ============ */
+  .rail{display:block}
+  .rail-sticky{position:sticky;top:20px;display:flex;flex-direction:column;gap:20px}
+  .promo-card{border-radius:16px;padding:24px;background:var(--lightblue)}
+  .promo-card .kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blurple);margin-bottom:8px}
+  .promo-card h3{color:var(--navy);font-size:20px;line-height:1.25;font-weight:800;margin-bottom:8px}
+  .promo-card p{font-size:14px;line-height:1.5;color:#20233f;margin-bottom:14px}
+  .promo-card .btn{font-size:14px;padding:10px 22px}
+  .promo-card.navy{background:var(--navy)}
+  .promo-card.navy h3{color:#fff}
+  .promo-card.navy p{color:#cdd6ff}
+  .promo-card.navy .kicker{color:#8FA8FF}
+  .promo-card.navy .btn-primary{background:#fff;color:var(--blurple)}
+  .promo-card.cream{background:var(--cream)}
+  .promo-quiz-link{font-weight:700;color:var(--blurple);text-decoration:none;font-size:15px}
+  .promo-quiz-link:hover{text-decoration:underline}
+
+  /* ============ IMPROVEMENT 3: INLINE CTA BANNERS ============ */
+  .inline-cta{border-radius:16px;padding:26px 28px;margin:34px 0;display:flex;align-items:center;gap:24px;justify-content:space-between;flex-wrap:wrap}
+  .inline-cta .copy{flex:1 1 320px}
+  .inline-cta .kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  .inline-cta h3{font-size:21px;line-height:1.3;font-weight:800;margin-bottom:6px}
+  .inline-cta p{font-size:15px;line-height:1.5;margin-bottom:0}
+  .inline-cta .btn{flex:0 0 auto;white-space:nowrap}
+  .cta-app{background:var(--lightblue)}
+  .cta-app .kicker{color:var(--blurple)}
+  .cta-app h3{color:var(--navy)}
+  .cta-app p{color:#20233f}
+  .cta-plan{background:var(--navy)}
+  .cta-plan .kicker{color:#8FA8FF}
+  .cta-plan h3{color:#fff}
+  .cta-plan p{color:#cdd6ff}
+  .cta-plan .btn-primary{background:#fff;color:var(--blurple)}
+
+  /* mobile-only inline promo (replaces rail) */
+  .mobile-promo{display:none}
+
+  /* ============ IMPROVEMENT 4: FLOATING MOBILE CTA ============ */
+  .mobile-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:900;background:#fff;box-shadow:0 -4px 18px rgba(2,11,70,.16);padding:10px 16px calc(10px + env(safe-area-inset-bottom));transform:translateY(110%);transition:transform .25s ease}
+  .mobile-cta.visible{transform:translateY(0)}
+  .mobile-cta .row{display:flex;gap:10px}
+  .mobile-cta .btn{flex:1;padding:13px 10px;font-size:15px}
+
+  /* ============ NEWSLETTER + FOOTER (simplified, matches design language) ============ */
+  .newsletter{background:var(--lightblue);border-radius:24px;max-width:1320px;margin:24px auto 0;padding:56px 24px;text-align:center}
+  .newsletter h2{color:var(--navy);font-size:30px;font-weight:800;max-width:34ch;margin:0 auto 28px;line-height:1.2}
+  .newsletter form{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+  .newsletter input[type=email]{border:none;border-radius:10px;padding:16px 18px;font-size:16px;font-family:var(--font)}
+  .newsletter .btn{align-self:center;padding:14px 44px;font-size:17px}
+  .site-footer{background:#7DA0FF;margin-top:64px;padding:56px 24px;color:var(--navy)}
+  .site-footer .cols{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+  .site-footer h4{font-size:17px;font-weight:800;margin-bottom:14px}
+  .site-footer a{display:block;color:var(--navy);text-decoration:none;font-size:15px;margin-bottom:10px}
+  .site-footer a:hover{text-decoration:underline}
+
+  /* ============ IMPROVEMENT TOGGLE ============ */
+  .imp-toggle{position:fixed;left:14px;bottom:14px;z-index:9999;background:#fff;border:1px solid #d5d9ea;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;box-shadow:0 2px 10px rgba(2,11,70,.15);font-family:var(--font)}
+  body.show-improvements .improvement{outline:2px dashed #E0219E;outline-offset:4px;position:relative}
+  /* the floating CTA must stay fixed even in highlight mode */
+  body.show-improvements .mobile-cta{position:fixed}
+  body.show-improvements .improvement::before{content:"✨ " attr(data-label);position:absolute;top:-12px;left:8px;background:#E0219E;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;z-index:500;white-space:nowrap}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1200px){
+    .page{grid-template-columns:200px minmax(0,1fr) 280px;gap:32px}
+  }
+  @media (max-width:1023px){
+    .rail{display:none}
+    .mobile-promo{display:block}
+    .page{grid-template-columns:minmax(0,1fr);gap:0;max-width:760px}
+    .toc{margin-bottom:8px}
+  }
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;gap:18px;padding-bottom:20px}
+    .hero-media{order:-1}
+    .hero-media img{aspect-ratio:2/1;border-radius:12px}
+  }
+  @media (max-width:768px){
+    .nav-left,.nav-right .navlink,.nav-right .btn,.nav-right .avatar{display:none}
+    .hamburger{display:block;margin-left:auto}
+    .site-header .inner{gap:12px}
+    .logo img{height:28px}
+    .mobile-cta{display:block}
+    body.cta-active{padding-bottom:76px}
+    body.cta-active .imp-toggle{bottom:calc(82px + env(safe-area-inset-bottom))}
+    .promo-bar{font-size:14px;padding:11px 16px}
+    .hero-copy h1{font-size:29px}
+    .standfirst{font-size:16px}
+    .breadcrumb{font-size:12px;padding-top:10px}
+    .article h2{font-size:25px}
+    .inline-cta{padding:22px 20px}
+    .newsletter{border-radius:0}
+    .site-footer .cols{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ======== SITE HEADER ======== -->
+<header class="site-header" id="site-header">
+  <div class="inner">
+    <nav class="nav-left">
+      <a class="navlink" href="#">Lose Weight</a>
+      <a class="navlink" href="#">GLP-1 Medications</a>
+      <a class="navlink" href="#">Expert Support</a>
+    </nav>
+    <a class="logo" href="#" aria-label="WeightWatchers home">
+      <img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="WeightWatchers">
+    </a>
+    <nav class="nav-right">
+      <a class="navlink" href="#">Community</a>
+      <a class="navlink" href="#">About Us</a>
+      <a class="btn btn-primary" href="#">Get Started</a>
+      <span class="avatar" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0222D0" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+      </span>
+    </nav>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="promo-bar">Kickstart your weight-loss journey now—save 50% on a 12-month plan!&nbsp; <a href="#">Offer Terms</a></div>
+
+<!-- ======== IMPROVEMENT 1: MERGED HERO + TITLE ======== -->
+<section class="hero-wrap improvement" data-label="Merged compact hero — above-the-fold cut ~50%" id="hero">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="#">Blog</a><span class="sep">›</span>
+    <a href="#">Weight Loss &amp; Diet</a><span class="sep">›</span>
+    <a href="#">Science</a><span class="sep">›</span>
+    <span class="current">Science behind weight loss</span>
+  </nav>
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <h1>3 reasons you’re losing inches but not weight</h1>
+      <p class="standfirst">If your clothes are fitting better but the number on the scale seems stuck, don’t fret. Here’s what’s going on and why it makes sense to rethink how you measure progress.</p>
+      <p class="meta-line"><span>By <a href="#">Deanna Pai</a> <span class="dot">|</span> Scientifically reviewed by <a href="#">Alexandra Lee, Ph.D.</a></span> <span style="white-space:nowrap;color:#3a3d55">Last updated April 30, 2025</span></p>
+      <div class="share-row" aria-label="Share">
+        <a href="#" aria-label="Share on Facebook"><svg viewBox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.6-1.6h1.7V4.2C16.5 4.1 15.5 4 14.3 4c-2.4 0-4 1.5-4 4.2v2.6H7.6V14h2.7v8h3.2z"/></svg></a>
+        <a href="#" aria-label="Share on X"><svg viewBox="0 0 24 24"><path d="M17.5 3h3.2l-7 8 8.2 10h-6.4l-5-6.2L4.8 21H1.6l7.5-8.6L1.2 3h6.6l4.5 5.6L17.5 3zm-1.1 16.1h1.8L6.9 4.8H5L16.4 19.1z"/></svg></a>
+        <a href="#" aria-label="Share on Pinterest"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.6 7.8 6.3 9.3-.1-.8-.2-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.4 0 .9-.6 2.2-.9 3.4-.2 1 .5 1.8 1.5 1.8 1.8 0 3.2-1.9 3.2-4.7 0-2.4-1.8-4.1-4.3-4.1-2.9 0-4.6 2.2-4.6 4.5 0 .9.3 1.8.8 2.3.1.1.1.2.1.3l-.3 1.1c0 .2-.1.2-.3.1-1.2-.6-2-2.4-2-3.9 0-3.2 2.3-6.1 6.7-6.1 3.5 0 6.2 2.5 6.2 5.8 0 3.5-2.2 6.3-5.2 6.3-1 0-2-.5-2.3-1.1l-.6 2.4c-.2.9-.8 2-1.2 2.6.9.3 1.9.4 2.9.4 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+        <a href="#" aria-label="Share on Instagram"><svg viewBox="0 0 24 24"><path d="M12 4.3c2.5 0 2.8 0 3.8.1 1 0 1.5.2 1.8.3.5.2.8.4 1.1.7.3.3.6.7.7 1.1.1.3.3.9.3 1.8.1 1 .1 1.3.1 3.8s0 2.8-.1 3.8c0 1-.2 1.5-.3 1.8-.2.5-.4.8-.7 1.1-.3.3-.7.6-1.1.7-.3.1-.9.3-1.8.3-1 .1-1.3.1-3.8.1s-2.8 0-3.8-.1c-1 0-1.5-.2-1.8-.3-.5-.2-.8-.4-1.1-.7-.3-.3-.6-.7-.7-1.1-.1-.3-.3-.9-.3-1.8-.1-1-.1-1.3-.1-3.8s0-2.8.1-3.8c0-1 .2-1.5.3-1.8.2-.5.4-.8.7-1.1.3-.3.7-.6 1.1-.7.3-.1.9-.3 1.8-.3 1-.1 1.3-.1 3.8-.1M12 2c-2.7 0-3.1 0-4.1.1-1.1 0-1.8.2-2.4.5-.7.2-1.2.6-1.8 1.1-.5.6-.9 1.1-1.1 1.8-.3.6-.5 1.3-.5 2.4C2 8.9 2 9.3 2 12s0 3.1.1 4.1c0 1.1.2 1.8.5 2.4.2.7.6 1.2 1.1 1.8.6.5 1.1.9 1.8 1.1.6.3 1.3.5 2.4.5 1 .1 1.4.1 4.1.1s3.1 0 4.1-.1c1.1 0 1.8-.2 2.4-.5.7-.2 1.2-.6 1.8-1.1.5-.6.9-1.1 1.1-1.8.3-.6.5-1.3.5-2.4.1-1 .1-1.4.1-4.1s0-3.1-.1-4.1c0-1.1-.2-1.8-.5-2.4-.2-.7-.6-1.2-1.1-1.8-.6-.5-1.1-.9-1.8-1.1-.6-.3-1.3-.5-2.4-.5C15.1 2 14.7 2 12 2zm0 4.9c-2.8 0-5.1 2.3-5.1 5.1s2.3 5.1 5.1 5.1 5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1zm0 8.4c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm6.5-8.6c0 .7-.5 1.2-1.2 1.2s-1.2-.5-1.2-1.2.5-1.2 1.2-1.2 1.2.5 1.2 1.2z"/></svg></a>
+        <a href="#" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24"><path d="M6.5 21H3V8.5h3.5V21zM4.7 7C3.6 7 2.7 6.1 2.7 5s.9-2 2-2 2 .9 2 2-.9 2-2 2zM21.3 21h-3.5v-6.1c0-1.5-.5-2.5-1.9-2.5-1 0-1.6.7-1.9 1.4-.1.2-.1.6-.1.9V21h-3.5V8.5h3.5v1.5c.5-.7 1.3-1.8 3.2-1.8 2.3 0 4.1 1.5 4.1 4.8V21z"/></svg></a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <img src="https://v.cdn.ww.com/media/system/cms/us/Losing_Inches_desktop_3200x1800.png?width=1152&amp;height=602&amp;fit=crop&amp;auto=webp&amp;optimize=medium" alt="Woman in workout clothes drinking from a water bottle">
+    </div>
+  </div>
+</section>
+
+<!-- ======== MAIN 3-COLUMN LAYOUT ======== -->
+<div class="page">
+
+  <!-- Left: In this article -->
+  <aside class="toc">
+    <h2>In this article:</h2>
+    <ol>
+      <li><span class="num">1/</span> <a href="#section-1">You’re losing fat, gaining muscle</a></li>
+      <li><span class="num">2/</span> <a href="#section-2">Your scale may need recalibrating</a></li>
+      <li><span class="num">3/</span> <a href="#section-3">Your body has adjusted to the new routine</a></li>
+      <li><span class="num">4/</span> <a href="#section-4">How to kickstart weight loss again</a></li>
+      <li><span class="num">5/</span> <a href="#section-5">Tracking progress without using the scale</a></li>
+      <li><span class="num">6/</span> <a href="#section-6">The bottom line</a></li>
+    </ol>
+  </aside>
+
+  <!-- Center: article -->
+  <article class="article">
+    <p>When you’re trying to <a href="#">lose weight</a>, the number on your scale can feel like the most important metric on the planet. When it moves down you’re thrilled. If it gets stuck — or moves up a little — you may feel discouraged. Or think your healthy habits aren't working. But here’s the thing about losing weight: It almost never declines in a constant, linear downward path.</p>
+    <p>It’s normal to have ups, downs, and <a href="#">plateaus</a>. “Checking in on weight as a marker of progress can be a helpful tool for some, but it is by no means the be-all and end-all of health and fitness,” says Leah Barron, R.D., CPT, a registered dietitian and certified personal trainer in New York.</p>
+    <p>In fact, your weight can stay the same even if you’re seeing other positive signs, like your clothes fitting better. But as natural as it can be to lose inches and not weight, it can still cause distress. Something that can help: Understanding what’s going on and seeing that there’s more than one way to measure progress while on a <a href="#">weight-loss program</a>.</p>
+    <p>Here are three reasons your body might be getting smaller without losing weight. And what, if anything, you should do about it:</p>
+
+    <h2 id="section-1">1. You’re losing fat and gaining muscle</h2>
+    <p>Exercise changes your body composition. Simply put, fat takes up more space than muscle but doesn’t necessarily weigh less. That net positive change shows up in the way your clothes fit. (Oh hello, looser pants.)</p>
+    <p>While it can be a little discouraging to weigh the same thing you did when those pants felt tight, Barron says this indicates a change in your body composition. “This means that although your weight is staying the same, the percentage of fat tissue versus muscle tissue is changing — which is actually a much better indicator of health than weight alone.”</p>
+    <p>Body composition is what determines your total mass — it’s the sum total weight of the water, bone, muscle, organs, and fat that makes up your body. While your bone mass tends to stay pretty steady, the other factors can be fluid, changing both what you weigh and the size and shape of your body. Research has found that some unavoidable factors, like age, can alter your body composition over time, but others — like exercise — are under your control.</p>
+    <p>When you start exercising, especially if you’re weight training, you can lose fat and gain muscle. This may keep the scale steady (adding a pound of muscle and losing a pound of fat is a net zero equation) but it will help you lose inches. “Muscle tissue is denser than fat tissue, so it takes up less space,” says Barron. “This is exactly why your weight may not change, but your clothes are feeling looser.”</p>
+    <p>This is one of those situations where you should keep doing exactly what you’re doing. Don’t be tempted to stop weight training so that you don’t add muscle mass. This can backfire on you because when you lose lean muscle (which may happen when you lose weight), your metabolism can slow. “Your basal metabolic rate, or BMR, is generally the calories you're burning just existing — breathing and moving through your day doing the things you normally do,” says Audra Wilson, M.S., R.D., LDN, bariatric dietitian at the Northwestern Medicine Metabolic Health and Surgical Weight Loss Center in Geneva, Illinois. “However, when you lose mass, your BMR can go down a bit, too.”</p>
+    <p>The reasons for this are unclear, but studies have found that the body adapts to weight loss — and makes keeping the weight off that much harder — by slowing the metabolism. In other words, you ultimately burn fewer calories over the course of the day, which can set you back in your weight-loss goals over time. Building muscle, however, can offset this dip. “The muscle is going to burn more calories at rest than fat would,” Wilson says, ultimately helping you get over this plateau and continue to lose weight.</p>
+
+    <h2 id="section-2">2. Your scale may need recalibrating</h2>
+    <p>If you’re exercising and staying on track with your eating habits and losing inches but not weight, this may be an opportunity to check that your scale is calibrated properly, says Christi Smith, M.S., CSCS, a certified strength and conditioning specialist. Calibrating your scale is a way of restoring its accuracy, which is important if you moved it from a different room or if it’s not on a flat surface. (For calibration how-to’s, consult the scale manufacturer’s website.)</p>
+    <p>It’s also important to establish a consistent weight tracking routine. A good plan is to weigh yourself at the same time each day, Smith says. Try first thing in the morning after using the bathroom, since you won’t have meals, beverages, or clothes interfering with the number. And remember: Weighing yourself consistently over time gives you the big-picture scope of your progress and is better than judging it by any one day’s number.</p>
+
+    <!-- IMPROVEMENT 3a: contextual inline CTA after section 2 -->
+    <aside class="inline-cta cta-app improvement" data-label="Contextual mid-article CTA">
+      <div class="copy">
+        <div class="kicker">WeightWatchers app</div>
+        <h3>Progress is more than a number</h3>
+        <p>Track weight trends, food, activity, sleep, and non-scale wins — all in one place in the WW app.</p>
+      </div>
+      <a class="btn btn-primary" href="#">Start tracking</a>
+    </aside>
+
+    <h2 id="section-3">3. Your body has adjusted to the new routine</h2>
+    <p>If all of a sudden you’ve stopped losing weight even though you’re doing everything the same, it could be your body’s ability to adapt. “Over time, your body has what’s called compensatory measures, which are ways it adjusts to increased energy expenditure over time,” Wilson says. So, for example, when you first start lifting weights, you burn more calories and see a difference in your body and on the scale. Then, over time, your body adapts to the exercise as it works more efficiently. “Your cardiovascular system gets in better shape, basically,” says Wilson. “Your muscles work more efficiently, and you don't burn as many calories.” The result: You’re losing inches but not weight.</p>
+
+    <h2 id="section-4">How to kickstart weight loss again</h2>
+    <p>We wish there was an easy answer but here are two tried and true ways that might get the scale moving:</p>
+    <p>First, check-in on your eating habits.</p>
+    <p>Sometimes as we progress on a weight loss journey, we let up on some of our diet goals. If your eating habits are the same, you might need to cut back on calories because the amount of calories your body needs throughout the day may have decreased with your prior weight loss.</p>
+    <p>Next, consider leveling up your exercise routine.</p>
+    <p>Baron says to take your current workout as your starting point, then add to the amount of weight you’re lifting — instead of three pounds, try five. Or, increase the number of reps you’re completing. If you’re doing a cardio workout, pick up the pace or go for longer, like increasing from a brisk walk to a jog or adding another 5 minutes to your exercise time. If this seems like an impossible task, consider the confidence that comes with being able to lift heavier weights or feeling less out of breath.</p>
+
+    <h3>Could my body be telling me something?</h3>
+    <p>How do you know if it’s time to switch to maintenance mode?</p>
+    <p>Consider this your checklist:</p>
+    <ul>
+      <li>Your weight has been stable for a month</li>
+      <li>You're hungry before meals and satisfied afterwards</li>
+      <li>You're eating nutrient-dense foods</li>
+      <li>You're exercising in a way you enjoy but still find challenging</li>
+      <li>You’re getting high-quality sleep</li>
+      <li>You’re not feeling overly stressed</li>
+    </ul>
+    <p>While this might not be what you want to hear, it’s possible your body has reached a stable point. “You may have reached a weight that your body is comfortable at, even though it’s not the goal you had in mind,” Barron says.</p>
+    <p>For some, healthy habits may not change your biology. If you reach a stable point in your weight loss journey but are still concerned about your health, speak to your healthcare provider to see if you may be eligible for weight loss medication.</p>
+
+    <!-- mobile-only inline promo replacing the desktop rail -->
+    <aside class="mobile-promo improvement" data-label="Inline promo (mobile stand-in for rail)">
+      <div class="promo-card navy">
+        <div class="kicker">Limited-time offer</div>
+        <h3>Save 50% on a 12-month plan</h3>
+        <p>Kickstart your weight-loss journey with a plan built around how you actually live.</p>
+        <a class="btn btn-primary" href="#">Get started</a>
+      </div>
+    </aside>
+
+    <h2 id="section-5">Tracking progress without using the scale</h2>
+    <p>Because the scale is just one way to evaluate improvement, it’s worth finding other non-scale victories to measure success and stay motivated. In fact, “weight is actually the least helpful measure of fitness and health,” says Barron. She recommends looking at more objective metrics, like blood pressure and blood sugar, which can be more accurate indicators of health over time. “Then, there are more subjective measures you can track on your own, like quality of sleep, energy levels, stress management, increases in strength and endurance in your workouts, and changes in mental health,” Barron says.</p>
+    <p>Another key measure is to notice changes in the amount of effort required for ordinary tasks like carrying groceries, or keeping up with friends on a hike. “Considering the ease with which you move through the world and the ability to do the things that you want to do without having to think twice — is huge,” Wilson says. “Doing activities you enjoy without limitations is a much more positive goal than a singular number.”</p>
+
+    <!-- IMPROVEMENT 3b: plan-quiz CTA near the end -->
+    <aside class="inline-cta cta-plan improvement" data-label="Contextual end-of-article CTA">
+      <div class="copy">
+        <div class="kicker">Find your plan</div>
+        <h3>Not sure what your next step is?</h3>
+        <p>Answer a few questions and get a science-backed plan matched to you — it takes about 60 seconds.</p>
+      </div>
+      <a class="btn btn-primary" href="#">Find my plan</a>
+    </aside>
+
+    <h2 id="section-6">The bottom line</h2>
+    <p>The number on the scale isn’t the only measure of success. Losing inches counts, too. Stay inspired during times when the scale seems stuck by taking measurements of your body. Ultimately it’s the non-scale victories — like feeling better and having more energy — that are most impactful to your overall health and confidence.</p>
+  </article>
+
+  <!-- Right: IMPROVEMENT 2 — sticky promo rail (desktop only) -->
+  <aside class="rail improvement" data-label="Sticky promo rail (desktop only)">
+    <div class="rail-sticky">
+      <div class="promo-card navy">
+        <div class="kicker">Limited-time offer</div>
+        <h3>Save 50% on a 12-month plan</h3>
+        <p>Kickstart your weight-loss journey with a plan built around how you actually live.</p>
+        <a class="btn btn-primary" href="#">Get started</a>
+      </div>
+      <div class="promo-card">
+        <div class="kicker">GLP-1 Program</div>
+        <h3>Interested in GLP-1s?</h3>
+        <p>Prescribed by clinicians, paired with nutrition support designed for how these medications work.</p>
+        <a class="btn btn-secondary" href="#">See if you qualify</a>
+      </div>
+      <div class="promo-card cream">
+        <div class="kicker">Quiz</div>
+        <h3>Find your plan in 60 seconds</h3>
+        <p>A few quick questions. A plan matched to your goals.</p>
+        <a class="promo-quiz-link" href="#">Take the quiz →</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- ======== NEWSLETTER ======== -->
+<section class="newsletter">
+  <h2>Lots of weight-loss treatments. Lots of misinformation. Our clinical newsletter helps sort it all out.</h2>
+  <form onsubmit="return false">
+    <input type="email" placeholder="Enter email" aria-label="Enter email">
+    <button class="btn btn-primary" type="submit">Get our newsletter</button>
+  </form>
+</section>
+
+<!-- ======== FOOTER ======== -->
+<footer class="site-footer">
+  <div class="cols">
+    <div>
+      <h4>Our Programs</h4>
+      <a href="#">Core Program</a>
+      <a href="#">Core+</a>
+      <a href="#">GLP-1 Medications</a>
+    </div>
+    <div>
+      <h4>Pricing &amp; Offers</h4>
+      <a href="#">Compare plans &amp; pricing</a>
+      <a href="#">Current offers</a>
+    </div>
+    <div>
+      <h4>Help</h4>
+      <a href="#">Activate monthly pass</a>
+      <a href="#">Find a workshop</a>
+      <a href="#">Contact us</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ======== IMPROVEMENT 4: FLOATING MOBILE CTA ======== -->
+<div class="mobile-cta improvement" data-label="Floating mobile CTA" id="mobile-cta">
+  <div class="row">
+    <a class="btn btn-primary" href="#">Get started</a>
+    <a class="btn btn-secondary" href="#">Find my plan</a>
+  </div>
+</div>
+
+<!-- ======== IMPROVEMENT TOGGLE ======== -->
+<button class="imp-toggle" id="imp-toggle" type="button">✨ Show improvements</button>
+
+<script>
+  // improvements toggle
+  var toggle = document.getElementById('imp-toggle');
+  toggle.addEventListener('click', function(){
+    var on = document.body.classList.toggle('show-improvements');
+    toggle.textContent = on ? '✨ Hide improvements' : '✨ Show improvements';
+  });
+
+  // floating mobile CTA: show after scrolling past the hero/header
+  (function(){
+    var bar = document.getElementById('mobile-cta');
+    var hero = document.getElementById('hero');
+    function update(){
+      if (window.innerWidth > 768) { bar.classList.remove('visible'); document.body.classList.remove('cta-active'); return; }
+      var past = window.scrollY > (hero.offsetTop + hero.offsetHeight - 80);
+      bar.classList.toggle('visible', past);
+      document.body.classList.toggle('cta-active', past);
+    }
+    window.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+</body>
+</html>

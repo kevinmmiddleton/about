@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>WeightWatchers — Prototype Access</title>
+<style>
+  :root{--navy:#020B46;--blurple:#0222D0;--cream:#FBF5EB;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Avenir Next","Inter",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    background:var(--cream);color:var(--navy);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .wordmark{width:min(420px,80vw);margin-bottom:40px;}
+  .wordmark img{width:100%;height:auto;display:block;}
+  .card{
+    background:#fff;border:2px solid var(--navy);border-radius:24px;
+    padding:36px 32px;width:min(440px,100%);text-align:center;
+    box-shadow:0 14px 40px -18px rgba(2,11,70,.35);
+  }
+  h1{font-size:22px;font-weight:800;letter-spacing:-.2px;margin-bottom:8px;}
+  p{font-size:14.5px;line-height:1.5;color:#3a3f5c;margin-bottom:22px;}
+  form{display:flex;flex-direction:column;gap:12px;}
+  input{
+    font:inherit;font-size:16px;padding:14px 20px;border-radius:999px;
+    border:1.5px solid #c9cde0;outline:none;text-align:center;color:var(--navy);
+    transition:border-color .15s;
+  }
+  input:focus{border-color:var(--blurple);}
+  button{
+    font:inherit;font-size:16px;font-weight:700;color:#fff;background:var(--blurple);
+    border:0;border-radius:999px;padding:14px 20px;cursor:pointer;
+    transition:transform .1s, background .15s;
+  }
+  button:hover{background:#021bb0;}
+  button:active{transform:scale(.98);}
+  .err{
+    display:none;font-size:13.5px;font-weight:700;color:#D0342C;margin-top:12px;
+  }
+  .card.wrong{animation:shake .35s ease;}
+  .card.wrong .err{display:block;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}40%{transform:translateX(8px)}
+    60%{transform:translateX(-5px)}80%{transform:translateX(5px)}
+  }
+  footer{margin-top:36px;font-size:12.5px;color:#7a7f9a;text-align:center;max-width:440px;line-height:1.5;}
+</style>
+</head>
+<body>
+  <div class="wordmark"><img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="WeightWatchers"></div>
+  <div class="card" id="card">
+    <h1>This prototype is private.</h1>
+    <p>Enter the password to view the site improvement concepts.</p>
+    <form id="gate">
+      <input type="password" id="pw" placeholder="Password" autocomplete="off" autofocus>
+      <button type="submit">Let&rsquo;s go</button>
+    </form>
+    <div class="err">That&rsquo;s not it &mdash; try again.</div>
+  </div>
+  <footer>Concept work by Kevin Middleton. Not affiliated with WW International. All product imagery &copy; its respective owners.</footer>
+<script>
+const HASH = '59bda3f8ee98128d543572e0d29f27ad5343f0c88c36e7bf4672c4c3ab6245b4';
+async function sha256(s){
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+// already unlocked this session? go straight in
+try{ if(sessionStorage.getItem('ww_proto_ok')==='1') location.replace('report/'); }catch(e){}
+document.getElementById('gate').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const card = document.getElementById('card');
+  card.classList.remove('wrong');
+  const val = document.getElementById('pw').value.trim().toLowerCase();
+  if(await sha256(val) === HASH){
+    try{ sessionStorage.setItem('ww_proto_ok','1'); }catch(err){}
+    location.href = 'report/';
+  } else {
+    void card.offsetWidth; // restart animation
+    card.classList.add('wrong');
+    document.getElementById('pw').select();
+  }
+});
+</script>
+</body>
+</html>

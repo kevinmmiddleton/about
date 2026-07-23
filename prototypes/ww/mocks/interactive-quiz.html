@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<!--
+  data-improvement index
+  ======================
+  This is a NEW embeddable experience (an ungated reimagining of the 5-step
+  /us/find-my-plan flow), so per the brief everything here is "new" — the
+  .improvement outline/toggle system is intentionally skipped. Improvements
+  this experience represents:
+  [1] ungated-quiz        — full quiz + result with zero email gate and no account
+  [2] sixty-second-flow   — 4 focused steps instead of 5, auto-advance, progress bar
+  [3] instant-result      — recommended plan card with real pricing shown immediately
+  [4] honest-pricing      — result uses real plans-page pricing (Core $12/mo w/ 12-mo
+                            plan, Core+ $22/mo, Med+ $25 first month then $74/mo)
+  All prices sourced from weightwatchers.com/us/plans (saved 2026-07).
+-->
+<html lang="en">
+<head>
+<script>try{if(sessionStorage.getItem('ww_proto_ok')!=='1')location.replace('/prototypes/ww/')}catch(e){location.replace('/prototypes/ww/')}</script><meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find your plan in 60 seconds | WeightWatchers</title>
+<style>
+  :root{
+    --cream:#FBF5EB;
+    --navy:#020B46;
+    --blurple:#0222D0;
+    --accent:#477BFF;
+    --periwinkle:#A9BEFF;
+    --mint:#BFE8CE;
+    --mint-deep:#0A5C36;
+    --line:rgba(2,11,70,.14);
+    --font:"Beacon","Inter",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--cream)}
+  body{
+    font-family:var(--font);
+    color:var(--navy);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.4;
+  }
+  .shell{max-width:640px;margin:0 auto;padding:26px 18px 48px}
+  .brand{
+    display:block;
+    margin-bottom:16px;
+  }
+  /* ---------- top bar: back + progress ---------- */
+  .topbar{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+  .back{
+    flex:0 0 auto;
+    width:38px;height:38px;border-radius:50%;
+    border:2px solid var(--navy);
+    background:transparent;color:var(--navy);
+    font-size:18px;line-height:1;cursor:pointer;font-family:inherit;
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .2s, transform .15s;
+  }
+  .back:hover{transform:translateX(-2px)}
+  .back[disabled]{opacity:.25;cursor:default;transform:none}
+  .progress{flex:1;display:flex;gap:6px}
+  .progress span{
+    flex:1;height:6px;border-radius:999px;
+    background:rgba(2,11,70,.12);
+    overflow:hidden;position:relative;
+  }
+  .progress span i{
+    position:absolute;inset:0;border-radius:999px;
+    background:var(--blurple);
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .progress span.done i{transform:scaleX(1)}
+  .timer{
+    flex:0 0 auto;font-size:12.5px;font-weight:800;
+    color:rgba(2,11,70,.55);letter-spacing:.04em;white-space:nowrap;
+  }
+  /* ---------- steps ---------- */
+  html,body{overflow-x:hidden}
+  .stage{position:relative;min-height:430px;overflow-x:clip}
+  .step{
+    position:absolute;inset:0;
+    opacity:0;transform:translateX(28px);
+    transition:opacity .32s ease, transform .32s ease;
+    pointer-events:none;
+    visibility:hidden;
+  }
+  .step.active{
+    position:relative;
+    opacity:1;transform:none;
+    pointer-events:auto;
+    visibility:visible;
+  }
+  .step.exit-left{opacity:0;transform:translateX(-28px)}
+  .kicker{
+    font-size:12.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(2,11,70,.5);margin-bottom:8px;
+  }
+  h1,h2.q{
+    font-weight:900;letter-spacing:-.03em;
+    font-size:clamp(26px,5.5vw,38px);line-height:1.05;
+    margin-bottom:18px;
+  }
+  .qsub{font-size:15px;color:rgba(2,11,70,.7);margin:-8px 0 18px}
+  .opts{display:grid;gap:10px}
+  .opt{
+    text-align:left;
+    background:#fff;
+    border:2px solid var(--line);
+    border-radius:999px;
+    padding:15px 22px;
+    font-family:inherit;font-size:15.5px;font-weight:600;color:var(--navy);
+    cursor:pointer;
+    transition:border-color .15s, box-shadow .15s, transform .1s;
+  }
+  .opt:hover{border-color:var(--accent)}
+  .opt:active{transform:scale(.985)}
+  .opt[aria-pressed="true"]{
+    border-color:var(--blurple);
+    box-shadow:0 0 0 2px var(--blurple), 0 6px 16px rgba(2,11,70,.08);
+  }
+  .opt .sub{display:block;font-size:12.5px;font-weight:600;color:rgba(2,11,70,.55);margin-top:2px}
+  .hint{font-size:12.5px;color:rgba(2,11,70,.5);margin-top:14px}
+  /* ---------- result ---------- */
+  .result-kicker{
+    display:inline-block;
+    background:var(--mint);color:var(--mint-deep);
+    font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    border-radius:999px;padding:6px 14px;margin-bottom:14px;
+  }
+  .plan-card{
+    background:var(--navy);color:#fff;
+    border-radius:24px;
+    padding:26px 24px 24px;
+    box-shadow:0 18px 40px rgba(2,11,70,.22);
+  }
+  .plan-card .tier{
+    font-weight:900;font-stretch:condensed;text-transform:uppercase;
+    font-size:44px;letter-spacing:-.02em;line-height:1;
+  }
+  .plan-card .why{
+    margin-top:10px;font-size:15.5px;line-height:1.45;color:rgba(255,255,255,.9);
+  }
+  .price-line{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .price-line .big{font-weight:900;letter-spacing:-.03em;font-size:46px;line-height:.95}
+  .price-line .big s{font-size:.55em;color:rgba(255,255,255,.45);font-weight:800;margin-right:6px}
+  .price-line .per{font-size:14px;font-weight:700;color:rgba(255,255,255,.8)}
+  .then{font-size:13.5px;font-weight:600;color:rgba(255,255,255,.75);margin-top:6px}
+  .feat{
+    margin-top:16px;display:grid;gap:8px;list-style:none;
+  }
+  .feat li{
+    font-size:14px;color:rgba(255,255,255,.9);
+    display:flex;gap:9px;align-items:flex-start;
+  }
+  .feat li::before{
+    content:"";flex:0 0 auto;margin-top:3px;
+    width:15px;height:15px;border-radius:50%;
+    background:var(--accent);
+    -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="black" d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.6 5.9l-4.2 4.6a.75.75 0 01-1.1 0L4.4 8.5a.75.75 0 111.1-1l1.4 1.5 3.6-4a.75.75 0 111.1 1z"/></svg>') center/contain no-repeat;
+            mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="black" d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.6 5.9l-4.2 4.6a.75.75 0 01-1.1 0L4.4 8.5a.75.75 0 111.1-1l1.4 1.5 3.6-4a.75.75 0 111.1 1z"/></svg>') center/contain no-repeat;
+  }
+  .cta-row{display:grid;gap:10px;margin-top:22px}
+  .btn{
+    display:block;text-align:center;text-decoration:none;
+    border-radius:999px;padding:14px 20px;
+    font-weight:800;font-size:15.5px;font-family:inherit;cursor:pointer;border:none;
+  }
+  .btn.primary{background:var(--blurple);color:#fff;border:2px solid var(--blurple)}
+  .btn.primary:hover{background:#0119a8;border-color:#0119a8}
+  .btn.ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.55)}
+  .btn.ghost:hover{border-color:#fff}
+  .restart{
+    margin-top:16px;text-align:center;
+  }
+  .restart button{
+    background:none;border:none;font-family:inherit;cursor:pointer;
+    color:var(--blurple);font-weight:700;font-size:13.5px;text-decoration:underline;
+  }
+  .result-foot{
+    margin-top:18px;font-size:11.5px;line-height:1.55;color:rgba(2,11,70,.6);
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <span class="brand"><img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="WeightWatchers" style="height:19px;width:auto;display:block"></span>
+
+  <div class="topbar" id="topbar">
+    <button class="back" id="backBtn" aria-label="Go back" disabled onclick="goBack()">&#8592;</button>
+    <div class="progress" aria-hidden="true" id="progress">
+      <span><i></i></span><span><i></i></span><span><i></i></span><span><i></i></span>
+    </div>
+    <span class="timer" id="stepCount">1 of 4</span>
+  </div>
+
+  <div class="stage" id="stage">
+
+    <!-- STEP 1 -->
+    <section class="step active" data-step="0" aria-label="Question 1">
+      <div class="kicker">Find your plan in 60 seconds</div>
+      <h2 class="q">What's your weight-loss goal?</h2>
+      <div class="opts">
+        <button class="opt" onclick="pick(0,'lose-20',this)">Lose 1&#8211;20 lbs for good</button>
+        <button class="opt" onclick="pick(0,'lose-50',this)">Lose 21&#8211;50 lbs for good</button>
+        <button class="opt" onclick="pick(0,'lose-50plus',this)">Lose over 50 lbs for good</button>
+        <button class="opt" onclick="pick(0,'maintain',this)">Maintain weight and get fit</button>
+        <button class="opt" onclick="pick(0,'undecided',this)">I haven't decided yet</button>
+      </div>
+      <p class="hint">No email. No sign-up. Just answers.</p>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="step" data-step="1" aria-label="Question 2">
+      <div class="kicker">Question 2</div>
+      <h2 class="q">Tried structured programs before?</h2>
+      <p class="qsub">If something held you back last time, that's useful — it tells us what to fix this time.</p>
+      <div class="opts">
+        <button class="opt" onclick="pick(1,'consistency',this)">Yes — staying consistent was hard</button>
+        <button class="opt" onclick="pick(1,'results',this)">Yes — the results didn't last</button>
+        <button class="opt" onclick="pick(1,'restrictive',this)">Yes — it felt too restrictive</button>
+        <button class="opt" onclick="pick(1,'first-time',this)">No — this is my first time</button>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step" data-step="2" aria-label="Question 3">
+      <div class="kicker">Question 3</div>
+      <h2 class="q">Interested in weight-loss medication?</h2>
+      <p class="qsub">GLP-1s aren't for everyone — a clinician always makes the final call with you.</p>
+      <div class="opts">
+        <button class="opt" onclick="pick(2,'yes',this)">Yes — I want to explore GLP-1s</button>
+        <button class="opt" onclick="pick(2,'curious',this)">I'm curious, tell me more</button>
+        <button class="opt" onclick="pick(2,'no',this)">No thanks — not for me</button>
+      </div>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="step" data-step="3" aria-label="Question 4">
+      <div class="kicker">Last one</div>
+      <h2 class="q">How much support do you want?</h2>
+      <div class="opts">
+        <button class="opt" onclick="pick(3,'self',this)">Self-guided<span class="sub">Give me the tools — I'll drive</span></button>
+        <button class="opt" onclick="pick(3,'coaching',this)">Coaching<span class="sub">Real experts checking in on me</span></button>
+        <button class="opt" onclick="pick(3,'community',this)">Community<span class="sub">Workshops and people who get it</span></button>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section class="step" data-step="4" aria-label="Your result">
+      <span class="result-kicker" id="resultKicker">Your match</span>
+      <h1 id="resultHead">We found your plan.</h1>
+      <div class="plan-card">
+        <div class="tier" id="rTier"></div>
+        <p class="why" id="rWhy"></p>
+        <div class="price-line">
+          <div class="big" id="rPrice"></div>
+          <div class="per" id="rPer"></div>
+        </div>
+        <div class="then" id="rThen"></div>
+        <ul class="feat" id="rFeat"></ul>
+        <div class="cta-row">
+          <a class="btn primary" id="rCta" href="https://www.weightwatchers.com/us/plans" target="_blank" rel="noopener">Get started</a>
+          <a class="btn ghost" href="https://www.weightwatchers.com/us/plans" target="_blank" rel="noopener">Compare all plans</a>
+        </div>
+      </div>
+      <div class="restart"><button onclick="restart()">Retake the quiz</button></div>
+      <p class="result-foot" id="rFoot"></p>
+    </section>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var answers = [null,null,null,null];
+  var current = 0;
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+  var segs = document.querySelectorAll("#progress span");
+  var $ = function(id){return document.getElementById(id)};
+
+  // ---- real pricing (weightwatchers.com/us/plans, saved 2026-07) ----
+  var RESULTS = {
+    core: {
+      tier:"Core",
+      priceHtml:"<s>$24</s>$12",
+      per:"/month*",
+      then:"With a 12-month plan. Month-to-month: $24/mo.",
+      feat:[
+        "#1 doctor-recommended Points® Program",
+        "Flexible, science-backed nutrition — no food is off-limits",
+        "Full app: tracking, recipes, progress tools"
+      ],
+      foot:"*$12/mo with a 12-month commitment plan (50% off); renews at $24/mo month-to-month. Plans auto-renew unless canceled."
+    },
+    coreplus: {
+      tier:"Core+",
+      priceHtml:"<s>$44</s>$22",
+      per:"/month*",
+      then:"With a 12-month plan. Month-to-month: $44/mo.",
+      feat:[
+        "Everything in Core, plus more support",
+        "Workshops and coaching to keep you consistent",
+        "Works whether you're on medication or not"
+      ],
+      foot:"*$22/mo with a 12-month commitment plan (50% off); renews at $44/mo month-to-month. Plans auto-renew unless canceled."
+    },
+    medplus: {
+      tier:"Med+",
+      priceHtml:"<s>$74</s>$25",
+      per:"/first month^",
+      then:"Then $74/mo with a 12-month plan. GLP-1 meds cost not included.",
+      feat:[
+        "Access to GLP-1 prescriptions, when appropriate",
+        "Clinical care team with you at every step",
+        "Full Points® Program and app included"
+      ],
+      foot:"^$25 for your first month with a 12-month plan; then $74/mo for the remainder. Month-to-month: $49 first month, then $149/mo. Medication cost is separate — with insurance it can be as low as $0; we check your coverage for you."
+    }
+  };
+
+  function show(idx, dir){
+    var prev = steps[current];
+    var next = steps[idx];
+    prev.classList.remove("active");
+    if (dir==="fwd"){
+      prev.classList.add("exit-left");
+      setTimeout(function(){ prev.classList.remove("exit-left"); }, 340);
+    }
+    next.classList.add("active");
+    current = idx;
+    segs.forEach(function(s,i){ s.classList.toggle("done", idx===4 ? true : i < idx); });
+    $("backBtn").disabled = (idx===0);
+    $("stepCount").textContent = idx===4 ? "Done" : (idx+1)+" of 4";
+    $("topbar").style.visibility = "visible";
+  }
+
+  window.pick = function(step, val, btn){
+    answers[step] = val;
+    var sibs = btn.parentElement.querySelectorAll(".opt");
+    sibs.forEach(function(b){ b.setAttribute("aria-pressed", String(b===btn)); });
+    // fill current progress segment right away for feedback
+    segs[step].classList.add("done");
+    setTimeout(function(){
+      if (step < 3){ show(step+1, "fwd"); }
+      else { renderResult(); show(4, "fwd"); }
+    }, 260);
+  };
+
+  window.goBack = function(){
+    if (current === 0) return;
+    var target = current===4 ? 3 : current-1;
+    show(target, "back");
+  };
+
+  window.restart = function(){
+    answers = [null,null,null,null];
+    document.querySelectorAll(".opt").forEach(function(b){ b.removeAttribute("aria-pressed"); });
+    show(0, "back");
+  };
+
+  function decide(){
+    // med interest wins; then support level; else Core
+    if (answers[2]==="yes" || answers[2]==="curious") return "medplus";
+    if (answers[3]==="coaching" || answers[3]==="community") return "coreplus";
+    return "core";
+  }
+
+  function whyLine(key){
+    var goal = answers[0], tried = answers[1], med = answers[2], sup = answers[3];
+    if (key==="medplus"){
+      return med==="curious"
+        ? "You're curious about medication — Med+ starts with a clinical consult to see if a GLP-1 is right for you, with the full program behind it."
+        : "You want to explore GLP-1s — Med+ pairs medication access with clinical care and the program that makes results stick.";
+    }
+    if (key==="coreplus"){
+      var s = sup==="community" ? "community and workshops" : "coaching";
+      var t = (tried==="consistency") ? "Consistency is easier when someone's in your corner — " :
+              (tried==="results") ? "Results last longer with people behind you — " : "";
+      return t + "you asked for " + s + ", and that's exactly what Core+ adds on top of the Points® Program.";
+    }
+    var g = (goal==="maintain") ? "maintain and stay fit" : "hit your goal";
+    return "You like to drive — Core gives you the full Points® Program and app to " + g + " at your own pace, at our lowest price.";
+  }
+
+  function renderResult(){
+    var key = decide();
+    var r = RESULTS[key];
+    $("rTier").textContent = r.tier;
+    $("rWhy").textContent = whyLine(key);
+    $("rPrice").innerHTML = r.priceHtml;
+    $("rPer").textContent = r.per;
+    $("rThen").textContent = r.then;
+    $("rFeat").innerHTML = r.feat.map(function(f){ return "<li>"+f+"</li>"; }).join("");
+    $("rFoot").textContent = r.foot;
+    $("resultHead").textContent = "We found your plan.";
+  }
+})();
+</script>
+</body>
+</html>

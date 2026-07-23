@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<!--
+  data-improvement index
+  ======================
+  This is a NEW embeddable experience (not a recreation of an existing WW page),
+  so per the brief every element here is "new" — the .improvement outline/toggle
+  system is intentionally skipped. Improvements this experience represents:
+  [1] ungated-pricing      — affordability calculator with zero email gate (vs. the
+                             email-gated GLP-1 Cost Estimator at /us/weight-loss-medication/cost-estimator)
+  [2] live-price-builder   — pick membership + commitment + medication and watch the
+                             price update instantly, incl. per-day framing
+  [3] promo-transparency   — shows exactly what the 50%-off 12-month promo saves in dollars
+  [4] glp1-value-anchor    — self-pay GLP-1 price vs. typical list price comparison bar
+                             (list price labeled as estimate; WW prices are real site prices)
+  All membership prices sourced from weightwatchers.com/us/plans (saved 2026-07);
+  medication self-pay prices from /us/weight-loss-medication (saved 2026-07).
+-->
+<html lang="en">
+<head>
+<script>try{if(sessionStorage.getItem('ww_proto_ok')!=='1')location.replace('/prototypes/ww/')}catch(e){location.replace('/prototypes/ww/')}</script><meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build your plan, see your price | WeightWatchers</title>
+<style>
+  :root{
+    --cream:#FBF5EB;
+    --navy:#020B46;
+    --blurple:#0222D0;
+    --accent:#477BFF;
+    --periwinkle:#8FA8FF;
+    --mint:#BFE8CE;
+    --mint-deep:#0A5C36;
+    --gray:#F1F3F8;
+    --line:rgba(2,11,70,.14);
+    --font:"Beacon","Inter",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--cream)}
+  body{
+    font-family:var(--font);
+    color:var(--navy);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.4;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 20px 48px}
+  /* ---------- header ---------- */
+  .brand{
+    display:inline-block;
+    margin-bottom:18px;
+  }
+  .brand img{height:20px;width:auto;display:block;}
+  h1{
+    font-weight:900;
+    letter-spacing:-.03em;
+    font-size:clamp(30px,5.4vw,52px);
+    line-height:1.02;
+    max-width:14em;
+  }
+  .sub{
+    margin-top:12px;
+    font-size:clamp(15px,2.2vw,18px);
+    max-width:38em;
+    color:rgba(2,11,70,.78);
+  }
+  .sub strong{color:var(--navy)}
+  /* ---------- layout ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:22px;
+    margin-top:30px;
+    align-items:start;
+  }
+  @media(min-width:880px){
+    .grid{grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:32px}
+    .panel{position:sticky;top:20px}
+  }
+  .step-label{
+    display:flex;align-items:center;gap:10px;
+    font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(2,11,70,.6);
+    margin:26px 0 12px;
+  }
+  .step-label:first-child{margin-top:0}
+  .step-label .num{
+    width:24px;height:24px;border-radius:50%;
+    background:var(--navy);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:12px;letter-spacing:0;
+  }
+  /* ---------- plan cards ---------- */
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  @media(max-width:520px){.plans{grid-template-columns:1fr}}
+  .plan-card{
+    text-align:left;
+    border:2px solid var(--line);
+    background:#fff;
+    border-radius:18px;
+    padding:16px 14px 14px;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--navy);
+    transition:border-color .15s, box-shadow .15s, transform .15s;
+    position:relative;
+  }
+  .plan-card:hover{border-color:var(--accent)}
+  .plan-card[aria-pressed="true"]{
+    border-color:var(--blurple);
+    box-shadow:0 0 0 2px var(--blurple), 0 8px 20px rgba(2,11,70,.10);
+  }
+  .plan-card .tier{
+    display:block;
+    font-weight:900;font-stretch:condensed;letter-spacing:-.02em;
+    font-size:26px;line-height:1;text-transform:uppercase;
+    padding-right:26px;
+  }
+  .plan-card .tag{display:block;font-size:12.5px;color:rgba(2,11,70,.68);margin-top:6px;min-height:2.4em}
+  .plan-card .from{display:block;font-size:13px;font-weight:700;margin-top:8px}
+  @media(max-width:520px){.plan-card .tag{min-height:0}}
+  .plan-card .from s{color:rgba(2,11,70,.45);font-weight:600;margin-right:4px}
+  .plan-card .pick{
+    position:absolute;top:10px;right:10px;
+    width:20px;height:20px;border-radius:50%;
+    border:2px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .plan-card[aria-pressed="true"] .pick{border-color:var(--blurple);background:var(--blurple)}
+  .plan-card[aria-pressed="true"] .pick::after{
+    content:"";width:8px;height:5px;
+    border-left:2px solid #fff;border-bottom:2px solid #fff;
+    transform:rotate(-45deg) translateY(-1px);
+  }
+  /* ---------- segmented toggles ---------- */
+  .seg{display:flex;gap:8px;flex-wrap:wrap}
+  .seg button{
+    flex:1 1 auto;
+    min-width:150px;
+    border:2px solid var(--line);
+    background:#fff;
+    color:var(--navy);
+    font-family:inherit;font-weight:700;font-size:14.5px;
+    border-radius:999px;
+    padding:12px 16px;
+    cursor:pointer;
+    transition:all .15s;
+  }
+  .seg button:hover{border-color:var(--accent)}
+  .seg button[aria-pressed="true"]{
+    background:var(--navy);border-color:var(--navy);color:#fff;
+  }
+  .seg button .mini{display:block;font-size:11.5px;font-weight:600;opacity:.75;margin-top:2px}
+  .seg button[aria-pressed="true"] .mini{opacity:.85}
+  /* ---------- med section ---------- */
+  #medSection{overflow:hidden;max-height:0;opacity:0;transition:max-height .35s ease,opacity .3s ease}
+  #medSection.open{max-height:1200px;opacity:1}
+  .meds{display:grid;gap:8px;margin-top:2px}
+  .med-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    border:2px solid var(--line);
+    background:#fff;border-radius:14px;
+    padding:11px 14px;
+    cursor:pointer;font-family:inherit;color:var(--navy);
+    font-size:14.5px;text-align:left;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .med-row:hover{border-color:var(--accent)}
+  .med-row[aria-pressed="true"]{border-color:var(--blurple);box-shadow:0 0 0 1.5px var(--blurple)}
+  .med-row .mname{font-weight:800}
+  .med-row .mkind{display:block;font-size:12px;font-weight:600;color:rgba(2,11,70,.55)}
+  .med-row .mprice{font-weight:800;white-space:nowrap;font-size:14px}
+  .med-row .mprice.insured-hide{color:rgba(2,11,70,.35);text-decoration:line-through}
+  .ins-note{font-size:12.5px;color:rgba(2,11,70,.65);margin-top:10px}
+  /* ---------- output panel ---------- */
+  .panel{
+    background:var(--navy);
+    color:#fff;
+    border-radius:24px;
+    padding:26px 24px 22px;
+    box-shadow:0 18px 40px rgba(2,11,70,.22);
+  }
+  .panel .eyebrow{
+    font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--periwinkle);
+  }
+  .panel .pname{
+    font-weight:900;font-stretch:condensed;text-transform:uppercase;
+    font-size:30px;letter-spacing:-.02em;line-height:1;margin-top:8px;
+  }
+  .price-line{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .big{
+    font-weight:900;letter-spacing:-.03em;
+    font-size:clamp(44px,7vw,58px);line-height:.95;
+  }
+  .big s{font-size:.55em;color:rgba(255,255,255,.45);font-weight:800;margin-right:6px}
+  .per{font-size:14px;font-weight:700;color:rgba(255,255,255,.8)}
+  .then{font-size:14.5px;font-weight:600;color:rgba(255,255,255,.85);margin-top:8px}
+  .perday{
+    display:inline-block;
+    margin-top:14px;
+    background:rgba(71,123,255,.22);
+    border:1px solid rgba(143,168,255,.5);
+    color:#fff;font-weight:700;font-size:14px;
+    border-radius:999px;padding:7px 14px;
+  }
+  .savings{
+    margin-top:12px;
+    background:var(--mint);
+    color:var(--mint-deep);
+    border-radius:14px;
+    padding:11px 14px;
+    font-size:14px;font-weight:700;line-height:1.35;
+  }
+  .savings.nudge{background:rgba(255,255,255,.10);color:#fff;border:1px dashed rgba(255,255,255,.4);font-weight:600}
+  .savings.nudge button{
+    background:none;border:none;color:var(--periwinkle);font-family:inherit;
+    font-weight:800;font-size:14px;cursor:pointer;text-decoration:underline;padding:0;
+  }
+  /* med output */
+  .med-out{margin-top:16px;border-top:1px solid rgba(255,255,255,.18);padding-top:16px}
+  .med-out h3{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--periwinkle);margin-bottom:10px}
+  .cover{
+    background:rgba(191,232,206,.14);
+    border:1px solid rgba(191,232,206,.45);
+    border-radius:14px;padding:12px 14px;
+    font-size:14px;line-height:1.45;
+  }
+  .cover .zero{font-weight:900;font-size:22px;display:block;margin-bottom:2px;color:#BFE8CE}
+  .bars{display:grid;gap:12px;margin-top:4px}
+  .bar-row .blab{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:5px;gap:8px}
+  .bar-row .blab .bv{white-space:nowrap}
+  .track{height:14px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}
+  .fill{height:100%;border-radius:999px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .fill.ww{background:linear-gradient(90deg,var(--accent),var(--periwinkle))}
+  .fill.list{background:rgba(255,255,255,.38)}
+  .bar-note{font-size:11.5px;color:rgba(255,255,255,.6);margin-top:8px;line-height:1.45}
+  /* CTA */
+  .cta-row{display:grid;gap:10px;margin-top:20px}
+  .btn{
+    display:block;text-align:center;text-decoration:none;
+    border-radius:999px;padding:14px 20px;
+    font-weight:800;font-size:15.5px;font-family:inherit;cursor:pointer;
+  }
+  .btn.primary{background:var(--blurple);color:#fff;border:2px solid var(--blurple)}
+  .btn.primary:hover{background:#0119a8;border-color:#0119a8}
+  .btn.ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.55)}
+  .btn.ghost:hover{border-color:#fff}
+  /* footnotes */
+  .foot{
+    margin-top:26px;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+    font-size:11.5px;line-height:1.55;color:rgba(2,11,70,.6);
+    display:grid;gap:6px;
+  }
+  @media(max-width:879px){
+    .wrap{padding:22px 16px 40px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="brand"><img src="https://a.storyblok.com/f/286334833788875/1190x219/14b9ec3456/ww.svg" alt="WeightWatchers"></span>
+  <h1>Build your plan, see your price.</h1>
+  <p class="sub">Pick what fits, watch the numbers update. <strong>No email required</strong> — we'll never make you hand over your inbox just to see a price.</p>
+
+  <div class="grid">
+    <!-- ============ controls ============ -->
+    <section aria-label="Plan builder">
+      <div class="step-label"><span class="num">1</span> Choose your membership</div>
+      <div class="plans" role="group" aria-label="Membership options">
+        <button class="plan-card" id="plan-core" aria-pressed="true" onclick="setPlan('core')">
+          <span class="pick" aria-hidden="true"></span>
+          <span class="tier">Core</span>
+          <span class="tag">The #1 doctor-recommended Points&reg; Program, app included.</span>
+          <span class="from" data-from="core">from <b>$12</b>/mo*</span>
+        </button>
+        <button class="plan-card" id="plan-coreplus" aria-pressed="false" onclick="setPlan('coreplus')">
+          <span class="pick" aria-hidden="true"></span>
+          <span class="tier">Core+</span>
+          <span class="tag">More support. More results — on medication or not.</span>
+          <span class="from" data-from="coreplus">from <b>$22</b>/mo*</span>
+        </button>
+        <button class="plan-card" id="plan-medplus" aria-pressed="false" onclick="setPlan('medplus')">
+          <span class="pick" aria-hidden="true"></span>
+          <span class="tier">Med+</span>
+          <span class="tag">GLP-1 access, clinical care, and comprehensive support.</span>
+          <span class="from" data-from="medplus"><b>$25</b> first month^</span>
+        </button>
+      </div>
+
+      <div class="step-label"><span class="num">2</span> How long are you in?</div>
+      <div class="seg" role="group" aria-label="Commitment length">
+        <button id="term-12mo" aria-pressed="true" onclick="setTerm('12mo')">
+          12-month plan
+          <span class="mini">50% off — best price</span>
+        </button>
+        <button id="term-m2m" aria-pressed="false" onclick="setTerm('m2m')">
+          Month-to-month
+          <span class="mini">Maximum flexibility</span>
+        </button>
+      </div>
+
+      <div id="medSection">
+        <div class="step-label"><span class="num">3</span> Your medication</div>
+        <div class="seg" role="group" aria-label="Insurance status" style="margin-bottom:12px">
+          <button id="ins-yes" aria-pressed="true" onclick="setInsured(true)">
+            I have insurance
+            <span class="mini">We check your coverage for you</span>
+          </button>
+          <button id="ins-no" aria-pressed="false" onclick="setInsured(false)">
+            Self-pay
+            <span class="mini">Real prices, no insurance needed</span>
+          </button>
+        </div>
+        <div class="meds" role="group" aria-label="Medication options" id="medList"></div>
+        <p class="ins-note">Your clinician prescribes what's right for your health history — this picker is just for price exploring.</p>
+      </div>
+    </section>
+
+    <!-- ============ output ============ -->
+    <aside class="panel" aria-live="polite" aria-label="Your price">
+      <div class="eyebrow">Your price</div>
+      <div class="pname" id="outName">Core</div>
+      <div class="price-line">
+        <div class="big" id="outPrice"></div>
+        <div class="per" id="outPer"></div>
+      </div>
+      <div class="then" id="outThen" hidden></div>
+      <div class="perday" id="outDay"></div>
+      <div class="savings" id="outSavings"></div>
+
+      <div class="med-out" id="medOut" hidden>
+        <h3 id="medOutTitle">Medication cost</h3>
+        <div id="medOutBody"></div>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn primary" href="https://www.weightwatchers.com/us/plans" target="_blank" rel="noopener">Get started</a>
+        <a class="btn ghost" href="https://www.weightwatchers.com/us/plans" target="_blank" rel="noopener">Compare all plans</a>
+      </div>
+    </aside>
+  </div>
+
+  <div class="foot">
+    <span>*Pricing with a 12-month commitment plan, billed monthly. Core renews at $24/mo and Core+ at $44/mo month-to-month; with a 12-month plan Core is $12/mo and Core+ is $22/mo. Plans auto-renew at the end of the term unless canceled.</span>
+    <span>^Med+ with a 12-month plan: pay $25 for your first month, then $74/mo for the remainder of the plan. Month-to-month: $49 for your first month, then $149/mo until you cancel. GLP-1 medication cost not included in membership.</span>
+    <span>Medication self-pay prices are current WeightWatchers starting prices per month and vary by dose (Ozempic&reg; from $149/mo pill, $199/mo pen; Zepbound&reg; up to $449/mo at higher doses). With insurance, eligible members may pay as low as $0 for covered medication — coverage varies by plan; we check your coverage for you at no cost.</span>
+    <span>"Typical list price" reflects an estimated ~$1,000–$1,350/mo U.S. list price for branded GLP-1 injectables without insurance or savings programs — an estimate for comparison only, not a quote.</span>
+    <span>"Per day" is the ongoing monthly price (membership plus self-pay medication, where selected) annualized over 365 days. Your actual first-month cost may be lower with promotional pricing.</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ---- real pricing data (weightwatchers.com/us/plans + /us/weight-loss-medication, saved 2026-07) ----
+  var PLANS = {
+    core:     {name:"Core",  m2m:{monthly:24},                 mo12:{monthly:12}},
+    coreplus: {name:"Core+", m2m:{monthly:44},                 mo12:{monthly:22}},
+    medplus:  {name:"Med+",  m2m:{first:49, monthly:149},      mo12:{first:25, monthly:74}}
+  };
+  var MEDS = [
+    {id:"foundayo",   name:"Foundayo™ (orforglipron)", kind:"Daily pill",          price:149, disp:"$149/mo"},
+    {id:"wegovypill", name:"Wegovy® pill",             kind:"Daily pill",          price:149, disp:"$149/mo"},
+    {id:"ozempic",    name:"Ozempic®",                 kind:"Pill or weekly pen",  price:149, disp:"$149–199/mo", from:true},
+    {id:"wegovy",     name:"Wegovy®",                  kind:"Weekly injectable",   price:199, disp:"$199/mo"},
+    {id:"zepbound",   name:"Zepbound®",                kind:"Weekly injectable",   price:299, disp:"$299/mo"}
+  ];
+  var LIST_LO = 1000, LIST_HI = 1350; // typical list price estimate, branded injectables
+
+  var state = {plan:"core", term:"12mo", insured:true, med:"foundayo"};
+
+  var $ = function(id){return document.getElementById(id)};
+
+  // build med list
+  var medList = $("medList");
+  MEDS.forEach(function(m){
+    var b = document.createElement("button");
+    b.className = "med-row";
+    b.id = "med-" + m.id;
+    b.setAttribute("aria-pressed", String(m.id===state.med));
+    b.innerHTML = '<span><span class="mname">'+m.name+'</span><span class="mkind">'+m.kind+'</span></span>' +
+                  '<span class="mprice" data-mp>'+m.disp+'</span>';
+    b.onclick = function(){ state.med = m.id; render(); };
+    medList.appendChild(b);
+  });
+
+  window.setPlan = function(p){ state.plan = p; render(); };
+  window.setTerm = function(t){ state.term = t; render(); };
+  window.setInsured = function(v){ state.insured = v; render(); };
+
+  function money(n){ return "$" + n.toLocaleString("en-US"); }
+
+  function render(){
+    var p = PLANS[state.plan];
+    var t = state.term==="12mo" ? p.mo12 : p.m2m;
+    var other = state.term==="12mo" ? p.m2m : p.mo12;
+    var isMed = state.plan==="medplus";
+    var med = MEDS.filter(function(m){return m.id===state.med})[0];
+
+    // pressed states
+    ["core","coreplus","medplus"].forEach(function(k){
+      $("plan-"+k).setAttribute("aria-pressed", String(state.plan===k));
+    });
+    $("term-12mo").setAttribute("aria-pressed", String(state.term==="12mo"));
+    $("term-m2m").setAttribute("aria-pressed", String(state.term==="m2m"));
+    $("ins-yes").setAttribute("aria-pressed", String(state.insured));
+    $("ins-no").setAttribute("aria-pressed", String(!state.insured));
+    MEDS.forEach(function(m){ $("med-"+m.id).setAttribute("aria-pressed", String(state.med===m.id)); });
+    // strike med prices when insured
+    Array.prototype.forEach.call(document.querySelectorAll(".med-row .mprice"), function(el){
+      el.classList.toggle("insured-hide", state.insured);
+    });
+
+    // med section reveal
+    $("medSection").classList.toggle("open", isMed);
+
+    // ---- output panel ----
+    $("outName").textContent = p.name;
+    if (isMed){
+      $("outPrice").innerHTML = (state.term==="12mo" ? "<s>$"+t.monthly+"</s>" : "") + money(t.first);
+      $("outPer").textContent = "first month" + (state.term==="12mo" ? "^" : "");
+      $("outThen").hidden = false;
+      $("outThen").textContent = "Then " + money(t.monthly) + "/mo" +
+        (state.term==="12mo" ? " for the rest of your 12-month plan." : " until you cancel.") +
+        " GLP-1 meds cost " + (state.insured ? "depends on coverage." : "shown below.");
+    } else {
+      $("outPrice").innerHTML = (state.term==="12mo" ? "<s>$"+p.m2m.monthly+"</s>" : "") + money(t.monthly);
+      $("outPer").textContent = "/month" + (state.term==="12mo" ? "*" : "");
+      $("outThen").hidden = true;
+    }
+
+    // per-day: ongoing monthly + self-pay med if applicable
+    var ongoing = t.monthly + (isMed && !state.insured ? med.price : 0);
+    var perDay = (ongoing*12/365);
+    $("outDay").textContent = "about $" + perDay.toFixed(2) + "/day" +
+      (isMed && !state.insured ? " with meds" : "") +
+      " — less than " + (perDay < 2.5 ? "a bus fare" : perDay < 8 ? "a fancy latte" : "a delivery lunch");
+
+    // savings
+    var save;
+    if (isMed){
+      save = (p.m2m.first + 11*p.m2m.monthly) - (p.mo12.first + 11*p.mo12.monthly);
+    } else {
+      save = (p.m2m.monthly - p.mo12.monthly) * 12;
+    }
+    var sv = $("outSavings");
+    if (state.term==="12mo"){
+      sv.className = "savings";
+      sv.innerHTML = "You're saving <b>" + money(save) + "</b> over 12 months vs. month-to-month. Future you says thanks.";
+    } else {
+      sv.className = "savings nudge";
+      sv.innerHTML = "Heads up: the 12-month plan would save you <b>" + money(save) + "</b> this year. " +
+        '<button onclick="setTerm(\'12mo\')">Switch and save</button>';
+    }
+
+    // med output block
+    var mo = $("medOut");
+    if (isMed){
+      mo.hidden = false;
+      if (state.insured){
+        $("medOutTitle").textContent = "Medication cost with insurance";
+        $("medOutBody").innerHTML =
+          '<div class="cover"><span class="zero">As low as $0</span>' +
+          'Many insurance plans cover GLP-1s like ' + med.name + '. <b>We check your coverage for you</b> — free, before you pay a cent. Coverage varies by plan.</div>';
+      } else {
+        $("medOutTitle").textContent = "Self-pay medication cost";
+        var wwPct = Math.max(8, Math.round(med.price/LIST_HI*100));
+        $("medOutBody").innerHTML =
+          '<div class="bars">' +
+            '<div class="bar-row"><div class="blab"><span>' + med.name + ' through WW</span><span class="bv">' + (med.from ? "from " : "") + money(med.price) + '/mo</span></div>' +
+            '<div class="track"><div class="fill ww" style="width:' + wwPct + '%"></div></div></div>' +
+            '<div class="bar-row"><div class="blab"><span>Typical list price without WW†</span><span class="bv">~' + money(LIST_LO) + '–' + money(LIST_HI) + '/mo</span></div>' +
+            '<div class="track"><div class="fill list" style="width:100%"></div></div></div>' +
+          '</div>' +
+          '<p class="bar-note">†Estimated U.S. list price for branded GLP-1 injectables without insurance or savings programs. Estimate for comparison only. Prices vary by dose; billed separately from membership.</p>';
+      }
+    } else {
+      mo.hidden = true;
+    }
+
+    // plan-card "from" labels reflect term
+    document.querySelector('[data-from="core"]').innerHTML     = state.term==="12mo" ? 'from <b>$12</b>/mo*' : '<b>$24</b>/mo';
+    document.querySelector('[data-from="coreplus"]').innerHTML = state.term==="12mo" ? 'from <b>$22</b>/mo*' : '<b>$44</b>/mo';
+    document.querySelector('[data-from="medplus"]').innerHTML  = state.term==="12mo" ? '<b>$25</b> first month^' : '<b>$49</b> first month';
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
