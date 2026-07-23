@@ -70,22 +70,31 @@
   <footer>Concept work by Kevin Middleton. Not affiliated with WW International. All product imagery &copy; its respective owners.</footer>
 <script>
 const HASH = '59bda3f8ee98128d543572e0d29f27ad5343f0c88c36e7bf4672c4c3ab6245b4';
+const TOKEN_TTL_MS = 24*60*60*1000; // unlock lasts 24h, all tabs
 async function sha256(s){
   const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
   return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
 }
-// already unlocked this session? go straight in
-try{ if(sessionStorage.getItem('ww_proto_ok')==='1') location.replace('report/'); }catch(e){}
+// where to go after unlock: honor ?next= but only within this prototype
+function destination(){
+  const next = new URLSearchParams(location.search).get('next');
+  return (next && next.startsWith('/prototypes/ww/')) ? next : 'report/';
+}
+// already unlocked? go straight in
+try{
+  const t = JSON.parse(localStorage.getItem('ww_proto_ok')||'0');
+  if(t && t > Date.now()) location.replace(destination());
+}catch(e){}
 document.getElementById('gate').addEventListener('submit', async (e)=>{
   e.preventDefault();
   const card = document.getElementById('card');
   card.classList.remove('wrong');
   const val = document.getElementById('pw').value.trim().toLowerCase();
   if(await sha256(val) === HASH){
-    try{ sessionStorage.setItem('ww_proto_ok','1'); }catch(err){}
+    try{ localStorage.setItem('ww_proto_ok', JSON.stringify(Date.now()+TOKEN_TTL_MS)); }catch(err){}
     try{ plausible('WW Proto: Unlocked'); }catch(err){}
     // brief pause so the event beacon isn't cancelled by navigation
-    setTimeout(()=>{ location.href = 'report/'; }, 250);
+    setTimeout(()=>{ location.href = destination(); }, 250);
   } else {
     try{ plausible('WW Proto: Wrong Password'); }catch(err){}
     void card.offsetWidth; // restart animation
