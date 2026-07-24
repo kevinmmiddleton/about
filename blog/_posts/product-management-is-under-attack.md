@@ -1,6 +1,6 @@
 ---
 title: Product Management is dead. Long live Product Management.
-slug: product-management-is-under-attack
+slug: product-management-is-dead
 status: published
 published_at: 2026-07-23
 updated_at: ''
