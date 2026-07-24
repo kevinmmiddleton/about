@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>try{var _t=JSON.parse(localStorage.getItem('ww_proto_ok')||'0');if(!_t||_t<Date.now())location.replace('/prototypes/ww/?next='+encodeURIComponent(location.pathname))}catch(e){location.replace('/prototypes/ww/')}</script><meta name="robots" content="noindex, nofollow">
+<script>try{var _t=JSON.parse(localStorage.getItem('ww_proto_ok')||'0');if(!_t||_t<Date.now())location.replace('/prototypes/ww/?next='+encodeURIComponent(location.pathname+location.hash))}catch(e){location.replace('/prototypes/ww/')}</script><meta name="robots" content="noindex, nofollow">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WeightWatchers — Site Improvement Concepts</title>
@@ -848,7 +848,10 @@ function findingLinks(f){
 }
 
 // tabs
+var activeTab='overview';
+function setHash(h){ try{ history.replaceState(null,'','#'+h); }catch(e){} }
 function showTab(name, vp){
+  activeTab=name;
   document.querySelectorAll('section.tab').forEach(s=>s.classList.toggle('active', s.id==='tab-'+name));
   document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
   window.scrollTo({top:0});
@@ -859,8 +862,19 @@ function showTab(name, vp){
       if(!btn.classList.contains('active')) btn.click();
     });
   }
+  setHash(vp ? name+'-'+vp : name);
   try{ plausible('WW Proto: Tab View', {props:{tab:name}}); }catch(e){}
 }
+// hash router: #homepage, #blog-mobile, #interactive, #overview, #homepage-desktop ...
+function applyHash(){
+  var h=(location.hash||'').replace('#','').toLowerCase();
+  if(!h) return;
+  var parts=h.split('-'), tab=parts[0], vp=parts[1];
+  var known=['overview','homepage','blog','interactive','findings'];
+  if(known.indexOf(tab)===-1) return;
+  showTab(tab, (vp==='mobile'||vp==='desktop')?vp:undefined);
+}
+window.addEventListener('hashchange', applyHash);
 document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 // track full-screen mock opens
 document.querySelectorAll('a.open').forEach(a=>a.addEventListener('click',()=>{
@@ -920,6 +934,7 @@ document.querySelectorAll('.seg').forEach(seg=>{
       prop.classList.toggle('mobile', vp==='mobile');
       scaleFrames();
     }
+    if(t==='homepage'||t==='blog') setHash(t+'-'+vp);
   }));
 });
 
@@ -990,6 +1005,7 @@ function renderFindings(){
   });
 }
 renderFindings();
+applyHash();
 </script>
 </body>
 </html>
