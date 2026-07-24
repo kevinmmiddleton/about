@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{var _t=JSON.parse(localStorage.getItem('cy_proto_ok')||'0');if(!_t||_t<Date.now())location.replace('/prototypes/cypress/?next='+encodeURIComponent(location.pathname+location.hash))}catch(e){location.replace('/prototypes/cypress/')}</script><meta name="robots" content="noindex, nofollow">
+<script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script><script>window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };plausible.init()</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flake 101 → Your POV · Teaching Deck</title>
+<style>
+  :root{/* Cypress design tokens (design.cypress.io/colors): jade-300, teal-300, indigo-300, orange-300, red-300, gray surfaces */
+    --bg:#161827;--panel:#1B1E2E;--panel2:#25283C;--ink:#E1E3ED;--muted:#9095AD;
+    --accent:#69D3A7;--accent2:#9AA2FC;--teal:#4BBFD2;--warn:#EDBB4A;--danger:#F59AA9;--line:#2E3247}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;overflow:hidden}
+  a{color:var(--accent2);text-decoration:none;border-bottom:1px solid rgba(124,184,255,.35)} a:visited{color:var(--accent2)} a:hover{color:var(--accent)}
+  .deck{height:100vh;display:flex;flex-direction:column}
+  .slide{flex:1;display:none;overflow-y:auto;padding:48px 8vw 90px}
+  .slide.active{display:block}
+  .kicker{color:var(--accent);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:12px;margin-bottom:8px}
+  h1{font-size:clamp(28px,4.5vw,44px);line-height:1.12;margin:6px 0 14px}
+  h2{font-size:clamp(22px,3vw,30px);margin:0 0 14px;color:var(--teal)}
+  h3{font-size:18px;margin:20px 0 8px;color:var(--accent2)}
+  .kicker{color:var(--accent)}
+  p,li{font-size:17px;max-width:840px}
+  .muted{color:var(--muted)}
+  .big{font-size:20px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card b{display:block;margin-bottom:6px;color:var(--ink)}
+  .card.good{border-left:3px solid var(--accent)}
+  .card.warn{border-left:3px solid var(--warn)}
+  .card.bad{border-left:3px solid var(--danger)}
+  .callout{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:14px 18px;margin:16px 0;max-width:860px}
+  .callout.warn{border-left-color:var(--warn)} .callout.bad{border-left-color:var(--danger)}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+  .step{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:15px;font-weight:600}
+  .step.hot{border-color:var(--accent);color:var(--accent)}
+  .step.bad{border-color:var(--danger);color:var(--danger)}
+  .arrow{color:var(--muted);font-size:18px}
+  .reveal{background:var(--panel);border:1px dashed var(--accent2);border-radius:10px;padding:14px 18px;margin:12px 0;cursor:pointer;max-width:860px}
+  .reveal .q{font-weight:700}
+  .reveal .a{display:none;margin-top:10px;color:var(--accent);border-top:1px solid var(--line);padding-top:10px}
+  .reveal.open .a{display:block}
+  .reveal .hint{color:var(--muted);font-size:13px;margin-top:6px}
+  table{width:100%;max-width:900px;border-collapse:collapse;margin:14px 0;font-size:15px}
+  th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .hud{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;background:rgba(15,17,21,.95);border-top:1px solid var(--line);padding:10px 24px;z-index:100}
+  .hud .dots{display:flex;gap:6px;flex-wrap:wrap}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer}
+  .dot.on{background:var(--accent)}
+  .hud button{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 18px;font-size:14px;font-weight:600;cursor:pointer}
+  .hud button:hover{border-color:var(--accent)}
+  .hud .count{color:var(--muted);font-size:13px}
+  .imgbox{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;max-width:860px;margin:16px 0}
+  .imgbox img{width:100%;border-radius:8px;background:#fff;display:block}
+  .imgbox figcaption{font-size:13px;color:var(--muted);margin-top:8px}
+  .tagline{font-size:15px;color:var(--muted)}
+  kbd{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide active">
+  <div class="kicker">Flake 101 · A teaching deck for Kevin</div>
+  <h1>From "what even is this product" to a POV you can defend</h1>
+  <p class="big">Seven short lessons. Basics of the product area → why flake is a real business problem → what Cypress does today → the gap → your recommendation, including your spring-cleaning idea.</p>
+  <p class="tagline">Navigate: <kbd>→</kbd> next · <kbd>←</kbd> back · click the dashed boxes to test yourself before revealing answers.</p>
+  <div class="callout"><b>The one-sentence destination:</b> Cypress is great at <i>detecting</i> flaky tests, but a flaky test has nowhere to go afterward, no lifecycle, and that erodes the very trust the product sells.</div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="kicker">Lesson 1 · The product area</div>
+  <h2>What Cypress is, in plain terms</h2>
+  <p>Teams that build web apps write <b>end-to-end (E2E) tests</b>: scripts that drive a real browser like a user would, click login, fill the form, check the dashboard loaded. They catch what unit tests can't: the whole system working together.</p>
+  <div class="cards">
+    <div class="card good"><b>The Cypress App (open source)</b>The test runner developers love. Free. Runs tests locally or in CI. This earns the mindshare.</div>
+    <div class="card good"><b>Cypress Cloud (paid)</b>The business. Records runs from CI, stores history, artifacts, analytics, flake detection, Test Replay. Team/Enterprise plans gate the good stuff.</div>
+  </div>
+  <p>Tests run two ways: on a developer's laptop while coding, and, the one that matters here, <b>in CI</b> (continuous integration): automatically, on every pull request or on a nightly schedule, across many machines in parallel.</p>
+  <div class="flow">
+    <div class="step">Dev pushes code</div><span class="arrow">→</span>
+    <div class="step">CI spins up machines</div><span class="arrow">→</span>
+    <div class="step">Runs the test suite</div><span class="arrow">→</span>
+    <div class="step hot">Pass = merge/ship</div><span class="arrow">·</span>
+    <div class="step bad">Fail = blocked</div>
+  </div>
+  <div class="callout">The test suite is a <b>gatekeeper</b>. Its entire value is that a green result means "safe to ship" and a red result means "stop." Keep that word, <i>trust</i>, in your pocket. The whole exercise is about it.</div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kicker">Lesson 2 · The villain</div>
+  <h2>What a flaky test is, and why it's poison</h2>
+  <p>A <b>flaky test</b> fails sometimes and passes sometimes <b>with no code change</b>. Cypress's own definition: <i>"a flaky test passes and fails across retries without any code change"</i> (<a href="https://docs.cypress.io/cloud/features/flaky-test-management">docs</a>).</p>
+  <h3>Where flake comes from</h3>
+  <div class="cards">
+    <div class="card"><b>Timing / race conditions</b>The test clicks before the page finished loading. Passes on a fast machine, fails on a slow one.</div>
+    <div class="card"><b>Environment</b>CI machine hiccups, network blips, a third-party login page you don't own (that was Feedback E's exact case).</div>
+    <div class="card"><b>Test data</b>Shared state, leftover records, tests that depend on each other's leftovers.</div>
+    <div class="card"><b>Real bug, intermittent</b>The scary one: an actual race condition in the product that only bites sometimes. Looks identical to the others.</div>
+  </div>
+  <h3>Why it's expensive</h3>
+  <p>Every red build stops a team. If red sometimes means "nothing's wrong, run it again," engineers start treating red as noise. That's the <b>boy-who-cried-wolf effect</b>: the suite still runs, but nobody believes it. The gatekeeper is still standing there, everyone just walks around it.</p>
+  <div class="reveal" onclick="this.classList.toggle('open')">
+    <div class="q">Check yourself: why is a flaky test worse than a consistently failing test?</div>
+    <div class="hint">Click to reveal</div>
+    <div class="a">A consistent failure gets fixed, it's loud and reproducible. A flaky test teaches people to <b>ignore failures</b>. It doesn't just waste time; it corrodes the signal for every other test. The damage is to trust, not just to minutes.</div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kicker">Lesson 3 · Current state</div>
+  <h2>What Cypress does about flake today</h2>
+  <p>The machinery, in the order it fires. (Prerequisite: <b>retries must be on</b>, default is off, and runs must be recorded to Cloud. Flake features are Team plan+.)</p>
+  <div class="flow">
+    <div class="step">Test fails</div><span class="arrow">→</span>
+    <div class="step">Auto-retry (configurable per project/suite/test)</div><span class="arrow">→</span>
+    <div class="step hot">Passes on retry = flagged FLAKY</div><span class="arrow">→</span>
+    <div class="step">Badge + analytics + alert</div>
+  </div>
+  <div class="cards">
+    <div class="card"><b>Detect</b>Fail-then-pass in one run = flaky. Flagged in the run header and Latest Runs; filterable.</div>
+    <div class="card"><b>Report</b>Analytics: flake rate over time, severity buckets (Low &gt;0–10% · Med &gt;10–50% · High &gt;50%), per-test panel with errors + history.</div>
+    <div class="card"><b>Announce</b>Slack/Teams alerts on every flaky run; GitHub status checks + PR comments; GitLab/Bitbucket <code>cypress/flake</code> checks that can block merges.</div>
+    <div class="card"><b>Debug</b>Test Replay: step through the exact CI attempt (DOM, network, console), compare a passing vs failing attempt.</div>
+  </div>
+  <div class="imgbox">
+    <img src="https://docs.cypress.io/img/cloud/features/flaky-test-management/flake-analytics.png" alt="Flake analytics">
+    <figcaption>The flake analytics view: counts over time, severity groups, per-test log. <a href="https://docs.cypress.io/cloud/features/flaky-test-management">Source</a></figcaption>
+  </div>
+  <div class="reveal" onclick="this.classList.toggle('open')">
+    <div class="q">Check yourself: a test fails twice, passes on the third attempt. What does the run summary show, and why is that sneaky?</div>
+    <div class="hint">Click to reveal</div>
+    <div class="a">The run is <b>green</b>, final status passing, flagged flaky. The docs note a test can show <b>zero final failures while still flaking</b>. Sneaky because nothing forces a human to look: the build shipped, the flake quietly accumulated.</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker">Lesson 4 · The gap</div>
+  <h2>Detection is a dead end: the label has no lifecycle</h2>
+  <p class="big">Once a test is marked flaky, that's it. It's a permanent, binary sticker. There is no next step in the product.</p>
+  <table>
+    <tr><th>Customers asked for (the six signals)</th><th>Exists in Cypress today?</th></tr>
+    <tr><td>A · Re-run only last night's 3 failures</td><td>Partial at best, workflow friction</td></tr>
+    <tr><td>B · Triage flake by cause (env vs data vs test bug)</td><td>No, artifacts exist, classification doesn't</td></tr>
+    <tr><td>C · Quarantine a test, rehab it, restore it</td><td><b>No. "Quarantine" appears zero times in the docs.</b> Customer C built it himself with tags and a side pipeline, and the trend data punished him for it. There's also <a href="https://github.com/cypress-io/cypress/issues/32178">GitHub issue #32178</a>, a public feature request asking to silence flaky-test notifications for specific tests, <b>closed June 2026 as "not planned"</b> with a note that Product is tracking the feedback internally. Translation: customers asked, and nothing public is committed. (It's an issue/request, not a pull request, no code was written.)</td></tr>
+    <tr><td>D · Tell me when a "known flaky" test changes behavior</td><td><b>No.</b> Alerts fire when flake <i>appears</i>, never when an existing flaky test starts failing differently.</td></tr>
+    <tr><td>E · Selectively silence flake I can't act on</td><td>No, it's all-or-nothing</td></tr>
+    <tr><td>F · Parallel sharding config flexibility</td><td>Different problem (orchestration). Name it, set it aside.</td></tr>
+  </table>
+  <div class="callout bad"><b>The D story is the spine.</b> Dev sees a failure → "oh, that one's flaky" → merges → the same failure was a real regression → production. The flake feature, working exactly as designed, <b>suppressed a true positive</b>. That's the trust death-spiral completing its loop.</div>
+  <div class="reveal" onclick="this.classList.toggle('open')">
+    <div class="q">Check yourself: why is "the label has no lifecycle" a better problem statement than "Cypress needs a quarantine feature"?</div>
+    <div class="hint">Click to reveal</div>
+    <div class="a">Quarantine is <b>a solution</b>; the lifecycle gap is <b>the problem</b>. Framing it as the problem explains all five signals at once (A's rerun, B's triage, C's quarantine, D's alarm, E's silencing), and leaves room to sequence solutions instead of jumping to one feature. PM discipline: name the problem, not your favorite fix.</div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="kicker">Lesson 5 · The market</div>
+  <h2>Everyone detects. The leaders manage.</h2>
+  <table>
+    <tr><th>Tool</th><th>Detects flake</th><th>Lifecycle (quarantine/mute/rehab)</th><th>Source</th></tr>
+    <tr><td><b>Cypress Cloud</b></td><td>Yes, best-in-class reporting</td><td class="muted">None</td><td><a href="https://docs.cypress.io/cloud/features/flaky-test-management">docs</a></td></tr>
+    <tr><td><b>Playwright</b> (the OSS rival)</td><td>Yes (retry-based, same idea)</td><td class="muted">None, closest is skip/fixme annotations</td><td><a href="https://playwright.dev/docs/test-retries">docs</a> · <a href="https://playwright.dev/docs/test-annotations">annotations</a></td></tr>
+    <tr><td><b>Datadog</b> Flaky Tests Mgmt</td><td>Yes</td><td><b>Full lifecycle:</b> Quarantine (runs in background, doesn't gate CI) · Disable · Attempt-to-Fix · auto-policies</td><td><a href="https://docs.datadoghq.com/tests/flaky_management/">docs</a></td></tr>
+    <tr><td><b>BrowserStack</b> Test Observability</td><td>Yes</td><td><b>Mute</b> with <b>auto-unmute after consecutive stable runs</b>, note: that's rehabilitation</td><td><a href="https://www.browserstack.com/docs/test-observability/features/mute-tests">docs</a></td></tr>
+  </table>
+  <div class="callout"><b>Two reads on this table:</b> (1) The lifecycle concept is validated, observability leaders already ship it. (2) Playwright doesn't have it either, so this is <b>differentiation</b> against the tool eating Cypress's open-source mindshare, in the exact layer (Cloud) where Cypress makes money.</div>
+  <div class="reveal" onclick="this.classList.toggle('open')">
+    <div class="q">Check yourself: why does Cypress have an unfair advantage building this vs, say, Datadog?</div>
+    <div class="hint">Click to reveal</div>
+    <div class="a">Cypress owns the richest raw material at the <b>test</b> level: per-attempt errors, screenshots/video, Test Replay, previous-runs timeline, and a flake export API (Enterprise plan). Datadog sees CI results; Cypress can see <i>why</i> the attempt failed. Lifecycle here is composition of existing assets, not new data collection.</div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker">Lesson 6 · Your POV</div>
+  <h2>Give a flaky test somewhere to go</h2>
+  <p class="big">A managed lifecycle, one alarm, and a broom.</p>
+  <div class="callout"><b>Quarantine, in plain English:</b> a sick-bay for a misbehaving test. It <i>keeps running</i> on every build so you still collect evidence, but its failures <b>stop blocking merges and stop dragging down your suite's health stats</b> while someone fixes it. The alternative people use today, skipping the test, turns it off entirely: no data, no pressure to fix it, forgotten forever. Quarantine is "benched but still practicing," skip is "cut from the team."</div>
+  <div class="flow">
+    <div class="step">Flagged</div><span class="arrow">→</span>
+    <div class="step hot">Quarantined<br><span class="muted" style="font-size:12px">still runs, stops gating CI, stops polluting metrics, time-boxed</span></div><span class="arrow">→</span>
+    <div class="step">Rehabilitating<br><span class="muted" style="font-size:12px">stability streak tracked</span></div><span class="arrow">→</span>
+    <div class="step hot">Restored</div>
+  </div>
+  <div class="cards">
+    <div class="card good"><b>The alarm (fixes D)</b>When a known-flaky test fails with a <i>new error signature</i>, or its flake-vs-fail ratio shifts, alert through the Slack/PR rails that already exist. "Flaky" stops meaning "ignore forever."</div>
+    <div class="card good"><b>Spring cleaning (your idea, the cheap first slice)</b>Periodic grouped review of every test wearing the label, with clear-it recommendations based on <b>consecutive stable runs, not elapsed time</b> ("hasn't failed in 90 days" might mean it barely ran). Read-only, ships fast, and the count of stale labels it finds <i>is</i> the validation data for the bigger investment.</div>
+    <div class="card warn"><b>Guardrail</b>If everything ends up quarantined, you built a mute button, not a lifecycle. Watch quarantine volume and restored-test rate.</div>
+  </div>
+  <h3>How you'd validate before building big</h3>
+  <p>Design-partner with 3–5 Team/Enterprise accounts showing C-style DIY quarantine; ship behind a flag; success = fewer workarounds, healthy restore rate, and caught behavior-changes that would previously have merged.</p>
+  <div class="reveal" onclick="this.classList.toggle('open')">
+    <div class="q">Check yourself: Mark asks "why not just build better auto-retry so flake never surfaces?" What's your answer?</div>
+    <div class="hint">Click to reveal</div>
+    <div class="a">Retries are suppression, not information. More retries make the run greener while the underlying flake (and any intermittent real bug hiding inside it) accumulates silently, that's how D happened. The goal isn't to hide flake; it's to <b>manage it transparently</b> so the signal stays trustworthy. Retry tuning (the experimental strategies) is a useful lever <i>inside</i> the lifecycle, not a substitute for it.</div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker">Lesson 7 · Say it out loud</div>
+  <h2>The 60-second version for the review</h2>
+  <div class="callout">
+    <p><b>"Five of these six signals are the same problem at different stages: Cypress detects flake brilliantly and then abandons you. The label is permanent and binary, there's no triage, no quarantine, no rehabilitation, no alarm when 'flaky' starts hiding something real. D is the proof of cost: the label suppressed a true regression into production.</b></p>
+    <p><b>So the one thing I'd do is give a flaky test somewhere to go: quarantine that keeps running but stops gating CI, rehabilitation tracked by stable runs, and a behavior-change alarm on the alerting rails that already exist. I'd start with a spring-cleaning pass, grouped recommendations to clear stale labels based on consecutive stable runs, because it's read-only, ships fast, and tells us how big the problem really is.</b></p>
+    <p><b>F, the parallelization feedback, is real and churn-flavored, but it's an orchestration problem, not a trust problem. I'd give it its own investigation rather than dilute this one."</b></p>
+  </div>
+  <h3>Likely pushback → your counters</h3>
+  <table>
+    <tr><td><b>"Isn't this just Datadog's feature?"</b></td><td>Concept's validated there, but Cypress has attempt-level artifacts and Test Replay they don't. And Playwright has nothing, this is Cloud differentiation.</td></tr>
+    <tr><td><b>"Why rank D over F? F mentioned churn."</b></td><td>Honest answer: with only six anonymous signals I can't be sure, it's the first thing I'd confirm with account/churn data. I ranked lifecycle first because it breaks the product's core promise (trustworthy signal) and five signals point at it.</td></tr>
+    <tr><td><b>"Where would you not trust yourself?"</b></td><td>Six quotes with unknown weights; D is one vivid anecdote; the alarm assumes error signatures separate cleanly, a noisy prototype would kill it. Each has a named check that would change my mind.</td></tr>
+  </table>
+  <p class="muted">Full sourced version with every image and citation: <b>exercise-flake-pov.html</b> (same folder). Everything in this deck traces to those links.</p>
+</section>
+
+</div>
+
+<div class="hud">
+  <button id="prev">← Back</button>
+  <div class="dots" id="dots"></div>
+  <div class="count" id="count"></div>
+  <button id="next">Next →</button>
+</div>
+
+<script>
+// All external links open in a new tab
+document.querySelectorAll('a[href^="http"]').forEach(function(a){
+  a.target = '_blank';
+  a.rel = 'noopener';
+});
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')),i=0;
+  var dots=document.getElementById('dots'),count=document.getElementById('count');
+  slides.forEach(function(_,n){var d=document.createElement('div');d.className='dot'+(n===0?' on':'');d.onclick=function(){go(n)};dots.appendChild(d)});
+  function go(n){
+    if(n<0||n>=slides.length)return;
+    slides[i].classList.remove('active');
+    dots.children[i].classList.remove('on');
+    i=n;
+    slides[i].classList.add('active');
+    dots.children[i].classList.add('on');
+    slides[i].scrollTop=0;
+    count.textContent=(i+1)+' / '+slides.length;
+  }
+  document.getElementById('next').onclick=function(){go(i+1)};
+  document.getElementById('prev').onclick=function(){go(i-1)};
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' ')go(i+1);
+    if(e.key==='ArrowLeft')go(i-1);
+  });
+  count.textContent='1 / '+slides.length;
+})();
+</script>
+</body>
+</html>

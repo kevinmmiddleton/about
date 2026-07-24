@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Cypress — Exercise Access</title>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+<script>
+  window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
+  plausible.init()
+</script>
+<style>
+  /* Cypress design tokens — design.cypress.io/colors */
+  :root{--bg:#161827;--panel:#1B1E2E;--line:#2E3247;--ink:#E1E3ED;--muted:#9095AD;
+    --jade:#69D3A7;--teal:#4BBFD2;--indigo:#9AA2FC;--red:#F59AA9;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .mark{font-size:34px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px;color:var(--teal)}
+  .mark span{color:var(--jade)}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:36px}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    padding:36px 32px;width:min(440px,100%);text-align:center;
+    box-shadow:0 14px 40px -18px rgba(0,0,0,.6);
+  }
+  h1{font-size:21px;font-weight:800;margin-bottom:8px}
+  p{font-size:14.5px;line-height:1.5;color:var(--muted);margin-bottom:22px}
+  form{display:flex;flex-direction:column;gap:12px}
+  input{
+    font:inherit;font-size:16px;padding:14px 20px;border-radius:999px;
+    border:1.5px solid var(--line);outline:none;text-align:center;
+    background:var(--bg);color:var(--ink);transition:border-color .15s;
+  }
+  input:focus{border-color:var(--indigo)}
+  button{
+    font:inherit;font-size:16px;font-weight:700;color:#161827;background:var(--jade);
+    border:0;border-radius:999px;padding:14px 20px;cursor:pointer;
+    transition:transform .1s, filter .15s;
+  }
+  button:hover{filter:brightness(1.08)}
+  button:active{transform:scale(.98)}
+  .err{display:none;font-size:13.5px;font-weight:700;color:var(--red);margin-top:12px}
+  .card.wrong{animation:shake .35s ease}
+  .card.wrong .err{display:block}
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}40%{transform:translateX(8px)}
+    60%{transform:translateX(-5px)}80%{transform:translateX(5px)}
+  }
+  footer{margin-top:36px;font-size:12.5px;color:var(--muted);text-align:center;max-width:460px;line-height:1.5}
+</style>
+</head>
+<body>
+  <div class="mark">flake<span>.</span>pov</div>
+  <div class="sub">A Cypress PM exercise by Kevin Middleton</div>
+  <div class="card" id="card">
+    <h1>This exercise is private.</h1>
+    <p>Enter the password to view the point of view and the crash-course deck behind it.</p>
+    <form id="gate">
+      <input type="password" id="pw" placeholder="Password" autocomplete="off" autofocus>
+      <button type="submit">Let&rsquo;s go</button>
+    </form>
+    <div class="err">That&rsquo;s not it &mdash; try again.</div>
+  </div>
+  <footer>Exercise work by Kevin Middleton. Not affiliated with Cypress.io. UI screenshots &copy; Cypress (docs.cypress.io), used as current-state references with source links. Colors are Cypress design tokens.</footer>
+<script>
+const HASH = 'bdbb9deb8e394404f4c85bcd0c3f0f0ccacb8947febb8dfdb961fb11224a9f67';
+const TOKEN_TTL_MS = 24*60*60*1000; // unlock lasts 24h, all tabs
+async function sha256(s){
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+// where to go after unlock: honor ?next= but only within this prototype
+function destination(){
+  const next = new URLSearchParams(location.search).get('next');
+  return (next && next.startsWith('/prototypes/cypress/')) ? next : 'report/';
+}
+// already unlocked? go straight in
+try{
+  const t = JSON.parse(localStorage.getItem('cy_proto_ok')||'0');
+  if(t && t > Date.now()) location.replace(destination());
+}catch(e){}
+document.getElementById('gate').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const card = document.getElementById('card');
+  card.classList.remove('wrong');
+  const val = document.getElementById('pw').value.trim().toLowerCase();
+  if(await sha256(val) === HASH){
+    try{ localStorage.setItem('cy_proto_ok', JSON.stringify(Date.now()+TOKEN_TTL_MS)); }catch(err){}
+    try{ plausible('Cypress Proto: Unlocked'); }catch(err){}
+    setTimeout(()=>{ location.href = destination(); }, 250);
+  } else {
+    try{ plausible('Cypress Proto: Wrong Password'); }catch(err){}
+    void card.offsetWidth; // restart animation
+    card.classList.add('wrong');
+  }
+});
+</script>
+</body>
+</html>
