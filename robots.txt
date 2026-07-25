@@ -16,6 +16,10 @@ Disallow: /blog/images/_originals/
 Disallow: /officehours/index-new.html
 Disallow: /officehours/index-archive.htm
 
+# Internal design/product context for AI agents working on the repo
+Disallow: /DESIGN.md
+Disallow: /PRODUCT.md
+
 # Explicitly allow major AI crawlers (training + inference)
 User-agent: GPTBot
 Allow: /
