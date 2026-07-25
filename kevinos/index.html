@@ -1216,6 +1216,32 @@
                 </div>
             </section>
 
+            <!-- terminal.app -->
+            <section class="window" role="dialog" aria-label="Terminal" id="terminal" data-window="terminal">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close" aria-label="Close window"></button>
+                        <button class="window-dot yellow" data-action="minimize" aria-label="Minimize window"></button>
+                        <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
+                    </div>
+                    <div class="window-title">
+                        <!-- icon: MynaUI Icons (MIT) © Praveen Juge — github.com/praveenjuge/mynaui-icons -->
+                        <span class="window-icon term-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.367 2.25h5.266c1.092 0 1.958 0 2.655.057.714.058 1.317.18 1.869.46a4.75 4.75 0 0 1 2.075 2.077c.281.55.403 1.154.461 1.868.057.697.057 1.563.057 2.655v5.266c0 1.092 0 1.958-.057 2.655-.058.714-.18 1.317-.46 1.869a4.75 4.75 0 0 1-2.076 2.075c-.552.281-1.155.403-1.869.461-.697.057-1.563.057-2.655.057H9.367c-1.092 0-1.958 0-2.655-.057-.714-.058-1.317-.18-1.868-.46a4.75 4.75 0 0 1-2.076-2.076c-.281-.552-.403-1.155-.461-1.869-.057-.697-.057-1.563-.057-2.655V9.367c0-1.092 0-1.958.057-2.655.058-.714.18-1.317.46-1.868a4.75 4.75 0 0 1 2.077-2.076c.55-.281 1.154-.403 1.868-.461.697-.057 1.563-.057 2.655-.057M8.53 8.47a.75.75 0 0 0-1.06 1.06L9.94 12l-2.47 2.47a.75.75 0 1 0 1.06 1.06l3-3a.75.75 0 0 0 0-1.06zM13 14.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5z"/></svg></span>
+                        terminal.app
+                        <span class="file-badge sh">ZSH</span>
+                    </div>
+                    <span class="window-path">~/kevin/</span>
+                </header>
+                <div class="window-content term-wrap">
+                    <div class="term-scr" id="termScr" role="log" aria-live="polite" aria-label="Terminal output"></div>
+                    <form class="term-frm" id="termFrm" autocomplete="off">
+                        <span class="term-ps1" id="termPs1">~ $</span>
+                        <input class="term-in" id="termIn" type="text" spellcheck="false" autocapitalize="off"
+                            autocorrect="off" aria-label="Type a command" placeholder="type help">
+                    </form>
+                </div>
+            </section>
+
             <!-- games/ folder -->
             <section class="window" role="dialog" aria-label="Games" id="games" data-window="games">
                 <header class="window-header">
@@ -2143,6 +2169,10 @@
         
         <button class="dock-item" aria-label="Connect" data-window="connect" data-tooltip="connect.sh">
             <span class="dock-emoji">📟</span>
+        </button>
+        <button class="dock-item" aria-label="Terminal" data-window="terminal" data-tooltip="terminal.app">
+            <!-- icon: MynaUI Icons (MIT) © Praveen Juge — github.com/praveenjuge/mynaui-icons -->
+            <span class="dock-emoji dock-term-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.367 2.25h5.266c1.092 0 1.958 0 2.655.057.714.058 1.317.18 1.869.46a4.75 4.75 0 0 1 2.075 2.077c.281.55.403 1.154.461 1.868.057.697.057 1.563.057 2.655v5.266c0 1.092 0 1.958-.057 2.655-.058.714-.18 1.317-.46 1.869a4.75 4.75 0 0 1-2.076 2.075c-.552.281-1.155.403-1.869.461-.697.057-1.563.057-2.655.057H9.367c-1.092 0-1.958 0-2.655-.057-.714-.058-1.317-.18-1.868-.46a4.75 4.75 0 0 1-2.076-2.076c-.281-.552-.403-1.155-.461-1.869-.057-.697-.057-1.563-.057-2.655V9.367c0-1.092 0-1.958.057-2.655.058-.714.18-1.317.46-1.868a4.75 4.75 0 0 1 2.077-2.076c.55-.281 1.154-.403 1.868-.461.697-.057 1.563-.057 2.655-.057M8.53 8.47a.75.75 0 0 0-1.06 1.06L9.94 12l-2.47 2.47a.75.75 0 1 0 1.06 1.06l3-3a.75.75 0 0 0 0-1.06zM13 14.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5z"/></svg></span>
         </button>
         <a class="dock-item plausible-event-name=Resume+Download" data-tooltip="resume.pdf"
             href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf"

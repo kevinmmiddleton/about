@@ -7855,3 +7855,141 @@ html.kos-mobile body {
     font-size: 12px;
     color: var(--text-dim);
 }
+
+/* ===================
+   TERMINAL.APP
+   A real shell in a KevinOS window. Uses the OS tokens; only the screen
+   goes darker than --surface so it reads as a device inside the desktop.
+   =================== */
+.term-wrap {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background: #07080c;
+    min-height: 22rem;
+}
+
+.term-scr {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 16px 4px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: #c3cfd4;
+    min-height: 16rem;
+}
+
+.term-scr .t-line {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.term-scr .p { color: var(--mint); }
+.term-scr .c { color: var(--yellow); }
+.term-scr .a { color: var(--blue); }
+.term-scr .m { color: var(--purple); }
+.term-scr .w { color: #ff9a62; }
+.term-scr .d { color: var(--text-muted); }
+.term-scr a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
+.term-scr a:hover { color: var(--blue-hover); }
+
+.term-frm {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 4px 16px 16px;
+}
+
+.term-ps1 {
+    color: var(--mint);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    white-space: nowrap;
+}
+
+.term-in {
+    flex: 1;
+    min-width: 3rem;
+    background: none;
+    border: 0;
+    outline: none;
+    padding: 0;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    caret-color: var(--mint);
+}
+
+.term-in::placeholder { color: var(--text-muted); }
+
+/* the whole screen is a click target for the input */
+.term-wrap { cursor: text; }
+
+@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
+    .term-scr { font-size: 12px; min-height: 12rem; }
+    .term-ps1, .term-in { font-size: 12px; }
+}
+
+/* terminal.app dock icon.
+   MynaUI Icons (MIT) (c) Praveen Juge - github.com/praveenjuge/mynaui-icons
+   Solid variant: the rounded square IS the tile, with >_ knocked out as
+   negative space, so it needs no background of its own. */
+.dock-term-icon {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    color: var(--mint);
+    transition: color 0.2s ease;
+}
+
+.dock-term-icon svg {
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+.dock-item:hover .dock-term-icon {
+    color: var(--mint-hover);
+}
+
+/* Same icon in the window title bar. Sized to the 14px emoji it replaces and
+   tinted with --mint, which KevinOS already redefines per colour scheme
+   (#4ae0a0 dark / #059669 light), so contrast holds in both. */
+.term-title-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 15px;
+    height: 15px;
+    color: var(--mint);
+    flex: 0 0 auto;
+}
+
+.term-title-icon svg {
+    width: 15px;
+    height: 15px;
+    display: block;
+}
+
+/* Light mode: the standard --mint (#059669) clears the 3:1 non-text minimum
+   but only just (3.64:1 in the dock). Step down to the darker --mint-hover
+   for real headroom; both values are already in the KevinOS palette. */
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .dock-term-icon,
+    :root:not([data-theme="dark"]) .term-title-icon {
+        color: var(--mint-hover);
+    }
+    :root:not([data-theme="dark"]) .dock-item:hover .dock-term-icon {
+        color: var(--mint);
+    }
+}
+
+[data-theme="light"] .dock-term-icon,
+[data-theme="light"] .term-title-icon {
+    color: var(--mint-hover);
+}
+
+[data-theme="light"] .dock-item:hover .dock-term-icon {
+    color: var(--mint);
+}

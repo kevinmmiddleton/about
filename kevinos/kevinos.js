@@ -5970,3 +5970,238 @@ window.openWindow = function(id) {
 
 // Stop music if the user leaves the page
 window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} });
+
+// ===================
+// TERMINAL.APP
+// Self-contained. Boots the first time the window opens, not on page load.
+// ===================
+(function () {
+    const scr = document.getElementById('termScr');
+    const frm = document.getElementById('termFrm');
+    const input = document.getElementById('termIn');
+    const ps1 = document.getElementById('termPs1');
+    if (!scr || !frm || !input) return;
+
+    let history = [];
+    let hIdx = -1;
+    let booted = false;
+    let cwd = '~';
+
+    const FS = {
+        '~': { dirs: ['work', 'writing', 'about'], files: ['resume.pdf', 'values.txt', 'contact.md'] },
+        '~/work': { dirs: [], files: ['quietfeed', 'visionbort', 'officehours', 'kevinos', 'job-search-agent', 'build-with-claude'] },
+        '~/writing': { dirs: [], files: ['its-almost-always-the-resume', 'curiosity-makes-or-breaks', 'applying-for-jobs-is-like-stand-up-comedy', 'everyone-can-build-now'] },
+        '~/about': { dirs: [], files: ['experience', 'skills', 'outcomes', 'recommendations'] }
+    };
+
+    const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const cols = (arr, cls) => arr.map(x => `<span class="${cls || 'a'}">${x}</span>`).join('   ');
+
+    function line(html) {
+        const d = document.createElement('div');
+        d.className = 't-line';
+        d.innerHTML = html;
+        scr.appendChild(d);
+        scr.scrollTop = scr.scrollHeight;
+    }
+
+    const experience = () =>
+        '2024–25  <span class="a">Director of Product Management</span>  GridStrong\n' +
+        '2022–24  <span class="a">Senior Product Manager</span>          HVAC.com\n' +
+        '2021–22  <span class="a">Product Manager</span>                 Lever\n' +
+        '2019–21  <span class="a">Product Manager</span>                 Sendoso\n' +
+        '2016–19  <span class="a">Product Manager</span>                 Rocket Lawyer\n' +
+        '2014–16  <span class="a">Product Analyst</span>                 Oracle';
+
+    const skills = () =>
+        'product      <span class="d">discovery · roadmapping · prioritisation · experimentation</span>\n' +
+        'platform     <span class="d">integrations · APIs · SCIM/HRIS · migrations</span>\n' +
+        'building     <span class="d">HTML/CSS/JS · SQL · Supabase · Claude plugins</span>\n' +
+        'working      <span class="d">cross-functional facilitation · writing · UAT</span>';
+
+    const outcomes = () =>
+        '<span class="a">2.34%</span>   checkout lift        Rocket Lawyer   <a href="/casestudies/case-study-rocketlawyer-mobile.html">case study</a>\n' +
+        '<span class="a">1,600</span>   eGift SKUs           Sendoso         <a href="/casestudies/case-study-sendoso.html">case study</a>\n' +
+        '<span class="a">~50×</span>    content throughput   HVAC.com        <a href="/casestudies/case-study-hvac.html">case study</a>\n' +
+        '<span class="a">$1.4M</span>   DOE grant            GridStrong      <span class="d">see: experience</span>';
+
+    const CMD = {
+        help: () =>
+            'Commands\n' +
+            '  <span class="c">whoami</span>    who I am, in four lines\n' +
+            '  <span class="c">writing</span>   essays — most PMs don\'t write\n' +
+            '  <span class="c">outcomes</span>  the numbers, and where to verify them\n' +
+            '  <span class="c">ls</span> / <span class="c">cd</span>   walk the tree — work/ writing/ about/\n' +
+            '  <span class="c">cat</span>       read a file: <span class="d">cat resume.pdf</span>\n' +
+            '  <span class="c">why</span>       the argument this site is making\n' +
+            '  <span class="c">skills</span>    what I actually do\n' +
+            '  <span class="c">stack</span>     what this is built with\n' +
+            '  <span class="c">hire</span>      what I\'m looking for\n' +
+            '  <span class="c">uptime</span>    career, as a load average\n' +
+            '  <span class="c">open</span>      <span class="d">open writing</span> — launches a KevinOS window\n' +
+            '  <span class="c">clear</span>     wipe the screen\n' +
+            '<span class="d">Tab completes. ↑ recalls history.</span>',
+        whoami: () =>
+            '<span class="a">Kevin Middleton</span>\nFull Stack Product Manager · New York\n' +
+            '12+ years across consumer, enterprise, and platform SaaS.\n' +
+            'I work across people, process, and product — hands-on at every level.',
+        ls: () => {
+            const n = FS[cwd];
+            if (!n) return '<span class="w">no such directory</span>';
+            let o = '';
+            if (n.dirs.length) o += cols(n.dirs.map(d => d + '/'), 'a') + '\n';
+            if (n.files.length) o += cols(n.files, 'm');
+            return o || '<span class="d">empty</span>';
+        },
+        cd: a => {
+            if (!a || a === '~' || a === '..' || a === '/') { cwd = '~'; return ''; }
+            const t = '~/' + a.replace(/^\/|\/$/g, '');
+            if (FS[t]) { cwd = t; return ''; }
+            return `<span class="w">cd: no such directory: ${esc(a)}</span>`;
+        },
+        pwd: () => cwd,
+        cat: a => {
+            if (!a) return '<span class="w">usage: cat &lt;file&gt;</span>';
+            const k = a.replace(/\.(pdf|txt|md)$/, '');
+            const docs = {
+                resume: '<span class="a">Kevin Middleton — Senior Product Manager.pdf</span>  <span class="d">[148 KB]</span>\n<a href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf" download>download →</a>',
+                values: 'start with understanding · give grace, get grace\ncollaboration wins · keep it human\nstructure without rigidity · make it simple',
+                contact: '<a href="mailto:kevin@middleton.io">kevin@middleton.io</a>\n<a href="https://linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener">linkedin.com/in/kevinmiddleton</a>\n<a href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener">github.com/kevinmmiddleton</a>',
+                quietfeed: '<span class="a">QuietFeed</span> — RSS reader that respects your attention.\n<a href="https://quietfeed.com" target="_blank" rel="noopener">quietfeed.com →</a>',
+                visionbort: '<span class="a">Visionbort</span> — vision boards with intentions.\n<a href="/visionbort/">open →</a>',
+                officehours: '<span class="a">Office Hours</span> — free product coaching, all week.\n<a href="/officehours/">book →</a>',
+                kevinos: '<span class="a">KevinOS</span> — this portfolio, as a retro operating system.\n<span class="d">You are, in a sense, already inside it.</span>',
+                experience: experience(),
+                skills: skills(),
+                outcomes: outcomes()
+            };
+            return docs[k] || `<span class="w">cat: ${esc(a)}: no such file</span>`;
+        },
+        writing: () =>
+            '<span class="d">Essays · middleton.io/blog</span>\n\n' +
+            '<span class="w">Jul 1</span>   <a href="/blog/its-almost-always-the-resume/">It\'s almost always the resume</a>\n' +
+            '<span class="w">Jun 29</span>  <a href="/blog/curiosity-makes-or-breaks/">Curiosity makes or breaks</a>\n' +
+            '<span class="w">Jun 23</span>  <a href="/blog/applying-for-jobs-is-like-stand-up-comedy/">Applying for jobs is like stand-up comedy</a>\n' +
+            '<span class="w">Jun 23</span>  <a href="/blog/everyone-can-build-now/">Everyone can build now</a>\n\n' +
+            '<span class="d">Most PMs don\'t write.</span> <a href="/blog/">read them all →</a>',
+        outcomes: outcomes,
+        experience: experience,
+        skills: skills,
+        why: () =>
+            'AI relocated the work. It didn\'t erase it.\nThe fundamentals got <span class="a">more</span> valuable, not less.\n\n' +
+            'Most teams already know what\'s wrong. They need someone\nwilling to name it and make it safe to act on.',
+        stack: () =>
+            'This site       <span class="d">static HTML/CSS/JS · no framework · no build step</span>\n' +
+            'Hosting         <span class="d">GitHub Pages</span>\n' +
+            'Blog            <span class="d">markdown → Sveltia CMS → node generator</span>\n' +
+            'Data            <span class="d">Supabase · pg_cron</span>\n' +
+            'Analytics       <span class="d">Plausible</span>',
+        hire: () =>
+            'Looking for   product leadership · internal tools · platforms\n' +
+            '              public sector · AI workflows · integrations\n\n' +
+            '<a href="mailto:kevin@middleton.io">kevin@middleton.io</a>',
+        uptime: () => {
+            const y = new Date().getFullYear() - 2014;
+            return `up <span class="a">${y} years</span>, 6 companies, 1 cat-heavy household\n` +
+                'load average: <span class="m">0.42</span> <span class="m">0.31</span> <span class="m">0.27</span>  <span class="d">(sustainable)</span>';
+        },
+        open: a => {
+            if (!a) return '<span class="w">usage: open &lt;window&gt;</span>';
+            const id = a.replace(/\/$/, '').toLowerCase();
+            if (document.querySelector(`.window[data-window="${id}"]`)) {
+                if (typeof openWindow === 'function') openWindow(id);
+                return `opening <span class="a">${esc(id)}</span>…`;
+            }
+            return `<span class="w">open: no window named ${esc(id)}</span>`;
+        },
+        sudo: () => '<span class="w">kevin is not in the sudoers file. This incident will be reported.</span>',
+        exit: () => { if (typeof closeWindow === 'function') closeWindow('terminal'); return ''; }
+    };
+
+    function prompt() { ps1.textContent = cwd + ' $'; }
+
+    function run(raw) {
+        const t = raw.trim();
+        line(`<span class="p">${cwd} $</span> ${esc(raw)}`);
+        if (!t) return;
+        history.push(raw);
+        hIdx = history.length;
+        const parts = t.split(/\s+/);
+        const c = parts[0].toLowerCase();
+        const arg = parts.slice(1).join(' ');
+        if (c === 'clear') { scr.innerHTML = ''; return; }
+        const fn = CMD[c];
+        if (fn) { const out = fn(arg); if (out) line(out); prompt(); return; }
+        line(`command not found: ${esc(c)}\n<span class="d">type <span class="c">help</span></span>`);
+    }
+
+    function complete() {
+        const v = input.value;
+        const parts = v.split(/\s+/);
+        const pool = parts.length <= 1
+            ? Object.keys(CMD)
+            : (FS[cwd] ? FS[cwd].dirs.concat(FS[cwd].files) : []);
+        const frag = parts[parts.length - 1] || '';
+        const hits = pool.filter(x => x.indexOf(frag) === 0);
+        if (hits.length === 1) {
+            parts[parts.length - 1] = hits[0];
+            input.value = parts.join(' ');
+        } else if (hits.length > 1) {
+            line(`<span class="p">${cwd} $</span> ${esc(v)}`);
+            line(cols(hits, 'a'));
+        }
+    }
+
+    function boot() {
+        if (booted) return;
+        booted = true;
+        const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const seq = [
+            ['<span class="m">  _  __         _        ___  ____</span>', 18],
+            ['<span class="m"> | |/ /_____ _(_)__    / _ \\/ __/</span>', 18],
+            ['<span class="m"> |   / -_) V / / _ \\  / // /\\ \\  </span>', 18],
+            ['<span class="m"> |_|\\_\\__|\\_/_/_//_/  \\___/___/ </span>', 18],
+            ['', 120],
+            ['<span class="d">terminal.app — KevinOS — no framework, no build step</span>', 240],
+            ['<span class="d">mounting ~/kevin …  ok</span>', 280],
+            ['', 100],
+            ['<span class="a">Kevin Middleton</span> · Full Stack Product Manager · New York', 200],
+            ['<span class="d">Type <span class="c">help</span> to begin. Tab completes.</span>', 180]
+        ];
+        if (reduce) { seq.forEach(s => { if (s[0]) line(s[0]); }); prompt(); return; }
+        let t = 0;
+        seq.forEach(s => { t += s[1]; setTimeout(() => line(s[0] || '&nbsp;'), t); });
+        setTimeout(prompt, t);
+    }
+
+    frm.addEventListener('submit', e => { e.preventDefault(); run(input.value); input.value = ''; });
+
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Tab') { e.preventDefault(); complete(); }
+        if (e.key === 'ArrowUp') { if (hIdx > 0) { hIdx--; input.value = history[hIdx]; } e.preventDefault(); }
+        if (e.key === 'ArrowDown') {
+            if (hIdx < history.length - 1) { hIdx++; input.value = history[hIdx]; }
+            else { hIdx = history.length; input.value = ''; }
+            e.preventDefault();
+        }
+        // Escape closes the window (KevinOS convention) rather than being swallowed here
+        if (e.key === 'Escape') { input.blur(); }
+    });
+
+    // clicking anywhere on the screen focuses the prompt
+    document.querySelector('#terminal .term-wrap').addEventListener('click', e => {
+        if (window.getSelection && String(window.getSelection())) return; // don't steal a text selection
+        if (e.target.tagName !== 'A') input.focus();
+    });
+
+    // Boot on first open. The window is display:none until then, so we watch the class.
+    const win = document.getElementById('terminal');
+    const mo = new MutationObserver(() => {
+        if (win.classList.contains('window-open')) {
+            boot();
+            if (!isMobile()) setTimeout(() => input.focus(), 60);
+        }
+    });
+    mo.observe(win, { attributes: true, attributeFilter: ['class'] });
+    if (win.classList.contains('window-open')) boot();
+})();
