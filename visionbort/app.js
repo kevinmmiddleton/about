@@ -6,7 +6,14 @@
   // ===== Config =====
   const UNSPLASH_PROXY = 'https://unsplash-proxy.kevin-middleton.workers.dev';
   const STORAGE_KEY = 'visionbort-lite';
-  const MAX_IMAGE_SIZE = 300;
+  const MAX_IMAGE_SIZE = 300;          // longest display edge, px
+  const IMAGE_STORE_SCALE = 2;         // store at 2x display size (retina export)
+  const IMAGE_STORE_QUALITY = 0.85;    // JPEG quality for re-encoded images
+  const MAX_BG_STORE_SIZE = 2000;      // longest stored edge for canvas backgrounds
+  const PLACEMENT_EDGE_INSET = 24;     // keep new items off the canvas edges
+  const PLACEMENT_BOTTOM_INSET = 90;   // keep new items clear of the floating toolbar
+  const MIN_VISIBLE = 40;              // px of an element that must stay on canvas
+  const MAX_IMAGE_UNDO = 8;            // snapshots allowed to carry image bytes
   const STICKERS = [
     '⭐','✨','💫','🌟','💖','🔥','🌈','🎯',
     '🏆','💪','🚀','🌸','🦋','🌺','🍀','💎',
@@ -106,6 +113,9 @@
   let showIntentionsOnBoard = false;
   let undoStack = []; // history of states for undo
   const MAX_UNDO = 30;
+  let quotaWarned = false; // avoid stacking identical quota toasts
+  let modalReturnFocus = null;
+  let relayoutTimer = null;
 
   // ===== DOM refs =====
   const $ = (sel) => document.querySelector(sel);
@@ -139,36 +149,210 @@
 
     // Show welcome modal if no mode has been chosen yet
     if (!localStorage.getItem('visionbort-mode')) {
-      welcomeModal.classList.remove('hidden');
+      openModal(welcomeModal, $('#welcome-intentional'));
     } else {
       mode = localStorage.getItem('visionbort-mode') || 'freeform';
       welcomeModal.classList.add('hidden');
     }
   }
 
+  // ===== Toasts =====
+  // Storage and export failures used to go to console.warn only, which is
+  // invisible to anyone actually using the app.
+  function showToast(message, kind, ms) {
+    const region = $('#toast-region');
+    if (!region) return;
+    const toast = document.createElement('div');
+    toast.className = 'toast' + (kind === 'error' ? ' error' : '');
+    toast.textContent = message;
+    region.appendChild(toast);
+    setTimeout(() => toast.remove(), ms || 4500);
+  }
+
+  // ===== Modals =====
+  function openModal(overlay, focusTarget) {
+    modalReturnFocus = document.activeElement;
+    overlay.classList.remove('hidden');
+    setTimeout(() => {
+      const target = focusTarget || overlay.querySelector('button, textarea, input, [href]');
+      if (target) target.focus();
+    }, 60);
+  }
+
+  function closeModal(overlay) {
+    overlay.classList.add('hidden');
+    if (modalReturnFocus && typeof modalReturnFocus.focus === 'function') {
+      try { modalReturnFocus.focus(); } catch (e) { /* element may be gone */ }
+    }
+    modalReturnFocus = null;
+  }
+
+  function openModalOverlay() {
+    if (!intentionModal.classList.contains('hidden')) return intentionModal;
+    if (!welcomeModal.classList.contains('hidden')) return welcomeModal;
+    return null;
+  }
+
+  // aria-modal is a promise that Tab stays inside the dialog. Keep it.
+  function trapFocus(container, e) {
+    const nodes = Array.from(container.querySelectorAll(
+      'button, [href], input:not([type="hidden"]), textarea, select, [tabindex]:not([tabindex="-1"])'
+    )).filter(n => !n.disabled && n.offsetParent !== null);
+    if (!nodes.length) return;
+    const first = nodes[0];
+    const last = nodes[nodes.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  // ===== Geometry =====
+  // The canvas box shrinks when a side panel opens, so every placement and
+  // clamp decision has to read the live rect rather than the window width.
+  function canvasBounds() {
+    const r = canvas.getBoundingClientRect();
+    return { width: r.width, height: r.height };
+  }
+
+  // Positions are stored as fractions of the canvas box (fx/fy) and multiplied
+  // on render, so a board composed at 1280px still lands inside a 375px
+  // viewport. el.x/el.y hold the resolved px for the current box; drag and
+  // resize write px, then call syncFractions().
+  function resolvePosition(el) {
+    const b = canvasBounds();
+    const x = typeof el.fx === 'number' ? el.fx * b.width : (el.x || 0);
+    const y = typeof el.fy === 'number' ? el.fy * b.height : (el.y || 0);
+    const clamped = clampPosition(x, y, el.width, el.height, b);
+    el.x = clamped.x;
+    el.y = clamped.y;
+    return clamped;
+  }
+
+  function syncFractions(el) {
+    const b = canvasBounds();
+    if (b.width > 0) el.fx = el.x / b.width;
+    if (b.height > 0) el.fy = el.y / b.height;
+  }
+
+  // Drag/render clamp: at least MIN_VISIBLE px stays on canvas on each axis, so
+  // nothing can be dragged (or restored) somewhere it can never be grabbed again.
+  function clampPosition(x, y, w, h, b) {
+    b = b || canvasBounds();
+    const minX = -(Math.max(w || 0, MIN_VISIBLE) - MIN_VISIBLE);
+    const minY = -(Math.max(h || 0, MIN_VISIBLE) - MIN_VISIBLE);
+    return {
+      x: Math.min(Math.max(x, minX), Math.max(minX, b.width - MIN_VISIBLE)),
+      y: Math.min(Math.max(y, minY), Math.max(minY, b.height - MIN_VISIBLE)),
+    };
+  }
+
+  // Placement clamp is stricter: a brand-new item must be fully in view and
+  // clear of the floating toolbar.
+  function clampPlacement(x, y, w, h, b) {
+    b = b || canvasBounds();
+    const maxX = Math.max(PLACEMENT_EDGE_INSET, b.width - w - PLACEMENT_EDGE_INSET);
+    const maxY = Math.max(PLACEMENT_EDGE_INSET, b.height - h - PLACEMENT_BOTTOM_INSET);
+    return {
+      x: Math.round(Math.min(Math.max(x, PLACEMENT_EDGE_INSET), maxX)),
+      y: Math.round(Math.min(Math.max(y, PLACEMENT_EDGE_INSET), maxY)),
+    };
+  }
+
+  // A caller-supplied position (a drawing, a duplicate) keeps its spot but is
+  // pulled fully inside the canvas.
+  function clampInside(x, y, w, h, b) {
+    b = b || canvasBounds();
+    return {
+      x: Math.round(Math.min(Math.max(x, 0), Math.max(0, b.width - w))),
+      y: Math.round(Math.min(Math.max(y, 0), Math.max(0, b.height - h))),
+    };
+  }
+
+  // Deterministic phyllotaxis spiral outward from the middle of the usable
+  // canvas. Replaces the random placement that regularly dropped the first item
+  // off-canvas or under the toolbar.
+  function nextPlacement(w, h) {
+    const b = canvasBounds();
+    const usableH = Math.max(h + PLACEMENT_EDGE_INSET * 2, b.height - PLACEMENT_BOTTOM_INSET);
+    const n = elements.length;
+    const step = Math.min(b.width, usableH) * 0.17;
+    const angle = n * 2.39996323; // golden angle, radians
+    const radius = step * Math.sqrt(n);
+    const x = b.width / 2 + radius * Math.cos(angle) - w / 2;
+    const y = usableH / 2 + radius * Math.sin(angle) - h / 2;
+    return clampPlacement(x, y, w, h, b);
+  }
+
+  // Any panel that is about to open changes the canvas box, so settle panel
+  // state BEFORE choosing a position. selectElement() used to open the 300px
+  // Intentions panel after the position was already picked.
+  function ensureModePanels() {
+    const isMobile = window.innerWidth <= 768;
+    if (!intentionsPanelOpen && mode === 'intentional' && !isMobile) {
+      intentionsPanelOpen = true;
+      intentionsPanel.classList.remove('hidden');
+      btnIntentions.style.display = 'inline-flex';
+      btnIntentions.classList.add('active-outline');
+      void canvas.offsetWidth; // force reflow so the rect below is the new one
+    }
+  }
+
+  // Re-resolve every element from its fractions. Called whenever the canvas box
+  // changes: panel open/close, window resize, orientation change.
+  function relayoutElements() {
+    elements.forEach(el => {
+      const dom = canvas.querySelector(`[data-id="${el.id}"]`);
+      if (dom) applyElementStyle(dom, el);
+    });
+  }
+
+  function scheduleRelayout() {
+    clearTimeout(relayoutTimer);
+    relayoutTimer = setTimeout(relayoutElements, 60);
+  }
+
   // ===== Persistence =====
   function saveBoard() {
     clearTimeout(saveTimeout);
-    saveTimeout = setTimeout(() => {
-      const data = {
-        elements: elements.map(el => {
-          // Don't save huge data URLs for performance; keep them for session
-          return { ...el };
-        }),
-        backgroundId: currentBg.id,
-        customBgImage,
-        boardTitle: boardTitle.value,
-        mode,
-        showIntentionsOnBoard,
-        nextId,
-        maxZ,
-      };
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      } catch (e) {
-        console.warn('Save failed:', e);
+    saveTimeout = setTimeout(writeBoard, 500);
+  }
+
+  function writeBoard() {
+    const bounds = canvasBounds();
+    const data = {
+      // Elements carry their image data URLs so a reloaded board still renders
+      // with no network. Those bytes are downscaled on the way in (prepareImage)
+      // rather than stored at full resolution.
+      elements: elements.map(el => ({ ...el })),
+      backgroundId: currentBg.id,
+      customBgImage,
+      boardTitle: boardTitle.value,
+      mode,
+      showIntentionsOnBoard,
+      nextId,
+      maxZ,
+      // Canvas size at save time, so pre-fraction boards can be migrated.
+      canvasW: bounds.width,
+      canvasH: bounds.height,
+    };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      quotaWarned = false;
+    } catch (e) {
+      console.warn('Save failed:', e);
+      if (!quotaWarned) {
+        quotaWarned = true;
+        showToast(
+          'This board is too large to save on this device. Recent changes will be lost if you reload. Deleting a couple of images will fix it.',
+          'error',
+          10000
+        );
       }
-    }, 500);
+    }
   }
 
   function loadBoard() {
@@ -191,6 +375,17 @@
       const bg = BACKGROUNDS.find(b => b.id === data.backgroundId);
       if (bg) currentBg = bg;
       applyBackground();
+
+      // One-time migration: boards saved before fractional positions existed
+      // only have px. Convert using the canvas size they were saved at.
+      const live = canvasBounds();
+      const savedW = data.canvasW || live.width;
+      const savedH = data.canvasH || live.height;
+      elements.forEach(el => {
+        if (typeof el.fx !== 'number' && savedW > 0) el.fx = (el.x || 0) / savedW;
+        if (typeof el.fy !== 'number' && savedH > 0) el.fy = (el.y || 0) / savedH;
+      });
+
       elements.forEach(el => renderElement(el));
     } catch (e) {
       console.warn('Load failed:', e);
@@ -228,7 +423,7 @@
     }
     closeSidebar();
     updateUI();
-    welcomeModal.classList.remove('hidden');
+    openModal(welcomeModal, $('#welcome-intentional'));
   }
 
   // ===== Undo =====
@@ -241,8 +436,20 @@
       maxZ,
     };
     undoStack.push(snapshot);
-    if (undoStack.length > MAX_UNDO) undoStack.shift();
+    while (undoStack.length > MAX_UNDO) undoStack.shift();
+    // Image bytes are heavy — 30 deep clones of a board full of photos is tens
+    // of megabytes. Cap how many snapshots may carry them.
+    while (undoStack.filter(snapshotHasImages).length > MAX_IMAGE_UNDO) undoStack.shift();
     updateUndoButton();
+  }
+
+  function isDataUrl(src) {
+    return typeof src === 'string' && src.slice(0, 5) === 'data:';
+  }
+
+  function snapshotHasImages(snap) {
+    if (snap.customBgImage && isDataUrl(snap.customBgImage.src)) return true;
+    return snap.elements.some(el => el.type === 'image' && isDataUrl(el.src));
   }
 
   function undo() {
@@ -288,29 +495,38 @@
       } else {
         bgToggleWrap.classList.add('hidden');
       }
-      intentionModal.classList.remove('hidden');
-      setTimeout(() => intentionInput.focus(), 100);
+      openModal(intentionModal, intentionInput);
       return null;
     }
 
     delete props._skipIntention;
+
+    // Settle panel state first: opening the Intentions panel narrows the canvas,
+    // and placing before that is what pushed items off-screen.
+    ensureModePanels();
+
     pushUndo();
     // Ensure new element is always on top
     maxZ = Math.max(maxZ, ...elements.map(e => e.zIndex || 0)) + 1;
+    const width = props.width || 200;
+    const height = props.height || 200;
+    const spot = (props.x != null && props.y != null)
+      ? clampInside(props.x, props.y, width, height)
+      : nextPlacement(width, height);
     const el = {
-      id: 'el-' + nextId++,
-      x: props.x ?? randomInt(40, canvasContainer.offsetWidth - (props.width || 200) - 40),
-      y: props.y ?? randomInt(40, canvasContainer.offsetHeight - (props.height || 200) - 40),
-      width: props.width || 200,
-      height: props.height || 200,
       rotation: props.rotation ?? randomInt(-8, 8),
-      zIndex: maxZ,
       intention: props.intention || '',
       ...props,
+      id: 'el-' + nextId++,
+      width,
+      height,
+      x: spot.x,
+      y: spot.y,
       zIndex: maxZ, // ensure this isn't overridden by spread
     };
+    syncFractions(el);
     elements.push(el);
-    renderElement(el);
+    renderElement(el, true);
     selectElement(el.id);
     updateUI();
     renderIntentionsPanel();
@@ -348,13 +564,23 @@
   }
 
   // ===== Rendering =====
-  function renderElement(el) {
+  // `animate` is opt-in: pop-in used to be baked into every render, so it
+  // replayed on every page load and on every structural re-render.
+  function renderElement(el, animate) {
     // Remove existing DOM if re-rendering
     const existing = canvas.querySelector(`[data-id="${el.id}"]`);
     if (existing) existing.remove();
 
     const div = document.createElement('div');
-    div.className = 'canvas-element pop-in';
+    div.className = 'canvas-element' + (animate ? ' pop-in' : '');
+    if (animate) {
+      const clearPop = () => div.classList.remove('pop-in');
+      div.addEventListener('animationend', clearPop, { once: true });
+      // animationend never fires if the animation is paused (hidden tab) or
+      // suppressed (prefers-reduced-motion), and the 0% keyframe is scale(0.5).
+      // The timer guarantees the class comes off either way.
+      setTimeout(clearPop, 600);
+    }
     div.dataset.id = el.id;
     div.dataset.type = el.type;
 
@@ -409,11 +635,14 @@
   }
 
   function applyElementStyle(dom, el) {
-    dom.style.left = el.x + 'px';
-    dom.style.top = el.y + 'px';
+    const pos = resolvePosition(el);
+    dom.style.left = pos.x + 'px';
+    dom.style.top = pos.y + 'px';
     dom.style.width = el.width + 'px';
     dom.style.height = el.height + 'px';
     dom.style.zIndex = el.zIndex;
+    // --el-rot lets the pop-in keyframes carry the tilt instead of flattening it
+    dom.style.setProperty('--el-rot', (el.rotation || 0) + 'deg');
     dom.style.transform = `rotate(${el.rotation || 0}deg)`;
 
     // Intention tooltip
@@ -603,6 +832,40 @@
     actions.appendChild(deleteBtn);
 
     dom.querySelector('.element-content').appendChild(actions);
+    positionActionBar(dom, el);
+  }
+
+  // Keep the action bar reachable. Above the element it slides under the fixed
+  // top toolbar when the element sits near the canvas top, and centring it pushes
+  // it past the canvas edge for elements near the left/right sides.
+  function positionActionBar(dom, el) {
+    const actions = dom.querySelector('.element-actions');
+    if (!actions) return;
+    const cvRect = canvas.getBoundingClientRect();
+    const barH = actions.offsetHeight || 40;
+
+    // Vertical: flip below when there is no room above.
+    actions.classList.toggle('below', el.y < barH + 8);
+
+    // Horizontal: start centred, then correct by the measured overflow. Measuring
+    // rather than computing from el.x keeps this correct for rotated elements,
+    // whose rendered bar is offset from the unrotated geometry. Two passes is
+    // enough to converge.
+    actions.classList.remove('shifted');
+    actions.style.left = '50%';
+    const inset = 4;
+    for (let pass = 0; pass < 2; pass++) {
+      const bar = actions.getBoundingClientRect();
+      let shift = 0;
+      if (bar.left < cvRect.left + inset) shift = (cvRect.left + inset) - bar.left;
+      else if (bar.right > cvRect.right - inset) shift = (cvRect.right - inset) - bar.right;
+      if (Math.abs(shift) < 0.5) break;
+      const currentLeft = actions.classList.contains('shifted')
+        ? parseFloat(actions.style.left) || 0
+        : el.width / 2 - bar.width / 2;
+      actions.classList.add('shifted');
+      actions.style.left = (currentLeft + shift) + 'px';
+    }
   }
 
   function makeActionBtn(svg, title, onClick) {
@@ -695,6 +958,7 @@
         const tc = prevDom.querySelector('.text-content[contenteditable="true"]');
         if (tc) {
           tc.contentEditable = 'false';
+          if (tc.textContent !== prevEl.content) pushUndo();
           updateElement(prev, { content: tc.textContent });
         }
         prevDom.classList.remove('selected');
@@ -711,12 +975,9 @@
         updateSelectionUI(dom, el);
       }
       // Auto-open intentions panel if it's closed and mode is intentional (desktop only)
-      const isMobile = window.innerWidth <= 768;
-      if (!intentionsPanelOpen && mode === 'intentional' && !isMobile) {
-        intentionsPanelOpen = true;
-        intentionsPanel.classList.remove('hidden');
-        btnIntentions.classList.add('active-outline');
-      }
+      const wasOpen = intentionsPanelOpen;
+      ensureModePanels();
+      if (!wasOpen && intentionsPanelOpen) relayoutElements();
       if (intentionsPanelOpen) {
         renderIntentionsPanel();
         // Scroll to selected item
@@ -748,7 +1009,6 @@
       return;
     }
 
-    const canvasRect = canvas.getBoundingClientRect();
     dragState = {
       id,
       startX: e.clientX,
@@ -763,18 +1023,32 @@
 
   function handleDragMove(e) {
     if (!dragState) return;
-    const dx = e.clientX - dragState.startX;
-    const dy = e.clientY - dragState.startY;
-    const el = elements.find(e => e.id === dragState.id);
+    // The tap-to-edit state carries no origX/origY; running the drag maths
+    // against it wrote `left: NaNpx`.
+    if (dragState.tapToEdit) return;
+
+    const el = elements.find(x => x.id === dragState.id);
     if (!el) return;
 
-    el.x = dragState.origX + dx;
-    el.y = dragState.origY + dy;
+    // Snapshot on the first real movement, while the element still holds its
+    // pre-drag position.
+    if (!dragState.moved) {
+      dragState.moved = true;
+      pushUndo();
+    }
+
+    const dx = e.clientX - dragState.startX;
+    const dy = e.clientY - dragState.startY;
+    const spot = clampPosition(dragState.origX + dx, dragState.origY + dy, el.width, el.height);
+    el.x = spot.x;
+    el.y = spot.y;
+    syncFractions(el);
 
     const dom = canvas.querySelector(`[data-id="${dragState.id}"]`);
     if (dom) {
       dom.style.left = el.x + 'px';
       dom.style.top = el.y + 'px';
+      positionActionBar(dom, el);
     }
   }
 
@@ -821,6 +1095,10 @@
 
   function handleResizeMove(e) {
     if (!resizeState) return;
+    if (!resizeState.moved) {
+      resizeState.moved = true;
+      pushUndo(); // element still holds its pre-resize geometry
+    }
     const { id, corner, startX, startY, origX, origY, origW, origH, aspect } = resizeState;
     let dx = e.clientX - startX;
     let dy = e.clientY - startY;
@@ -846,10 +1124,12 @@
 
     const el = elements.find(e => e.id === id);
     if (!el) return;
-    el.x = newX;
-    el.y = newY;
+    const spot = clampPosition(newX, newY, newW, newH);
+    el.x = spot.x;
+    el.y = spot.y;
     el.width = newW;
     el.height = newH;
+    syncFractions(el);
 
     const dom = canvas.querySelector(`[data-id="${id}"]`);
     if (dom) applyElementStyle(dom, el);
@@ -899,6 +1179,10 @@
 
   function handleRotateMove(e) {
     if (!rotateState) return;
+    if (!rotateState.moved) {
+      rotateState.moved = true;
+      pushUndo(); // element still holds its pre-rotation angle
+    }
     const { id, centerX, centerY, startAngle, origRotation } = rotateState;
     const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
     const delta = (angle - startAngle) * (180 / Math.PI);
@@ -907,7 +1191,10 @@
 
     el.rotation = origRotation + delta;
     const dom = canvas.querySelector(`[data-id="${id}"]`);
-    if (dom) dom.style.transform = `rotate(${el.rotation}deg)`;
+    if (dom) {
+      dom.style.setProperty('--el-rot', el.rotation + 'deg');
+      dom.style.transform = `rotate(${el.rotation}deg)`;
+    }
   }
 
   function handleRotateEnd() {
@@ -938,7 +1225,9 @@
 
     tc.addEventListener('blur', () => {
       tc.contentEditable = 'false';
-      updateElement(id, { content: tc.textContent || 'Text' });
+      const next = tc.textContent || 'Text';
+      if (next !== el.content) pushUndo(); // snapshot still has the old string
+      updateElement(id, { content: next });
       if (intentionsPanelOpen) renderIntentionsPanel();
     }, { once: true });
 
@@ -951,56 +1240,102 @@
   }
 
   // ===== Image adding =====
-  function addImageFromFile(file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
+
+  // Re-encode an image down to roughly 2x its display size before it can reach
+  // localStorage. Storing originals is what blew the quota: a single Unsplash
+  // add took the store from 395 to 264,316 characters.
+  function prepareImage(src, maxW, maxH) {
+    return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
-        const ratio = Math.min(MAX_IMAGE_SIZE / img.width, MAX_IMAGE_SIZE / img.height, 1);
-        addElement({
-          type: 'image',
-          src: e.target.result,
-          width: Math.round(img.width * ratio),
-          height: Math.round(img.height * ratio),
-          label: file.name,
-        });
+        try {
+          const scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight, 1);
+          const targetW = Math.max(1, Math.round(img.naturalWidth * scale));
+          const targetH = Math.max(1, Math.round(img.naturalHeight * scale));
+          const off = document.createElement('canvas');
+          off.width = targetW;
+          off.height = targetH;
+          const ctx = off.getContext('2d');
+          ctx.drawImage(img, 0, 0, targetW, targetH);
+          // JPEG flattens alpha, so keep PNG for anything that is see-through.
+          resolve(hasTransparency(ctx, targetW, targetH)
+            ? off.toDataURL('image/png')
+            : off.toDataURL('image/jpeg', IMAGE_STORE_QUALITY));
+        } catch (e) {
+          resolve(src); // tainted canvas or unsupported codec — keep the original
+        }
       };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+      img.onerror = () => resolve(src);
+      img.src = src;
+    });
   }
 
-  function addImageFromUrl(url, w, h) {
+  function hasTransparency(ctx, w, h) {
+    try {
+      const data = ctx.getImageData(0, 0, w, h).data;
+      for (let i = 3; i < data.length; i += 4 * 7) { // sample every 7th pixel
+        if (data[i] < 250) return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function measureImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error('not an image'));
+      img.src = src;
+    });
+  }
+
+  function addImageFromFile(file) {
+    readFileAsDataUrl(file)
+      .then(measureImage)
+      .then(img => {
+        const ratio = Math.min(MAX_IMAGE_SIZE / img.width, MAX_IMAGE_SIZE / img.height, 1);
+        const width = Math.round(img.width * ratio);
+        const height = Math.round(img.height * ratio);
+        return prepareImage(img.src, width * IMAGE_STORE_SCALE, height * IMAGE_STORE_SCALE)
+          .then(src => addElement({ type: 'image', src, width, height, label: file.name }));
+      })
+      .catch(() => showToast('That file could not be read as an image.', 'error'));
+  }
+
+  function addImageFromUrl(url, w, h, label) {
     const ratio = Math.min(MAX_IMAGE_SIZE / (w || 300), MAX_IMAGE_SIZE / (h || 300), 1);
     const width = Math.round((w || 300) * ratio);
     const height = Math.round((h || 300) * ratio);
 
-    // Convert to data URL to avoid CORS issues on export
+    // Convert to a data URL so export isn't blocked by CORS, then downscale.
     fetch(url)
       .then(res => res.blob())
-      .then(blob => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          addElement({
-            type: 'image',
-            src: reader.result,
-            width,
-            height,
-            label: '',
-          });
-        };
-        reader.readAsDataURL(blob);
-      })
+      .then(readFileAsDataUrl)
+      .then(dataUrl => prepareImage(dataUrl, width * IMAGE_STORE_SCALE, height * IMAGE_STORE_SCALE))
+      .then(src => addElement({ type: 'image', src, width, height, label: label || '' }))
       .catch(() => {
         // Fallback to direct URL if fetch fails
-        addElement({
-          type: 'image',
-          src: url,
-          width,
-          height,
-          label: '',
-        });
+        addElement({ type: 'image', src: url, width, height, label: label || '' });
       });
+  }
+
+  // Backgrounds cover the whole canvas, so they get their own (larger) budget.
+  function prepareBackground(src) {
+    const b = canvasBounds();
+    const maxW = Math.min(MAX_BG_STORE_SIZE, Math.max(1200, Math.round(b.width * IMAGE_STORE_SCALE)));
+    const maxH = Math.min(MAX_BG_STORE_SIZE, Math.max(1200, Math.round(b.height * IMAGE_STORE_SCALE)));
+    return prepareImage(src, maxW, maxH);
   }
 
   function addSticker(emoji) {
@@ -1064,23 +1399,12 @@
     saveBoard();
   }
 
-  function clearImageBackground() {
-    customBgImage = null;
-    applyBackground();
-    saveBoard();
-  }
-
   // ===== Search =====
   async function searchImages(query) {
     const resultsDiv = $('#search-results');
     const emptyDiv = $('#search-empty');
     const loadingDiv = $('#search-loading');
 
-    if (!UNSPLASH_PROXY) {
-      emptyDiv.querySelector('p').textContent = 'Image search coming soon! For now, drag & drop or upload images.';
-      emptyDiv.classList.remove('hidden');
-      return;
-    }
     if (!query.trim()) return;
 
     emptyDiv.classList.add('hidden');
@@ -1100,12 +1424,15 @@
       }
 
       data.results.forEach(photo => {
-        const item = document.createElement('div');
+        const item = document.createElement('button');
+        item.type = 'button';
         item.className = 'image-grid-item';
+        const description = photo.alt_description || 'Untitled';
+        item.setAttribute('aria-label', `Add image: ${description}, by ${photo.user.name}`);
 
         const img = document.createElement('img');
         img.src = photo.urls.small;
-        img.alt = photo.alt_description || '';
+        img.alt = '';
         img.loading = 'lazy';
         item.appendChild(img);
 
@@ -1115,7 +1442,8 @@
         item.appendChild(credit);
 
         item.addEventListener('click', () => {
-          addImageFromUrl(photo.urls.regular, photo.width, photo.height);
+          // Carry the description through so the board element has a real alt
+          addImageFromUrl(photo.urls.regular, photo.width, photo.height, photo.alt_description || '');
           if (window.innerWidth <= 768) closeSidebar();
         });
 
@@ -1131,7 +1459,6 @@
 
   // ===== Background Search =====
   async function searchBgImages(query) {
-    if (!UNSPLASH_PROXY) return;
     const resultsDiv = $('#bg-search-results');
     resultsDiv.innerHTML = '<div class="panel-empty"><div class="spinner"></div><p>Searching...</p></div>';
 
@@ -1146,11 +1473,14 @@
       }
 
       data.results.forEach(photo => {
-        const item = document.createElement('div');
+        const item = document.createElement('button');
+        item.type = 'button';
         item.className = 'image-grid-item';
+        const description = photo.alt_description || 'Untitled';
+        item.setAttribute('aria-label', `Use as background: ${description}, by ${photo.user.name}`);
         const img = document.createElement('img');
         img.src = photo.urls.small;
-        img.alt = photo.alt_description || '';
+        img.alt = '';
         img.loading = 'lazy';
         item.appendChild(img);
         const credit = document.createElement('div');
@@ -1158,16 +1488,12 @@
         credit.textContent = photo.user.name;
         item.appendChild(credit);
         item.addEventListener('click', () => {
-          // Convert to data URL for export compatibility
+          // Convert to data URL for export compatibility, downscaled for storage
           fetch(photo.urls.regular)
             .then(res => res.blob())
-            .then(blob => {
-              const reader = new FileReader();
-              reader.onload = () => {
-                setImageBackground(reader.result, '');
-              };
-              reader.readAsDataURL(blob);
-            })
+            .then(readFileAsDataUrl)
+            .then(prepareBackground)
+            .then(src => setImageBackground(src, ''))
             .catch(() => setImageBackground(photo.urls.regular, ''));
           if (window.innerWidth <= 768) closeSidebar();
         });
@@ -1184,7 +1510,20 @@
       const WALLPAPER_W = 1170;
       const WALLPAPER_H = 2532;
 
+      // This promise must always settle. It used to resolve only from
+      // img.onload, so any decode failure (e.g. an empty capture) left the
+      // export hanging forever with the button stuck disabled.
+      let settled = false;
+      const finish = (value) => {
+        if (settled) return;
+        settled = true;
+        resolve(value);
+      };
+      const bail = () => finish(sourceDataUrl); // fall back to the plain export
+      setTimeout(bail, 10000);
+
       const img = new Image();
+      img.onerror = bail;
       img.onload = () => {
         const wpCanvas = document.createElement('canvas');
         wpCanvas.width = WALLPAPER_W;
@@ -1195,6 +1534,7 @@
         if (customBgImage) {
           // Draw custom bg image to fill
           const bgImg = new Image();
+          bgImg.onerror = bail;
           bgImg.onload = () => {
             // Cover fill
             const scale = Math.max(WALLPAPER_W / bgImg.width, WALLPAPER_H / bgImg.height);
@@ -1203,7 +1543,7 @@
             ctx.drawImage(bgImg, (WALLPAPER_W - w) / 2, (WALLPAPER_H - h) / 2, w, h);
             // Draw board content centered
             drawBoardOnWallpaper(ctx, img, WALLPAPER_W, WALLPAPER_H);
-            resolve(wpCanvas.toDataURL('image/png'));
+            finish(wpCanvas.toDataURL('image/png'));
           };
           bgImg.src = customBgImage.src;
         } else {
@@ -1221,7 +1561,7 @@
           ctx.fillRect(0, 0, WALLPAPER_W, WALLPAPER_H);
           // Draw board content centered
           drawBoardOnWallpaper(ctx, img, WALLPAPER_W, WALLPAPER_H);
-          resolve(wpCanvas.toDataURL('image/png'));
+          finish(wpCanvas.toDataURL('image/png'));
         }
       };
       img.src = sourceDataUrl;
@@ -1241,10 +1581,32 @@
     ctx.drawImage(sourceImg, x, y, drawW, drawH);
   }
 
+  let exportIdleHTML = null;
+
+  // Export takes ~half a second on a small board and longer on a full one, with
+  // no feedback before this. Disable the button and show a spinner.
+  function setExportBusy(busy) {
+    if (exportIdleHTML === null) exportIdleHTML = btnExport.innerHTML;
+    btnExport.disabled = busy;
+    btnExport.setAttribute('aria-busy', busy ? 'true' : 'false');
+    btnExport.innerHTML = busy
+      ? '<span class="btn-spinner" aria-hidden="true"></span><span class="btn-label">Exporting</span>'
+      : exportIdleHTML;
+  }
+
   async function exportBoard() {
+    if (btnExport.getAttribute('aria-busy') === 'true') return;
     const hasContent = elements.length > 0 || customBgImage;
     if (!hasContent) return;
 
+    // A zero-area canvas captures to an empty image, which is a useless download.
+    const area = canvasBounds();
+    if (area.width < 1 || area.height < 1) {
+      showToast('The board has no size to export yet. Try again in a moment.', 'error');
+      return;
+    }
+
+    setExportBusy(true);
     const isMobile = window.innerWidth <= 768;
 
     // Deselect and close sidebars to show full canvas
@@ -1287,20 +1649,23 @@
       link.click();
     } catch (e) {
       console.error('Export failed:', e);
-      alert('Export failed. Try again.');
-    }
+      showToast('Export failed. Please try again.', 'error');
+    } finally {
+      // Reset intention labels to hover-only
+      canvas.querySelectorAll('.intention-label').forEach(l => l.style.opacity = '');
 
-    // Reset intention labels to hover-only
-    canvas.querySelectorAll('.intention-label').forEach(l => l.style.opacity = '');
-
-    // Restore sidebars
-    if (sidebarWasOpen) openSidebar(sidebarWasOpen);
-    if (intentionsWasOpen) {
-      intentionsPanelOpen = true;
-      intentionsPanel.classList.remove('hidden');
-      btnIntentions.classList.add('active-outline');
+      // Restore sidebars
+      if (sidebarWasOpen) openSidebar(sidebarWasOpen);
+      if (intentionsWasOpen) {
+        intentionsPanelOpen = true;
+        intentionsPanel.classList.remove('hidden');
+        btnIntentions.classList.add('active-outline');
+      }
+      setExportBusy(false);
+      relayoutElements();
+      if (prevSelected) selectElement(prevSelected);
+      updateUI();
     }
-    updateUI();
   }
 
   // ===== Sidebar =====
@@ -1324,6 +1689,9 @@
     document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
     $(`#tool-${tab}`).classList.add('active');
 
+    // The canvas box just narrowed — re-resolve element positions from fractions
+    relayoutElements();
+
     // Focus search input
     if (tab === 'search') {
       setTimeout(() => $('#search-input').focus(), 100);
@@ -1331,9 +1699,11 @@
   }
 
   function closeSidebar() {
+    const wasOpen = sidebarTab !== null;
     sidebarTab = null;
     sidebar.classList.add('hidden');
     document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+    if (wasOpen) relayoutElements();
   }
 
   // ===== Render sidebar panels =====
@@ -1355,8 +1725,10 @@
     const grid = $('#bg-grid');
     const darkBgs = ['midnight', 'cork'];
     BACKGROUNDS.forEach(bg => {
-      const card = document.createElement('div');
+      const card = document.createElement('button');
+      card.type = 'button';
       card.className = 'bg-card';
+      card.setAttribute('aria-label', `${bg.label} background`);
       card.style.background = BG_STYLES[bg.id] || '#faf9f6';
       card.dataset.bgId = bg.id;
       if (bg.id === currentBg.id) card.classList.add('active');
@@ -1376,15 +1748,70 @@
       card.appendChild(check);
 
       card.addEventListener('click', () => {
+        if (bg.id === currentBg.id && !customBgImage) return;
+        pushUndo();
         currentBg = bg;
         customBgImage = null; // Clear custom image when picking a preset
         applyBackground();
+        updateUI();
         saveBoard();
         if (window.innerWidth <= 768) closeSidebar();
       });
 
       grid.appendChild(card);
     });
+  }
+
+  // ===== Example board =====
+  // A pre-composed board so a first-time visitor sees the finished thing in one
+  // click instead of a blank canvas. Positions are fractions of the canvas box.
+  const EXAMPLE_ELEMENTS = [
+    { type: 'text', content: 'Dream big', fontFamily: "'Playfair Display', serif", fontSize: 52,
+      fontWeight: 'bold', fontStyle: 'normal', color: '#1a1a2e', width: 300, height: 72,
+      fx: 0.07, fy: 0.09, rotation: -3, intention: 'The headline for this year.' },
+    { type: 'sticker', src: '🚀', width: 110, height: 110, fx: 0.45, fy: 0.05, rotation: 9,
+      intention: 'Ship the thing I keep almost starting.' },
+    { type: 'sticker', src: '💎', width: 88, height: 88, fx: 0.85, fy: 0.11, rotation: -8, intention: '' },
+    { type: 'text', content: 'Make it happen', fontFamily: "'Caveat', cursive", fontSize: 46,
+      fontWeight: 'bold', fontStyle: 'normal', color: '#b84a78', width: 280, height: 66,
+      fx: 0.60, fy: 0.30, rotation: 4, intention: '' },
+    { type: 'sticker', src: '🏔️', width: 118, height: 118, fx: 0.12, fy: 0.38, rotation: -6,
+      intention: 'One real climb, actually booked.' },
+    { type: 'sticker', src: '🌻', width: 94, height: 94, fx: 0.39, fy: 0.50, rotation: 5, intention: '' },
+    { type: 'text', content: 'Believe', fontFamily: "'Bebas Neue', sans-serif", fontSize: 58,
+      fontWeight: 'normal', fontStyle: 'normal', color: '#1a1a2e', width: 230, height: 74,
+      fx: 0.67, fy: 0.58, rotation: -2, intention: '' },
+    { type: 'sticker', src: '🌊', width: 104, height: 104, fx: 0.24, fy: 0.63, rotation: 3, intention: '' },
+  ];
+
+  function loadExampleBoard() {
+    pushUndo();
+    ensureModePanels();
+
+    canvas.querySelectorAll('.canvas-element').forEach(node => node.remove());
+    elements = [];
+    selectedId = null;
+    nextId = 1;
+    maxZ = 0;
+    customBgImage = null;
+    currentBg = BACKGROUNDS.find(b => b.id === 'blush') || BACKGROUNDS[0];
+    applyBackground();
+
+    const b = canvasBounds();
+    EXAMPLE_ELEMENTS.forEach(spec => {
+      maxZ++;
+      const el = { ...spec, id: 'el-' + nextId++, zIndex: maxZ };
+      const spot = clampPosition(spec.fx * b.width, spec.fy * b.height, el.width, el.height, b);
+      el.x = spot.x;
+      el.y = spot.y;
+      elements.push(el);
+      renderElement(el, true);
+    });
+
+    updateUI();
+    renderIntentionsPanel();
+    saveBoard();
+    showToast('Loaded an example board. Drag anything around, or hit Clear to start fresh.');
   }
 
   // ===== UI Updates =====
@@ -1400,17 +1827,13 @@
   // ===== Event Binding =====
   function bindEvents() {
     // Welcome modal — mode selection
-    $('#welcome-intentional').addEventListener('click', () => {
-      mode = 'intentional';
-      welcomeModal.classList.add('hidden');
-      localStorage.setItem('visionbort-mode', 'intentional');
-      saveBoard();
-    });
-    $('#welcome-freeform').addEventListener('click', () => {
-      mode = 'freeform';
-      welcomeModal.classList.add('hidden');
-      localStorage.setItem('visionbort-mode', 'freeform');
-      saveBoard();
+    $('#welcome-intentional').addEventListener('click', () => chooseMode('intentional'));
+    $('#welcome-freeform').addEventListener('click', () => chooseMode('freeform'));
+
+    // Empty state — load a finished board in one click
+    $('#btn-example').addEventListener('click', (e) => {
+      e.stopPropagation();
+      loadExampleBoard();
     });
 
     // Intention prompt
@@ -1446,7 +1869,35 @@
 
     // Keyboard
     document.addEventListener('keydown', (e) => {
+      const modal = openModalOverlay();
+
+      // Keep Tab inside an open dialog, as aria-modal promises.
+      if (e.key === 'Tab' && modal) {
+        trapFocus(modal, e);
+        return;
+      }
+
+      // Escape is handled before the input guard below. The old handler bailed
+      // out for INPUT/TEXTAREA, so Escape never reached either modal.
+      if (e.key === 'Escape') {
+        if (modal === intentionModal) {
+          e.preventDefault();
+          commitPendingElement(''); // same as the Skip button
+          return;
+        }
+        if (modal === welcomeModal) {
+          e.preventDefault();
+          chooseMode('freeform'); // dismissing picks the lighter-touch default
+          return;
+        }
+        selectElement(null);
+        closeSidebar();
+        return;
+      }
+
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.contentEditable === 'true') return;
+      if (modal) return;
+
       if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId) {
         e.preventDefault();
         removeElement(selectedId);
@@ -1455,10 +1906,13 @@
         e.preventDefault();
         undo();
       }
-      if (e.key === 'Escape') {
-        selectElement(null);
-        closeSidebar();
-      }
+    });
+
+    // Canvas box changes with the window, and positions are fractional, so
+    // re-resolve them. Also re-cache the draw canvas rect if drawing is open.
+    window.addEventListener('resize', () => {
+      scheduleRelayout();
+      if (drawCtx) drawRect = $('#draw-canvas').getBoundingClientRect();
     });
 
     // File input
@@ -1483,11 +1937,10 @@
     bgFileInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file || !file.type.startsWith('image/')) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setImageBackground(ev.target.result, '');
-      };
-      reader.readAsDataURL(file);
+      readFileAsDataUrl(file)
+        .then(prepareBackground)
+        .then(src => setImageBackground(src, ''))
+        .catch(() => showToast('That file could not be read as an image.', 'error'));
       e.target.value = '';
     });
 
@@ -1561,16 +2014,28 @@
   let drawCtx = null;
   let drawStrokes = []; // array of stroke arrays for undo
   let currentStroke = [];
-  let drawColor = '#ffffff';
+  // Black, not white: the default canvas is #faf9f6, so a white first stroke was
+  // invisible and read as "drawing is broken".
+  let drawColor = '#000000';
   let drawSize = 6;
+  let drawRect = null; // cached draw-canvas rect; drawMove runs on every pointermove
   const DRAW_COLORS = [
     '#ffffff', '#000000', '#ef4444', '#f97316', '#facc15',
     '#22c55e', '#3b82f6', '#a855f7', '#ec4899', '#06b6d4',
   ];
+  const DRAW_COLOR_NAMES = {
+    '#ffffff': 'White', '#000000': 'Black', '#ef4444': 'Red', '#f97316': 'Orange',
+    '#facc15': 'Yellow', '#22c55e': 'Green', '#3b82f6': 'Blue', '#a855f7': 'Purple',
+    '#ec4899': 'Pink', '#06b6d4': 'Cyan',
+  };
 
   function enterDrawMode() {
     const overlay = $('#draw-overlay');
     const drawCanvas = $('#draw-canvas');
+    // The overlay is viewport-fixed and full width. Closing the left sidebar
+    // keeps its box aligned with the canvas box (exitDrawMode also corrects for
+    // any remaining offset).
+    closeSidebar();
     overlay.classList.remove('hidden');
     emptyState.classList.add('hidden');
     $('#toolbar-bottom').style.display = 'none';
@@ -1588,21 +2053,30 @@
     drawCtx.lineJoin = 'round';
     drawStrokes = [];
     currentStroke = [];
+    drawRect = drawCanvas.getBoundingClientRect();
 
     // Render color swatches
     const colorRow = $('#draw-colors');
     colorRow.innerHTML = '';
     DRAW_COLORS.forEach(c => {
       const swatch = document.createElement('button');
+      swatch.type = 'button';
       swatch.className = 'draw-color-swatch';
-      if (c === drawColor) swatch.classList.add('active');
+      swatch.setAttribute('aria-label', (DRAW_COLOR_NAMES[c] || c) + ' pen');
+      if (c === drawColor) {
+        swatch.classList.add('active');
+        swatch.setAttribute('aria-pressed', 'true');
+      }
       swatch.style.background = c;
-      if (c === '#ffffff') swatch.style.border = '2px solid #d1d5db';
+      if (c === '#ffffff') swatch.style.borderColor = '#d1d5db';
       swatch.addEventListener('click', () => {
         drawColor = c;
-        colorRow.querySelectorAll('.draw-color-swatch').forEach(s => s.classList.remove('active'));
+        colorRow.querySelectorAll('.draw-color-swatch').forEach(s => {
+          s.classList.remove('active');
+          s.setAttribute('aria-pressed', 'false');
+        });
         swatch.classList.add('active');
-        if (c === '#ffffff') swatch.style.border = '';
+        swatch.setAttribute('aria-pressed', 'true');
       });
       colorRow.appendChild(swatch);
     });
@@ -1617,6 +2091,14 @@
   function exitDrawMode(save) {
     const overlay = $('#draw-overlay');
     const drawCanvas = $('#draw-canvas');
+
+    // Stroke coordinates are relative to the viewport-fixed overlay, but they
+    // get handed to addElement as canvas-relative. Convert, or the drawing lands
+    // off by the width of whatever panel is open.
+    const canvasRect = canvas.getBoundingClientRect();
+    const overlayRect = drawRect || drawCanvas.getBoundingClientRect();
+    const offsetX = overlayRect.left - canvasRect.left;
+    const offsetY = overlayRect.top - canvasRect.top;
 
     drawCanvas.removeEventListener('pointerdown', drawStart);
     drawCanvas.removeEventListener('pointermove', drawMove);
@@ -1677,8 +2159,8 @@
       addElement({
         type: 'image',
         src: dataUrl,
-        x: Math.round(minX),
-        y: Math.round(minY),
+        x: Math.round(minX + offsetX),
+        y: Math.round(minY + offsetY),
         width: Math.round(cropW),
         height: Math.round(cropH),
         rotation: 0,
@@ -1690,12 +2172,13 @@
     }
 
     drawCtx = null;
+    drawRect = null;
   }
 
   function drawStart(e) {
     isDrawing = true;
     btnClear.style.display = 'inline-flex';
-    const rect = e.target.getBoundingClientRect();
+    const rect = drawRect || e.target.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     currentStroke = [{ x, y }];
@@ -1709,7 +2192,8 @@
 
   function drawMove(e) {
     if (!isDrawing) return;
-    const rect = e.target.getBoundingClientRect();
+    // Cached in enterDrawMode — this used to force layout on every pointermove.
+    const rect = drawRect || e.target.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     currentStroke.push({ x, y });
@@ -1757,20 +2241,27 @@
   }
 
   // ===== Intentions =====
+  function chooseMode(next) {
+    mode = next;
+    localStorage.setItem('visionbort-mode', next);
+    closeModal(welcomeModal);
+    saveBoard();
+  }
+
   function commitPendingElement(intention) {
     if (!pendingElement) return;
     const setAsBg = $('#intention-set-bg').checked && pendingElement.type === 'image';
     if (setAsBg) {
       setImageBackground(pendingElement.src, intention || '');
       pendingElement = null;
-      intentionModal.classList.add('hidden');
+      closeModal(intentionModal);
       return;
     }
     pendingElement.intention = intention || '';
     pendingElement._skipIntention = true;
     addElement(pendingElement);
     pendingElement = null;
-    intentionModal.classList.add('hidden');
+    closeModal(intentionModal);
   }
 
   function renderIntentionsPanel() {
@@ -1866,6 +2357,7 @@
     intentionsPanel.classList.toggle('hidden', !intentionsPanelOpen);
     btnIntentions.classList.toggle('active-outline', intentionsPanelOpen);
     if (intentionsPanelOpen) renderIntentionsPanel();
+    relayoutElements(); // canvas box changed
   }
 
   // ===== Helpers =====

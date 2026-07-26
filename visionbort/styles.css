@@ -1,7 +1,11 @@
 /* ===== CSS Variables ===== */
 :root {
   --color-canvas: #faf9f6;
+  /* Decorative accent — fills, borders, gradients. Never carries text. */
   --color-accent: #e07caa;
+  /* Accessible accent — 4.9:1 both as white-on-it and as it-on-white.
+     Use anywhere the accent carries text or acts as a focus/state indicator. */
+  --color-accent-text: #b84a78;
   --color-accent-light: #f4b8d4;
   --color-spark: #7c5ce0;
   --color-spark-light: #b8a0f0;
@@ -102,7 +106,7 @@ body {
 
 /* ===== Buttons ===== */
 .btn-primary {
-  background: var(--color-accent);
+  background: var(--color-accent-text);
   color: white;
   border: none;
   border-radius: 12px;
@@ -120,7 +124,7 @@ body {
 .btn-primary:active { transform: scale(0.95); }
 
 .btn-accent {
-  background: var(--color-accent);
+  background: var(--color-accent-text);
   color: white;
   border: none;
   border-radius: 12px;
@@ -136,7 +140,25 @@ body {
 }
 .btn-accent:hover { filter: brightness(1.05); }
 .btn-accent:active { transform: scale(0.95); }
-.btn-accent:disabled { opacity: 0.4; cursor: not-allowed; }
+/* Neutral grey disabled state rather than a low-opacity accent */
+.btn-accent:disabled,
+.btn-accent[aria-busy="true"] {
+  background: #e5e7eb;
+  color: #4b5563;
+  cursor: not-allowed;
+}
+.btn-accent:disabled:hover, .btn-accent[aria-busy="true"]:hover { filter: none; }
+.btn-accent[aria-busy="true"] { cursor: progress; }
+
+.btn-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(75,85,99,0.3);
+  border-top-color: #4b5563;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
 
 .btn-secondary {
   background: transparent;
@@ -157,7 +179,7 @@ body {
 .btn-secondary:active { transform: scale(0.95); }
 
 .btn-sm { padding: 6px 14px; font-size: 13px; }
-.btn-secondary.active-outline { border-color: var(--color-accent); color: var(--color-accent); background: rgba(224,124,170,0.06); }
+.btn-secondary.active-outline { border-color: var(--color-accent-text); color: var(--color-accent-text); background: rgba(224,124,170,0.06); }
 .btn-lg { padding: 14px 32px; font-size: 16px; width: 100%; justify-content: center; }
 
 .btn-icon-sm {
@@ -223,11 +245,15 @@ body {
   font-family: var(--font-sans);
   color: var(--color-text);
   max-width: 240px;
-  outline: none;
   padding: 4px 8px;
   border-radius: 6px;
 }
-#board-title:focus { background: #f3f4f6; }
+#board-title:focus-visible,
+#board-title:focus {
+  background: #f3f4f6;
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 1px;
+}
 
 /* ===== Main Layout ===== */
 #app-main {
@@ -290,7 +316,12 @@ body {
   pointer-events: none;
 }
 
-#search-input {
+/* Scoped to the shared wrapper, not to #search-input. The ID selector missed
+   #bg-search-input entirely, so the background search box rendered with raw
+   browser defaults (2px inset border, no radius, 13.3px text) and, because it
+   had no left padding, its text ran underneath the absolutely-positioned
+   magnifier icon. */
+.search-input-wrap input[type="text"] {
   width: 100%;
   padding: 10px 12px 10px 36px;
   border: 1px solid var(--color-border);
@@ -301,7 +332,10 @@ body {
   outline: none;
   transition: all 0.2s;
 }
-#search-input:focus { border-color: var(--color-border-strong); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.search-input-wrap input[type="text"]:focus {
+  border-color: var(--color-border-strong);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
 
 .image-grid {
   display: grid;
@@ -317,6 +351,12 @@ body {
   position: relative;
   background: #f3f4f6;
   transition: all 0.2s;
+  /* rendered as a <button> — strip the UA chrome */
+  border: none;
+  padding: 0;
+  display: block;
+  width: 100%;
+  font-family: inherit;
 }
 .image-grid-item:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 .image-grid-item:active { transform: scale(0.97); }
@@ -415,6 +455,11 @@ body {
   position: relative;
   overflow: hidden;
   transition: all 0.2s;
+  /* rendered as a <button> — strip the UA chrome */
+  padding: 0;
+  display: block;
+  width: 100%;
+  font-family: inherit;
 }
 .bg-card:hover { transform: scale(1.03); }
 .bg-card:active { transform: scale(0.97); }
@@ -473,6 +518,13 @@ body {
 #canvas-empty h3 { font-size: 18px; font-weight: 600; color: var(--color-text-secondary); }
 #canvas-empty p { font-size: 14px; }
 
+/* The empty state is pointer-events:none so the canvas stays clickable through
+   it; the one interactive child opts back in. */
+.btn-example {
+  pointer-events: auto;
+  margin-top: 12px;
+}
+
 .empty-icon {
   width: 80px;
   height: 80px;
@@ -498,7 +550,7 @@ body {
   border: 3px dashed var(--color-accent);
   border-radius: 16px;
   margin: 12px;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   font-size: 18px;
   font-weight: 600;
 }
@@ -598,7 +650,7 @@ body {
 
 /* Selection state */
 .canvas-element.selected {
-  outline: 2.5px solid var(--color-accent);
+  outline: 2.5px solid var(--color-accent-text);
   outline-offset: 6px;
   z-index: 9999 !important;
 }
@@ -620,6 +672,11 @@ body {
   z-index: 30;
 }
 .element-actions[data-no-export] { display: flex; }
+/* Flipped below the element when there is no room above (element near the
+   canvas top, where the bar would slide under the fixed toolbar). */
+.element-actions.below { top: auto; bottom: -44px; }
+/* JS pins `left` in element-local px when centring would overflow the canvas. */
+.element-actions.shifted { transform: none; }
 
 .action-btn {
   width: 32px;
@@ -668,7 +725,7 @@ body {
   transition: background 0.15s;
 }
 .font-option:hover { background: #f3f4f6; }
-.font-option.active { background: rgba(224,124,170,0.1); color: var(--color-accent); }
+.font-option.active { background: rgba(224,124,170,0.1); color: var(--color-accent-text); }
 
 /* Color picker for text */
 .color-input {
@@ -753,7 +810,22 @@ body {
 }
 .tool-btn:hover { background: #f3f4f6; color: var(--color-text-secondary); }
 .tool-btn:active { transform: scale(0.9); }
-.tool-btn.active { background: var(--color-accent); color: white; }
+.tool-btn.active { background: var(--color-accent-text); color: white; }
+.tool-btn:focus-visible,
+.action-btn:focus-visible,
+.sticker-btn:focus-visible,
+.bg-card:focus-visible,
+.image-grid-item:focus-visible,
+.btn-icon-sm:focus-visible,
+.stroke-btn:focus-visible,
+.mode-btn:focus-visible,
+.btn-primary:focus-visible,
+.btn-accent:focus-visible,
+.btn-secondary:focus-visible,
+#byline a:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 2px;
+}
 
 /* ===== Spinner ===== */
 .spinner {
@@ -775,13 +847,18 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* popIn must carry the element's own tilt, otherwise the animation overrides
+   the inline rotate() and every element visibly snaps into its angle. */
 @keyframes popIn {
-  0% { transform: scale(0.5); opacity: 0; }
-  70% { transform: scale(1.05); }
-  100% { transform: scale(1); opacity: 1; }
+  0% { transform: rotate(var(--el-rot, 0deg)) scale(0.5); opacity: 0; }
+  70% { transform: rotate(var(--el-rot, 0deg)) scale(1.05); }
+  100% { transform: rotate(var(--el-rot, 0deg)) scale(1); opacity: 1; }
 }
 
 .pop-in { animation: popIn 0.25s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .pop-in { animation: none; }
+}
 
 /* ===== Background classes ===== */
 /* ===== Welcome Mode Selection ===== */
@@ -940,7 +1017,7 @@ body {
 .intentions-badge {
   font-size: 11px;
   font-weight: 600;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   background: rgba(224,124,170,0.1);
   padding: 3px 10px;
   border-radius: 20px;
@@ -1076,10 +1153,13 @@ body {
   cursor: pointer;
   transition: transform 0.15s, border-color 0.15s;
   padding: 0;
-  outline: none;
 }
 .draw-color-swatch:hover { transform: scale(1.15); }
-.draw-color-swatch.active { border-color: var(--color-accent); transform: scale(1.2); box-shadow: 0 0 0 2px rgba(224,124,170,0.3); }
+.draw-color-swatch:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 3px;
+}
+.draw-color-swatch.active { border-color: var(--color-accent-text); transform: scale(1.2); box-shadow: 0 0 0 2px rgba(184,74,120,0.35); }
 
 .draw-divider {
   width: 1px;
@@ -1122,6 +1202,69 @@ body {
 .bg-sunset { background: linear-gradient(to bottom right, #fff3e0, #fce4ec); }
 .bg-forest { background: linear-gradient(to bottom right, #e8f5e9, #f1f8e9); }
 .bg-lavender { background: linear-gradient(to bottom right, #ede7f6, #e8eaf6); }
+
+/* ===== Byline ===== */
+#byline {
+  position: fixed;
+  bottom: 10px;
+  left: 14px;
+  z-index: 45;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(4px);
+  padding: 3px 9px;
+  border-radius: 8px;
+  /* Only the link itself intercepts pointers, so the chip does not block drags */
+  pointer-events: none;
+}
+#byline a {
+  pointer-events: auto;
+  color: var(--color-accent-text);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(184,74,120,0.4);
+}
+#byline a:hover { border-bottom-color: var(--color-accent-text); }
+/* The byline is fixed to the bottom-left, which is exactly where the 320px
+   panel lives, so with a panel open it covered the panel's own content (the
+   background presets, for one). Slide it clear on desktop. Browsers without
+   :has() just keep the old behaviour, so this degrades to a cosmetic issue. */
+@media (min-width: 769px) {
+  body:has(#sidebar:not(.hidden)) #byline { left: 334px; }
+}
+@media (max-width: 768px) {
+  /* the panel is full-screen here, so there is nothing to slide clear of */
+  body:has(#sidebar:not(.hidden)) #byline { opacity: 0; pointer-events: none; }
+}
+
+/* ===== Toasts ===== */
+#toast-region {
+  position: fixed;
+  bottom: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.toast {
+  background: #1a1a2e;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  max-width: min(420px, calc(100vw - 32px));
+  animation: fadeIn 0.2s ease;
+}
+.toast.error { background: #8a1c32; }
 
 /* ===== Mobile Responsive ===== */
 @media (max-width: 768px) {
@@ -1168,23 +1311,49 @@ body {
     top: 48px;
     left: 0;
     right: 0;
-    bottom: 80px;
+    bottom: 92px;
     width: 100%;
     z-index: 30;
     box-shadow: 0 4px 24px rgba(0,0,0,0.15);
   }
 
-  /* Intentions panel: full-width bottom sheet */
+  /* Intentions panel: a real bottom sheet. It used to be pinned top:48px with
+     the same cream fill as the canvas, so it covered the whole board as an
+     invisible click-blocker. Now it is anchored to the bottom, capped at 55vh,
+     and sits on a distinct white surface with a rounded lip. */
   #intentions-panel {
     position: fixed;
-    top: 48px;
+    top: auto;
     left: 0;
     right: 0;
-    bottom: 80px;
+    bottom: 92px;
     width: 100%;
+    max-height: 55vh;
     z-index: 30;
-    box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+    background: var(--color-surface);
+    border-left: none;
+    border-top: 1px solid var(--color-border-strong);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.18);
+    overflow: hidden;
   }
+  /* Grab lip so it reads as a sheet */
+  #intentions-panel::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-border-strong);
+  }
+  #intentions-panel #intentions-header { padding-top: 16px; }
+  #intentions-panel #intentions-list { max-height: calc(55vh - 56px); }
+
+  /* Sidebar gets a distinct surface too, so it never reads as bare canvas */
+  #sidebar { background: var(--color-surface); }
 
   #intentions-header {
     padding: 12px 16px;
@@ -1196,9 +1365,10 @@ body {
     width: 100%;
   }
 
-  /* Floating toolbar: smaller, tighter */
+  /* Floating toolbar: smaller, tighter. Lifted to 30px so the byline gets its
+     own strip underneath instead of being half-covered by the toolbar card. */
   #toolbar-bottom {
-    bottom: 16px;
+    bottom: 30px;
     padding: 6px;
     gap: 2px;
     border-radius: 14px;
@@ -1217,6 +1387,7 @@ body {
     padding: 3px;
     gap: 1px;
   }
+  .element-actions.below { top: auto; bottom: -38px; }
   .action-btn { width: 28px; height: 28px; }
   .action-btn svg { width: 14px; height: 14px; }
 
@@ -1242,7 +1413,7 @@ body {
   /* Drawing toolbar — two rows on mobile */
   #draw-overlay { top: 48px; }
   #draw-toolbar {
-    bottom: 12px;
+    bottom: 30px;
     padding: 8px 12px;
     gap: 8px;
     flex-wrap: wrap;
@@ -1267,6 +1438,10 @@ body {
   #canvas-empty p { font-size: 12px; }
   .empty-icon { width: 60px; height: 60px; border-radius: 16px; }
   .empty-icon svg { width: 36px; height: 36px; }
+
+  /* Byline / toasts clear of the floating toolbar */
+  #byline { bottom: 6px; left: 10px; font-size: 10px; }
+  #toast-region { bottom: 96px; }
 
   /* Font/shape selector dropdown */
   .font-selector { min-width: 150px; }

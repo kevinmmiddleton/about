@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Visionbort — Create Your Vision Board</title>
   <meta name="description" content="Create vision boards that inspire you. Drag, draw, and arrange your dreams.">
   <link rel="canonical" href="https://middleton.io/visionbort/">
@@ -18,8 +18,8 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&family=Bebas+Neue&family=Caveat:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&family=Bebas+Neue&family=Caveat:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js" defer></script>
     <!-- JSON-LD -->
     <script type="application/ld+json">
     {
@@ -51,14 +51,14 @@
 <body>
   <!-- Welcome Modal -->
   <div id="welcome-modal" class="modal-overlay">
-    <div class="welcome-container">
+    <div class="welcome-container" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
       <div class="welcome-header">
         <div class="welcome-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
           </svg>
         </div>
-        <h1>Visionbort</h1>
+        <h1 id="welcome-title">Visionbort</h1>
         <p>Create a vision board that inspires you</p>
       </div>
       <div class="welcome-body">
@@ -82,7 +82,7 @@
 
   <!-- Intention Prompt Modal -->
   <div id="intention-modal" class="modal-overlay hidden">
-    <div class="intention-container">
+    <div class="intention-container" role="dialog" aria-modal="true" aria-labelledby="intention-prompt-text">
       <div class="intention-header">
         <h2 id="intention-prompt-text">What does this represent for you?</h2>
       </div>
@@ -136,7 +136,7 @@
     <aside id="sidebar" class="hidden">
       <div id="sidebar-header">
         <h2 id="sidebar-title">Search</h2>
-        <button id="sidebar-close" class="btn-icon-sm">
+        <button id="sidebar-close" class="btn-icon-sm" aria-label="Close panel" title="Close panel">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
@@ -199,6 +199,7 @@
           </div>
           <h3>Start your vision board</h3>
           <p>Drag & drop images, or use the toolbar below</p>
+          <button id="btn-example" class="btn-primary btn-example">Start from an example</button>
         </div>
         <!-- Drop overlay -->
         <div id="drop-overlay" class="hidden">
@@ -269,6 +270,12 @@
       <button id="draw-cancel" class="btn-secondary btn-sm">Cancel</button>
     </div>
   </div>
+
+  <!-- Byline -->
+  <p id="byline">Built by <a href="https://middleton.io" target="_blank" rel="noopener">Kevin Middleton</a></p>
+
+  <!-- Toast region for save/quota notices -->
+  <div id="toast-region" role="status" aria-live="polite"></div>
 
   <!-- Hidden file input -->
   <input type="file" id="file-input" accept="image/*" multiple style="display:none">
