@@ -164,8 +164,8 @@ function seriesCallouts(post, all) {
 // ---------- shared chrome ----------
 const HEAD_LINKS = `    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
-    <link rel="stylesheet" href="/fv.css?v=166ab60f">
-    <link rel="stylesheet" href="/blog/blog.css?v=02f32790">
+    <link rel="stylesheet" href="/fv.css?v=71ca1871">
+    <link rel="stylesheet" href="/blog/blog.css?v=99c23c60">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">`;
 const PLAUSIBLE = `    <!-- Privacy-friendly analytics by Plausible -->
@@ -280,7 +280,7 @@ ${HEADER}
 
     <main>
     <article class="article">
-        <a class="article-back" href="/blog/">← Back to the Blog</a>
+        <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
         <p class="article-eyebrow">${esc(post.topic||'')}</p>
         <h1 class="article-title">${esc(post.title)}</h1>
         <div class="article-meta">
@@ -294,7 +294,7 @@ ${HEADER}
         <div class="article-body">
 ${bodyLinked}
         </div>
-        <a class="article-back article-back-bottom" href="/blog/">← Back to the Blog</a>
+        <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
     </article>
     </main>
 

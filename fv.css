@@ -3198,3 +3198,13 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 }
 @media (prefers-reduced-motion:reduce){.fv *{animation:none!important;transition:none!important}.fv .rv{opacity:1!important;transform:none!important}.fv .swap b{position:static;opacity:1}.fv .swap b:not(:first-child){display:none}
 }
+
+
+/* The hero metric numerals are 24px/600, so the shared .arw at .78em read as a
+   hairline beside them. Size it to the type it sits in on these two surfaces
+   only; the case-study index arrow stays as approved. */
+/* font-size:inherit is load-bearing: a rule downsizes spans inside
+   .metric-value to 9.28px, so em on the arrow resolved against that instead
+   of the 24px numerals and it rendered at 9px. */
+body.p-case .metric-value .arw{font-size:inherit;width:.9em;height:.9em;
+  vertical-align:-.08em;margin-inline:.16em}

@@ -438,3 +438,13 @@ figcaption {
 
 /* Mobile menu (full-width sheet + Office Hours action) is defined once in
    styles-merged.css so the homepage and blog share it. */
+
+
+/* Same drawn arrow as the rest of the site, replacing the ← glyph, which sat
+   hairline next to the label. Masked, so it inherits colour and theme. */
+.article-back{display:inline-flex;align-items:center;gap:.4rem}
+.arw-back{display:inline-block;width:1em;height:1em;background:currentColor;flex:0 0 auto;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 12H5M11.5 5.5 5 12l6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 12H5M11.5 5.5 5 12l6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  transition:transform .18s ease}
+.article-back:hover .arw-back{transform:translateX(-3px)}
