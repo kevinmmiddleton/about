@@ -15,10 +15,10 @@
     backLinks.forEach(link => {
         if (fromKevinOS) {
             link.href = 'https://middleton.io/kevinos';
-            link.textContent = '← Back to KevinOS';
+            link.textContent = 'Back to KevinOS';   // arrow is drawn by .back-link::before
         } else {
             link.href = 'https://middleton.io';
-            link.textContent = '← Back to Portfolio';
+            link.textContent = 'Back to Portfolio'; // arrow is drawn by .back-link::before
         }
     });
     

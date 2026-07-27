@@ -288,16 +288,6 @@ return { create: function(host, opts){ return Orb(host, opts); } };
           /* The orb blends additively, so its disc stays dark in BOTH modes.
              Deliberately NOT --kb-invert, which flips. */
           --kb-orb-disc:#111113; --kb-on-orb-disc:#F2F2F4;
-          /* Rim and halo. The rim is measured against the DISC, not the page,
-             which is why one value covers every case: the FAB on a light page,
-             the FAB on a dark page, and the avatar on the header, which does
-             invert. Before this the FAB sat at 1.01 against the dark page and
-             the avatar at 1.00 against the light-mode header. */
-          --kb-orb-rim:rgba(198,210,228,.55);
-          --kb-glow-warm:rgba(232,163,23,.20);
-          --kb-glow-cool:rgba(75,111,165,.24);
-          --kb-glow-r:26px;
-          --kb-orb-lift:0 6px 18px rgba(0,0,0,.20);
           --kb-r:10px;
           --kb-sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
           --kb-mono:"SF Mono",Menlo,ui-monospace,Consolas,monospace;
@@ -309,14 +299,6 @@ return { create: function(host, opts){ return Orb(host, opts); } };
             --kb-invert:#EDEDF0; --kb-on-invert:#111113;
             --kb-accent:#D26978;
             --kb-cobalt:#4B6FA5;
-            /* Brighter rim, hotter halo, wider throw: on a #0F0F12 page the
-               disc is the same value as the background, so the rim and glow
-               are the only things drawing the orb's edge. */
-            --kb-orb-rim:rgba(214,226,244,.72);
-            --kb-glow-warm:rgba(232,163,23,.30);
-            --kb-glow-cool:rgba(90,132,196,.34);
-            --kb-glow-r:34px;
-            --kb-orb-lift:0 6px 20px rgba(0,0,0,.55);
           }
         }
 
@@ -328,40 +310,10 @@ return { create: function(host, opts){ return Orb(host, opts); } };
           border: none; cursor: pointer; z-index: 9999;
           display: flex; align-items: center; justify-content: center;
           overflow: hidden;
-          /* Ring, then lift, then a two-tone halo: warm off one shoulder and
-             cool off the other, so it reads as spectral no matter which hue
-             the canvas happens to be on. Same idea as the bloom the orb
-             composites internally, done in one paint. box-shadow is not
-             clipped by this element's own overflow:hidden. */
-          box-shadow:
-            0 0 0 1.5px var(--kb-orb-rim),
-            var(--kb-orb-lift),
-            -7px -5px var(--kb-glow-r) 2px var(--kb-glow-warm),
-             7px  5px var(--kb-glow-r) 2px var(--kb-glow-cool);
-          transition: transform .2s ease, box-shadow .45s ease;
+          transition: transform .2s ease;
         }
         .kevbot-fab:hover { transform: translateY(-2px); }
-        /* Working state. Same four layers so the shadow interpolates instead
-           of snapping; the halo swells while the orb spins faster. */
-        .kevbot-fab.kb-hot {
-          box-shadow:
-            0 0 0 1.5px var(--kb-orb-rim),
-            var(--kb-orb-lift),
-            -9px -6px calc(var(--kb-glow-r) * 1.75) 5px var(--kb-glow-warm),
-             9px  6px calc(var(--kb-glow-r) * 1.75) 5px var(--kb-glow-cool);
-        }
-        /* Open = the orb is hidden behind the close icon, so drop the halo but
-           keep the layer count for a clean transition. */
-        .kevbot-fab.open {
-          box-shadow:
-            0 0 0 1.5px var(--kb-orb-rim),
-            var(--kb-orb-lift),
-            0 0 0 0 transparent,
-            0 0 0 0 transparent;
-        }
-        /* was --kb-marigold, which is 1.97 against the light page: a focus
-           indicator you cannot see. --kb-ink flips with the theme. */
-        .kevbot-fab:focus-visible { outline: 3px solid var(--kb-ink); outline-offset: 3px; }
+        .kevbot-fab:focus-visible { outline: 3px solid var(--kb-marigold); outline-offset: 3px; }
         /* the disc never inverts, so its glyph never needs to either: one rule,
            no dark-mode override. */
         .kevbot-fab svg { width: 26px; height: 26px; fill: var(--kb-on-orb-disc); position: relative; z-index: 1; }
@@ -401,17 +353,6 @@ return { create: function(host, opts){ return Orb(host, opts); } };
           background: var(--kb-orb-disc); color: var(--kb-on-orb-disc);
           display: grid; place-items: center; font-size: 28px;
           position: relative; overflow: hidden;
-          box-shadow:
-            0 0 0 1.5px var(--kb-orb-rim),
-            -6px -4px var(--kb-glow-r) 1px var(--kb-glow-warm),
-             6px  4px var(--kb-glow-r) 1px var(--kb-glow-cool);
-          transition: box-shadow .45s ease;
-        }
-        .kevbot-avatar.kb-hot {
-          box-shadow:
-            0 0 0 1.5px var(--kb-orb-rim),
-            -8px -5px calc(var(--kb-glow-r) * 1.75) 4px var(--kb-glow-warm),
-             8px  5px calc(var(--kb-glow-r) * 1.75) 4px var(--kb-glow-cool);
         }
         .kevbot-avatar canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
         .kevbot-title {
@@ -555,7 +496,6 @@ return { create: function(host, opts){ return Orb(host, opts); } };
 
       // Header mark: the same orb, smaller. Falls back to the emoji.
       var avatar = panel.querySelector('.kevbot-avatar');
-      this.avatarEl = avatar;
       // detail mode: shell + rim restored, per the handoff's panel-orb note
       this.orbAvatar = KevOrb.create(avatar, { detail: true });
       if (!this.orbAvatar) { avatar.textContent = '\u{1F916}'; }
@@ -567,7 +507,7 @@ return { create: function(host, opts){ return Orb(host, opts); } };
       document.body.appendChild(panel);
 
       // Initial greeting with suggested prompts
-      this.addMessage('bot', "Hey! I'm KevBot 🤖 Ask me anything about Kevin: his experience, skills, projects, or how to get in touch!");
+      this.addMessage('bot', "Hey! I'm KevBot 🤖 Ask me anything about Kevin—his experience, skills, projects, or how to get in touch!");
       this.addSuggestedPrompts();
     },
 
@@ -575,6 +515,7 @@ return { create: function(host, opts){ return Orb(host, opts); } };
       const prompts = document.createElement('div');
       prompts.className = 'kevbot-prompts';
       prompts.innerHTML = `
+        <button class="kevbot-prompt" data-action="tour">🗺️ Give me a tour</button>
         <button class="kevbot-prompt" data-prompt="What does Kevin do?">What does Kevin do?</button>
         <button class="kevbot-prompt" data-action="contact">Contact info</button>
       `;
@@ -590,7 +531,13 @@ return { create: function(host, opts){ return Orb(host, opts); } };
           // Hide prompts after click
           prompts.style.display = 'none';
 
-          if (action === 'contact') {
+          if (action === 'tour') {
+            if (window.plausible) window.plausible('KevBot+Prompt+Tour');
+            // Start tour immediately - tour system handles narration
+            if (window.startTour) {
+              window.startTour();
+            }
+          } else if (action === 'contact') {
             if (window.plausible) window.plausible('KevBot+Prompt+Contact');
             // Scroll to connect section
             const connectEl = document.querySelector('#connect');
@@ -648,11 +595,6 @@ return { create: function(host, opts){ return Orb(host, opts); } };
     setOrbRate: function(r) {
       if (this.orb) this.orb.setRate(r);
       if (this.orbAvatar) this.orbAvatar.setRate(r);
-      // The halo tracks the same single piece of state the motion does:
-      // rate above resting means KevBot is working.
-      var hot = r > 1.3;
-      if (this.fab) this.fab.classList.toggle('kb-hot', hot);
-      if (this.avatarEl) this.avatarEl.classList.toggle('kb-hot', hot);
     },
 
     burstOrbs: function() {

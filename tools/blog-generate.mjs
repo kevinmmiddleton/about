@@ -162,11 +162,11 @@ function seriesCallouts(post, all) {
 }
 
 // ---------- shared chrome ----------
-const HEAD_LINKS = `    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles-merged.css">
-    <link rel="stylesheet" href="/blog/blog.css">
+const HEAD_LINKS = `    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
+         system stack, which is also why the old Inter/Epilogue links are gone. -->
+    <link rel="stylesheet" href="/fv.css?v=d37669f2">
+    <link rel="stylesheet" href="/styles-merged.css?v=ebe475bb">
+    <link rel="stylesheet" href="/blog/blog.css?v=5eb4fae4">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">`;
 const PLAUSIBLE = `    <!-- Privacy-friendly analytics by Plausible -->
@@ -175,29 +175,17 @@ const PLAUSIBLE = `    <!-- Privacy-friendly analytics by Plausible -->
     window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
     plausible.init()
     </script>`;
-const HEADER = `    <header class="header name-visible">
-        <nav class="nav-container has-cta">
-            <a href="/" class="logo">
-                <span class="logo-text visible" id="header-name">
-                    <span class="logo-name">Kevin Middleton</span>
-                    <span class="logo-subtitle">Full Stack Product Manager</span>
-                </span>
-            </a>
-            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul id="menu" class="nav-menu">
-                <li><a href="/#building">Building</a></li>
-                <li><a href="/#about">About</a></li>
-                <li><a href="/#experience">Experience</a></li>
-                <li><a href="/#projects">Case Studies</a></li>
-                <li><a href="/blog/">Blog</a></li>
-                <li><a href="/#connect">Let's Talk</a></li>
-                <li class="nav-cta-mobile"><a href="/officehours/" class="plausible-event-name=Office+Hours plausible-event-location=blog">Office Hours</a></li>
-            </ul>
-            <a href="/officehours/" class="header-cta plausible-event-name=Office+Hours plausible-event-location=blog">Office Hours</a>
-        </nav>
-    </header>`;
+const HEADER = `    <nav class="nav pad">
+        <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+        <span class="nav-l">
+          <a href="/#building">Building</a>
+          <a href="/#about">About</a>
+          <a href="/#record">Experience</a>
+          <a href="/#cases">Case Studies</a>
+          <a href="/blog/">Writing</a>
+        </span>
+        <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
+      </nav>`;
 const FOOTER = `    <footer id="footer" class="footer">
         <div class="container footer-content">
             <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
@@ -250,7 +238,8 @@ function articlePage(post, all) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4A6A8C">
+    <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
     <title>${esc(post.title)} | Kevin Middleton</title>
     <meta name="description" content="${escAttr(post.excerpt)}">
 
@@ -343,7 +332,8 @@ function hubPage(posts) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4A6A8C">
+    <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
     <title>Blog | Kevin Middleton</title>
     <meta name="description" content="Kevin Middleton on building with AI, product, and the systems in between. Essays on AI workflows, automation, privacy, and where personal AI is headed.">
 
@@ -507,11 +497,25 @@ function updateWriting(posts) {
   const featured = posts.filter(p => p.featured);
   const rest = posts.filter(p => !p.featured);
   const picks = featured.concat(rest).slice(0, 6);
-  const colors = ['#3b82f6', '#e07caa', '#f59e0b', '#7c5ce0', '#14b8a6', '#f97316'];
-  const items = picks.map((p, i) =>
-    `                        <a href="/blog/${p.slug}/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=${p.slug}">\n` +
-    `                            <span class="writing-dot" style="background:${colors[i % colors.length]}"></span>${esc(p.title)}\n` +
-    `                        </a>`).join('\n');
+
+  // Two markups, chosen by sniffing the target rather than by anyone remembering
+  // to flip a switch on relaunch day. The Full Volume homepage styles its dots
+  // with .d1-.d6 -> --dot-1..6 so they follow dark mode; the legacy homepage
+  // styles .writing-item/.writing-dot and needs the inline hex. Emitting the
+  // wrong one silently breaks the card, and this function also runs unattended
+  // from a daily cron, so it must not depend on deploy ordering.
+  const isFullVolume = html.includes('<div class="fv"') || html.includes('class="posts"');
+  let items;
+  if (isFullVolume) {
+    items = picks.map((p, i) =>
+      `          <a href="/blog/${p.slug}/" class="plausible-event-name=Writing+Click plausible-event-post=${p.slug}"><i class="d${i + 1}"></i>${esc(p.title)}</a>`).join('\n');
+  } else {
+    const colors = ['#3b82f6', '#e07caa', '#f59e0b', '#7c5ce0', '#14b8a6', '#f97316'];
+    items = picks.map((p, i) =>
+      `                        <a href="/blog/${p.slug}/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=${p.slug}">\n` +
+      `                            <span class="writing-dot" style="background:${colors[i % colors.length]}"></span>${esc(p.title)}\n` +
+      `                        </a>`).join('\n');
+  }
   const out = replaceRegion(html, '<!-- WRITING:START -->', '<!-- WRITING:END -->', items);
   if (out) { writeFileSync(f, out); return true; }
   console.warn('  ! index.htm WRITING markers not found; skipped'); return false;

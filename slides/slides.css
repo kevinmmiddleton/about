@@ -11,58 +11,40 @@
    ================================ */
 
 :root {
-  /* Type & layout (theme-invariant) */
-  --radius: 14px;
+  /* Type and layout */
+  --radius: var(--r);
   --radius-sm: 8px;
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  --font-display: 'Epilogue', 'Inter', sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font: var(--sans);
+  --font-display: var(--sans);
+  --font-mono: var(--mono);
   --maxw: 760px;
+  /* Palette now resolves through /fv.css so this page moves with the site.
+     Kept the --bg/--surface/--accent names so all 84 rules and the seven deck
+     subpages keep working untouched. */
+  /* --bg intentionally NOT redeclared: both sheets target :root, so
+     "--bg: var(--bg)" is circular. slides rules read fv.css's --bg. */
+  --bg-soft: var(--bg2);
+  --surface: var(--bg2);
+  --surface-2: var(--bg2);
+  --border: var(--rule);
+  --border-soft: var(--rule);
+  --text: var(--ink);
+  --text-soft: var(--ink2);
+  --muted-strong: var(--ink2);
+  --accent: var(--c1-line);
+  --accent-soft: var(--c1-text);
+  --accent-tint: color-mix(in srgb, var(--c1-line) 10%, transparent);
+  --accent-ring: color-mix(in srgb, var(--c1-line) 28%, transparent);
+  --good: var(--c3-text);
+  --bad: var(--c2-text);
+  --info: var(--c4-text);
+  --shadow: var(--shadow-1);
+  --shadow-soft: var(--shadow-1);
 
-  /* Dark palette (default) */
-  --bg: #0e0f12;
-  --bg-soft: #15171c;
-  --surface: #1a1d24;
-  --surface-2: #20242d;
-  --border: #2a2f3a;
-  --border-soft: #232831;
-  --text: #e8eaf0;
-  --text-soft: #b6bac6;
-  --muted-strong: #9aa0b0;
-  --accent: #ff8a3d;
-  --accent-soft: #ffb787;
-  --accent-tint: rgba(255, 138, 61, 0.10);
-  --accent-ring: rgba(255, 138, 61, 0.30);
-  --good: #4cfec8;
-  --bad: #ff6b8a;
-  --info: #7ab8ff;
-  --shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
-  --shadow-soft: 0 4px 14px rgba(0,0,0,0.25);
 }
 
 /* Light palette via OS preference */
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #faf7f2;
-    --bg-soft: #f3efe7;
-    --surface: #ffffff;
-    --surface-2: #f7f3ed;
-    --border: #e4ddd1;
-    --border-soft: #ece6da;
-    --text: #1c1d1f;
-    --text-soft: #4a4f57;
-    --muted-strong: #757a82;
-    --accent: #c8531a;
-    --accent-soft: #a64313;
-    --accent-tint: rgba(200, 83, 26, 0.10);
-    --accent-ring: rgba(200, 83, 26, 0.28);
-    --good: #1a936f;
-    --bad: #c0392b;
-    --info: #2563eb;
-    --shadow: 0 1px 0 rgba(0,0,0,0.02) inset, 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-soft: 0 1px 2px rgba(0,0,0,0.06);
-  }
-}
+/* light override removed: /fv.css already flips every token above */
 
 /* Manual overrides (win regardless of OS preference) */
 [data-theme="dark"] {
@@ -86,26 +68,7 @@
   --shadow-soft: 0 4px 14px rgba(0,0,0,0.25);
 }
 
-[data-theme="light"] {
-  --bg: #faf7f2;
-  --bg-soft: #f3efe7;
-  --surface: #ffffff;
-  --surface-2: #f7f3ed;
-  --border: #e4ddd1;
-  --border-soft: #ece6da;
-  --text: #1c1d1f;
-  --text-soft: #4a4f57;
-  --muted-strong: #757a82;
-  --accent: #c8531a;
-  --accent-soft: #a64313;
-  --accent-tint: rgba(200, 83, 26, 0.10);
-  --accent-ring: rgba(200, 83, 26, 0.28);
-  --good: #1a936f;
-  --bad: #c0392b;
-  --info: #2563eb;
-  --shadow: 0 1px 0 rgba(0,0,0,0.02) inset, 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-soft: 0 1px 2px rgba(0,0,0,0.06);
-}
+/* [data-theme=light] removed: fv.css defines the manual override */
 
 /* Smooth color transitions on theme change */
 body, .entry-card, .dl, .email, .verdict, .callout, .embed, .intro-panel,

@@ -17,7 +17,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--coral-text);
     margin-bottom: 14px;
 }
 
@@ -42,7 +42,7 @@
     margin-bottom: 32px;
 }
 .article-meta a { color: var(--text-secondary); text-decoration: underline; text-underline-offset: 2px; }
-.article-meta a:hover { color: var(--accent); }
+.article-meta a:hover { color: var(--coral-text); }
 .article-meta .dot { opacity: 0.5; }
 
 .article-back {
@@ -54,7 +54,7 @@
     margin-bottom: 22px;
     transition: color 0.15s ease;
 }
-.article-back:hover { color: var(--accent); }
+.article-back:hover { color: var(--coral-text); }
 .article-back-bottom {
     margin: 40px 0 0;
     padding-top: 24px;
@@ -109,7 +109,7 @@
 }
 
 .article-body a {
-    color: var(--accent);
+    color: var(--coral-text);
     text-decoration: underline;
     text-underline-offset: 2px;
     text-decoration-thickness: 1px;
@@ -187,13 +187,13 @@ figcaption {
     padding: 6px 11px;
     border: 1px solid var(--border);
     border-radius: 6px;
-    background: rgba(128, 128, 140, 0.14);
+    background: var(--rule);
     color: var(--text-secondary);
     cursor: pointer;
     transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
-.copy-btn:hover { color: var(--text-primary); border-color: var(--accent); background: rgba(128, 128, 140, 0.22); }
-.copy-btn.copied { color: var(--accent); border-color: var(--accent); }
+.copy-btn:hover { color: var(--text-primary); border-color: var(--coral-text); background: var(--rule); }
+.copy-btn.copied { color: var(--coral-text); border-color: var(--coral-text); }
 
 /* Inline code (single-backtick spans) — subtle mono chip, distinct from prose */
 .article-body code {
@@ -215,7 +215,7 @@ figcaption {
     font-size: 16px;
     color: var(--text-secondary);
 }
-.callout a { color: var(--accent); }
+.callout a { color: var(--coral-text); }
 
 /* Blockquotes — same left-accent treatment as callouts */
 .article-body blockquote {
@@ -228,7 +228,7 @@ figcaption {
 }
 .article-body blockquote p { margin: 0; }
 .article-body blockquote p + p { margin-top: 12px; }
-.article-body blockquote a { color: var(--accent); }
+.article-body blockquote a { color: var(--coral-text); }
 
 /* End-of-article author bio */
 .article-bio {
@@ -238,14 +238,18 @@ figcaption {
     font-size: 16px;
     color: var(--text-secondary);
 }
-.article-bio a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.article-bio a { color: var(--coral-text); text-decoration: underline; text-underline-offset: 2px; }
 
 /* Make figures zoomable via the homepage lightbox (#lightbox is styled in styles-merged.css) */
 
 /* ===================
    BLOG INDEX (HUB)
    =================== */
-.blog-index { max-width: 1040px; margin: 0 auto; padding: calc(80px + 2.5rem) 24px 2rem; }
+/* Site container. Was 1040px with a calc(80px + …) top pad that compensated for
+   a fixed nav; the shared nav is sticky and in flow, so that 80px was dead
+   space and the narrower column left the nav floating 96px wider than the
+   content beneath it. These two values now match .pad in fv.css. */
+.blog-index { max-width: 1400px; margin: 0 auto; padding: 2.6rem clamp(1rem, 4vw, 3rem) 2rem; }
 .blog-index-header { margin-bottom: 40px; }
 .blog-index-header h1 {
     font-family: var(--font-heading);
@@ -270,7 +274,7 @@ figcaption {
     gap: 7px;
     flex-shrink: 0;
     padding: 6px 14px;
-    border: 1px solid var(--border, rgba(0,0,0,0.12));
+    border: 1px solid var(--border, var(--shadow-2));
     border-radius: 999px;
     font-size: 14px;
     font-weight: 500;
@@ -278,12 +282,12 @@ figcaption {
     text-decoration: none;
     transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
-.blog-rss svg { color: #f26522; flex-shrink: 0; }
-.blog-rss:hover { color: var(--text-primary); border-color: #f26522; background: rgba(242, 101, 34, 0.06); }
+.blog-rss svg { color: var(--brand-rss); flex-shrink: 0; }
+.blog-rss:hover { color: var(--text-primary); border-color: var(--brand-rss); background: color-mix(in srgb, var(--brand-rss) 6%, transparent); }
 
 .post-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 24px;
 }
 .post-card {
@@ -297,7 +301,7 @@ figcaption {
     transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 .post-card:hover {
-    border-color: var(--accent);
+    border-color: var(--coral-text);
     box-shadow: var(--shadow-md);
     transform: translateY(-3px);
 }
@@ -323,7 +327,7 @@ figcaption {
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--coral-text);
     margin-bottom: 8px;
 }
 .post-card h2 {

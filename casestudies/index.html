@@ -4,15 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="theme-color" content="#A48CF9">
+    <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
     <title>Case Studies | Kevin Middleton</title>
+    <link rel="stylesheet" href="/fv.css?v=d37669f2">
     <meta name="description"
         content="Selected product case studies from Kevin Middleton — conversion optimization, 0-to-1 products, enterprise partnerships, and platform modernization.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://middleton.io/styles.css">
     <link rel="icon" type="image/x-icon" href="https://middleton.io/favicon.ico">
     <link rel="canonical" href="https://middleton.io/casestudies/">
 
@@ -105,327 +102,19 @@
     window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
     plausible.init()
     </script>
-
-    <style>
-        .cs-landing {
-            min-height: 100vh;
-            background: var(--bg);
-            padding: 0;
-        }
-
-        /* Nav */
-        .cs-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--spacing-md) var(--spacing-xl);
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .cs-nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color var(--transition-fast);
-        }
-
-        .cs-nav a:hover { color: var(--text-primary); }
-
-        .cs-nav-name {
-            font-weight: 700;
-            color: var(--text-primary) !important;
-            font-size: 1.15rem !important;
-            line-height: 1.3;
-        }
-
-        .cs-nav-title {
-            display: block;
-            font-size: 0.8rem !important;
-            font-weight: 500;
-            color: var(--text-secondary) !important;
-            letter-spacing: 0.02em;
-        }
-
-        /* Hero */
-        .cs-hero {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--spacing-2xl) var(--spacing-xl) var(--spacing-xl);
-        }
-
-        .cs-hero-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--purple);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .cs-hero h1 {
-            font-family: var(--font-heading);
-            font-size: clamp(2.2rem, 4.5vw, 3.2rem);
-            font-weight: 800;
-            color: var(--text-primary);
-            line-height: 1.1;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .cs-hero h1 .highlight {
-            background: linear-gradient(135deg, var(--primary), var(--purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .cs-hero-intro {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            max-width: 640px;
-        }
-
-        /* Cards grid */
-        .cs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: var(--spacing-lg);
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--spacing-xl) var(--spacing-2xl);
-        }
-
-        /* Card */
-        .cs-card-link {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .cs-card {
-            background: rgba(var(--white-rgb), 0.65);
-            backdrop-filter: saturate(160%) blur(22px);
-            -webkit-backdrop-filter: saturate(160%) blur(22px);
-            border: 1px solid rgba(var(--white-rgb), 0.55);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-06);
-            padding: var(--spacing-lg);
-            transition: transform var(--transition-base), box-shadow var(--transition-base);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            position: relative;
-        }
-
-        .cs-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-20);
-        }
-
-        .cs-card::after {
-            content: '↗';
-            position: absolute;
-            top: var(--spacing-lg);
-            right: var(--spacing-lg);
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            opacity: 0;
-            transition: opacity var(--transition-base), transform var(--transition-base);
-        }
-
-        .cs-card:hover::after {
-            opacity: 0.6;
-            transform: translate(2px, -2px);
-        }
-
-        /* Card header */
-        .cs-card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .cs-card-logo {
-            width: 36px;
-            height: 36px;
-            object-fit: contain;
-            border-radius: 8px;
-            flex-shrink: 0;
-        }
-
-        .cs-card-company {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .cs-card-title {
-            font-family: var(--font-heading);
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1.3;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .cs-card-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: var(--spacing-lg);
-            flex-grow: 1;
-        }
-
-        /* Metrics — evenly spaced row */
-        .cs-metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
-            padding-top: var(--spacing-md);
-            border-top: 1px solid rgba(var(--black-rgb), 0.06);
-        }
-
-        .cs-metric {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 0 4px;
-        }
-
-        .cs-metric:not(:last-child) {
-            border-right: 1px solid rgba(var(--black-rgb), 0.06);
-        }
-
-        .cs-metric-value {
-            font-family: var(--font-heading);
-            font-size: 1.3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.3;
-            white-space: nowrap;
-            margin-bottom: 4px;
-        }
-
-        .cs-metric-label {
-            font-size: 0.68rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            font-weight: 600;
-            line-height: 1.35;
-        }
-
-        /* Skill pills */
-        .cs-pills {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .cs-pill {
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.03em;
-            padding: 4px 10px;
-            border-radius: var(--radius-full);
-            background: rgba(var(--purple-rgb), 0.1);
-            color: var(--purple);
-            white-space: nowrap;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .cs-pill {
-                background: rgba(var(--purple-rgb), 0.18);
-            }
-        }
-
-        /* Footer */
-        .cs-footer {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-2xl);
-            text-align: center;
-        }
-
-        .cs-footer-text {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .cs-footer-links {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-lg);
-        }
-
-        .cs-footer-links a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: opacity var(--transition-fast);
-        }
-
-        .cs-footer-links a:hover { opacity: 0.8; }
-
-        /* Dark mode */
-        @media (prefers-color-scheme: dark) {
-            .cs-card {
-                background: rgba(20, 20, 25, 0.55);
-                border: 1px solid rgba(var(--white-rgb), 0.12);
-                box-shadow: var(--shadow-12);
-            }
-
-            .cs-card:hover { box-shadow: var(--shadow-20); }
-
-            .cs-metrics {
-                border-top-color: rgba(var(--white-rgb), 0.1);
-            }
-
-            .cs-metric:not(:last-child) {
-                border-right-color: rgba(var(--white-rgb), 0.1);
-            }
-        }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .cs-nav { padding: var(--spacing-sm) var(--spacing-md); }
-
-            .cs-hero {
-                padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
-            }
-
-            .cs-grid {
-                grid-template-columns: 1fr;
-                padding: 0 var(--spacing-md) var(--spacing-xl);
-            }
-        }
-    </style>
 </head>
 
-<body class="cs-landing">
+<body class="cs-landing p-cases">
 
     <!-- Nav -->
     <nav class="cs-nav">
         <a href="https://middleton.io" class="cs-nav-name">Kevin Middleton<span class="cs-nav-title">Full Stack Product Manager</span></a>
-        <a href="https://middleton.io/#projects">← Back to Portfolio</a>
+        <a class="back-to" href="https://middleton.io/#cases">Back to Portfolio</a>
     </nav>
 
     <!-- Hero -->
     <section class="cs-hero">
-        <p class="cs-hero-label">Selected Work</p>
-        <h1>Case <span class="highlight">Studies</span></h1>
+        <div class="cs-hero-head"><h1>Case <span class="highlight">Studies</span></h1><p class="cs-hero-label">Selected Work</p></div>
         <p class="cs-hero-intro">
             Real problems, real constraints, real results. Each study covers how I approached the work, from identifying the opportunity to shipping the outcome.
         </p>
@@ -518,7 +207,7 @@
                 </div>
                 <div class="cs-metrics">
                     <div class="cs-metric">
-                        <span class="cs-metric-value">0 → 1</span>
+                        <span class="cs-metric-value">0 <span class="arw" aria-hidden="true"></span><span class="vh">to</span> 1</span>
                         <span class="cs-metric-label">Product</span>
                     </div>
                     <div class="cs-metric">

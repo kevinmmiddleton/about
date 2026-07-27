@@ -6,19 +6,26 @@
 /* ========== CSS Variables ========== */
 :root {
   /* Core Surfaces */
-  --bg: #F0EEE9;
+  --bg: #F4F4F5;              /* was #F0EEE9, matches the updated theme */
   --surface: #F5F4F0;
   --surface-alt: #ECEAE4;
   --card-bg: #ffffff;
   --text-primary: #1a202c;
   --text-secondary: #4a5568;
   --text-light: #e2e8f0;
-  --text-muted: #94a3b8;
+  --text-muted: #5A6B7D;   /* was #94a3b8, 2.21 on the light page */
   --border: #ddd8d0;
 
   /* Skyline Palette */
   --coral: #FF7F50;
+  /* Coral is 2.16:1 as small text on the light page, a long-standing failure
+     on the live blog. --coral-text is the readable pair; --coral stays for
+     fills and borders where it works. */
+  --coral-text: #B8431F;   /* light 4.69 */
   --coral-hover: #e06840;
+  /* White text on #FF7F50 is 2.50. --coral-solid is the fill to use when a
+     button carries white text; --coral stays for tints and borders. */
+  --coral-solid: #B8431F;   /* white text 5.44 */
   --amber: #F4A261;
   --gold: #FCD581;
   --steel-blue: #3C91E6;
@@ -170,7 +177,7 @@ h6,
 
 a {
   text-decoration: none;
-  color: var(--accent);
+  color: var(--coral-text);
 }
 
 a:hover {
@@ -340,7 +347,7 @@ img {
 .nav-link:hover,
 .nav-link.active,
 .menu a:hover {
-  color: var(--accent);
+  color: var(--coral-text);
 }
 
 .nav-cta-mobile { display: none; }  /* desktop uses the separate .header-cta button */
@@ -451,7 +458,7 @@ img {
 }
 
 .hero-side-project a {
-  color: var(--accent);
+  color: var(--coral-text);
   text-decoration: none;
   font-weight: 500;
 }
@@ -461,7 +468,7 @@ img {
 }
 
 .about-text a {
-  color: var(--accent);
+  color: var(--coral-text);
   text-decoration: none;
   font-weight: 500;
 }
@@ -492,7 +499,7 @@ img {
 .btn-primary,
 .header-cta,
 .hero-actions-v2 .btn-primary {
-  background: var(--accent);
+  background: var(--coral-solid);
   background-image: none;
   color: var(--white);
   border-radius: 12px;
@@ -569,8 +576,8 @@ img {
   background-image: none;
   -webkit-background-clip: unset;
   background-clip: unset;
-  -webkit-text-fill-color: var(--accent);
-  color: var(--accent);
+  -webkit-text-fill-color: var(--coral-text);
+  color: var(--coral-text);
   font-weight: 400;
 }
 
@@ -748,7 +755,7 @@ img {
 }
 
 .value-icon {
-  color: var(--accent);
+  color: var(--coral-text);
 }
 
 .value-description {
@@ -868,7 +875,7 @@ img {
 
 .project-card-link:hover .project-card {
   transform: translateY(-4px);
-  border-color: var(--accent);
+  border-color: var(--coral-text);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
 }
 
@@ -1047,7 +1054,7 @@ img {
 }
 
 .footer-links a:hover {
-  color: var(--accent);
+  color: var(--coral-text);
 }
 
 .footer-text {
@@ -1060,7 +1067,7 @@ img {
   padding: 0.4rem 0.85rem;
   border-radius: var(--radius-full);
   background: rgba(var(--primary-rgb), 0.10);
-  color: var(--accent);
+  color: var(--coral-text);
   font-weight: 600;
   letter-spacing: 0.01em;
   transition: all 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
@@ -1076,7 +1083,7 @@ img {
 .footer-text .easter-egg {
   background: rgba(var(--primary-rgb), 0.16);
   border: 1px solid rgba(var(--primary-rgb), 0.30);
-  color: var(--accent);
+  color: var(--coral-text);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: var(--shadow-06);
@@ -1602,7 +1609,7 @@ a.bento-card:hover::before {
   transition: color 0.2s;
   padding: 6px 0;
 }
-.card-writing .writing-item:hover { color: var(--accent); }
+.card-writing .writing-item:hover { color: var(--coral-text); }
 .card-writing .writing-dot {
   width: 8px;
   height: 8px;
@@ -1699,7 +1706,7 @@ a.bento-card:hover::before {
 
 .preamble-accent {
   font-weight: 600;
-  color: var(--accent);
+  color: var(--coral-text);
 }
 
 /* ====== Recommendations ====== */
@@ -1746,7 +1753,7 @@ a.bento-card:hover::before {
   padding: 0.45rem 1rem;
   border-radius: var(--radius-full);
   font-weight: 600;
-  color: var(--accent);
+  color: var(--coral-text);
   background: rgba(var(--primary-rgb), 0.10);
   transition: all 0.25s ease;
   text-decoration: none;
@@ -1826,8 +1833,8 @@ a.bento-card:hover::before {
 }
 
 .rec-nav-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--coral-text);
+  color: var(--coral-text);
 }
 
 /* --- Author block formatting --- */
@@ -1983,7 +1990,7 @@ a.bento-card:hover::before {
 }
 
 .tool-item:hover {
-  border-color: var(--accent);
+  border-color: var(--coral-text);
 }
 
 /* ===== Experience Sector Tags ===== */
@@ -2041,7 +2048,7 @@ a.bento-card:hover::before {
 }
 
 .exp-acquired-detail a:hover {
-  color: var(--accent);
+  color: var(--coral-text);
 }
 
 /* ===== Hero — Mobile Rules ===== */
@@ -2212,7 +2219,7 @@ a.bento-card:hover::before {
 }
 
 .exp-company a {
-  color: var(--accent);
+  color: var(--coral-text);
   text-decoration: none;
 }
 
@@ -2290,7 +2297,7 @@ a.bento-card:hover::before {
   content: "\2022";
   position: absolute;
   left: 0;
-  color: var(--accent);
+  color: var(--coral-text);
 }
 
 .exp-highlights strong {
@@ -2330,7 +2337,7 @@ a.bento-card:hover::before {
   padding: 4px 10px;
   background: rgba(74, 106, 140, 0.08);
   border-radius: var(--radius-full);
-  color: var(--accent);
+  color: var(--coral-text);
   font-weight: 500;
   border: none;
 }
@@ -2525,7 +2532,7 @@ a.bento-card:hover::before {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--white);
-  background: var(--accent);
+  background: var(--coral-solid);
   background-image: none;
   border: none;
   border-radius: 10px;
@@ -2544,7 +2551,7 @@ a.bento-card:hover::before {
 
 .header .btn-primary,
 .header .header-cta {
-  background: var(--accent);
+  background: var(--coral-solid);
   background-image: none;
   border-radius: 10px;
   color: var(--white);
@@ -2889,8 +2896,8 @@ body.tour-active .kevbot-fab {
 }
 
 .earlier-career-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--coral-text);
+  color: var(--coral-text);
   background: rgba(255, 127, 80, 0.04);
 }
 
@@ -3026,14 +3033,15 @@ html {
 /* ========== Dark Mode ========== */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0d1117;
+    --coral-text: #FF7F50;   /* dark 7.57, no lift needed */
+    --bg: #0F0F12;            /* was #0d1117, matches the updated theme */
     --surface: #161b22;
     --surface-alt: #1c2128;
     --card-bg: #161b22;
     --text-primary: #e6edf3;
     --text-secondary: #8b949e;
     --text-light: #e6edf3;
-    --text-muted: #6e7681;
+    --text-muted: #848d97;   /* was #6e7681, 3.77 on the dark card */
     --border: #30363d;
     --toggle-track: #30363d;
     --toggle-thumb: #e6edf3;
@@ -3067,7 +3075,7 @@ html {
   }
 
   .header .header-cta {
-    background: var(--coral);
+    background: var(--coral-solid);
     color: var(--white);
   }
 

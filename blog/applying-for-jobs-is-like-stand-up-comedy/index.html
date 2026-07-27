@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4A6A8C">
+    <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
     <title>Applying for jobs is like stand-up comedy | Kevin Middleton</title>
     <meta name="description" content="A lot of the standard job search advice is bunk, and the rest is easier to follow if you treat the whole thing like an open mic. Go up rusty, test your material, learn to handle hecklers.">
 
@@ -26,11 +27,11 @@
     <meta name="twitter:description" content="A lot of the standard job search advice is bunk, and the rest is easier to follow if you treat the whole thing like an open mic. Go up rusty, test your material, learn to handle hecklers.">
     <meta name="twitter:image" content="https://middleton.io/blog/images/applying-for-jobs-is-like-stand-up-comedy.jpg">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles-merged.css">
-    <link rel="stylesheet" href="/blog/blog.css">
+    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
+         system stack, which is also why the old Inter/Epilogue links are gone. -->
+    <link rel="stylesheet" href="/fv.css?v=d37669f2">
+    <link rel="stylesheet" href="/styles-merged.css?v=ebe475bb">
+    <link rel="stylesheet" href="/blog/blog.css?v=5eb4fae4">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
@@ -107,29 +108,17 @@
     </script>
 </head>
 <body>
-    <header class="header name-visible">
-        <nav class="nav-container has-cta">
-            <a href="/" class="logo">
-                <span class="logo-text visible" id="header-name">
-                    <span class="logo-name">Kevin Middleton</span>
-                    <span class="logo-subtitle">Full Stack Product Manager</span>
-                </span>
-            </a>
-            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul id="menu" class="nav-menu">
-                <li><a href="/#building">Building</a></li>
-                <li><a href="/#about">About</a></li>
-                <li><a href="/#experience">Experience</a></li>
-                <li><a href="/#projects">Case Studies</a></li>
-                <li><a href="/blog/">Blog</a></li>
-                <li><a href="/#connect">Let's Talk</a></li>
-                <li class="nav-cta-mobile"><a href="/officehours/" class="plausible-event-name=Office+Hours plausible-event-location=blog">Office Hours</a></li>
-            </ul>
-            <a href="/officehours/" class="header-cta plausible-event-name=Office+Hours plausible-event-location=blog">Office Hours</a>
-        </nav>
-    </header>
+    <nav class="nav pad">
+        <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+        <span class="nav-l">
+          <a href="/#building">Building</a>
+          <a href="/#about">About</a>
+          <a href="/#record">Experience</a>
+          <a href="/#cases">Case Studies</a>
+          <a href="/blog/">Writing</a>
+        </span>
+        <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
+      </nav>
 
     <main>
     <article class="article">

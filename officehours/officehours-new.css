@@ -35,13 +35,23 @@ html {
   --oh-surface: #ffffff;
   --oh-text: #1a202c;
   --oh-text-secondary: #4a5568;
-  --oh-text-muted: #718096;
-  --oh-accent: #4A6A8C;
-  --oh-accent-hover: #3a5676;
+  --oh-text-muted: #5A6577;     /* was #718096: 3.46 on --oh-bg, 4.02 on white */
+  /* Kevin: keep the page, swap in our colours. --oh-accent drives the primary
+     buttons and moves to cobalt; the step numbers and check marks each take a
+     different hue so the page uses the palette rather than one flat colour. */
+  --oh-accent: #1F4B8F;          /* cobalt FILL: white text on it, 8.53 */
+  --oh-accent-ink: #1F4B8F;      /* cobalt as TEXT on the page background */
+  --oh-accent-2: #2C7A63;        /* viridian */
+  --oh-accent-3: #6D4AA8;        /* plum */
+  --oh-accent-4: #9E227D;        /* fuchsia */
+  --oh-accent-5: #C3384B;        /* madder */
+  --oh-accent-hover: #17386B;
   --oh-warm: #C4A07A;
   --oh-border: #e2e8f0;
-  --oh-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --oh-heading: 'Epilogue', 'Inter', sans-serif;
+  /* Inter/Epilogue dropped: this was the last page pulling webfonts.
+     Same stack as fv.css so the page matches the rest of the site. */
+  --oh-font: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  --oh-heading: "Helvetica Neue",Helvetica,Arial,sans-serif;
   --oh-radius: 16px;
 }
 
@@ -161,7 +171,7 @@ body {
   text-decoration: none;
   transition: color 0.2s;
 }
-.oh-hero-link:hover { color: var(--oh-accent); }
+.oh-hero-link:hover { color: var(--oh-accent-ink); }
 
 /* Scroll indicator */
 .oh-scroll-hint {
@@ -293,7 +303,7 @@ body {
 
 .oh-intro-link {
   font-size: 0.85rem;
-  color: var(--oh-accent);
+  color: var(--oh-accent-ink);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
@@ -428,7 +438,7 @@ body {
 }
 
 .oh-footer a {
-  color: var(--oh-accent);
+  color: var(--oh-accent-ink);
   text-decoration: none;
 }
 .oh-footer a:hover { text-decoration: underline; }
@@ -456,5 +466,48 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+}
+
+
+/* --- palette pass ---------------------------------------------------------
+   Step numbers cycle through the hue family instead of all being one colour,
+   and the check marks do the same. White sits on every one of these at 5.1:1
+   or better, so the fills carry their glyph safely. */
+.oh-step:nth-of-type(1) .oh-step-number{background:var(--oh-accent)}
+.oh-step:nth-of-type(2) .oh-step-number{background:var(--oh-accent-2)}
+.oh-step:nth-of-type(3) .oh-step-number{background:var(--oh-accent-3)}
+.oh-step:nth-of-type(4) .oh-step-number{background:var(--oh-accent-4)}
+.oh-step .oh-step-number{color:#fff}
+
+.oh-expect-item:nth-of-type(1) .oh-expect-icon{background:var(--oh-accent-2)}
+.oh-expect-item:nth-of-type(2) .oh-expect-icon{background:var(--oh-accent)}
+.oh-expect-item:nth-of-type(3) .oh-expect-icon{background:var(--oh-accent-3)}
+.oh-expect-item:nth-of-type(4) .oh-expect-icon{background:var(--oh-accent-4)}
+.oh-expect-icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:24px; height:24px; border-radius:50%;
+  color:#fff; font-size:.72rem; font-weight:700; flex:0 0 auto;
+}
+
+
+/* ==========================================================================
+   Dark mode. This page had none: it rendered its light palette against a dark
+   OS and was the only surface on the site that did. Every value here is a
+   token override, because the page never hardcodes a colour.
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --oh-bg: #0F0F12;
+    --oh-surface: #17171B;
+    --oh-text: #F2F2F4;
+    --oh-text-secondary: #C3C3CC;
+    --oh-text-muted: #A2A2AC;      /* 7.4 on --oh-bg, 6.3 on --oh-surface */
+    /* Accent FILLS are unchanged in dark on purpose: they carry white text, so
+       lifting them drops white below 4.5. Only the ink inverts. */
+    --oh-accent-ink: #6E93CC;      /* cobalt lifted, for text on the dark page */
+    --oh-accent-hover: #6E93CC;
+    --oh-warm: #D9BE9E;
+    --oh-border: #2C2C33;
   }
 }

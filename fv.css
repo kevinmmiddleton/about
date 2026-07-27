@@ -1,0 +1,2678 @@
+/* ============================================================================
+   fv.css — the middleton.io design system, one file.
+
+   Replaces: casestudies/styles.css (remote), case-study.css, slides.css,
+   recipes/styles.css, officehours-new.css, and the inline block in
+   prototypes/index.html. Those were five palettes and four font stacks that
+   drifted apart because there were five places to change.
+
+   Token values are lifted verbatim from the Full Volume homepage. Two rules
+   worth knowing before editing:
+     1. marigold is the one light-valued hue. It works as a SURFACE and fails
+        as ink or a thin border on light ground (1.97:1). Use --c1-line, never
+        --marigold, for borders and small text.
+     2. --cN-line values are the mode-flipping ones, chosen to hold 3:1 against
+        the page in BOTH schemes. Borders and small coloured text use them.
+   ========================================================================= */
+
+:root{
+  /* Spacing, radius, shadow and timing scales. These existed in the old root
+     styles.css; pages that referenced them silently fell back to `auto` when it
+     was removed, which is what pushed the case-study hover arrow to the top-left
+     and collapsed the hero padding. Defined here so nothing dangles. */
+  --spacing-xs:.25rem; --spacing-sm:.5rem; --spacing-md:.85rem;
+  --spacing-lg:1.15rem; --spacing-xl:1.8rem; --spacing-2xl:2.8rem;
+  --radius-lg:var(--r); --radius-full:99px;
+  --transition-fast:.12s ease; --transition-base:.2s ease;
+  --shadow-06:var(--shadow-1); --shadow-12:var(--shadow-2); --shadow-20:var(--shadow-3);
+  --black-rgb:17,17,19; --purple-rgb:109,74,168;
+  /* Text-safe hue variants. --cN-line holds 3:1 for BORDERS; as small text the
+     hues fall under 4.5:1, especially on the dark page. Use --cN-text whenever
+     a hue is the colour of words. */
+  --c1-text:#8A6210; --c2-text:#AB3142; --c3-text:#266B57;
+  --c4-text:#1F4B8F; --c5-text:#6D4AA8; --c6-text:#9E227D;
+  /* shadows and scrims, mode-aware so sub-pages never hardcode rgba() */
+  --shadow-1:0 1px 3px rgba(0,0,0,.06);
+  --shadow-2:0 4px 14px rgba(0,0,0,.10);
+  --shadow-3:0 10px 30px rgba(0,0,0,.15);
+  --glass:rgba(255,255,255,.92);
+  --tint-soft:rgba(0,0,0,.05);
+  /* brand marks that must stay their own colour regardless of theme */
+  --brand-sa:#f7941e;
+  --brand-rss:#F26522;
+  /* ---------- neutrals (flip per mode) ---------- */
+  --bg:#F4F4F5; --bg2:#E9E9EC; --ink:#111113; --ink2:#5B5B62; --rule:#D8D8DD;
+  /* --rule is a hairline divider. --rule-strong is for borders >=2px, which
+     have to read as an object at 3:1 rather than as a whisper. */
+  --rule-strong:#8B8B90;
+  /* the deliberate contrast panel. Separate from --ink because --ink also
+     carries text and borders, which invert; these panels must stay panels. */
+  --invert:#111113; --on-invert:#F2F2F4;
+
+  /* ---------- hue identity (same in both modes) ---------- */
+  --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;
+  --cobalt:#1F4B8F;   --plum:#6D4AA8;   --fuchsia:#9E227D;
+  --on-hue:#FFFFFF;    /* text on a saturated card: >=5.16 on all five */
+  --on-mari:#241700;   /* marigold is a LIGHT surface, so it needs dark text */
+
+  /* ---------- accents as text (depend on the ground) ---------- */
+  --accent-text:#AB3142;       /* small accent text on the page      5.88 */
+  --accent-on-invert:#CF5F6F;  /* small accent text on the panel     4.96 */
+  --gold-on-invert:#E8A317;    /* gold display text on the panel     8.74 */
+  --cta-blue:#4B6FA5;          /* button on the invert band          3.72 */
+
+  /* ---------- strength chips: outlined when idle, filled when chosen ----------
+     --line is the outline and must clear 3:1 against the PAGE, so it moves per
+     mode. --fill is the pure hue and never moves, because a filled chip brings
+     its own ground with it. */
+  --c1-line:#A77510;         --c1-fill:var(--marigold); --c1-on:var(--on-mari);
+  --c2-line:var(--madder);   --c2-fill:var(--madder);   --c2-on:var(--on-hue);
+  --c3-line:var(--viridian); --c3-fill:var(--viridian); --c3-on:var(--on-hue);
+  --c4-line:var(--cobalt);   --c4-fill:var(--cobalt);   --c4-on:var(--on-hue);
+  --c5-line:var(--plum);     --c5-fill:var(--plum);     --c5-on:var(--on-hue);
+  --c6-line:var(--fuchsia);  --c6-fill:var(--fuchsia);  --c6-on:var(--on-hue);
+
+  /* ---------- rotating hero words: need 3:1 on the page ---------- */
+  --swap-1:var(--cobalt); --swap-2:var(--plum);
+  --swap-3:var(--viridian); --swap-4:var(--madder);
+
+  /* ---------- writing-card dots: 3:1 on the invert panel, six distinct
+       hues, no repeats. Lifted here because the panel is dark. ---------- */
+  --dot-1:#4B6FA5; --dot-2:#B35299; --dot-3:#E8A317;
+  --dot-4:#8A6EB9; --dot-5:#2C7A63; --dot-6:#C3384B;
+
+  /* ---------- scrims and hairlines ---------- */
+  --nav-bg:rgba(244,244,245,.92);
+  --scrim-dark:rgba(0,0,0,.28);
+  --scrim-light:rgba(255,255,255,.28);
+  --hairline-invert:rgba(255,255,255,.17);
+  --hairline-mari:rgba(0,0,0,.17);
+
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",Menlo,ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --r:10px;
+  margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --c1-text:#E8A317; --c2-text:#E8697C; --c3-text:#3FA588;
+    --c4-text:#6E93CC; --c5-text:#A98FD8; --c6-text:#D96BB8;
+    --shadow-1:0 1px 3px rgba(0,0,0,.5);
+    --shadow-2:0 4px 14px rgba(0,0,0,.6);
+    --shadow-3:0 10px 30px rgba(0,0,0,.7);
+    --glass:rgba(255,255,255,.92);   /* pills over photos stay light in both modes */
+    --tint-soft:rgba(255,255,255,.06);
+    --bg:#0F0F12; --bg2:#17171B; --ink:#F2F2F4; --ink2:#A2A2AC; --rule:#2C2C33;
+    --rule-strong:#656570;
+    /* the contrast panel flips with the page so it still reads as a panel */
+    --invert:#EDEDF0; --on-invert:#111113;
+    /* accent-as-text trades ends: lift it on the page, deepen it on the panel */
+    --accent-text:#D26978;        /* 5.50 on --bg     */
+    --accent-on-invert:#AB3142;   /* 5.53 on --invert */
+    /* Deep enough for the SMALL chip kicker (4.5), not just the 46px "messy."
+       (3.0). One token has to satisfy the stricter of its two uses. */
+    --gold-on-invert:#815B0C;     /* 5.23 on --invert; marigold is 1.97 there */
+    /* cobalt and plum fall under the 3:1 large-text floor on a dark page */
+    --swap-1:#4B6FA5; --swap-2:#8A6EB9;
+    /* dots: the panel is light now, so the BASE hues pass and gold must deepen */
+    /* outlines flip: marigold is fine on a dark page, but cobalt (2.24),
+       plum (2.91) and fuchsia (2.71) all fall under 3:1 and must lift. */
+    --c1-line:var(--marigold);
+    --c4-line:#4B6FA5; --c5-line:#8A6EB9; --c6-line:#B14E97;
+    --dot-1:#1F4B8F; --dot-2:#9E227D; --dot-3:#A77510;
+    --dot-4:#6D4AA8; --dot-5:#2C7A63; --dot-6:#C3384B;
+    --nav-bg:rgba(15,15,18,.92);
+    --hairline-invert:rgba(0,0,0,.17);
+  }
+}
+
+/* ---------- base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:5rem;-webkit-text-size-adjust:100%}
+@media(max-width:760px){html{scroll-padding-top:4.5rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* ---------- layout ---------- */
+.pad{padding-inline:clamp(1rem,4vw,3rem);max-width:1400px;margin-inline:auto}
+.sec{padding-block:clamp(2.4rem,5vw,4.2rem)}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+  flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:.7rem;margin-bottom:1.6rem}
+.sec-h h1,.sec-h h2{margin:0;font-size:clamp(1.6rem,3.4vw,2.5rem);font-weight:800;letter-spacing:-.03em}
+.sec-h span{font-size:.86rem;color:var(--ink2)}
+.kick{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink2)}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:500;background:var(--nav-bg);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;
+  gap:1.2rem;flex-wrap:wrap;padding-block:.7rem}
+.mk{font-weight:800;letter-spacing:-.025em;display:grid;gap:.12rem;line-height:1.12;
+  text-decoration:none;font-size:1rem}
+.mk small{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:400;color:var(--ink2)}
+.nav-l{display:flex;gap:1.1rem;flex-wrap:wrap}
+.nav-l a{font-size:.8rem;color:var(--ink2);text-decoration:none;
+  border-bottom:1px solid transparent;transition:.16s}
+.nav-l a:hover{color:var(--ink);border-bottom-color:var(--marigold)}
+.cta{background:var(--marigold);color:var(--on-mari);font-weight:800;font-size:.76rem;
+  padding:.5rem .95rem;border-radius:99px;text-decoration:none;display:inline-block;
+  transition:transform .18s}
+.cta:hover{transform:translateY(-2px)}
+/* one nowrap scrolling row instead of three wrapped ones: the wrapped nav ate
+   20.6% of a 375px viewport and buried every anchor target underneath itself */
+@media(max-width:760px){
+  .nav{flex-wrap:nowrap;gap:.6rem}
+  .nav-l{flex:1 1 auto;min-width:0;flex-wrap:nowrap;overflow-x:auto;gap:.85rem;
+    scrollbar-width:none;-ms-overflow-style:none}
+  .nav-l::-webkit-scrollbar{display:none}
+  .nav-l a{white-space:nowrap}
+  .mk small{display:none}
+  .cta{flex:0 0 auto}
+}
+
+/* ---------- cards: six hues, repeating past six items ---------- */
+.grid{display:grid;gap:.6rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  align-items:stretch}
+/* an even card count reads better paired than as a row plus an orphan */
+.grid--pairs{grid-template-columns:repeat(2,1fr)}
+@media(max-width:820px){.grid--pairs{grid-template-columns:1fr}}
+.grid-3{display:grid;gap:.6rem;grid-template-columns:repeat(3,1fr)}
+@media(max-width:820px){.grid-3{grid-template-columns:1fr}}
+/* flex column, not grid: margin-top:auto on the tag row only distributes free
+   space in a flex container, so this is what actually floors the tags. */
+.card{border:2px solid var(--c-line,var(--ink));border-radius:var(--r);padding:1rem;
+  text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.35rem;
+  background:var(--bg);height:100%;
+  transition:background .18s,color .18s,transform .18s,border-color .18s,box-shadow .18s}
+/* tags sit on the card floor so they line up across a row instead of floating
+   wherever the copy happens to end */
+.card .tags{margin-top:auto;padding-top:.55rem}
+.card:nth-child(6n+1){--c-line:var(--c1-line);--c-fill:var(--c1-fill);--c-on:var(--c1-on)}
+.card:nth-child(6n+2){--c-line:var(--c2-line);--c-fill:var(--c2-fill);--c-on:var(--c2-on)}
+.card:nth-child(6n+3){--c-line:var(--c3-line);--c-fill:var(--c3-fill);--c-on:var(--c3-on)}
+.card:nth-child(6n+4){--c-line:var(--c4-line);--c-fill:var(--c4-fill);--c-on:var(--c4-on)}
+.card:nth-child(6n+5){--c-line:var(--c5-line);--c-fill:var(--c5-fill);--c-on:var(--c5-on)}
+.card:nth-child(6n+6){--c-line:var(--c6-line);--c-fill:var(--c6-fill);--c-on:var(--c6-on)}
+a.card:hover{background:var(--c-fill);border-color:var(--c-line);color:var(--c-on)}
+a.card:hover .card-m{color:var(--c-on)}
+.card b{font-size:1.02rem;font-weight:800;letter-spacing:-.02em}
+.card span{font-size:.78rem;line-height:1.42}
+.card-m{font-family:var(--mono);font-size:.66rem;font-weight:700;color:var(--accent-text);transition:.22s}
+.card-k{font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink2)}
+
+/* ---------- prose, for case studies and articles ---------- */
+.prose{max-width:68ch}
+.prose p,.prose li{font-size:1rem;line-height:1.65;color:var(--ink2)}
+.prose h2{font-size:clamp(1.3rem,2.6vw,1.8rem);font-weight:800;letter-spacing:-.025em;
+  color:var(--ink);margin:2.2rem 0 .6rem}
+.prose h3{font-size:1.02rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:1.5rem 0 .4rem}
+.prose strong{color:var(--ink)}
+.prose ul{padding-left:1.1rem;display:grid;gap:.45rem}
+.prose li::marker{color:var(--c1-line)}
+.lk{color:inherit;text-decoration:none;border-bottom:2px solid var(--marigold);
+  padding-bottom:.06rem;transition:.16s}
+.lk:hover{border-bottom-color:var(--ink)}
+
+/* ---------- metrics + tags ---------- */
+.metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;margin:1rem 0}
+.metric b{display:block;font-size:clamp(1.3rem,2.6vw,1.9rem);font-weight:800;letter-spacing:-.03em}
+.metric span{font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink2)}
+.tags{display:flex;flex-wrap:wrap;gap:.32rem}
+.tags span{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.24rem .5rem;border-radius:99px;border:1px solid var(--rule);color:var(--ink2)}
+
+/* ---------- footer ---------- */
+.colophon{padding-block:clamp(2rem,4vw,3rem) clamp(2.4rem,5vw,3.6rem);border-top:2px solid var(--ink)}
+.colo-nav{display:flex;flex-wrap:wrap;gap:.35rem 1.1rem;margin:0 0 1.1rem}
+.colo-nav a{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink2);text-decoration:none;border-bottom:1px solid transparent}
+.colo-nav a:hover{color:var(--ink);border-bottom-color:var(--marigold)}
+.colo-tip{font-size:.84rem;color:var(--ink2);margin:0}
+
+/* ---------- reveal, fails open ---------- */
+.rv{opacity:1}
+.js-reveal .rv{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease}
+.js-reveal .rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .js-reveal .rv{opacity:1!important;transform:none!important;transition:none}
+}
+
+/* Logo cards. A brand mark cannot sit on a hue fill without clashing, so these
+   keep the hue as an outline and hover with a lift plus an 8% tint instead of
+   the full fill the text-only cards use. */
+/* Kevin: no colour on hover for logo cards. Lift and firm up the border only,
+   so brand marks never sit on a tinted ground. */
+a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px);
+  border-color:var(--ink);box-shadow:var(--shadow-2)}
+.card--soft:hover .card-m{color:var(--accent-text)}
+.card-logo{height:30px;max-width:130px;object-fit:contain;object-position:left center;
+  justify-self:start;margin-bottom:.15rem}
+.card-logo.tile{height:38px;padding:8px 11px;background:var(--brand-sa);border-radius:7px}
+
+/* ---------------------------------------------------------------------------
+   Manual theme override. The site is system-driven by default; /slides/ keeps a
+   visible light/dark toggle, and this lets that toggle win over the media query
+   in both directions without introducing a second palette.
+   ------------------------------------------------------------------------- */
+:root[data-theme="dark"]{
+    --c1-text:#E8A317; --c2-text:#E8697C; --c3-text:#3FA588;
+    --c4-text:#6E93CC; --c5-text:#A98FD8; --c6-text:#D96BB8;
+    --shadow-1:0 1px 3px rgba(0,0,0,.5);
+    --shadow-2:0 4px 14px rgba(0,0,0,.6);
+    --shadow-3:0 10px 30px rgba(0,0,0,.7);
+    --glass:rgba(255,255,255,.92);   /* pills over photos stay light in both modes */
+    --tint-soft:rgba(255,255,255,.06);
+    --bg:#0F0F12; --bg2:#17171B; --ink:#F2F2F4; --ink2:#A2A2AC; --rule:#2C2C33;
+    --rule-strong:#656570;
+    /* the contrast panel flips with the page so it still reads as a panel */
+    --invert:#EDEDF0; --on-invert:#111113;
+    /* accent-as-text trades ends: lift it on the page, deepen it on the panel */
+    --accent-text:#D26978;        /* 5.50 on --bg     */
+    --accent-on-invert:#AB3142;   /* 5.53 on --invert */
+    /* Deep enough for the SMALL chip kicker (4.5), not just the 46px "messy."
+       (3.0). One token has to satisfy the stricter of its two uses. */
+    --gold-on-invert:#815B0C;     /* 5.23 on --invert; marigold is 1.97 there */
+    /* cobalt and plum fall under the 3:1 large-text floor on a dark page */
+    --swap-1:#4B6FA5; --swap-2:#8A6EB9;
+    /* dots: the panel is light now, so the BASE hues pass and gold must deepen */
+    /* outlines flip: marigold is fine on a dark page, but cobalt (2.24),
+       plum (2.91) and fuchsia (2.71) all fall under 3:1 and must lift. */
+    --c1-line:var(--marigold);
+    --c4-line:#4B6FA5; --c5-line:#8A6EB9; --c6-line:#B14E97;
+    --dot-1:#1F4B8F; --dot-2:#9E227D; --dot-3:#A77510;
+    --dot-4:#6D4AA8; --dot-5:#2C7A63; --dot-6:#C3384B;
+    --nav-bg:rgba(15,15,18,.92);
+    --hairline-invert:rgba(0,0,0,.17);
+}
+:root[data-theme="light"]{
+  /* Text-safe hue variants. --cN-line holds 3:1 for BORDERS; as small text the
+     hues fall under 4.5:1, especially on the dark page. Use --cN-text whenever
+     a hue is the colour of words. */
+  --c1-text:#8A6210; --c2-text:#AB3142; --c3-text:#266B57;
+  --c4-text:#1F4B8F; --c5-text:#6D4AA8; --c6-text:#9E227D;
+  /* shadows and scrims, mode-aware so sub-pages never hardcode rgba() */
+  --shadow-1:0 1px 3px rgba(0,0,0,.06);
+  --shadow-2:0 4px 14px rgba(0,0,0,.10);
+  --shadow-3:0 10px 30px rgba(0,0,0,.15);
+  --glass:rgba(255,255,255,.92);
+  --tint-soft:rgba(0,0,0,.05);
+  /* brand marks that must stay their own colour regardless of theme */
+  --brand-sa:#f7941e;
+  --brand-rss:#F26522;
+  /* ---------- neutrals (flip per mode) ---------- */
+  --bg:#F4F4F5; --bg2:#E9E9EC; --ink:#111113; --ink2:#5B5B62; --rule:#D8D8DD;
+  /* --rule is a hairline divider. --rule-strong is for borders >=2px, which
+     have to read as an object at 3:1 rather than as a whisper. */
+  --rule-strong:#8B8B90;
+  /* the deliberate contrast panel. Separate from --ink because --ink also
+     carries text and borders, which invert; these panels must stay panels. */
+  --invert:#111113; --on-invert:#F2F2F4;
+
+  /* ---------- hue identity (same in both modes) ---------- */
+  --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;
+  --cobalt:#1F4B8F;   --plum:#6D4AA8;   --fuchsia:#9E227D;
+  --on-hue:#FFFFFF;    /* text on a saturated card: >=5.16 on all five */
+  --on-mari:#241700;   /* marigold is a LIGHT surface, so it needs dark text */
+
+  /* ---------- accents as text (depend on the ground) ---------- */
+  --accent-text:#AB3142;       /* small accent text on the page      5.88 */
+  --accent-on-invert:#CF5F6F;  /* small accent text on the panel     4.96 */
+  --gold-on-invert:#E8A317;    /* gold display text on the panel     8.74 */
+  --cta-blue:#4B6FA5;          /* button on the invert band          3.72 */
+
+  /* ---------- strength chips: outlined when idle, filled when chosen ----------
+     --line is the outline and must clear 3:1 against the PAGE, so it moves per
+     mode. --fill is the pure hue and never moves, because a filled chip brings
+     its own ground with it. */
+  --c1-line:#A77510;         --c1-fill:var(--marigold); --c1-on:var(--on-mari);
+  --c2-line:var(--madder);   --c2-fill:var(--madder);   --c2-on:var(--on-hue);
+  --c3-line:var(--viridian); --c3-fill:var(--viridian); --c3-on:var(--on-hue);
+  --c4-line:var(--cobalt);   --c4-fill:var(--cobalt);   --c4-on:var(--on-hue);
+  --c5-line:var(--plum);     --c5-fill:var(--plum);     --c5-on:var(--on-hue);
+  --c6-line:var(--fuchsia);  --c6-fill:var(--fuchsia);  --c6-on:var(--on-hue);
+
+  /* ---------- rotating hero words: need 3:1 on the page ---------- */
+  --swap-1:var(--cobalt); --swap-2:var(--plum);
+  --swap-3:var(--viridian); --swap-4:var(--madder);
+
+  /* ---------- writing-card dots: 3:1 on the invert panel, six distinct
+       hues, no repeats. Lifted here because the panel is dark. ---------- */
+  --dot-1:#4B6FA5; --dot-2:#B35299; --dot-3:#E8A317;
+  --dot-4:#8A6EB9; --dot-5:#2C7A63; --dot-6:#C3384B;
+
+  /* ---------- scrims and hairlines ---------- */
+  --nav-bg:rgba(244,244,245,.92);
+  --scrim-dark:rgba(0,0,0,.28);
+  --scrim-light:rgba(255,255,255,.28);
+  --hairline-invert:rgba(255,255,255,.17);
+  --hairline-mari:rgba(0,0,0,.17);
+
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",Menlo,ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --r:10px;
+  margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+
+
+/* ==========================================================================
+   Case studies index — scoped to body.p-cases.
+   Scoped because these files share class names with each other and with the
+   shared layer (card, hero, tag, metric, highlight all mean different things
+   in different places). :root token maps become the scope itself.
+   ========================================================================== */
+body.p-cases .cs-landing{
+            min-height: 100vh;
+            background: var(--bg);
+            padding: 0;
+        }body.p-cases .cs-nav{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-xl);
+            max-width: 1200px;
+            margin: 0 auto;
+        }body.p-cases .cs-nav a{
+            color: var(--ink2);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }body.p-cases .cs-nav a:hover{ color: var(--ink); }body.p-cases .cs-nav-name{
+            font-weight: 700;
+            color: var(--ink) !important;
+            font-size: 1.15rem !important;
+            line-height: 1.3;
+        }body.p-cases .cs-nav-title{
+            display: block;
+            font-size: 0.8rem !important;
+            font-weight: 500;
+            color: var(--ink2) !important;
+            letter-spacing: 0.02em;
+        }body.p-cases .cs-hero{ max-width:1400px; margin-inline:auto; padding: clamp(1.8rem,4.5vw,3rem) clamp(1rem,4vw,3rem) 0; }body.p-cases .cs-hero-label{
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--c5-line);
+            margin-bottom: var(--spacing-sm);
+        }body.p-cases .cs-hero h1{
+            font-family: var(--sans);
+            font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--ink);
+            line-height: 1.1;
+            margin-bottom: var(--spacing-md);
+        }body.p-cases .cs-hero h1 .highlight{ color: inherit; }body.p-cases .cs-hero-intro{
+            font-size: 1.05rem;
+            color: var(--ink2);
+            line-height: 1.7;
+            max-width: 640px;
+        }body.p-cases .cs-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: var(--spacing-lg);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl) var(--spacing-2xl);
+        }body.p-cases .cs-card-link{
+            text-decoration: none;
+            color: inherit;
+        }body.p-cases .cs-card{
+            background: rgba(255,255,255, 0.65);
+            border: 1px solid rgba(255,255,255, 0.55);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-06);
+            padding: var(--spacing-lg);
+            transition: transform var(--transition-base), box-shadow var(--transition-base);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }body.p-cases .cs-card:hover{
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-20);
+        }body.p-cases .cs-card::after{
+            content: '↗';
+            position: absolute;
+            top: var(--spacing-lg);
+            right: var(--spacing-lg);
+            font-size: 1.1rem;
+            color: var(--ink2);
+            opacity: 0;
+            transition: opacity var(--transition-base), transform var(--transition-base);
+        }body.p-cases .cs-card:hover::after{
+            opacity: 0.6;
+            transform: translate(2px, -2px);
+        }body.p-cases .cs-card-header{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: var(--spacing-md);
+        }body.p-cases .cs-card-logo{
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            border-radius: var(--r);
+            flex-shrink: 0;
+        }body.p-cases .cs-card-company{
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--ink2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }body.p-cases .cs-card-title{
+            font-family: var(--sans);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.3;
+            margin-bottom: var(--spacing-xs);
+        }body.p-cases .cs-card-subtitle{
+            color: var(--ink2);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: var(--spacing-lg);
+            flex-grow: 1;
+        }body.p-cases .cs-metrics{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            padding-top: var(--spacing-md);
+            border-top: 1px solid rgba(var(--black-rgb), 0.06);
+        }body.p-cases .cs-metric{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 4px;
+        }body.p-cases .cs-metric:not(:last-child){
+            border-right: 1px solid rgba(var(--black-rgb), 0.06);
+        }body.p-cases .cs-metric-value{ font-size: 1.3rem; font-weight: 800; color: var(--ink); line-height: 1.3; white-space: nowrap; margin-bottom: 4px; }body.p-cases .cs-metric-label{
+            font-size: 0.68rem;
+            color: var(--ink2);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 600;
+            line-height: 1.35;
+        }body.p-cases .cs-pills{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: var(--spacing-md);
+        }body.p-cases .cs-pill{
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            background: rgba(var(--purple-rgb), 0.1);
+            color: var(--c5-line);
+            white-space: nowrap;
+        }
+
+        @media (prefers-color-scheme: dark) {body.p-cases .cs-pill{
+                background: rgba(var(--purple-rgb), 0.18);
+            }
+        }body.p-cases .cs-footer{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-2xl);
+            text-align: center;
+        }body.p-cases .cs-footer-text{
+            color: var(--ink2);
+            font-size: 0.95rem;
+            margin-bottom: var(--spacing-sm);
+        }body.p-cases .cs-footer-links{
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+        }body.p-cases .cs-footer-links a{
+            color: var(--c4-line);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: opacity var(--transition-fast);
+        }body.p-cases .cs-footer-links a:hover{ opacity: 0.8; }
+
+        
+        @media (prefers-color-scheme: dark) {body.p-cases .cs-card{
+                background: rgba(20, 20, 25, 0.55);
+                border: 1px solid rgba(255,255,255, 0.12);
+                box-shadow: var(--shadow-12);
+            }body.p-cases .cs-card:hover{ box-shadow: var(--shadow-20); }body.p-cases .cs-metrics{
+                border-top-color: rgba(255,255,255, 0.1);
+            }body.p-cases .cs-metric:not(:last-child){
+                border-right-color: rgba(255,255,255, 0.1);
+            }
+        }
+
+        
+        @media (max-width: 768px) {body.p-cases .cs-nav{ padding: var(--spacing-sm) var(--spacing-md); }body.p-cases .cs-hero{
+                padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
+            }body.p-cases .cs-grid{
+                grid-template-columns: 1fr;
+                padding: 0 var(--spacing-md) var(--spacing-xl);
+            }
+        }body.p-cases .cs-grid{ grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: .6rem; align-items: stretch; }body.p-cases .cs-card-link{ display: block; height: 100%; }body.p-cases .cs-card{ height: 100%; display: grid; align-content: start; gap: .45rem;
+                   border: 2px solid var(--rule); background: var(--bg); padding: 1.15rem; }body.p-cases .cs-card:hover{ border-color: var(--ink); transform: translateY(-2px); }body.p-cases .cs-metrics{ margin-top: auto; padding-top: .5rem; }body.p-cases .cs-hero{ padding-block: clamp(1.8rem, 4.5vw, 3.4rem) clamp(1.2rem, 3vw, 2rem); }body.p-cases .cs-hero h1{ margin: 0 0 .6rem; }body.p-cases .cs-hero-intro{ margin: 0; }body.p-cases .cs-footer{ border-top: 2px solid var(--ink); margin-top: clamp(2rem,4vw,3rem);
+                     padding-block: clamp(1.6rem,3vw,2.4rem); display: grid; gap: .7rem; }body.p-cases .cs-footer-text{ margin: 0; font-size: .84rem; color: var(--ink2); }body.p-cases .cs-footer-links{ display: flex; flex-wrap: wrap; gap: .35rem 1.1rem; }body.p-cases .cs-footer-links a{ font-family: var(--mono); font-size: .66rem; font-weight: 700;
+                             letter-spacing: .09em; text-transform: uppercase;
+                             color: var(--ink2); text-decoration: none; }body.p-cases .cs-footer-links a:hover{ color: var(--ink); }body.p-cases .cs-hero-head{ display:flex; align-items:baseline; justify-content:space-between;
+                        gap:1rem; flex-wrap:wrap; border-bottom:2px solid var(--ink);
+                        padding-bottom:.7rem; }body.p-cases .cs-hero-label{ margin:0; order:2; font-family:var(--mono); font-size:.6rem;
+                         font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+                         color:var(--ink2); }body.p-cases .cs-hero h1{ order:1; margin:0; font-size:clamp(1.6rem,3.4vw,2.5rem);
+                      font-weight:800; letter-spacing:-.03em; color:var(--ink); }body.p-cases .cs-hero-intro{ margin:1.1rem 0 0; max-width:68ch; }body.p-cases .cs-card::after{ top:auto; left:auto; bottom:.9rem; right:.9rem; }
+    
+
+/* ==========================================================================
+   Case study detail — scoped to body.p-case.
+   Scoped because these files share class names with each other and with the
+   shared layer (card, hero, tag, metric, highlight all mean different things
+   in different places). :root token maps become the scope itself.
+   ========================================================================== */
+body.p-case{
+  
+  --surface: var(--bg2);
+  --surface-2: var(--bg2);
+  --border: var(--rule);
+  --text: var(--ink);
+  --text-dim: var(--ink2);
+  --text-muted: var(--ink2);
+  --blue: var(--c4-text);
+  --purple: var(--c5-text);
+  --pink: var(--c6-text);
+  --mint: var(--c3-text);
+  --yellow: var(--c1-text);
+  --peach: var(--c1-text);
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
+  --radius: var(--r);
+
+}body.p-case *{ margin: 0; padding: 0; box-sizing: border-box; }body.p-case{
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+}body.p-case .window-chrome{
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}body.p-case .window-dots{
+    display: flex;
+    gap: 8px;
+}body.p-case .window-dot{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}body.p-case .window-dot.red{ background: #ff5f57; }body.p-case .window-dot.yellow{ background: #ffbd2e; }body.p-case .window-dot.green{ background: #28c840; }body.p-case .window-title{
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}body.p-case .window-title img{
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}body.p-case .back-link{
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+}body.p-case .back-link:hover{
+    color: var(--blue);
+}body.p-case .hero{
+    padding: 60px 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}body.p-case .hero-label{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+}body.p-case .hero h1{
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+}body.p-case .hero-subtitle{
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 600px;
+    margin: 0 auto 32px;
+}body.p-case .hero-metrics{
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 32px;
+    max-width: 600px;
+    margin: 0 auto 24px;
+}body.p-case .hero-metrics.metrics-2{ max-width: 400px; }body.p-case .hero-metrics.metrics-3{ max-width: 600px; }body.p-case .hero-metrics.metrics-4{ max-width: 700px; gap: 24px; }body.p-case .metric{
+    text-align: center;
+}body.p-case .hero-metrics.metrics-4 .metric{
+    min-width: 120px;
+}body.p-case .metric-value{
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--mint);
+}body.p-case .metric-label{
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}body.p-case .hero-meta{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+}body.p-case .hero-meta-list{
+    display: flex;
+    justify-content: center;
+    gap: 8px 24px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+}body.p-case .hero-meta-item{
+    text-align: center;
+    max-width: 100%;
+}
+
+
+@media (max-width: 600px) {body.p-case .hero-meta-list{
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+}body.p-case .toc-static{
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    overflow-x: auto;
+}body.p-case .toc-grid{
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}body.p-case .toc-item{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    white-space: nowrap;
+}body.p-case .toc-item[data-section="introduction"]:hover, body.p-case .toc-item[data-section="introduction"].active{
+    color: var(--blue);
+    border-color: var(--blue);
+    background: rgba(92, 138, 255, 0.1);
+}body.p-case .toc-item[data-section="problem"]:hover, body.p-case .toc-item[data-section="problem"].active{
+    color: var(--purple);
+    border-color: var(--purple);
+    background: rgba(160, 120, 255, 0.1);
+}body.p-case .toc-item[data-section="strategy"]:hover, body.p-case .toc-item[data-section="strategy"].active{
+    color: var(--mint);
+    border-color: var(--mint);
+    background: rgba(74, 224, 160, 0.1);
+}body.p-case .toc-item[data-section="platform"]:hover, body.p-case .toc-item[data-section="platform"].active{
+    color: var(--peach);
+    border-color: var(--peach);
+    background: rgba(255, 159, 106, 0.1);
+}body.p-case .toc-item[data-section="walkthrough"]:hover, body.p-case .toc-item[data-section="walkthrough"].active{
+    color: var(--blue);
+    border-color: var(--blue);
+    background: rgba(92, 138, 255, 0.1);
+}body.p-case .toc-item[data-section="execution"]:hover, body.p-case .toc-item[data-section="execution"].active{
+    color: var(--purple);
+    border-color: var(--purple);
+    background: rgba(160, 120, 255, 0.1);
+}body.p-case .toc-item[data-section="outcomes"]:hover, body.p-case .toc-item[data-section="outcomes"].active{
+    color: var(--mint);
+    border-color: var(--mint);
+    background: rgba(74, 224, 160, 0.1);
+}body.p-case .toc-item[data-section="challenges"]:hover, body.p-case .toc-item[data-section="challenges"].active{
+    color: var(--peach);
+    border-color: var(--peach);
+    background: rgba(255, 159, 106, 0.1);
+}body.p-case .toc-item[data-section="lessons"]:hover, body.p-case .toc-item[data-section="lessons"].active{
+    color: var(--yellow);
+    border-color: var(--yellow);
+    background: rgba(255, 192, 72, 0.1);
+}body.p-case .toc-item[data-section="testimonials"]:hover, body.p-case .toc-item[data-section="testimonials"].active{
+    color: var(--mint);
+    border-color: var(--mint);
+    background: rgba(74, 224, 160, 0.1);
+}body.p-case .toc-item[data-color="blue"]:hover, body.p-case .toc-item[data-color="blue"].active{
+    color: var(--blue);
+    border-color: var(--blue);
+    background: rgba(92, 138, 255, 0.1);
+}body.p-case .toc-item[data-color="purple"]:hover, body.p-case .toc-item[data-color="purple"].active{
+    color: var(--purple);
+    border-color: var(--purple);
+    background: rgba(160, 120, 255, 0.1);
+}body.p-case .toc-item[data-color="mint"]:hover, body.p-case .toc-item[data-color="mint"].active{
+    color: var(--mint);
+    border-color: var(--mint);
+    background: rgba(74, 224, 160, 0.1);
+}body.p-case .toc-item[data-color="peach"]:hover, body.p-case .toc-item[data-color="peach"].active{
+    color: var(--peach);
+    border-color: var(--peach);
+    background: rgba(255, 159, 106, 0.1);
+}body.p-case .toc-item[data-color="yellow"]:hover, body.p-case .toc-item[data-color="yellow"].active{
+    color: var(--yellow);
+    border-color: var(--yellow);
+    background: rgba(255, 192, 72, 0.1);
+}body.p-case .toc-item[data-color="pink"]:hover, body.p-case .toc-item[data-color="pink"].active{
+    color: var(--pink);
+    border-color: var(--pink);
+    background: rgba(255, 110, 180, 0.1);
+}body.p-case .toc-floating{
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    z-index: 90;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    max-width: 140px;
+}body.p-case .toc-floating.visible{
+    opacity: 1;
+    visibility: visible;
+}body.p-case .toc-floating .toc-grid{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}body.p-case .toc-floating .toc-item{
+    font-size: 10px;
+    padding: 5px 10px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+}body.p-case .toc-floating .toc-item[data-section="introduction"]:hover, body.p-case .toc-floating .toc-item[data-section="introduction"].active{
+    background: rgba(92, 138, 255, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-section="problem"]:hover, body.p-case .toc-floating .toc-item[data-section="problem"].active{
+    background: rgba(160, 120, 255, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-section="strategy"]:hover, body.p-case .toc-floating .toc-item[data-section="strategy"].active{
+    background: rgba(74, 224, 160, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-section="platform"]:hover, body.p-case .toc-floating .toc-item[data-section="platform"].active{
+    background: rgba(255, 159, 106, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-section="walkthrough"]:hover, body.p-case .toc-floating .toc-item[data-section="walkthrough"].active{
+    background: rgba(92, 138, 255, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-section="execution"]:hover, body.p-case .toc-floating .toc-item[data-section="execution"].active{
+    background: rgba(160, 120, 255, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-section="outcomes"]:hover, body.p-case .toc-floating .toc-item[data-section="outcomes"].active{
+    background: rgba(74, 224, 160, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-section="challenges"]:hover, body.p-case .toc-floating .toc-item[data-section="challenges"].active{
+    background: rgba(255, 159, 106, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-section="lessons"]:hover, body.p-case .toc-floating .toc-item[data-section="lessons"].active{
+    background: rgba(255, 192, 72, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-section="testimonials"]:hover, body.p-case .toc-floating .toc-item[data-section="testimonials"].active{
+    background: rgba(74, 224, 160, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-color="blue"]:hover, body.p-case .toc-floating .toc-item[data-color="blue"].active{
+    background: rgba(92, 138, 255, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-color="purple"]:hover, body.p-case .toc-floating .toc-item[data-color="purple"].active{
+    background: rgba(160, 120, 255, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-color="mint"]:hover, body.p-case .toc-floating .toc-item[data-color="mint"].active{
+    background: rgba(74, 224, 160, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-color="peach"]:hover, body.p-case .toc-floating .toc-item[data-color="peach"].active{
+    background: rgba(255, 159, 106, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-color="yellow"]:hover, body.p-case .toc-floating .toc-item[data-color="yellow"].active{
+    background: rgba(255, 192, 72, 0.15);
+    border: none;
+}body.p-case .toc-floating .toc-item[data-color="pink"]:hover, body.p-case .toc-floating .toc-item[data-color="pink"].active{
+    background: rgba(255, 110, 180, 0.15);
+    border: none;
+}
+
+
+@media (max-width: 1200px) {body.p-case .toc-static{ display: none; }body.p-case .toc-floating{ display: none !important; }
+}body.p-case .section{
+    padding: 60px 24px;
+    border-bottom: 1px solid var(--border);
+}body.p-case .section-container{
+    max-width: 900px;
+    margin: 0 auto;
+}body.p-case .section-header{
+    margin-bottom: 40px;
+}body.p-case .section-label{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}body.p-case .section h2{
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}body.p-case .section-intro{
+    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.7;
+}body.p-case .section--blue{ border-left: 3px solid var(--blue); }body.p-case .section--purple{ border-left: 3px solid var(--purple); }body.p-case .section--mint{ border-left: 3px solid var(--mint); }body.p-case .section--peach{ border-left: 3px solid var(--peach); }body.p-case .section--yellow{ border-left: 3px solid var(--yellow); }body.p-case .section--pink{ border-left: 3px solid var(--pink); }body.p-case .two-col{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-top: 32px;
+}
+
+@media (max-width: 768px) {body.p-case .two-col{ grid-template-columns: 1fr; }
+}body.p-case .two-col h3{
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+}body.p-case .two-col p{
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+}body.p-case .card-grid{
+    display: grid;
+    gap: 16px;
+    margin-top: 32px;
+}body.p-case .card-grid.grid-2{
+    grid-template-columns: repeat(2, 1fr);
+}body.p-case .card-grid.grid-3{
+    grid-template-columns: repeat(3, 1fr);
+}body.p-case .card-grid.grid-4{
+    grid-template-columns: repeat(2, 1fr);
+}body.p-case .card-grid.grid-5{
+    grid-template-columns: repeat(2, 1fr);
+}body.p-case .card-grid.grid-5 .card:nth-child(5){
+    grid-column: span 2;
+}body.p-case .card-grid.grid-6{
+    grid-template-columns: repeat(3, 1fr);
+}body.p-case .card-grid.grid-6-tall{
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+@media (max-width: 768px) {body.p-case .card-grid.grid-2, body.p-case .card-grid.grid-3, body.p-case .card-grid.grid-4, body.p-case .card-grid.grid-5, body.p-case .card-grid.grid-6, body.p-case .card-grid.grid-6-tall{
+        grid-template-columns: 1fr;
+    }body.p-case .card-grid.grid-5 .card:nth-child(5){
+        grid-column: span 1;
+    }
+}body.p-case .card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+}body.p-case .card h3{
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}body.p-case .card h4{
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}body.p-case .card p{
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+}body.p-case .card ul{
+    list-style: none;
+    font-size: 13px;
+    color: var(--text-dim);
+}body.p-case .card ul li{
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 8px;
+}body.p-case .card ul li::before{
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--mint);
+}body.p-case .card--blue{ border-top: 3px solid var(--blue); }body.p-case .card--purple{ border-top: 3px solid var(--purple); }body.p-case .card--mint{ border-top: 3px solid var(--mint); }body.p-case .card--peach{ border-top: 3px solid var(--peach); }body.p-case .card--yellow{ border-top: 3px solid var(--yellow); }body.p-case .card--pink{ border-top: 3px solid var(--pink); }body.p-case .walkthrough-grid{
+    display: grid;
+    gap: 16px;
+    margin-top: 32px;
+}body.p-case .walkthrough-grid.walkthrough-2{
+    grid-template-columns: repeat(2, 1fr);
+}body.p-case .walkthrough-grid.walkthrough-3{
+    grid-template-columns: repeat(3, 1fr);
+}body.p-case .walkthrough-grid.walkthrough-4{
+    grid-template-columns: repeat(4, 1fr);
+}body.p-case .walkthrough-grid.walkthrough-5{
+    grid-template-columns: repeat(6, 1fr);
+}body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(1), body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(2), body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(3){
+    grid-column: span 2;
+}body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(4){
+    grid-column: 2 / span 2;
+}body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(5){
+    grid-column: 4 / span 2;
+}body.p-case .walkthrough-grid.walkthrough-6{
+    grid-template-columns: repeat(3, 1fr);
+}
+
+
+@media (max-width: 900px) {body.p-case .walkthrough-grid.walkthrough-3, body.p-case .walkthrough-grid.walkthrough-4, body.p-case .walkthrough-grid.walkthrough-5, body.p-case .walkthrough-grid.walkthrough-6{
+        grid-template-columns: repeat(2, 1fr);
+    }body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(1), body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(2), body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(3), body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(4), body.p-case .walkthrough-grid.walkthrough-5 .walkthrough-item:nth-child(5){
+        grid-column: span 1;
+    }
+}
+
+
+@media (max-width: 500px) {body.p-case .walkthrough-grid.walkthrough-2, body.p-case .walkthrough-grid.walkthrough-3, body.p-case .walkthrough-grid.walkthrough-4, body.p-case .walkthrough-grid.walkthrough-5, body.p-case .walkthrough-grid.walkthrough-6{
+        grid-template-columns: 1fr;
+    }
+}body.p-case .walkthrough-item{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}body.p-case .walkthrough-image{
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--surface-2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}body.p-case .walkthrough-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.2s;
+}body.p-case .walkthrough-image:hover img{
+    transform: scale(1.05);
+}body.p-case .walkthrough-caption{
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}body.p-case .timeline{
+    margin-top: 32px;
+}body.p-case .timeline-item{
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+}body.p-case .timeline-dot{
+    width: 12px;
+    height: 12px;
+    background: var(--purple);
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+    position: relative;
+}body.p-case .timeline--blue .timeline-dot{ background: var(--blue); }body.p-case .timeline--purple .timeline-dot{ background: var(--purple); }body.p-case .timeline--mint .timeline-dot{ background: var(--mint); }body.p-case .timeline--peach .timeline-dot{ background: var(--peach); }body.p-case .timeline--yellow .timeline-dot{ background: var(--yellow); }body.p-case .timeline--pink .timeline-dot{ background: var(--pink); }body.p-case .timeline--blue .timeline-date{ color: var(--blue); }body.p-case .timeline--purple .timeline-date{ color: var(--purple); }body.p-case .timeline--mint .timeline-date{ color: var(--mint); }body.p-case .timeline--peach .timeline-date{ color: var(--peach); }body.p-case .timeline--yellow .timeline-date{ color: var(--yellow); }body.p-case .timeline--pink .timeline-date{ color: var(--pink); }body.p-case .timeline-item:not(:last-child) .timeline-dot::after{
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: calc(100% + 16px);
+    background: var(--border);
+}body.p-case .timeline-content{
+    flex: 1;
+}body.p-case .timeline-date{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--purple);
+    margin-bottom: 4px;
+}body.p-case .timeline-content h3{
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}body.p-case .timeline-content p{
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+}body.p-case .lessons-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+}
+
+@media (max-width: 768px) {body.p-case .lessons-grid{ grid-template-columns: 1fr; }
+}body.p-case .lesson-card{
+    background: rgba(255, 192, 72, 0.08);
+    border: 1px solid rgba(255, 192, 72, 0.2);
+    border-radius: var(--radius);
+    padding: 24px;
+}body.p-case .lesson-card h3{
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--yellow);
+}body.p-case .lesson-card p{
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+}body.p-case .lessons-grid--blue .lesson-card{
+    background: rgba(92, 138, 255, 0.08);
+    border-color: rgba(92, 138, 255, 0.2);
+}body.p-case .lessons-grid--blue .lesson-card h3{ color: var(--blue); }body.p-case .lessons-grid--purple .lesson-card{
+    background: rgba(160, 120, 255, 0.08);
+    border-color: rgba(160, 120, 255, 0.2);
+}body.p-case .lessons-grid--purple .lesson-card h3{ color: var(--purple); }body.p-case .lessons-grid--mint .lesson-card{
+    background: rgba(74, 224, 160, 0.08);
+    border-color: rgba(74, 224, 160, 0.2);
+}body.p-case .lessons-grid--mint .lesson-card h3{ color: var(--mint); }body.p-case .lessons-grid--peach .lesson-card{
+    background: rgba(255, 159, 106, 0.08);
+    border-color: rgba(255, 159, 106, 0.2);
+}body.p-case .lessons-grid--peach .lesson-card h3{ color: var(--peach); }body.p-case .lessons-grid--pink .lesson-card{
+    background: rgba(255, 110, 180, 0.08);
+    border-color: rgba(255, 110, 180, 0.2);
+}body.p-case .lessons-grid--pink .lesson-card h3{ color: var(--pink); }
+
+
+@media (prefers-color-scheme: light) {body.p-case .lesson-card{
+        background: rgba(217, 119, 6, 0.08);
+        border-color: rgba(217, 119, 6, 0.25);
+    }body.p-case .lessons-grid--blue .lesson-card{
+        background: rgba(37, 99, 235, 0.08);
+        border-color: rgba(37, 99, 235, 0.25);
+    }body.p-case .lessons-grid--purple .lesson-card{
+        background: rgba(124, 58, 237, 0.08);
+        border-color: rgba(124, 58, 237, 0.25);
+    }body.p-case .lessons-grid--mint .lesson-card{
+        background: rgba(5, 150, 105, 0.08);
+        border-color: rgba(5, 150, 105, 0.25);
+    }body.p-case .lessons-grid--peach .lesson-card{
+        background: rgba(234, 88, 12, 0.08);
+        border-color: rgba(234, 88, 12, 0.25);
+    }body.p-case .lessons-grid--pink .lesson-card{
+        background: rgba(219, 39, 119, 0.08);
+        border-color: rgba(219, 39, 119, 0.25);
+    }
+}body.p-case .testimonials-grid{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 32px;
+    max-width: 800px;
+}body.p-case .testimonials-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+}
+
+@media (max-width: 768px) {body.p-case .testimonials-row{
+        grid-template-columns: 1fr;
+    }
+}body.p-case .testimonial-media{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}body.p-case .testimonial-media a{
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    height: 100%;
+}body.p-case .testimonial-media img{
+    width: 100%;
+    flex: 1;
+    object-fit: cover;
+    object-position: top;
+    min-height: 200px;
+    transition: transform 0.2s;
+}body.p-case .testimonial-media:hover img{
+    transform: scale(1.02);
+}body.p-case .testimonial-media-caption{
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--mint);
+    text-align: center;
+    flex-shrink: 0;
+}body.p-case .testimonial-quote{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}body.p-case .testimonial-quote--wide{
+    width: 100%;
+}
+
+@media (max-width: 768px) {body.p-case .testimonials-grid{
+        max-width: 100%;
+    }
+}body.p-case .testimonial-text{
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    font-style: italic;
+    flex: 1;
+    margin-bottom: 16px;
+}body.p-case .testimonial-author{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}body.p-case .testimonial-author-name{
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}body.p-case .testimonial-author-role{
+    font-size: 12px;
+    color: var(--text-muted);
+}body.p-case .testimonial-icon{
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    color: var(--mint);
+    opacity: 0.4;
+}body.p-case .testimonial-icon svg{
+    width: 100%;
+    height: 100%;
+}body.p-case .footer{
+    padding: 40px 24px;
+    text-align: center;
+    background: var(--surface);
+}body.p-case .footer-meta{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+}body.p-case .lightbox{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    cursor: pointer;
+}body.p-case .lightbox.active{
+    display: flex;
+}body.p-case .lightbox img{
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: var(--radius);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+}body.p-case .lightbox-caption{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    background: var(--surface);
+    padding: 12px 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    text-align: center;
+}
+
+
+@media (max-width: 768px) {body.p-case .hero{ padding: 40px 16px; }body.p-case .section{ padding: 40px 16px; }body.p-case .hero-metrics{ flex-direction: column; gap: 16px; padding: 20px; }body.p-case .window-chrome{ position: relative; }body.p-case .window-dots{ display: none; }body.p-case .window-title{ font-size: 0; }body.p-case .back-link{ white-space: nowrap; }
+}
+
+
+/* ==========================================================================
+   Slides — scoped to body.p-slides.
+   Scoped because these files share class names with each other and with the
+   shared layer (card, hero, tag, metric, highlight all mean different things
+   in different places). :root token maps become the scope itself.
+   ========================================================================== */
+body.p-slides{
+  
+  --radius: var(--r);
+  --radius-sm: 8px;
+  --font: var(--sans);
+  --font-display: var(--sans);
+  --font-mono: var(--mono);
+  --maxw: 760px;
+  
+  
+  --bg-soft: var(--bg2);
+  --surface: var(--bg2);
+  --surface-2: var(--bg2);
+  --border: var(--rule);
+  --border-soft: var(--rule);
+  --text: var(--ink);
+  --text-soft: var(--ink2);
+  --muted-strong: var(--ink2);
+  --accent: var(--c1-line);
+  --accent-soft: var(--c1-text);
+  --accent-tint: color-mix(in srgb, var(--c1-line) 10%, transparent);
+  --accent-ring: color-mix(in srgb, var(--c1-line) 28%, transparent);
+  --good: var(--c3-text);
+  --bad: var(--c2-text);
+  --info: var(--c4-text);
+  --shadow: var(--shadow-1);
+  --shadow-soft: var(--shadow-1);
+
+}body.p-slides [data-theme="dark"]{
+  --bg: #0e0f12;
+  --bg-soft: #15171c;
+  --surface: #1a1d24;
+  --surface-2: #20242d;
+  --border: #2a2f3a;
+  --border-soft: #232831;
+  --text: #e8eaf0;
+  --text-soft: #b6bac6;
+  --muted-strong: #9aa0b0;
+  --accent: #ff8a3d;
+  --accent-soft: #ffb787;
+  --accent-tint: rgba(255, 138, 61, 0.10);
+  --accent-ring: rgba(255, 138, 61, 0.30);
+  --good: #4cfec8;
+  --bad: #ff6b8a;
+  --info: #7ab8ff;
+  --shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
+  --shadow-soft: 0 4px 14px rgba(0,0,0,0.25);
+}body.p-slides, body.p-slides .entry-card, body.p-slides .dl, body.p-slides .email, body.p-slides .verdict, body.p-slides .callout, body.p-slides .embed, body.p-slides .intro-panel, body.p-slides .topnav a, body.p-slides .theme-toggle, body.p-slides .hero .meta .pill, body.p-slides .entry-card .tag{
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}body.p-slides *, body.p-slides *::before, body.p-slides *::after{ box-sizing: border-box; }body.p-slides{ scroll-behavior: smooth; }body.p-slides{
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  font-size: 17px;
+  line-height: 1.65;
+}body.p-slides .wrap{
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 56px 24px 96px;
+}
+@media (max-width: 600px) {body.p-slides .wrap{ padding: 32px 18px 64px; }body.p-slides{ font-size: 16px; }
+}body.p-slides .topnav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  margin-bottom: 48px;
+}body.p-slides .topnav a{
+  color: var(--text-soft);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color .15s, border-color .15s;
+}body.p-slides .topnav a:hover{ color: var(--accent); border-bottom-color: var(--accent); }body.p-slides .topnav .home{ font-weight: 600; }body.p-slides .topnav-right{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}body.p-slides .topnav .crumb{ color: var(--muted-strong); }body.p-slides .theme-toggle{
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--bg-soft);
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  transition: color .15s, border-color .15s, background .15s, transform .15s;
+}body.p-slides .theme-toggle:hover{
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--surface);
+}body.p-slides .theme-toggle:active{ transform: scale(0.95); }body.p-slides .theme-toggle svg{ width: 16px; height: 16px; display: block; }body.p-slides .theme-toggle .icon-sun{ display: block; }body.p-slides .theme-toggle .icon-moon{ display: none; }body.p-slides [data-theme="light"] .theme-toggle .icon-sun{ display: none; }body.p-slides [data-theme="light"] .theme-toggle .icon-moon{ display: block; }
+@media (prefers-color-scheme: light) {body.p-slides :root:not([data-theme="dark"]) .theme-toggle .icon-sun{ display: none; }body.p-slides :root:not([data-theme="dark"]) .theme-toggle .icon-moon{ display: block; }
+}body.p-slides .hero{ margin-bottom: 56px; }body.p-slides .hero .eyebrow{
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-ring);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+}body.p-slides .hero h1{
+  font-family: var(--font-display);
+  font-size: clamp(34px, 6vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0 0 18px;
+}body.p-slides .hero .lede{
+  font-size: 19px;
+  color: var(--text-soft);
+  margin: 0;
+  max-width: 640px;
+}body.p-slides .hero .meta{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 22px;
+  font-size: 13px;
+  color: var(--muted-strong);
+}body.p-slides .hero .meta .pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-soft);
+}body.p-slides .hero .meta .pill.good{ color: var(--good); border-color: color-mix(in srgb, var(--good) 30%, transparent); }body.p-slides .hero .meta .pill.bad{ color: var(--bad);  border-color: color-mix(in srgb, var(--bad) 30%, transparent); }body.p-slides .hero .meta .pill.info{ color: var(--info); border-color: color-mix(in srgb, var(--info) 30%, transparent); }body.p-slides section{ margin: 56px 0; }body.p-slides section + section{ margin-top: 64px; }body.p-slides section h2{
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 18px;
+}body.p-slides section h2 .num{
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-ring);
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-right: 12px;
+  vertical-align: middle;
+  transform: translateY(-2px);
+}body.p-slides section h3{
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 28px 0 8px;
+}body.p-slides section p{ margin: 0 0 14px; color: var(--text-soft); }body.p-slides section p strong{ color: var(--text); font-weight: 600; }body.p-slides section a{ color: var(--accent-soft); }body.p-slides section a:hover{ color: var(--accent); }body.p-slides section ul{ padding-left: 22px; color: var(--text-soft); }body.p-slides section li{ margin-bottom: 6px; }body.p-slides .entries{
+  display: grid;
+  gap: 16px;
+  margin-top: 32px;
+}body.p-slides .entry-card{
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  transition: border-color .15s, transform .15s, background .15s;
+}body.p-slides .entry-card:hover{
+  border-color: var(--accent);
+  background: var(--surface-2);
+  transform: translateY(-1px);
+}body.p-slides .entry-card .row1{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 6px;
+}body.p-slides .entry-card .company{
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}body.p-slides .entry-card .date{
+  font-size: 12px;
+  color: var(--muted-strong);
+  font-variant-numeric: tabular-nums;
+}body.p-slides .entry-card .title{
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+  color: var(--text);
+}body.p-slides .entry-card .desc{
+  font-size: 15px;
+  color: var(--text-soft);
+  margin: 0 0 10px;
+}body.p-slides .entry-card .row2{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-size: 12px;
+  color: var(--muted-strong);
+}body.p-slides .entry-card .tag{
+  background: var(--bg-soft);
+  border: 1px solid var(--border-soft);
+  padding: 2px 8px;
+  border-radius: 999px;
+}body.p-slides .entry-card .tag.good{ color: var(--good); border-color: color-mix(in srgb, var(--good) 35%, transparent); }body.p-slides .entry-card .tag.bad{ color: var(--bad);  border-color: color-mix(in srgb, var(--bad) 35%, transparent); }body.p-slides .entry-card .tag.info{ color: var(--info); border-color: color-mix(in srgb, var(--info) 35%, transparent); }body.p-slides .entry-card .tag.warn{ color: var(--c1-text); border-color: var(--accent-ring); }body.p-slides .callout{
+  background: var(--bg-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+  margin: 22px 0;
+}body.p-slides .callout p:last-child{ margin-bottom: 0; }body.p-slides .callout .label{
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}body.p-slides .redacted{
+  background-color: var(--text);
+  color: transparent;
+  border-radius: 2px;
+  padding: 0 6px;
+  user-select: none;
+  text-decoration: none;
+}body.p-slides .highlight{
+  background: rgba(255, 220, 60, 0.45);
+  color: var(--text);
+  border-radius: 2px;
+  padding: 0 2px;
+}body.p-slides .email{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 22px 0;
+  box-shadow: var(--shadow);
+}body.p-slides .email-head{
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  font-size: 13px;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  row-gap: 4px;
+  column-gap: 12px;
+  font-family: var(--font-mono);
+}body.p-slides .email-head .k{ color: var(--muted-strong); text-align: right; }body.p-slides .email-head .v{ color: var(--text); word-break: break-word; }body.p-slides .email-body{
+  padding: 22px 24px 24px;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-soft);
+  white-space: pre-wrap;
+}body.p-slides .email-body p:first-child{ margin-top: 0; }body.p-slides .email-body p:last-child{ margin-bottom: 0; }body.p-slides .email .signature{
+  margin-top: 18px;
+  color: var(--muted-strong);
+  font-size: 14px;
+}body.p-slides .verdict{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  margin: 22px 0;
+}body.p-slides .verdict .icon{
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+}body.p-slides .verdict.bad  .icon{ background: color-mix(in srgb, var(--bad)  12%, transparent); color: var(--bad); }body.p-slides .verdict.good .icon{ background: color-mix(in srgb, var(--good) 12%, transparent); color: var(--good); }body.p-slides .verdict.neutral .icon{ background: color-mix(in srgb, var(--info) 12%, transparent); color: var(--info); }body.p-slides .verdict h3{
+  font-family: var(--font-display);
+  font-size: 17px;
+  margin: 0 0 4px;
+}body.p-slides .verdict p{ margin: 0; color: var(--text-soft); font-size: 15px; }body.p-slides .downloads{
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}body.p-slides .dl{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .15s, background .15s;
+}body.p-slides .dl:hover{ border-color: var(--accent); background: var(--surface-2); }body.p-slides .dl .ext{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-soft);
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: var(--muted-strong);
+  min-width: 56px;
+  text-align: center;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}body.p-slides .dl .name{ font-weight: 600; font-size: 15px; }body.p-slides .dl .desc{ font-size: 13px; color: var(--muted-strong); margin-top: 2px; }body.p-slides .dl .arrow{ margin-left: auto; color: var(--muted-strong); transition: transform .15s, color .15s; flex-shrink: 0; }body.p-slides .dl:hover .arrow{ color: var(--accent); transform: translateX(2px); }body.p-slides .embed{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  margin: 18px 0;
+}body.p-slides .slide-strip{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 18px 0;
+}body.p-slides .slide-strip img{
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  display: block;
+}body.p-slides .foot{
+  margin-top: 80px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--muted-strong);
+}body.p-slides .foot a{ color: var(--text-soft); text-decoration: none; }body.p-slides .foot a:hover{ color: var(--accent); }body.p-slides .intro-panel{
+  background: color-mix(in srgb, var(--info) 12%, var(--bg-soft));
+  border: 1px solid color-mix(in srgb, var(--info) 30%, transparent);
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  margin: -16px 0 36px;
+  font-size: 15px;
+  line-height: 1.55;
+}body.p-slides .intro-panel summary{
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+  list-style: none;
+  padding: 4px 0;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14.5px;
+}body.p-slides .intro-panel summary::-webkit-details-marker{ display: none; }body.p-slides .intro-panel summary::before{
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform .15s ease;
+  flex-shrink: 0;
+}body.p-slides .intro-panel[open] summary::before{ transform: rotate(90deg); }body.p-slides .intro-panel summary:hover{ color: var(--accent); }body.p-slides .intro-panel[open]{ padding-bottom: 14px; }body.p-slides .intro-panel p{ margin: 6px 0; color: var(--text-soft); }body.p-slides .intro-panel p:first-of-type{ margin-top: 10px; }body.p-slides .intro-panel p:last-child{ margin-bottom: 0; }body.p-slides .intro-panel p.muted{ font-size: 13.5px; color: var(--muted-strong); margin-top: 8px; }
+@media (max-width: 600px) {body.p-slides .intro-panel{ padding: 8px 14px; }body.p-slides .intro-panel[open]{ padding-bottom: 12px; }
+}body.p-slides .muted{ color: var(--muted-strong); }body.p-slides .mono{ font-family: var(--font-mono); }body.p-slides hr{ border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+
+/* ==========================================================================
+   Recipes — scoped to body.p-recipes.
+   Scoped because these files share class names with each other and with the
+   shared layer (card, hero, tag, metric, highlight all mean different things
+   in different places). :root token maps become the scope itself.
+   ========================================================================== */
+body.p-recipes{
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg2);
+  --color-bg-card: var(--bg2);
+  --color-bg-card-hover: var(--bg2);
+  --color-accent-pink: var(--c6-line);        
+  --color-accent-pink-text: var(--c6-text);   
+  --color-accent-turquoise-text: var(--c3-text);
+  --color-pink-fill: #C40067;        
+  --color-pink-fill-hover: #A80059;  
+  --color-accent-orange: var(--c1-line);
+  --color-accent-turquoise: var(--c3-line);
+  --color-accent-purple: var(--c5-line);
+  --color-text: var(--ink);
+  --color-text-light: var(--ink2);
+  --color-text-muted: var(--ink2);
+  --color-border: var(--rule);
+  --color-border-subtle: var(--rule);
+  --font-main: var(--sans);
+  --shadow-sm: var(--shadow-1);
+  --shadow-md: var(--shadow-2);
+  --shadow-lg: var(--shadow-3);
+  --shadow-glow: none;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --transition-fast: 0.15s ease;
+  --transition-med: 0.25s ease;
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}body.p-recipes *, body.p-recipes *::before, body.p-recipes *::after{
+  box-sizing: border-box;
+}body.p-recipes{
+  scroll-behavior: smooth;
+}body.p-recipes{
+  font-family: var(--font-main);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}body.p-recipes .page-wrapper{
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 60px 30px 40px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}body.p-recipes main{
+  flex: 1;
+}body.p-recipes header{
+  margin-bottom: 50px;
+}body.p-recipes .header-title{
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 32px;
+}body.p-recipes .header-emoji{
+  width: auto;
+  height: 140px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 8px 24px color-mix(in srgb, var(--c6-line) 18%, transparent));
+}body.p-recipes header h1{
+  font-family: var(--font-main);
+  font-weight: 800;
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1;
+}body.p-recipes header h1 .title-line{
+  display: block;
+}body.p-recipes header h1 .title-top{
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--color-text-light);
+  margin-bottom: 2px;
+}body.p-recipes header h1 .title-pm{
+  font-size: 5rem;
+  font-weight: 800;
+  letter-spacing: -3px;
+  line-height: 0.85;
+  background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent-pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}body.p-recipes header .subtitle{
+  font-family: var(--font-main);
+  font-size: 0.65rem;
+  color: var(--color-accent-pink-text);
+  margin: 8px 0 0 0;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}body.p-recipes .preamble{
+  margin-bottom: 30px;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+}body.p-recipes .preamble summary{
+  padding: 16px 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color var(--transition-fast);
+  font-weight: 600;
+}body.p-recipes .preamble summary::-webkit-details-marker{
+  display: none;
+}body.p-recipes .preamble-icon{
+  color: var(--color-accent-turquoise-text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: transform var(--transition-med);
+}body.p-recipes .preamble[open] .preamble-icon{
+  transform: rotate(45deg);
+}body.p-recipes .preamble summary:hover{
+  color: var(--color-text);
+}body.p-recipes .preamble-content{
+  padding: 0 20px 20px 20px;
+  font-size: 0.92rem;
+  color: var(--color-text-light);
+  line-height: 1.7;
+  animation: fadeIn var(--transition-med) ease;
+}@keyframes fadeIn{
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}body.p-recipes .preamble-content p{
+  margin: 0 0 14px 0;
+}body.p-recipes .preamble-content p:last-child{
+  margin-bottom: 0;
+}body.p-recipes .controls{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}body.p-recipes .search-wrapper{
+  position: relative;
+}body.p-recipes .search-icon{
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}body.p-recipes #search{
+  width: 100%;
+  padding: 14px 18px 14px 48px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-family: var(--font-main);
+  background: var(--color-bg-card);
+  backdrop-filter: blur(10px);
+  color: var(--color-text);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}body.p-recipes #search:focus{
+  outline: none;
+  border-color: var(--color-accent-turquoise-text);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c3-line) 18%, transparent), var(--shadow-sm);
+}body.p-recipes #search:focus + .search-icon, body.p-recipes .search-wrapper:focus-within .search-icon{
+  color: var(--color-accent-turquoise-text);
+}body.p-recipes #search::placeholder{
+  color: var(--color-text-muted);
+}body.p-recipes .filters-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}body.p-recipes .filters{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}body.p-recipes .filter-btn{
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  padding: 8px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-family: var(--font-main);
+  font-weight: 500;
+  color: var(--color-text-light);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+}body.p-recipes .filter-btn:hover{
+  border-color: var(--color-accent-turquoise-text);
+  color: var(--color-accent-turquoise-text);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}body.p-recipes .filter-btn:active{
+  transform: translateY(0) scale(0.98);
+}body.p-recipes .filter-btn.active{
+  background: var(--color-pink-fill);
+  color: #fff;
+  border-color: var(--color-pink-fill);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--c6-line) 18%, transparent);
+}body.p-recipes .filter-btn.active:hover{
+  background: var(--color-pink-fill-hover);
+  border-color: var(--color-pink-fill-hover);
+}body.p-recipes .clear-filters{
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-family: var(--font-main);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  gap: 5px;
+  transition: color var(--transition-fast);
+}body.p-recipes .clear-filters svg{
+  width: 14px;
+  height: 14px;
+}body.p-recipes .clear-filters:hover{
+  color: var(--color-accent-pink-text);
+}body.p-recipes .clear-filters.visible{
+  display: inline-flex;
+}body.p-recipes .recipe-list{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}body.p-recipes .recipe-card{
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px 28px;
+  cursor: pointer;
+  transition: all var(--transition-med);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}body.p-recipes .recipe-card::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--color-accent-pink) 0%, var(--color-accent-turquoise) 100%);
+  transform: scaleY(0);
+  transition: transform var(--transition-med);
+}body.p-recipes .recipe-card:hover{
+  border-color: var(--color-border);
+  background: var(--color-bg-card-hover);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  transform: translateY(-3px);
+}body.p-recipes .recipe-card:hover::before{
+  transform: scaleY(1);
+}body.p-recipes .recipe-card:active{
+  transform: translateY(-1px);
+}body.p-recipes .recipe-card .card-content{
+  flex: 1;
+  min-width: 0;
+}body.p-recipes .recipe-card h2{
+  font-family: var(--font-main);
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  color: var(--color-text);
+  transition: color var(--transition-fast);
+}body.p-recipes .recipe-card:hover h2{
+  color: var(--color-accent-turquoise-text);
+}body.p-recipes .recipe-card .meta{
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}body.p-recipes .recipe-card .tags{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}body.p-recipes .recipe-card .card-thumb{
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: all var(--transition-med);
+  box-shadow: var(--shadow-sm);
+}body.p-recipes .recipe-card:hover .card-thumb{
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}body.p-recipes .tag{
+  display: inline-block;
+  background: var(--color-bg);
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}body.p-recipes .recipe-detail{
+  display: none;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: 45px 50px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+  animation: slideUp var(--transition-slow) ease;
+}@keyframes slideUp{
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}body.p-recipes .recipe-detail.visible{
+  display: block;
+}body.p-recipes .recipe-detail .back-btn{
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-family: var(--font-main);
+  font-weight: 500;
+  color: var(--color-accent-turquoise-text);
+  padding: 8px 0;
+  margin-bottom: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}body.p-recipes .recipe-detail .back-btn:hover{
+  color: var(--color-accent-pink-text);
+  gap: 12px;
+}body.p-recipes .recipe-detail .back-btn svg{
+  width: 18px;
+  height: 18px;
+  transition: transform var(--transition-fast);
+}body.p-recipes .recipe-detail .back-btn:hover svg{
+  transform: translateX(-3px);
+}body.p-recipes .recipe-detail .detail-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  margin-bottom: 10px;
+}body.p-recipes .recipe-detail .detail-header-content{
+  flex: 1;
+  min-width: 0;
+}body.p-recipes .recipe-detail .detail-thumb{
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-md);
+}body.p-recipes .recipe-detail h1{
+  font-family: var(--font-main);
+  font-weight: 800;
+  margin: 0;
+  font-size: 2rem;
+  color: var(--color-text);
+  letter-spacing: -0.5px;
+  line-height: 1.25;
+}body.p-recipes .recipe-detail .title-rule{
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent-pink), var(--color-accent-turquoise));
+  margin: 18px 0 20px 0;
+  border: none;
+  border-radius: 2px;
+}body.p-recipes .recipe-detail .meta{
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}body.p-recipes .recipe-detail .meta a{
+  color: var(--color-accent-turquoise-text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}body.p-recipes .recipe-detail .meta a:hover{
+  color: var(--color-accent-pink-text);
+  text-decoration: underline;
+}body.p-recipes .recipe-detail .intro{
+  font-family: var(--font-main);
+  font-style: italic;
+  color: var(--color-text-light);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin: 35px 0;
+  padding: 25px 30px;
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-accent-pink);
+}body.p-recipes .recipe-detail h2{
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin: 40px 0 20px 0;
+  color: var(--color-accent-turquoise-text);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}body.p-recipes .recipe-detail h2::after{
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}body.p-recipes .recipe-detail h3{
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 24px 0 12px 0;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}body.p-recipes .recipe-detail ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}body.p-recipes .recipe-detail ul li{
+  padding: 10px 0 10px 28px;
+  position: relative;
+  color: var(--color-text-light);
+  border-bottom: 1px solid var(--color-border-subtle);
+}body.p-recipes .recipe-detail ul li:last-child{
+  border-bottom: none;
+}body.p-recipes .recipe-detail ul li::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--color-accent-pink);
+  border-radius: 50%;
+  opacity: 0.9;
+}body.p-recipes .recipe-detail ol{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}body.p-recipes .recipe-detail ol li{
+  padding: 18px 0 18px 55px;
+  position: relative;
+  color: var(--color-text-light);
+  border-bottom: 1px solid var(--color-border-subtle);
+  counter-increment: step;
+  line-height: 1.7;
+}body.p-recipes .recipe-detail ol li:last-child{
+  border-bottom: none;
+}body.p-recipes .recipe-detail ol li::before{
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 16px;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--color-accent-pink), var(--color-accent-purple));
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--c6-line) 18%, transparent);
+}body.p-recipes .recipe-detail .notes{
+  margin-top: 45px;
+  padding: 22px 26px;
+  background: var(--color-bg-elevated);
+  border-left: 4px solid var(--color-accent-orange);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 0.92rem;
+  color: var(--color-text-light);
+  line-height: 1.7;
+  position: relative;
+}body.p-recipes .recipe-detail .notes::before{
+  content: '✎';
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background: linear-gradient(135deg, var(--color-accent-orange), var(--color-accent-pink));
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--c1-line) 18%, transparent);
+}body.p-recipes .recipe-detail .notes strong{
+  color: var(--color-text);
+  font-weight: 600;
+}body.p-recipes .recipe-detail .back-btn-bottom{
+  background: none;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-family: var(--font-main);
+  font-weight: 500;
+  color: var(--color-text-light);
+  padding: 12px 20px;
+  margin-top: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}body.p-recipes .recipe-detail .back-btn-bottom:hover{
+  border-color: var(--color-accent-turquoise-text);
+  color: var(--color-accent-turquoise-text);
+}body.p-recipes .recipe-detail .back-btn-bottom svg{
+  width: 18px;
+  height: 18px;
+}body.p-recipes footer{
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}body.p-recipes footer p{
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}body.p-recipes footer a{
+  color: var(--color-accent-turquoise-text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}body.p-recipes footer a:hover{
+  color: var(--color-accent-pink-text);
+  text-decoration: underline;
+}body.p-recipes .hidden{
+  display: none;
+}body.p-recipes .no-results{
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 50px 0;
+  text-align: center;
+  font-size: 1rem;
+}
+
+
+@media (max-width: 640px) {body.p-recipes .page-wrapper{
+    padding: 35px 20px 30px;
+  }body.p-recipes .header-title{
+    gap: 16px;
+  }body.p-recipes .header-emoji{
+    height: 100px;
+  }body.p-recipes header h1 .title-top{
+    font-size: 1.1rem;
+  }body.p-recipes header h1 .title-pm{
+    font-size: 3.5rem;
+    letter-spacing: -2px;
+  }body.p-recipes header .subtitle{
+    font-size: 0.55rem;
+    letter-spacing: 1.5px;
+    margin-top: 6px;
+  }body.p-recipes .recipe-card{
+    padding: 18px 20px;
+    gap: 16px;
+  }body.p-recipes .recipe-card h2{
+    font-size: 1.1rem;
+  }body.p-recipes .recipe-card .card-thumb{
+    width: 70px;
+    height: 70px;
+  }body.p-recipes .recipe-detail{
+    padding: 30px 25px;
+    border-radius: var(--radius-md);
+  }body.p-recipes .recipe-detail h1{
+    font-size: 1.5rem;
+  }body.p-recipes .recipe-detail .detail-header{
+    flex-direction: column-reverse;
+    gap: 20px;
+  }body.p-recipes .recipe-detail .detail-thumb{
+    width: 100%;
+    height: 220px;
+    border-radius: var(--radius-md);
+  }body.p-recipes .recipe-detail .intro{
+    font-size: 1.05rem;
+    padding: 20px 22px;
+    margin: 25px 0;
+  }body.p-recipes .recipe-detail ol li{
+    padding-left: 45px;
+  }body.p-recipes .recipe-detail ol li::before{
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+}body.p-recipes body.detail-view .preamble, body.p-recipes body.detail-view .controls{
+  display: none;
+}body.p-recipes body.detail-view header{
+  margin-bottom: 30px;
+}
+
+@media (max-width: 640px) {body.p-recipes body.detail-view header{
+    margin-bottom: 20px;
+  }
+}
+
+
+@media print {body.p-recipes{
+    background: #fff;
+    padding: 0;
+    font-size: 11pt;
+    line-height: 1.4;
+  }body.p-recipes .page-wrapper{
+    max-width: none;
+    padding: 0;
+  }body.p-recipes header, body.p-recipes .preamble, body.p-recipes .controls, body.p-recipes .recipe-list, body.p-recipes .back-btn, body.p-recipes footer{
+    display: none !important;
+  }body.p-recipes .recipe-detail{
+    display: block !important;
+    box-shadow: none;
+    padding: 0;
+    background: #fff;
+    border: none;
+    animation: none;
+  }body.p-recipes .recipe-detail.visible{
+    display: block !important;
+  }body.p-recipes .recipe-detail .detail-header{
+    margin-bottom: 15px;
+  }body.p-recipes .recipe-detail .detail-thumb{
+    width: 120px;
+    height: 120px;
+  }body.p-recipes .recipe-detail h1{
+    font-size: 20pt;
+  }body.p-recipes .recipe-detail .title-rule{
+    background: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }body.p-recipes .recipe-detail .intro{
+    background: var(--bg2);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }body.p-recipes .recipe-detail h2{
+    font-size: 11pt;
+    margin: 20px 0 12px 0;
+    page-break-after: avoid;
+    color: var(--ink);
+  }body.p-recipes .recipe-detail h2::after{
+    display: none;
+  }body.p-recipes .recipe-detail h3{
+    font-size: 10pt;
+    margin: 14px 0 8px 0;
+    page-break-after: avoid;
+  }body.p-recipes .recipe-detail ul, body.p-recipes .recipe-detail ol{
+    page-break-inside: avoid;
+  }body.p-recipes .recipe-detail ul li::before{
+    background: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }body.p-recipes .recipe-detail ol li{
+    padding-left: 40px;
+    margin-bottom: 8px;
+  }body.p-recipes .recipe-detail ol li::before{
+    background: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }body.p-recipes .recipe-detail .meta a{
+    color: #000;
+  }body.p-recipes .recipe-detail .meta a::after{
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: var(--ink2);
+  }body.p-recipes .recipe-detail .notes{
+    background: var(--bg2);
+    border-left-color: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }body.p-recipes .recipe-detail .notes::before{
+    display: none;
+  }
+}
+
+
+/* --- case-study card pills, reworked after review -------------------------
+   They were centred, which made every card's tag block read as a different
+   ragged shape. Left-aligned to the card's text column, tighter, and pinned to
+   the card floor so the metric strip below always lines up across a row. */
+body.p-cases .cs-pills{justify-content:flex-start;gap:.3rem;margin-bottom:.6rem}
+body.p-cases .cs-pill{font-family:var(--mono);font-size:.55rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:.22rem .5rem;
+  border:1px solid var(--rule);background:transparent;color:var(--ink2)}
+body.p-cases .cs-card-link{display:flex;height:100%}
+body.p-cases .cs-card{display:flex;flex-direction:column;height:100%}
+body.p-cases .cs-pills{margin-top:auto}
+body.p-cases .cs-metrics{margin-top:.2rem;text-align:left;justify-items:start}
+body.p-cases .cs-metric{text-align:left}
+
+
+/* --- card "go" arrow ------------------------------------------------------
+   Was the ↗ glyph, which renders hairline-thin at every weight. This is a
+   drawn arrow with a 2.4px rounded stroke, applied as a mask so it takes
+   currentColor and flips with the theme. */
+body.p-cases .cs-card::after{
+  content:'';
+  position:absolute; bottom:.9rem; right:.9rem; top:auto; left:auto;
+  width:20px; height:20px;
+  background:currentColor; color:var(--ink2);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  opacity:0; transform:translateX(-3px);
+  transition:opacity .18s ease, transform .18s ease;
+}
+body.p-cases .cs-card:hover::after{opacity:.75; transform:translateX(0)}
+body.p-cases .cs-card{position:relative}
+
+
+/* --- case-study index nav + metrics, final pass -------------------------- */
+/* match the primary index wordmark: name in the sans stack, role beneath in the
+   mono kicker. The original rule was sans sentence-case and !important, hence
+   the matching !important here. */
+body.p-cases .cs-nav-name{font-weight:800;letter-spacing:-.025em;font-size:1rem}
+body.p-cases .cs-nav-title{
+  font-family:var(--mono)!important; font-size:.6rem!important; font-weight:400!important;
+  letter-spacing:.1em!important; text-transform:uppercase!important; color:var(--ink2)!important;
+}
+/* text-align cannot undo align-items on a flex column, which is why these still
+   read centred after the first attempt */
+body.p-cases .cs-metric{align-items:flex-start;text-align:left;padding:0}
+body.p-cases .cs-metrics{gap:.9rem}
+
+
+/* --- back link: same drawn arrow, pointing left --------------------------
+   Replaces the ← glyph so every arrow on the site is the same object at the
+   same weight. Masked, so it inherits colour and flips with the theme. */
+.back-link,.cs-nav .back-to{display:inline-flex;align-items:center;gap:.4rem}
+.back-link::before,.cs-nav .back-to::before{
+  content:''; width:17px; height:17px; flex:0 0 auto;
+  background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 12H5M11.5 5.5 5 12l6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 12H5M11.5 5.5 5 12l6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  transition:transform .18s ease;
+}
+.back-link:hover::before,.cs-nav .back-to:hover::before{transform:translateX(-3px)}
+
+
+/* --- inline arrow ---------------------------------------------------------
+   For "0 -> 1" style values. The glyph renders hairline next to heavy numerals;
+   this is the same drawn arrow at the same weight, sized in em so it tracks the
+   type it sits in. Marked aria-hidden with a visually-hidden "to" beside it, so
+   it reads as "0 to 1" rather than "0 right arrow 1". */
+.arw{display:inline-block;width:.78em;height:.78em;background:currentColor;
+  vertical-align:-.04em;margin-inline:.1em;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h15M12.5 5.5 19 12l-6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h15M12.5 5.5 19 12l-6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+
+
+/* --- case-study list markers ---------------------------------------------
+   Were the → glyph, hairline against body copy. Same drawn arrow as everywhere
+   else, masked so it inherits colour and flips with the theme. */
+body.p-case .card ul li::before{
+  content:''; width:.72em; height:.72em; top:.42em;
+  background:var(--c3-text);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h15M12.5 5.5 19 12l-6.5 6.5' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h15M12.5 5.5 19 12l-6.5 6.5' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+body.p-case .card ul li{position:relative;padding-left:1.35em}
+
+/* --- case-study metric strip ---------------------------------------------
+   Three fixed columns forced long labels to wrap mid-phrase. Let the columns
+   size to their content and wrap as a group instead. */
+
+
+
+/* --- recipes: bring it into the system ------------------------------------
+   Kevin wants this reading as part of the site rather than a separate brand.
+   Keeps the stacked "Cook Like a / PM" title and the fuchsia, both of which are
+   the page's character, but moves the chrome onto the shared vocabulary: mono
+   kicker for the subtitle, 2px ink rules, --r radius, shared nav and footer. */
+body.p-recipes .header-text{display:grid;gap:.3rem}
+body.p-recipes header{max-width:1400px;margin-inline:auto;
+  padding-inline:clamp(1rem,4vw,3rem);padding-block:clamp(1.6rem,4vw,2.6rem)}
+body.p-recipes .header-title{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  border-bottom:2px solid var(--ink);padding-bottom:.9rem}
+body.p-recipes .header-emoji{width:64px;height:64px;border-radius:var(--r);object-fit:cover}
+body.p-recipes .subtitle{font-family:var(--mono);font-size:.6rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin:0}
+body.p-recipes h1{margin:0;letter-spacing:-.035em;line-height:.95}
+body.p-recipes .title-line{display:block}
+body.p-recipes .title-pm{color:var(--c6-text)}
+body.p-recipes .preamble{border:2px solid var(--ink);border-radius:var(--r);
+  padding:.9rem 1.1rem;margin-top:1.1rem;max-width:68ch}
+body.p-recipes .preamble summary{font-family:var(--mono);font-size:.66rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;list-style:none;
+  display:flex;align-items:center;gap:.5rem;color:var(--ink)}
+body.p-recipes .preamble-icon{color:var(--c6-text);font-weight:700}
+body.p-recipes .recipe-card{border:2px solid var(--rule);border-radius:var(--r);
+  background:var(--bg);transition:border-color .18s,transform .18s}
+body.p-recipes .recipe-card:hover{border-color:var(--ink);transform:translateY(-2px)}
+body.p-recipes .filter-btn{border-radius:99px;font-family:var(--mono);font-size:.6rem;
+  font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+
+
+/* --- shared nav component: hold its own colours -------------------------
+   On the blog, styles-merged.css sets a{color:var(--coral-text)}, which the
+   wordmark inherited. The component has to be self-contained to look the same
+   on every page, so it states its colours rather than relying on inheritance. */
+.nav .mk,.nav .mk:visited{color:var(--ink);text-decoration:none}
+.nav .mk small{color:var(--ink2)}
+.nav-l a,.nav-l a:visited{color:var(--ink2);text-decoration:none}
+.nav-l a:hover{color:var(--ink)}
+.fv .cta,.nav .cta,.nav .cta:visited{background:var(--marigold);color:var(--on-mari);text-decoration:none}
+
+
+/* --- blog buttons on the shared palette ---------------------------------- */
+body .btn-primary,body .header-cta{background:var(--marigold);color:var(--on-mari);border-color:var(--marigold)}
+body .btn-primary:hover,body .header-cta:hover{background:var(--c1-line);color:var(--on-mari)}
+body .btn-secondary{border:2px solid var(--ink);color:var(--ink);background:transparent}
+body .btn-secondary:hover{background:var(--ink);color:var(--on-invert)}
+
+/* --- case-study metric strip: breathing room around the dividers ---------
+   The values were butting up against the 1px rules between columns. */
+
+
+/* --- About: lead sits alongside the photo, not centred against it -------- */
+.about-intro{align-items:flex-start;gap:1.2rem}
+.about-intro .about-lead{margin:0;flex:1 1 18rem;min-width:0;align-self:center}
+
+
+/* --- slides: bring the chrome to the shared vocabulary ------------------- */
+body.p-slides .topnav{display:flex;align-items:baseline;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:.8rem;margin-bottom:1.6rem}
+body.p-slides .topnav .mk{font-weight:800;letter-spacing:-.025em;font-size:1rem;
+  display:grid;gap:.12rem;line-height:1.12;text-decoration:none;color:var(--ink)}
+body.p-slides .topnav .mk small{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:400;color:var(--ink2)}
+body.p-slides .back-to{font-family:var(--mono);font-size:.66rem;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);text-decoration:none}
+body.p-slides .back-to:hover{color:var(--ink)}
+body.p-slides .colophon{border-top:2px solid var(--ink);margin-top:clamp(2rem,4vw,3rem)}
+
+
+/* --- case-study metric strip, spacing pass ------------------------------
+   Kevin: values were crowding the dividers. Give each cell real inside room
+   and keep the rule as a separator rather than a wall the text leans on. */
+
+
+
+/* ==========================================================================
+   Review pass: nav responsiveness, case-study palette, metric layout
+   ========================================================================== */
+
+/* --- nav: it overflowed well above the 760px breakpoint --------------------
+   The link row had no min-width:0, so it refused to shrink and pushed the CTA
+   off-screen on any narrow window, not just phones. Now it shrinks and scrolls
+   at every width, and the wordmark never wraps to two lines. */
+.nav{flex-wrap:nowrap;gap:.75rem}
+.nav .mk{flex:0 0 auto;white-space:nowrap}
+.nav-l{flex:1 1 auto;min-width:0;flex-wrap:nowrap;overflow-x:auto;
+  scrollbar-width:none;-ms-overflow-style:none}
+.nav-l::-webkit-scrollbar{display:none}
+.nav-l a{white-space:nowrap}
+.nav .cta{flex:0 0 auto}
+@media(max-width:760px){.nav .mk small{display:none}}
+
+/* --- case studies: palette from the shared theme -------------------------
+   Kevin: keep the side nav, retheme everything else. These were the last of
+   the original purple/green identity. */
+body.p-case .hero-label,body.p-case .section-label{color:var(--c5-text)}
+body.p-case .metric-value,body.p-case .hero-metrics .metric-value{color:var(--c3-text)}
+body.p-case .toc-item{border-color:var(--rule);color:var(--ink2)}
+body.p-case .toc-item:hover,body.p-case .toc-item.active{border-color:var(--ink);color:var(--ink)}
+body.p-case .back-link{color:var(--ink2)}
+body.p-case .back-link:hover{color:var(--ink)}
+body.p-case .window-chrome{background:var(--bg2);border-color:var(--rule)}
+body.p-case .window-title{color:var(--ink2)}
+
+/* --- case-study index metrics: a real grid, not a wrapping flex ----------
+   Three even columns that collapse to one on narrow cards, so a long label
+   never strands a value on its own row. */
+body.p-cases .cs-metrics{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.2rem 0;border-top:1px solid var(--rule);padding-top:.7rem;margin-top:auto}
+body.p-cases .cs-metric{padding:0 .8rem;border-left:1px solid var(--rule);
+  display:flex;flex-direction:column;gap:.15rem;align-items:flex-start;min-width:0}
+body.p-cases .cs-metric:first-of-type{padding-left:0;border-left:0}
+body.p-cases .cs-metric-value{font-size:1.15rem;line-height:1.2;white-space:nowrap}
+body.p-cases .cs-metric-label{font-size:.56rem;line-height:1.35;white-space:normal;hyphens:auto}
+@media(max-width:460px){
+  body.p-cases .cs-metrics{grid-template-columns:1fr}
+  body.p-cases .cs-metric{padding:0;border-left:0}
+}
+
+/* --- slides: theme colours + a calmer header ---------------------------- */
+body.p-slides .hero h1{font-size:clamp(1.9rem,4.4vw,3rem);letter-spacing:-.035em;margin:0 0 .6rem}
+body.p-slides .hero .lede{font-size:1rem;color:var(--ink2);max-width:64ch}
+body.p-slides .hero .eyebrow{font-family:var(--mono);font-size:.6rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+body.p-slides .entry-card .company{color:var(--c1-text)}
+body.p-slides .entry-card .title{color:var(--ink)}
+body.p-slides .callout{border-left:3px solid var(--c1-line);background:var(--bg2)}
+body.p-slides .verdict.good .icon{color:var(--c3-text)}
+body.p-slides .verdict.bad .icon{color:var(--c2-text)}
+
+
+/* --- nav below 900px: two rows, every page ---------------------------------
+   Squeezing wordmark + links + CTA onto one line truncated the links mid-word,
+   and hiding them on sub-pages just made the bar look unfinished. The homepage
+   already solved this by wrapping to a second row; this makes that the shared
+   behaviour so every page has the same nav. Row 1 is wordmark + Office Hours,
+   row 2 is the full-width link rail, which scrolls if it needs to. */
+@media(max-width:900px){
+  .nav{flex-wrap:wrap;row-gap:.55rem;align-items:center}
+  .nav .mk{order:1}
+  .nav .cta{order:2;margin-left:auto}
+  .nav .mk small{display:block}
+  .nav-l{order:3;flex:0 0 100%;gap:.9rem;flex-wrap:nowrap;
+    overflow-x:auto;padding-bottom:.1rem}
+}
+@media(max-width:520px){
+  .nav .mk small{display:none}
+}
+
+/* --- slides: one hue per card -------------------------------------------- */
+body.p-slides .entry-card{border-width:2px;border-style:solid}
+body.p-slides .entry-card:nth-of-type(6n+1){border-color:var(--c1-line)}
+body.p-slides .entry-card:nth-of-type(6n+2){border-color:var(--c2-line)}
+body.p-slides .entry-card:nth-of-type(6n+3){border-color:var(--c3-line)}
+body.p-slides .entry-card:nth-of-type(6n+4){border-color:var(--c4-line)}
+body.p-slides .entry-card:nth-of-type(6n+5){border-color:var(--c5-line)}
+body.p-slides .entry-card:nth-of-type(6n+6){border-color:var(--c6-line)}
+body.p-slides .entry-card:nth-of-type(6n+1) .company{color:var(--c1-text)}
+body.p-slides .entry-card:nth-of-type(6n+2) .company{color:var(--c2-text)}
+body.p-slides .entry-card:nth-of-type(6n+3) .company{color:var(--c3-text)}
+body.p-slides .entry-card:nth-of-type(6n+4) .company{color:var(--c4-text)}
+body.p-slides .entry-card:nth-of-type(6n+5) .company{color:var(--c5-text)}
+body.p-slides .entry-card:nth-of-type(6n+6) .company{color:var(--c6-text)}
+body.p-slides .entry-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-2)}
+
+
+/* --- metric dividers: one line, not two ----------------------------------
+   The original rule drew border-right on :not(:last-child); the retheme added
+   border-left. Both rendered, so every gap had a double rule. Keep the
+   left-hand one and cancel the inherited right. */
+body.p-cases .cs-metric:not(:last-child){border-right:0}
+body.p-cases .cs-metric{border-left:1px solid var(--rule)}
+body.p-cases .cs-metric:first-of-type{border-left:0}
+@media(max-width:460px){
+  body.p-cases .cs-metric{border-left:0;padding:0}
+}
+
+
+/* --- prototype cards: logo + company on one line ---------------------------
+   The company name used to sit under the mark on its own row, which read as two
+   separate labels for the same thing. Side by side it reads as one lockup. */
+body.p-proto .card-head{display:flex;align-items:center;gap:.65rem;min-width:0}
+body.p-proto .card-head .card-logo{flex:0 0 auto;margin-bottom:0}
+body.p-proto .card-head .card-k{min-width:0;line-height:1.25}
+/* No wrap fallback on phones: the point of the lockup is that the name sits
+   beside the mark. The name wraps to two lines instead, the mark shrinks. */
+@media(max-width:480px){
+  body.p-proto .card-head{gap:.55rem}
+  body.p-proto .card-head .card-logo{max-width:88px}
+  body.p-proto .card-head .card-logo.tile{max-width:none;height:32px}
+}
+
+/* The Success Academy mark is boxed in its brand orange. The width attribute
+   (a presentational hint) pinned the tile to 130px while object-fit only drew
+   the glyph at ~74px, leaving a strip of bare orange on the right. Letting the
+   width follow the height and the intrinsic 98:29 ratio makes the tile hug it. */
+.card-logo.tile{width:auto}
+
+
+/* Six links at 390px overran the rail by ~28px, clipping the last one with no
+   scroll affordance to explain it. Tightening the gap and type fits all six. */
+@media(max-width:430px){
+  .nav-l{gap:.62rem}
+  .nav-l a{font-size:.74rem}
+}
+
+/* The rail grows to fill the space between wordmark and CTA (that flex:1 is what
+   stops it overflowing near 1000px), but its links were left-aligned inside it,
+   so they hugged the wordmark and left a wide gap before Office Hours.  */
+@media(min-width:901px){
+  .nav-l{justify-content:center}
+}
+
+/* Centre the rail on the PAGE, not between its neighbours. space-between put
+   the links midway between the wordmark (283px) and the CTA (106px), which sits
+   ~88px right of true centre. A three-column grid with equal side tracks makes
+   the middle track the page centre regardless of how wide the flanks are. */
+@media(min-width:901px){
+  .nav{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    align-items:center;gap:1rem}
+  .nav .mk{justify-self:start;grid-column:1}
+  .nav-l{justify-self:center;grid-column:2;flex:0 0 auto;min-width:0;max-width:100%}
+  .nav .cta{justify-self:end;grid-column:3}
+}
+
+
+/* --- case-study cards: a border you can actually see -----------------------
+   2px of --rule was 1.29:1 in light and, once the translucent dark value was
+   composited, 1.39:1 in dark. Both fail the 3:1 an object border needs. */
+body.p-cases .cs-card{border-color:var(--rule-strong)}
