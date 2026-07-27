@@ -511,3 +511,40 @@ body {
     --oh-border: #2C2C33;
   }
 }
+
+
+/* --- shared arrow + screen-reader helpers ---------------------------------
+   Duplicated from fv.css because this page does not load it yet. Same paths and
+   weights, so the arrows here are the same object as everywhere else on the
+   site. Delete this block once officehours moves onto fv.css. */
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.arw{display:inline-block;width:.78em;height:.78em;background:currentColor;
+  vertical-align:-.04em;margin-inline:.1em;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h15M12.5 5.5 19 12l-6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h15M12.5 5.5 19 12l-6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.arw-ne{display:inline-block;width:.72em;height:.72em;background:currentColor;
+  vertical-align:-.02em;margin-inline-start:.28em;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+
+
+/* --- manual theme override -------------------------------------------
+   Mirrors ONLY the token (:root) half of the dark blocks above. The
+   component rules in those blocks are deliberately NOT mirrored: scoping
+   them under :root[data-theme="dark"] raises their specificity above
+   fv.css's own [data-theme] rules, which flipped the nav CTA to an
+   unreadable 1.15:1 on the blog. Tokens carry the theme; components
+   should read them, not re-specify them. */
+:root[data-theme="dark"]{
+--oh-bg: #0F0F12;
+    --oh-surface: #17171B;
+    --oh-text: #F2F2F4;
+    --oh-text-secondary: #C3C3CC;
+    --oh-text-muted: #A2A2AC;      /* 7.4 on --oh-bg, 6.3 on --oh-surface */
+    /* Accent FILLS are unchanged in dark on purpose: they carry white text, so
+       lifting them drops white below 4.5. Only the ink inverts. */
+    --oh-accent-ink: #6E93CC;      /* cobalt lifted, for text on the dark page */
+    --oh-accent-hover: #6E93CC;
+    --oh-warm: #D9BE9E;
+    --oh-border: #2C2C33;
+}

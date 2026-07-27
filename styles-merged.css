@@ -3380,3 +3380,28 @@ html {
 #looking-for {
   display: none;
 }
+
+
+/* --- manual theme override -------------------------------------------
+   Mirrors ONLY the token (:root) half of the dark blocks above. The
+   component rules in those blocks are deliberately NOT mirrored: scoping
+   them under :root[data-theme="dark"] raises their specificity above
+   fv.css's own [data-theme] rules, which flipped the nav CTA to an
+   unreadable 1.15:1 on the blog. Tokens carry the theme; components
+   should read them, not re-specify them. */
+:root[data-theme="dark"]{
+--coral-text: #FF7F50;   /* dark 7.57, no lift needed */
+    --bg: #0F0F12;            /* was #0d1117, matches the updated theme */
+    --surface: #161b22;
+    --surface-alt: #1c2128;
+    --card-bg: #161b22;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-light: #e6edf3;
+    --text-muted: #848d97;   /* was #6e7681, 3.77 on the dark card */
+    --border: #30363d;
+    --toggle-track: #30363d;
+    --toggle-thumb: #e6edf3;
+    --text-tertiary: #9eaab8;
+    --white: #ffffff;
+}

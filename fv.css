@@ -2368,8 +2368,7 @@ body.p-cases .cs-pill{font-family:var(--mono);font-size:.55rem;font-weight:700;
 body.p-cases .cs-card-link{display:flex;height:100%}
 body.p-cases .cs-card{display:flex;flex-direction:column;height:100%}
 body.p-cases .cs-pills{margin-top:auto}
-body.p-cases .cs-metrics{margin-top:.2rem;text-align:left;justify-items:start}
-body.p-cases .cs-metric{text-align:left}
+
 
 
 /* --- card "go" arrow ------------------------------------------------------
@@ -2401,8 +2400,7 @@ body.p-cases .cs-nav-title{
 }
 /* text-align cannot undo align-items on a flex column, which is why these still
    read centred after the first attempt */
-body.p-cases .cs-metric{align-items:flex-start;text-align:left;padding:0}
-body.p-cases .cs-metrics{gap:.9rem}
+
 
 
 /* --- back link: same drawn arrow, pointing left --------------------------
@@ -2550,20 +2548,7 @@ body.p-case .back-link:hover{color:var(--ink)}
 body.p-case .window-chrome{background:var(--bg2);border-color:var(--rule)}
 body.p-case .window-title{color:var(--ink2)}
 
-/* --- case-study index metrics: a real grid, not a wrapping flex ----------
-   Three even columns that collapse to one on narrow cards, so a long label
-   never strands a value on its own row. */
-body.p-cases .cs-metrics{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:.2rem 0;border-top:1px solid var(--rule);padding-top:.7rem;margin-top:auto}
-body.p-cases .cs-metric{padding:0 .8rem;border-left:1px solid var(--rule);
-  display:flex;flex-direction:column;gap:.15rem;align-items:flex-start;min-width:0}
-body.p-cases .cs-metric:first-of-type{padding-left:0;border-left:0}
-body.p-cases .cs-metric-value{font-size:1.15rem;line-height:1.2;white-space:nowrap}
-body.p-cases .cs-metric-label{font-size:.56rem;line-height:1.35;white-space:normal;hyphens:auto}
-@media(max-width:460px){
-  body.p-cases .cs-metrics{grid-template-columns:1fr}
-  body.p-cases .cs-metric{padding:0;border-left:0}
-}
+
 
 /* --- slides: theme colours + a calmer header ---------------------------- */
 body.p-slides .hero h1{font-size:clamp(1.9rem,4.4vw,3rem);letter-spacing:-.035em;margin:0 0 .6rem}
@@ -2612,16 +2597,7 @@ body.p-slides .entry-card:nth-of-type(6n+6) .company{color:var(--c6-text)}
 body.p-slides .entry-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-2)}
 
 
-/* --- metric dividers: one line, not two ----------------------------------
-   The original rule drew border-right on :not(:last-child); the retheme added
-   border-left. Both rendered, so every gap had a double rule. Keep the
-   left-hand one and cancel the inherited right. */
-body.p-cases .cs-metric:not(:last-child){border-right:0}
-body.p-cases .cs-metric{border-left:1px solid var(--rule)}
-body.p-cases .cs-metric:first-of-type{border-left:0}
-@media(max-width:460px){
-  body.p-cases .cs-metric{border-left:0;padding:0}
-}
+
 
 
 /* --- prototype cards: logo + company on one line ---------------------------
@@ -2676,3 +2652,64 @@ body.p-proto .card-head .card-k{min-width:0;line-height:1.25}
    2px of --rule was 1.29:1 in light and, once the translucent dark value was
    composited, 1.39:1 in dark. Both fail the 3:1 an object border needs. */
 body.p-cases .cs-card{border-color:var(--rule-strong)}
+
+
+/* --- inline diagonal arrow ------------------------------------------------
+   The "go and see it" arrow that trails an outbound link label. Same object and
+   path as the case-study card hover arrow, sized in em so it tracks its type.
+   aria-hidden with a visually-hidden word beside it, so a screen reader gets
+   "View Press Coverage, opens in a new tab" rather than a glyph name. */
+.arw-ne{display:inline-block;width:.72em;height:.72em;background:currentColor;
+  vertical-align:-.02em;margin-inline-start:.28em;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+
+
+/* --- case-study index metric strip (single source of truth) ---------------
+   This replaced four stacked blocks that accumulated across successive fixes:
+   a left-align pass, a flex-to-grid pass, a column-sizing pass, and a divider
+   pass. Each only patched what the one before got wrong, so the real values
+   were spread over ~250 lines and you had to read all four to know what won.
+   Every property the earlier blocks touched is set explicitly here, so this
+   block alone determines the result regardless of what the imported
+   case-studies CSS above it says.
+
+   Three even columns that collapse to one on a narrow card. Dividers are drawn
+   on the LEFT of every cell but the first; the imported CSS drew them on the
+   right as well, which is what produced doubled rules. */
+body.p-cases .cs-metrics{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.2rem 0;
+  margin-top:auto;
+  padding-top:.7rem;
+  border-top:1px solid var(--rule);
+  text-align:left;
+  justify-items:start;
+}
+body.p-cases .cs-metric{
+  display:flex;
+  flex-direction:column;
+  gap:.15rem;
+  align-items:flex-start;
+  text-align:left;
+  min-width:0;
+  padding:0 .8rem;
+  border-left:1px solid var(--rule);
+  border-right:0;                 /* cancels the imported :not(:last-child) rule */
+}
+body.p-cases .cs-metric:not(:last-child){border-right:0}
+body.p-cases .cs-metric:first-of-type{padding-left:0;border-left:0}
+body.p-cases .cs-metric-value{
+  font-size:1.15rem;font-weight:800;color:var(--ink);
+  line-height:1.2;white-space:nowrap;margin-bottom:4px;
+}
+body.p-cases .cs-metric-label{
+  font-size:.56rem;color:var(--ink2);text-transform:uppercase;
+  letter-spacing:.04em;font-weight:600;line-height:1.35;
+  white-space:normal;hyphens:auto;
+}
+@media(max-width:460px){
+  body.p-cases .cs-metrics{grid-template-columns:1fr}
+  body.p-cases .cs-metric{padding:0;border-left:0}
+}
