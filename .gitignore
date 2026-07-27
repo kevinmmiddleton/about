@@ -6,3 +6,8 @@
 .vscode/
 node_modules/
 .claude/
+
+# editor/tooling backups; these were untracked cruft that a blanket
+# `git add -A` swept into the relaunch branch
+*.bak
+*.orig
