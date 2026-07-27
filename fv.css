@@ -59,7 +59,8 @@
   --accent-text:#AB3142;       /* small accent text on the page      5.88 */
   --accent-on-invert:#CF5F6F;  /* small accent text on the panel     4.96 */
   --gold-on-invert:#E8A317;    /* gold display text on the panel     8.74 */
-  --cta-blue:#4B6FA5;          /* button on the invert band          3.72 */
+  --cta-blue:#4B6FA5;
+  --cta-plum:#7B55BC;   /* lifted plum: base #6D4AA8 is 2.87 vs the ink band */          /* button on the invert band          3.72 */
 
   /* ---------- strength chips: outlined when idle, filled when chosen ----------
      --line is the outline and must clear 3:1 against the PAGE, so it moves per
@@ -3110,6 +3111,7 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 .fv .cb.c-mail{background:var(--madder);color:var(--on-hue)}/* 3.60 vs ink, 5.27 label */
 .fv .cb.c-oh{background:var(--viridian);color:var(--on-hue)}/* 3.67 vs ink, 5.16 label */
 .fv .cb.c-li{background:var(--cta-blue);color:var(--on-hue)}/* 3.72 vs ink, 5.10 label */
+.fv .cb.c-gh{background:var(--cta-plum);color:var(--on-hue)}/* GitHub had no rule */
 .fv .cb:hover{transform:translateY(-2px)}/* ---- strengths concept: specialty tabs -> one wide detail stage ---- */
 /* the claim the six chips are evidence FOR. Without it the section is a menu;
    with it, the chips are subordinate. */
