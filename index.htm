@@ -1,1667 +1,644 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="theme-color" content="#4A6A8C">
-    <title>Kevin Middleton - Full Stack Product Manager | Platforms, Internal Tools & AI Workflows</title>
-    <meta name="description"
-        content="Kevin Middleton is a Senior Product Manager and full-stack PM with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles-merged.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <!-- Identity verification -->
-    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
-    <link rel="me" href="https://github.com/kevinmmiddleton">
-    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Kevin Middleton - Full Stack Product Manager | Platforms, Internal Tools & AI Workflows">
-    <meta property="og:description"
-        content="Senior Product Manager and full-stack PM with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products.">
-    <meta property="og:url" content="https://middleton.io">
-    <meta property="og:image" content="https://middleton.io/images/kevin-middleton-og.png">
-    <meta property="og:type" content="website">
-
-    <link rel="canonical" href="https://middleton.io/">
-
-    <meta property="og:site_name" content="Kevin Middleton">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kevin Middleton - Full Stack Product Manager | Platforms, Internal Tools & AI Workflows">
-    <meta name="twitter:description"
-        content="Senior Product Manager and full-stack PM building platforms, internal tools, and AI-driven workflows that connect teams and systems.">
-    <meta name="twitter:image" content="https://middleton.io/images/kevin-middleton-og.png">
-
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "@id": "https://middleton.io/#kevin",
-        "name": "Kevin Middleton",
-        "jobTitle": "Full Stack Product Manager",
-        "url": "https://middleton.io",
-        "image": "https://middleton.io/images/profile-picture.jpg",
-        "email": "mailto:kevin@middleton.io",
-        "sameAs": [
-            "https://www.linkedin.com/in/kevinmiddleton",
-            "https://github.com/kevinmmiddleton",
-            "https://www.wikidata.org/wiki/Q140389537",
-            "https://calendly.com/kevin-middleton/let-s-talk"
-        ],
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "New York",
-            "addressRegion": "NY",
-            "addressCountry": "US"
-        },
-        "alumniOf": {
-            "@type": "CollegeOrUniversity",
-            "name": "Virginia Tech",
-            "sameAs": "https://www.vt.edu"
-        },
-        "knowsAbout": [
-            "Product Management",
-            "Building with AI",
-            "Generative AI",
-            "Large Language Models",
-            "AI Agents",
-            "Automation",
-            "SaaS",
-            "Product Strategy",
-            "A/B Testing",
-            "Cross-Functional Leadership",
-            "Enterprise Software",
-            "Platform Development",
-            "Data-Driven Decision Making",
-            "AI Workflows",
-            "Internal Tools",
-            "Growth Product Management",
-            "Funnel Optimization",
-            "Integrations"
-        ],
-        "description": "Senior Product Manager and full-stack PM with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products.",
-        "hasOccupation": {
-            "@type": "Occupation",
-            "name": "Full Stack Product Manager",
-            "occupationLocation": {
-                "@type": "City",
-                "name": "New York"
-            },
-            "description": "Hands-on product leader who works across people, process, and product. Experienced in running meetings, digging into data, building prototypes, and turning complex problems into maintainable systems teams can own.",
-            "skills": "Product Strategy, SaaS, A/B Testing, Cross-Functional Leadership, Consumer Products, Enterprise Products, Platform Products, User Research, Roadmapping, Agile/Scrum"
-        },
-        "makesOffer": {
-            "@type": "Offer",
-            "itemOffered": {
-                "@type": "Service",
-                "name": "Product Management Consultation",
-                "description": "Free introductory consultation to discuss product strategy, team processes, or career advice."
-            },
-            "price": "0",
-            "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock",
-            "url": "https://calendly.com/kevin-middleton/let-s-talk"
-        }
-    }
-    </script>
-
-    <!-- JSON-LD: WebSite -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "@id": "https://middleton.io/#website",
-        "name": "Kevin Middleton",
-        "url": "https://middleton.io",
-        "author": { "@id": "https://middleton.io/#kevin" }
-    }
-    </script>
-
-    <!-- Privacy-friendly analytics by Plausible -->
-    <script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
-    <script>
-        window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
-        plausible.init()
-    </script>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<!-- two theme-colors, not the live site's single #4A6A8C: this build has a
+     real dark mode, so the browser chrome should follow it. -->
+<meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
+<title>Kevin Middleton - Full Stack Product Manager | Platforms, Internal Tools &amp; AI Workflows</title>
+<!-- descriptions lead with "Full Stack Product Manager" rather than the live
+     site's "Senior Product Manager and full-stack PM", to match the identity
+     the rest of this build standardised on (title, header, hero arc line). -->
+<meta name="description" content="Kevin Middleton is a Full Stack Product Manager with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products.">
+<link rel="canonical" href="https://middleton.io/">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<!-- Identity verification -->
+<link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+<link rel="me" href="https://github.com/kevinmmiddleton">
+<link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+<!-- Open Graph -->
+<meta property="og:title" content="Kevin Middleton - Full Stack Product Manager | Platforms, Internal Tools &amp; AI Workflows">
+<meta property="og:description" content="Full Stack Product Manager with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products.">
+<meta property="og:url" content="https://middleton.io">
+<meta property="og:image" content="https://middleton.io/images/kevin-middleton-og.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kevin Middleton">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kevin Middleton - Full Stack Product Manager | Platforms, Internal Tools &amp; AI Workflows">
+<meta name="twitter:description" content="Full Stack Product Manager building platforms, internal tools, and AI-driven workflows that connect teams and systems.">
+<meta name="twitter:image" content="https://middleton.io/images/kevin-middleton-og.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://middleton.io/#kevin",
+  "name": "Kevin Middleton",
+  "jobTitle": "Full Stack Product Manager",
+  "url": "https://middleton.io",
+  "image": "https://middleton.io/images/profile-picture.jpg",
+  "email": "mailto:kevin@middleton.io",
+  "sameAs": [
+    "https://www.linkedin.com/in/kevinmiddleton",
+    "https://github.com/kevinmmiddleton",
+    "https://www.wikidata.org/wiki/Q140389537",
+    "https://calendly.com/kevin-middleton/let-s-talk"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "New York",
+    "addressRegion": "NY",
+    "addressCountry": "US"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Virginia Tech",
+    "sameAs": "https://www.vt.edu"
+  },
+  "knowsAbout": [
+    "Product Management","Building with AI","Generative AI","Large Language Models",
+    "AI Agents","Automation","SaaS","Product Strategy","A/B Testing",
+    "Cross-Functional Leadership","Enterprise Software","Platform Development",
+    "Data-Driven Decision Making","AI Workflows","Internal Tools",
+    "Growth Product Management","Funnel Optimization","Integrations"
+  ],
+  "description": "Full Stack Product Manager with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products.",
+  "hasOccupation": {
+    "@type": "Occupation",
+    "name": "Full Stack Product Manager",
+    "occupationLocation": { "@type": "City", "name": "New York" },
+    "description": "Hands-on product leader who works across people, process, and product. Experienced in running meetings, digging into data, building prototypes, and turning complex problems into maintainable systems teams can own.",
+    "skills": "Product Strategy, SaaS, A/B Testing, Cross-Functional Leadership, Consumer Products, Enterprise Products, Platform Products, User Research, Roadmapping, Agile/Scrum"
+  },
+  "makesOffer": {
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "Service",
+      "name": "Product Management Consultation",
+      "description": "Free introductory consultation to discuss product strategy, team processes, or career advice."
+    },
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "https://middleton.io/officehours/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://middleton.io/#website",
+  "name": "Kevin Middleton",
+  "url": "https://middleton.io",
+  "author": { "@id": "https://middleton.io/#kevin" }
+}
+</script>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+<script>
+  window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
+  plausible.init()
+</script>
 </head>
-
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav-container has-cta">
-            <a href="#hero" class="logo">
-                <span id="header-name" class="logo-text">
-                    <span class="logo-name">Kevin Middleton</span>
-                    <span class="logo-subtitle">Full Stack Product Manager</span>
-                </span>
-            </a>
-            <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul id="menu" class="nav-menu">
-                <li><a href="#building">Building</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Case Studies</a></li>
-                <li><a href="/blog/">Blog</a></li>
-                <li><a href="#connect">Let's Talk</a></li>
-                <li class="nav-cta-mobile"><a href="/officehours/" target="_blank" class="plausible-event-name=Header+OfficeHours">Office Hours</a></li>
-            </ul>
-            <a href="/officehours/" target="_blank" class="header-cta plausible-event-name=Header+OfficeHours">Office Hours</a>
-        </nav>
-    </header>
 
-    <main>
-        <!-- Hero Section — Parallax -->
-        <section id="hero" class="hero hero-v2">
-            <div class="v2-hero-bg" id="heroBg"></div>
-            <div class="hero-inner">
-                <img src="images/profile-picture.jpg" alt="Kevin Middleton" class="v2-hero-photo">
-                <h1 class="hero-name">Kevin Middleton</h1>
-                <p class="hero-title">Full&#8209;Stack&nbsp;Product&nbsp;Manager&nbsp;·&nbsp;New&nbsp;York,&nbsp;NY</p>
-                <span class="status-badge">Open to Work</span>
-                <p class="hero-tagline">I build platforms, tools, and AI workflows that connect teams and systems.</p>
-                <div class="hero-actions-v2">
-                    <a href="#connect" class="btn btn-primary plausible-event-name=Hero+Lets+Talk">Let's Talk</a>
-                    <a href="#experience" class="btn btn-view-work plausible-event-name=Hero+Experience">See My Experience</a>
-                </div>
-            </div>
-            <div class="v2-scroll-hint">
-                <span>Scroll</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-        </section>
-
-
-        <!-- Currently Building Section -->
-        <section id="building" class="section">
-            <div class="container">
-                <h2 class="section-title">What I'm <span class="highlight">Building</span></h2>
-                <div class="bento">
-                    <a href="https://quietfeed.com" target="_blank" class="bento-card card-quietfeed plausible-event-name=Building+QuietFeed">
-                        <div class="card-header-row">
-                            <div class="app-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-                            </div>
-                            <h3>QuietFeed</h3>
-                        </div>
-                        <p>RSS reader that respects your attention</p>
-                    </a>
-                    <a href="https://middleton.io/officehours/" target="_blank" class="bento-card card-office plausible-event-name=Building+OfficeHours">
-                        <div class="card-header-row">
-                            <div class="app-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
-                            </div>
-                            <h3>Office Hours</h3>
-                        </div>
-                        <p>Free product coaching</p>
-                    </a>
-                    <div class="bento-stack">
-                    <a href="https://middleton.io/visionbort/" target="_blank" class="bento-card card-visionbort plausible-event-name=Building+Visionbort">
-                        <div class="card-header-row">
-                            <div class="app-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                            </div>
-                            <h3>Visionbort</h3>
-                        </div>
-                        <p>Vision boards with intentions</p>
-                    </a>
-                    <a href="https://middleton.io/kevinos/" target="_blank" class="bento-card card-kevinos plausible-event-name=Building+KevinOS">
-                        <div class="card-header-row">
-                            <div class="app-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                            </div>
-                            <h3>KevinOS</h3>
-                        </div>
-                        <p>My portfolio as a retro OS</p>
-                    </a>
-                    </div>
-                    <div class="bento-card card-claude">
-                        <div class="card-header-row">
-                            <div class="app-icon">
-                                <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z" fill="white" fill-rule="nonzero"/></svg>
-                            </div>
-                            <h3>Claude Plugins</h3>
-                        </div>
-                        <a href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener" class="card-header-link plausible-event-name=GitHub+Click" aria-label="View all repositories on GitHub">GitHub<span class="hl-arrow" aria-hidden="true">&#8599;</span></a>
-                        <a href="https://github.com/kevinmmiddleton/job-search-agent" target="_blank" rel="noopener" class="writing-item plausible-event-name=Building+JobSearchAgent">
-                            <span class="writing-dot"></span>Job Search Agent · your AI recruiter
-                        </a>
-                        <a href="https://github.com/kevinmmiddleton/personal-site" target="_blank" rel="noopener" class="writing-item plausible-event-name=Building+PersonalSite">
-                            <span class="writing-dot"></span>Personal Site · a website from an interview
-                        </a>
-                        <a href="https://github.com/kevinmmiddleton/build-with-claude" target="_blank" rel="noopener" class="writing-item plausible-event-name=Building+Claude">
-                            <span class="writing-dot"></span>Build with Claude · ship apps from your phone
-                        </a>
-                    </div>
-                    <div class="bento-card card-writing">
-                        <div class="card-header-row">
-                            <div class="app-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                            </div>
-                            <h3>Writing on AI &amp; Work</h3>
-                        </div>
-                        <!-- WRITING:START -->
-                        <a href="/blog/product-management-is-dead/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=product-management-is-dead">
-                            <span class="writing-dot" style="background:#3b82f6"></span>Product Management is dead. Long live Product Management.
-                        </a>
-                        <a href="/blog/ai-guilt-is-the-new-recycling/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=ai-guilt-is-the-new-recycling">
-                            <span class="writing-dot" style="background:#e07caa"></span>AI guilt is the new recycling
-                        </a>
-                        <a href="/blog/its-almost-always-the-resume/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=its-almost-always-the-resume">
-                            <span class="writing-dot" style="background:#f59e0b"></span>It's almost always the resume
-                        </a>
-                        <a href="/blog/curiosity-makes-or-breaks/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=curiosity-makes-or-breaks">
-                            <span class="writing-dot" style="background:#7c5ce0"></span>At work, curiosity can be the difference between thriving and surviving
-                        </a>
-                        <a href="/blog/applying-for-jobs-is-like-stand-up-comedy/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=applying-for-jobs-is-like-stand-up-comedy">
-                            <span class="writing-dot" style="background:#14b8a6"></span>Applying for jobs is like stand-up comedy
-                        </a>
-                        <a href="/blog/everyone-can-build-now/" class="writing-item plausible-event-name=Writing+Click plausible-event-post=everyone-can-build-now">
-                            <span class="writing-dot" style="background:#f97316"></span>Everyone can build now. The fundamentals shouldn't change.
-                        </a>
-<!-- WRITING:END -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- What I'm Looking For Section -->
-        <section id="looking-for" class="section">
-            <div class="container">
-                <h2 class="section-title">What I’m <span class="highlight">Looking For</span></h2>
-                <div class="looking-for-inner">
-                    <div class="looking-for-pills">
-                        <div class="pill-row-with-label">
-                            <span class="pill-label">primary</span>
-                            <div class="role-pill-row">
-                                <span class="role-pill tint-blue">product management</span>
-                                <span class="role-pill tint-purple">internal tools</span>
-                                <span class="role-pill tint-pink">platforms</span>
-                                <span class="role-pill tint-green">public sector</span>
-                                <span class="role-pill tint-blue">AI workflows</span>
-                                <span class="role-pill tint-purple">integrations</span>
-                            </div>
-                        </div>
-                        <div class="pill-row-with-label">
-                            <span class="pill-label">also</span>
-                            <div class="role-pill-row">
-                                <span class="role-pill tint-mint">product operations</span>
-                                <span class="role-pill tint-yellow">marketing operations</span>
-                                <span class="role-pill tint-peach">consulting</span>
-                            </div>
-                        </div>
-                        <div class="pill-row-with-label">
-                            <span class="pill-label">not for me</span>
-                            <div class="role-pill-row">
-                                <span class="role-pill tint-gray">ad tech</span>
-                                <span class="role-pill tint-gray">crypto</span>
-                                <span class="role-pill tint-gray">web3</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p class="looking-for-text bottom-text">
-                        <span class="two-line-lock">I do my best work where people can say what's actually happening<br> and act on it together.</span>
-                    </p>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container">
-                <h2 class="section-title">About <span class="highlight">Me</span></h2>
-
-                <div class="about-content">
-                    <div class="about-images">
-                        <img src="https://middleton.io/images/profile-picture.jpg" alt="Kevin Middleton"
-                            class="profile-img main-photo" loading="lazy">
-                        <div class="about-photos-grid">
-                            <img src="https://middleton.io/images/cat-illustration.jpg"
-                                alt="Kevin with cat - illustration" class="profile-img secondary-photo" loading="lazy">
-
-                            <img src="https://middleton.io/images/cats-photo.jpg" alt="Kevin's cats on cat tree"
-                                class="profile-img secondary-photo tall-photo" loading="lazy">
-
-                            <img src="https://middleton.io/images/carne-asada-fries-homemade.jpg"
-                                alt="Carne asada fries homemade" class="profile-img secondary-photo" loading="lazy">
-                        </div>
-                    </div>
-
-                    <div class="about-text">
-                        <p>In my experience, teams usually know what's wrong. They just need someone
-                            willing to name it and make it safe to act on. That's usually where I start.</p>
-
-                        <!-- Full Stack PM Callout Block -->
-                        <div class="fullstack-callout">
-                            <h4>What&nbsp;I&nbsp;Mean&nbsp;by&nbsp;"Full&nbsp;Stack&nbsp;PM"</h4>
-                            <p>
-                                I work across people, process, and product. I'm hands-on at every level: running meetings, cleaning up details, digging into data, or building a quick prototype. I turn messy problems into clear systems teams can own. I build with AI where it actually helps. Most recently that's meant AI-powered compliance tools, LLM copilots, and growth experiments that drove 50x conversion lift.
-                            </p>
-                        </div>
-
-                        <p>Most of my best work happens between teams that don't usually talk to each other. Engineering and support. Product and marketing. I broker the agreements, bring the context, and make sure nobody's working in the dark. A colleague once called me "the personification of integration between people, process, and technology."</p>
-
-                        <p>I fight for good work and I make it fun in the process. Former teammates keep saying the same thing across different companies: I show up prepared, keep things moving, and bring energy that helps teams do their best work.</p>
-
-                        <p>Outside of work, I enjoy <a href="https://middleton.io/recipes/" target="_blank">cooking</a>,
-                            spending time with my cats, and getting lost in pop culture and trivia.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Core Values Section -->
-        <section id="values" class="section section-accent">
-            <div class="container">
-                <h2 class="section-title">My <span class="highlight">Values</span></h2>
-                <div class="values-grid">
-                    <div class="value-card glass-card tint-blue">
-                        <h3 class="value-title">
-                            <svg class="value-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <circle cx="11" cy="11" r="8" />
-                                <path d="m21 21-4.35-4.35" />
-                            </svg>
-                            Start With Understanding
-                        </h3>
-                        <p class="value-description">Begin with the problem, the people, and the constraints. Good
-                            outcomes start with listening.</p>
-                    </div>
-                    <div class="value-card glass-card tint-purple">
-                        <h3 class="value-title">
-                            <svg class="value-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 21s-6.2-4.35-9.33-7.47A5.24 5.24 0 1 1 10.24 5.1L12 6.89l1.76-1.8a5.24 5.24 0 1 1 7.57 7.57C18.2 16.65 12 21 12 21Z" />
-                            </svg>
-                            Give Grace, Get Grace
-                        </h3>
-                        <p class="value-description">Lead with empathy. Assume good intent. People do their best work
-                            when they feel supported.</p>
-                    </div>
-                    <div class="value-card glass-card tint-pink">
-                        <h3 class="value-title">
-                            <svg class="value-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                <circle cx="9" cy="7" r="4" />
-                                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                            </svg>
-                            Collaboration Wins
-                        </h3>
-                        <p class="value-description">Better ideas and better teams come from solving problems together
-                            with shared context and clear ownership.</p>
-                    </div>
-                    <div class="value-card glass-card tint-peach">
-                        <h3 class="value-title">
-                            <svg class="value-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <circle cx="12" cy="10" r="4" />
-                                <path d="M4 22a8 8 0 0 1 16 0" />
-                            </svg>
-                            Keep It Human
-                        </h3>
-                        <p class="value-description">Communicate openly and kindly. Make space for people. Celebrate
-                            progress and support one another.</p>
-                    </div>
-                    <div class="value-card glass-card tint-mint">
-                        <h3 class="value-title">
-                            <svg class="value-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <rect x="3" y="3" width="18" height="6" rx="2" />
-                                <rect x="3" y="10" width="18" height="6" rx="2" />
-                                <rect x="3" y="17" width="18" height="4" rx="2" />
-                            </svg>
-                            Structure Without Rigidity
-                        </h3>
-                        <p class="value-description">Bring clarity to complex problems. Create direction without extra
-                            process. Keep the work light.</p>
-                    </div>
-                    <div class="value-card glass-card tint-yellow">
-                        <h3 class="value-title">
-                            <svg class="value-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path d="M3 4h18" />
-                                <path d="M6 8h12" />
-                                <path d="M9 12h6" />
-                                <path d="M10 16h4" />
-                            </svg>
-                            Make It Simple
-                        </h3>
-                        <p class="value-description">Turn complex workflows into clear, reliable systems that people
-                            actually use.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Section -->
-        <section id="experience" class="section">
-            <div class="container">
-                <h2 class="section-title">Professional <span class="highlight">Experience</span></h2>
-                <p class="experience-toggle-intro">Choose how you want to view my experience.</p>
-                <div class="experience-toggle-wrapper">
-                    <label class="experience-toggle">
-                        <input type="checkbox" id="experienceModeToggle">
-                        <span class="toggle-track">
-                            <span class="toggle-option resume-option"
-                                data-tooltip="Traditional résumé format">Resume</span>
-                            <span class="toggle-option story-option"
-                                data-tooltip="Narrative timeline of my career">Journey</span>
-                            <span class="toggle-thumb"></span>
-                        </span>
-                    </label>
-                </div>
-                <p id="journey-preamble" class="journey-preamble" style="display:none;">
-                    Before product management, I spent seven years in
-                    <span class="preamble-accent">public sector tech</span>,
-                    <span class="preamble-accent">software engineering</span>, and
-                    <span class="preamble-accent">QA automation</span>
-                    on federal programs at the Department of Justice. Those early roles
-                    shaped how I think about systems, people, and building things that last.
-                </p>
-                <div class="experience-list">
-                    <!-- GRIDSTRONG -->
-                    <div class="exp-item" id="exp-gridstrong">
-                        <div class="exp-header">
-                            <div class="exp-logo">
-                                <img src="https://middleton.io/images/gridstrong-logo.png" alt="GridStrong" loading="lazy">
-                            </div>
-                            <div class="exp-info">
-                                <div class="exp-company"><a href="https://www.gridstrong.ai" target="_blank"
-                                        rel="noopener noreferrer">GRIDSTRONG AI</a> <span class="exp-sector exp-sector--startup">Startup</span></div>
-                                <div class="exp-title">Director of Product Management <em>(initially
-                                        Product Advisor)</em></div>
-                            </div>
-                            <div class="exp-meta">
-                                <div class="exp-period">Sep 2024 — Nov 2025</div>
-                                <div class="exp-location">New York, NY</div>
-                            </div>
-                            <svg class="exp-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div class="exp-content">
-                            <p class="exp-description">
-                                Began supporting <strong>GridStrong.ai</strong> in <strong>September 2024</strong> as a
-                                part-time <strong>Product Advisor</strong> while at HVAC.com, creating early prototypes and helping secure a
-                                <strong>$1.4M U.S. Department of Energy grant</strong>. After seed funding closed in <strong>June 2025</strong>, joined
-                                full‑time as <strong>Director of Product Management</strong>, leading product strategy,
-                                engineering, and design across the compliance automation platform.
-                                Departed after company restructuring reduced the product team.
-                            </p>
-                            <ul class="exp-highlights">
-                                <li><strong>Funding &amp; Early Traction:</strong> Built early AI prototypes that helped
-                                    secure a <strong>$1.4M DOE grant</strong>, contributing to a <strong>$10M seed round</strong>.</li>
-                                <li><strong>Product Direction:</strong> Defined early product direction through SME
-                                    discovery, workflow validation, and shaping the core patterns used across the
-                                    GridStrong app.</li>
-                                <li><strong>Workflow Delivery:</strong> Delivered core compliance workflows including
-                                    model quality testing, event analysis, document linking, and automated
-                                    cross‑standard tasks.</li>
-                                <li><strong>Regulatory Translation:</strong> Translated complex regulatory requirements
-                                    into clear product plans that guided engineering and design.</li>
-                                <li><strong>Process &amp; Execution:</strong> Established cross‑company processes for
-                                    roadmapping, sprint cadence, QA gating, and release workflows, improving reliability
-                                    and team alignment.</li>
-                            </ul>
-                            <div class="exp-images">
-                                <img src="https://middleton.io/images/gridstrong-dashboard.png"
-                                    alt="GridStrong Dashboard" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/gridstrong-task-dashboard.png"
-                                    alt="GridStrong Task Dashboard" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/gridstrong-event-analysis.png"
-                                    alt="GridStrong Event Analysis" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/gridstrong-mqt-workflow.png"
-                                    alt="GridStrong MQT Workflow" class="lightbox-trigger" loading="lazy">
-                            </div>
-                            <div class="exp-tags">
-                                <span class="exp-tag">0→1</span>
-                                <span class="exp-tag">Product Leadership</span>
-                                <span class="exp-tag">Process Design</span>
-                                <span class="exp-tag">Cross-Functional Collaboration</span>
-                                <span class="exp-tag">SaaS</span>
-                                <span class="exp-tag">Energy Compliance</span>
-                                <span class="exp-tag">Roadmapping</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- HVAC.COM -->
-                    <div class="exp-item" id="exp-hvac">
-                        <div class="exp-header">
-                            <div class="exp-logo">
-                                <img src="https://middleton.io/images/hvac-com-logo-stacked-white.png" alt="HVAC.COM" loading="lazy">
-                            </div>
-                            <div class="exp-info">
-                                <div class="exp-company"><a href="https://www.hvac.com" target="_blank"
-                                        rel="noopener noreferrer">HVAC.COM</a> <span class="exp-sector exp-sector--acquired">Acquired</span> <span class="exp-acquired-detail">by <a href="https://www.tranetechnologies.com" target="_blank" rel="noopener noreferrer">Trane Technologies</a> May 2024</span></div>
-                                <div class="exp-title">Senior Product Manager, HVAC.com and Branded Sites</div>
-                            </div>
-                            <div class="exp-meta">
-                                <div class="exp-period">Feb 2024 — Jun 2025</div>
-                                <div class="exp-location">New York, NY</div>
-                            </div>
-                            <svg class="exp-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div class="exp-content">
-                            <p class="exp-description">
-                                Owned product strategy, UX, and growth for <strong>HVAC.com</strong>, a homeowner
-                                platform
-                                with <strong>~2M annual visits</strong> that connects consumers to trusted HVAC dealers
-                                nationwide. Owned the full digital funnel, from first touch to dealer handoff, driving
-                                measurable conversion gains and shaping Trane's broader digital strategy.
-                            </p>
-                            <ul class="exp-highlights">
-                                <li><strong>Conversion Growth:</strong> Drove a <strong>~50x conversion lift</strong> off a
-                                    <strong>0.1% baseline</strong> by launching high‑performing tools—<strong>calculators
-                                        (7.3%)</strong>, <strong>QuoteScore (6%)</strong>, <strong>video content
-                                        (3.4%)</strong>, and <strong>optimized landing pages (2.3%)</strong>.</li>
-                                <li><strong>Platform Expansion:</strong> Expanded the product surface area with
-                                    <strong>HVAC repair services</strong>, new <strong>interactive calculators</strong>,
-                                    and a <strong>redesigned blog</strong> that increased depth, engagement, and lead
-                                    volume.
-                                </li>
-                                <li><strong>Funnel Efficiency:</strong> Improved lead quality and user flow using
-                                    behavioral analytics, session‑to‑install data, and user paths to refine the
-                                    homeowner journey.</li>
-                                <li><strong>Data‑Driven Execution:</strong> Drove measurable business results through
-                                    continuous testing, analytics‑led iteration, and focused UX improvements.</li>
-                            </ul>
-                            <div class="exp-images">
-                                <img src="https://middleton.io/images/hvac-calculators.png" alt="HVAC.COM Calculators"
-                                    class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/hvac-quote-step1-address.webp"
-                                    alt="HVAC.COM Replacement Funnel" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/hvac-quotescore.png"
-                                    alt="HVAC.COM QuoteScore Landing Page" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/hvac-replace-landing.jpg"
-                                    alt="HVAC.COM Replace Landing Page" class="lightbox-trigger" loading="lazy">
-                            </div>
-                            <div class="exp-tags">
-                                <span class="exp-tag">Scale</span>
-                                <span class="exp-tag">Product Lifecycle Management</span>
-                                <span class="exp-tag">Conversion Rate Optimization (CRO)</span>
-                                <span class="exp-tag">A/B Testing</span>
-                                <span class="exp-tag">Cross-Functional Leadership</span>
-                                <span class="exp-tag">Data-Driven Decision Making</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- HURD AI -->
-                    <div class="exp-item" id="exp-hurd">
-                        <div class="exp-header">
-                            <div class="exp-logo">
-                                <img src="https://middleton.io/images/hurd-ai-logo.png" alt="HURD AI" loading="lazy">
-                            </div>
-                            <div class="exp-info">
-                                <div class="exp-company"><a href="https://hurd.ai" target="_blank"
-                                        rel="noopener noreferrer">HURD AI</a> <span class="exp-sector exp-sector--startup">Startup</span></div>
-                                <div class="exp-title">Co-Founder &amp; Product Advisor</div>
-                            </div>
-                            <div class="exp-meta">
-                                <div class="exp-period">May 2023 — Sep 2023</div>
-                                <div class="exp-location">Berkeley, CA</div>
-                            </div>
-                            <svg class="exp-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div class="exp-content">
-                            <p class="exp-description">
-                                Shaped early product direction for an AI-powered learning platform that helped students,
-                                researchers, and professionals organize and study their notes. Led feature design, user
-                                research, and launch execution across the Mac app and web chatbot.
-                            </p>
-                            <ul class="exp-highlights">
-                                <li><strong>AI-Powered Features:</strong> Launched Whisper-powered on-device
-                                    transcription, fast summarization, structured note organization, and a web-based
-                                    chatbot for interactive study sessions.</li>
-                                <li><strong>User Growth:</strong> Drove <strong>700% user growth</strong> through a
-                                    ProductHunt launch supported by targeted messaging and lightweight paid campaigns.
-                                </li>
-                                <li><strong>User Research:</strong> Worked directly with journalists, researchers, and
-                                    students to validate pain points, workflows, and privacy expectations.</li>
-                            </ul>
-                            <div class="exp-images">
-                                <img src="https://middleton.io/images/hurd-ai-search-highlight.gif"
-                                    alt="HURD AI search highlight" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/hurd-ai-fast-summarization.gif"
-                                    alt="HURD AI fast summarization" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/hurd-ai-mobile-web-app.webp"
-                                    alt="HURD AI mobile web app" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/hurd-ai-mobile-web-app-detail.webp"
-                                    alt="HURD AI mobile web app detail" class="lightbox-trigger" loading="lazy">
-                            </div>
-                            <div class="exp-tags">
-                                <span class="exp-tag">0→1</span>
-                                <span class="exp-tag">Natural Language Processing (NLP)</span>
-                                <span class="exp-tag">AI-Powered Automation</span>
-                                <span class="exp-tag">Go-To-Market</span>
-                                <span class="exp-tag">Data Analysis</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- LEVER -->
-                    <div class="exp-item" id="exp-lever">
-                        <div class="exp-header">
-                            <div class="exp-logo">
-                                <img src="https://middleton.io/images/lever-logo.webp" alt="Lever" loading="lazy">
-                            </div>
-                            <div class="exp-info">
-                                <div class="exp-company"><a href="https://www.lever.co" target="_blank"
-                                        rel="noopener noreferrer">LEVER</a> <span class="exp-sector exp-sector--acquired">Acquired</span> <span class="exp-acquired-detail">by <a href="https://www.employinc.com" target="_blank" rel="noopener noreferrer">Employ</a> July 2022</span></div>
-                                <div class="exp-title">Senior Product Manager, HRIS Sync Lead</div>
-                            </div>
-                            <div class="exp-meta">
-                                <div class="exp-period">Dec 2021 — Apr 2023</div>
-                                <div class="exp-location">San Francisco, CA</div>
-                            </div>
-                            <svg class="exp-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div class="exp-content">
-                            <p class="exp-description">
-                                Owned end-to-end development of HRIS Sync, a core enterprise integration that
-                                strengthened Lever's upmarket positioning through automation, workflow reliability, and
-                                enterprise-grade data sync.
-                            </p>
-                            <ul class="exp-highlights">
-                                <li><strong>HRIS Sync Launch:</strong> Launched HRIS Sync with <strong>37%
-                                        Q1 engagement</strong>, enabling org chart-aware approvals, automated user
-                                    provisioning, and manager-relationship sync for enterprise customers.</li>
-                                <li><strong>Bulk Importer:</strong> Delivered a self‑serve Bulk Candidate Importer that
-                                    reduced upload times from days to minutes, cutting support and implementation
-                                    workloads and enabling customers to manage large volumes on their own.</li>
-                                <li><strong>Enterprise Discovery:</strong> Uncovered key enterprise pain points through
-                                    deep discovery with IT teams, recruiters, and admins, shaping the roadmap for Sync,
-                                    provisioning, and hiring workflows.</li>
-                                <li><strong>Cross‑Functional Alignment:</strong> Strengthened alignment by partnering
-                                    with professional services, implementation, customer success, and support to
-                                    integrate real‑time feedback into product updates.</li>
-                            </ul>
-                            <div class="exp-images">
-                                <img src="https://middleton.io/images/lever-scim-user-provisioning.png"
-                                    alt="Lever HRIS Sync settings" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/lever-hris-user-profile.png"
-                                    alt="Lever HRIS user profile" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/lever-proxy-approval.png"
-                                    alt="Lever proxy approval" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/lever-bulk-candidate-importer.png"
-                                    alt="Lever bulk candidate importer" class="lightbox-trigger" loading="lazy">
-                            </div>
-                            <div class="exp-tags">
-                                <span class="exp-tag">Scale</span>
-                                <span class="exp-tag">HRIS Integration</span>
-                                <span class="exp-tag">API Development</span>
-                                <span class="exp-tag">Quantitative &amp; Qualitative Research</span>
-                                <span class="exp-tag">Workflow Automation</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SENDOSO -->
-                    <div class="exp-item" id="exp-sendoso">
-                        <div class="exp-header">
-                            <div class="exp-logo">
-                                <img src="https://middleton.io/images/sendoso-logo.png" alt="Sendoso" loading="lazy">
-                            </div>
-                            <div class="exp-info">
-                                <div class="exp-company"><a href="https://www.sendoso.com" target="_blank"
-                                        rel="noopener noreferrer">SENDOSO</a> <span class="exp-sector exp-sector--startup">Startup</span></div>
-                                <div class="exp-title">Senior Product Manager, Core Platform &amp; eGift Global
-                                    Expansion</div>
-                            </div>
-                            <div class="exp-meta">
-                                <div class="exp-period">Mar 2021 — Dec 2021</div>
-                                <div class="exp-location">San Francisco, CA</div>
-                            </div>
-                            <svg class="exp-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div class="exp-content">
-                            <p class="exp-description">
-                                Joined between Sendoso's Series B and <strong>$100M Series C</strong> to scale the
-                                eGift platform while the market window was open. eGifts were the most popular send option on the
-                                platform, representing <strong>over half of all sends</strong> in 2021. I owned
-                                eGift partnerships, catalog growth, and the operational infrastructure behind it.
-                            </p>
-                            <ul class="exp-highlights">
-                                <li><strong>Catalog Expansion:</strong> Doubled active eGift coverage from 800 to 1,600
-                                    options across 47 countries. Negotiated directly with vendors (Tango, XOXODAY, Gyft,
-                                    NGC, TOPPS) for better terms and faster onboarding.</li>
-                                <li><strong>Square Partnership:</strong> Landed Square as a strategic partner, enabling
-                                    personalized small business gifting in 4 major markets (U.S., Canada, Australia, and
-                                    U.K.).</li>
-                                <li><strong>Platform Consolidation:</strong> Unified three parallel eGift redemption
-                                    flows into a single experience, reducing user confusion and technical debt.</li>
-                                <li><strong>Fraud Prevention:</strong> Implemented two‑factor authentication and
-                                    AI‑driven fraud detection, protecting gift card transactions from bot‑driven
-                                    attacks.</li>
-                                <li><strong>Operational Efficiency:</strong> Streamlined eGift deactivation, refunds,
-                                    and swaps, freeing engineering from operational tasks and speeding support
-                                    resolutions.</li>
-                            </ul>
-                            <div class="exp-images">
-                                <img src="https://middleton.io/images/sendoso-egift-demo.gif" alt="Sendoso eGift demo"
-                                    class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/Square_Logo.png" alt="Square logo" loading="lazy">
-                            </div>
-                            <div class="exp-tags">
-                                <span class="exp-tag">Scale</span>
-                                <span class="exp-tag">Fraud Prevention</span>
-                                <span class="exp-tag">Strategic Partnerships</span>
-                                <span class="exp-tag">Market Expansion Strategies</span>
-                                <span class="exp-tag">SaaS Platform</span>
-                                <span class="exp-tag">Revenue Optimization</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ROCKET LAWYER -->
-                    <div class="exp-item" id="exp-rocketlawyer">
-                        <div class="exp-header">
-                            <div class="exp-logo">
-                                <img src="https://middleton.io/images/rocket-lawyer-logo-sq.png" alt="Rocket Lawyer" loading="lazy">
-                            </div>
-                            <div class="exp-info">
-                                <div class="exp-company"><a href="https://www.rocketlawyer.com" target="_blank"
-                                        rel="noopener noreferrer">ROCKET LAWYER</a> <span class="exp-sector exp-sector--startup">Startup</span></div>
-                                <div class="exp-title">Senior Product Manager, Core Product &amp; Platform</div>
-                            </div>
-                            <div class="exp-meta">
-                                <div class="exp-period">Apr 2018 — Jan 2021</div>
-                                <div class="exp-location">San Francisco, CA</div>
-                            </div>
-                            <svg class="exp-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div class="exp-content">
-                            <p class="exp-description">
-                                Owned product strategy and execution for Rocket Lawyer's Platform and Legal Document
-                                teams, expanding market reach, improving mobile engagement, and diversifying revenue
-                                streams while advancing Rocket Lawyer's mission to make legal services more accessible.
-                            </p>
-                            <ul class="exp-highlights">
-                                <li><strong>Co‑Branded Partner Sites:</strong> Created and launched co‑branded partner
-                                    sites reaching <strong>11.5M users</strong>, which expanded Rocket Lawyer's presence
-                                    in Europe and enabled configurable authentication, pricing, feature gating, and
-                                    theming for enterprise partners.</li>
-                                <li><strong>Mobile Conversion Growth:</strong> Increased mobile gross conversions by
-                                    <strong>5%</strong> through targeted A/B testing and UX improvements for the Legal
-                                    Document product line, which drives <strong>90% of U.S. revenue</strong>.
-                                </li>
-                                <li><strong>eSign Experience Upgrade:</strong> Improved eSign start rates by
-                                    <strong>13%</strong> by integrating Legal Documents with RocketSign, replacing a
-                                    legacy flow with a more reliable, user‑friendly experience.
-                                </li>
-                                <li><strong>Analytics‑Driven Optimization:</strong> Achieved <strong>record‑high checkout
-                                        conversion rates (2.34%)</strong> by building internal analytics tools that linked
-                                    site performance to user behavior, directly informing optimizations to site speed and
-                                    checkout.</li>
-                            </ul>
-                            <div class="exp-images">
-                                <img src="https://middleton.io/images/covea-login-screen.png" alt="Covea login screen"
-                                    class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/covea-onboarding-process.png"
-                                    alt="Covea onboarding process" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/covea-document-creation.png"
-                                    alt="Covea document creation" class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/legal-document-interview.webp"
-                                    alt="Legal document interview" class="lightbox-trigger" loading="lazy">
-                            </div>
-                            <div class="exp-tags">
-                                <span class="exp-tag">Scale</span>
-                                <span class="exp-tag">Mobile Conversion Optimization</span>
-                                <span class="exp-tag">Analytics Tools Development</span>
-                                <span class="exp-tag">A/B Testing</span>
-                                <span class="exp-tag">New Revenue Channels</span>
-                                <span class="exp-tag">Cross-Platform Integration</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ORACLE -->
-                    <div class="exp-item" id="exp-oracle">
-                        <div class="exp-header">
-                            <div class="exp-logo">
-                                <img src="https://middleton.io/images/oracle-logo.png" alt="Oracle" loading="lazy">
-                            </div>
-                            <div class="exp-info">
-                                <div class="exp-company"><a href="https://www.oracle.com" target="_blank"
-                                        rel="noopener noreferrer">ORACLE</a> <span class="exp-sector exp-sector--enterprise">Enterprise</span></div>
-                                <div class="exp-title">Senior Product Manager, Engage, Integrations, &amp; Social
-                                    Network Expansion</div>
-                            </div>
-                            <div class="exp-meta">
-                                <div class="exp-period">Apr 2013 — Jan 2018</div>
-                                <div class="exp-location">San Francisco, CA</div>
-                            </div>
-                            <svg class="exp-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div class="exp-content">
-                            <p class="exp-description">
-                                Promoted to lead Oracle Social Cloud's Engage product through a full platform
-                                modernization, doubling supported social networks and shipping a year-long series of
-                                upgrades across UI, performance, and workflow design. I led two agile teams and
-                                collaborated with three UX/UI designers across Austin (Platform), Atlanta (Frontend),
-                                and India (Engineering) to deliver a more global, scalable platform.
-                            </p>
-                            <ul class="exp-highlights">
-                                <li><strong>Global Network Expansion:</strong> Expanded social network coverage by
-                                    integrating LinkedIn, Instagram, Sina Weibo, and Tumblr, doubling supported networks
-                                    and addressing top customer demand.</li>
-                                <li><strong>Product Overhaul:</strong> Launched a full Engage product overhaul with
-                                    <strong>36 new features</strong> in 12 months, guided by beta testing, customer
-                                    feedback, and UX improvements.
-                                </li>
-                                <li><strong>Internationalization:</strong> Internationalized the platform across
-                                    <strong>30+ languages</strong>, improving usability and accelerating adoption in
-                                    EMEA and APAC regions.
-                                </li>
-                                <li><strong>Go‑to‑Market Leadership:</strong> Led coordinated rollouts with Customer
-                                    Success, Marketing, and Sales to ensure alignment, smooth adoption, and strong
-                                    market penetration.</li>
-                            </ul>
-                            <div class="exp-images">
-                                <img src="https://middleton.io/images/oracle-engage-v1.webp" alt="Oracle Engage v1"
-                                    class="lightbox-trigger" loading="lazy">
-                                <img src="https://middleton.io/images/oracle-engage-v2.png" alt="Oracle Engage v2"
-                                    class="lightbox-trigger" loading="lazy">
-                            </div>
-                            <div class="exp-tags">
-                                <span class="exp-tag">Scale</span>
-                                <span class="exp-tag">Global Product Rollouts</span>
-                                <span class="exp-tag">Internationalization</span>
-                                <span class="exp-tag">Social Media Integrations</span>
-                                <span class="exp-tag">Go-To-Market Strategy</span>
-                                <span class="exp-tag">Beta Testing</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- CACI International -->
-                    <div class="exp-item" id="exp-caci">
-                        <div class="exp-header">
-                            <div class="exp-logo">
-                                <img src="https://middleton.io/images/caci-international-logo.png" alt="CACI International" loading="lazy">
-                            </div>
-                            <div class="exp-info">
-                                <div class="exp-company"><a href="https://www.caci.com" target="_blank"
-                                        rel="noopener noreferrer">CACI INTERNATIONAL</a> <span class="exp-sector">Public Sector</span></div>
-                                <div class="exp-title">Consultant, Product Specialist, &amp; UAT Lead</div>
-                            </div>
-                            <div class="exp-meta">
-                                <div class="exp-period">Dec 2007 — Apr 2013</div>
-                                <div class="exp-location">Arlington, VA</div>
-                            </div>
-                            <svg class="exp-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div class="exp-content">
-                            <p class="exp-description">
-                                Momentum Financial Management System Analyst supporting large-scale federal
-                                financial transformation across <strong>six Department of Justice component
-                                agencies</strong> (DOJ, DEA, ATF, BOP, USMS, FBI). Managed UAT strategy,
-                                deployment coordination, and triage for a system handling budgets up to
-                                <strong>$200M</strong>. Held a <strong>Top Secret</strong> security clearance.
-                            </p>
-                            <ul class="exp-highlights">
-                                <li><strong>Enterprise Deployment:</strong> Led UAT and deployment coordination
-                                    across six federal agencies, ensuring system reliability for critical
-                                    financial operations.</li>
-                                <li><strong>Triage Leadership:</strong> Managed a 10-person triage team during
-                                    system go-lives, resolving production issues in real time across global
-                                    stakeholder groups.</li>
-                                <li><strong>Stakeholder Management:</strong> Earned the respect of stakeholders
-                                    worldwide through deep system knowledge, patience, and consistent follow-through.</li>
-                                <li><strong>Process Design:</strong> Built training programs and internal processes
-                                    that ensured teams had the information they needed to succeed during and after
-                                    deployment.</li>
-                            </ul>
-                            <div class="exp-tags">
-                                <span class="exp-tag">Federal Consulting</span>
-                                <span class="exp-tag">Financial Systems</span>
-                                <span class="exp-tag">UAT Strategy</span>
-                                <span class="exp-tag">Stakeholder Management</span>
-                                <span class="exp-tag">Top Secret Clearance</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CGI Federal -->
-                    <div class="exp-item" id="exp-cgi">
-                        <div class="exp-header">
-                            <div class="exp-logo">
-                                <img src="https://middleton.io/images/cgi-logo.png" alt="CGI Federal" loading="lazy">
-                            </div>
-                            <div class="exp-info">
-                                <div class="exp-company"><a href="https://www.cgi.com/us/en-us/federal" target="_blank"
-                                        rel="noopener noreferrer">CGI FEDERAL</a> <span class="exp-sector">Public Sector</span></div>
-                                <div class="exp-title">Software Engineer &amp; QA Automation</div>
-                            </div>
-                            <div class="exp-meta">
-                                <div class="exp-period">Jan 2006 — Nov 2007</div>
-                                <div class="exp-location">Lebanon, VA</div>
-                            </div>
-                            <svg class="exp-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div class="exp-content">
-                            <p class="exp-description">
-                                Started as a <strong>C++ software engineer</strong> on Momentum, the federal
-                                government's core financial management system. Transitioned into
-                                <strong>QA automation</strong>, building automated test suites and providing
-                                functional support for the testing team.
-                            </p>
-                            <ul class="exp-highlights">
-                                <li><strong>Software Development:</strong> Contributed to C++ development on
-                                    Momentum, the government's enterprise financial management platform.</li>
-                                <li><strong>QA Automation:</strong> Built and maintained automated test suites,
-                                    accelerating test coverage and improving release confidence.</li>
-                                <li><strong>Technical Foundation:</strong> Developed the deep technical fluency
-                                    that later became a differentiator in product management roles.</li>
-                            </ul>
-                            <div class="exp-tags">
-                                <span class="exp-tag">C++</span>
-                                <span class="exp-tag">QA Automation</span>
-                                <span class="exp-tag">Software Engineering</span>
-                                <span class="exp-tag">Federal Systems</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div> <!-- END experience-list -->
-
-                <!-- Case Studies Section -->
-                <section id="projects" class="section section-accent">
-                    <div class="container">
-                        <h2 class="section-title">Case <span class="highlight">Studies</span></h2>
-                        <p class="section-intro">Selected work showing how I turn messy, high-stakes problems into systems teams can trust.</p>
-                        <div class="projects-grid">
-                            <a href="https://middleton.io/casestudies/case-study-hvac.html" target="_blank"
-                                rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+HVAC">
-                                <div class="card project-card glass-card">
-                                    <div class="project-image-wrap">
-                                        <img src="https://middleton.io/images/hvac-com-logo-stacked-white.png"
-                                            alt="HVAC.com logo" class="project-image" loading="lazy"
-                                            style="object-fit: contain; background: #fff;">
-                                    </div>
-                                    <div class="card-content">
-                                        <h3 class="project-title">Calculators & Conversion Optimization</h3>
-                                        <p class="project-description">Built high-intent tools from scratch, including
-                                            interactive calculators and a repair funnel, driving <strong>50x conversion
-                                                lift</strong> over baseline through continuous A/B testing and
-                                            data-driven iteration.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="https://middleton.io/casestudies/case-study-sendoso.html" target="_blank"
-                                rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+Sendoso">
-                                <div class="card project-card glass-card">
-                                    <div class="project-image-wrap">
-                                        <img src="https://middleton.io/images/sendoso.png" alt="Sendoso logo"
-                                            class="project-image" loading="lazy">
-                                    </div>
-                                    <div class="card-content">
-                                        <h3 class="project-title">eGift Platform Expansion & Square Partnership</h3>
-                                        <p class="project-description">Doubled eGift coverage to 1,600+ options across
-                                            47
-                                            countries. Landed the Square partnership for local gifting in 4 markets.
-                                            eGifts
-                                            represented over half of all platform sends.
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="https://middleton.io/casestudies/case-study-lever.html" target="_blank"
-                                rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+Lever">
-                                <div class="card project-card glass-card">
-                                    <div class="project-image-wrap">
-                                        <img src="https://middleton.io/images/Lever-logo.png" alt="Lever logo"
-                                            class="project-image" loading="lazy">
-                                    </div>
-                                    <div class="card-content">
-                                        <h3 class="project-title">Moving Lever Upmarket</h3>
-                                        <p class="project-description">Proved Lever could operate at enterprise scale.
-                                            Reduced migration time from days to minutes with self-serve bulk import and
-                                            launched HRIS Sync for org-aware hiring workflows. 37% engagement in Q1.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="https://middleton.io/casestudies/case-study-rocketlawyer-covea.html"
-                                target="_blank" rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+RocketLawyer+Covea">
-                                <div class="card project-card glass-card">
-                                    <div class="project-image-wrap">
-                                        <img src="https://middleton.io/images/rocket-lawyer.png"
-                                            alt="Rocket Lawyer logo" class="project-image" loading="lazy">
-                                    </div>
-                                    <div class="card-content">
-                                        <h3 class="project-title">Co-Branded Partner Sites</h3>
-                                        <p class="project-description">Launched Rocket Lawyer’s first enterprise
-                                            partnership
-                                            in six months, reaching 11.5M partner customers. Built a configurable
-                                            platform
-                                            that powered the next ten integrations.</p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="https://middleton.io/casestudies/case-study-rocketlawyer-mobile.html"
-                                target="_blank" rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+RocketLawyer+Mobile">
-                                <div class="card project-card glass-card">
-                                    <div class="project-image-wrap">
-                                        <img src="https://middleton.io/images/rocket-lawyer.png"
-                                            alt="Rocket Lawyer logo" class="project-image" loading="lazy">
-                                    </div>
-                                    <div class="card-content">
-                                        <h3 class="project-title">Mobile Conversion Optimization</h3>
-                                        <p class="project-description">Failed fast on desktop. Won big on mobile. Drove
-                                            a 5%
-                                            conversion lift for Rocket Lawyer’s highest-revenue product line through
-                                            targeted A/B testing.
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a href="https://middleton.io/casestudies/case-study-oracle.html" target="_blank"
-                                rel="noopener noreferrer" class="project-card-link plausible-event-name=CaseStudy+Oracle">
-                                <div class="card project-card glass-card">
-                                    <div class="project-image-wrap">
-                                        <img src="https://middleton.io/images/oracle-logo.png" alt="Oracle logo"
-                                            class="project-image" loading="lazy">
-                                    </div>
-                                    <div class="card-content">
-                                        <h3 class="project-title">Engage v2 and New Networks</h3>
-                                        <p class="project-description">Launched Oracle Social Cloud’s Engage v2,
-                                            delivering
-                                            <strong>36 new features</strong> in one year and integrating LinkedIn,
-                                            Instagram, Sina Weibo, and Tumblr to double network coverage and drive
-                                            platform
-                                            adoption.
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Career Highlights Section -->
-                <section id="career-highlights" class="section">
-                    <div class="container">
-                        <h2 class="section-title">How I <span class="highlight">Work</span></h2>
-                        <div class="career-highlights-grid">
-                            <div class="card glass-card career-card tint-blue">
-                                <div class="career-text">
-                                    <div class="career-header">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="career-icon" width="28"
-                                            height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88" />
-                                        </svg>
-                                        <h3 class="career-title">Quietly Effective</h3>
-                                    </div>
-                                    <p class="career-description">
-                                        I show up prepared, keep things organized, and follow through without
-                                        making a big deal out of it. A former manager put it simply: "He just
-                                        shows up and knows his job and the value his products will bring."
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="card glass-card career-card tint-purple">
-                                <div class="career-text">
-                                    <div class="career-header">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="career-icon" width="28"
-                                            height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                            <circle cx="9" cy="7" r="4" />
-                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                                        </svg>
-                                        <h3 class="career-title">Bridge Builder</h3>
-                                    </div>
-                                    <p class="career-description">
-                                        I connect the teams that don't usually talk to each other. Engineering
-                                        and support. Product and marketing. A colleague called me "the
-                                        personification of integration between people, process, and technology."
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="card glass-card career-card tint-pink">
-                                <div class="career-text">
-                                    <div class="career-header">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="career-icon" width="28"
-                                            height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                                            <polyline points="22 4 12 14.01 9 11.01" />
-                                        </svg>
-                                        <h3 class="career-title">Quality-First</h3>
-                                    </div>
-                                    <p class="career-description">
-                                        I fight for good work. Not gold-plating, but getting the details right,
-                                        the edge cases covered, and the experience polished. Colleagues say I'm
-                                        "a top-notch PM who will fight for quality products as well as for his team."
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="card glass-card career-card tint-peach">
-                                <div class="career-text">
-                                    <div class="career-header">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="career-icon" width="28"
-                                            height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-                                            <line x1="9" y1="9" x2="9.01" y2="9" />
-                                            <line x1="15" y1="9" x2="15.01" y2="9" />
-                                        </svg>
-                                        <h3 class="career-title">Fun to Work With</h3>
-                                    </div>
-                                    <p class="career-description">
-                                        Colleagues across different companies keep saying the same thing.
-                                        Nikki Johnson: "He made it fun in the process." Reza Parang:
-                                        "Our projects were always made fun." I bring energy and humor
-                                        that helps teams do their best work.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Skills Section -->
-                <section id="skills" class="section">
-                    <div class="container">
-                        <h2 class="section-title">Skills & <span class="highlight">Expertise</span></h2>
-                        <div class="skills-grid">
-
-                            <!-- 2×2 grid row -->
-                            <div class="skills-grid-row">
-
-                                <div class="card glass-card skill-card skill-strategic">
-                                    <div class="skill-header">
-                                        <div class="skill-icon-wrap">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                            </svg>
-                                        </div>
-                                        <h3>Strategic</h3>
-                                    </div>
-                                    <div class="tags">
-                                        <span class="tag">Product Strategy</span>
-                                        <span class="tag">Product Roadmap & Vision</span>
-                                        <span class="tag">Competitive Analysis</span>
-                                        <span class="tag">eCommerce & Marketplace Strategy</span>
-                                        <span class="tag">B2B</span>
-                                        <span class="tag">Customer Success</span>
-                                        <span class="tag">Growth Product Management</span>
-                                        <span class="tag">Funnel Optimization</span>
-                                    </div>
-                                </div>
-
-                                <div class="card glass-card skill-card skill-leadership">
-                                    <div class="skill-header">
-                                        <div class="skill-icon-wrap">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                            </svg>
-                                        </div>
-                                        <h3>Leadership</h3>
-                                    </div>
-                                    <div class="tags">
-                                        <span class="tag">Cross-Functional Leadership</span>
-                                        <span class="tag">Stakeholder Management</span>
-                                        <span class="tag">Team Building</span>
-                                        <span class="tag">Mentorship</span>
-                                        <span class="tag">Agile (Scrum, Kanban)</span>
-                                    </div>
-                                </div>
-
-                                <div class="card glass-card skill-card skill-analytical">
-                                    <div class="skill-header">
-                                        <div class="skill-icon-wrap">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                            </svg>
-                                        </div>
-                                        <h3>Analytical & Research</h3>
-                                    </div>
-                                    <div class="tags">
-                                        <span class="tag">Data-Driven</span>
-                                        <span class="tag">User-Centric Design</span>
-                                        <span class="tag">A/B Testing</span>
-                                        <span class="tag">User Research</span>
-                                        <span class="tag">Continuous Improvement</span>
-                                    </div>
-                                </div>
-
-                                <div class="card glass-card skill-card skill-technical">
-                                    <div class="skill-header">
-                                        <div class="skill-icon-wrap">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                                            </svg>
-                                        </div>
-                                        <h3>Technical</h3>
-                                    </div>
-                                    <div class="tags">
-                                        <span class="tag">AI</span>
-                                        <span class="tag">LLM</span>
-                                        <span class="tag">Copilots</span>
-                                        <span class="tag">SQL</span>
-                                        <span class="tag">API Development</span>
-                                        <span class="tag">AI Workflows</span>
-                                        <span class="tag">Integration</span>
-                                        <span class="tag">Test-Driven Development (TDD)</span>
-                                        <span class="tag">Behavior-Driven Development (BDD)</span>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <!-- Full-width Tools row -->
-                            <div class="card glass-card skill-card full-width tint-silver">
-                                <div class="skill-header">
-                                    <div class="skill-icon-wrap">
-                                        <svg class="skill-tools-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                    </div>
-                                    <h3>Tools</h3>
-                                </div>
-                                <div class="tags">
-                                    <span class="tag">Jira</span>
-                                    <span class="tag">Confluence</span>
-                                    <span class="tag">Slack</span>
-                                    <span class="tag">Github</span>
-                                    <span class="tag">Airtable</span>
-                                    <span class="tag">Figma</span>
-                                    <span class="tag">FullStory</span>
-                                    <span class="tag">Google Analytics</span>
-                                    <span class="tag">Mixpanel</span>
-                                    <span class="tag">Amplitude</span>
-                                    <span class="tag">Looker</span>
-                                    <span class="tag">Tableau</span>
-                                    <span class="tag">Metabase</span>
-                                    <span class="tag">LaunchDarkly</span>
-                                    <span class="tag">Optimizely</span>
-                                    <span class="tag">Split.io</span>
-                                    <span class="tag">Zendesk</span>
-                                    <span class="tag">ProductBoard</span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Education & Certifications Section -->
-
-                <section id="education" class="section">
-                    <div class="container">
-                        <h2 class="section-title">Certifications & <span class="highlight">Education</span></h2>
-
-                        <div class="education-cert-grid">
-
-                            <!-- Education Card -->
-                            <div class="card glass-card edu-card">
-                                                                    <div class="edu-card-header">
-                                        <span class="edu-card-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M22 10 12 5 2 10l10 5 10-5z" />
-                                                <path d="M6 12v5c0 .7.4 1.4 1 1.7l5 2.3 5-2.3c.6-.3 1-1 1-1.7v-5" />
-                                            </svg>
-                                        </span>
-                                        <h3 class="edu-card-title">Education</h3>
-                                    </div>
-                                    <div class="edu-col">
-                                        <h3 class="edu-degree-title">Bachelor of Science in Business Information
-                                            Technology</h3>
-                                        <p>Virginia Tech — Blacksburg, VA</p>
-
-                                        <h4 class="edu-subtitle">Academic Focus</h4>
-                                        <ul class="edu-list">
-                                            <li>Specialized in eBusiness Technology</li>
-                                            <li>Programming: C++, HTML, JavaScript, PHP, SQL</li>
-                                            <li>Relevant coursework: Supply Chain, E‑Commerce, DB Management, Software
-                                                Engineering, UI Design</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Certifications Card -->
-                            <div class="card glass-card edu-card certifications">
-                                                                    <div class="edu-card-header">
-                                        <div class="edu-card-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <circle cx="12" cy="8" r="5" />
-                                                <path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5" />
-                                            </svg>
-                                        </div>
-                                        <h3 class="edu-card-title">Certifications</h3>
-                                    </div>
-
-                                    <div class="edu-card-body cert-cols">
-
-                                        <!-- LEFT COLUMN -->
-                                        <div class="cert-col-left">
-                                            <div class="cert-group">
-                                                <h4 class="cert-group-title">Product Management & Strategy</h4>
-                                                <ul class="cert-list">
-                                                    <li>Product-led Certification — Pendo (2023)</li>
-                                                    <li>Product-Led Growth Fundamentals — ProductLed (2023)</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <!-- RIGHT COLUMN -->
-                                        <div class="cert-col-right">
-                                            <div class="cert-group">
-                                                <h4 class="cert-group-title">AI & Analytics</h4>
-                                                <ul class="cert-list">
-                                                    <li>AI for Product Management — Pendo (2023)</li>
-                                                    <li>Introduction to Generative AI — Google (2023)</li>
-                                                    <li>Product Analytics Certification — Pendo (2023)</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Recommendations Section -->
-                <section id="recommendations" class="section">
-                    <div class="container">
-                        <h2 class="section-title">Recommendations</h2>
-
-                        <div class="recommendations-grid">
-
-                            <div class="card glass-card rec-card tint-peach">
-                                                                    <p class="rec-quote">
-                                        "Kevin brings structure without killing creativity, clarity without slowing
-                                        momentum, and a rare ability to help teams move faster together. He makes even
-                                        ambiguous work feel navigable, and the people around him consistently do their
-                                        best work."
-                                    </p>
-                                    <div class="rec-author-wrap">
-                                        <div class="rec-author-block">
-                                            <span class="rec-author-name">
-                                                Matt Triplett
-                                                <span class="rec-inline-pill">Former Manager</span>
-                                            </span>
-                                            <span class="rec-role">Product Leader</span>
-                                        </div>
-                                    </div>
-                                <div class="rec-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor">
-                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <div class="card glass-card rec-card tint-purple">
-                                                                    <p class="rec-quote">
-                                        "Kevin fought for the best possible experience, and brokered agreements across
-                                        PM, UX, and Engineering. His work ethic, attention to detail, and obsession with
-                                        delivering great experiences for customers earned my respect."
-                                    </p>
-                                    <div class="rec-author-wrap">
-                                        <div class="rec-author-block">
-                                            <span class="rec-author-name">Emily Leahy-Thieler</span>
-                                            <span class="rec-role">Design Leader</span>
-                                        </div>
-                                    </div>
-                                <div class="rec-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor">
-                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <div class="card glass-card rec-card tint-blue">
-                                                                    <p class="rec-quote">
-                                        "Start with the right people. Kevin is the right people."
-                                    </p>
-                                    <div class="rec-author-wrap">
-                                        <div class="rec-author-block">
-                                            <span class="rec-author-name">
-                                                Wesley Barnes
-                                                <span class="rec-inline-pill">Former Manager</span>
-                                            </span>
-                                            <span class="rec-role">Director of Product Management</span>
-                                        </div>
-                                    </div>
-                                <div class="rec-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor">
-                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <div class="card glass-card rec-card tint-pink">
-                                                                    <p class="rec-quote">
-                                        "Kevin is a top-notch PM who fights for quality products and for his team."
-                                    </p>
-                                    <div class="rec-author-wrap">
-                                        <div class="rec-author-block">
-                                            <span class="rec-author-name">Christina James</span>
-                                            <span class="rec-role">Staff Quality Assurance Analyst</span>
-                                        </div>
-                                    </div>
-                                <div class="rec-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor">
-                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="rec-nav">
-                            <button class="rec-nav-btn" id="recPrev" aria-label="Previous recommendation">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                            </button>
-                            <button class="rec-nav-btn" id="recNext" aria-label="Next recommendation">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                            </button>
-                        </div>
-
-                        <div class="recommendations-footer">
-                            <p>
-                                Additional recommendations from colleagues can be found on my LinkedIn profile.
-                            </p>
-                            <a href="https://www.linkedin.com/in/kevinmiddleton/details/recommendations/"
-                                target="_blank" rel="noopener noreferrer" class="plausible-event-name=Recs+LinkedIn">
-                                View More on LinkedIn →
-                            </a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Connect Section -->
-                <section id="connect" class="section section-accent">
-                    <div class="container">
-                        <h2 class="section-title">Let's <span class="highlight">Connect!</span></h2>
-                        <p class="connect-description">
-                            Reach out anytime — email, LinkedIn, or Calendly.
-                        </p>
-                        <div class="connect-buttons">
-                            <a href="mailto:kevin@middleton.io?subject=Hello%20Kevin%20%E2%80%93%20Let%E2%80%99s%20Connect"
-                                class="connect-btn plausible-event-name=Contact+Email" aria-label="Email">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                            </a>
-                            <a href="https://www.linkedin.com/in/kevinmiddleton" target="_blank"
-                                rel="noopener noreferrer" class="connect-btn plausible-event-name=Contact+LinkedIn"
-                                aria-label="LinkedIn">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                                </svg>
-                            </a>
-                            <a href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener noreferrer"
-                                class="connect-btn plausible-event-name=GitHub+Click" aria-label="GitHub">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                                </svg>
-                            </a>
-                            <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank"
-                                rel="noopener noreferrer" class="connect-btn plausible-event-name=Calendly+Click"
-                                aria-label="Calendly">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </section>
-    </main>
-
-    <footer id="footer" class="footer">
-        <div class="container footer-content">
-            <a href="https://raw.githubusercontent.com/kevinmmiddleton/about/main/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf"
-                download class="btn btn-primary plausible-event-name=Resume+Download">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Download Resume
-            </a>
-            <nav class="footer-links" aria-label="More from Kevin">
-                <a href="/casestudies/" target="_blank">Case Studies</a>
-                <a href="/prototypes/" target="_blank">Prototypes</a>
-                <a href="/blog/">Blog</a>
-                <a href="/officehours/" target="_blank">Office Hours</a>
-                <a href="/recipes/" target="_blank">Recipes</a>
-                <a href="/visionbort/" target="_blank">Visionbort</a>
-            </nav>
-            <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p><br>
-            <p>
-                <a href="#" id="confetti-trigger" class="easter-egg plausible-event-name=Easter+Egg+Confetti">⚠️ Whatever you do, don't click here</a>
-            </p>
-        </div>
-    </footer>
-
-    <!-- Lightbox -->
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <div class="lightbox-content">
-            <img id="lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Lightbox image">
-        </div>
+<link rel="stylesheet" href="/fv.css?v=5850c40f">
+
+<div class="fv">
+
+<nav class="nav pad">
+  <span class="mk">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></span>
+  <span class="nav-l">
+    <a href="#building">Building</a><a href="#about">About</a><a href="#values">Values</a>
+    <a href="#record">Experience</a><a href="#cases">Case Studies</a><a href="/blog/">Writing</a>
+  </span>
+  <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/" target="_blank" rel="noopener noreferrer">Office Hours</a>
+</nav>
+
+<!-- 01 HERO -->
+<header class="hero pad obs">
+  <div class="hero-split rv">
+    <div class="hero-type">
+      <h1 class="big">AI sped up building. It didn't replace the <span class="swap"><b class="live">judgment.</b><b aria-hidden="true">taste.</b><b aria-hidden="true">discovery.</b><b aria-hidden="true">thinking.</b></span></h1>
+      <p class="arc"><span class="arc-chain"><span class="arc-step">Engineer</span><span class="arc-sep"><i class="arc-sep-text">&nbsp;&#8594;&nbsp;</i></span><span class="arc-step">Consultant</span><span class="arc-sep"><i class="arc-sep-text">&nbsp;&#8594;&nbsp;</i></span><b class="arc-now">Full Stack Product Manager</b>.</span></p>
     </div>
-    <!-- Confetti Library -->
-    <script src="/js/confetti.browser.min.js"></script>
-    <script src="script.js"></script>
+    <picture class="hero-shot">
+      <source srcset="/images/hero-skyline-dark.jpg" media="(prefers-color-scheme: dark)">
+      <img src="/images/hero-skyline-light.jpg" width="1280" height="713"
+           alt="The Manhattan skyline at dusk, seen from across the water">
+    </picture>
+  </div>
+</header>
 
-    <!-- KevBot Chat Widget -->
-    <script src="kevbot/kevbot.js?v=eef2efcf"></script>
-    <script>
-        KevBot.init('https://kevbot.kevin-middleton.workers.dev');
-    </script>
 
-    <!-- Site Tour -->
+<!-- 03b STRENGTHS (concept) -->
+<section class="sec pad obs" id="strengths">
+  <div class="sec-h rv"><h2>My Strengths</h2><span>What I'm good at</span></div>
+  <p class="spine rv">I wrote the code, I deployed it inside other people's organizations, and now
+    as a product leader I'm accountable for what ships (and I can help you build it, too).</p>
+  <div class="spec-row rv" role="tablist" aria-label="Specialties">
+    <button class="spec" role="tab" id="tb-ai" aria-controls="sp-ai" aria-selected="true" tabindex="0"><b>AI Workflows</b><span>Shipped + open-sourced</span></button>
+    <button class="spec" role="tab" id="tb-tools" aria-controls="sp-tools" aria-selected="false" tabindex="-1"><b>Internal Tools</b><span>Empowering ops teams</span></button>
+    <button class="spec" role="tab" id="tb-platform" aria-controls="sp-platform" aria-selected="false" tabindex="-1"><b>Platforms</b><span>Building for scale</span></button>
+    <button class="spec" role="tab" id="tb-integrations" aria-controls="sp-integrations" aria-selected="false" tabindex="-1"><b>Integrations</b><span>SCIM · OAuth · OIDC</span></button>
+    <button class="spec" role="tab" id="tb-growth" aria-controls="sp-growth" aria-selected="false" tabindex="-1"><b>Growth</b><span>CRO + A/B testing</span></button>
+    <button class="spec" role="tab" id="tb-gov" aria-controls="sp-gov" aria-selected="false" tabindex="-1"><b>Public Sector</b><span>Federal agencies + the grid</span></button>
+  </div>
+  <div class="spec-stage rv d2">
+    <div class="spec-panel" role="tabpanel" id="sp-ai" aria-labelledby="tb-ai">
+      <p class="spec-lead">Shipped AI in production, and I build my own on the weekend.</p>
+      <div class="ev-list"><div class="ev"><i>GridStrong AI</i><p>Delivered an AI-powered compliance copilot for <a class="lk lk-site" href="https://www.gridstrong.ai" target="_blank" rel="noopener noreferrer">GridStrong</a>, guiding power plant owners through plant profiles, compliance workflows, and cross-standard tasks. Early prototypes helped secure a $1.4M DOE grant.</p></div><div class="ev"><i>HVAC.com</i><p>Defined and drove development of an LLM-powered assistant that answers homeowner questions conversationally and moves them toward replacement and repair. <a class="lk lk-case" href="/casestudies/case-study-hvac.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Hurd AI</i><p>Launched Whisper-powered on-device transcription, summarization, and a study chatbot for <a class="lk lk-site" href="https://hurd.ai" target="_blank" rel="noopener noreferrer">Hurd</a>. 700% user growth off a ProductHunt launch.</p></div><div class="ev"><i>Sendoso</i><p>Shipped AI-driven fraud detection alongside two-factor authentication, protecting gift card transactions from bot-driven attacks on the platform's most-used send type. <a class="lk lk-case" href="/casestudies/case-study-sendoso.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Built for myself</i><p><a class="lk lk-app" href="https://quietfeed.com" target="_blank" rel="noopener noreferrer">QuietFeed</a>, <a class="lk lk-app" href="/kevinos/" target="_blank" rel="noopener noreferrer">KevinOS</a>, and a few open-sourced <a class="lk lk-code plausible-event-name=GitHub+Click" href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener noreferrer">Claude plugins</a>.</p></div></div>
+    </div>
+    <div class="spec-panel" role="tabpanel" id="sp-tools" aria-labelledby="tb-tools" hidden>
+      <p class="spec-lead">Tools that make teams more efficient, and happier.</p>
+      <div class="ev-list"><div class="ev"><i>Lever</i><p>Cut bulk upload times from days to minutes with a self-serve Bulk Candidate Importer, reducing support and implementation load. <a class="lk lk-case" href="/casestudies/case-study-lever.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Sendoso</i><p>Built internal tools for eGift deactivation, refunds, and swaps that reduced engineering reliance and sped up support resolutions. <a class="lk lk-case" href="/casestudies/case-study-sendoso.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Rocket Lawyer</i><p>Built internal analytics tools linking site performance to user behavior, which directly informed site speed and checkout work. <a class="lk lk-case" href="/casestudies/case-study-rocketlawyer-mobile.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div></div>
+    </div>
+    <div class="spec-panel" role="tabpanel" id="sp-platform" aria-labelledby="tb-platform" hidden>
+      <p class="spec-lead">The layer other teams build on top of.</p>
+      <div class="ev-list"><div class="ev"><i>Oracle</i><p>Led a full overhaul of Engage, shipping 36 features in 12 months and internationalizing the platform across 30+ languages. <a class="lk lk-case" href="/casestudies/case-study-oracle.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Rocket Lawyer</i><p>Owned strategy and execution across the Platform and Legal Document teams. Launched co-branded partner sites reaching 11.5M users. <a class="lk lk-case" href="/casestudies/case-study-rocketlawyer-mobile.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Sendoso</i><p>Built foundational platform capabilities: user management, invitation flows, and a feature-tiering system adopted by other product teams. <a class="lk lk-case" href="/casestudies/case-study-sendoso.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Lever</i><p>Built HRIS Sync as a core enterprise integration, plus the scalable tooling and workflow automation that carried Lever upmarket. <a class="lk lk-case" href="/casestudies/case-study-lever.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div></div>
+    </div>
+    <div class="spec-panel" role="tabpanel" id="sp-integrations" aria-labelledby="tb-integrations" hidden>
+      <p class="spec-lead">Connecting products to each other.</p>
+      <div class="ev-list"><div class="ev"><i>Lever</i><p>Launched HRIS Sync with 37% customer engagement: org chart-aware approvals, automated user provisioning, and manager-relationship sync. <a class="lk lk-case" href="/casestudies/case-study-lever.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Oracle</i><p>Doubled network coverage by integrating the LinkedIn, Instagram, Sina Weibo, and Tumblr APIs. <a class="lk lk-case" href="/casestudies/case-study-oracle.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Rocket Lawyer</i><p>Enabled OpenID Connect authentication for partner sites, and lifted eSign start rates 13% by integrating Legal Documents with RocketSign. <a class="lk lk-case" href="/casestudies/case-study-rocketlawyer-mobile.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Sendoso</i><p>Landed Square as a strategic partner, enabling personalized small business gifting across four markets. <a class="lk lk-case" href="/casestudies/case-study-sendoso.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div></div>
+    </div>
+    <div class="spec-panel" role="tabpanel" id="sp-growth" aria-labelledby="tb-growth" hidden>
+      <p class="spec-lead">Experiments and experiences that drive conversion.</p>
+      <div class="ev-list"><div class="ev"><i>HVAC.com</i><p>Built high-intent tools that converted at ~50× the 0.1% site baseline, a sustained lift. Calculators peaked at 7.3% and settled around 5%, QuoteScore at 6%, video at 3.4%, landing pages at 2.3%. <a class="lk lk-case" href="/casestudies/case-study-hvac.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Sendoso</i><p>Doubled active eGift coverage from 800 to 1,600 options across 47 countries, and landed Square as a strategic partner across four markets. <a class="lk lk-case" href="/casestudies/case-study-sendoso.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div><div class="ev"><i>Rocket Lawyer</i><p>Increased mobile gross conversions 5% on the Legal Document line, which carried 90% of U.S. revenue, and hit record-high checkout conversion at 2.34%. <a class="lk lk-case" href="/casestudies/case-study-rocketlawyer-mobile.html" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div></div>
+    </div>
+    <div class="spec-panel" role="tabpanel" id="sp-gov" aria-labelledby="tb-gov" hidden>
+      <p class="spec-lead">Federal financial systems, and power grid compliance.</p>
+      <div class="ev-list"><div class="ev"><i>CACI International</i><p>Launched multi-year financial system upgrades across six DOJ component agencies (DOJ, DEA, ATF, BOP, USMS, FBI), five large-scale deployments, on systems carrying budgets up to $200M. Ran a 10-person go-live triage team. Held Top Secret clearance (historical).</p></div><div class="ev"><i>CGI Federal</i><p>C++ engineer on Momentum, the federal government's core financial management platform.</p></div><div class="ev"><i>GridStrong AI</i><p>Product for the power grid, where federal reliability standards set the requirements. Turned how compliance experts actually audit into software. Sourced the DOE grant opportunity and built the prototypes that helped win the $1.4M award.</p></div></div>
+    </div>
+  </div>
+</section>
 
-    <!-- V2: Hero parallax + Rec carousel nav -->
-    <script>
-    (function() {
-      // Hero parallax
-      const heroBg = document.getElementById('heroBg');
-      let ticking = false;
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            const scrollY = window.scrollY;
-            if (heroBg && scrollY < window.innerHeight) {
-              heroBg.style.transform = 'translateY(' + (scrollY * 0.3) + 'px)';
-            }
-            ticking = false;
-          });
-          ticking = true;
-        }
-      });
 
-      // Recommendation carousel arrows
-      const recGrid = document.querySelector('.recommendations-grid');
-      const recPrev = document.getElementById('recPrev');
-      const recNext = document.getElementById('recNext');
-      if (recGrid && recPrev && recNext) {
-        const scrollAmount = 420;
-        recPrev.addEventListener('click', () => {
-          recGrid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        });
-        recNext.addEventListener('click', () => {
-          recGrid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        });
-      }
-    })();
-    </script>
+<!-- 04 BUILDING -->
+<section class="sec pad obs" id="building">
+  <div class="sec-h rv"><h2>What I'm Building Now</h2><span>Current work &middot; 2026</span></div>
+  <div class="bento">
+    <a class="bc b-blue rv d1 plausible-event-name=Building+QuietFeed" href="https://quietfeed.com" target="_blank" rel="noopener noreferrer"><div><span class="k">Web app</span><h3>QuietFeed</h3><p>RSS reader that respects your attention</p></div><span class="go">Open quietfeed.com</span></a>
+    <a class="bc b-red rv d2 plausible-event-name=Building+OfficeHours" href="/officehours/" target="_blank" rel="noopener noreferrer"><div><span class="k">Coaching</span><h3>Office Hours</h3><p>Free, all week</p></div><span class="go">Book a slot</span></a>
+    <div class="bc b-ink h2 rv d2">
+      <div><h3>Writing on AI &amp; work</h3>
+        <div class="posts">
+          <!-- WRITING:START -->
+          <a href="/blog/product-management-is-dead/" class="plausible-event-name=Writing+Click plausible-event-post=product-management-is-dead"><i class="d1"></i>Product Management is dead. Long live Product Management.</a>
+          <a href="/blog/ai-guilt-is-the-new-recycling/" class="plausible-event-name=Writing+Click plausible-event-post=ai-guilt-is-the-new-recycling"><i class="d2"></i>AI guilt is the new recycling</a>
+          <a href="/blog/its-almost-always-the-resume/" class="plausible-event-name=Writing+Click plausible-event-post=its-almost-always-the-resume"><i class="d3"></i>It's almost always the resume</a>
+          <a href="/blog/curiosity-makes-or-breaks/" class="plausible-event-name=Writing+Click plausible-event-post=curiosity-makes-or-breaks"><i class="d4"></i>At work, curiosity can be the difference between thriving and surviving</a>
+          <a href="/blog/applying-for-jobs-is-like-stand-up-comedy/" class="plausible-event-name=Writing+Click plausible-event-post=applying-for-jobs-is-like-stand-up-comedy"><i class="d5"></i>Applying for jobs is like stand-up comedy</a>
+          <a href="/blog/everyone-can-build-now/" class="plausible-event-name=Writing+Click plausible-event-post=everyone-can-build-now"><i class="d6"></i>Everyone can build now. The fundamentals shouldn't change.</a>
+<!-- WRITING:END -->
+        </div>
+      </div>
+      <a class="go" href="/blog/" style="text-decoration:none;color:inherit">Read more<span class="arw" aria-hidden="true"></span></a>
+    </div>
+    <div class="bstack rv d3">
+      <a class="bc b-green plausible-event-name=Building+Visionbort" href="/visionbort/" target="_blank" rel="noopener noreferrer"><div><span class="k">Web app</span><h3>Visionbort</h3><p>Vision boards with intentions</p></div><span class="go">Open visionbort</span></a>
+      <a class="bc b-plum plausible-event-name=Building+KevinOS" href="/kevinos/" target="_blank" rel="noopener noreferrer"><div><span class="k">Portfolio</span><h3>KevinOS</h3><p>My portfolio as a retro OS</p></div><span class="go">Boot it up</span></a>
+    </div>
+    <div class="bc b-mari rv d4">
+      <div><span class="k">Open source</span><h3>Claude plugins</h3>
+        <div class="posts">
+          <a class="plausible-event-name=Building+JobSearchAgent" href="https://github.com/kevinmmiddleton/job-search-agent" target="_blank" rel="noopener noreferrer"><i></i>Job Search Agent · your AI recruiter</a>
+          <a class="plausible-event-name=Building+PersonalSite" href="https://github.com/kevinmmiddleton/personal-site" target="_blank" rel="noopener noreferrer"><i></i>Personal Site · a website from an interview</a>
+          <a class="plausible-event-name=Building+Claude" href="https://github.com/kevinmmiddleton/build-with-claude" target="_blank" rel="noopener noreferrer"><i></i>Build with Claude · ship apps from your phone</a>
+        </div>
+      </div>
+      <a class="go plausible-event-name=GitHub+Click" href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit">Get on GitHub<span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 05 LOOKING FOR -->
+<section class="sec pad obs is-off" id="looking">
+  <div class="sec-h rv"><h2>What I'm Looking For</h2><span>I do my best work where people can say what's actually happening</span></div>
+  <div class="want">
+    <div class="want-col rv d1"><h3>Primary</h3><div class="chips">
+      <span class="chip">Product management</span><span class="chip">Internal tools</span><span class="chip">Platforms</span>
+      <span class="chip">Public sector</span><span class="chip">AI workflows</span><span class="chip">Integrations</span></div></div>
+    <div class="want-col also rv d2"><h3>Also</h3><div class="chips">
+      <span class="chip">Product operations</span><span class="chip">Marketing operations</span><span class="chip">Consulting</span></div></div>
+    <div class="want-col no rv d3"><h3>Not for me</h3><div class="chips">
+      <span class="chip">Ad tech</span><span class="chip">Crypto</span><span class="chip">Web3</span></div></div>
+  </div>
+</section>
+
+<!-- 05b ABOUT -->
+<section class="sec pad obs" id="about">
+  <div class="sec-h rv"><h2>About Me</h2><span>I make complex work feel simple.</span></div>
+  <div class="about">
+    <div class="about-intro rv d1">
+        <img class="about-photo" src="/images/profile-picture.jpg" width="400" height="400"
+             alt="Kevin Middleton" loading="lazy" decoding="async">
+        <p class="about-lead">I build platforms, tools, and AI workflows that connect teams and systems.</p>
+      </div>
+    <div class="about-body">
+      <p class="rv d2">In my experience, teams usually know what's wrong. They just need someone willing to name it and make it safe to act on. That's usually where I start.</p>
+      <p class="rv d3">I work across people, process, and product. I'm hands-on at every level: running meetings, cleaning up details, digging into data, or building a quick prototype.</p>
+      <p class="rv d4">Most of my best work happens between teams that don't usually talk to each other. Engineering and support. Product and marketing. I broker the agreements, bring the context, and make sure nobody's working in the dark.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 VALUES -->
+<section class="sec pad obs" id="values">
+  <div class="sec-h rv"><h2>My Values</h2><span>How I actually work with people</span></div>
+  <div class="vals">
+    <div class="val b-blue rv d1"><h3>Start With Understanding</h3><p>Begin with the problem, the people, and the constraints. Good outcomes start with listening.</p></div>
+    <div class="val b-green rv d2"><h3>Give Grace, Get Grace</h3><p>Lead with empathy. Assume good intent. People do their best work when they feel supported.</p></div>
+    <div class="val b-mari rv d3"><h3>Make It Simple</h3><p>Turn complex workflows into clear, reliable systems that people actually use.</p></div>
+  </div>
+</section>
+
+<!-- 07 RECORD -->
+<section class="sec pad obs" id="record"><span id="experience" aria-hidden="true"></span>
+  <div class="sec-h rv"><h2>Professional Experience</h2><span>Startups, enterprise, and public sector</span></div>
+  <div class="exp-modes rv">
+    <div class="exp-switch" role="group" aria-label="Experience order">
+      <button class="exp-mode" type="button" id="mode-resume" aria-pressed="true">Resume</button>
+      <button class="exp-mode" type="button" id="mode-journey" aria-pressed="false">Journey</button>
+    </div>
+    <span class="exp-hint">Newest first, or start at the beginning</span>
+    <span id="expSay" class="vh" role="status" aria-live="polite"></span>
+  </div>
+  <div class="exp-list" id="expList">
+  <details id="exp-gridstrong" class="rrow-d rv d1">
+    <summary class="rrow"><i><a class="exp-co" href="https://www.gridstrong.ai" target="_blank" rel="noopener noreferrer">GRIDSTRONG AI</a><b class="exp-tag exp-tag--startup">Startup</b></i><span>Director of Product Management (initially Product Advisor)</span><time>Sep 2024 – Nov 2025<small>advisor until Jun 2025</small><small class="exp-loc">New York, NY</small></time></summary>
+    <div class="rrow-body">
+      <p class="rrow-desc">Began supporting GridStrong.ai in September 2024 as a part-time Product Advisor while at HVAC.com, creating early prototypes and helping secure a $1.4M U.S. Department of Energy grant. After seed funding closed in June 2025, joined full‑time as Director of Product Management, leading product strategy, engineering, and design across the compliance automation platform. Departed after company restructuring reduced the product team.</p>
+      <ul class="rrow-hi"><li>Funding &amp; Early Traction: Built early AI prototypes that helped secure a $1.4M DOE grant, contributing to a $10M seed round.</li><li>Product Direction: Defined early product direction through SME discovery, workflow validation, and shaping the core patterns used across the GridStrong app.</li><li>Workflow Delivery: Delivered core compliance workflows including model quality testing, event analysis, document linking, and automated cross‑standard tasks.</li><li>Regulatory Translation: Translated complex regulatory requirements into clear product plans that guided engineering and design.</li><li>Process &amp; Execution: Established cross‑company processes for roadmapping, sprint cadence, QA gating, and release workflows, improving reliability and team alignment.</li></ul>
+      <div class="rrow-tags"><span>0 <span class="arw" aria-hidden="true"></span><span class="vh">to</span> 1</span><span>Product Leadership</span><span>Process Design</span><span>Cross-Functional Collaboration</span><span>SaaS</span><span>Energy Compliance</span><span>Roadmapping</span></div>
+    </div>
+  </details>
+  <details id="exp-hvac" class="rrow-d rv d2">
+    <summary class="rrow"><i><a class="exp-co" href="https://www.hvac.com" target="_blank" rel="noopener noreferrer">HVAC.COM</a><b class="exp-tag exp-tag--acquired">Acquired</b><em class="exp-acq">by <a href="https://www.tranetechnologies.com" target="_blank" rel="noopener noreferrer">Trane Technologies</a> May 2024</em></i><span>Senior Product Manager, HVAC.com and Branded Sites</span><time>Feb 2024 – Jun 2025<small class="exp-loc">New York, NY</small></time></summary>
+    <div class="rrow-body">
+      <p class="rrow-desc">Owned product strategy, UX, and growth for HVAC.com, a homeowner platform with ~2M annual visits that connects consumers to trusted HVAC dealers nationwide. Owned the full digital funnel, from first touch to dealer handoff, driving measurable conversion gains and shaping Trane's broader digital strategy.</p>
+      <ul class="rrow-hi"><li>Conversion Growth: Drove a ~50x conversion lift off a 0.1% baseline by launching high‑performing tools: calculators (7.3%), QuoteScore (6%), video content (3.4%), and optimized landing pages (2.3%).</li><li>Platform Expansion: Expanded the product surface area with HVAC repair services, new interactive calculators, and a redesigned blog that increased depth, engagement, and lead volume.</li><li>Funnel Efficiency: Improved lead quality and user flow using behavioral analytics, session‑to‑install data, and user paths to refine the homeowner journey.</li><li>Data‑Driven Execution: Drove measurable business results through continuous testing, analytics‑led iteration, and focused UX improvements.</li></ul>
+      <div class="rrow-tags"><span>Scale</span><span>Product Lifecycle Management</span><span>Conversion Rate Optimization (CRO)</span><span>A/B Testing</span><span>Cross-Functional Leadership</span><span>Data-Driven Decision Making</span></div>
+      <a class="rrow-cs" href="/casestudies/case-study-hvac.html" target="_blank" rel="noopener noreferrer">Read the case study<span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></a>
+    </div>
+  </details>
+  <details id="exp-hurd" class="rrow-d rv d3">
+    <summary class="rrow"><i><a class="exp-co" href="https://hurd.ai" target="_blank" rel="noopener noreferrer">HURD AI</a><b class="exp-tag exp-tag--startup">Startup</b></i><span>Co-Founder &amp; Product Advisor</span><time>May 2023 – Sep 2023<small class="exp-loc">Berkeley, CA</small></time></summary>
+    <div class="rrow-body">
+      <p class="rrow-desc">Shaped early product direction for an AI-powered learning platform that helped students, researchers, and professionals organize and study their notes. Led feature design, user research, and launch execution across the Mac app and web chatbot.</p>
+      <ul class="rrow-hi"><li>AI-Powered Features: Launched Whisper-powered on-device transcription, fast summarization, structured note organization, and a web-based chatbot for interactive study sessions.</li><li>User Growth: Drove 700% user growth through a ProductHunt launch supported by targeted messaging and lightweight paid campaigns.</li><li>User Research: Worked directly with journalists, researchers, and students to validate pain points, workflows, and privacy expectations.</li></ul>
+      <div class="rrow-tags"><span>0 <span class="arw" aria-hidden="true"></span><span class="vh">to</span> 1</span><span>Natural Language Processing (NLP)</span><span>AI-Powered Automation</span><span>Go-To-Market</span><span>Data Analysis</span></div>
+    </div>
+  </details>
+  <details id="exp-lever" class="rrow-d rv d4">
+    <summary class="rrow"><i><a class="exp-co" href="https://www.lever.co" target="_blank" rel="noopener noreferrer">LEVER</a><b class="exp-tag exp-tag--acquired">Acquired</b><em class="exp-acq">by <a href="https://www.employinc.com" target="_blank" rel="noopener noreferrer">Employ</a> July 2022</em></i><span>Senior Product Manager, HRIS Sync Lead</span><time>Dec 2021 – Apr 2023<small class="exp-loc">San Francisco, CA</small></time></summary>
+    <div class="rrow-body">
+      <p class="rrow-desc">Owned end-to-end development of HRIS Sync, a core enterprise integration that strengthened Lever's upmarket positioning through automation, workflow reliability, and enterprise-grade data sync.</p>
+      <ul class="rrow-hi"><li>HRIS Sync Launch: Launched HRIS Sync with 37% Q1 engagement, enabling org chart-aware approvals, automated user provisioning, and manager-relationship sync for enterprise customers.</li><li>Bulk Importer: Delivered a self‑serve Bulk Candidate Importer that reduced upload times from days to minutes, cutting support and implementation workloads and enabling customers to manage large volumes on their own.</li><li>Enterprise Discovery: Uncovered key enterprise pain points through deep discovery with IT teams, recruiters, and admins, shaping the roadmap for Sync, provisioning, and hiring workflows.</li><li>Cross‑Functional Alignment: Strengthened alignment by partnering with professional services, implementation, customer success, and support to integrate real‑time feedback into product updates.</li></ul>
+      <div class="rrow-tags"><span>Scale</span><span>HRIS Integration</span><span>API Development</span><span>Quantitative &amp; Qualitative Research</span><span>Workflow Automation</span></div>
+      <a class="rrow-cs" href="/casestudies/case-study-lever.html" target="_blank" rel="noopener noreferrer">Read the case study<span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></a>
+    </div>
+  </details>
+  <details id="exp-sendoso" class="rrow-d rv d5">
+    <summary class="rrow"><i><a class="exp-co" href="https://www.sendoso.com" target="_blank" rel="noopener noreferrer">SENDOSO</a><b class="exp-tag exp-tag--startup">Startup</b></i><span>Senior Product Manager, Core Platform &amp; eGift Global Expansion</span><time>Mar 2021 – Dec 2021<small class="exp-loc">San Francisco, CA</small></time></summary>
+    <div class="rrow-body">
+      <p class="rrow-desc">Joined between Sendoso's Series B and $100M Series C to scale the eGift platform while the market window was open. eGifts were the most popular send option on the platform, representing over half of all sends in 2021. I owned eGift partnerships, catalog growth, and the operational infrastructure behind it.</p>
+      <ul class="rrow-hi"><li>Catalog Expansion: Doubled active eGift coverage from 800 to 1,600 options across 47 countries. Negotiated directly with vendors (Tango, XOXODAY, Gyft, NGC, TOPPS) for better terms and faster onboarding.</li><li>Square Partnership: Landed Square as a strategic partner, enabling personalized small business gifting in 4 major markets (U.S., Canada, Australia, and U.K.).</li><li>Platform Consolidation: Unified three parallel eGift redemption flows into a single experience, reducing user confusion and technical debt.</li><li>Fraud Prevention: Implemented two‑factor authentication and AI‑driven fraud detection, protecting gift card transactions from bot‑driven attacks.</li><li>Operational Efficiency: Streamlined eGift deactivation, refunds, and swaps, freeing engineering from operational tasks and speeding support resolutions.</li></ul>
+      <div class="rrow-tags"><span>Scale</span><span>Fraud Prevention</span><span>Strategic Partnerships</span><span>Market Expansion Strategies</span><span>SaaS Platform</span><span>Revenue Optimization</span></div>
+      <a class="rrow-cs" href="/casestudies/case-study-sendoso.html" target="_blank" rel="noopener noreferrer">Read the case study<span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></a>
+    </div>
+  </details>
+  <details id="exp-rocketlawyer" class="rrow-d rv d6">
+    <summary class="rrow"><i><a class="exp-co" href="https://www.rocketlawyer.com" target="_blank" rel="noopener noreferrer">ROCKET LAWYER</a><b class="exp-tag exp-tag--startup">Startup</b></i><span>Senior Product Manager, Core Product &amp; Platform</span><time>Apr 2018 – Jan 2021<small class="exp-loc">San Francisco, CA</small></time></summary>
+    <div class="rrow-body">
+      <p class="rrow-desc">Owned product strategy and execution for Rocket Lawyer's Platform and Legal Document teams, expanding market reach, improving mobile engagement, and diversifying revenue streams while advancing Rocket Lawyer's mission to make legal services more accessible.</p>
+      <ul class="rrow-hi"><li>Co‑Branded Partner Sites: Created and launched co‑branded partner sites reaching 11.5M users, which expanded Rocket Lawyer's presence in Europe and enabled configurable authentication, pricing, feature gating, and theming for enterprise partners.</li><li>Mobile Conversion Growth: Increased mobile gross conversions by 5% through targeted A/B testing and UX improvements for the Legal Document product line, which drives 90% of U.S. revenue.</li><li>eSign Experience Upgrade: Improved eSign start rates by 13% by integrating Legal Documents with RocketSign, replacing a legacy flow with a more reliable, user‑friendly experience.</li><li>Analytics‑Driven Optimization: Achieved record‑high checkout conversion rates (2.34%) by building internal analytics tools that linked site performance to user behavior, directly informing optimizations to site speed and checkout.</li></ul>
+      <div class="rrow-tags"><span>Scale</span><span>Mobile Conversion Optimization</span><span>Analytics Tools Development</span><span>A/B Testing</span><span>New Revenue Channels</span><span>Cross-Platform Integration</span></div>
+      <a class="rrow-cs" href="/casestudies/case-study-rocketlawyer-mobile.html" target="_blank" rel="noopener noreferrer">Read the case study<span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></a>
+    </div>
+  </details>
+  <details id="exp-oracle" class="rrow-d rv d6">
+    <summary class="rrow"><i><a class="exp-co" href="https://www.oracle.com" target="_blank" rel="noopener noreferrer">ORACLE</a><b class="exp-tag exp-tag--enterprise">Enterprise</b></i><span>Senior Product Manager, Engage, Integrations, &amp; Social Network Expansion</span><time>Apr 2013 – Jan 2018<small class="exp-loc">San Francisco, CA</small></time></summary>
+    <div class="rrow-body">
+      <p class="rrow-desc">Promoted to lead Oracle Social Cloud's Engage product through a full platform modernization, doubling supported social networks and shipping a year-long series of upgrades across UI, performance, and workflow design. I led two agile teams and collaborated with three UX/UI designers across Austin (Platform), Atlanta (Frontend), and India (Engineering) to deliver a more global, scalable platform.</p>
+      <ul class="rrow-hi"><li>Global Network Expansion: Expanded social network coverage by integrating LinkedIn, Instagram, Sina Weibo, and Tumblr, doubling supported networks and addressing top customer demand.</li><li>Product Overhaul: Launched a full Engage product overhaul with 36 new features in 12 months, guided by beta testing, customer feedback, and UX improvements.</li><li>Internationalization: Internationalized the platform across 30+ languages, improving usability and accelerating adoption in EMEA and APAC regions.</li><li>Go‑to‑Market Leadership: Led coordinated rollouts with Customer Success, Marketing, and Sales to ensure alignment, smooth adoption, and strong market penetration.</li></ul>
+      <div class="rrow-tags"><span>Scale</span><span>Global Product Rollouts</span><span>Internationalization</span><span>Social Media Integrations</span><span>Go-To-Market Strategy</span><span>Beta Testing</span></div>
+      <a class="rrow-cs" href="/casestudies/case-study-oracle.html" target="_blank" rel="noopener noreferrer">Read the case study<span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></a>
+    </div>
+  </details>
+  <details id="exp-caci" class="rrow-d rv d6">
+    <summary class="rrow"><i><a class="exp-co" href="https://www.caci.com" target="_blank" rel="noopener noreferrer">CACI INTERNATIONAL</a><b class="exp-tag exp-tag--public">Public Sector</b></i><span>Consultant, Product Specialist, &amp; UAT Lead</span><time>Dec 2007 – Apr 2013<small class="exp-loc">Arlington, VA</small></time></summary>
+    <div class="rrow-body">
+      <p class="rrow-desc">Momentum Financial Management System Analyst supporting large-scale federal financial transformation across six Department of Justice component agencies (DOJ, DEA, ATF, BOP, USMS, FBI). Managed UAT strategy, deployment coordination, and triage for a system handling budgets up to $200M. Held a Top Secret security clearance.</p>
+      <ul class="rrow-hi"><li>Enterprise Deployment: Led UAT and deployment coordination across six federal agencies, ensuring system reliability for critical financial operations.</li><li>Triage Leadership: Managed a 10-person triage team during system go-lives, resolving production issues in real time across global stakeholder groups.</li><li>Stakeholder Management: Earned the respect of stakeholders worldwide through deep system knowledge, patience, and consistent follow-through.</li><li>Process Design: Built training programs and internal processes that ensured teams had the information they needed to succeed during and after deployment.</li></ul>
+      <div class="rrow-tags"><span>Federal Consulting</span><span>Financial Systems</span><span>UAT Strategy</span><span>Stakeholder Management</span><span>Top Secret Clearance</span></div>
+    </div>
+  </details>
+  <details id="exp-cgi" class="rrow-d rv d6">
+    <summary class="rrow"><i><a class="exp-co" href="https://www.cgi.com/us/en-us/federal" target="_blank" rel="noopener noreferrer">CGI FEDERAL</a><b class="exp-tag exp-tag--public">Public Sector</b></i><span>Software Engineer &amp; QA Automation</span><time>Jan 2006 – Nov 2007<small class="exp-loc">Lebanon, VA</small></time></summary>
+    <div class="rrow-body">
+      <p class="rrow-desc">Started as a C++ software engineer on Momentum, the federal government's core financial management system. Transitioned into QA automation, building automated test suites and providing functional support for the testing team.</p>
+      <ul class="rrow-hi"><li>Software Development: Contributed to C++ development on Momentum, the government's enterprise financial management platform.</li><li>QA Automation: Built and maintained automated test suites, accelerating test coverage and improving release confidence.</li><li>Technical Foundation: Developed the deep technical fluency that later became a differentiator in product management roles.</li></ul>
+      <div class="rrow-tags"><span>C++</span><span>QA Automation</span><span>Software Engineering</span><span>Federal Systems</span></div>
+    </div>
+  </details>
+  </div>
+</section>
+
+<!-- 08 CASE STUDIES -->
+<section class="sec pad obs" id="cases"><span id="projects" aria-hidden="true"></span>
+  <div class="sec-h rv"><h2>Case Studies</h2><span>What shipped, and what it moved</span></div>
+  <div class="cases">
+    <a class="case rv d1 plausible-event-name=CaseStudy+HVAC" href="/casestudies/case-study-hvac.html" target="_blank" rel="noopener noreferrer"><b>HVAC.com</b><span>Growth + A/B Testing</span></a>
+    <a class="case rv d2 plausible-event-name=CaseStudy+Lever" href="/casestudies/case-study-lever.html" target="_blank" rel="noopener noreferrer"><b>Lever</b><span>HRIS sync and SCIM provisioning</span></a>
+    <a class="case rv d3 plausible-event-name=CaseStudy+Sendoso" href="/casestudies/case-study-sendoso.html" target="_blank" rel="noopener noreferrer"><b>Sendoso</b><span>Platform + eGift expansion</span></a>
+    <a class="case rv d4 plausible-event-name=CaseStudy+RocketLawyer+Mobile" href="/casestudies/case-study-rocketlawyer-mobile.html" target="_blank" rel="noopener noreferrer"><b>Rocket Lawyer</b><span>Mobile document interview and checkout</span></a>
+    <a class="case rv d5 plausible-event-name=CaseStudy+RocketLawyer+Covea" href="/casestudies/case-study-rocketlawyer-covea.html" target="_blank" rel="noopener noreferrer"><b>Rocket Lawyer</b><span>0 <span class="arw" aria-hidden="true"></span><span class="vh">to</span> 1 partner platform</span></a>
+    <a class="case rv d6 plausible-event-name=CaseStudy+Oracle" href="/casestudies/case-study-oracle.html" target="_blank" rel="noopener noreferrer"><b>Oracle</b><span>Platform overhaul + social network expansion</span></a>
+  </div>
+</section>
+
+
+<!-- 10 SKILLS -->
+<section class="sec pad obs is-off">
+  <div class="sec-h rv"><h2>Skills &amp; Expertise</h2><span>What I actually do</span></div>
+  <div class="skills">
+    <div class="sk rv d1"><h3>Strategic</h3><ul>
+      <li>Product Strategy</li><li>Roadmap &amp; Vision</li><li>Competitive Analysis</li>
+      <li>eCommerce &amp; Marketplace</li><li>B2B Customer Success</li><li>Growth PM</li><li>Funnel Optimization</li></ul></div>
+    <div class="sk rv d2"><h3>Leadership</h3><ul>
+      <li>Cross-Functional Leadership</li><li>Stakeholder Management</li><li>Team Building</li>
+      <li>Mentorship</li><li>Agile (Scrum, Kanban)</li></ul></div>
+    <div class="sk rv d3"><h3>Analytical &amp; Research</h3><ul>
+      <li>Data-Driven</li><li>User-Centric Design</li><li>A/B Testing</li>
+      <li>User Research</li><li>Continuous Improvement</li></ul></div>
+  </div>
+</section>
+
+<!-- 11 EDUCATION -->
+<section class="sec pad obs is-off">
+  <div class="sec-h rv"><h2>Certifications &amp; Education</h2></div>
+  <div class="edu">
+    <div class="rv d1">
+      <h3 style="margin:0 0 .5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Education</h3>
+      <div class="edu-row"><b>B.S. Business Information Technology</b><span>Virginia Tech · Blacksburg, VA</span></div>
+      <div class="edu-row"><b>Academic focus</b><span>eBusiness Technology · C++, HTML, JavaScript, PHP, SQL <em class="aside">(yes, PHP)</em></span></div>
+      <div class="edu-row"><b>Coursework</b><span>Supply Chain · E-Commerce · DB Management · Software Engineering · UI Design</span></div>
+    </div>
+    <div class="rv d2">
+      <h3 style="margin:0 0 .5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)">Certifications</h3>
+      <div class="edu-row"><b>Certified ScrumMaster (CSM)</b><span>Scrum Alliance · active through July 22, 2028</span></div>
+      <div class="edu-row"><b>Certified Scrum Product Owner (CSPO)</b><span>Scrum Alliance · active through July 22, 2028</span></div>
+      <div class="edu-row"><b>Product-led Certification</b><span>Pendo · 2023</span></div>
+      <div class="edu-row"><b>Product-Led Growth Fundamentals</b><span>ProductLed · 2023</span></div>
+      <div class="edu-row"><b>AI for Product Management</b><span>Pendo · 2023</span></div>
+      <div class="edu-row"><b>Introduction to Generative AI</b><span>Google · 2023</span></div>
+      <div class="edu-row"><b>Product Analytics Certification</b><span>Pendo · 2023</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 RECOMMENDATIONS -->
+<section class="sec pad obs">
+  <div class="sec-h rv"><h2>Recommendations</h2><span>People I worked for, and with</span></div>
+  <p class="rec-lead rv">Different roles, different companies, same conclusion. The work got easier and better when we were on it together.</p>
+  <div class="recs">
+    <div class="rec rec-hero rv d1"><i class="rec-k">On hiring him</i><p>Start with the right people. Kevin is the right people.</p><footer><b>Wesley Barnes</b><span class="rec-role">Former Manager · Director of Product Management · Oracle</span></footer></div>
+    <div class="rec rv d2"><i class="rec-k">On ambiguity</i><p>Kevin brings structure without killing creativity, clarity without slowing momentum, and a rare ability to help teams move faster together. He makes even ambiguous work feel navigable, and the people around him consistently do their best work.</p><footer><b>Matt Triplett</b><span class="rec-role">Former Manager · Product Leader · HVAC.com + GridStrong</span></footer></div>
+    <div class="rec rv d3"><i class="rec-k">On cross-functional work</i><p>Kevin fought for the best possible experience, and brokered agreements across PM, UX, and Engineering. His work ethic, attention to detail, and obsession with delivering great experiences for customers earned my respect.</p><footer><b>Emily Leahy-Thieler</b><span class="rec-role">Design Leader · Oracle</span></footer></div>
+    <div class="rec rv d4"><i class="rec-k">On quality</i><p>Kevin is a top-notch PM who fights for quality products and for his team.</p><footer><b>Christina James</b><span class="rec-role">Staff Quality Assurance Analyst · Rocket Lawyer</span></footer></div>
+  </div>
+  <a class="rec-more rv plausible-event-name=Recs+LinkedIn" href="https://www.linkedin.com/in/kevinmiddleton/details/recommendations/" target="_blank" rel="noopener noreferrer">All recommendations on LinkedIn<span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></a>
+</section>
+
+<!-- 13 CONNECT -->
+<section class="connect pad obs" id="connect">
+  <h2 class="rv">Bring me something <em>messy.</em></h2>
+  <div class="cbtns rv d2">
+    <a class="cb c-mail plausible-event-name=Contact+Email" href="mailto:kevin@middleton.io">kevin@middleton.io</a>
+    <a class="cb c-oh plausible-event-name=Contact+OfficeHours" href="/officehours/" target="_blank" rel="noopener noreferrer">Office Hours · free, all week</a>
+    <a class="cb c-li plausible-event-name=Contact+LinkedIn" href="https://linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="cb c-gh plausible-event-name=GitHub+Click" href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</section>
+
+<section class="sec pad obs" id="offsite">
+  <div class="sec-h rv"><h2>Away from the desk</h2><span>The rest of it</span></div>
+  <p class="offsite-note rv d1">I live in New York with three cats who supervise every deploy. I <a class="lk lk-app" href="/recipes/">cook</a> most nights. I am reliably great at useless pop-culture facts and should probably find a new trivia team to join.</p>
+</section>
+
+<footer class="colophon pad obs">
+    <nav class="colo-nav rv d2" aria-label="More from Kevin">
+      <a href="/casestudies/">Case Studies</a>
+      <a href="/prototypes/">Prototypes</a>
+      <a href="/blog/">Blog</a>
+      <a href="/officehours/">Office Hours</a>
+      <a href="/recipes/">Recipes</a>
+      <a href="/visionbort/">Visionbort</a>
+    </nav>
+  <p class="egg-line rv d4"><a href="#" id="confetti-trigger" class="egg plausible-event-name=Easter+Egg+Confetti">⚠️ Whatever you do, don't click here</a></p>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function cnt(n){
+  if(n.dataset.done)return;n.dataset.done="1";
+  var t=parseFloat(n.dataset.count),d=parseInt(n.dataset.dec||"0",10),
+      p=n.dataset.prefix||"",s=n.dataset.suffix||"";
+  var f=function(v){return p+(d?v.toFixed(d):Math.round(v).toLocaleString("en-US"))+s;};
+  if(reduce){n.textContent=f(t);return;}
+  var t0=null;
+  function step(ts){if(t0===null)t0=ts;var q=Math.min((ts-t0)/1100,1);
+    n.textContent=f(t*(1-Math.pow(1-q,3)));
+    if(q<1)requestAnimationFrame(step);else n.textContent=f(t);}
+  requestAnimationFrame(step);
+}
+var secs=document.querySelectorAll(".obs");
+// Only hide things if we can reliably bring them back.
+if("IntersectionObserver" in window&&!reduce&&secs.length){
+  document.documentElement.classList.add("js-reveal");
+}
+// Safety net: if nothing has revealed shortly after load, drop the hidden state.
+setTimeout(function(){
+  if(document.documentElement.classList.contains("js-reveal")&&!document.querySelector(".rv.on")){
+    document.documentElement.classList.remove("js-reveal");
+    document.querySelectorAll("[data-count]").forEach(cnt);
+  }
+},1200);
+if("IntersectionObserver" in window&&!reduce){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      e.target.querySelectorAll(".rv").forEach(function(n){n.classList.add("on");});
+      e.target.querySelectorAll("[data-count]").forEach(cnt);
+      io.unobserve(e.target);
+    });
+  },{threshold:.14});
+  secs.forEach(function(s){io.observe(s);});
+}else{
+  secs.forEach(function(s){
+    s.querySelectorAll(".rv").forEach(function(n){n.classList.add("on");});
+    s.querySelectorAll("[data-count]").forEach(cnt);
+  });
+}
+var w=document.querySelector(".swap");
+if(w&&!reduce){
+  var b=w.querySelectorAll("b"),running=false;
+  // The alternates are opacity:0, which still exposes them to screen readers
+  // and text parsers, so the hero would be read as
+  // "...replace the judgment.taste.discovery.thinking." Only the live word
+  // should reach the text layer, and it moves as the rotation moves.
+  function sync(){
+    for(var k=0;k<b.length;k++)
+      b[k].setAttribute("aria-hidden",b[k].classList.contains("live")?"false":"true");
+  }
+  sync();
+  // Cycles judgment -> taste -> discovery -> thinking, then settles back on
+  // "judgment" and holds. Each word is something a PM brings, so the animation
+  // makes the argument rather than decorating it. A word that loops forever is
+  // a gimmick; a word that visibly decides is a claim.
+  function runSwap(){
+    if(running)return; running=true;
+    var i=0;
+    var iv=setInterval(function(){
+      b[i].classList.remove("live"); i++;
+      if(i>=b.length){clearInterval(iv);b[0].classList.add("live");sync();running=false;return;}
+      b[i].classList.add("live");sync();
+    },1150);
+  }
+  // Hold ~900ms first so the page settles and the eye lands on the headline —
+  // otherwise the whole sequence is over before anyone looks at it.
+  setTimeout(runSwap,900);
+  // Replay on demand: the moment only lasts 4.6s, so give it a way back.
+  var head=w.closest(".big");
+  if(head){
+    head.style.cursor="pointer";
+    head.title="Replay";
+    head.addEventListener("mouseenter",runSwap);
+    head.addEventListener("click",runSwap);
+  }
+  // And replay if the tab was hidden while it played.
+  document.addEventListener("visibilitychange",function(){
+    if(!document.hidden)runSwap();
+  });
+}
+
+/* The company link lives inside <summary>, so its click would bubble up and
+   toggle the row open on the way out. Stop it at the anchor. */
+document.querySelectorAll(".exp-co").forEach(function(a){
+  a.addEventListener("click",function(e){ e.stopPropagation(); });
+});
+
+/* Resume / Journey. Journey is the same nine rows in reverse: the ledger read
+   from the beginning rather than from now. Reordering with appendChild keeps
+   one DOM copy, so open rows stay open and nothing needs re-rendering. */
+var expList=document.getElementById("expList");
+var expModes=[].slice.call(document.querySelectorAll(".exp-mode"));
+var expSay=document.getElementById("expSay");
+if(expList&&expModes.length){
+  var resumeOrder=["exp-gridstrong","exp-hvac","exp-hurd","exp-lever","exp-sendoso",
+                   "exp-rocketlawyer","exp-oracle","exp-caci","exp-cgi"];
+  var journeyOrder=resumeOrder.slice().reverse();
+  var setExpMode=function(journey){
+    expModes.forEach(function(b){
+      var on=(b.id==="mode-journey")===journey;
+      b.setAttribute("aria-pressed",on?"true":"false");
+    });
+    // The reorder is otherwise silent: same nine rows, new sequence, nothing
+    // announced. This is why the control is a group of toggle buttons and not a
+    // tablist, which would promise a panel that never changes.
+    if(expSay) expSay.textContent = journey
+      ? "Experience sorted oldest first, starting with CGI Federal."
+      : "Experience sorted newest first, starting with GridStrong AI.";
+    (journey?journeyOrder:resumeOrder).forEach(function(id){
+      var el=document.getElementById(id);
+      if(el) expList.appendChild(el);
+    });
+    if(window.plausible) plausible("Experience View",{props:{mode:journey?"journey":"resume"}});
+  };
+  expModes.forEach(function(b){
+    b.addEventListener("click",function(){ setExpMode(b.id==="mode-journey"); });
+    // no arrow-key handling: these are toggle buttons in a group, not tabs, so
+    // arrows should scroll the page as usual rather than flipping the sort.
+  });
+}
+
+/* Strengths concept: ARIA tab pattern. Panels are in the DOM and only
+   [hidden] is toggled, so every specialty stays crawlable and, with JS off,
+   the first panel is simply the one that shows. */
+var tabs=[].slice.call(document.querySelectorAll('.spec[role="tab"]'));
+if(tabs.length){
+  var stage=document.querySelector(".spec-stage");
+  var tint=function(i){
+    if(stage) stage.style.setProperty("--stage-line","var(--c"+(i+1)+"-line)");
+  };
+  var pick=function(i,focus){
+    tint(i);
+    tabs.forEach(function(t,n){
+      var on=n===i, panel=document.getElementById(t.getAttribute("aria-controls"));
+      t.setAttribute("aria-selected",on?"true":"false");
+      t.tabIndex=on?0:-1;
+      if(panel) panel.hidden=!on;
+    });
+    if(focus) tabs[i].focus();
+  };
+  tint(Math.max(0,tabs.findIndex(function(t){
+    return t.getAttribute("aria-selected")==="true";})));
+  tabs.forEach(function(t,i){
+    t.addEventListener("click",function(){
+      pick(i);
+      if(window.plausible) plausible("Strength Open",{props:{strength:t.textContent.trim().slice(0,40)}});
+    });
+    t.addEventListener("keydown",function(e){
+      var n=null;
+      if(e.key==="ArrowRight"||e.key==="ArrowDown") n=(i+1)%tabs.length;
+      if(e.key==="ArrowLeft"||e.key==="ArrowUp") n=(i-1+tabs.length)%tabs.length;
+      if(e.key==="Home") n=0;
+      if(e.key==="End") n=tabs.length-1;
+      if(n!==null){e.preventDefault();pick(n,true);}
+    });
+  });
+}
+
+/* Footer easter egg. Same library, same Plausible event name as the live
+   site, so the existing goal keeps counting. Fails silently if the script
+   is blocked; the link just does nothing rather than throwing. */
+var egg=document.getElementById("confetti-trigger");
+if(egg){
+  /* Same params as the live site. The library is deferred, so a click landing
+     before it executes would silently do nothing; retry briefly instead of
+     dropping the click on the floor. Gives up after ~2s rather than hanging. */
+  var boom=function(){
+    confetti({particleCount:200,spread:90,gravity:.6,origin:{y:.8}});
+  };
+  egg.addEventListener("click",function(e){
+    e.preventDefault();
+    if(typeof confetti==="function"){boom();return;}
+    var waited=0,iv=setInterval(function(){
+      waited+=100;
+      if(typeof confetti==="function"){clearInterval(iv);boom();}
+      else if(waited>=2000){clearInterval(iv);}
+    },100);
+  });
+}
+})();
+</script>
+<script src="/js/confetti.browser.min.js" defer></script>
+
+<!-- 14 KEVBOT -->
+<script src="/kevbot/kevbot.js?v=eef2efcf" defer></script>
+<script>
+  // defer means kevbot.js has run by DOMContentLoaded, so init here rather than
+  // inline. The old build used document.write with ?v=Date.now(), which was a
+  // guaranteed cache miss (35KB re-fetched every pageview) and parser-blocking.
+  document.addEventListener("DOMContentLoaded", function(){
+    if (window.KevBot) KevBot.init('https://kevbot.kevin-middleton.workers.dev');
+  });
+</script>
 </body>
-
 </html>
