@@ -2713,3 +2713,488 @@ body.p-cases .cs-metric-label{
   body.p-cases .cs-metrics{grid-template-columns:1fr}
   body.p-cases .cs-metric{padding:0;border-left:0}
 }
+
+
+/* ==========================================================================
+   HOMEPAGE (Full Volume)
+   Moved out of the inline <style> in full-volume.html so the site has one
+   stylesheet. Scoped under .fv, the wrapper around the whole homepage,
+   because the two sheets had drifted: 19 of the 23 selectors they shared
+   disagreed, .pad most importantly (fv.css caps it at 1400px, the homepage
+   never did). Scoping preserves both instead of silently re-laying-out one.
+   .js-reveal sits on <html>, an ancestor of the wrapper, so those become
+   html.js-reveal .fv; the lone html rule is scoped with :has(.fv).
+   ========================================================================== */
+.fv{
+  /* ---------- neutrals (flip per mode) ---------- */
+  --bg:#F4F4F5; --bg2:#E9E9EC; --ink:#111113; --ink2:#5B5B62; --rule:#D8D8DD;
+  /* the deliberate contrast panel. Separate from --ink because --ink also
+     carries text and borders, which invert; these panels must stay panels. */
+  --invert:#111113; --on-invert:#F2F2F4;
+
+  /* ---------- hue identity (same in both modes) ---------- */
+  --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;
+  --cobalt:#1F4B8F;   --plum:#6D4AA8;   --fuchsia:#9E227D;
+  --on-hue:#FFFFFF;    /* text on a saturated card: >=5.16 on all five */
+  --on-mari:#241700;   /* marigold is a LIGHT surface, so it needs dark text */
+
+  /* ---------- accents as text (depend on the ground) ---------- */
+  --accent-text:#AB3142;       /* small accent text on the page      5.88 */
+  --accent-on-invert:#CF5F6F;  /* small accent text on the panel     4.96 */
+  --gold-on-invert:#E8A317;    /* gold display text on the panel     8.74 */
+  --cta-blue:#4B6FA5;          /* button on the invert band          3.72 */
+
+  /* ---------- strength chips: outlined when idle, filled when chosen ----------
+     --line is the outline and must clear 3:1 against the PAGE, so it moves per
+     mode. --fill is the pure hue and never moves, because a filled chip brings
+     its own ground with it. */
+  --c1-line:#A77510;         --c1-fill:var(--marigold); --c1-on:var(--on-mari);
+  --c2-line:var(--madder);   --c2-fill:var(--madder);   --c2-on:var(--on-hue);
+  --c3-line:var(--viridian); --c3-fill:var(--viridian); --c3-on:var(--on-hue);
+  --c4-line:var(--cobalt);   --c4-fill:var(--cobalt);   --c4-on:var(--on-hue);
+  --c5-line:var(--plum);     --c5-fill:var(--plum);     --c5-on:var(--on-hue);
+  --c6-line:var(--fuchsia);  --c6-fill:var(--fuchsia);  --c6-on:var(--on-hue);
+
+  /* ---------- rotating hero words: need 3:1 on the page ---------- */
+  --swap-1:var(--cobalt); --swap-2:var(--plum);
+  --swap-3:var(--viridian); --swap-4:var(--madder);
+
+  /* ---------- writing-card dots: 3:1 on the invert panel, six distinct
+       hues, no repeats. Lifted here because the panel is dark. ---------- */
+  --dot-1:#4B6FA5; --dot-2:#B35299; --dot-3:#E8A317;
+  --dot-4:#8A6EB9; --dot-5:#2C7A63; --dot-6:#C3384B;
+
+  /* ---------- scrims and hairlines ---------- */
+  --nav-bg:rgba(244,244,245,.92);
+  --scrim-dark:rgba(0,0,0,.28);
+  --scrim-light:rgba(255,255,255,.28);
+  --hairline-invert:rgba(255,255,255,.17);
+  --hairline-mari:rgba(0,0,0,.17);
+
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",Menlo,ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --r:10px;
+  margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  line-height:1.5;-webkit-font-smoothing:antialiased;
+}.fv *{box-sizing:border-box}/* Deliberately left at (0,1,1). Anything that paints its own foreground on a
+   coloured surface must be at least (0,2,0) to win. Do NOT add :not() here to
+   fix a card: that raises this to (0,2,1) and silently outranks every
+   two-class button rule instead. */
+.fv a{color:inherit}/* Mirrors the live site, which hides #skills, #education, #career-highlights
+   and #looking-for behind a config-driven display:none. Same tack here: the
+   markup stays, one class turns it off. */
+.fv .is-off{display:none}.fv .pad{padding-left:clamp(1rem,4vw,3.2rem);padding-right:clamp(1rem,4vw,3.2rem)}/* reveal — fail-open: content is visible unless JS opts in to animating it.
+   No JS, a thrown error, or an unsupported API leaves the page fully readable. */
+.fv .rv{opacity:1;transform:none}html.js-reveal .fv .rv{opacity:0;transform:translateY(16px);
+  transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}html.js-reveal .fv .rv.on{opacity:1;transform:none}.fv .d1{transition-delay:.05s}.fv .d2{transition-delay:.1s}.fv .d3{transition-delay:.15s}.fv .d4{transition-delay:.2s}.fv .d5{transition-delay:.25s}.fv .d6{transition-delay:.3s}/* nav */
+.fv .nav{position:sticky;top:0;z-index:500;background:var(--nav-bg);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;padding-top:.85rem;padding-bottom:.85rem}.fv .nav-l{display:flex;gap:1.1rem;flex-wrap:wrap}
+/* The sticky nav wrapped to three rows at 375px, eating 167px (20.6%) of the
+   viewport permanently and burying every anchor target 125px underneath itself.
+   One nowrap row that scrolls horizontally keeps all six links reachable and
+   holds the bar near 60px. */
+@media(max-width:760px){.fv .mk small{display:none}.fv .cta{flex:0 0 auto}
+}.fv .nav-l a{font-size:.8rem;color:var(--ink2);text-decoration:none;border-bottom:1px solid transparent;transition:.16s}.fv .nav-l a:hover{color:var(--ink);border-bottom-color:var(--marigold)}.fv .mk{font-weight:800;letter-spacing:-.025em;display:grid;gap:.12rem;line-height:1.12}/* who and where, persistent. Lets the hero drop its own location line. */
+.fv .mk small{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink2);font-weight:400;line-height:1.3}
+@media(max-width:560px){.fv .mk small{font-size:.55rem;letter-spacing:.07em}}/* .fv prefix is load-bearing: `.fv a{color:inherit}` is (0,1,1) and was
+   beating a bare `.cta` at (0,1,0), so this text was page ink, not on-mari.
+   Invisible in light mode, 1.94:1 in dark. */
+.fv .cta{background:var(--marigold);color:var(--on-mari);font-weight:800;font-size:.76rem;
+  padding:.42rem .85rem;border-radius:var(--r);text-decoration:none;white-space:nowrap;transition:transform .18s}.fv .cta:hover{transform:translateY(-2px)}
+/* Narrow: identity and the CTA share the top row, links drop to their own.
+   Without this the three flex children stack into three rows and the sticky
+   bar eats a fifth of a phone screen. */
+/* Below 900 the bar is two rows: wordmark + CTA, then the links beneath.
+   flex-basis:100% is what drops the links to their own line, so this block
+   needs wrap ON. A later rule forcing nowrap squeezed all three onto one line
+   and clipped the links, which is the bug this comment exists to prevent. */
+@media(max-width:900px){.fv .nav{align-items:center;row-gap:.65rem;flex-wrap:wrap}.fv .mk{order:1}.fv .cta{order:2;margin-left:auto}.fv .nav-l{order:3;flex-basis:100%;gap:.9rem;overflow-x:auto;flex-wrap:nowrap;
+    scrollbar-width:none;-ms-overflow-style:none}.fv .nav-l::-webkit-scrollbar{display:none}.fv .nav-l a{white-space:nowrap}
+}
+/* Six links at 390px overran the rail by ~28px, clipping the last one with no
+   scroll affordance to explain it. Tightening the gap and type fits all six. */
+/* The rail grows to fill the space between wordmark and CTA (that flex:1 is what
+   stops it overflowing near 1000px), but its links were left-aligned inside it,
+   so they hugged the wordmark and left a wide gap before Office Hours.  */
+@media(min-width:901px){.fv .nav-l{justify-content:center}
+}
+/* Centre the rail on the PAGE, not between its neighbours. space-between put
+   the links midway between the wordmark (283px) and the CTA (106px), which sits
+   ~88px right of true centre. A three-column grid with equal side tracks makes
+   the middle track the page centre regardless of how wide the flanks are. */
+@media(min-width:901px){.fv .nav{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    align-items:center;gap:1rem}.fv .nav .mk{justify-self:start;grid-column:1}.fv .nav-l{justify-self:center;grid-column:2;flex:0 0 auto;min-width:0;max-width:100%}.fv .nav .cta{justify-self:end;grid-column:3}
+}
+@media(max-width:430px){.fv .nav-l{gap:.62rem}.fv .nav-l a{font-size:.74rem}
+}/* section furniture */
+.fv .sec{padding-top:clamp(2.6rem,5.5vw,4.4rem);padding-bottom:clamp(.4rem,1vw,1rem)}.fv .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  margin-bottom:1.2rem;padding-bottom:.7rem;border-bottom:2px solid var(--ink)}.fv .sec-h h2{margin:0;font-size:clamp(1.3rem,3vw,2.05rem);font-weight:800;letter-spacing:-.033em}.fv .sec-h span{font-size:.76rem;color:var(--ink2)}/* hero */
+.fv .hero{padding-top:clamp(2.4rem,6vw,5rem);padding-bottom:clamp(1.4rem,3vw,2.2rem)}.fv .big{margin:0;font-weight:800;letter-spacing:-.045em;line-height:.9;
+  font-size:clamp(2.1rem,7.4vw,5.4rem);max-width:19ch;text-wrap:balance}.fv .swap{display:inline-grid;vertical-align:baseline}.fv .swap b{grid-area:1/1;opacity:0;transform:translateY(.3em) rotate(-2.5deg);
+  transition:opacity .4s,transform .4s,color .4s}.fv .swap b.live{opacity:1;transform:none}/* One theme colour per word — the same four the bento cards use, so the
+   headline rhymes with the work below it. Marigold is deliberately excluded:
+   at 1.97:1 on this ground it fails contrast outright. These four clear the 3:1
+   large-text floor, and "judgment" takes cobalt (6.81:1) because it's the
+   word that stays on screen after the cycle stops. */
+.fv .swap b:nth-child(1){color:var(--swap-1)}/* judgment  7.76:1 */
+.fv .swap b:nth-child(2){color:var(--swap-2)}/* taste     5.98:1 */
+.fv .swap b:nth-child(3){color:var(--swap-3)}/* discovery 4.69:1 */
+.fv .swap b:nth-child(4){color:var(--swap-4)}/* thinking  4.79:1 */
+/* ---- hero: type left, skyline right, hard 2px rule between ----
+   A real <img> rather than a background: the browser can prioritise it, it
+   carries alt text into the text layer, and width/height stop it shifting the
+   page as it decodes. <picture> does the light/dark swap with the plates the
+   live site already ships. */
+.fv .hero-split{display:grid;grid-template-columns:1.05fr .95fr;
+  border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;
+  min-height:clamp(17rem,34vw,23rem)}.fv .hero-type{padding:clamp(1.1rem,2.4vw,1.9rem);
+  display:flex;flex-direction:column;justify-content:center;
+  border-right:2px solid var(--ink);min-width:0}.fv .hero-shot{display:block;position:relative;min-width:0}.fv .hero-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}/* The headline and arc are sized for a full-width hero; in a column they need
+   their own scale. The arc especially: .arc-chain is nowrap, so if it does not
+   fit the column it overflows rather than wrapping. */
+.fv .hero-split .big{font-size:clamp(1.7rem,3.9vw,3.1rem);max-width:16ch}.fv .hero-split .arc{font-size:clamp(.8rem,1.24vw,1.02rem);max-width:none;margin-top:1rem}
+@media(max-width:820px){.fv .hero-split{grid-template-columns:1fr}.fv .hero-type{border-right:0;border-bottom:2px solid var(--ink)}.fv .hero-shot{min-height:clamp(9rem,26vw,13rem)}.fv .hero-split .big{font-size:clamp(2rem,6.4vw,3rem);max-width:19ch}.fv .hero-split .arc{font-size:clamp(.78rem,2.9vw,1rem)}
+}/* the arc. Two quiet steps then the weighted term, so it reads as a run-up
+   rather than three equal items, and "Full Stack Product Manager" gets defined
+   by the chain instead of by a sentence. No numbers here on purpose: the line
+   is about range, not duration. */
+/* 60ch, not 54: the drawn arrows are wider than the glyph they replaced and
+   the line needs 56ch to stay on one row. */
+.fv .arc{margin:1.2rem 0 0;font-size:clamp(1rem,1.9vw,1.4rem);line-height:1.45;max-width:60ch;text-wrap:balance}.fv .arc-step{color:var(--ink2);font-size:.8em;white-space:nowrap}/* Drawn, not typed. U+2192 falls back to whatever arrow font the platform has,
+   so it renders stubby and inconsistent; this is a 1px hairline that matches the
+   rules used elsewhere on the page and scales with the type. */
+.fv .arc-sep{display:inline-block;position:relative;width:1.75em;height:1em;
+  margin:0 .26em;vertical-align:middle;color:var(--ink2)}.fv .arc-sep::before{content:"";position:absolute;left:0;right:.08em;top:50%;
+  height:1px;background:currentColor;transform:translateY(-50%)}.fv .arc-sep::after{content:"";position:absolute;right:.08em;top:50%;
+  width:.42em;height:.42em;
+  border-top:1px solid currentColor;border-right:1px solid currentColor;
+  transform:translateY(-50%) rotate(45deg)}
+@media(max-width:560px){.fv .arc-sep{width:1.25em;margin:0 .2em}/* sized so the nowrap chain still fits a 375px screen without overflowing */
+  .fv .arc{font-size:clamp(.74rem,3.3vw,1rem);max-width:none}
+}/* nowrap: the whole term is the payoff of the chain, so it must never break
+   across lines and orphan "Manager" on its own. */
+.fv .arc-now{font-weight:800;letter-spacing:-.025em;color:var(--ink);white-space:nowrap}/* its own beat: this is the line that answers the gap */
+/* The chain is one unit: if anything has to drop to a second line it must be
+   "Still building.", never a word out of the arc. nowrap enforces that, and the
+   mobile type scale below is what keeps nowrap from overflowing. */
+.fv .arc-chain{white-space:nowrap}/* The arrow is drawn in CSS, so the separator span was empty and every text
+   extractor saw "EngineerConsultantFull Stack Product Manager". A real U+2192
+   now lives in the text layer, clipped rather than display:none or
+   visibility:hidden, both of which would drop it right back out of the tree.
+   position:absolute keeps it out of flow so the drawn arrow does not move. */
+/* inline-block, not absolute: an absolutely-positioned box is block-level, so
+   innerText came back as "Engineer\n -> \nConsultant". Inline-block keeps the
+   whole chain on one line in the text layer. The &nbsp; are load-bearing here:
+   with plain spaces innerText collapses them to "Engineer->Consultant".
+   Measured visual delta: 0px. */
+/* Live had scroll-behavior:smooth plus [id]{scroll-margin-top:80px}; the
+   redesign shipped neither, so anchors landed under the sticky bar. */
+html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
+@media(max-width:760px){html:has(.fv){scroll-padding-top:4.5rem}}
+@media(prefers-reduced-motion:reduce){html:has(.fv){scroll-behavior:auto}}.fv .arc-sep-text{
+  display:inline-block; width:1px; height:1px; vertical-align:baseline;
+  overflow:hidden; clip-path:inset(50%); white-space:nowrap;
+}/* bento */
+/* 3 columns with an uneven second row, matching the live bento. The 4-col
+   version squeezed the plugin list to 276px and clipped it. */
+/* Row heights are derived, not eyeballed. A small card needs 89.4px of content
+   (55.8 of text + 2x1.05rem padding) plus ~31px of clear space for the .go
+   hover bar that slides up over the bottom edge: 7.6rem = 121.6px leaves 32.2.
+   Row 2 holds the 2-up .bstack, so it MUST be two small cards plus the gap:
+   2 x 7.6rem + .6rem = 15.8rem exactly. Get that wrong and the two stacked
+   cards stop matching the two beside them. */
+.fv .bento{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:7.6rem 15.8rem;gap:.6rem}.fv .bstack{display:grid;grid-template-rows:1fr 1fr;gap:.6rem;min-height:0}.fv .bstack .bc{min-height:0}/* Clearance for the .go bar at every width. The bar is ~31px and the content
+   box already has 16.8px of bottom padding, so it eats ~14px of content. The
+   old 14px of padding left exactly that much underneath it, which is why
+   "Read more" printed over the last list item. */
+.fv .bento .h2>div, .fv .bento .b-mari>div{padding-bottom:34px}
+/* Touch has no hover, so a hover-only CTA is either dead UI or slides over
+   text. Show it in place instead. */
+@media(hover:none){.fv .bc .go{transform:none}}
+/* The two list cards are taller than their content by construction: the writing
+   card spans both rows and the plugins card is sized by the .bstack next to it,
+   so neither height has anything to do with what's in it. Let the list itself
+   take up the room instead of pooling every spare pixel as a blank band at the
+   bottom. padding-bottom stops the list at the top edge of the .go bar, which
+   reaches 13.8px into the content box. Scoped to the 3-col layout: at narrower
+   widths these cards are already content-tight (and the plugins card already
+   overflowed its 8.6rem auto-row before this change). */
+@media(min-width:901px){/* align-content:stretch is load-bearing. `.bc` sets space-between, which
+     content-sizes the single in-flow row, so height:100% on the child resolves
+     to the child's own height and nothing stretches. stretch grows the auto row
+     to the full card instead. */
+  .fv .bento .h2, .fv .bento .b-mari{align-content:stretch}.fv .bento .h2>div, .fv .bento .b-mari>div{display:flex;flex-direction:column}/* Equal rows, so the list fills the leftover height instead of leaving a blank
+     band under it. 6 rows in the writing card and 3 in the plugins card come out
+     within ~2px of each other (52.4 vs 54.3), so the two read as the same list.
+     grid-auto-rows:1fr is minmax(auto,1fr) — rows still refuse to shrink below
+     their text, so nothing clips when the titles wrap at narrow 3-col widths. */
+  .fv .bento .h2 .posts, .fv .bento .b-mari .posts{flex:1;gap:0;grid-auto-rows:1fr}/* The row track is 1fr, so the <a> is centred in its band by the grid; inside
+     the <a> the dot aligns to the FIRST line, not to the centre of a wrapped
+     block. Centring both put the dot between the two lines of a title that
+     wraps. margin-top drops it onto the first line's optical centre. */
+  .fv .bento .h2 .posts a, .fv .bento .b-mari .posts a{align-items:flex-start;align-self:center;padding:.3rem 0;
+    border-top:1px solid var(--hairline-invert)}.fv .bento .b-mari .posts a{border-top-color:var(--hairline-mari)}.fv .bento .h2 .posts a:first-child, .fv .bento .b-mari .posts a:first-child{border-top:0}.fv .bento .h2 .posts i, .fv .bento .b-mari .posts i{margin-top:.3rem}
+}
+@media(max-width:900px){.fv .bento{grid-template-columns:repeat(2,1fr);grid-template-rows:none;grid-auto-rows:minmax(8.6rem,auto)}.fv .bento .h2, .fv .bstack{grid-row:span 2}
+}
+/* Below 700 go single column and let every card size to its own content. The
+   bento composition is a desktop idea; at 2 columns it degrades into ragged
+   masonry with an orphaned gap, and the list cards get narrow enough that every
+   item wraps to two lines and overflows its row. */
+@media(max-width:700px){/* template-rows:none is explicit so this block stands on its own instead of
+     inheriting it from the 900px rule above. */
+  .fv .bento{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:auto}.fv .bento .h2, .fv .bstack{grid-row:auto}.fv .bstack{grid-template-rows:auto auto}.fv .bento .bc{min-height:8.6rem}
+}.fv .bc{border-radius:var(--r);padding:1.05rem;display:grid;align-content:space-between;
+  position:relative;overflow:hidden;text-decoration:none;transition:transform .3s cubic-bezier(.2,.8,.3,1)}/* Two selectors on purpose. `.bc` elements carry `.rv` themselves, and the
+   reveal's end state `.js-reveal .rv.on{transform:none}` is (0,3,0) — it was
+   silently beating a plain `.bc:hover` at (0,2,0), so the lift never fired
+   once a card revealed. The first selector wins that fight; the second keeps
+   hover working when JS never runs and `.on` is never added. */
+.fv .bc.rv.on:hover, .fv .bc:hover{transform:translateY(-6px)}.fv .bc h3{margin:0;font-size:1.2rem;font-weight:800;letter-spacing:-.026em;line-height:1.05}.fv .bc p{margin:.3rem 0 0;font-size:.79rem;line-height:1.38;opacity:.9}.fv .bc .k{font-family:var(--mono);font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;opacity:1}.fv .bc .go{position:absolute;left:0;right:0;bottom:0;padding:.5rem 1.05rem;background:var(--scrim-dark);
+  font-family:var(--mono);font-size:.61rem;letter-spacing:.1em;text-transform:uppercase;
+  transform:translateY(101%);transition:transform .26s cubic-bezier(.2,.8,.3,1)}.fv .bc:hover .go{transform:none}/* marigold is the one light card: a dark scrim collapses toward its dark
+   label (4.35:1). A white scrim separates them instead (10.06:1). */
+.fv .b-mari .go{background:var(--scrim-light)}.fv .w2{grid-column:span 2}.fv .h2{grid-row:span 2}/* Each surface class owns BOTH its background and its foreground. Splitting
+   them (bg here, colour on .bc/.val) is what put white on marigold.
+   `.fv` prefix is load-bearing: it makes these (0,2,0) so they outrank
+   `.fv a{color:inherit}` at (0,1,1) on cards that are links. */
+.fv .b-blue{background:var(--cobalt);color:var(--on-hue)}.fv .b-red{background:var(--madder);color:var(--on-hue)}.fv .b-green{background:var(--viridian);color:var(--on-hue)}.fv .b-plum{background:var(--plum);color:var(--on-hue)}.fv .b-mari{background:var(--marigold);color:var(--on-mari)}.fv .b-ink{background:var(--invert);color:var(--on-invert)}.fv .posts{display:grid;gap:.42rem;margin-top:.55rem}.fv .posts a{display:flex;gap:.5rem;align-items:flex-start;font-size:.78rem;line-height:1.34;
+  color:inherit;text-decoration:none;transition:opacity .18s}.fv .posts a:hover{text-decoration:underline;text-underline-offset:3px}/* dots on the light card need a dark fill; the inline colours are tuned for ink */
+.fv .b-mari .posts i{background:var(--on-mari)}/* .31rem lands the dot on the first line's optical centre at the base font
+   size; the bento override re-tunes it for its own scale. */
+.fv .posts i{width:.42rem;height:.42rem;border-radius:99px;flex:0 0 auto;margin-top:.31rem}/* six distinct hues, no repeats, each >=3:1 on the panel it sits on. The panel
+   flips per mode, so the tokens do too. */
+.fv .posts i.d1{background:var(--dot-1)}.fv .posts i.d2{background:var(--dot-2)}.fv .posts i.d3{background:var(--dot-3)}.fv .posts i.d4{background:var(--dot-4)}.fv .posts i.d5{background:var(--dot-5)}.fv .posts i.d6{background:var(--dot-6)}/* looking for */
+.fv .want{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.6rem}.fv .want-col{border-radius:var(--r);padding:1.1rem;border:2px solid var(--ink)}.fv .want-col h3{margin:0 0 .7rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase}.fv .want-col.no{background:var(--invert);color:var(--on-invert);border-color:var(--invert)}.fv .want-col.no h3{color:var(--accent-on-invert)}.fv .chips{display:flex;flex-wrap:wrap;gap:.35rem}.fv .chip{font-size:.82rem;font-weight:600;padding:.28rem .6rem;border-radius:99px;background:var(--invert);color:var(--on-invert)}.fv .want-col.also .chip{background:none;border:1.5px solid var(--ink);color:var(--ink)}.fv .want-col.no .chip{background:none;border:1.5px solid var(--madder);color:var(--on-invert);text-decoration:line-through;text-decoration-color:var(--madder)}/* values */
+/* 6 items. auto-fit chased the widest fit and landed on 4 or 5 columns at
+   common widths, orphaning the last card. Lock to divisors of 6 (3/2/1) so
+   every row is full at every size. */
+.fv .vals{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+@media(max-width:900px){.fv .vals{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.fv .vals{grid-template-columns:1fr}}.fv .val{border-radius:var(--r);padding:1.05rem}.fv .val h3{margin:0 0 .35rem;font-size:1rem;font-weight:800;letter-spacing:-.02em}.fv .val p{margin:0;font-size:.8rem;line-height:1.45;opacity:.92}/* record */
+/* Padding is constant and pulled back out with a negative inline margin, so
+   the hover tint gets its gutter without animating a layout property. The
+   previous `transition:padding` reflowed the whole ledger on every hover. */
+/* 4 columns, not 3: the ::after toggle is a grid item too, and with only
+   three tracks it wrapped onto its own row. Date column is wide enough for
+   a full "Sep 2024 – Nov 2025" on one line. */
+/* company first, dates last. The company column is fixed because the names
+   vary in length and a ragged left edge kills the ledger read; "CACI
+   INTERNATIONAL" is the longest at 18 characters. */
+.fv .rrow{display:grid;grid-template-columns:11.2rem 1fr auto 1.1rem;gap:1rem;align-items:baseline;
+  padding:.85rem .5rem;margin-inline:-.5rem;
+  border-bottom:2px solid var(--ink);font-size:clamp(.95rem,2vw,1.28rem);font-weight:700;letter-spacing:-.02em;
+  text-decoration:none;color:inherit;transition:background .2s}.fv .rrow:hover{background:var(--bg2)}.fv .rrow time{font-family:var(--mono);font-size:.68rem;font-weight:400;color:var(--ink2);text-align:right}/* the GridStrong/HVAC overlap is real and explainable; say so on the row
+   rather than leaving a reader to wonder. */
+.fv .rrow time small{display:block;font-size:.85em;margin-top:.15rem;line-height:1.3}/* the company cell now stacks: name, sector pill, acquisition note */
+/* Pill sits to the RIGHT of the company name wherever it fits, and drops below
+   only when it cannot. Flex-wrap does that with no breakpoints: on mobile all
+   nine go inline (241px worst case in a 321px cell) and on desktop seven of
+   nine do. The alternative, widening the fixed company column to force all nine
+   inline, costs the title column 62px and pushes 1-2 extra titles into wrapping
+   between 700 and 1200px, so this way is free. */
+.fv .rrow i{display:flex;flex-wrap:wrap;align-items:baseline;gap:.3rem .5rem;
+  font-style:normal;font-weight:700;font-size:.78rem;letter-spacing:.02em;color:var(--ink)}/* the acquisition note always starts its own line under the name + pill */
+.fv .exp-acq{flex-basis:100%}/* same pill vocabulary as .rrow-tags, so the row and its expanded body match */
+/* Four sector types, four hues. The hue carries the border and a 14% tint;
+   the label stays --ink. Colouring the label itself would fail: as ~8.5px text
+   the hues land between 3.63 and 4.02 on the dark page, under 4.5. Border-only
+   needs 3:1, which is exactly what the --c*-line values guarantee. */
+.fv .exp-tag{font-family:var(--mono);font-size:.53rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;font-style:normal;padding:.18rem .45rem;border-radius:99px;
+  border:1px solid var(--pill,var(--rule));color:var(--ink);
+  background:color-mix(in srgb, var(--pill, transparent) 14%, transparent)}.fv .exp-tag--startup{--pill:var(--c3-line)}.fv .exp-tag--acquired{--pill:var(--c5-line)}.fv .exp-tag--enterprise{--pill:var(--c4-line)}.fv .exp-tag--public{--pill:var(--c2-line)}/* dotted at rest so it reads as a link inside a row that is itself clickable */
+.fv .exp-co{color:inherit;text-decoration:underline;text-decoration-style:dotted;
+  text-decoration-color:var(--rule);text-underline-offset:3px;transition:text-decoration-color .18s}.fv .exp-co:hover, .fv .exp-co:focus-visible{text-decoration-style:solid;text-decoration-color:var(--ink)}.fv .exp-acq{font-family:var(--mono);font-size:.55rem;font-style:normal;font-weight:400;
+  letter-spacing:.02em;line-height:1.35;color:var(--ink2)}.fv .exp-loc{display:block;font-size:.85em;margin-top:.2rem;color:var(--ink2)}/* Resume / Journey. Journey reorders the ledger oldest-first and adds the
+   preamble; it is the same nine rows, read the other direction. Invert fill
+   rather than a hue, so it does not compete with the strength chips. */
+.fv .exp-modes{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;margin:0 0 1rem}.fv .exp-switch{display:inline-flex;border:2px solid var(--ink);border-radius:99px;padding:2px;gap:2px}.fv .exp-mode{font:inherit;font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:.42rem .95rem;border:0;border-radius:99px;
+  background:transparent;color:var(--ink);cursor:pointer;
+  transition:background .18s,color .18s}.fv .exp-mode[aria-pressed="true"]{background:var(--invert);color:var(--on-invert)}.fv .exp-mode:focus-visible{outline:3px solid var(--ink);outline-offset:2px}.fv .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.fv .exp-hint{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:var(--ink2)}/* expandable ledger. <details> so it works with zero JS and stays keyboard
+   and screen-reader operable for free. */
+.fv summary.rrow{cursor:pointer;list-style:none}.fv summary.rrow::-webkit-details-marker{display:none}.fv summary.rrow::after{content:"+";font-family:var(--mono);font-weight:400;font-size:1rem;
+  color:var(--ink2);justify-self:end;transition:transform .2s}.fv .rrow-d[open] summary.rrow::after{transform:rotate(45deg)}.fv .rrow-d[open] summary.rrow{border-bottom-color:var(--marigold)}.fv .rrow-d{border-bottom:0}.fv .rrow-body{padding:.9rem .5rem 1.4rem;margin-inline:-.5rem;
+  border-bottom:2px solid var(--ink);display:grid;gap:.85rem}.fv .rrow-desc{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink2);max-width:68ch}.fv .rrow-hi{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}.fv .rrow-hi li{font-size:.86rem;line-height:1.55;color:var(--ink2);max-width:72ch}.fv .rrow-hi li::marker{color:var(--marigold)}.fv .rrow-tags{display:flex;flex-wrap:wrap;gap:.32rem}.fv .rrow-tags span{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.24rem .5rem;border-radius:99px;border:1px solid var(--rule);color:var(--ink2)}.fv .rrow-cs{justify-self:start;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:700;color:var(--accent-text);text-decoration:none;
+  border-bottom:2px solid var(--marigold);padding-bottom:.12rem}.fv .rrow-cs:hover{color:var(--ink)}
+/* Mobile ledger. The old rule set two columns but placed nothing, so the job
+   title auto-flowed into the 1.1rem chevron column: an 18px-wide box that
+   rendered the title one character per line, 160px tall. Every child is now
+   placed explicitly.
+
+       GRIDSTRONG AI                    +
+       Director of Product Management
+       Sep 2024 - Nov 2025
+*/
+@media(max-width:640px){.fv summary.rrow{
+    grid-template-columns:1fr auto;
+    column-gap:.75rem; row-gap:.28rem;
+    align-items:start;
+  }.fv summary.rrow i{grid-area:1/1/2/2}.fv summary.rrow::after{grid-area:1/2/2/3;align-self:start;line-height:1}.fv summary.rrow span{grid-area:2/1/3/3;line-height:1.25}.fv summary.rrow time{grid-area:3/1/4/3;text-align:left;margin-top:.12rem}
+}/* footer easter egg, carried over from the live site */
+.fv .egg-line{margin:1.2rem 0 0}.fv .egg{font-size:.84rem;color:var(--ink2);text-decoration:none;
+  border-bottom:1px dashed var(--rule);transition:color .18s,border-color .18s}.fv .egg:hover{color:var(--accent-text);border-bottom-color:var(--accent-text)}/* case studies */
+/* same 6-item orphan problem as .vals */
+.fv .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+@media(max-width:900px){.fv .cases{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.fv .cases{grid-template-columns:1fr}}/* Same six hues as the strength chips, in the same order, so the two
+   six-item sections rhyme instead of each inventing a palette. */
+.fv .case:nth-child(1){--c-line:var(--c1-line);--c-fill:var(--c1-fill);--c-on:var(--c1-on)}.fv .case:nth-child(2){--c-line:var(--c2-line);--c-fill:var(--c2-fill);--c-on:var(--c2-on)}.fv .case:nth-child(3){--c-line:var(--c3-line);--c-fill:var(--c3-fill);--c-on:var(--c3-on)}.fv .case:nth-child(4){--c-line:var(--c4-line);--c-fill:var(--c4-fill);--c-on:var(--c4-on)}.fv .case:nth-child(5){--c-line:var(--c5-line);--c-fill:var(--c5-fill);--c-on:var(--c5-on)}.fv .case:nth-child(6){--c-line:var(--c6-line);--c-fill:var(--c6-fill);--c-on:var(--c6-on)}.fv .case{border:2px solid var(--c-line,var(--ink));border-radius:var(--r);padding:1rem;text-decoration:none;color:inherit;
+  display:grid;gap:.3rem;align-content:start;transition:.22s;background:var(--bg)}.fv .case:hover{background:var(--c-fill);border-color:var(--c-line);color:var(--c-on)}/* the metric rides the fill on hover, so it takes the fill's text colour;
+   marigold was 1.97 on a light fill and invisible on the marigold card. */
+.fv .case:hover .case-m{color:var(--c-on)}.fv .case b{font-size:1.02rem;font-weight:800;letter-spacing:-.02em}/* No blanket opacity here: `.case span` is (0,1,1) and silently overrode
+   `.case-m`'s own opacity at (0,1,0), dragging the metric to 3.85:1. */
+.fv .case span{font-size:.78rem;line-height:1.42}.fv .case-m{font-family:var(--mono);font-size:.66rem;font-weight:700;color:var(--accent-text);transition:.22s}/* about */
+.fv .about{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(1.2rem,4vw,3rem);align-items:start}.fv .about-lead{margin:0;font-size:clamp(1.25rem,3.2vw,2.1rem);font-weight:800;letter-spacing:-.032em;
+  line-height:1.1;text-wrap:balance}/* square source, so a circle avoids an arbitrary crop and keeps the column
+   rhythm. Wraps above the lead on narrow screens rather than shrinking it. */
+/* Kevin: the lead should start alongside the photo, not sit under it. The
+   column is ~518px, so the photo takes 104 and the lead gets the rest; it only
+   drops below on a genuinely narrow screen. */
+.fv .about-intro{display:flex;align-items:center;gap:1.05rem;flex-wrap:wrap}.fv .about-intro .about-lead{flex:1 1 14rem;min-width:0;margin:0}.fv .about-photo{width:104px;height:104px;border-radius:50%;object-fit:cover;
+  border:2px solid var(--ink);flex:0 0 auto}
+@media(max-width:480px){.fv .about-intro{gap:.8rem}}.fv .offsite-note{margin:0;max-width:62ch;font-size:1rem;line-height:1.65;color:var(--ink2)}
+@media(max-width:560px){.fv .about-photo{width:84px;height:84px}}.fv .about-body{display:grid;gap:.9rem}.fv .about-body p{margin:0;font-size:.95rem;line-height:1.65;color:var(--ink2);max-width:56ch}.fv .about-body p:first-child{color:var(--ink);font-size:1.02rem}
+@media(max-width:760px){.fv .about{grid-template-columns:1fr}}
+
+@media(prefers-reduced-motion:reduce){}/* skills */
+.fv .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.2rem}.fv .sk h3{margin:0 0 .55rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink2);padding-bottom:.4rem;border-bottom:1px solid var(--rule)}.fv .sk ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:.3rem}.fv .sk li{font-size:.8rem;padding:.24rem .55rem;border:1px solid var(--rule);border-radius:99px;
+  transition:transform .16s,background .16s,border-color .16s,color .16s;cursor:default}.fv .sk li:hover{color:var(--on-hue);transform:translateY(-2px)}/* each group fills with its own colour, so the three columns read as three
+   different kinds of skill rather than one long undifferentiated list */
+.fv .sk:nth-child(1) li:hover{background:var(--cobalt);border-color:var(--cobalt)}.fv .sk:nth-child(2) li:hover{background:var(--madder);border-color:var(--madder)}.fv .sk:nth-child(3) li:hover{background:var(--viridian);border-color:var(--viridian)}/* education */
+.fv .edu{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}.fv .edu-row{padding:.6rem 0;border-bottom:1px solid var(--rule);font-size:.86rem}.fv .edu-row b{display:block;font-weight:700}.fv .edu-row span{color:var(--ink2);font-size:.79rem}.fv .aside{font-style:normal;color:var(--accent-text);font-weight:600}/* recommendations */
+/* Fixed 3 columns, not auto-fit. auto-fit plus a spanning card is what left a
+   lone card stranded on its own row at 1280 and everywhere below 900. With a
+   full-width hero quote and exactly 3 cards under it, every row is full at both
+   breakpoints. No 2-column step: 3 cards in 2 columns always orphans one. */
+.fv .recs{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+@media(max-width:720px){.fv .recs{grid-template-columns:1fr}}/* Explicit rows: kicker, quote, name. The quote row takes every spare pixel,
+   so the kicker and the first line of the quote sit at the same height in all
+   three cards and the name is pinned to the bottom. Auto rows let
+   align-content:stretch share the leftover height between the rows instead,
+   which is what pushed a short quote down the card and scattered the names. */
+.fv .rec{border-radius:var(--r);padding:1.1rem;background:var(--bg2);border:1px solid var(--rule);
+  display:grid;grid-template-rows:auto 1fr auto;gap:.7rem}.fv .rec p{margin:0;font-size:.88rem;line-height:1.55}/* madder, not marigold: on the warm card ground marigold sits at 1.58:1 and
+   the quote mark all but disappears. */
+/* Four cards, four of the six hues: the four most separated that clear 3:1 on
+   --bg2 in both modes. Marigold is excluded again, at 1.79 on the light card. */
+.fv .rec p::before{content:"“";font-size:2em;line-height:0;vertical-align:-.35em;
+  color:var(--q,var(--accent-text));margin-right:.08em}.fv .rec:nth-child(1){--q:var(--c4-line)}.fv .rec:nth-child(2){--q:var(--c2-line)}.fv .rec:nth-child(3){--q:var(--c3-line)}.fv .rec:nth-child(4){--q:var(--c6-line)}/* The hero quote. Short lines deserve big type; the old layout gave double
+   width to the longest, most abstract quote and left the best one small. */
+.fv .rec-hero{grid-column:1/-1}.fv .rec-hero p{font-size:clamp(1.3rem,2.9vw,2rem);line-height:1.24;font-weight:700;
+  letter-spacing:-.022em;max-width:24ch}/* Names what each quote is evidence of, so four similar endorsements read as
+   four angles. Same mono kicker as the strength chips. --ink2, not the card's
+   hue: at this size the hues land between 4.26 and 4.35 on --bg2, under 4.5. */
+.fv .rec-k{display:block;font-family:var(--mono);font-size:.55rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);font-style:normal}.fv .rec-more{display:inline-flex;align-items:center;gap:.4rem;margin-top:.95rem;
+  font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--accent-text);text-decoration:none}.fv .rec-more:hover{text-decoration:underline}.fv .rec footer{font-size:.76rem;color:var(--ink2);line-height:1.35}/* Two lines reserved for the role line. Matt's spans two companies and wraps
+   below ~1100px; without the reservation his taller footer lifted his name
+   18px above the other two, since the footer is bottom-pinned. */
+.fv .rec:not(.rec-hero) .rec-role{display:block;min-height:2.7em}.fv .rec footer b{display:block;color:var(--ink);font-size:.86rem}/* NOT `.big` — that's the hero headline class, and its letter-spacing:-.045em
+   computes against an 86px font then inherits into the quote as an absolute
+   -3.9px, smearing the letters together. */
+
+/* connect */
+.fv .connect{margin-top:clamp(2.4rem,5vw,4rem);padding-top:clamp(2.4rem,5vw,4rem);padding-bottom:clamp(2.4rem,5vw,4rem);
+  background:var(--invert);color:var(--on-invert)}.fv .connect h2{margin:0;font-size:clamp(1.9rem,6vw,4.2rem);font-weight:800;letter-spacing:-.04em;line-height:.94;max-width:16ch}.fv .connect h2 em{font-style:normal;color:var(--gold-on-invert)}.fv .cbtns{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.6rem}.fv .cb{padding:.7rem 1.15rem;border-radius:var(--r);font-weight:700;font-size:.88rem;text-decoration:none;transition:transform .18s}.fv .cb:hover{transform:translateY(-3px)}/* "messy." keeps the marigold; the buttons take the rest of the palette.
+   Base cobalt (2.22) and plum (2.88) are too dark to read as SHAPES against
+   the ink band, so cobalt gets a lifted variant. Each is >=3:1 vs the band
+   and >=4.5:1 for its white label. */
+.fv .cb.c-mail{background:var(--madder);color:var(--on-hue)}/* 3.60 vs ink, 5.27 label */
+.fv .cb.c-oh{background:var(--viridian);color:var(--on-hue)}/* 3.67 vs ink, 5.16 label */
+.fv .cb.c-li{background:var(--cta-blue);color:var(--on-hue)}/* 3.72 vs ink, 5.10 label */
+.fv .cb:hover{transform:translateY(-2px)}/* ---- strengths concept: specialty tabs -> one wide detail stage ---- */
+/* the claim the six chips are evidence FOR. Without it the section is a menu;
+   with it, the chips are subordinate. */
+.fv .spine{margin:0 0 1.4rem;font-size:clamp(1rem,1.8vw,1.28rem);line-height:1.5;
+  max-width:62ch;color:var(--ink2)}.fv .spine strong{color:var(--ink);font-weight:700}
+/* 62ch broke this one-sentence lead onto three lines, the last of them a stub.
+   It is a single lead paragraph rather than running body copy, so a wider
+   measure is fine here; narrow screens keep 62ch, where the container binds
+   before the max-width does anyway. */
+@media(min-width:901px){.fv .spine{max-width:78ch}}/* also 6 items, also orphaned 4+2 on auto-fit. Divisors of 6 only. */
+.fv .spec-row{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem}
+@media(max-width:1150px){.fv .spec-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.fv .spec-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:400px){.fv .spec-row{grid-template-columns:1fr}}.fv .spec{text-align:left;font:inherit;cursor:pointer;background:var(--bg);color:var(--ink);
+  border:2px solid var(--c-line,var(--ink));border-radius:var(--r);padding:.85rem .9rem;
+  display:grid;gap:.2rem;position:relative;
+  transition:background .18s,color .18s,transform .18s,border-color .18s}.fv .spec:nth-child(1){--c-line:var(--c1-line);--c-fill:var(--c1-fill);--c-on:var(--c1-on)}.fv .spec:nth-child(2){--c-line:var(--c2-line);--c-fill:var(--c2-fill);--c-on:var(--c2-on)}.fv .spec:nth-child(3){--c-line:var(--c3-line);--c-fill:var(--c3-fill);--c-on:var(--c3-on)}.fv .spec:nth-child(4){--c-line:var(--c4-line);--c-fill:var(--c4-fill);--c-on:var(--c4-on)}.fv .spec:nth-child(5){--c-line:var(--c5-line);--c-fill:var(--c5-fill);--c-on:var(--c5-on)}.fv .spec:nth-child(6){--c-line:var(--c6-line);--c-fill:var(--c6-fill);--c-on:var(--c6-on)}.fv .spec b{font-size:.95rem;font-weight:800;letter-spacing:-.02em;line-height:1.15}.fv .spec span{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}.fv .spec:hover{transform:translateY(-2px)}/* Border stays --c-line even when filled. Swapping it to the fill left the
+   selected chip edgeless: marigold is 1.97 on the light page, and in dark mode
+   every fill is dark-on-dark. --c-line is the one value guaranteed 3:1 in both
+   modes, so it's what keeps the selected block readable as a block. */
+.fv .spec[aria-selected="true"]{background:var(--c-fill);border-color:var(--c-line);color:var(--c-on)}/* the kicker rides the fill, so it takes the fill's own text colour */
+.fv .spec[aria-selected="true"] span{color:var(--c-on)}/* the notch in the sketch: ties the chosen tab to the stage below it */
+.fv .spec[aria-selected="true"]::after{content:"";position:absolute;left:50%;bottom:-.5rem;
+  width:.85rem;height:.85rem;background:var(--c-fill);transform:translateX(-50%) rotate(45deg)}/* --ink, not --marigold: a marigold ring is 1.97 on the light page, i.e. a
+   focus indicator you cannot see. --ink clears 15:1 in both modes. */
+.fv .spec:focus-visible{outline:3px solid var(--ink);outline-offset:2px}/* --stage-line is set from pick() to the selected chip's --c-line, so the
+   notch does not point a coloured chip into an ink-bordered panel. */
+.fv .spec-stage{margin-top:.95rem;border:2px solid var(--stage-line,var(--ink));border-radius:var(--r);
+  transition:border-color .18s;
+  background:var(--bg2);padding:clamp(1rem,2.5vw,1.5rem)}/* balance stops a one-word orphan ("...on the weekend.") on the last line;
+   the wider max-width lets the longest lead sit on a single line on desktop. */
+.fv .spec-lead{margin:0 0 1rem;font-size:clamp(1.05rem,2.2vw,1.5rem);font-weight:700;
+  letter-spacing:-.025em;line-height:1.25;max-width:62ch;text-wrap:balance}.fv .ev-list{display:grid;gap:0}/* rows are plain containers, NOT links: nothing to highlight, nothing that
+   looks clickable when it isn't. The links live in the text. */
+.fv .ev{display:grid;grid-template-columns:10rem 1fr;gap:1rem;align-items:baseline;
+  padding:.7rem 0;border-top:1px solid var(--rule)}.fv .ev i{font-style:normal;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:700;color:var(--accent-text)}.fv .ev p{margin:0;font-size:.88rem;line-height:1.65;color:var(--ink2);max-width:64ch}/* inline links: underlined and coloured so they read as links without hover */
+.fv .lk{color:var(--ink);font-weight:600;text-decoration:underline;
+  text-decoration-color:var(--marigold);text-decoration-thickness:2px;
+  text-underline-offset:2px;white-space:nowrap;transition:color .16s,text-decoration-color .16s}.fv .lk:hover{color:var(--accent-text);text-decoration-color:var(--accent-text)}.fv .lk:focus-visible{outline:3px solid var(--marigold);outline-offset:2px;border-radius:3px}.fv .lk-case{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+@media(max-width:620px){.fv .ev{grid-template-columns:1fr;gap:.25rem}.fv .spec[aria-selected="true"]::after{display:none}
+}
+@media(prefers-reduced-motion:reduce){.fv .spec{transition:none}}.fv .rec-lead{margin:0 0 1.1rem;font-size:clamp(1rem,1.8vw,1.22rem);line-height:1.5;
+  max-width:56ch;color:var(--ink2)}
+
+/* ===== dark mode =====
+   Neutrals invert. The accent HUES do not: they are card backgrounds carrying
+   white text, so they are self-contained and read the same on either page.
+   What does change is accent-as-text, because the ground moved: cobalt (2.24)
+   and plum (2.91) fall under the 3:1 large-text floor on a dark page, and the
+   small madder text needs lifting. All values below were computed, not picked. */
+@media (prefers-color-scheme: dark){.fv{
+    --bg:#0F0F12; --bg2:#17171B; --ink:#F2F2F4; --ink2:#A2A2AC; --rule:#2C2C33;
+    /* the contrast panel flips with the page so it still reads as a panel */
+    --invert:#EDEDF0; --on-invert:#111113;
+    /* accent-as-text trades ends: lift it on the page, deepen it on the panel */
+    --accent-text:#D26978;        /* 5.50 on --bg     */
+    --accent-on-invert:#AB3142;   /* 5.53 on --invert */
+    /* Deep enough for the SMALL chip kicker (4.5), not just the 46px "messy."
+       (3.0). One token has to satisfy the stricter of its two uses. */
+    --gold-on-invert:#815B0C;     /* 5.23 on --invert; marigold is 1.97 there */
+    /* cobalt and plum fall under the 3:1 large-text floor on a dark page */
+    --swap-1:#4B6FA5; --swap-2:#8A6EB9;
+    /* dots: the panel is light now, so the BASE hues pass and gold must deepen */
+    /* outlines flip: marigold is fine on a dark page, but cobalt (2.24),
+       plum (2.91) and fuchsia (2.71) all fall under 3:1 and must lift. */
+    --c1-line:var(--marigold);
+    --c4-line:#4B6FA5; --c5-line:#8A6EB9; --c6-line:#B14E97;
+    --dot-1:#1F4B8F; --dot-2:#9E227D; --dot-3:#A77510;
+    --dot-4:#6D4AA8; --dot-5:#2C7A63; --dot-6:#C3384B;
+    --nav-bg:rgba(15,15,18,.92);
+    --hairline-invert:rgba(0,0,0,.17);
+  }
+}/* footer */
+/* Without this the only routes to /prototypes/ and /recipes/ were the sitemap. */
+.fv .colo-nav{display:flex;flex-wrap:wrap;gap:.35rem 1.1rem;margin:0 0 1.1rem}.fv .colo-nav a{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink2);text-decoration:none;border-bottom:1px solid transparent}.fv .colo-nav a:hover{color:var(--ink);border-bottom-color:var(--marigold)}.fv .colophon{padding-top:clamp(2rem,4vw,3rem);padding-bottom:clamp(2.4rem,5vw,3.6rem);
+  border-top:2px solid var(--ink)}.fv .colo-tip{margin:0;font-size:.86rem;color:var(--ink2)}.fv .colo-tip a{color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:var(--marigold);text-decoration-thickness:2px}.fv .colo-tip a:hover{color:var(--madder)}.fv .colo-tip code{font-family:var(--mono);font-size:.82em;background:var(--invert);color:var(--on-invert);
+  padding:.14em .42em;border-radius:3px}
+
+@media(max-width:820px){/* the .bento/.w2/.h2 lines that used to live here are gone: they sat AFTER
+     the 900px and 560px rules and silently re-declared 2 columns at every
+     narrow width, so the single-column layout never applied. */
+  .fv .edu{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.fv *{animation:none!important;transition:none!important}.fv .rv{opacity:1!important;transform:none!important}.fv .swap b{position:static;opacity:1}.fv .swap b:not(:first-child){display:none}
+}
