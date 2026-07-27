@@ -548,3 +548,26 @@ body {
     --oh-warm: #D9BE9E;
     --oh-border: #2C2C33;
 }
+
+
+/* --- the hero does not flip -----------------------------------------------
+   It sits on a photograph of a bright room, and that photo is the same in both
+   themes. Letting the text tokens invert turned the headline light-on-light and
+   it effectively vanished. Pinning the hero's tokens to their light values
+   keeps the hero identical in dark mode, which is the correct behaviour for a
+   fixed-lightness image. Scoped to .oh-hero, so the rest of the page still
+   inverts normally. */
+@media (prefers-color-scheme: dark){
+  .oh-hero{
+    --oh-text:#1a202c;
+    --oh-text-secondary:#4a5568;
+    --oh-text-muted:#5A6577;
+    --oh-accent-ink:#1F4B8F;
+  }
+}
+:root[data-theme="dark"] .oh-hero{
+  --oh-text:#1a202c;
+  --oh-text-secondary:#4a5568;
+  --oh-text-muted:#5A6577;
+  --oh-accent-ink:#1F4B8F;
+}
