@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Cook Like a PM</title>
   <meta name="description" content="Measured. Tested. Minimal scrolling. Recipes from a PM who uses a food scale and skips the life stories.">
   <link rel="canonical" href="https://middleton.io/recipes/">
@@ -23,13 +23,36 @@
 
   <link rel="icon" href="https://middleton.io/recipes/images/chef-technologist.webp">
   <link rel="apple-touch-icon" href="https://middleton.io/recipes/images/chef-technologist.webp">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/fv.css?v=5850c40f">
+<script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+<script>
+  window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
+  plausible.init()
+</script>
+    <!-- Identity verification: same three profiles the homepage claims, so every
+         page resolves to one entity rather than a separate author blob. -->
+    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+    <link rel="me" href="https://github.com/kevinmmiddleton">
+    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://middleton.io/recipes/#webpage",
+      "url": "https://middleton.io/recipes/",
+      "isPartOf": {
+        "@id": "https://middleton.io/#website"
+      },
+      "about": {
+        "@id": "https://middleton.io/#kevin"
+      },
+      "author": {
+        "@id": "https://middleton.io/#kevin"
+      }
+    }
+    </script>
 </head>
-<body>
+<body class="p-recipes">
   <div class="page-wrapper">
     <header>
       <div class="header-title">
@@ -105,5 +128,21 @@
     }
   }
   </script>
+<script>
+  /* The recipe list is rendered by app.js after load, so the cards cannot carry
+     Plausible's tagged-class attributes at parse time. Delegate from document
+     instead, which also survives filtering and re-renders. */
+  document.addEventListener('click', function (e) {
+    var card = e.target.closest && e.target.closest('.recipe-card');
+    if (!card || !window.plausible) return;
+    var name = (card.querySelector('h2,h3,.recipe-title') || {}).textContent || card.getAttribute('href') || 'unknown';
+    plausible('Recipe Open', { props: { recipe: name.trim().slice(0, 60) } });
+  });
+  document.addEventListener('click', function (e) {
+    var f = e.target.closest && e.target.closest('.filter-btn');
+    if (!f || !window.plausible) return;
+    plausible('Recipe Filter', { props: { filter: (f.textContent || '').trim().slice(0, 40) } });
+  });
+</script>
 </body>
 </html>

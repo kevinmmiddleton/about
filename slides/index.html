@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Slides I Made for Free · Kevin Middleton</title>
+  <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
 
 <!-- SEO -->
 <meta name="description" content="Real interview presentations, with the prompt, the work, the outcome, and what I'd do differently. Free to read, free to download." />
@@ -22,26 +24,11 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://middleton.io/slides/og.png" />
 
-<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
-
 <!-- FOUC prevention: applies the saved theme before paint -->
-<script>
-  (function () {
-    try {
-      var t = localStorage.getItem('slides-theme');
-      if (t === 'light' || t === 'dark') {
-        document.documentElement.setAttribute('data-theme', t);
-      }
-    } catch (e) { /* private mode, ignore */ }
-  })();
-</script>
+
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="slides.css" />
+<link rel="stylesheet" href="/fv.css?v=5850c40f">
 
 <!-- Privacy-friendly analytics -->
 <script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
@@ -74,24 +61,37 @@
         }
     }
     </script>
+    <!-- Identity verification: same three profiles the homepage claims, so every
+         page resolves to one entity rather than a separate author blob. -->
+    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+    <link rel="me" href="https://github.com/kevinmmiddleton">
+    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://middleton.io/slides/#webpage",
+      "url": "https://middleton.io/slides/",
+      "isPartOf": {
+        "@id": "https://middleton.io/#website"
+      },
+      "about": {
+        "@id": "https://middleton.io/#kevin"
+      },
+      "author": {
+        "@id": "https://middleton.io/#kevin"
+      }
+    }
+    </script>
 </head>
-<body>
+<body class="p-slides">
 
 <div class="wrap">
 
   <nav class="topnav">
-    <a href="https://middleton.io/" class="home">← middleton.io</a>
-    <div class="topnav-right">
-      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"/>
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-    </div>
+    <a class="mk" href="https://middleton.io/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+    <a class="back-to" href="https://middleton.io/">middleton.io</a>
   </nav>
 
   <header class="hero">
@@ -106,7 +106,7 @@
 
     <div class="entries">
 
-      <a href="hvac/" class="entry-card" target="_blank" rel="noopener">
+      <a href="hvac/" class="entry-card plausible-event-name=Slides+Open plausible-event-deck=hvac" target="_blank" rel="noopener">
         <div class="row1">
           <span class="company">HVAC.com</span>
           <span class="date">January-February 2024</span>
@@ -120,7 +120,7 @@
         </div>
       </a>
 
-      <a href="red-ventures/" class="entry-card" target="_blank" rel="noopener">
+      <a href="red-ventures/" class="entry-card plausible-event-name=Slides+Open plausible-event-deck=redventures" target="_blank" rel="noopener">
         <div class="row1">
           <span class="company">Red Ventures</span>
           <span class="date">January-February 2026</span>
@@ -134,7 +134,7 @@
         </div>
       </a>
 
-      <a href="success-academy/" class="entry-card" target="_blank" rel="noopener">
+      <a href="success-academy/" class="entry-card plausible-event-name=Slides+Open plausible-event-deck=successacademy" target="_blank" rel="noopener">
         <div class="row1">
           <span class="company">Success Academy</span>
           <span class="date">February-March 2026</span>
@@ -148,7 +148,7 @@
         </div>
       </a>
 
-      <a href="amex/" class="entry-card" target="_blank" rel="noopener">
+      <a href="amex/" class="entry-card plausible-event-name=Slides+Open plausible-event-deck=amex" target="_blank" rel="noopener">
         <div class="row1">
           <span class="company">American Express</span>
           <span class="date">March-April 2026</span>
@@ -162,7 +162,7 @@
         </div>
       </a>
 
-      <a href="applause/" class="entry-card" target="_blank" rel="noopener">
+      <a href="applause/" class="entry-card plausible-event-name=Slides+Open plausible-event-deck=applause" target="_blank" rel="noopener">
         <div class="row1">
           <span class="company">Applause</span>
           <span class="date">April 2026</span>
@@ -176,7 +176,7 @@
         </div>
       </a>
 
-      <a href="justworks/" class="entry-card" target="_blank" rel="noopener">
+      <a href="justworks/" class="entry-card plausible-event-name=Slides+Open plausible-event-deck=justworks" target="_blank" rel="noopener">
         <div class="row1">
           <span class="company">Justworks</span>
           <span class="date">April 2026</span>
@@ -190,7 +190,7 @@
         </div>
       </a>
 
-      <a href="gong/" class="entry-card" target="_blank" rel="noopener">
+      <a href="gong/" class="entry-card plausible-event-name=Slides+Open plausible-event-deck=gong" target="_blank" rel="noopener">
         <div class="row1">
           <span class="company">Gong</span>
           <span class="date">April 2026</span>
@@ -215,13 +215,17 @@
     <p>I won't be quiet when being ghosted after a session where I provided real use cases on a real problem the company is facing, especially when I know the work was good. I've emailed companies after the fact asking them not to use what I produced and I'd do it again.</p>
   </section>
 
-  <footer class="foot">
-    <span>Kevin Middleton · <a href="https://middleton.io/">middleton.io</a></span>
-    <span><a href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></span>
+  <footer class="colophon">
+    <nav class="colo-nav" aria-label="More from Kevin">
+      <a href="https://middleton.io/casestudies/">Case Studies</a>
+      <a href="https://middleton.io/prototypes/">Prototypes</a>
+      <a href="https://middleton.io/blog/">Blog</a>
+      <a href="https://middleton.io/officehours/">Office Hours</a>
+      <a href="https://middleton.io/recipes/">Recipes</a>
+    </nav>
+    <p class="colo-tip">&copy; 2026 Kevin Middleton &middot; <a class="lk" href="https://www.linkedin.com/in/kevinmiddleton/">LinkedIn</a></p>
   </footer>
 
 </div>
-
-<script src="theme.js" defer></script>
 </body>
 </html>

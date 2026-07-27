@@ -2,187 +2,135 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
 <title>Prototypes | Kevin Middleton</title>
-<meta name="description" content="Interactive product prototypes by Kevin Middleton — concept explorations for Resy, Baldor, HVAC.com, and more.">
+<meta name="description" content="Interactive product prototypes by Kevin Middleton, concept explorations for Resy, Baldor, HVAC.com, and more.">
 <link rel="canonical" href="https://middleton.io/prototypes/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Prototypes | Kevin Middleton">
-<meta property="og:description" content="Interactive product prototypes by Kevin Middleton — concept explorations for Resy, Baldor, HVAC.com, and more.">
+<meta property="og:description" content="Interactive product prototypes by Kevin Middleton, concept explorations for Resy, Baldor, HVAC.com, and more.">
 <meta property="og:url" content="https://middleton.io/prototypes/">
 <meta property="og:image" content="https://middleton.io/images/kevin-middleton-saas-product-manager.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; color: #1a202c; min-height: 100vh; }
-
-.header {
-  background: #1a202c;
-  color: white;
-  padding: 36px 0 44px;
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/fv.css?v=5850c40f">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Prototypes",
+    "description": "Interactive product prototypes by Kevin Middleton, concept explorations for Resy, Baldor, HVAC.com, and more.",
+    "url": "https://middleton.io/prototypes/",
+    "author": {
+        "@type": "Person",
+        "name": "Kevin Middleton",
+        "url": "https://middleton.io",
+        "sameAs": "https://www.linkedin.com/in/kevinmiddleton"
+    },
+    "isPartOf": {
+        "@type": "WebSite",
+        "name": "Kevin Middleton",
+        "url": "https://middleton.io"
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://middleton.io/prototypes/"
+    }
 }
-.header-inner {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-.header .back {
-  display: inline-block;
-  color: #94a3b8;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 22px;
-  transition: color 0.15s;
-}
-.header .back:hover { color: white; }
-.header h1 { font-size: 38px; font-weight: 700; letter-spacing: -1px; margin-bottom: 10px; }
-.header p { color: #94a3b8; font-size: 16px; line-height: 1.5; max-width: 54ch; }
-
-.grid {
-  max-width: 720px;
-  margin: 40px auto;
-  padding: 0 24px;
-  display: grid;
-  gap: 20px;
-}
-
-.card {
-  position: relative;
-  display: block;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 28px;
-  text-decoration: none;
-  color: inherit;
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
-
-.card-logo {
-  float: right;
-  height: 30px;
-  max-width: 130px;
-  object-fit: contain;
-  object-position: right top;
-  margin: 2px 0 16px 24px;
-}
-/* white knockout logos sit on a brand-color tile so they're visible */
-.card-logo.tile {
-  height: 38px;
-  padding: 8px 11px;
-  background: #f7941e;
-  border-radius: 7px;
-  box-sizing: border-box;
-}
-.card-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #94a3b8;
-  margin-bottom: 8px;
-}
-.card h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-.card p { font-size: 14px; color: #64748b; line-height: 1.6; }
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
-}
-.card-tag {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: #f1f5f9;
-  color: #475569;
-}
-
-.footer {
-  text-align: center;
-  padding: 40px 24px;
-  font-size: 13px;
-  color: #94a3b8;
-}
-.footer a { color: #64748b; text-decoration: none; }
-.footer a:hover { color: #1a202c; }
-</style>
-    <!-- JSON-LD -->
+</script>
+<script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+<script>
+  window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
+  plausible.init()
+</script>
+    <!-- Identity verification: same three profiles the homepage claims, so every
+         page resolves to one entity rather than a separate author blob. -->
+    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+    <link rel="me" href="https://github.com/kevinmmiddleton">
+    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": "Prototypes",
-        "description": "Interactive product prototypes by Kevin Middleton — concept explorations for Resy, Baldor, HVAC.com, and more.",
-        "url": "https://middleton.io/prototypes/",
-        "author": {
-            "@type": "Person",
-            "name": "Kevin Middleton",
-            "url": "https://middleton.io",
-            "sameAs": "https://www.linkedin.com/in/kevinmiddleton"
-        },
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Kevin Middleton",
-            "url": "https://middleton.io"
-        },
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://middleton.io/prototypes/"
-        }
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://middleton.io/prototypes/#webpage",
+      "url": "https://middleton.io/prototypes/",
+      "isPartOf": {
+        "@id": "https://middleton.io/#website"
+      },
+      "about": {
+        "@id": "https://middleton.io/#kevin"
+      },
+      "author": {
+        "@id": "https://middleton.io/#kevin"
+      }
     }
     </script>
 </head>
-<body>
+<body class="p-proto">
 
-<div class="header">
-  <div class="header-inner">
-    <a href="https://middleton.io/" class="back">← Back to Portfolio</a>
+<nav class="nav pad">
+  <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+  <span class="nav-l">
+    <a href="/#building">Building</a>
+    <a href="/#about">About</a>
+    <a href="/#record">Experience</a>
+    <a href="/#cases">Case Studies</a>
+    <a href="/blog/">Writing</a>
+  </span>
+  <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
+</nav>
+
+<main class="sec pad">
+  <div class="sec-h">
     <h1>Prototypes</h1>
-    <p>Product ideas I built instead of just pitching them.</p>
+    <span>Product ideas I built</span>
   </div>
-</div>
 
-<div class="grid">
-  <a href="amex/" class="card" target="_blank" rel="noopener">
-    <img class="card-logo" src="logos/amex.svg" alt="American Express">
-    <div class="card-label">American Express Digital Labs</div>
-    <h2>Resy x AI Agents</h2>
-    <p>Customer journey mapped to API endpoints, then to MCP server tools for AI agent-facilitated dining experiences. Includes guardrails, governance, and the agentic roadmap.</p>
-    <div class="card-tags"><span class="card-tag">MCP</span><span class="card-tag">Agentic AI</span><span class="card-tag">API Design</span></div>
-  </a>
+  <div class="grid grid--pairs">
+    <a href="amex/" class="card card--soft plausible-event-name=Prototype+Open plausible-event-proto=Amex" target="_blank" rel="noopener">
+      <span class="card-head"><img class="card-logo" src="logos/amex.svg" alt="American Express" width="130" height="30"><span class="card-k">American Express Digital Labs</span></span>
+      <b>Resy x AI Agents</b>
+      <span>Customer journey mapped to API endpoints, then to MCP server tools for AI agent-facilitated dining experiences. Includes guardrails, governance, and the agentic roadmap.</span>
+      <div class="tags"><span>MCP</span><span>Agentic AI</span><span>API Design</span></div>
+    </a>
 
-  <a href="baldor/" class="card" target="_blank" rel="noopener">
-    <img class="card-logo" src="logos/baldor.png" alt="Baldor Specialty Foods">
-    <div class="card-label">Baldor Specialty Foods</div>
-    <h2>Growth Experiments</h2>
-    <p>Interactive prototype exploring discovery, personalization, and seasonal merchandising for a B2B food distributor.</p>
-    <div class="card-tags"><span class="card-tag">Growth</span><span class="card-tag">B2B</span></div>
-  </a>
+    <a href="baldor/" class="card card--soft plausible-event-name=Prototype+Open plausible-event-proto=Baldor" target="_blank" rel="noopener">
+      <span class="card-head"><img class="card-logo" src="logos/baldor.png" alt="Baldor Specialty Foods" width="130" height="30"><span class="card-k">Baldor Specialty Foods</span></span>
+      <b>Growth Experiments</b>
+      <span>Interactive prototype exploring discovery, personalization, and seasonal merchandising for a B2B food distributor.</span>
+      <div class="tags"><span>Growth</span><span>B2B</span></div>
+    </a>
 
-  <a href="sa/" class="card" target="_blank" rel="noopener">
-    <img class="card-logo tile" src="logos/success-academy.svg" alt="Success Academy">
-    <h2>Website Improvement Concepts</h2>
-    <p>Annotated mockups and concept pages for website redesign, with technical and product callouts.</p>
-    <div class="card-tags"><span class="card-tag">User Journey</span><span class="card-tag">UX</span><span class="card-tag">Platform Consolidation</span></div>
-  </a>
+    <a href="sa/" class="card card--soft plausible-event-name=Prototype+Open plausible-event-proto=SuccessAcademy" target="_blank" rel="noopener">
+      <span class="card-head"><img class="card-logo tile" src="logos/success-academy.svg" alt="Success Academy" width="96" height="38"><span class="card-k">Success Academy</span></span>
+      <b>Website Improvement Concepts</b>
+      <span>Annotated mockups and concept pages for website redesign, with technical and product callouts.</span>
+      <div class="tags"><span>User Journey</span><span>UX</span><span>Platform Consolidation</span></div>
+    </a>
 
-  <a href="hvac/" class="card" target="_blank" rel="noopener">
-    <img class="card-logo" src="logos/hvac.png" alt="HVAC.com">
-    <h2>Marketplace Product Challenge</h2>
-    <p>A take-home product challenge: problem framing, comparative analysis, a proposed user journey, and an A/B testing plan for matching homeowners with contractors.</p>
-    <div class="card-tags"><span class="card-tag">Product Strategy</span><span class="card-tag">User Journey</span><span class="card-tag">Growth</span><span class="card-tag">B2C</span></div>
-  </a>
-</div>
+    <a href="hvac/" class="card card--soft plausible-event-name=Prototype+Open plausible-event-proto=HVAC" target="_blank" rel="noopener">
+      <span class="card-head"><img class="card-logo" src="logos/hvac.png" alt="HVAC.com" width="130" height="30"><span class="card-k">HVAC.com</span></span>
+      <b>Marketplace Product Challenge</b>
+      <span>A take-home product challenge: problem framing, comparative analysis, a proposed user journey, and an A/B testing plan for matching homeowners with contractors.</span>
+      <div class="tags"><span>Product Strategy</span><span>User Journey</span><span>Growth</span><span>B2C</span></div>
+    </a>
+  </div>
+</main>
 
-<div class="footer">
-  <a href="https://middleton.io">middleton.io</a>
-</div>
+<footer class="colophon pad">
+  <nav class="colo-nav" aria-label="More from Kevin">
+    <a href="/casestudies/">Case Studies</a>
+    <a href="/prototypes/">Prototypes</a>
+    <a href="/blog/">Blog</a>
+    <a href="/officehours/">Office Hours</a>
+    <a href="/recipes/">Recipes</a>
+    <a href="/visionbort/">Visionbort</a>
+  </nav>
+  <p class="colo-tip">&copy; 2026 Kevin Middleton</p>
+</footer>
 
 </body>
 </html>

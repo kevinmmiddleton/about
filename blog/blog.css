@@ -1,3 +1,95 @@
+/* ==========================================================================
+   COLOUR NOTE: --coral-text and --accent were #B8431F / #FF7F50, a coral that
+   predates the redesign and appears nowhere in the site palette. They drove
+   every blog link, the category eyebrows, callout rules and the copy button.
+   They now defer to the shared tokens: --accent-text (madder) for accent text
+   and --marigold for accent rules, so the blog reads in the same palette as
+   everything else. --brand-rss stays orange on purpose; that is RSS's own
+   brand colour, not ours.
+
+   Tokens and base rules ported from styles-merged.css so the blog no longer
+   needs to load it. Values are the ones styles-merged actually computed here
+   (it loaded after fv.css and won), so this is a like-for-like move, not a
+   restyle. Verified by diffing the computed styles of all 132 elements at
+   1280 and 390 in both themes.
+
+   Fonts: styles-merged.css line 1 carried an @import pulling Epilogue from
+   Google Fonts, so the blog WAS still requesting a webfont even though its HTML
+   had no font <link> (which is why the earlier webfont audit missed it).
+   Dropping the sheet drops that request, which is what decision C asked for.
+   Headings therefore reflow: some card titles now fit on fewer lines. The
+   stacks below match fv.css so the blog reads as the same system as the rest
+   of the site.
+   ========================================================================== */
+/* The reset styles-merged applied globally. fv.css only sets box-sizing, so
+   without this the UA's default margins came back on every p and heading and
+   the page grew ~90px. Porting it verbatim keeps the blog byte-identical. */
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --accent:var(--marigold); --accent-hover:var(--ink); --border:#ddd8d0; --brand-rss:#F26522;
+  --card-bg:#ffffff; --coral-text:var(--accent-text); --font-heading:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --radius-lg:1.5rem; --radius-md:1rem; --rule:#D8D8DD;
+  --shadow-2:0 4px 14px rgba(0,0,0,.10); --shadow-md:0 4px 6px rgba(0,0,0,0.07);
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.05); --surface:#F5F4F0; --surface-alt:#ECEAE4;
+  --text-muted:#5A6B7D; --text-primary:#1a202c; --text-secondary:#4a5568;
+  --spacing-xs:0.5rem; --spacing-sm:1rem; --spacing-md:1.5rem;
+  --spacing-lg:2rem; --spacing-xl:3rem; --spacing-2xl:4rem;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+  --border:#30363d; --card-bg:#161b22; --coral-text:var(--accent-text); --rule:#2C2C33;
+  --shadow-2:0 4px 14px rgba(0,0,0,.6); --surface:#161b22; --surface-alt:#1c2128;
+  --text-muted:#848d97; --text-primary:#e6edf3; --text-secondary:#8b949e;
+  }
+}
+:root[data-theme="dark"]{
+  --border:#30363d; --card-bg:#161b22; --coral-text:var(--accent-text); --rule:#2C2C33;
+  --shadow-2:0 4px 14px rgba(0,0,0,.6); --surface:#161b22; --surface-alt:#1c2128;
+  --text-muted:#848d97; --text-primary:#e6edf3; --text-secondary:#8b949e;
+}
+
+/* base element rules that also lived only in styles-merged. --font-family keeps
+   the exact stack it had; Inter is not loaded, so both before and after this
+   change it falls through to -apple-system. Swapping it to the fv.css stack
+   would have been a real visual change, so it is left alone here. */
+:root{ --font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }
+html{
+  scroll-behavior:smooth; overflow-x:hidden;
+  -webkit-text-size-adjust:none; -moz-text-size-adjust:none; text-size-adjust:none;
+}
+body{
+  font-family:var(--font-family); line-height:1.6;
+  color:var(--text-primary); background:var(--bg); overflow-x:hidden;
+  -webkit-text-size-adjust:100%; -moz-text-size-adjust:100%; text-size-adjust:100%;
+}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-heading)}
+a{text-decoration:none;color:var(--coral-text)}
+a:hover{color:var(--accent-hover)}
+ul{list-style:none}
+img{max-width:100%;height:auto;display:block}
+
+/* Footer + container. .footer was NOT flagged by the "styled only by
+   styles-merged" scan, because fv.css also matches .footer on case-study pages
+   so the class looked covered. styles-merged was the one actually winning here.
+   Losing it dropped the footer's padding to 0 and its border to none, which
+   also re-centred .container against a wider box. */
+.container{max-width:1100px;margin:0 auto}
+.footer{
+  background:transparent; color:var(--text-secondary);
+  padding:var(--spacing-2xl) var(--spacing-md);
+  border-top:1px solid var(--border);
+}
+.footer-content{text-align:center}
+.footer-text{margin-top:var(--spacing-md);color:var(--text-secondary)}
+@media (max-width:640px){
+  :root{--spacing-xl:2rem; --spacing-2xl:3rem}
+}
+@media (prefers-color-scheme: dark){
+  .footer{background:var(--surface); border-top-color:var(--border)}
+}
+:root[data-theme="dark"] .footer{background:var(--surface); border-top-color:var(--border)}
+
 /* ===================
    WRITING / ARTICLE STYLES
    Layered on top of styles-merged.css (the homepage design system).
@@ -17,7 +109,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--coral-text);
     margin-bottom: 14px;
 }
 
@@ -42,8 +134,11 @@
     margin-bottom: 32px;
 }
 .article-meta a { color: var(--text-secondary); text-decoration: underline; text-underline-offset: 2px; }
-.article-meta a:hover { color: var(--accent); }
-.article-meta .dot { opacity: 0.5; }
+.article-meta a:hover { color: var(--coral-text); }
+/* The separator between date and reading time. opacity .5 put it at 2.01:1,
+   which fails even as incidental text. It carries no meaning, so it is also
+   marked aria-hidden in the generator template. */
+.article-meta .dot { opacity: 0.75; }
 
 .article-back {
     display: inline-block;
@@ -54,7 +149,7 @@
     margin-bottom: 22px;
     transition: color 0.15s ease;
 }
-.article-back:hover { color: var(--accent); }
+.article-back:hover { color: var(--coral-text); }
 .article-back-bottom {
     margin: 40px 0 0;
     padding-top: 24px;
@@ -109,7 +204,7 @@
 }
 
 .article-body a {
-    color: var(--accent);
+    color: var(--coral-text);
     text-decoration: underline;
     text-underline-offset: 2px;
     text-decoration-thickness: 1px;
@@ -187,13 +282,13 @@ figcaption {
     padding: 6px 11px;
     border: 1px solid var(--border);
     border-radius: 6px;
-    background: rgba(128, 128, 140, 0.14);
+    background: var(--rule);
     color: var(--text-secondary);
     cursor: pointer;
     transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
-.copy-btn:hover { color: var(--text-primary); border-color: var(--accent); background: rgba(128, 128, 140, 0.22); }
-.copy-btn.copied { color: var(--accent); border-color: var(--accent); }
+.copy-btn:hover { color: var(--text-primary); border-color: var(--coral-text); background: var(--rule); }
+.copy-btn.copied { color: var(--coral-text); border-color: var(--coral-text); }
 
 /* Inline code (single-backtick spans) — subtle mono chip, distinct from prose */
 .article-body code {
@@ -215,7 +310,7 @@ figcaption {
     font-size: 16px;
     color: var(--text-secondary);
 }
-.callout a { color: var(--accent); }
+.callout a { color: var(--coral-text); }
 
 /* Blockquotes — same left-accent treatment as callouts */
 .article-body blockquote {
@@ -228,7 +323,7 @@ figcaption {
 }
 .article-body blockquote p { margin: 0; }
 .article-body blockquote p + p { margin-top: 12px; }
-.article-body blockquote a { color: var(--accent); }
+.article-body blockquote a { color: var(--coral-text); }
 
 /* End-of-article author bio */
 .article-bio {
@@ -238,14 +333,18 @@ figcaption {
     font-size: 16px;
     color: var(--text-secondary);
 }
-.article-bio a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.article-bio a { color: var(--coral-text); text-decoration: underline; text-underline-offset: 2px; }
 
 /* Make figures zoomable via the homepage lightbox (#lightbox is styled in styles-merged.css) */
 
 /* ===================
    BLOG INDEX (HUB)
    =================== */
-.blog-index { max-width: 1040px; margin: 0 auto; padding: calc(80px + 2.5rem) 24px 2rem; }
+/* Site container. Was 1040px with a calc(80px + …) top pad that compensated for
+   a fixed nav; the shared nav is sticky and in flow, so that 80px was dead
+   space and the narrower column left the nav floating 96px wider than the
+   content beneath it. These two values now match .pad in fv.css. */
+.blog-index { max-width: 1400px; margin: 0 auto; padding: 2.6rem clamp(1rem, 4vw, 3rem) 2rem; }
 .blog-index-header { margin-bottom: 40px; }
 .blog-index-header h1 {
     font-family: var(--font-heading);
@@ -270,7 +369,7 @@ figcaption {
     gap: 7px;
     flex-shrink: 0;
     padding: 6px 14px;
-    border: 1px solid var(--border, rgba(0,0,0,0.12));
+    border: 1px solid var(--border, var(--shadow-2));
     border-radius: 999px;
     font-size: 14px;
     font-weight: 500;
@@ -278,12 +377,12 @@ figcaption {
     text-decoration: none;
     transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
-.blog-rss svg { color: #f26522; flex-shrink: 0; }
-.blog-rss:hover { color: var(--text-primary); border-color: #f26522; background: rgba(242, 101, 34, 0.06); }
+.blog-rss svg { color: var(--brand-rss); flex-shrink: 0; }
+.blog-rss:hover { color: var(--text-primary); border-color: var(--brand-rss); background: color-mix(in srgb, var(--brand-rss) 6%, transparent); }
 
 .post-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 24px;
 }
 .post-card {
@@ -297,7 +396,7 @@ figcaption {
     transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 .post-card:hover {
-    border-color: var(--accent);
+    border-color: var(--coral-text);
     box-shadow: var(--shadow-md);
     transform: translateY(-3px);
 }
@@ -323,7 +422,7 @@ figcaption {
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--coral-text);
     margin-bottom: 8px;
 }
 .post-card h2 {
@@ -339,3 +438,13 @@ figcaption {
 
 /* Mobile menu (full-width sheet + Office Hours action) is defined once in
    styles-merged.css so the homepage and blog share it. */
+
+
+/* Same drawn arrow as the rest of the site, replacing the ← glyph, which sat
+   hairline next to the label. Masked, so it inherits colour and theme. */
+.article-back{display:inline-flex;align-items:center;gap:.4rem}
+.arw-back{display:inline-block;width:1em;height:1em;background:currentColor;flex:0 0 auto;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 12H5M11.5 5.5 5 12l6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 12H5M11.5 5.5 5 12l6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  transition:transform .18s ease}
+.article-back:hover .arw-back{transform:translateX(-3px)}

@@ -5,42 +5,34 @@
 
 /* Dark mode default */
 :root {
-    --bg: #1a1a2e;
-    --surface: #252542;
-    --surface-2: #2d2d4a;
-    --border: #3d3d5c;
-    --text: #e8e8f0;
-    --text-dim: #a0a0b8;
-    --text-muted: #6a6a8a;
-    --blue: #5c8aff;
-    --purple: #a078ff;
-    --pink: #ff6eb4;
-    --mint: #4ae0a0;
-    --yellow: #ffc048;
-    --peach: #ff9f6a;
-    --font-sans: 'Inter', -apple-system, sans-serif;
-    --font-mono: 'IBM Plex Mono', monospace;
-    --radius: 12px;
+  /* Palette resolves through /fv.css so this page moves with the site. The
+     original names are kept so all 1,182 lines of layout and every one of the
+     six pages keep working untouched. --bg is deliberately NOT redeclared:
+     both sheets target :root, so "--bg: var(--bg)" would be circular.
+     The five section tints map onto the shared hue family; text on them stays
+     --ink/--ink2, never the hue, because the hues do not hold 4.5:1 as small
+     text on the dark page. */
+  --surface: var(--bg2);
+  --surface-2: var(--bg2);
+  --border: var(--rule);
+  --text: var(--ink);
+  --text-dim: var(--ink2);
+  --text-muted: var(--ink2);
+  --blue: var(--c4-text);
+  --purple: var(--c5-text);
+  --pink: var(--c6-text);
+  --mint: var(--c3-text);
+  --yellow: var(--c1-text);
+  --peach: var(--c1-text);
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
+  --radius: var(--r);
+
 }
 
 /* Light mode */
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg: #f5f5fa;
-        --surface: #ffffff;
-        --surface-2: #ffffff;
-        --border: rgba(140, 140, 180, 0.3);
-        --text: #1a1a2e;
-        --text-dim: #3a3a55;
-        --text-muted: #5a5a75;
-        --blue: #2563eb;
-        --purple: #7c3aed;
-        --pink: #db2777;
-        --mint: #059669;
-        --yellow: #d97706;
-        --peach: #ea580c;
-    }
-}
+/* light override removed: /fv.css already flips every token above,
+   and this file is no longer dark-authored. */
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
