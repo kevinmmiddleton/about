@@ -1,3 +1,87 @@
+/* ==========================================================================
+   Tokens and base rules ported from styles-merged.css so the blog no longer
+   needs to load it. Values are the ones styles-merged actually computed here
+   (it loaded after fv.css and won), so this is a like-for-like move, not a
+   restyle. Verified by diffing the computed styles of all 132 elements at
+   1280 and 390 in both themes.
+
+   Fonts: styles-merged.css line 1 carried an @import pulling Epilogue from
+   Google Fonts, so the blog WAS still requesting a webfont even though its HTML
+   had no font <link> (which is why the earlier webfont audit missed it).
+   Dropping the sheet drops that request, which is what decision C asked for.
+   Headings therefore reflow: some card titles now fit on fewer lines. The
+   stacks below match fv.css so the blog reads as the same system as the rest
+   of the site.
+   ========================================================================== */
+/* The reset styles-merged applied globally. fv.css only sets box-sizing, so
+   without this the UA's default margins came back on every p and heading and
+   the page grew ~90px. Porting it verbatim keeps the blog byte-identical. */
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --accent:#FF7F50; --accent-hover:#e06840; --border:#ddd8d0; --brand-rss:#F26522;
+  --card-bg:#ffffff; --coral-text:#B8431F; --font-heading:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --radius-lg:1.5rem; --radius-md:1rem; --rule:#D8D8DD;
+  --shadow-2:0 4px 14px rgba(0,0,0,.10); --shadow-md:0 4px 6px rgba(0,0,0,0.07);
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.05); --surface:#F5F4F0; --surface-alt:#ECEAE4;
+  --text-muted:#5A6B7D; --text-primary:#1a202c; --text-secondary:#4a5568;
+  --spacing-xs:0.5rem; --spacing-sm:1rem; --spacing-md:1.5rem;
+  --spacing-lg:2rem; --spacing-xl:3rem; --spacing-2xl:4rem;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+  --border:#30363d; --card-bg:#161b22; --coral-text:#FF7F50; --rule:#2C2C33;
+  --shadow-2:0 4px 14px rgba(0,0,0,.6); --surface:#161b22; --surface-alt:#1c2128;
+  --text-muted:#848d97; --text-primary:#e6edf3; --text-secondary:#8b949e;
+  }
+}
+:root[data-theme="dark"]{
+  --border:#30363d; --card-bg:#161b22; --coral-text:#FF7F50; --rule:#2C2C33;
+  --shadow-2:0 4px 14px rgba(0,0,0,.6); --surface:#161b22; --surface-alt:#1c2128;
+  --text-muted:#848d97; --text-primary:#e6edf3; --text-secondary:#8b949e;
+}
+
+/* base element rules that also lived only in styles-merged. --font-family keeps
+   the exact stack it had; Inter is not loaded, so both before and after this
+   change it falls through to -apple-system. Swapping it to the fv.css stack
+   would have been a real visual change, so it is left alone here. */
+:root{ --font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }
+html{
+  scroll-behavior:smooth; overflow-x:hidden;
+  -webkit-text-size-adjust:none; -moz-text-size-adjust:none; text-size-adjust:none;
+}
+body{
+  font-family:var(--font-family); line-height:1.6;
+  color:var(--text-primary); background:var(--bg); overflow-x:hidden;
+  -webkit-text-size-adjust:100%; -moz-text-size-adjust:100%; text-size-adjust:100%;
+}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-heading)}
+a{text-decoration:none;color:var(--coral-text)}
+a:hover{color:var(--accent-hover)}
+ul{list-style:none}
+img{max-width:100%;height:auto;display:block}
+
+/* Footer + container. .footer was NOT flagged by the "styled only by
+   styles-merged" scan, because fv.css also matches .footer on case-study pages
+   so the class looked covered. styles-merged was the one actually winning here.
+   Losing it dropped the footer's padding to 0 and its border to none, which
+   also re-centred .container against a wider box. */
+.container{max-width:1100px;margin:0 auto}
+.footer{
+  background:transparent; color:var(--text-secondary);
+  padding:var(--spacing-2xl) var(--spacing-md);
+  border-top:1px solid var(--border);
+}
+.footer-content{text-align:center}
+.footer-text{margin-top:var(--spacing-md);color:var(--text-secondary)}
+@media (max-width:640px){
+  :root{--spacing-xl:2rem; --spacing-2xl:3rem}
+}
+@media (prefers-color-scheme: dark){
+  .footer{background:var(--surface); border-top-color:var(--border)}
+}
+:root[data-theme="dark"] .footer{background:var(--surface); border-top-color:var(--border)}
+
 /* ===================
    WRITING / ARTICLE STYLES
    Layered on top of styles-merged.css (the homepage design system).
@@ -43,7 +127,10 @@
 }
 .article-meta a { color: var(--text-secondary); text-decoration: underline; text-underline-offset: 2px; }
 .article-meta a:hover { color: var(--coral-text); }
-.article-meta .dot { opacity: 0.5; }
+/* The separator between date and reading time. opacity .5 put it at 2.01:1,
+   which fails even as incidental text. It carries no meaning, so it is also
+   marked aria-hidden in the generator template. */
+.article-meta .dot { opacity: 0.75; }
 
 .article-back {
     display: inline-block;

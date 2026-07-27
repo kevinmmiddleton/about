@@ -165,8 +165,7 @@ function seriesCallouts(post, all) {
 const HEAD_LINKS = `    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=58eb9658">
-    <link rel="stylesheet" href="/styles-merged.css?v=36cf3bc3">
-    <link rel="stylesheet" href="/blog/blog.css?v=5eb4fae4">
+    <link rel="stylesheet" href="/blog/blog.css?v=0cf7391d">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">`;
 const PLAUSIBLE = `    <!-- Privacy-friendly analytics by Plausible -->
@@ -211,7 +210,7 @@ function articlePage(post, all) {
   const mod = isoDate(post.updated_at) || pub;
   const { top, bottom } = seriesCallouts(post, all);
   const metaLink = post.linkedin_url
-    ? `\n            <span class="dot">·</span>\n            <a href="${escAttr(post.linkedin_url)}" target="_blank" rel="noopener">First published on LinkedIn</a>` : '';
+    ? `\n            <span class="dot" aria-hidden="true">·</span>\n            <a href="${escAttr(post.linkedin_url)}" target="_blank" rel="noopener">First published on LinkedIn</a>` : '';
   const article = {
     "@context":"https://schema.org","@type":"Article",
     headline: post.title, description: post.excerpt,
@@ -286,7 +285,7 @@ ${HEADER}
         <h1 class="article-title">${esc(post.title)}</h1>
         <div class="article-meta">
             <span>By Kevin Middleton</span>
-            <span class="dot">·</span>
+            <span class="dot" aria-hidden="true">·</span>
             <span>${fmtDate(post.published_at)}</span>${metaLink}
         </div>
 
