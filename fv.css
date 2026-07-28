@@ -3210,3 +3210,12 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
    of the 24px numerals and it rendered at 9px. */
 body.p-case .metric-value .arw{font-size:inherit;width:.9em;height:.9em;
   vertical-align:-.08em;margin-inline:.16em}
+
+
+/* "messy." holds the light-mode marigold in dark mode too. The connect panel
+   inverts (dark band on a light page, light band on a dark page), so the shared
+   --gold-on-invert darkens to #815B0C in dark to stay legible on the light
+   band. Kevin's call: at 67px the marigold reads fine there and the brand
+   colour matters more. --marigold is theme-invariant, so this pins it. Scoped
+   to this one element; --gold-on-invert is untouched for any other use. */
+.fv .connect h2 em{color:var(--marigold)}

@@ -164,7 +164,7 @@ function seriesCallouts(post, all) {
 // ---------- shared chrome ----------
 const HEAD_LINKS = `    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
-    <link rel="stylesheet" href="/fv.css?v=5850c40f">
+    <link rel="stylesheet" href="/fv.css?v=b7966cd1">
     <link rel="stylesheet" href="/blog/blog.css?v=99c23c60">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">`;
