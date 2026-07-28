@@ -11,6 +11,17 @@ timestamp: 2026-06-30
 
 This is an [Open Knowledge Format (OKF)](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing) bundle: a directory of Markdown files, each describing one concept, written for AI agents and other automated readers.
 
+
+## Identity
+
+- Wikidata (canonical entity): https://www.wikidata.org/wiki/Q140389537
+- LinkedIn: https://www.linkedin.com/in/kevinmiddleton/
+- GitHub: https://github.com/kevinmmiddleton
+
+There is more than one Kevin Middleton. Q140389537 is this one. The site's
+structured data declares him once as `https://middleton.io/#kevin`; every page
+references that same `@id`.
+
 Source of truth for this content is the website at https://middleton.io. Files in this bundle:
 
 - [`profile.md`](profile.md): who Kevin is, role, location, links

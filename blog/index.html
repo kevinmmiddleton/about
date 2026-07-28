@@ -31,6 +31,12 @@
     <link rel="stylesheet" href="/blog/blog.css?v=99c23c60">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <!-- Identity verification. Same three profiles the homepage claims, so every
+         page resolves to one entity rather than a separate author blob.
+         Wikidata is the disambiguating anchor. -->
+    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+    <link rel="me" href="https://github.com/kevinmmiddleton">
+    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
 
     <!-- JSON-LD: Blog + posts -->
     <script type="application/ld+json">
@@ -41,6 +47,7 @@
         "url": "https://middleton.io/blog/",
         "author": {
             "@type": "Person",
+            "@id": "https://middleton.io/#kevin",
             "name": "Kevin Middleton",
             "url": "https://middleton.io"
         },
