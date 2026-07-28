@@ -2,209 +2,619 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1200, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<title>OG image builder — middleton.io</title>
+<!--
+  OG image builder.
 
+  Five design templates x five pages, all drawn from the live site's own
+  vocabulary (fv.css tokens, the mono kicker, the 2px ink rule, the hue cards,
+  the invert band). No webfonts: the site runs on the system Helvetica/SF Mono
+  stack, so this builder does too and renders identically to the real pages.
+
+  Usage
+    ?design=editorial|invert|split|grid|metric   default: editorial
+    ?page=home|casestudies|prototypes|officehours|kevinos   default: home
+    ?chrome=0   hides the picker + download button (what the exporter uses)
+
+  Canonical export is `node tools/og-export.mjs`, which renders every
+  combination through headless Chromium at 2x and downsamples to 1200x630.
+  The in-page Download PNG button is a convenience for one-off tweaks.
+
+  Readability floor: nothing smaller than 26px at 1200x630. A feed card on a
+  phone shows this around 550px wide, so 26px lands near 12px on glass.
+-->
 <style>
-  html, body { margin:0; padding:0; width:1200px; height:630px; overflow:hidden; }
-  .export-btn { position:absolute; bottom:20px; right:20px; background:rgba(255,255,255,0.15); padding:12px 20px; border-radius:8px; color:white; font-size:20px; cursor:pointer; backdrop-filter:blur(6px); display:block; z-index: 10; }
+  :root{
+    /* straight from fv.css :root — do not drift from these */
+    --bg:#F4F4F5; --bg2:#E9E9EC; --ink:#111113; --ink2:#5B5B62;
+    --rule:#D8D8DD; --rule-strong:#8B8B90;
+    --invert:#111113; --on-invert:#F2F2F4;
 
-  body {
-    margin: 0;
-    padding: 0;
-    width: 1200px;
-    height: 630px;
-    font-family: 'Inter', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-    position: relative;
+    --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;
+    --cobalt:#1F4B8F;   --plum:#6D4AA8;   --fuchsia:#9E227D;
+    --on-hue:#FFFFFF;   --on-mari:#241700;
+
+    --sans:"Helvetica Neue",Helvetica,"TeX Gyre Heros",Arial,sans-serif;
+    --mono:"SF Mono",Menlo,ui-monospace,"Cascadia Mono",Consolas,"DejaVu Sans Mono",monospace;
+    --r:10px;
   }
 
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background: url('images/hero-skyline-light.jpg') center/cover no-repeat;
-    z-index: 0;
-  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#8B8B90}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased}
 
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 35, 66, 0.5);
-    z-index: 1;
+  /* ---------- the frame every design paints into ---------- */
+  #og{
+    width:1200px; height:630px; overflow:hidden; position:relative;
+    background:var(--bg); color:var(--ink);
+    margin:0 auto; display:block;
   }
+  body.chromeless{background:#fff}
+  body.chromeless #og{margin:0}
 
-  .content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    transform: translateY(-50px);
+  /* ---------- shared primitives ---------- */
+  .kick{
+    font-family:var(--mono); font-size:24px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--ink2);
+    white-space:nowrap;
   }
+  .kick.on-dark{color:var(--marigold)}
+  .rule{height:2px; background:var(--ink); width:100%}
+  .rule.on-dark{background:var(--on-invert)}
 
-  .name {
-    font-family: 'Epilogue', sans-serif;
-    font-size: 120px;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -4px;
-    text-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  .display{
+    font-weight:700; letter-spacing:-.03em; line-height:.98;
+    text-wrap:balance; margin:0;
+    
   }
+  .display .ac{color:var(--hue)}
 
-  .subtitle {
-    font-size: 36px;
-    font-weight: 600;
-    opacity: 0.9;
-    margin-top: 8px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  .lead{
+    font-size:31px; line-height:1.35; color:var(--ink2);
+    margin:0; max-width:940px; font-weight:400;
   }
+  .lead.on-dark{color:#A2A2AC}
 
-  .tagline {
-    font-size: 26px;
-    font-weight: 500;
-    opacity: 0.9;
-    max-width: 900px;
-    line-height: 1.3;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  /* outlined hue chip — the "My Strengths" pattern */
+  .chips{display:flex; flex-wrap:wrap; gap:12px}
+  .chip{
+    font-family:var(--mono); font-size:26px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase;
+    padding:11px 20px 12px; border-radius:var(--r);
+    border:2px solid currentColor; white-space:nowrap;
   }
-
-  .badge {
-    display: inline-block;
-    padding: 10px 24px;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.4);
-    border-radius: 999px;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    backdrop-filter: blur(6px);
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  /* filled hue pill — the "Bring me something messy" CTA row */
+  .pill{
+    font-family:var(--sans); font-size:28px; font-weight:700;
+    padding:14px 26px; border-radius:var(--r);
+    color:var(--on-hue); white-space:nowrap;
   }
+  .pill.mari{color:var(--on-mari)}
 
-  .hidden { display: none !important; }
-
-  .url {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 24px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 1px;
-    z-index: 2;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  .url{
+    font-family:var(--mono); font-size:24px; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--ink2);
   }
+  .url.on-dark{color:#A2A2AC}
+
+  /* ============================================================
+     D1 — EDITORIAL
+     The section-header pattern (title, thick ink rule, right-hand
+     note) blown up to poster scale.
+     ============================================================ */
+  #og.d-editorial{padding:56px 64px; display:flex; flex-direction:column}
+  .d-editorial .top{display:flex; justify-content:space-between; align-items:baseline; gap:24px}
+  .d-editorial .rule{margin:20px 0 0}
+  .d-editorial .body{flex:1; display:flex; flex-direction:column; justify-content:center; gap:26px; padding:34px 0}
+  .d-editorial .display{font-size:92px}
+  #og.d-editorial.long .display{font-size:76px}
+  .d-editorial .foot{display:flex; justify-content:space-between; align-items:flex-end; gap:28px}
+
+  /* ============================================================
+     D2 — INVERT
+     The #111113 CTA band. Highest contrast of the five, reads
+     smallest on a timeline.
+     ============================================================ */
+  #og.d-invert{
+    background:var(--invert); color:var(--on-invert);
+    padding:56px 64px; display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .d-invert .display{font-size:104px}
+  #og.d-invert.long .display{font-size:82px}
+  .d-invert .mid{display:flex; flex-direction:column; gap:30px}
+  .d-invert .foot{display:flex; justify-content:space-between; align-items:center; gap:24px}
+  .d-invert .pills{display:flex; flex-wrap:wrap; gap:14px}
+
+  /* ============================================================
+     D3 — SPLIT
+     The homepage hero card: 2px ink border, type left, photo right.
+     ============================================================ */
+  #og.d-split{padding:34px}
+  .d-split .card{
+    height:100%; border:2px solid var(--ink); border-radius:var(--r);
+    overflow:hidden; display:grid; grid-template-columns:1.08fr .92fr;
+  }
+  .d-split .left{padding:52px 46px; display:flex; flex-direction:column; justify-content:center; gap:24px; min-width:0}
+  .d-split .display{font-size:72px}
+  #og.d-split.long .display{font-size:60px}
+  .d-split .lead{font-size:27px}
+  .d-split .right{border-left:2px solid var(--ink); background-size:cover; background-position:center}
+  .d-split .foot{margin-top:8px}
+  #og.d-split.dark .card{border-color:var(--on-invert); background:var(--invert); color:var(--on-invert)}
+  .d-split.dark .right{border-left-color:var(--on-invert)}
+
+  /* ============================================================
+     D4 — GRID
+     The "What I'm Building Now" bento: solid hue cards, mono
+     kicker + bold title. Most colour, best thumbnail recognition.
+     ============================================================ */
+  #og.d-grid{padding:56px 64px; display:grid; grid-template-columns:.86fr 1.14fr; gap:44px}
+  .d-grid .col{display:flex; flex-direction:column; gap:22px; min-width:0}
+  .d-grid .col.l{justify-content:center}
+  .d-grid .display{font-size:76px}
+  #og.d-grid.long .display{font-size:62px}
+  .d-grid .lead{font-size:27px}
+  .d-grid .cards{display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:1fr; gap:16px; height:100%}
+  .d-grid .hcard{
+    border-radius:var(--r); padding:24px 24px 26px; color:var(--on-hue);
+    display:flex; flex-direction:column; justify-content:flex-end; gap:8px; min-width:0;
+  }
+  .d-grid .hcard.mari{color:var(--on-mari)}
+  .d-grid .hcard .hk{
+    font-family:var(--mono); font-size:22px; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase; opacity:.82;
+  }
+  .d-grid .hcard .ht{font-size:34px; font-weight:700; letter-spacing:-.02em; line-height:1.06}
+
+  /* ============================================================
+     D5 — METRIC
+     The case-study card's number row: big numeral, mono label,
+     hairline dividers. Proof-first.
+     ============================================================ */
+  #og.d-metric{padding:56px 64px; display:flex; flex-direction:column}
+  .d-metric .top{display:flex; justify-content:space-between; align-items:flex-start; gap:28px}
+  .d-metric .display{font-size:80px; max-width:830px}
+  #og.d-metric.long .display{font-size:66px}
+  .d-metric .badge{
+    font-family:var(--mono); font-size:24px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; background:var(--marigold); color:var(--on-mari);
+    padding:12px 22px; border-radius:var(--r); white-space:nowrap;
+  }
+  .d-metric .lead{margin-top:22px}
+  .d-metric .spacer{flex:1}
+  .d-metric .rule{margin-bottom:34px}
+  .d-metric .mrow{display:grid; grid-template-columns:repeat(3,1fr); gap:0}
+  .d-metric .m{padding:0 34px; border-left:2px solid var(--rule)}
+  .d-metric .m:first-child{padding-left:0; border-left:0}
+  .d-metric .mv{font-size:64px; font-weight:700; letter-spacing:-.03em; line-height:1; color:var(--hue)}
+  .d-metric .ml{
+    font-family:var(--mono); font-size:23px; font-weight:700; letter-spacing:.11em;
+    text-transform:uppercase; color:var(--ink2); margin-top:14px; line-height:1.25;
+  }
+  #og.d-metric.on-dark .ml{color:#A2A2AC}
+  #og.d-metric.on-dark .m{border-left-color:#2C2C33}
+  .d-metric .foot{display:flex; justify-content:space-between; align-items:center; margin-top:34px}
+
+  /* ---------- picker chrome (never exported) ---------- */
+  #chrome{
+    max-width:1200px; margin:0 auto; padding:20px 0 14px;
+    display:flex; gap:26px; align-items:center; flex-wrap:wrap;
+    font-family:var(--mono); font-size:13px; color:#fff;
+  }
+  #chrome select{font:inherit; color:#111; padding:6px 8px; border-radius:6px; border:0}
+  #chrome button{font:inherit; padding:7px 14px; border-radius:6px; border:0; cursor:pointer; background:#E8A317; color:#241700; font-weight:700}
+  #chrome label{display:flex; gap:8px; align-items:center; text-transform:uppercase; letter-spacing:.1em}
+  body.chromeless #chrome{display:none}
 </style>
 </head>
-
 <body>
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
 
-  <div class="export-btn" onclick="downloadOG()">Download PNG</div>
+<div id="chrome">
+  <label>Design
+    <select id="selDesign"></select>
+  </label>
+  <label>Page
+    <select id="selPage"></select>
+  </label>
+  <button id="btnDl">Download PNG</button>
+  <span id="hint">1200 &times; 630 &middot; canonical export is <b>node tools/og-export.mjs</b></span>
+</div>
 
-  <div class="content">
-    <div class="name"></div>
-    <div class="badge hidden"></div>
-    <div class="subtitle hidden"></div>
-    <div class="tagline hidden"></div>
-  </div>
-
-  <div class="url">middleton.io</div>
+<div id="og"></div>
 
 <script>
-  const OG_PAGES = {
-    kevin: {
-      name: "Kevin Middleton",
-      subtitle: null,
-      tagline: null,
-      badge: null,
-      background: null,
-      url: "middleton.io",
-      filename: "kevin-middleton-og.png",
-    },
-    officehours: {
-      name: "Office Hours",
-      subtitle: "Messy problems. Calm thinking.",
-      tagline: null,
-      badge: "Free · Product Thinking · AI Workflows",
-      background: "officehours/images/hero.jpg",
-      url: "middleton.io/officehours",
-      filename: "kevin-middleton-officehours-og.png",
-    },
+/* ---------------------------------------------------------------
+   Content. One entry per page; every design reads from the same
+   object so the five templates stay genuinely comparable.
+   `accent` names the hue that carries the highlighted word.
+   --------------------------------------------------------------- */
+const HUES = {
+  marigold:'#E8A317', madder:'#C3384B', viridian:'#2C7A63',
+  cobalt:'#1F4B8F', plum:'#6D4AA8', fuchsia:'#9E227D'
+};
+/* On the #111113 ground the base hues fall to ~2.5:1 as display type. These are
+   fv.css's dark-mode --cN-text values, which is the same trade the site makes. */
+const HUES_DARK = {
+  marigold:'#E8A317', madder:'#E8697C', viridian:'#3FA588',
+  cobalt:'#6E93CC', plum:'#A98FD8', fuchsia:'#D96BB8'
+};
+
+const PAGES = {
+  home: {
+    slug:'home',
+    file:'kevin-middleton-og',
+    kicker:'Kevin Middleton',
+    url:'middleton.io',
+    accent:'cobalt',
+    title:'Kevin Middleton',
+    // `ac` marks the word that takes the accent hue
+    headline:[{t:'AI sped up building.'},{t:"It didn't replace",br:true},{t:'the ',br:true},{t:'judgment.',ac:true}],
+    headlineShort:[{t:'Full Stack '},{t:'Product Manager.',ac:true}],
+    lead:'Engineer &rarr; Consultant &rarr; Full Stack Product Manager. 12+ years shipping platforms, internal tools, and AI workflows.',
+    leadShort:'Platforms, internal tools, and AI workflows. New York City.',
+    chips:[
+      {t:'AI Workflows',h:'marigold'},{t:'Internal Tools',h:'madder'},
+      {t:'Platforms',h:'viridian'},{t:'Integrations',h:'cobalt'},
+      {t:'Growth',h:'plum'},{t:'Public Sector',h:'fuchsia'}
+    ],
+    pills:[
+      {t:'AI Workflows',h:'madder'},{t:'Internal Tools',h:'viridian'},
+      {t:'Platforms',h:'cobalt'},{t:'Growth',h:'plum'}
+    ],
+    cards:[
+      {k:'Shipped',t:'AI Workflows',h:'cobalt'},
+      {k:'For ops teams',t:'Internal Tools',h:'madder'},
+      {k:'Building for scale',t:'Platforms',h:'viridian'},
+      {k:'Federal + grid',t:'Public Sector',h:'marigold'}
+    ],
+    metrics:[
+      {v:'12+',l:'Years shipping'},
+      {v:'0 &rarr; 1',l:'Products launched'},
+      {v:'50x',l:'Conversion lift'}
+    ],
+    photo:'/images/hero-skyline-light.jpg'
+  },
+
+  casestudies: {
+    slug:'casestudies',
+    file:'casestudies-og',
+    kicker:'Case Studies',
+    url:'middleton.io/casestudies',
+    accent:'madder',
+    title:'Case Studies',
+    headline:[{t:'What shipped,'},{t:'and what it moved.',ac:true,br:true}],
+    headlineShort:[{t:'Case '},{t:'Studies.',ac:true}],
+    lead:'Real problems, real constraints, real results. Six studies covering how I approached the work, from opportunity to outcome.',
+    leadShort:'Real problems, real constraints, real results.',
+    chips:[
+      {t:'HVAC.com',h:'marigold'},{t:'Lever',h:'madder'},{t:'Sendoso',h:'viridian'},
+      {t:'Rocket Lawyer',h:'cobalt'},{t:'Oracle',h:'fuchsia'}
+    ],
+    pills:[
+      {t:'Conversion',h:'madder'},{t:'0 &rarr; 1 Products',h:'viridian'},
+      {t:'Partnerships',h:'cobalt'},{t:'Platform Strategy',h:'plum'}
+    ],
+    cards:[
+      {k:'HVAC.com',t:'Turning traffic into intent',h:'marigold'},
+      {k:'Lever',t:'HRIS sync, upmarket',h:'madder'},
+      {k:'Sendoso',t:'eGift + Square partnership',h:'viridian'},
+      {k:'Oracle',t:'Platform overhaul at scale',h:'fuchsia'}
+    ],
+    metrics:[
+      {v:'50x',l:'Conversion lift'},
+      {v:'1,764',l:'eGifts live'},
+      {v:'47',l:'Countries shipped'}
+    ],
+    photo:'/images/hero-skyline-light.jpg'
+  },
+
+  prototypes: {
+    slug:'prototypes',
+    file:'prototypes-og',
+    kicker:'Prototypes',
+    url:'middleton.io/prototypes',
+    accent:'viridian',
+    title:'Prototypes',
+    headline:[{t:'Product ideas I built'},{t:'to think them through.',ac:true,br:true}],
+    headlineShort:[{t:'Product '},{t:'ideas.',ac:true}],
+    lead:'Concept explorations for Resy, Baldor, Success Academy, and HVAC.com. Working prototypes, not slideware.',
+    leadShort:'Working prototypes, not slideware.',
+    chips:[
+      {t:'Agentic AI',h:'marigold'},{t:'MCP',h:'madder'},{t:'API Design',h:'viridian'},
+      {t:'User Journey',h:'cobalt'},{t:'Growth',h:'plum'}
+    ],
+    pills:[
+      {t:'Agentic AI',h:'madder'},{t:'API Design',h:'viridian'},
+      {t:'User Journey',h:'cobalt'},{t:'Growth',h:'plum'}
+    ],
+    cards:[
+      {k:'Amex Digital Labs',t:'Resy x AI Agents',h:'cobalt'},
+      {k:'Baldor',t:'Growth Experiments',h:'madder'},
+      {k:'Success Academy',t:'Website Concepts',h:'viridian'},
+      {k:'HVAC.com',t:'Marketplace Challenge',h:'marigold'}
+    ],
+    metrics:[
+      {v:'4',l:'Prototypes built'},
+      {v:'MCP',l:'Agent tooling'},
+      {v:'B2B+B2C',l:'Markets covered'}
+    ],
+    photo:'/images/hero-skyline-light.jpg'
+  },
+
+  officehours: {
+    slug:'officehours',
+    file:'officehours-og',
+    kicker:'Office Hours',
+    url:'middleton.io/officehours',
+    accent:'marigold',
+    title:'Office Hours',
+    headline:[{t:'Bring a messy problem.'},{t:'Leave with a clearer head.',ac:true,br:true}],
+    headlineShort:[{t:'Office '},{t:'Hours.',ac:true}],
+    lead:'Free, open to all, every week. Product strategy, AI workflows, career decisions, or whatever is actually stuck.',
+    leadShort:'Free, open to all, every week.',
+    chips:[
+      {t:'Free',h:'marigold'},{t:'30 Minutes',h:'madder'},{t:'Product Strategy',h:'viridian'},
+      {t:'AI Workflows',h:'cobalt'},{t:'Career',h:'plum'}
+    ],
+    pills:[
+      {t:'Product Strategy',h:'madder'},{t:'AI Workflows',h:'viridian'},
+      {t:'Career',h:'cobalt'},{t:'0 &rarr; 1',h:'plum'}
+    ],
+    cards:[
+      {k:'What it costs',t:'Free, always',h:'marigold'},
+      {k:'How long',t:'30 minutes',h:'madder'},
+      {k:'What to bring',t:'Something messy',h:'viridian'},
+      {k:'When',t:'All week',h:'cobalt'}
+    ],
+    metrics:[
+      {v:'Free',l:'No catch, no pitch'},
+      {v:'30 min',l:'Per session'},
+      {v:'All week',l:'Pick your slot'}
+    ],
+    photo:'/officehours/images/hero.jpg'
+  },
+
+  kevinos: {
+    slug:'kevinos',
+    file:'kevinos-og',
+    kicker:'KevinOS',
+    url:'middleton.io/kevinos',
+    accent:'plum',
+    // KevinOS keeps its retro-OS voice. DESIGN.md is explicit that the bit is
+    // the differentiator, so this page renders dark with mono display type
+    // in every template instead of being sanded down to match the homepage.
+    retro:true,
+    title:'KevinOS',
+    headline:[{t:'My portfolio,'},{t:'as a retro OS.',ac:true,br:true}],
+    headlineShort:[{t:'Kevin'},{t:'OS',ac:true}],
+    lead:'Boot sequence, draggable windows, and a resume you have to click around to read. Weird on purpose.',
+    leadShort:'Weird on purpose.',
+    chips:[
+      {t:'Boot Sequence',h:'marigold'},{t:'Windows',h:'madder'},
+      {t:'Desktop',h:'viridian'},{t:'Easter Eggs',h:'plum'}
+    ],
+    pills:[
+      {t:'Boot Sequence',h:'madder'},{t:'Windows',h:'viridian'},
+      {t:'Desktop',h:'cobalt'},{t:'Easter Eggs',h:'plum'}
+    ],
+    cards:[
+      {k:'C:\\&gt; run',t:'Boot Sequence',h:'plum'},
+      {k:'Drag them around',t:'Windows',h:'cobalt'},
+      {k:'The whole resume',t:'Desktop',h:'viridian'},
+      {k:'Keep clicking',t:'Easter Eggs',h:'marigold'}
+    ],
+    metrics:[
+      {v:'19XX',l:'Vintage, roughly'},
+      {v:'8',l:'Windows to open'},
+      {v:'&infin;',l:'Easter eggs'}
+    ],
+    photo:'/images/hero-skyline-dark.jpg'
+  }
+};
+
+const DESIGNS = {
+  editorial: {label:'1 · Editorial rule', render:renderEditorial},
+  invert:    {label:'2 · Invert band',    render:renderInvert},
+  split:     {label:'3 · Hero split',     render:renderSplit},
+  grid:      {label:'4 · Hue bento',      render:renderGrid},
+  metric:    {label:'5 · Metric slab',    render:renderMetric}
+};
+
+/* --------------------------- helpers --------------------------- */
+const esc = s => s;                       // content is authored here, already safe
+const hue = n => HUES[n] || HUES.cobalt;
+const hueOn = (n, dark) => (dark ? HUES_DARK : HUES)[n] || (dark ? HUES_DARK : HUES).cobalt;
+
+/* Every template shows the name once. Whatever the kicker already says, the
+   opposite corner carries the role instead of repeating it. */
+const ROLE = 'Full Stack Product Manager';
+
+function headlineHTML(page, short){
+  const parts = short ? (page.headlineShort || page.headline) : page.headline;
+  return parts.map(p => {
+    const br = p.br ? '<br>' : '';
+    return br + (p.ac ? `<span class="ac">${esc(p.t)}</span>` : esc(p.t));
+  }).join('');
+}
+function chipsHTML(page, limit, dark){
+  return `<div class="chips">` + page.chips.slice(0, limit || page.chips.length)
+    .map(c => `<span class="chip" style="color:${hueOn(c.h, dark)}">${esc(c.t)}</span>`).join('') + `</div>`;
+}
+function pillsHTML(page, limit){
+  return `<div class="pills">` + page.pills.slice(0, limit || page.pills.length)
+    .map(p => `<span class="pill${p.h==='marigold'?' mari':''}" style="background:${hue(p.h)}">${esc(p.t)}</span>`).join('') + `</div>`;
+}
+function metricsHTML(page){
+  return `<div class="mrow">` + page.metrics.map(m =>
+    `<div class="m"><div class="mv">${esc(m.v)}</div><div class="ml">${esc(m.l)}</div></div>`
+  ).join('') + `</div>`;
+}
+/* KevinOS swaps the display face to mono so the retro bit survives every template. */
+function faceStyle(page){
+  return page.retro ? `font-family:var(--mono);letter-spacing:-.01em;` : '';
+}
+
+/* --------------------------- templates -------------------------- */
+function renderEditorial(page){
+  const dark = !!page.retro;
+  const long = page.headline.reduce((n,p)=>n+p.t.length,0) > 44;
+  return {
+    dark,
+    cls:`d-editorial${long?' long':''}`,
+    style:dark ? `background:var(--invert);color:var(--on-invert)` : '',
+    html:`
+      <div class="top">
+        <span class="kick${dark?' on-dark':''}">${esc(page.kicker)}</span>
+        <span class="kick${dark?' on-dark':''}">${esc(page.url)}</span>
+      </div>
+      <div class="rule${dark?' on-dark':''}"></div>
+      <div class="body">
+        <h1 class="display" style="${faceStyle(page)}">${headlineHTML(page)}</h1>
+        <p class="lead${dark?' on-dark':''}">${esc(page.lead)}</p>
+      </div>
+      <div class="foot">${chipsHTML(page, 4, dark)}</div>`
   };
+}
 
-  const params = new URLSearchParams(location.search);
-  const pageKey = params.get('page') || 'kevin';
-  const page = OG_PAGES[pageKey] || OG_PAGES.kevin;
+function renderInvert(page){
+  const long = page.headline.reduce((n,p)=>n+p.t.length,0) > 44;
+  return {
+    dark:true,
+    cls:`d-invert${long?' long':''}`,
+    html:`
+      <span class="kick on-dark">${esc(page.kicker)}</span>
+      <div class="mid">
+        <h1 class="display" style="${faceStyle(page)}">${headlineHTML(page)}</h1>
+        ${pillsHTML(page, 4)}
+      </div>
+      <div class="foot">
+        <span class="url on-dark">${esc(page.url)}</span>
+        <span class="url on-dark">${ROLE}</span>
+      </div>`
+  };
+}
 
-  function setSlot(selector, value) {
-    const el = document.querySelector(selector);
-    if (!el) return;
-    if (value) {
-      el.textContent = value;
-      el.classList.remove('hidden');
-    } else {
-      el.classList.add('hidden');
-    }
+function renderSplit(page){
+  const dark = !!page.retro;
+  const long = page.headline.reduce((n,p)=>n+p.t.length,0) > 34;
+  return {
+    dark,
+    cls:`d-split${dark?' dark':''}${long?' long':''}`,
+    html:`
+      <div class="card">
+        <div class="left">
+          <span class="kick${dark?' on-dark':''}">${esc(page.kicker)}</span>
+          <h1 class="display" style="${faceStyle(page)}">${headlineHTML(page)}</h1>
+          <p class="lead${dark?' on-dark':''}">${esc(page.leadShort)}</p>
+          <div class="foot"><span class="url${dark?' on-dark':''}">${esc(page.url)}</span></div>
+        </div>
+        <div class="right" style="background-image:url('${page.photo}')"></div>
+      </div>`
+  };
+}
+
+function renderGrid(page){
+  const dark = !!page.retro;
+  const long = (page.headlineShort||page.headline).reduce((n,p)=>n+p.t.length,0) > 26;
+  return {
+    dark,
+    cls:`d-grid${long?' long':''}`,
+    style:dark ? `background:var(--invert);color:var(--on-invert)` : '',
+    html:`
+      <div class="col l">
+        <span class="kick${dark?' on-dark':''}">${esc(page.kicker)}</span>
+        <h1 class="display" style="${faceStyle(page)}">${headlineHTML(page, true)}</h1>
+        <p class="lead${dark?' on-dark':''}">${esc(page.leadShort)}</p>
+        <span class="url${dark?' on-dark':''}">${esc(page.url)}</span>
+      </div>
+      <div class="col">
+        <div class="cards">
+          ${page.cards.map(c => `
+            <div class="hcard${c.h==='marigold'?' mari':''}" style="background:${hue(c.h)}">
+              <div class="hk">${esc(c.k)}</div>
+              <div class="ht">${esc(c.t)}</div>
+            </div>`).join('')}
+        </div>
+      </div>`
+  };
+}
+
+function renderMetric(page){
+  const dark = !!page.retro;
+  const long = page.headline.reduce((n,p)=>n+p.t.length,0) > 44;
+  return {
+    dark,
+    cls:`d-metric${long?' long':''}${dark?' on-dark':''}`,
+    style:dark ? `background:var(--invert);color:var(--on-invert)` : '',
+    html:`
+      <div class="top">
+        <h1 class="display" style="${faceStyle(page)}">${headlineHTML(page)}</h1>
+        <span class="badge">${esc(page.kicker)}</span>
+      </div>
+      <p class="lead${dark?' on-dark':''}">${esc(page.leadShort)}</p>
+      <div class="spacer"></div>
+      <div class="rule${dark?' on-dark':''}"></div>
+      ${metricsHTML(page)}
+      <div class="foot">
+        <span class="url${dark?' on-dark':''}">${esc(page.url)}</span>
+        <span class="url${dark?' on-dark':''}">${ROLE}</span>
+      </div>`
+  };
+}
+
+/* ----------------------------- mount ---------------------------- */
+const params    = new URLSearchParams(location.search);
+let designKey   = DESIGNS[params.get('design')] ? params.get('design') : 'editorial';
+let pageKey     = PAGES[params.get('page')]     ? params.get('page')   : 'home';
+if (params.get('chrome') === '0') document.body.classList.add('chromeless');
+
+function paint(){
+  const page = PAGES[pageKey];
+  const out  = DESIGNS[designKey].render(page);
+  const el   = document.getElementById('og');
+  el.className = out.cls;
+  el.style.cssText = `--hue:${hueOn(page.accent, out.dark)};` + (out.style || '');
+  el.innerHTML = out.html;
+  document.title = `OG · ${designKey} · ${pageKey}`;
+  // exporter waits on this
+  document.documentElement.setAttribute('data-og-ready','1');
+}
+
+/* picker */
+const selD = document.getElementById('selDesign');
+const selP = document.getElementById('selPage');
+Object.entries(DESIGNS).forEach(([k,v]) => selD.add(new Option(v.label, k)));
+Object.keys(PAGES).forEach(k => selP.add(new Option(k, k)));
+selD.value = designKey; selP.value = pageKey;
+selD.onchange = () => { designKey = selD.value; sync(); };
+selP.onchange = () => { pageKey   = selP.value; sync(); };
+function sync(){
+  paint();
+  const u = new URL(location); u.searchParams.set('design',designKey); u.searchParams.set('page',pageKey);
+  history.replaceState(null,'',u);
+}
+
+/* Convenience download. html2canvas is loaded lazily so the exporter never
+   pulls a CDN script it does not need. */
+document.getElementById('btnDl').onclick = async () => {
+  if (!window.html2canvas){
+    await new Promise((res,rej)=>{
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload=res; s.onerror=()=>rej(new Error('html2canvas failed to load'));
+      document.head.appendChild(s);
+    }).catch(e=>{ alert(e.message); throw e; });
   }
+  const canvas = await html2canvas(document.getElementById('og'), {
+    useCORS:true, backgroundColor:null, width:1200, height:630, scale:2
+  });
+  const a = document.createElement('a');
+  a.download = `${PAGES[pageKey].file}-${designKey}.png`;
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+};
 
-  setSlot('.name', page.name);
-  setSlot('.subtitle', page.subtitle);
-  setSlot('.tagline', page.tagline);
-  setSlot('.badge', page.badge);
-
-  if (page.background) {
-    document.querySelector('.hero-bg').style.backgroundImage = `url('${page.background}')`;
-  }
-
-  if (page.url) {
-    document.querySelector('.url').textContent = page.url;
-  }
-
-  function preloadBg(src) {
-    return new Promise((resolve, reject) => {
-      if (!src) return resolve();
-      const img = new Image();
-      img.onload = () => resolve();
-      img.onerror = (e) => reject(new Error('Background image failed to load: ' + src));
-      img.src = src;
-    });
-  }
-
-  function downloadOG(){
-    const btn = document.querySelector('.export-btn');
-    const restore = () => {
-      btn.style.opacity = '1';
-      btn.style.pointerEvents = 'auto';
-    };
-    btn.style.opacity = '0';
-    btn.style.pointerEvents = 'none';
-
-    preloadBg(page.background)
-      .then(() => html2canvas(document.body, {useCORS:true, width:1200, height:630, windowWidth:1200, windowHeight:630, scale:2}))
-      .then(canvas => {
-        const link = document.createElement('a');
-        link.download = page.filename;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        restore();
-      })
-      .catch(err => {
-        console.error('OG export failed:', err);
-        alert('Export failed. Check the browser console for details.\n\n' + err.message);
-        restore();
-      });
-  }
+paint();
 </script>
 </body>
 </html>

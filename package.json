@@ -5,5 +5,11 @@
   "dependencies": {
     "gray-matter": "^4.0.3",
     "sharp": "^0.35.2"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  },
+  "scripts": {
+    "og": "node tools/og-export.mjs"
   }
 }

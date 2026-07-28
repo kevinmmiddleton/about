@@ -11,3 +11,7 @@ node_modules/
 # `git add -A` swept into the relaunch branch
 *.bak
 *.orig
+
+# OG export build output. The JPEGs are the reviewable artefact and stay
+# tracked; the lossless PNGs are regenerable with `node tools/og-export.mjs`.
+dist/og/*.png
