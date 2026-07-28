@@ -167,7 +167,13 @@ const HEAD_LINKS = `    <!-- One stylesheet for the whole site. No webfont reque
     <link rel="stylesheet" href="/fv.css?v=b7966cd1">
     <link rel="stylesheet" href="/blog/blog.css?v=99c23c60">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">`;
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <!-- Identity verification. Same three profiles the homepage claims, so every
+         page resolves to one entity rather than a separate author blob.
+         Wikidata is the disambiguating anchor. -->
+    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+    <link rel="me" href="https://github.com/kevinmmiddleton">
+    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">`;
 const PLAUSIBLE = `    <!-- Privacy-friendly analytics by Plausible -->
     <script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
     <script>
@@ -214,8 +220,8 @@ function articlePage(post, all) {
   const article = {
     "@context":"https://schema.org","@type":"Article",
     headline: post.title, description: post.excerpt,
-    author:{"@type":"Person",name:"Kevin Middleton",url:SITE,sameAs:"https://www.linkedin.com/in/kevinmiddleton"},
-    publisher:{"@type":"Person",name:"Kevin Middleton",url:SITE},
+    author:{"@type":"Person","@id":"https://middleton.io/#kevin",name:"Kevin Middleton",url:SITE,sameAs:["https://www.linkedin.com/in/kevinmiddleton/","https://github.com/kevinmmiddleton","https://www.wikidata.org/wiki/Q140389537"]},
+    publisher:{"@type":"Person","@id":"https://middleton.io/#kevin",name:"Kevin Middleton",url:SITE},
     mainEntityOfPage:{"@type":"WebPage","@id":url}, url, image: coverAbs,
     articleSection:"Blog", keywords: post.tags||[],
     wordCount: (post.body_markdown||'').split(/\s+/).filter(Boolean).length,
@@ -312,7 +318,7 @@ ${LIGHTBOX}
 function hubPage(posts) {
   const blogLd = {
     "@context":"https://schema.org","@type":"Blog",name:"Kevin Middleton's Blog",url:`${SITE}/blog/`,
-    author:{"@type":"Person",name:"Kevin Middleton",url:SITE},
+    author:{"@type":"Person","@id":"https://middleton.io/#kevin",name:"Kevin Middleton",url:SITE},
     blogPost: posts.map(p=>({"@type":"BlogPosting",headline:p.title,url:`${SITE}/blog/${p.slug}/`,datePublished:isoDate(p.published_at)}))};
   const crumbs = {"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[
     {"@type":"ListItem",position:1,name:"Home",item:`${SITE}/`},
