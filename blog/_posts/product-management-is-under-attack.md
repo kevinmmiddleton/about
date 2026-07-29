@@ -14,7 +14,7 @@ tags:
   - Career
 featured: false
 sort_order: null
-excerpt: We keep killing product management. It keeps coming back.
+excerpt: We keep killing product management. It keeps coming back. What the latest round of obituaries gets wrong about the work, and who actually does it.
 cover_image: /blog/images/product-management-is-dead-cover.png
 cover_alt: A cartoon gravestone reading "R.I.P. Product Management" with a hand clawing its way up out of the dirt in front of it, suggesting the role is declared dead but coming back to life.
 linkedin_url: ''
