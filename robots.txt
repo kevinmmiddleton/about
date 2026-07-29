@@ -3,18 +3,18 @@ User-agent: *
 Allow: /
 Disallow: /*?from=*
 
-# Old/archive/OG-generator pages (unlinked; keep out of search)
-Disallow: /index-v2.html
-Disallow: /index-archive-v1.htm
+# Past versions of the site. Browsable at /archive/ on purpose, but kept out of
+# search: their Person markup predates the entity consolidation, so indexing them
+# would split one Kevin Middleton into several. The pages also carry noindex.
+Disallow: /archive/
+
+# OG-image generators (unlinked; not pages)
 Disallow: /OG.html
 Disallow: /casestudies/OG.html
 Disallow: /slides/og.html
 Disallow: /visionbort/og.html
-Disallow: /archive-how-i-work.html
 Disallow: /admin/
 Disallow: /blog/images/_originals/
-Disallow: /officehours/index-new.html
-Disallow: /officehours/index-archive.htm
 
 # Internal design/product context for AI agents working on the repo
 Disallow: /DESIGN.md
