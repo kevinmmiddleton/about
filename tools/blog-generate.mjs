@@ -245,7 +245,11 @@ function articlePage(post, all) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
-    <title>${esc(post.title)} | Kevin Middleton</title>
+    <!-- No " | Kevin Middleton" suffix: it cost 18 chars of a ~60 char budget and
+         pushed real titles past the truncation point. og:title, twitter:title, the
+         h1, the blog card and the RSS item all use post.title directly, so nothing
+         visible changes. -->
+    <title>${esc(post.title)}</title>
     <meta name="description" content="${escAttr(post.excerpt)}">
 
     <link rel="canonical" href="${url}">
