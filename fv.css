@@ -2569,7 +2569,10 @@ body.p-slides .verdict.bad .icon{color:var(--c2-text)}
    already solved this by wrapping to a second row; this makes that the shared
    behaviour so every page has the same nav. Row 1 is wordmark + Office Hours,
    row 2 is the full-width link rail, which scrolls if it needs to. */
-@media(max-width:900px){
+/* 1100, not 900. Measured: the gap between the wordmark and the link rail is
+   60px at 1150, 37px at 1100, 14px at 1050 and -9px at 1000, i.e. the subtitle
+   ran into "Building" anywhere below ~1050. Two rows now start before that. */
+@media(max-width:1100px){
   .nav{flex-wrap:wrap;row-gap:.55rem;align-items:center}
   .nav .mk{order:1}
   .nav .cta{order:2;margin-left:auto}
@@ -2632,7 +2635,7 @@ body.p-proto .card-head .card-k{min-width:0;line-height:1.25}
 /* The rail grows to fill the space between wordmark and CTA (that flex:1 is what
    stops it overflowing near 1000px), but its links were left-aligned inside it,
    so they hugged the wordmark and left a wide gap before Office Hours.  */
-@media(min-width:901px){
+@media(min-width:1101px){
   .nav-l{justify-content:center}
 }
 
@@ -2640,7 +2643,7 @@ body.p-proto .card-head .card-k{min-width:0;line-height:1.25}
    the links midway between the wordmark (283px) and the CTA (106px), which sits
    ~88px right of true centre. A three-column grid with equal side tracks makes
    the middle track the page centre regardless of how wide the flanks are. */
-@media(min-width:901px){
+@media(min-width:1101px){
   .nav{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
     align-items:center;gap:1rem}
   .nav .mk{justify-self:start;grid-column:1}
@@ -2811,7 +2814,7 @@ body.p-cases .cs-metric-label{
    flex-basis:100% is what drops the links to their own line, so this block
    needs wrap ON. A later rule forcing nowrap squeezed all three onto one line
    and clipped the links, which is the bug this comment exists to prevent. */
-@media(max-width:900px){.fv .nav{align-items:center;row-gap:.65rem;flex-wrap:wrap}.fv .mk{order:1}.fv .cta{order:2;margin-left:auto}.fv .nav-l{order:3;flex-basis:100%;gap:.9rem;overflow-x:auto;flex-wrap:nowrap;
+@media(max-width:1100px){.fv .nav{align-items:center;row-gap:.65rem;flex-wrap:wrap}.fv .mk{order:1}.fv .cta{order:2;margin-left:auto}.fv .nav-l{order:3;flex-basis:100%;gap:.9rem;overflow-x:auto;flex-wrap:nowrap;
     scrollbar-width:none;-ms-overflow-style:none}.fv .nav-l::-webkit-scrollbar{display:none}.fv .nav-l a{white-space:nowrap}
 }
 /* Six links at 390px overran the rail by ~28px, clipping the last one with no
@@ -2819,13 +2822,13 @@ body.p-cases .cs-metric-label{
 /* The rail grows to fill the space between wordmark and CTA (that flex:1 is what
    stops it overflowing near 1000px), but its links were left-aligned inside it,
    so they hugged the wordmark and left a wide gap before Office Hours.  */
-@media(min-width:901px){.fv .nav-l{justify-content:center}
+@media(min-width:1101px){.fv .nav-l{justify-content:center}
 }
 /* Centre the rail on the PAGE, not between its neighbours. space-between put
    the links midway between the wordmark (283px) and the CTA (106px), which sits
    ~88px right of true centre. A three-column grid with equal side tracks makes
    the middle track the page centre regardless of how wide the flanks are. */
-@media(min-width:901px){.fv .nav{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+@media(min-width:1101px){.fv .nav{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
     align-items:center;gap:1rem}.fv .nav .mk{justify-self:start;grid-column:1}.fv .nav-l{justify-self:center;grid-column:2;flex:0 0 auto;min-width:0;max-width:100%}.fv .nav .cta{justify-self:end;grid-column:3}
 }
 @media(max-width:430px){.fv .nav-l{gap:.62rem}.fv .nav-l a{font-size:.74rem}
