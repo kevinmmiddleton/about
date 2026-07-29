@@ -4,18 +4,32 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="robots" content="noindex, noarchive">
-<title>How I Work (retired section) · Archive</title>
-<link rel="stylesheet" href="/fv.css">
+<title>How I Work (retired section) &middot; Archive</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<!-- styles-merged.css, not fv.css. This markup was authored against the old
+     homepage stylesheet: .glass-card, .career-highlights-grid, .tint-* and
+     friends, of which fv.css defines almost none, so under fv.css it rendered
+     as unstyled boxes. Loading the sheet it was written for is both the only
+     way it renders and the honest choice for an archive. (.career-title,
+     .career-text and .career-description were never styled in any sheet, then
+     or now.) -->
+<link rel="stylesheet" href="/archive/_assets/styles-merged.css">
 <style>
-  body{margin:0}
-  .arc-wrap{max-width:1400px;margin-inline:auto;padding:clamp(1rem,4vw,3rem)}
-  .arc-note{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--ink2);border-bottom:2px solid var(--ink);padding-bottom:.6rem;margin-bottom:1.6rem}
-  .arc-note a{color:inherit}
+  .arc-note{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    padding: 18px 24px; margin: 0;
+    border-bottom: 1px solid rgba(128,128,128,.3);
+  }
+  .arc-note a{ text-decoration: none; border-bottom: 1px solid currentColor; }
+  /* styles-merged.css carries `#career-highlights { display: none }`. This
+     section was switched off on the live homepage, which is presumably how it
+     ended up a cut section in the first place. An archive exists to show it, so
+     it is switched back on here. */
+  #career-highlights{ display: block !important; }
 </style>
 </head>
 <body>
-<div class="fv"><div class="arc-wrap">
 <p class="arc-note"><a href="/archive/">&larr; Archive</a> &middot; retired section, kept for the record</p>
 <!-- Career Highlights Section -->
                 <section id="career-highlights" class="section">
@@ -96,6 +110,5 @@
                                 </div>
                             </div>
                         </div>
-</div></div>
 </body>
 </html>
