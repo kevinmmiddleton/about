@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
+    <!-- No " | Kevin Middleton" suffix: it cost 18 chars of a ~60 char budget and
+         pushed real titles past the truncation point. og:title, twitter:title, the
+         h1, the blog card and the RSS item all use post.title directly, so nothing
+         visible changes. -->
+    <title>An AI tool for me 🎉 An AI tool for us? 🙈</title>
+    <meta name="description" content="The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.">
+
+    <link rel="canonical" href="https://middleton.io/blog/building-personal-ai-tools-for-everyone-else/">
+    <link rel="alternate" type="application/rss+xml" title="Kevin Middleton" href="https://middleton.io/blog/feed.xml">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://middleton.io/blog/building-personal-ai-tools-for-everyone-else/">
+    <meta property="og:title" content="An AI tool for me 🎉 An AI tool for us? 🙈">
+    <meta property="og:description" content="The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.">
+    <meta property="og:image" content="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png">
+    <meta property="og:site_name" content="Kevin Middleton">
+    <meta property="article:published_time" content="2026-07-29">
+    <meta property="article:author" content="Kevin Middleton">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="An AI tool for me 🎉 An AI tool for us? 🙈">
+    <meta name="twitter:description" content="The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.">
+    <meta name="twitter:image" content="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png">
+
+    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
+         system stack, which is also why the old Inter/Epilogue links are gone. -->
+    <link rel="stylesheet" href="/fv.css?v=3bb54490">
+    <link rel="stylesheet" href="/blog/blog.css?v=99c23c60">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <!-- Identity verification. Same three profiles the homepage claims, so every
+         page resolves to one entity rather than a separate author blob.
+         Wikidata is the disambiguating anchor. -->
+    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+    <link rel="me" href="https://github.com/kevinmmiddleton">
+    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+
+    <!-- JSON-LD: Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "An AI tool for me 🎉 An AI tool for us? 🙈",
+        "description": "The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.",
+        "author": {
+            "@type": "Person",
+            "@id": "https://middleton.io/#kevin",
+            "name": "Kevin Middleton",
+            "url": "https://middleton.io",
+            "sameAs": [
+                "https://www.linkedin.com/in/kevinmiddleton/",
+                "https://github.com/kevinmmiddleton",
+                "https://www.wikidata.org/wiki/Q140389537"
+            ]
+        },
+        "publisher": {
+            "@type": "Person",
+            "@id": "https://middleton.io/#kevin",
+            "name": "Kevin Middleton",
+            "url": "https://middleton.io"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://middleton.io/blog/building-personal-ai-tools-for-everyone-else/"
+        },
+        "url": "https://middleton.io/blog/building-personal-ai-tools-for-everyone-else/",
+        "image": "https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png",
+        "articleSection": "Blog",
+        "keywords": [
+            "AI",
+            "job search",
+            "building"
+        ],
+        "wordCount": 959,
+        "datePublished": "2026-07-29",
+        "dateModified": "2026-07-29"
+    }
+    </script>
+
+    <!-- JSON-LD: Breadcrumb -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://middleton.io/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://middleton.io/blog/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "An AI tool for me 🎉 An AI tool for us? 🙈",
+                "item": "https://middleton.io/blog/building-personal-ai-tools-for-everyone-else/"
+            }
+        ]
+    }
+    </script>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+    <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+    </script>
+</head>
+<body>
+    <nav class="nav pad">
+        <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+        <span class="nav-l">
+          <a href="/#building">Building</a>
+          <a href="/#about">About</a>
+          <a href="/#record">Experience</a>
+          <a href="/#cases">Case Studies</a>
+          <a href="/blog/" target="_blank" rel="noopener noreferrer">Blog</a>
+        </span>
+        <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
+      </nav>
+
+    <main>
+    <article class="article">
+        <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+        <p class="article-eyebrow">Building with AI</p>
+        <h1 class="article-title">An AI tool for me 🎉 An AI tool for us? 🙈</h1>
+        <div class="article-meta">
+            <span>By Kevin Middleton</span>
+            <span class="dot" aria-hidden="true">·</span>
+            <span>July 29, 2026</span>
+        </div>
+
+        <img class="article-hero" src="/blog/images/1780711744499-job-search-agent-banner.png" width="2280" height="930" alt="An AI tool for me 🎉 An AI tool for us? 🙈">
+
+        <div class="article-body">
+<p class="callout">Part 8 of a series on Building with AI. Start at the beginning: <a target="_blank" rel="noopener" href="/blog/ai-job-search-assistant/">I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To</a>.</p>
+
+<p>When I started my job search, I didn't want to constantly refresh LinkedIn all day, riding the little hit of dopamine when a new role popped up and the drop when it turned out to be one I'd already seen. I wanted my search to feel deliberate instead of compulsive, and I wanted to feel a sense of control of the process. So I built an agent and a dashboard to handle the search for me.</p>
+
+<p>My personal job search agent reads my profile, pulls fresh roles that actually match, ignores the companies on my skip list, kills duplicates before I ever see them, scores what's left so the best ones sit on top, and pings me when something good lands. I use my personal dashboard instead of the job boards, which totally reframes a job search. It really makes it feel like it's more on your own terms, at least it does for me.</p>
+
+<p>The best part of building something for yourself is the day someone else wants it too. My friends watched me stop doom-refreshing and asked the obvious thing: can I have that? For a while my answer would trail into a mumble, because the whole system was built for exactly one person (me). This month, that changes. I'm about to hand five close friends and colleagues the keys. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=PEADQ6qfQtY">I can't wait to see how this turns out!</a></p>
+
+<h3>Handing over something you built for yourself is hard</h3>
+
+<p>I said a while back that <a target="_blank" rel="noopener" href="https://middleton.io/blog/ai-tools-non-technical/">I couldn't just hand this thing over</a>, because it was wrapped around my criteria, my skip list, my phone, my schedule. I was right. So I left it alone for months.</p>
+
+<p>When I finally sat down to do it, the code turned out to be the easy part. The hard part was everything I'd been running on instinct, the stuff a second person would need spelled out.</p>
+
+<h3>Making it multi-user</h3>
+
+<p>To turn my personal job search agent into one I could share with friends, I had to build an invite screen, a settings page, some onboarding. About a day of work (shoutout to Claude Opus 5). The real work was deciding things: how to keep user data separate, how a new person sets up their own job search agent, and what subset of my tools should scale and which ones should hit the cutting room floor.</p>
+
+<p>The launch features:</p>
+
+<p><strong>Fresh roles, twice a day.</strong> The scanner runs morning and evening and <a target="_blank" rel="noopener" href="https://middleton.io/blog/ai-job-scanner-daily/">removes duplicate or repeat job postings</a>, so what shows up is actually new. That part carried straight over from my own build.</p>
+
+<p><strong>Inbox zero for jobs.</strong> New roles land in a dashboard, and each one gets applied, snoozed, or skipped. Snooze hides a role for a few days and then brings it back, which sounds small but it's the whole reason the queue ever hits empty. Inbox zero is a great feeling you should be able to feel every day.</p>
+
+<p><strong>Block companies.</strong> Staffing firms repost the same role under different names, aggregators pretend to be employers, there are industries we might want to avoid, and a few we've simply had enough of. Just block and never see again.</p>
+
+<figure>
+  <img src="/blog/images/job-tracker-insights-funnel.png" width="1600" height="900" alt="The Insights tab of my own job tracker: an interview funnel from Recruiter Screen down to Offer, plus an active-pipeline table, with the personal numbers blurred out." loading="lazy">
+  <figcaption>My own Insights view from my personal job search agent dashboard (with numbers blurred).</figcaption>
+</figure>
+
+<p>And a lot of the work to make this usable by others was deciding what to take out. The one thing I lean on that didn't make the v1 cut for other users is a personal scanner that reads my email and logs my rejections so my funnel stays up to date automatically.</p>
+
+<h3>Build your own (the lightweight version)</h3>
+
+<p>Here's the part I'm most excited about: you don't need me for any of this.</p>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/kevinmmiddleton/job-search-agent">The bones are open source</a>. It's the lightweight version of everything above, and it runs on a computer as humble as a Mac Mini in a closet. Mine does. If you want to start, paste this into your AI and follow where it leads:</p>
+
+<div class="prompt-block">I want to build a personal job search assistant. Here is what it should do:
+read a short profile of what I'm looking for, pull fresh job listings that
+match, ignore a skip list of companies I never want to see, remove duplicates
+I've already seen, score each remaining role for fit so the best rise to the
+top, and keep a simple tracker of what I've applied to and what got rejected.
+Start me with the simplest version that runs on my own computer, and walk me
+through it one step at a time. Use this open-source project as a starting point: https://github.com/kevinmmiddleton/job-search-agent</div>
+
+<p>That gets you the do-it-yourself version. The full one, the shared dashboard my friends will log into, is the part I run so they don't have to. Two ways in: build it yourself, or let someone hand it to you.</p>
+
+<h3>Start with your own use cases</h3>
+
+<p>If you want to build something like this, here's the only advice I actually trust: start with your own use cases. Build the thing you need, for the one user you understand better than anyone, which is you. Get it good enough that you depend on it. Everything after that, letting other people in, is the fun part.</p>
+
+<p>The five of them start in the next couple of weeks. Something will break, and I'll write about that too.</p>
+
+<p>The best job search tool I've ever used had exactly one user (me) and it got better the more I used it and understood my own friction points. It'll get better still once my friends start telling me what they need.</p>
+
+<p class="callout">That's the series so far. Start over at <a target="_blank" rel="noopener" href="/blog/ai-job-search-assistant/">Part 1</a>, or browse everything on the <a target="_blank" rel="noopener" href="/blog/">blog</a>.</p>
+
+<div class="article-bio">
+  <p>Kevin Middleton is a Full Stack Product Manager who builds systems that help product teams not lose their minds. Currently looking for his next role in NYC. More at <a target="_blank" rel="noopener" href="https://middleton.io">middleton.io</a> and <a target="_blank" rel="noopener" href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
+</div>
+        </div>
+        <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+    </article>
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="container footer-content">
+            <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
+        </div>
+    </footer>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+        </div>
+    </div>
+
+    <script src="/blog/blog-nav.js"></script>
+</body>
+</html>
