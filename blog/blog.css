@@ -253,7 +253,13 @@ figcaption {
 .prompt-block {
     position: relative;
     font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-    font-size: 13.5px;
+    /* 12.5px, not 13.5. The prompts in these posts are hard-wrapped at 74-77
+       characters, and at 13.5px exactly 77 fit the column: zero headroom. The
+       font stack resolves to different metrics per browser, so Safari fit one
+       character fewer and every line lost its last word to a soft wrap, which
+       read as random short lines. 12.5px fits ~84, giving 7 characters of
+       slack so the authored line breaks survive any browser. */
+    font-size: 12.5px;
     line-height: 1.6;
     background: var(--card-bg);
     border: 1px solid var(--border);
