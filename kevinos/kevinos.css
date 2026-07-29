@@ -7940,7 +7940,7 @@ html.kos-mobile body {
     place-items: center;
     width: 32px;
     height: 32px;
-    color: var(--mint);
+    color: #000;
     transition: color 0.2s ease;
 }
 
@@ -7951,18 +7951,16 @@ html.kos-mobile body {
 }
 
 .dock-item:hover .dock-term-icon {
-    color: var(--mint-hover);
+    color: #000;
 }
 
-/* Same icon in the window title bar. Sized to the 14px emoji it replaces and
-   tinted with --mint, which KevinOS already redefines per colour scheme
-   (#4ae0a0 dark / #059669 light), so contrast holds in both. */
+/* Same icon in the window title bar, sized to the 14px emoji it replaces. */
 .term-title-icon {
     display: inline-grid;
     place-items: center;
     width: 15px;
     height: 15px;
-    color: var(--mint);
+    color: #000;
     flex: 0 0 auto;
 }
 
@@ -7972,24 +7970,4 @@ html.kos-mobile body {
     display: block;
 }
 
-/* Light mode: the standard --mint (#059669) clears the 3:1 non-text minimum
-   but only just (3.64:1 in the dock). Step down to the darker --mint-hover
-   for real headroom; both values are already in the KevinOS palette. */
-@media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) .dock-term-icon,
-    :root:not([data-theme="dark"]) .term-title-icon {
-        color: var(--mint-hover);
-    }
-    :root:not([data-theme="dark"]) .dock-item:hover .dock-term-icon {
-        color: var(--mint);
-    }
-}
-
-[data-theme="light"] .dock-term-icon,
-[data-theme="light"] .term-title-icon {
-    color: var(--mint-hover);
-}
-
-[data-theme="light"] .dock-item:hover .dock-term-icon {
-    color: var(--mint);
-}
+/* No per-scheme override: the glyph is black in light and dark alike. */
