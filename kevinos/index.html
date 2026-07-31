@@ -174,7 +174,9 @@
     <!-- macOS Menu Bar -->
     <header class="menubar">
         <div class="menubar-left">
-            <a href="https://middleton.io/" class="menubar-back" title="Back to middleton.io">‹</a>
+            <a href="https://middleton.io/" class="menubar-back" title="Back to middleton.io"><span
+                    class="menubar-back-chev" aria-hidden="true">‹</span><span
+                    class="menubar-back-label">middleton.io</span></a>
             <a href="https://middleton.io/kevinos/" class="menubar-app">KevinOS</a>
             <span class="menubar-menu">File</span>
             <span class="menubar-menu">Edit</span>
@@ -2157,11 +2159,11 @@
         <button class="dock-item" aria-label="Recommendations" data-window="recommendations" data-tooltip="reviews.chat">
             <span class="dock-emoji">💬</span>
         </button>
-        <button class="dock-item desktop-only" data-window="games" data-tooltip="games/">
+        <button class="dock-item desktop-only" aria-label="Games" data-window="games" data-tooltip="games/">
             <span class="dock-emoji">🎮</span>
         </button>
         <!-- Mobile Apps folder trigger -->
-        <button class="dock-item mobile-only" id="dockAppsFolder" data-tooltip="Apps">
+        <button class="dock-item mobile-only" id="dockAppsFolder" aria-label="Apps folder" data-tooltip="Apps">
             <span class="dock-emoji dock-folder-icon">
                 <span class="folder-mini-grid">
                     <span>🎮</span>
@@ -2181,7 +2183,7 @@
             <!-- icon: MynaUI Icons (MIT) © Praveen Juge — github.com/praveenjuge/mynaui-icons -->
             <span class="dock-emoji dock-term-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.367 2.25h5.266c1.092 0 1.958 0 2.655.057.714.058 1.317.18 1.869.46a4.75 4.75 0 0 1 2.075 2.077c.281.55.403 1.154.461 1.868.057.697.057 1.563.057 2.655v5.266c0 1.092 0 1.958-.057 2.655-.058.714-.18 1.317-.46 1.869a4.75 4.75 0 0 1-2.076 2.075c-.552.281-1.155.403-1.869.461-.697.057-1.563.057-2.655.057H9.367c-1.092 0-1.958 0-2.655-.057-.714-.058-1.317-.18-1.868-.46a4.75 4.75 0 0 1-2.076-2.076c-.281-.552-.403-1.155-.461-1.869-.057-.697-.057-1.563-.057-2.655V9.367c0-1.092 0-1.958.057-2.655.058-.714.18-1.317.46-1.868a4.75 4.75 0 0 1 2.077-2.076c.55-.281 1.154-.403 1.868-.461.697-.057 1.563-.057 2.655-.057M8.53 8.47a.75.75 0 0 0-1.06 1.06L9.94 12l-2.47 2.47a.75.75 0 1 0 1.06 1.06l3-3a.75.75 0 0 0 0-1.06zM13 14.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5z"/></svg></span>
         </button>
-        <a class="dock-item plausible-event-name=Resume+Download" data-tooltip="resume.pdf"
+        <a class="dock-item plausible-event-name=Resume+Download" aria-label="Resume (PDF)" data-tooltip="resume.pdf"
             href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf"
             download>
             <span class="dock-emoji">📄</span>

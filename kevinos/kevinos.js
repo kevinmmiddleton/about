@@ -4670,30 +4670,33 @@ loadKevinRecipes();
 // Position the home trio (about / building / writing) for the current
 // viewport: three columns when they fit, a cascade when they don't. The
 // cluster is centered on very wide screens instead of hugging the edges.
+// The desktop's opening arrangement. Experience is the anchor: it is the
+// evidence a recruiter came for, so it gets the widest column and sits at the
+// top of the screen rather than below the fold. About and Building flank it.
 function applyHomeLayout() {
+    const experienceWin = document.querySelector('[data-window="experience"]');
     const aboutWin = document.querySelector('[data-window="about"]');
     const buildingWin = document.querySelector('[data-window="building"]');
-    const writingWin = document.querySelector('[data-window="writing"]');
     const vw = window.innerWidth;
 
     if (vw >= 1180) {
         const margin = Math.max(30, Math.round((vw - 1460) / 2));
         const gap = 14;
         const span = vw - margin * 2;
-        const writingW = 320;
-        const writingLeft = vw - margin - writingW;
-        const buildingW = Math.min(400, Math.max(330, Math.round(span * 0.27)));
-        const buildingLeft = writingLeft - gap - buildingW;
-        const aboutW = Math.min(680, buildingLeft - gap - margin);
-        if (aboutWin) {
-            aboutWin.style.left = margin + 'px';
-            aboutWin.style.top = '190px';
-            aboutWin.style.width = aboutW + 'px';
+        const buildingW = 320;
+        const buildingLeft = vw - margin - buildingW;
+        const aboutW = Math.min(400, Math.max(330, Math.round(span * 0.27)));
+        const aboutLeft = buildingLeft - gap - aboutW;
+        const experienceW = Math.min(680, aboutLeft - gap - margin);
+        if (experienceWin) {
+            experienceWin.style.left = margin + 'px';
+            experienceWin.style.top = '40px';
+            experienceWin.style.width = experienceW + 'px';
         }
-        if (writingWin) {
-            writingWin.style.left = writingLeft + 'px';
-            writingWin.style.top = '40px';
-            writingWin.style.width = writingW + 'px';
+        if (aboutWin) {
+            aboutWin.style.left = aboutLeft + 'px';
+            aboutWin.style.top = '40px';
+            aboutWin.style.width = aboutW + 'px';
         }
         if (buildingWin) {
             buildingWin.style.left = buildingLeft + 'px';
@@ -4702,9 +4705,9 @@ function applyHomeLayout() {
         }
     } else {
         // Narrower desktops can't fit three columns; cascade instead of
-        // squeezing windows into slivers
+        // squeezing windows into slivers. Experience leads the stack.
         const w = Math.min(560, vw - 120);
-        [aboutWin, writingWin, buildingWin].forEach((win, i) => {
+        [experienceWin, aboutWin, buildingWin].forEach((win, i) => {
             if (!win) return;
             win.style.left = (40 + i * 56) + 'px';
             win.style.top = (56 + i * 46) + 'px';
@@ -4786,7 +4789,7 @@ function applyHomeLayout() {
                 // Deep links / reloads skip the boot layout, so windows would
                 // open at raw CSS defaults (centered, stacked). Give the home
                 // trio their designed spots first.
-                if (ids.some(id => ['about', 'writing', 'building'].includes(id))) {
+                if (ids.some(id => ['experience', 'about', 'building'].includes(id))) {
                     applyHomeLayout();
                 }
                 ids.forEach(id => openWindow(id));
@@ -4799,10 +4802,12 @@ function applyHomeLayout() {
     if (!isMobile()) {
         setTimeout(() => {
             applyHomeLayout();
-            // Open windows in order (last one gets focus)
-            openWindow('about');
-            openWindow('writing');
+            // Order matters: the last one opened takes focus. Building and About
+            // set the scene, Experience lands on top because it is the reason
+            // most visitors are here.
             openWindow('building');
+            openWindow('about');
+            openWindow('experience');
         }, 150);
     }
 })();
