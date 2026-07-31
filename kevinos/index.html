@@ -36,7 +36,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="kevinos.css?v=bbfa7986">
+    <link rel="stylesheet" href="kevinos.css?v=1b512189">
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
@@ -147,7 +147,11 @@
             // A zero width means the viewport is not laid out yet (some embeds and
             // offscreen/background tabs). 0 <= 768 would read as "mobile" and strand
             // a desktop behind the portrait wall, so trust the pointer type instead.
-            var mob = w ? (w <= 768 || (coarse && Math.min(w, h) <= 768)) : coarse;
+            // The short side, not the long one, is what separates a phone from a
+            // tablet: a phone is <=430 across in portrait, a tablet is 744+. At the
+            // old 768 an iPad in landscape (1024x768) counted as a phone and got
+            // sent to the portrait wall.
+            var mob = w ? (w <= 768 || (coarse && Math.min(w, h) <= 500)) : coarse;
             if (mob) document.documentElement.classList.add('kos-mobile');
         })();
     </script>
@@ -205,6 +209,20 @@
             stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="5.4" width="18.8" height="13.2" rx="2.6"/><path d="m10.4 9.8 4.8 2.9-4.8 2.9z"/></symbol>
         <symbol id="ico-recycle" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-linecap="round" stroke-linejoin="round"><path d="M4.4 6.6h15.2"/><path d="M9.4 6.6V4.9a1.7 1.7 0 0 1 1.7-1.7h1.8a1.7 1.7 0 0 1 1.7 1.7v1.7"/><path d="m6.6 6.6.9 12.4a2 2 0 0 0 2 1.8h5a2 2 0 0 0 2-1.8l.9-12.4"/><path d="M10.4 10.8v6M13.6 10.8v6"/></symbol>
+        <symbol id="ico-invaders" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M7 9.6a5 5 0 0 1 10 0v3.8a5 5 0 0 1-10 0z"/><circle cx="9.9" cy="11.4" r="1.05" fill="currentColor" stroke="none"/><circle cx="14.1" cy="11.4" r="1.05" fill="currentColor" stroke="none"/><path d="M7.4 9 5 6.4M16.6 9 19 6.4M8.2 17.4l-2 3M15.8 17.4l2 3"/></symbol>
+        <symbol id="ico-tetris" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><rect x="4.2" y="4.2" width="6.2" height="6.2" rx="1"/><rect x="4.2" y="10.4" width="6.2" height="6.2" rx="1"/><rect x="10.4" y="10.4" width="6.2" height="6.2" rx="1"/></symbol>
+        <symbol id="ico-bugsquash" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13.4" rx="4.8" ry="6"/><path d="M12 7.6v11.6"/><path d="M9.8 8.6 7.6 5.6M14.2 8.6l2.2-3"/><path d="M7.2 11H3.9M7.2 14.2H3.4M7.4 17.4H4.4M16.8 11h3.3M16.8 14.2h3.8M16.6 17.4H20"/></symbol>
+        <symbol id="ico-runner" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="4.9" r="2.4" fill="currentColor" stroke="none"/><path d="M13.4 9.2 9.8 13.6l3 4.1-1.5 3.9"/><path d="M9.8 13.6 5.9 15.6l.2 4.2"/><path d="M13.8 10.1 17.9 11.9M12.6 10.5 8.6 9.3"/><path d="M2.6 6.4h3.2M2 9.6h4"/></symbol>
+        <symbol id="ico-snake" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><rect x="3.4" y="6.4" width="5.1" height="5.1" rx="1.3"/><rect x="8.5" y="6.4" width="5.1" height="5.1" rx="1.3"/><rect x="8.5" y="11.5" width="5.1" height="5.1" rx="1.3"/><rect x="8.5" y="16.6" width="5.1" height="5.1" rx="1.3"/><circle cx="18.6" cy="19.2" r="1.9"/></symbol>
+        <symbol id="ico-standup" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><rect x="9.4" y="2.9" width="5.2" height="10.3" rx="2.6"/><path d="M6.4 11.3a5.6 5.6 0 0 0 11.2 0"/><path d="M12 16.9v3.5M8.7 20.4h6.6"/></symbol>
+        <symbol id="ico-interview" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M3.2 6.6A2.4 2.4 0 0 1 5.6 4.2h6.6a2.4 2.4 0 0 1 2.4 2.4v2.8a2.4 2.4 0 0 1-2.4 2.4H7.4L4.2 14v-2.4a2.4 2.4 0 0 1-1-2z"/><path d="M9.6 15.4a2.4 2.4 0 0 0 2.4 2.4h4.6l3.2 2.2v-2.4a2.4 2.4 0 0 0 1-2v-2.4a2.4 2.4 0 0 0-2.4-2.4h-1.2"/></symbol>
         <!-- icon: AIM running man, via SVG Repo (svgrepo.com) -->
         <symbol id="ico-aim" viewBox="-4.39 2.94 26.56 26.56">
             <path fill="currentColor" d="M13.969 6.75c0.781 0.781 1.156 1.688 1.156 2.75 0 0.906-0.25 1.719-0.813 2.406-0.531 0.688-1.25 1.156-2.094 1.375 1.031 0.125 2-0.063 2.906-0.531l0.656-0.406 1.813 4.156-0.563 0.313c-1.406 0.781-2.656 1.25-3.719 1.406 1.781 1.406 3.219 3.25 4.25 5.563l0.219 0.5-4.156 2.469-0.344-0.594c-0.688-1.563-2.031-2.875-4-3.844-0.781 1.063-1.563 1.906-2.313 2.438-1.188 0.906-2.688 1.563-4.531 1.938l-0.594 0.156-1.844-5.031 1.406-0.219c0.375-0.125 0.75-0.25 1.156-0.469 1.188-0.563 2.031-1.438 2.594-2.594 0.063-0.094 0.094-0.375 0.125-0.75 0.219-2.781 1.188-4.75 2.844-5.938-0.531-0.688-0.781-1.469-0.781-2.344 0-1.063 0.375-1.969 1.156-2.75 0.75-0.781 1.656-1.156 2.75-1.156 1.063 0 1.969 0.375 2.719 1.156zM15.875 15.938l-0.75-1.719c-1.438 0.594-2.813 0.688-4.125 0.25l-0.281-0.094-0.125-0.313c-0.031-0.125-0.063-0.313-0.094-0.563v-0.156c-0.531-0.125-0.938-0.281-1.344-0.563-0.813 0.469-1.406 1.094-1.781 1.875-0.406 0.781-0.656 1.875-0.781 3.25-0.063 0.625-0.125 1.031-0.25 1.219-0.906 1.906-2.406 3.156-4.531 3.719l0.875 2.438c1.469-0.344 2.719-0.938 3.656-1.719 0.594-0.469 1.219-1.188 1.969-2.156l0.313-0.406c0.094-0.125 0.25-0.188 0.438-0.188 0.094 0 0.219 0.031 0.281 0.094 2.25 0.969 3.875 2.281 4.813 4l1.938-1.125c-0.938-1.813-2.125-3.344-3.625-4.531-0.469-0.344-0.938-0.688-1.438-0.938l-0.656-0.344c-0.219-0.094-0.313-0.281-0.281-0.563 0.063-0.438 0.25-0.656 0.625-0.656l0.406 0.063 1.938 0.094c0.813-0.094 1.75-0.406 2.813-0.969zM11.25 7.031c-0.688 0-1.281 0.219-1.781 0.719s-0.75 1.063-0.75 1.75 0.25 1.281 0.75 1.75c0.5 0.5 1.094 0.75 1.781 0.75s1.25-0.25 1.75-0.75c0.5-0.469 0.75-1.063 0.75-1.75s-0.25-1.25-0.75-1.75-1.063-0.719-1.75-0.719z"/>
@@ -400,20 +418,20 @@
                             <img src="https://middleton.io/images/profile-picture.jpg" alt="Kevin Middleton"
                                 class="profile-img" data-photo="profile-picture"
                                 data-photo-src="https://middleton.io/images/profile-picture.jpg"
-                                data-photo-title="Kevin Middleton">
+                                data-photo-title="Kevin Middleton" loading="lazy" decoding="async">
                             <div class="profile-photos-row">
                                 <img src="https://middleton.io/images/cat-illustration.jpg" alt="Cat illustration"
                                     class="profile-thumb" data-photo="cat-illustration"
                                     data-photo-src="https://middleton.io/images/cat-illustration.jpg"
-                                    data-photo-title="Cat + Dad">
+                                    data-photo-title="Cat + Dad" loading="lazy" decoding="async">
                                 <img src="https://middleton.io/images/carne-asada-fries-homemade.jpg"
                                     alt="Homemade carne asada fries" class="profile-thumb" data-photo="carne-asada"
                                     data-photo-src="https://middleton.io/images/carne-asada-fries-homemade.jpg"
-                                    data-photo-title="Homemade Carne Asada Fries">
+                                    data-photo-title="Homemade Carne Asada Fries" loading="lazy" decoding="async">
                                 <img src="https://middleton.io/images/cats-photo.jpg" alt="Kevin's cats"
                                     class="profile-thumb" data-photo="cats-photo"
                                     data-photo-src="https://middleton.io/images/cats-photo.jpg"
-                                    data-photo-title="Blue, Scarlet & Luna">
+                                    data-photo-title="Blue, Scarlet & Luna" loading="lazy" decoding="async">
                             </div>
                         </div>
                         <div class="profile-text">
@@ -1444,31 +1462,31 @@
                 <div class="window-content folder-content">
                     <div class="folder-grid" id="gamesFolderGrid">
                         <button class="folder-item" data-window="invaders">
-                            <span class="folder-icon">👾</span>
+                            <span class="folder-icon"><svg><use href="#ico-invaders"></use></svg></span>
                             <span class="folder-label">invaders.app</span>
                         </button>
                         <button class="folder-item" data-window="tetris">
-                            <span class="folder-icon">🧱</span>
+                            <span class="folder-icon"><svg><use href="#ico-tetris"></use></svg></span>
                             <span class="folder-label">tetris.app</span>
                         </button>
                         <button class="folder-item" data-window="bugsquash">
-                            <span class="folder-icon">🐛</span>
+                            <span class="folder-icon"><svg><use href="#ico-bugsquash"></use></svg></span>
                             <span class="folder-label">bugsquash.app</span>
                         </button>
                         <button class="folder-item" data-window="runner">
-                            <span class="folder-icon">🏃</span>
+                            <span class="folder-icon"><svg><use href="#ico-runner"></use></svg></span>
                             <span class="folder-label">runner.app</span>
                         </button>
                         <button class="folder-item" data-window="snake">
-                            <span class="folder-icon">🐍</span>
+                            <span class="folder-icon"><svg><use href="#ico-snake"></use></svg></span>
                             <span class="folder-label">snake.app</span>
                         </button>
                         <button class="folder-item" data-window="standup">
-                            <span class="folder-icon">⌨️</span>
+                            <span class="folder-icon"><svg><use href="#ico-standup"></use></svg></span>
                             <span class="folder-label">standup.app</span>
                         </button>
                         <button class="folder-item" data-window="interview">
-                            <span class="folder-icon">💼</span>
+                            <span class="folder-icon"><svg><use href="#ico-interview"></use></svg></span>
                             <span class="folder-label">interview.app</span>
                         </button>
                     </div>
@@ -1486,7 +1504,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">👾</span>
+                        <span class="window-icon"><svg><use href="#ico-invaders"></use></svg></span>
                         invaders.app
                         <span class="file-badge app">APP</span>
                     </div>
@@ -1560,7 +1578,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🧱</span>
+                        <span class="window-icon"><svg><use href="#ico-tetris"></use></svg></span>
                         tetris.app
                         <span class="file-badge app">APP</span>
                     </div>
@@ -1634,7 +1652,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🐛</span>
+                        <span class="window-icon"><svg><use href="#ico-bugsquash"></use></svg></span>
                         bugsquash.app
                         <span class="file-badge app">APP</span>
                     </div>
@@ -1713,7 +1731,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🏃</span>
+                        <span class="window-icon"><svg><use href="#ico-runner"></use></svg></span>
                         runner.app
                         <span class="file-badge app">APP</span>
                     </div>
@@ -1785,7 +1803,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🐍</span>
+                        <span class="window-icon"><svg><use href="#ico-snake"></use></svg></span>
                         snake.app
                         <span class="file-badge app">APP</span>
                     </div>
@@ -1863,7 +1881,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">⌨️</span>
+                        <span class="window-icon"><svg><use href="#ico-standup"></use></svg></span>
                         standup.app
                         <span class="file-badge app">APP</span>
                     </div>
@@ -1959,7 +1977,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">💼</span>
+                        <span class="window-icon"><svg><use href="#ico-interview"></use></svg></span>
                         interview.app
                         <span class="file-badge app">APP</span>
                     </div>
@@ -2281,31 +2299,31 @@
         </div>
         <div class="mobile-folder-grid">
             <button class="mobile-folder-item" data-game="invaders">
-                <span class="icon-emoji">👾</span>
+                <span class="icon-emoji"><svg><use href="#ico-invaders"></use></svg></span>
                 <span class="icon-label">Invaders</span>
             </button>
             <button class="mobile-folder-item" data-game="tetris">
-                <span class="icon-emoji">🧱</span>
+                <span class="icon-emoji"><svg><use href="#ico-tetris"></use></svg></span>
                 <span class="icon-label">Tetris</span>
             </button>
             <button class="mobile-folder-item" data-game="bugsquash">
-                <span class="icon-emoji">🐛</span>
+                <span class="icon-emoji"><svg><use href="#ico-bugsquash"></use></svg></span>
                 <span class="icon-label">Bug Squash</span>
             </button>
             <button class="mobile-folder-item" data-game="runner">
-                <span class="icon-emoji">🏃</span>
+                <span class="icon-emoji"><svg><use href="#ico-runner"></use></svg></span>
                 <span class="icon-label">Runner</span>
             </button>
             <button class="mobile-folder-item" data-game="snake">
-                <span class="icon-emoji">🐍</span>
+                <span class="icon-emoji"><svg><use href="#ico-snake"></use></svg></span>
                 <span class="icon-label">Snake</span>
             </button>
             <button class="mobile-folder-item" data-game="standup">
-                <span class="icon-emoji">⌨️</span>
+                <span class="icon-emoji"><svg><use href="#ico-standup"></use></svg></span>
                 <span class="icon-label">Standup</span>
             </button>
             <button class="mobile-folder-item" data-game="interview">
-                <span class="icon-emoji">💼</span>
+                <span class="icon-emoji"><svg><use href="#ico-interview"></use></svg></span>
                 <span class="icon-label">Interview</span>
             </button>
         </div>
@@ -2374,7 +2392,7 @@
             <span class="dock-emoji dock-term-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.367 2.25h5.266c1.092 0 1.958 0 2.655.057.714.058 1.317.18 1.869.46a4.75 4.75 0 0 1 2.075 2.077c.281.55.403 1.154.461 1.868.057.697.057 1.563.057 2.655v5.266c0 1.092 0 1.958-.057 2.655-.058.714-.18 1.317-.46 1.869a4.75 4.75 0 0 1-2.076 2.075c-.552.281-1.155.403-1.869.461-.697.057-1.563.057-2.655.057H9.367c-1.092 0-1.958 0-2.655-.057-.714-.058-1.317-.18-1.868-.46a4.75 4.75 0 0 1-2.076-2.076c-.281-.552-.403-1.155-.461-1.869-.057-.697-.057-1.563-.057-2.655V9.367c0-1.092 0-1.958.057-2.655.058-.714.18-1.317.46-1.868a4.75 4.75 0 0 1 2.077-2.076c.55-.281 1.154-.403 1.868-.461.697-.057 1.563-.057 2.655-.057M8.53 8.47a.75.75 0 0 0-1.06 1.06L9.94 12l-2.47 2.47a.75.75 0 1 0 1.06 1.06l3-3a.75.75 0 0 0 0-1.06zM13 14.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5z"/></svg></span>
         </button>
         <a class="dock-item plausible-event-name=Resume+Download" aria-label="Resume (PDF)" data-tooltip="resume.pdf"
-            href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf"
+            href="/Kevin%20Middleton%20-%20Full%20Stack%20Product%20Manager%2006-25-2026.pdf"
             download>
             <span class="dock-emoji"><svg><use href="#ico-resume"></use></svg></span>
         </a>
@@ -2481,7 +2499,7 @@
     <div class="mobile-contact-bar">
         <a href="mailto:kevin@middleton.io" class="mobile-contact-btn"><span class="mobile-btn-icon"><svg><use href="#ico-email"></use></svg></span><span class="mobile-btn-label">Email</span></a>
         <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="mobile-contact-btn"><span class="mobile-btn-icon"><svg><use href="#ico-linkedin"></use></svg></span><span class="mobile-btn-label">LinkedIn</span></a>
-        <a href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf" download class="mobile-contact-btn plausible-event-name=Resume+Download"><span class="mobile-btn-icon"><svg><use href="#ico-resume"></use></svg></span><span class="mobile-btn-label">Resume</span></a>
+        <a href="/Kevin%20Middleton%20-%20Full%20Stack%20Product%20Manager%2006-25-2026.pdf" download class="mobile-contact-btn plausible-event-name=Resume+Download"><span class="mobile-btn-icon"><svg><use href="#ico-resume"></use></svg></span><span class="mobile-btn-label">Resume</span></a>
         <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="mobile-contact-btn mobile-contact-cta"><span class="mobile-btn-icon"><svg><use href="#ico-calendar"></use></svg></span><span class="mobile-btn-label">Let's Talk</span></a>
     </div>
 
@@ -2566,9 +2584,10 @@
     <div class="kos-rotate-lock" role="status">
         <span class="kos-rotate-icon" aria-hidden="true">📱</span>
         <p>KevinOS works best in portrait.<br>Rotate back to keep exploring.</p>
+        <button type="button" class="kos-rotate-skip" id="kosRotateSkip">Continue anyway</button>
     </div>
 
-    <script src="kevinos.js?v=d96bceae"></script>
+    <script src="kevinos.js?v=bc8e2b93"></script>
 </body>
 
 </html>

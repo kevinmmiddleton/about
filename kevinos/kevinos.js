@@ -35,17 +35,21 @@ window.addEventListener('load', () => {
     const bootLoader = document.getElementById('bootLoader');
     if (!bootLoader) return;
 
-    // Critical assets to preload during boot
-    const criticalAssets = [
-        // Backgrounds
-        'https://middleton.io/images/darkmode-bg.jpg',
-        'https://middleton.io/images/lightmode-bg.jpg',
-        // Profile & photos
+    // Only the wallpaper for the theme actually in use is worth waiting for:
+    // it is the one image the first screen cannot do without. Everything else
+    // was blocking first paint on ~2.9MB, of which 1.9MB is three photos that
+    // render at 100x82 in the profile window. Those now warm the cache in the
+    // background and the boot screen no longer waits on them.
+    const dark = !matchMedia('(prefers-color-scheme: light)').matches
+        || document.documentElement.dataset.theme === 'dark';
+    const blocking = ['https://middleton.io/images/' +
+        (dark ? 'darkmode-bg.jpg' : 'lightmode-bg.jpg')];
+
+    const background = [
         'https://middleton.io/images/profile-picture.jpg',
         'https://middleton.io/images/cat-illustration.jpg',
         'https://middleton.io/images/cats-photo.jpg',
         'https://middleton.io/images/carne-asada-fries-homemade.jpg',
-        // Company logos (visible on initial load)
         'https://middleton.io/images/gridstrong-logo.png',
         'https://middleton.io/images/hvac-com-logo-stacked-white.png',
         'https://middleton.io/images/hurd-ai-logo.png',
@@ -55,21 +59,21 @@ window.addEventListener('load', () => {
         'https://middleton.io/images/oracle-logo.png',
     ];
 
-    // Preload all critical images
-    const preloadPromises = criticalAssets.map(src => {
-        return new Promise(resolve => {
-            const img = new Image();
-            img.onload = resolve;
-            img.onerror = resolve; // Don't block on failed loads
-            img.src = src;
-        });
+    const warm = src => { const img = new Image(); img.src = src; };
+    const preload = src => new Promise(resolve => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = resolve; // never let a failed image hold the boot screen
+        img.src = src;
     });
 
-    // Wait for both: minimum boot animation time AND assets loaded
     const minBootTime = new Promise(resolve => setTimeout(resolve, 1500));
 
-    Promise.all([minBootTime, ...preloadPromises]).then(() => {
+    Promise.all([minBootTime, ...blocking.map(preload)]).then(() => {
         bootLoader.classList.add('hidden');
+        // Fetch the rest once the desktop is on screen, so it costs nobody a
+        // blank screen on a slow connection.
+        background.forEach(warm);
     });
 });
 
@@ -6172,7 +6176,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             if (!a) return '<span class="w">usage: cat &lt;file&gt;</span>';
             const k = a.replace(/\.(pdf|txt|md)$/, '');
             const docs = {
-                resume: '<span class="a">Kevin Middleton — Senior Product Manager.pdf</span>  <span class="d">[148 KB]</span>\n<a href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf" download>download →</a>',
+                resume: '<span class="a">Kevin Middleton — Senior Product Manager.pdf</span>  <span class="d">[148 KB]</span>\n<a href="/Kevin%20Middleton%20-%20Full%20Stack%20Product%20Manager%2006-25-2026.pdf" download>download →</a>',
                 values: 'start with understanding · give grace, get grace\ncollaboration wins · keep it human\nstructure without rigidity · make it simple',
                 contact: '<a href="mailto:kevin@middleton.io">kevin@middleton.io</a>\n<a href="https://linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener">linkedin.com/in/kevinmiddleton</a>\n<a href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener">github.com/kevinmmiddleton</a>',
                 quietfeed: '<span class="a">QuietFeed</span> — RSS reader that respects your attention.\n<a href="https://quietfeed.com" target="_blank" rel="noopener">quietfeed.com →</a>',
@@ -6465,3 +6469,17 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
         }, 500);
     }
 })();
+
+// Rotate-lock bypass. The landscape nudge is now scoped to phone-height
+// screens, but a nudge with no way past it is still a dead end, so this lets
+// anyone dismiss it for the tab. Delegated: the lock is outside every overlay.
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('#kosRotateSkip')) return;
+    document.documentElement.classList.add('kos-rotate-ok');
+    try { sessionStorage.setItem('kosRotateOk', '1'); } catch (err) { /* private mode */ }
+});
+try {
+    if (sessionStorage.getItem('kosRotateOk')) {
+        document.documentElement.classList.add('kos-rotate-ok');
+    }
+} catch (err) { /* private mode */ }

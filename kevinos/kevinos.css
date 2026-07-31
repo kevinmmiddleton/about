@@ -7772,7 +7772,11 @@ html.kos-mobile body {
     display: none;
 }
 
-@media (orientation: landscape) {
+/* Scoped to phone-height landscape. A tablet in landscape is 744px+ tall and
+   has plenty of room, so it should never see this; only a phone on its side
+   does. Paired with the bypass button below, so it is a nudge and not a wall:
+   a single fixed orientation is a WCAG 1.3.4 failure when it isn't essential. */
+@media (orientation: landscape) and (max-height: 500px) {
     html.kos-mobile .kos-rotate-lock {
         position: fixed;
         inset: 0;
@@ -7951,6 +7955,15 @@ svg:has(use[href="#ico-connect"])    { --ico-hue: var(--blue); }
 svg:has(use[href="#ico-resume"])     { --ico-hue: var(--purple); }
 svg:has(use[href="#ico-website"])    { --ico-hue: var(--mint); }
 svg:has(use[href="#ico-aim"])        { --ico-hue: var(--aim-ink); }
+/* Games get their own hues too, spread so no two adjacent tiles in the Games
+   folder share one. */
+svg:has(use[href="#ico-invaders"])   { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-tetris"])     { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-bugsquash"])  { --ico-hue: var(--peach); }
+svg:has(use[href="#ico-runner"])     { --ico-hue: var(--pink); }
+svg:has(use[href="#ico-snake"])      { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-standup"])    { --ico-hue: var(--purple); }
+svg:has(use[href="#ico-interview"])  { --ico-hue: var(--yellow); }
 svg:has(use[href="#ico-email"])      { --ico-hue: var(--mint); }
 svg:has(use[href="#ico-linkedin"])   { --ico-hue: var(--blue); }
 svg:has(use[href="#ico-calendar"])   { --ico-hue: var(--blue); }
@@ -8539,4 +8552,77 @@ svg:has(use[href="#ico-recycle"])    { --ico-hue: var(--text-dim); }
     --peach: #ff9f6a;
     --text: #e8e8f0;
     --text-dim: #8888a0;
+}
+
+/* Rotate-lock bypass. Dismissing sets a flag for the tab, so it stays dismissed
+   while they keep exploring sideways. */
+.kos-rotate-skip {
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 9px 18px;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.kos-rotate-skip:hover { border-color: var(--blue); }
+.kos-rotate-skip:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+html.kos-rotate-ok .kos-rotate-lock { display: none !important; }
+
+/* The contact bar sat at 1001 under every sheet at 1002, so Email / LinkedIn /
+   Resume / Let's Talk vanished the moment anyone opened Experience or Strengths,
+   which is exactly when they have just finished reading the evidence. It now
+   sits above the sheets, and the sheet content gets padding so the bar never
+   covers the last line of what they were reading. */
+@media (max-width: 768px) {
+    .mobile-contact-bar {
+        z-index: 1005;
+    }
+
+    .mobile-overlay-content {
+        padding-bottom: 132px;
+    }
+}
+
+/* Games folder tiles use .folder-icon, a different hook from the springboard
+   and dock, which is why the first sweep missed them. */
+.folder-icon:has(> svg) {
+    display: grid;
+    place-items: center;
+}
+
+.folder-icon > svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+    color: var(--ico-hue, var(--text));
+    stroke-width: 1.9;
+}
+
+/* Mission Control cards size their icon with font-size, which is fine for an
+   emoji and useless for an <svg>: with no width/height it fills its container,
+   so the glyph ballooned to the full card and squeezed the flex:1 title to
+   nothing. Both slots need explicit dimensions. */
+.mc-window-icon > svg {
+    width: 15px;
+    height: 15px;
+    display: block;
+    color: var(--ico-hue, var(--text));
+    stroke-width: 2.2;
+}
+
+.mc-window-icon:has(> svg) {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+}
+
+.mc-window-preview > svg {
+    width: 46px;
+    height: 46px;
+    color: var(--ico-hue, var(--text));
+    stroke-width: 1.7;
 }
