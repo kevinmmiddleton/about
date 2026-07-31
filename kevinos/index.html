@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>KevinOS | Kevin Middleton</title>
     <meta name="description" content="Kevin Middleton, Full Stack Product Manager. A portfolio reimagined as a retro operating system. 12+ years across consumer, enterprise, and platform SaaS.">
     <link rel="canonical" href="https://middleton.io/kevinos/">
@@ -139,13 +139,17 @@
         plausible.init()
     </script>
     <script>
-        // Decide mobile vs desktop ONCE at load. Rotating a phone to landscape
-        // makes innerWidth > 768, which must not flip the OS to desktop mid-session.
+        // Decide mobile vs desktop at load. Rotating a phone to landscape makes
+        // innerWidth > 768, which must not flip the OS to desktop mid-session, so
+        // this answer is latched for touch devices (see KOS_COARSE in kevinos.js).
         (function () {
             var coarse = window.matchMedia('(pointer: coarse)').matches;
-            if (window.innerWidth <= 768 || (coarse && Math.min(window.innerWidth, window.innerHeight) <= 768)) {
-                document.documentElement.classList.add('kos-mobile');
-            }
+            var w = window.innerWidth, h = window.innerHeight;
+            // A zero width means the viewport is not laid out yet (some embeds and
+            // offscreen/background tabs). 0 <= 768 would read as "mobile" and strand
+            // a desktop behind the portrait wall, so trust the pointer type instead.
+            var mob = w ? (w <= 768 || (coarse && Math.min(w, h) <= 768)) : coarse;
+            if (mob) document.documentElement.classList.add('kos-mobile');
         })();
     </script>
 </head>
@@ -200,7 +204,7 @@
                     <span class="desktop-weather-temp" id="desktopWeatherTemp">--°</span>
                 </div>
             </div>
-            <div class="desktop-widget-title">Full-Stack Product Manager</div>
+            <div class="desktop-widget-title">Full Stack Product Manager</div>
             <div class="desktop-widget-location">New York, NY</div>
             <div class="desktop-widget-tagline">"I make complex work feel simple."</div>
         </div>
@@ -442,7 +446,7 @@
                 </header>
                 <div class="window-content">
                     <div class="exp-list">
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-1">
                             <div class="exp-icon"><img src="https://middleton.io/images/gridstrong-logo.png"
                                     alt="GridStrong"></div>
                             <div class="exp-info">
@@ -454,7 +458,7 @@
                                 <div class="exp-role">Director of Product Management (initially Product Advisor)</div>
                                 <div class="exp-date">Sep 2024 — Nov 2025</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-1">
                                 <p>Began supporting GridStrong.ai in September 2024 as a part-time Product Advisor while at HVAC.com, creating early
                                     prototypes and helping secure a $1.4M U.S. Department of Energy grant. After seed
                                     funding closed in June 2025, joined full‑time as Director of Product Management, leading product
@@ -493,7 +497,7 @@
                                         class="tag">Roadmapping</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-2">
                             <div class="exp-icon"><img src="https://middleton.io/images/hvac-com-logo-stacked-white.png"
                                     alt="HVAC.COM"></div>
                             <div class="exp-info">
@@ -505,7 +509,7 @@
                                 <div class="exp-role">Senior PM, HVAC.com & Branded Sites</div>
                                 <div class="exp-date">Feb 2024 — Jun 2025</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-2">
                                 <p>Led product strategy, UX, and growth for HVAC.com, a homeowner platform with ~2M
                                     annual visits that connects consumers to trusted HVAC dealers nationwide. Owned the
                                     full digital funnel, from first touch to dealer handoff, driving measurable
@@ -543,7 +547,7 @@
                                         Decision Making</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-3">
                             <div class="exp-icon"><img src="https://middleton.io/images/hurd-ai-logo.png" alt="HURD AI">
                             </div>
                             <div class="exp-info">
@@ -554,7 +558,7 @@
                                 <div class="exp-role">Co-Founder & Product Advisor</div>
                                 <div class="exp-date">May 2023 — Sep 2023</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-3">
                                 <p>Shaped early product direction for an AI-powered learning platform that helped
                                     students, researchers, and professionals organize and study their notes. Led feature
                                     design, user research, and launch execution across the Mac app and web chatbot.</p>
@@ -585,7 +589,7 @@
                                         Analysis</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-4">
                             <div class="exp-icon"><img src="https://middleton.io/images/lever-logo.webp" alt="Lever">
                             </div>
                             <div class="exp-info">
@@ -597,7 +601,7 @@
                                 <div class="exp-role">Senior PM, HRIS Sync Lead</div>
                                 <div class="exp-date">Dec 2021 — Apr 2023</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-4">
                                 <p>Owned end-to-end development of HRIS Sync, a core enterprise integration that
                                     strengthened Lever's upmarket positioning through automation, workflow reliability,
                                     and enterprise-grade data sync.</p>
@@ -634,7 +638,7 @@
                                         Research</span><span class="tag">Workflow Automation</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-5">
                             <div class="exp-icon"><img src="https://middleton.io/images/sendoso-logo.png" alt="Sendoso">
                             </div>
                             <div class="exp-info">
@@ -646,7 +650,7 @@
                                 <div class="exp-role">Senior PM, Core Platform & eGift</div>
                                 <div class="exp-date">Mar 2021 — Dec 2021</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-5">
                                 <p>Joined between Sendoso's Series B and $100M Series C to scale the eGift platform
                                     while the market window was open. eGifts were the most popular send option on the
                                     platform, representing over half of all sends in 2021. Owned eGift partnerships,
@@ -678,7 +682,7 @@
                                 </div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-6">
                             <div class="exp-icon"><img src="https://middleton.io/images/rocket-lawyer-logo.png"
                                     alt="Rocket Lawyer"></div>
                             <div class="exp-info">
@@ -690,7 +694,7 @@
                                 <div class="exp-role">Senior PM, Core Product & Platform</div>
                                 <div class="exp-date">Apr 2018 — Jan 2021</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-6">
                                 <p>Led product strategy and execution for Rocket Lawyer's Platform and Legal Document
                                     teams, expanding market reach, improving mobile engagement, and diversifying revenue
                                     streams while advancing Rocket Lawyer's mission to make legal services more
@@ -728,7 +732,7 @@
                                         Channels</span><span class="tag">Cross-Platform Integration</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-7">
                             <div class="exp-icon"><img src="https://middleton.io/images/oracle-logo.png" alt="Oracle">
                             </div>
                             <div class="exp-info">
@@ -740,7 +744,7 @@
                                 <div class="exp-role">Senior PM, Engage & Integrations</div>
                                 <div class="exp-date">Apr 2013 — Jan 2018</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-7">
                                 <p>Promoted to lead Oracle Social Cloud's Engage product through a full platform
                                     modernization, doubling supported social networks and shipping a year-long series of
                                     upgrades across UI, performance, and workflow design. Directed two engineering teams
@@ -772,7 +776,7 @@
                                         class="tag">Beta Testing</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-8">
                             <div class="exp-icon"><img src="https://middleton.io/images/caci-international-logo.png"
                                     alt="CACI International"></div>
                             <div class="exp-info">
@@ -784,7 +788,7 @@
                                 <div class="exp-role">Consultant, Product Specialist, & UAT Lead</div>
                                 <div class="exp-date">Dec 2007 — Apr 2013</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-8">
                                 <p>Momentum Financial Management System Analyst supporting large-scale federal
                                     financial transformation across six Department of Justice component
                                     agencies (DOJ, DEA, ATF, BOP, USMS, FBI). Managed UAT strategy,
@@ -809,7 +813,7 @@
                                         class="tag">Top Secret Clearance</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-9">
                             <div class="exp-icon"><img src="https://middleton.io/images/cgi-logo.png"
                                     alt="CGI Federal"></div>
                             <div class="exp-info">
@@ -821,7 +825,7 @@
                                 <div class="exp-role">Software Engineer & QA Automation</div>
                                 <div class="exp-date">Jan 2006 — Nov 2007</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-9">
                                 <p>Started as a C++ software engineer on Momentum, the federal government's core
                                     financial management system. Transitioned into QA automation, building automated
                                     test suites and providing functional support for the testing team.</p>
@@ -1939,7 +1943,7 @@
                         <span class="widget-location">New York, NY</span>
                     </div>
                     <div class="widget-name">Kevin Middleton</div>
-                    <div class="widget-title">Full-Stack Product Manager</div>
+                    <div class="widget-title">Full Stack Product Manager</div>
                 </div>
                 <div class="widget-weather" id="widgetWeather">
                     <span class="weather-icon" id="weatherIcon">--</span>

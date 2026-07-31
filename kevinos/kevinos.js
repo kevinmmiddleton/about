@@ -1,10 +1,32 @@
 // ===================
 // MOBILE MODE (sticky)
 // ===================
-// Decided once at load (a head script tags <html> with .kos-mobile).
-// Rotating a phone to landscape pushes innerWidth past 768, which used to
-// flip the whole OS to desktop mid-session and break open games/overlays.
+// Decided at load (a head script tags <html> with .kos-mobile), then latched
+// for touch devices only. Rotating a phone to landscape pushes innerWidth past
+// 768, which used to flip the whole OS to desktop mid-session and break open
+// games/overlays, so coarse pointers keep the load-time answer for good.
+//
+// Fine pointers (a mouse) deliberately do NOT latch. A desktop browser that
+// happens to load narrow — a restored small window, a split pane, devtools
+// docked wide — would otherwise stay stuck behind the "works best in portrait"
+// wall forever, even maximised at 1280+. Crossing the threshold re-inits, and
+// because open windows carry URL state the current view is restored.
+const KOS_COARSE = window.matchMedia('(pointer: coarse)').matches;
 const KOS_MOBILE = document.documentElement.classList.contains('kos-mobile');
+
+if (!KOS_COARSE) {
+    let t;
+    window.addEventListener('resize', () => {
+        clearTimeout(t);
+        t = setTimeout(() => {
+            // A zero width means the viewport is not laid out (minimised, an
+            // offscreen/background tab, some embeds). Never re-decide on that:
+            // 0 <= 768 reads as "mobile" and would reload a perfectly fine desktop.
+            if (!window.innerWidth) return;
+            if ((window.innerWidth <= 768) !== KOS_MOBILE) location.reload();
+        }, 250);
+    });
+}
 
 // ===================
 // BOOT LOADER
@@ -263,12 +285,15 @@ function setWindowFocus(focusedWin) {
 // Escape closes the focused desktop window (keyboard a11y). Guarded so it never
 // fires while typing, while a lightbox is open, or on mobile (its overlay handles
 // its own back/Escape). Games don't listen for Escape, so there's no conflict.
+// Also guarded against every full-screen overlay that binds Escape for itself:
+// without this, one keypress dismisses the overlay AND closes the window behind it.
+const ESC_OVERLAYS = ['lightboxOverlay', 'spotlightOverlay', 'launchpadOverlay',
+                      'missionControl', 'notificationCenter'];
 document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape' || isMobile()) return;
     const t = e.target;
     if (t && t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return;
-    const lb = document.getElementById('lightboxOverlay');
-    if (lb && lb.classList.contains('active')) return;
+    if (ESC_OVERLAYS.some(id => document.getElementById(id)?.classList.contains('active'))) return;
     const focused = document.querySelector('.window.window-open.window-focused');
     if (!focused) return;
     const id = focused.dataset.window;
@@ -277,6 +302,26 @@ document.addEventListener('keydown', (e) => {
     const opener = document.querySelector(`.dock-item[data-window="${id}"], .desktop-icon[data-window="${id}"]`);
     if (opener) opener.focus();
     e.preventDefault();
+});
+
+// Experience rows are disclosures. Delegated rather than per-row inline handlers,
+// because the desktop window and the mobile sheet reuse the same DOM nodes, so one
+// listener covers both. Keyboard support is the point: these rows were mouse-only.
+function toggleExpItem(item) {
+    const open = item.classList.toggle('open');
+    item.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+document.addEventListener('click', (e) => {
+    const item = e.target.closest?.('.exp-item');
+    // The company link inside also stops propagation itself; this is the backstop.
+    if (item && !e.target.closest('a')) toggleExpItem(item);
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const item = e.target.closest?.('.exp-item');
+    if (!item || item !== e.target) return;  // only when the row itself holds focus
+    e.preventDefault();                      // Space would otherwise scroll the pane
+    toggleExpItem(item);
 });
 
 windows.forEach(win => {

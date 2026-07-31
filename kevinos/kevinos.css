@@ -1524,6 +1524,13 @@ body {
     display: block;
 }
 
+/* These rows are keyboard-operable disclosures, so they need a visible focus
+   ring. :focus-visible keeps it off mouse clicks. */
+.exp-item:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+}
+
 .exp-detail p {
     color: var(--text-dim);
     margin-bottom: 12px;
@@ -7867,6 +7874,11 @@ html.kos-mobile body {
     flex-direction: column;
     background: #07080c;
     min-height: 22rem;
+    /* The screen is always dark, in both themes. Anything drawn on it must be
+       pinned here rather than inheriting --text/--text-muted, which invert:
+       --text in light mode is #1a1a2e and measured 1.17:1 on this background. */
+    --term-fg: #e8e8f0;   /* 16.4:1 — identical to dark-mode --text */
+    --term-dim: #7a7a95;  /*  4.8:1 — the old --text-muted was 3.0:1 in BOTH modes */
 }
 
 .term-scr {
@@ -7890,7 +7902,7 @@ html.kos-mobile body {
 .term-scr .a { color: var(--blue); }
 .term-scr .m { color: var(--purple); }
 .term-scr .w { color: #ff9a62; }
-.term-scr .d { color: var(--text-muted); }
+.term-scr .d { color: var(--term-dim); }
 .term-scr a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
 .term-scr a:hover { color: var(--blue-hover); }
 
@@ -7915,13 +7927,13 @@ html.kos-mobile body {
     border: 0;
     outline: none;
     padding: 0;
-    color: var(--text);
+    color: var(--term-fg);
     font-family: var(--font-mono);
     font-size: 12.5px;
     caret-color: var(--mint);
 }
 
-.term-in::placeholder { color: var(--text-muted); }
+.term-in::placeholder { color: var(--term-dim); }
 
 /* the whole screen is a click target for the input */
 .term-wrap { cursor: text; }
