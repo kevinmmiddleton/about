@@ -23,7 +23,7 @@ linkedin_url: ''
 
 A recruiter I know messaged me recently because my job application had been flagged for "fraud signals." She knew I was real, we're friendly LinkedIn connections, so what she actually wanted to know was whether I'd used AI to auto-apply.
 
-I hadn't. But because she took the time to look closer and ask, I found out the flag existed at all. Most recruiters let the software make the call, and I'd never have known.
+I hadn't. But because she took the time to look closer and ask, I found out the flag existed at all. Some recruiters might let the software make the call, and I'd never have known.
 
 ![A LinkedIn DM from a recruiter asking whether I used automation to apply, noting my application was flagged for "fraud signals." I reply that I apply manually, source roles with a tool, and use a Google Voice number on purpose.](/blog/images/recruiter-fraud-flag-dm.png "How I even found out: a recruiter I know asked, plainly, whether I'd automated my application.")
 
