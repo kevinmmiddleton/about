@@ -161,7 +161,16 @@ export default {
       }
 
       const data = await response.json();
-      const reply = data.content.find((b) => b.type === 'text')?.text ?? '';
+      // Haiku ignores the no-em-dash instruction often enough that the prompt
+      // alone does not hold: a sample of four replies still came back with five.
+      // Enforce it here instead, where it is deterministic and cannot drift.
+      // A comma is grammatical wherever an em dash is doing parenthetical or
+      // appositive work, which is almost every case in conversational prose.
+      // En dashes are left alone: those are date ranges (Sep 2024 – Nov 2025).
+      const reply = (data.content.find((b) => b.type === 'text')?.text ?? '')
+        .replace(/\s*—\s*/g, ', ')
+        .replace(/,\s*,/g, ',')
+        .replace(/,\s*([.!?])/g, '$1');
 
       return new Response(JSON.stringify({ reply }), {
         headers: {

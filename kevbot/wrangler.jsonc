@@ -1,0 +1,29 @@
+{
+	// KevBot's Cloudflare Worker. Serves both middleton.io (the kevbot.js widget)
+	// and KevinOS (the kevbot.aim window) from this one script.
+	//
+	// This worker was originally created and deployed by pasting into the
+	// Cloudflare dashboard, so its config lived nowhere. Committing it here makes
+	// deploys reproducible: `wrangler deploy` from this directory.
+	//
+	// ANTHROPIC_API_KEY is a secret, set separately, and is NOT redeployed by
+	// this file. `wrangler secret list --name kevbot` to confirm it is still there.
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "kevbot",
+	"main": "worker.js",
+	// The date the currently live version was uploaded. Kept deliberately at the
+	// original rather than bumped to today, so a deploy changes the prompt and
+	// nothing else about the runtime.
+	"compatibility_date": "2026-01-26",
+	// Keeps kevbot.kevin-middleton.workers.dev alive. Both sites hardcode that
+	// hostname, so losing it takes KevBot down everywhere.
+	"workers_dev": true,
+	// The worker had these off. Omitting the key does not mean "leave it alone" -
+	// wrangler overrides remote config with the local file, and the first deploy
+	// from here silently flipped this to true. Stated explicitly so it stays off.
+	"preview_urls": false,
+	// Matches what the dashboard already had switched on.
+	"observability": {
+		"enabled": true
+	}
+}
