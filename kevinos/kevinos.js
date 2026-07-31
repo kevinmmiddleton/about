@@ -1,10 +1,32 @@
 // ===================
 // MOBILE MODE (sticky)
 // ===================
-// Decided once at load (a head script tags <html> with .kos-mobile).
-// Rotating a phone to landscape pushes innerWidth past 768, which used to
-// flip the whole OS to desktop mid-session and break open games/overlays.
+// Decided at load (a head script tags <html> with .kos-mobile), then latched
+// for touch devices only. Rotating a phone to landscape pushes innerWidth past
+// 768, which used to flip the whole OS to desktop mid-session and break open
+// games/overlays, so coarse pointers keep the load-time answer for good.
+//
+// Fine pointers (a mouse) deliberately do NOT latch. A desktop browser that
+// happens to load narrow — a restored small window, a split pane, devtools
+// docked wide — would otherwise stay stuck behind the "works best in portrait"
+// wall forever, even maximised at 1280+. Crossing the threshold re-inits, and
+// because open windows carry URL state the current view is restored.
+const KOS_COARSE = window.matchMedia('(pointer: coarse)').matches;
 const KOS_MOBILE = document.documentElement.classList.contains('kos-mobile');
+
+if (!KOS_COARSE) {
+    let t;
+    window.addEventListener('resize', () => {
+        clearTimeout(t);
+        t = setTimeout(() => {
+            // A zero width means the viewport is not laid out (minimised, an
+            // offscreen/background tab, some embeds). Never re-decide on that:
+            // 0 <= 768 reads as "mobile" and would reload a perfectly fine desktop.
+            if (!window.innerWidth) return;
+            if ((window.innerWidth <= 768) !== KOS_MOBILE) location.reload();
+        }, 250);
+    });
+}
 
 // ===================
 // BOOT LOADER
@@ -263,12 +285,15 @@ function setWindowFocus(focusedWin) {
 // Escape closes the focused desktop window (keyboard a11y). Guarded so it never
 // fires while typing, while a lightbox is open, or on mobile (its overlay handles
 // its own back/Escape). Games don't listen for Escape, so there's no conflict.
+// Also guarded against every full-screen overlay that binds Escape for itself:
+// without this, one keypress dismisses the overlay AND closes the window behind it.
+const ESC_OVERLAYS = ['lightboxOverlay', 'spotlightOverlay', 'launchpadOverlay',
+                      'missionControl', 'notificationCenter'];
 document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape' || isMobile()) return;
     const t = e.target;
     if (t && t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return;
-    const lb = document.getElementById('lightboxOverlay');
-    if (lb && lb.classList.contains('active')) return;
+    if (ESC_OVERLAYS.some(id => document.getElementById(id)?.classList.contains('active'))) return;
     const focused = document.querySelector('.window.window-open.window-focused');
     if (!focused) return;
     const id = focused.dataset.window;
@@ -277,6 +302,57 @@ document.addEventListener('keydown', (e) => {
     const opener = document.querySelector(`.dock-item[data-window="${id}"], .desktop-icon[data-window="${id}"]`);
     if (opener) opener.focus();
     e.preventDefault();
+});
+
+// strengths/ is an ARIA tab set: six specialties, one evidence panel each.
+// Delegated like the experience rows, because the mobile sheet clones these
+// nodes. Arrow keys move between tabs, per the tablist pattern.
+function selectStrengthTab(tab) {
+    const list = tab.closest('.str-tabs');
+    const stage = list.parentElement.querySelector('.str-stage');
+    list.querySelectorAll('.str-tab').forEach(t => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+    });
+    stage.querySelectorAll('.str-panel').forEach(p => {
+        p.hidden = p.id !== tab.getAttribute('aria-controls');
+    });
+}
+document.addEventListener('click', (e) => {
+    const tab = e.target.closest?.('.str-tab');
+    if (tab) selectStrengthTab(tab);
+});
+document.addEventListener('keydown', (e) => {
+    const tab = e.target.closest?.('.str-tab');
+    if (!tab) return;
+    const keys = {ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1};
+    if (!(e.key in keys)) return;
+    const tabs = [...tab.closest('.str-tabs').querySelectorAll('.str-tab')];
+    const next = tabs[(tabs.indexOf(tab) + keys[e.key] + tabs.length) % tabs.length];
+    e.preventDefault();
+    selectStrengthTab(next);
+    next.focus();
+});
+
+// Experience rows are disclosures. Delegated rather than per-row inline handlers,
+// because the desktop window and the mobile sheet reuse the same DOM nodes, so one
+// listener covers both. Keyboard support is the point: these rows were mouse-only.
+function toggleExpItem(item) {
+    const open = item.classList.toggle('open');
+    item.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+document.addEventListener('click', (e) => {
+    const item = e.target.closest?.('.exp-item');
+    // The company link inside also stops propagation itself; this is the backstop.
+    if (item && !e.target.closest('a')) toggleExpItem(item);
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const item = e.target.closest?.('.exp-item');
+    if (!item || item !== e.target) return;  // only when the row itself holds focus
+    e.preventDefault();                      // Space would otherwise scroll the pane
+    toggleExpItem(item);
 });
 
 windows.forEach(win => {
@@ -4625,30 +4701,33 @@ loadKevinRecipes();
 // Position the home trio (about / building / writing) for the current
 // viewport: three columns when they fit, a cascade when they don't. The
 // cluster is centered on very wide screens instead of hugging the edges.
+// The desktop's opening arrangement. Experience is the anchor: it is the
+// evidence a recruiter came for, so it gets the widest column and sits at the
+// top of the screen rather than below the fold. About and Building flank it.
 function applyHomeLayout() {
+    const experienceWin = document.querySelector('[data-window="experience"]');
     const aboutWin = document.querySelector('[data-window="about"]');
     const buildingWin = document.querySelector('[data-window="building"]');
-    const writingWin = document.querySelector('[data-window="writing"]');
     const vw = window.innerWidth;
 
     if (vw >= 1180) {
         const margin = Math.max(30, Math.round((vw - 1460) / 2));
         const gap = 14;
         const span = vw - margin * 2;
-        const writingW = 320;
-        const writingLeft = vw - margin - writingW;
-        const buildingW = Math.min(400, Math.max(330, Math.round(span * 0.27)));
-        const buildingLeft = writingLeft - gap - buildingW;
-        const aboutW = Math.min(680, buildingLeft - gap - margin);
-        if (aboutWin) {
-            aboutWin.style.left = margin + 'px';
-            aboutWin.style.top = '190px';
-            aboutWin.style.width = aboutW + 'px';
+        const buildingW = 320;
+        const buildingLeft = vw - margin - buildingW;
+        const aboutW = Math.min(400, Math.max(330, Math.round(span * 0.27)));
+        const aboutLeft = buildingLeft - gap - aboutW;
+        const experienceW = Math.min(680, aboutLeft - gap - margin);
+        if (experienceWin) {
+            experienceWin.style.left = margin + 'px';
+            experienceWin.style.top = '40px';
+            experienceWin.style.width = experienceW + 'px';
         }
-        if (writingWin) {
-            writingWin.style.left = writingLeft + 'px';
-            writingWin.style.top = '40px';
-            writingWin.style.width = writingW + 'px';
+        if (aboutWin) {
+            aboutWin.style.left = aboutLeft + 'px';
+            aboutWin.style.top = '40px';
+            aboutWin.style.width = aboutW + 'px';
         }
         if (buildingWin) {
             buildingWin.style.left = buildingLeft + 'px';
@@ -4657,9 +4736,9 @@ function applyHomeLayout() {
         }
     } else {
         // Narrower desktops can't fit three columns; cascade instead of
-        // squeezing windows into slivers
+        // squeezing windows into slivers. Experience leads the stack.
         const w = Math.min(560, vw - 120);
-        [aboutWin, writingWin, buildingWin].forEach((win, i) => {
+        [experienceWin, aboutWin, buildingWin].forEach((win, i) => {
             if (!win) return;
             win.style.left = (40 + i * 56) + 'px';
             win.style.top = (56 + i * 46) + 'px';
@@ -4741,7 +4820,7 @@ function applyHomeLayout() {
                 // Deep links / reloads skip the boot layout, so windows would
                 // open at raw CSS defaults (centered, stacked). Give the home
                 // trio their designed spots first.
-                if (ids.some(id => ['about', 'writing', 'building'].includes(id))) {
+                if (ids.some(id => ['experience', 'about', 'building'].includes(id))) {
                     applyHomeLayout();
                 }
                 ids.forEach(id => openWindow(id));
@@ -4754,10 +4833,12 @@ function applyHomeLayout() {
     if (!isMobile()) {
         setTimeout(() => {
             applyHomeLayout();
-            // Open windows in order (last one gets focus)
-            openWindow('about');
-            openWindow('writing');
+            // Order matters: the last one opened takes focus. Building and About
+            // set the scene, Experience lands on top because it is the reason
+            // most visitors are here.
             openWindow('building');
+            openWindow('about');
+            openWindow('experience');
         }, 150);
     }
 })();
@@ -5463,12 +5544,14 @@ const searchableItems = [
     { type: 'window', id: 'projects', icon: '📊', title: 'Projects', subtitle: 'projects/' },
     { type: 'window', id: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
     { type: 'window', id: 'writing', icon: '✍️', title: 'Writing', subtitle: 'writing/' },
+    { type: 'window', id: 'strengths', icon: '🏅', title: 'Strengths', subtitle: 'strengths/' },
     { type: 'window', id: 'skills', icon: '⚙️', title: 'Skills', subtitle: 'skills.config' },
     { type: 'window', id: 'recommendations', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
     // Fun/personality
     { type: 'window', id: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
     { type: 'window', id: 'recipesdb', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },
     // Action
+    { type: 'window', id: 'aim', icon: '💬', title: 'KevBot', subtitle: 'kevbot.aim · instant message' },
     { type: 'window', id: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
     // System actions
     { type: 'action', id: 'theme', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
@@ -5700,6 +5783,7 @@ const launchpadApps = [
     // Proof of work
     { id: 'experience', icon: '📁', label: 'Experience' },
     { id: 'projects', icon: '📊', label: 'Projects' },
+    { id: 'strengths', icon: '🏅', label: 'Strengths' },
     { id: 'skills', icon: '⚙️', label: 'Skills' },
     { id: 'recommendations', icon: '💬', label: 'Reviews' },
     // Fun/personality
@@ -5708,6 +5792,7 @@ const launchpadApps = [
     { id: 'party', icon: '🪩', label: 'Party', action: true },
     { id: 'videos', icon: '📺', label: 'Videos', action: true },
     // Action
+    { id: 'aim', icon: '💬', label: 'KevBot' },
     { id: 'connect', icon: '📟', label: 'Connect' },
 ];
 
@@ -5991,7 +6076,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
         '~': { dirs: ['work', 'writing', 'about'], files: ['resume.pdf', 'values.txt', 'contact.md'] },
         '~/work': { dirs: [], files: ['quietfeed', 'visionbort', 'officehours', 'kevinos', 'job-search-agent', 'build-with-claude'] },
         '~/writing': { dirs: [], files: ['its-almost-always-the-resume', 'curiosity-makes-or-breaks', 'applying-for-jobs-is-like-stand-up-comedy', 'everyone-can-build-now'] },
-        '~/about': { dirs: [], files: ['experience', 'skills', 'outcomes', 'recommendations'] }
+        '~/about': { dirs: [], files: ['experience', 'strengths', 'skills', 'outcomes', 'recommendations'] }
     };
 
     const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -6072,6 +6157,13 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
                 officehours: '<span class="a">Office Hours</span> — free product coaching, all week.\n<a href="/officehours/">book →</a>',
                 kevinos: '<span class="a">KevinOS</span> — this portfolio, as a retro operating system.\n<span class="d">You are, in a sense, already inside it.</span>',
                 experience: experience(),
+                strengths: '<span class="d">Six specialties, each with the receipts. Full evidence in </span><span class="a">strengths/</span>\n\n' +
+                    '<span class="a">AI Workflows</span>     shipped in production, and built on the weekend\n' +
+                    '<span class="a">Internal Tools</span>   tools that make teams faster, and happier\n' +
+                    '<span class="a">Platforms</span>        the layer other teams build on top of\n' +
+                    '<span class="a">Integrations</span>     SCIM \u00b7 OAuth \u00b7 OIDC\n' +
+                    '<span class="a">Growth</span>           CRO + A/B testing\n' +
+                    '<span class="a">Public Sector</span>    federal agencies + grid',
                 skills: skills(),
                 outcomes: outcomes()
             };
@@ -6204,4 +6296,136 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
     });
     mo.observe(win, { attributes: true, attributeFilter: ['class'] });
     if (win.classList.contains('window-open')) boot();
+})();
+
+// ===================
+// KEVBOT.AIM
+// ===================
+// An AIM instant-message window in front of KevBot, the same assistant that
+// runs on middleton.io, talking to the same Cloudflare worker. Only the chrome
+// is new: the contract is { message, history } -> { reply }, and replies are
+// escaped then given the same limited markdown the main widget uses, so both
+// surfaces render a reply identically.
+(function () {
+    const KEVBOT_URL = 'https://kevbot.kevin-middleton.workers.dev';
+    const log = document.getElementById('aimLog');
+    const form = document.getElementById('aimForm');
+    const input = document.getElementById('aimInput');
+    const send = document.getElementById('aimSend');
+    const prompts = document.getElementById('aimPrompts');
+    const signOn = document.getElementById('aimSignOn');
+    if (!log || !form || !input) return;
+
+    let history = [];
+    let busy = false;
+    let greeted = false;
+
+    if (signOn) {
+        signOn.textContent = new Date().toLocaleTimeString([],
+            { hour: 'numeric', minute: '2-digit' });
+    }
+
+    // Same escaping and markdown subset as kevbot.js formatMessage().
+    function fmt(text) {
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+                     '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+            .replace(/\n/g, '<br>');
+    }
+
+    function line(who, text) {
+        const p = document.createElement('p');
+        p.className = 'aim-line ' + (who === 'KevBot' ? 'them' : 'you');
+        p.innerHTML = '<b>' + who + ':</b> ' + fmt(text);
+        log.appendChild(p);
+        log.scrollTop = log.scrollHeight;
+        return p;
+    }
+
+    function greet() {
+        if (greeted) return;
+        greeted = true;
+        line('KevBot', "Hey! I'm KevBot \u{1F916} Ask me anything about Kevin: " +
+                       "his experience, skills, projects, or how to get in touch!");
+    }
+
+    async function ask(text) {
+        if (busy || !text.trim()) return;
+        busy = true;
+        send.disabled = true;
+        if (prompts) prompts.style.display = 'none';
+        line('You', text);
+        input.value = '';
+
+        const typing = document.createElement('p');
+        typing.className = 'aim-typing';
+        typing.textContent = 'KevBot is typing…';
+        log.appendChild(typing);
+        log.scrollTop = log.scrollHeight;
+
+        try {
+            const res = await fetch(KEVBOT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text, history })
+            });
+            const data = await res.json();
+            typing.remove();
+            if (data.error || !data.reply) {
+                line('KevBot', 'Oops, something went wrong. Try again?');
+                if (window.plausible) window.plausible('KevBot+Error');
+            } else {
+                line('KevBot', data.reply);
+                history.push({ role: 'user', content: text });
+                history.push({ role: 'assistant', content: data.reply });
+                if (history.length > 20) history = history.slice(-20);
+                if (window.plausible) window.plausible('KevBot+Message',
+                    { props: { surface: 'kevinos-aim' } });
+            }
+        } catch (e) {
+            typing.remove();
+            line('KevBot', "Couldn't connect. Check your internet and try again!");
+            if (window.plausible) window.plausible('KevBot+Error');
+        }
+
+        busy = false;
+        send.disabled = false;
+        input.focus();
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        ask(input.value);
+    });
+
+    // Enter sends, Shift+Enter makes a new line. This is a textarea so that
+    // Shift+Enter has something to do.
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            ask(input.value);
+        }
+    });
+
+    if (prompts) {
+        prompts.addEventListener('click', (e) => {
+            const btn = e.target.closest('.aim-prompt');
+            if (btn) ask(btn.textContent.trim());
+        });
+    }
+
+    // Greet on first open rather than at load, so the sign-on line reads as if
+    // the conversation starts when the window does.
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('[data-window="aim"], [data-mobile-open="aim"]')) {
+            setTimeout(greet, 250);
+        }
+    });
+    if (new URLSearchParams(location.search).get('open') === 'aim') {
+        setTimeout(greet, 400);
+    }
 })();

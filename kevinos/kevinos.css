@@ -78,6 +78,10 @@
     --pink: #ff6eb4;
     --mint: #4ae0a0;
     --mint-hover: #3cc890;
+    --aim-ink: #E8A700;
+    --aim-them: #FF8A80;
+    --label-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    --aim-you: #8AB4F8;
     --yellow: #ffc048;
     --peach: #ff9f6a;
     --font-mono: 'JetBrains Mono', monospace;
@@ -117,6 +121,10 @@
         --pink: #db2777;
         --mint: #059669;
         --mint-hover: #047857;
+        --aim-ink: #E8A700;
+        --aim-them: #B3261E;
+        --label-shadow: 0 1px 2px rgba(255, 255, 255, 0.75);
+        --aim-you: #1A4FA0;
         --yellow: #d97706;
         --peach: #ea580c;
         --desktop-bg: url('https://middleton.io/images/lightmode-bg.jpg');
@@ -139,6 +147,10 @@
     --pink: #db2777;
     --mint: #059669;
     --mint-hover: #047857;
+    --aim-ink: #E8A700;
+    --aim-them: #B3261E;
+    --label-shadow: 0 1px 2px rgba(255, 255, 255, 0.75);
+    --aim-you: #1A4FA0;
     --yellow: #d97706;
     --peach: #ea580c;
     --desktop-bg: url('https://middleton.io/images/lightmode-bg.jpg');
@@ -159,6 +171,10 @@
     --pink: #ff6eb4;
     --mint: #4ae0a0;
     --mint-hover: #3cc890;
+    --aim-ink: #E8A700;
+    --aim-them: #FF8A80;
+    --label-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    --aim-you: #8AB4F8;
     --yellow: #ffc048;
     --peach: #ff9f6a;
     --desktop-bg: url('https://middleton.io/images/darkmode-bg.jpg');
@@ -234,15 +250,33 @@ body {
     content: '';
 }
 
+/* The way back to the main site. It used to be a bare chevron, which read as
+   decoration rather than an exit; the wordmark makes the destination explicit.
+   Hidden on mobile, where the menu bar has no room for it. */
 .menubar-back {
     color: var(--text);
     text-decoration: none;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-weight: 400;
+    opacity: 0.75;
+    transition: opacity 0.15s ease;
+    margin-right: 8px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+}
+.menubar-back-chev {
     font-size: 20px;
     font-weight: 300;
-    opacity: 0.7;
-    transition: opacity 0.15s ease;
-    margin-right: 1px;
+    line-height: 1;
+}
+.menubar-back-label {
+    font-size: 12px;
+    letter-spacing: 0.01em;
+}
+@media (max-width: 768px) {
+    .menubar-back-label { display: none; }
+    .menubar-back { margin-right: 1px; gap: 0; }
 }
 
 .menubar-back:hover {
@@ -1522,6 +1556,13 @@ body {
 
 .exp-item.open .exp-detail {
     display: block;
+}
+
+/* These rows are keyboard-operable disclosures, so they need a visible focus
+   ring. :focus-visible keeps it off mouse clicks. */
+.exp-item:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
 }
 
 .exp-detail p {
@@ -7857,6 +7898,449 @@ html.kos-mobile body {
 }
 
 /* ===================
+   NAVIGATION ICONS
+   The dock, the springboard and the main window titles use drawn icons rather
+   than emoji. Emoji render as a different picture on every platform (a
+   recruiter on Windows sees Segoe, not Apple), do not follow the theme, and
+   cannot be restyled. Games and the desktop toys keep their emoji on purpose:
+   those are personality, not navigation.
+
+   stroke-width is deliberately NOT set on the <symbol> elements. It is an
+   inherited property, so setting it here lets each context pick its own weight,
+   which a presentation attribute on the symbol would block.
+   =================== */
+.dock-emoji:has(> svg),
+.icon-emoji:has(> svg),
+.window-icon:has(> svg) {
+    display: grid;
+    place-items: center;
+}
+
+.dock-emoji > svg,
+.icon-emoji > svg,
+.window-icon > svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+    /* --ico-hue is set per icon below. Routing the hue through a custom property
+       rather than a competing `color` rule keeps specificity out of it: custom
+       properties do not fight the declaration, they feed it. --text is the
+       fallback for anything without a hue. */
+    color: var(--ico-hue, var(--text));
+    stroke-width: 1.9;
+}
+
+/* One hue per app, taken from the existing KevinOS palette so both themes come
+   for free: the light tokens are deep enough to hold up on the pale wallpaper,
+   the dark tokens are bright enough for the dark one. Hues are ordered so no
+   two neighbours in the dock or the springboard share a colour. */
+svg:has(use[href="#ico-profile"])    { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-seeking"])    { --ico-hue: var(--pink); }
+svg:has(use[href="#ico-values"])     { --ico-hue: var(--purple); }
+svg:has(use[href="#ico-experience"]) { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-projects"])   { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-building"])   { --ico-hue: var(--peach); }
+svg:has(use[href="#ico-writing"])    { --ico-hue: var(--purple); }
+svg:has(use[href="#ico-strengths"])  { --ico-hue: var(--yellow); }
+svg:has(use[href="#ico-skills"])     { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-reviews"])    { --ico-hue: var(--pink); }
+svg:has(use[href="#ico-games"])      { --ico-hue: var(--peach); }
+svg:has(use[href="#ico-connect"])    { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-resume"])     { --ico-hue: var(--purple); }
+svg:has(use[href="#ico-website"])    { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-email"])      { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-linkedin"])   { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-calendar"])   { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-music"])      { --ico-hue: var(--pink); }
+svg:has(use[href="#ico-recipes"])    { --ico-hue: var(--peach); }
+svg:has(use[href="#ico-party"])      { --ico-hue: var(--purple); }
+svg:has(use[href="#ico-virus"])      { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-videos"])     { --ico-hue: var(--yellow); }
+/* The bin is chrome rather than an app, so it stays neutral. */
+svg:has(use[href="#ico-recycle"])    { --ico-hue: var(--text-dim); }
+
+/* 14px titles need a heavier stroke to hold up */
+.window-icon > svg {
+    stroke-width: 2.3;
+}
+
+/* The mobile contact bar and the Apps folder were sized for emoji at 52px and
+   36px. A drawn glyph at that size is far too heavy, so they get their own
+   sizes. The bar itself is frosted, so these need no tile of their own. */
+@media (max-width: 768px) {
+    .mobile-btn-icon:has(> svg) {
+        display: grid;
+        place-items: center;
+        filter: none;
+    }
+
+    .mobile-btn-icon > svg {
+        width: 30px;
+        height: 30px;
+        display: block;
+        color: var(--ico-hue, var(--text));
+        stroke-width: 1.9;
+    }
+
+    .mobile-folder-item .icon-emoji > svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* The 3-up preview inside the Apps tile */
+    .folder-mini-grid > span > svg {
+        width: 14px;
+        height: 14px;
+        display: block;
+        color: var(--ico-hue, var(--text));
+        stroke-width: 2.2;
+    }
+}
+
+/* Desktop icons sit straight on the wallpaper, which is the one surface in the
+   OS with no backing of its own: the dock is frosted and the springboard is
+   tiled. That left the purple Party and blue Do_Not_Click glyphs landing on the
+   blue-purple band of the wallpaper and disappearing into it.
+
+   Same fix as the springboard, dialled down. The tile is quieter here so the
+   desktop still reads as a desktop rather than a second home screen, and the
+   label gets a shadow because small mono text on a photograph needs one. */
+.desktop-icons-right .desktop-icon .icon-emoji:has(> svg) {
+    width: 46px;
+    height: 46px;
+    border-radius: 11px;
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+.desktop-icons-right .desktop-icon .icon-emoji > svg {
+    width: 26px;
+    height: 26px;
+}
+
+/* A dark shadow only helps light text. On the pale wallpaper the label is dark
+   already, so light mode gets a white halo instead: same job, opposite colour. */
+.desktop-icons-right .desktop-icon .icon-label {
+    text-shadow: var(--label-shadow);
+    color: var(--text);
+}
+
+/* Springboard tiles. A flat single-hue glyph sitting straight on a saturated
+   wallpaper collides wherever the hues match: the pink Reviews icon landed on
+   the pink band of the wallpaper and all but disappeared. iOS puts every app
+   icon on a tile for exactly this reason, and the dock already reads fine
+   because it is frosted. This gives the springboard the same footing.
+
+   The tile is --surface, so it is near-white in light and near-black in dark,
+   which is the right way round: the light palette is deep, the dark palette is
+   bright. Only drawn icons get a tile; the Apps folder already has its own. */
+@media (max-width: 768px) {
+    .mobile-grid-icon .icon-emoji:has(> svg) {
+        width: 58px;
+        height: 58px;
+        border-radius: 14px;
+        background: color-mix(in srgb, var(--surface) 88%, transparent);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        filter: none;
+    }
+
+    .mobile-grid-icon .icon-emoji > svg {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* ===================
+   KEVBOT.AIM
+   An AIM instant-message window wrapped around KevBot, the same assistant
+   that runs on middleton.io and the same Cloudflare worker behind it. The
+   chrome is period-accurate; the tokens are KevinOS, so it still themes.
+   =================== */
+.aim-icon svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+    color: var(--aim-ink);
+}
+
+.dock-emoji.aim-icon svg,
+.icon-emoji.aim-icon svg {
+    width: 1em;
+    height: 1em;
+}
+
+.aim-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    min-height: 24rem;
+}
+
+.aim-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.aim-buddy {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    color: var(--text);
+}
+
+.aim-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--mint);
+}
+
+.aim-idle {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.aim-warn {
+    font-size: 11px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 2px 8px;
+}
+
+.aim-log {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    min-height: 12rem;
+    max-height: 22rem;
+    background: var(--surface);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.aim-line {
+    margin: 0 0 7px;
+    word-wrap: break-word;
+}
+
+.aim-line b {
+    font-weight: 700;
+}
+
+/* AIM coloured the two screen names differently. These are the tokens rather
+   than the original red/blue so they stay legible in both themes. */
+.aim-line.them b { color: var(--aim-them); }
+.aim-line.you b  { color: var(--aim-you); }
+
+.aim-sys {
+    margin: 0 0 8px;
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+.aim-typing {
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0 0 7px;
+}
+
+.aim-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 12px 0;
+}
+
+.aim-prompt {
+    font-family: inherit;
+    font-size: 11.5px;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.aim-prompt:hover { border-color: var(--blue); }
+.aim-prompt:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+.aim-compose {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    padding: 10px 12px 12px;
+}
+
+.aim-input {
+    flex: 1;
+    resize: none;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 7px 9px;
+}
+
+.aim-input:focus {
+    outline: none;
+    border-color: var(--blue);
+}
+
+.aim-input::placeholder { color: var(--text-muted); }
+
+.aim-send {
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--blue);
+    border: 0;
+    border-radius: 7px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.aim-send:hover { background: var(--blue-hover); }
+.aim-send:disabled { opacity: 0.5; cursor: default; }
+.aim-send:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* ===================
+   STRENGTHS/
+   Ported from the My Strengths section on middleton.io. Same six specialties
+   and the same evidence, rebuilt on KevinOS tokens as a tabbed browser.
+   =================== */
+.str-spine {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text);
+    margin: 0 0 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* A fixed grid rather than flex-wrap: with six tabs, wrapping leaves a lone
+   orphan on the second row at most window widths. 3x2 is tidy at any size. */
+.str-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.str-tab {
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.str-tab b {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.str-tab span {
+    display: block;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin-top: 1px;
+}
+
+.str-tab:hover {
+    border-color: var(--blue);
+}
+
+.str-tab[aria-selected="true"] {
+    border-color: var(--blue);
+    background: color-mix(in srgb, var(--blue) 12%, transparent);
+}
+
+.str-tab[aria-selected="true"] span {
+    color: var(--text);
+}
+
+.str-tab:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+}
+
+.str-lead {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 10px;
+}
+
+.str-list {
+    display: grid;
+    gap: 8px;
+}
+
+.str-ev {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.str-ev i {
+    display: block;
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.str-ev p {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text);
+}
+
+.str-lk {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.str-lk:hover {
+    color: var(--blue-hover);
+}
+
+@media (max-width: 768px) {
+    .str-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ===================
    TERMINAL.APP
    A real shell in a KevinOS window. Uses the OS tokens; only the screen
    goes darker than --surface so it reads as a device inside the desktop.
@@ -7867,6 +8351,11 @@ html.kos-mobile body {
     flex-direction: column;
     background: #07080c;
     min-height: 22rem;
+    /* The screen is always dark, in both themes. Anything drawn on it must be
+       pinned here rather than inheriting --text/--text-muted, which invert:
+       --text in light mode is #1a1a2e and measured 1.17:1 on this background. */
+    --term-fg: #e8e8f0;   /* 16.4:1 — identical to dark-mode --text */
+    --term-dim: #7a7a95;  /*  4.8:1 — the old --text-muted was 3.0:1 in BOTH modes */
 }
 
 .term-scr {
@@ -7890,7 +8379,7 @@ html.kos-mobile body {
 .term-scr .a { color: var(--blue); }
 .term-scr .m { color: var(--purple); }
 .term-scr .w { color: #ff9a62; }
-.term-scr .d { color: var(--text-muted); }
+.term-scr .d { color: var(--term-dim); }
 .term-scr a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
 .term-scr a:hover { color: var(--blue-hover); }
 
@@ -7915,13 +8404,13 @@ html.kos-mobile body {
     border: 0;
     outline: none;
     padding: 0;
-    color: var(--text);
+    color: var(--term-fg);
     font-family: var(--font-mono);
     font-size: 12.5px;
     caret-color: var(--mint);
 }
 
-.term-in::placeholder { color: var(--text-muted); }
+.term-in::placeholder { color: var(--term-dim); }
 
 /* the whole screen is a click target for the input */
 .term-wrap { cursor: text; }
@@ -7940,6 +8429,10 @@ html.kos-mobile body {
     place-items: center;
     width: 32px;
     height: 32px;
+    /* Black in both themes, by request. Set as --ico-hue rather than plain
+       color: the shared `.dock-emoji > svg` rule sets color on the <svg>
+       itself, which beats inheriting a colour from this span. */
+    --ico-hue: #000;
     color: #000;
     transition: color 0.2s ease;
 }
@@ -7951,6 +8444,7 @@ html.kos-mobile body {
 }
 
 .dock-item:hover .dock-term-icon {
+    --ico-hue: #000;
     color: #000;
 }
 
@@ -7960,6 +8454,7 @@ html.kos-mobile body {
     place-items: center;
     width: 15px;
     height: 15px;
+    --ico-hue: #000;
     color: #000;
     flex: 0 0 auto;
 }
@@ -7971,3 +8466,38 @@ html.kos-mobile body {
 }
 
 /* No per-scheme override: the glyph is black in light and dark alike. */
+
+/* ===================
+   DOCK TILES
+   =================== */
+/* Appended at the end deliberately: these override .dock-term-icon and
+   .aim-icon svg, both of which are defined further up.
+
+   Real macOS dock icons are rounded-square artwork in their own right, so
+   tiling here is more faithful, not less. With the springboard and the desktop
+   both tiled, a dock of bare glyphs had become the odd surface out.
+
+   Terminal is excluded from the backing because its glyph already IS a solid
+   rounded square. It is resized instead, so its footprint matches the tiles
+   either side of it. */
+.dock-item .dock-emoji:has(> svg):not(.dock-term-icon) {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.dock-item .dock-emoji > svg {
+    width: 24px;
+    height: 24px;
+}
+
+.dock-term-icon,
+.dock-term-icon svg,
+.dock-item .dock-term-icon > svg {
+    width: 40px;
+    height: 40px;
+}

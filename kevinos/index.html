@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>KevinOS | Kevin Middleton</title>
     <meta name="description" content="Kevin Middleton, Full Stack Product Manager. A portfolio reimagined as a retro operating system. 12+ years across consumer, enterprise, and platform SaaS.">
     <link rel="canonical" href="https://middleton.io/kevinos/">
@@ -37,7 +37,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="kevinos.css?v=90645bd0">
+    <link rel="stylesheet" href="kevinos.css?v=ed5aaf17">
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
@@ -139,19 +139,79 @@
         plausible.init()
     </script>
     <script>
-        // Decide mobile vs desktop ONCE at load. Rotating a phone to landscape
-        // makes innerWidth > 768, which must not flip the OS to desktop mid-session.
+        // Decide mobile vs desktop at load. Rotating a phone to landscape makes
+        // innerWidth > 768, which must not flip the OS to desktop mid-session, so
+        // this answer is latched for touch devices (see KOS_COARSE in kevinos.js).
         (function () {
             var coarse = window.matchMedia('(pointer: coarse)').matches;
-            if (window.innerWidth <= 768 || (coarse && Math.min(window.innerWidth, window.innerHeight) <= 768)) {
-                document.documentElement.classList.add('kos-mobile');
-            }
+            var w = window.innerWidth, h = window.innerHeight;
+            // A zero width means the viewport is not laid out yet (some embeds and
+            // offscreen/background tabs). 0 <= 768 would read as "mobile" and strand
+            // a desktop behind the portrait wall, so trust the pointer type instead.
+            var mob = w ? (w <= 768 || (coarse && Math.min(w, h) <= 768)) : coarse;
+            if (mob) document.documentElement.classList.add('kos-mobile');
         })();
     </script>
 </head>
 
 <body>
     <h1 class="sr-only">KevinOS — Kevin Middleton, Full Stack Product Manager. Portfolio as a retro OS.</h1>
+
+    <!-- Icon sprite. The AIM runner is used in the dock, the springboard and the
+         window title, so it is defined once here and referenced with <use>. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="ico-profile" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0"/></symbol>
+        <symbol id="ico-seeking" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></symbol>
+        <symbol id="ico-values" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="m15.4 8.6-2.1 4.7-4.7 2.1 2.1-4.7z"/></symbol>
+        <symbol id="ico-experience" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.4" width="18" height="12.6" rx="2.4"/><path d="M9 7.4V5.9a1.9 1.9 0 0 1 1.9-1.9h2.2A1.9 1.9 0 0 1 15 5.9v1.5"/><path d="M3 12.8h18"/></symbol>
+        <symbol id="ico-strengths" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M7.6 3.8h8.8v5.4a4.4 4.4 0 0 1-8.8 0z"/><path d="M7.6 5.4H5.1a2.7 2.7 0 0 0 2.7 2.9"/><path d="M16.4 5.4h2.5a2.7 2.7 0 0 1-2.7 2.9"/><path d="M12 13.6v3.1"/><path d="M9.2 20.2h5.6l-.5-3.5h-4.6z"/></symbol>
+        <symbol id="ico-projects" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8.4 20v-5.6M13 20V9.4M17.6 20v-8"/></symbol>
+        <symbol id="ico-building" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="m12 2.9 8.2 4.7v8.8L12 21.1 3.8 16.4V7.6z"/><path d="m3.8 7.6 8.2 4.7 8.2-4.7"/><path d="M12 12.3v8.8"/></symbol>
+        <symbol id="ico-writing" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M4 20.2 4.9 16 16.4 4.5a2.2 2.2 0 0 1 3.1 3.1L8 19.1z"/><path d="m14.6 6.3 3.1 3.1"/></symbol>
+        <symbol id="ico-skills" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.6h16M4 12h16M4 16.4h16"/><circle cx="9" cy="7.6" r="2" fill="var(--surface)"/><circle cx="15.4" cy="12" r="2" fill="var(--surface)"/><circle cx="7.4" cy="16.4" r="2" fill="var(--surface)"/></symbol>
+        <symbol id="ico-reviews" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 13.2a6.8 6.8 0 0 1-6.8 6.8H8L3.6 22.4V13.2a6.8 6.8 0 0 1 6.8-6.8h3.2a6.8 6.8 0 0 1 6.8 6.8z"/><path d="M9 12.6h6M9 15.8h3.6"/></symbol>
+        <symbol id="ico-games" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="7.4" width="18.8" height="11.2" rx="4.4"/><path d="M7.4 11.4v3.2M5.8 13h3.2"/><circle cx="16" cy="12.4" r="1.05" fill="currentColor" stroke="none"/><circle cx="18.2" cy="15" r="1.05" fill="currentColor" stroke="none"/></symbol>
+        <symbol id="ico-connect" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M21 3.6 10.6 14"/><path d="M21 3.6 14.4 21.2l-3.8-7.2-7.2-3.8z"/></symbol>
+        <symbol id="ico-resume" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M13.6 2.8H7a2.4 2.4 0 0 0-2.4 2.4v13.6A2.4 2.4 0 0 0 7 21.2h10a2.4 2.4 0 0 0 2.4-2.4V8.6z"/><path d="M13.6 2.8V8.6h5.8"/><path d="M8.6 13.2h6.8M8.6 16.6h4.4"/></symbol>
+        <symbol id="ico-website" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.8"/><path d="M3.2 12h17.6"/><path d="M12 3.2a13.6 13.6 0 0 1 0 17.6 13.6 13.6 0 0 1 0-17.6z"/></symbol>
+        <symbol id="ico-email" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="5" width="18.8" height="14" rx="2.6"/><path d="m3.6 7.4 7 5a2.4 2.4 0 0 0 2.8 0l7-5"/></symbol>
+        <symbol id="ico-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="3.6"/><path d="M7.5 10.6V17"/><circle cx="7.5" cy="7.4" r="1.1" fill="currentColor" stroke="none"/><path d="M11.6 17v-6.4"/><path d="M11.6 13.4a2.9 2.9 0 0 1 5.8 0V17"/></symbol>
+        <symbol id="ico-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.2" width="18" height="15.8" rx="2.6"/><path d="M3 10h18"/><path d="M8.2 3v4.4M15.8 3v4.4"/></symbol>
+        <symbol id="ico-music" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l10-2v12"/><ellipse cx="6.4" cy="18" rx="2.6" ry="2.2"/><ellipse cx="16.4" cy="16" rx="2.6" ry="2.2"/></symbol>
+        <symbol id="ico-recipes" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 13.6a3.9 3.9 0 1 1 1.9-7.3 4.2 4.2 0 0 1 7.4 0 3.9 3.9 0 1 1 1.9 7.3z"/><path d="M6.4 13.6v4.8a2 2 0 0 0 2 2h7.2a2 2 0 0 0 2-2v-4.8"/><path d="M9.4 16.9h5.2"/></symbol>
+        <symbol id="ico-party" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="6.8"/><path d="M12 3.2v4"/><path d="M5.2 14h13.6"/><path d="M12 7.2v13.6"/><path d="M7.6 9.4c2.8 1.6 6 1.6 8.8 0M7.6 18.6c2.8-1.6 6-1.6 8.8 0"/></symbol>
+        <symbol id="ico-virus" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2a7.6 7.6 0 0 0-4.4 13.8v2.2a1.8 1.8 0 0 0 1.8 1.8h5.2a1.8 1.8 0 0 0 1.8-1.8V17A7.6 7.6 0 0 0 12 3.2z"/><circle cx="9.3" cy="11.2" r="1.7"/><circle cx="14.7" cy="11.2" r="1.7"/><path d="M10.6 16.4v2.2M13.4 16.4v2.2"/></symbol>
+        <symbol id="ico-videos" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="5.4" width="18.8" height="13.2" rx="2.6"/><path d="m10.4 9.8 4.8 2.9-4.8 2.9z"/></symbol>
+        <symbol id="ico-recycle" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M4.4 6.6h15.2"/><path d="M9.4 6.6V4.9a1.7 1.7 0 0 1 1.7-1.7h1.8a1.7 1.7 0 0 1 1.7 1.7v1.7"/><path d="m6.6 6.6.9 12.4a2 2 0 0 0 2 1.8h5a2 2 0 0 0 2-1.8l.9-12.4"/><path d="M10.4 10.8v6M13.6 10.8v6"/></symbol>
+        <!-- icon: AIM running man, via SVG Repo (svgrepo.com) -->
+        <symbol id="ico-aim" viewBox="-4.39 2.94 26.56 26.56">
+            <path fill="currentColor" d="M13.969 6.75c0.781 0.781 1.156 1.688 1.156 2.75 0 0.906-0.25 1.719-0.813 2.406-0.531 0.688-1.25 1.156-2.094 1.375 1.031 0.125 2-0.063 2.906-0.531l0.656-0.406 1.813 4.156-0.563 0.313c-1.406 0.781-2.656 1.25-3.719 1.406 1.781 1.406 3.219 3.25 4.25 5.563l0.219 0.5-4.156 2.469-0.344-0.594c-0.688-1.563-2.031-2.875-4-3.844-0.781 1.063-1.563 1.906-2.313 2.438-1.188 0.906-2.688 1.563-4.531 1.938l-0.594 0.156-1.844-5.031 1.406-0.219c0.375-0.125 0.75-0.25 1.156-0.469 1.188-0.563 2.031-1.438 2.594-2.594 0.063-0.094 0.094-0.375 0.125-0.75 0.219-2.781 1.188-4.75 2.844-5.938-0.531-0.688-0.781-1.469-0.781-2.344 0-1.063 0.375-1.969 1.156-2.75 0.75-0.781 1.656-1.156 2.75-1.156 1.063 0 1.969 0.375 2.719 1.156zM15.875 15.938l-0.75-1.719c-1.438 0.594-2.813 0.688-4.125 0.25l-0.281-0.094-0.125-0.313c-0.031-0.125-0.063-0.313-0.094-0.563v-0.156c-0.531-0.125-0.938-0.281-1.344-0.563-0.813 0.469-1.406 1.094-1.781 1.875-0.406 0.781-0.656 1.875-0.781 3.25-0.063 0.625-0.125 1.031-0.25 1.219-0.906 1.906-2.406 3.156-4.531 3.719l0.875 2.438c1.469-0.344 2.719-0.938 3.656-1.719 0.594-0.469 1.219-1.188 1.969-2.156l0.313-0.406c0.094-0.125 0.25-0.188 0.438-0.188 0.094 0 0.219 0.031 0.281 0.094 2.25 0.969 3.875 2.281 4.813 4l1.938-1.125c-0.938-1.813-2.125-3.344-3.625-4.531-0.469-0.344-0.938-0.688-1.438-0.938l-0.656-0.344c-0.219-0.094-0.313-0.281-0.281-0.563 0.063-0.438 0.25-0.656 0.625-0.656l0.406 0.063 1.938 0.094c0.813-0.094 1.75-0.406 2.813-0.969zM11.25 7.031c-0.688 0-1.281 0.219-1.781 0.719s-0.75 1.063-0.75 1.75 0.25 1.281 0.75 1.75c0.5 0.5 1.094 0.75 1.781 0.75s1.25-0.25 1.75-0.75c0.5-0.469 0.75-1.063 0.75-1.75s-0.25-1.25-0.75-1.75-1.063-0.719-1.75-0.719z"/>
+        </symbol>
+    </svg>
+
     <!-- Boot Loader -->
     <div class="boot-loader" id="bootLoader">
         <pre class="boot-logo">
@@ -170,7 +230,9 @@
     <!-- macOS Menu Bar -->
     <header class="menubar">
         <div class="menubar-left">
-            <a href="https://middleton.io/" class="menubar-back" title="Back to middleton.io">‹</a>
+            <a href="https://middleton.io/" class="menubar-back" title="Back to middleton.io"><span
+                    class="menubar-back-chev" aria-hidden="true">‹</span><span
+                    class="menubar-back-label">middleton.io</span></a>
             <a href="https://middleton.io/kevinos/" class="menubar-app">KevinOS</a>
             <span class="menubar-menu">File</span>
             <span class="menubar-menu">Edit</span>
@@ -200,7 +262,7 @@
                     <span class="desktop-weather-temp" id="desktopWeatherTemp">--°</span>
                 </div>
             </div>
-            <div class="desktop-widget-title">Full-Stack Product Manager</div>
+            <div class="desktop-widget-title">Full Stack Product Manager</div>
             <div class="desktop-widget-location">New York, NY</div>
             <div class="desktop-widget-tagline">"I make complex work feel simple."</div>
         </div>
@@ -209,13 +271,13 @@
         <nav class="desktop-icons desktop-icons-right">
             <!-- Music Player Icon -->
             <button class="desktop-icon" id="musicIcon">
-                <span class="icon-emoji">🎵</span>
+                <span class="icon-emoji"><svg><use href="#ico-music"></use></svg></span>
                 <span class="icon-label">Music.app</span>
             </button>
 
             <!-- Recipes Icon (desktop only easter egg) -->
             <button class="desktop-icon desktop-only" data-window="recipesdb">
-                <span class="icon-emoji">🗃️</span>
+                <span class="icon-emoji"><svg><use href="#ico-recipes"></use></svg></span>
                 <span class="icon-label">Recipes.db</span>
             </button>
 
@@ -224,27 +286,27 @@
 
             <!-- Easter Eggs -->
             <button class="desktop-icon" id="partyBtn">
-                <span class="icon-emoji">🪩</span>
+                <span class="icon-emoji"><svg><use href="#ico-party"></use></svg></span>
                 <span class="icon-label">Party.app</span>
             </button>
             <button class="desktop-icon virus-icon" id="virusBtn">
-                <span class="icon-emoji">💀</span>
+                <span class="icon-emoji"><svg><use href="#ico-virus"></use></svg></span>
                 <span class="icon-label">Do_Not_Click.exe</span>
             </button>
             <button class="desktop-icon" id="videosBtn">
-                <span class="icon-emoji">📺</span>
+                <span class="icon-emoji"><svg><use href="#ico-videos"></use></svg></span>
                 <span class="icon-label">Videos.app</span>
             </button>
 
             <!-- Recycle Bin -->
             <button class="desktop-icon" id="recycleBin">
-                <span class="icon-emoji">🗑️</span>
+                <span class="icon-emoji"><svg><use href="#ico-recycle"></use></svg></span>
                 <span class="icon-label">Recycle Bin</span>
             </button>
 
             <!-- Escape hatch back to the regular site -->
             <a class="desktop-icon plausible-event-name=Website+Mode plausible-event-location=desktop" href="https://middleton.io/?from=kevinos">
-                <span class="icon-emoji">🌐</span>
+                <span class="icon-emoji"><svg><use href="#ico-website"></use></svg></span>
                 <span class="icon-label icon-label-nowrap">middleton.io</span>
             </a>
         </nav>
@@ -261,7 +323,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🎯</span>
+                        <span class="window-icon"><svg><use href="#ico-seeking"></use></svg></span>
                         ideal_match.sql
                         <span class="file-badge sql">SQL</span>
                     </div>
@@ -327,7 +389,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">👤</span>
+                        <span class="window-icon"><svg><use href="#ico-profile"></use></svg></span>
                         kevin.vcf
                         <span class="file-badge vcf">VCF</span>
                     </div>
@@ -385,7 +447,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🧭</span>
+                        <span class="window-icon"><svg><use href="#ico-values"></use></svg></span>
                         values.json
                         <span class="file-badge json">JSON</span>
                     </div>
@@ -435,14 +497,14 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">👨🏻‍💻</span>
+                        <span class="window-icon"><svg><use href="#ico-experience"></use></svg></span>
                         experience/
                     </div>
                     <span class="window-path">~/kevin/</span>
                 </header>
                 <div class="window-content">
                     <div class="exp-list">
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-1">
                             <div class="exp-icon"><img src="https://middleton.io/images/gridstrong-logo.png"
                                     alt="GridStrong"></div>
                             <div class="exp-info">
@@ -454,7 +516,7 @@
                                 <div class="exp-role">Director of Product Management (initially Product Advisor)</div>
                                 <div class="exp-date">Sep 2024 — Nov 2025</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-1">
                                 <p>Began supporting GridStrong.ai in September 2024 as a part-time Product Advisor while at HVAC.com, creating early
                                     prototypes and helping secure a $1.4M U.S. Department of Energy grant. After seed
                                     funding closed in June 2025, joined full‑time as Director of Product Management, leading product
@@ -493,7 +555,7 @@
                                         class="tag">Roadmapping</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-2">
                             <div class="exp-icon"><img src="https://middleton.io/images/hvac-com-logo-stacked-white.png"
                                     alt="HVAC.COM"></div>
                             <div class="exp-info">
@@ -505,7 +567,7 @@
                                 <div class="exp-role">Senior PM, HVAC.com & Branded Sites</div>
                                 <div class="exp-date">Feb 2024 — Jun 2025</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-2">
                                 <p>Led product strategy, UX, and growth for HVAC.com, a homeowner platform with ~2M
                                     annual visits that connects consumers to trusted HVAC dealers nationwide. Owned the
                                     full digital funnel, from first touch to dealer handoff, driving measurable
@@ -543,7 +605,7 @@
                                         Decision Making</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-3">
                             <div class="exp-icon"><img src="https://middleton.io/images/hurd-ai-logo.png" alt="HURD AI">
                             </div>
                             <div class="exp-info">
@@ -554,7 +616,7 @@
                                 <div class="exp-role">Co-Founder & Product Advisor</div>
                                 <div class="exp-date">May 2023 — Sep 2023</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-3">
                                 <p>Shaped early product direction for an AI-powered learning platform that helped
                                     students, researchers, and professionals organize and study their notes. Led feature
                                     design, user research, and launch execution across the Mac app and web chatbot.</p>
@@ -585,7 +647,7 @@
                                         Analysis</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-4">
                             <div class="exp-icon"><img src="https://middleton.io/images/lever-logo.webp" alt="Lever">
                             </div>
                             <div class="exp-info">
@@ -597,7 +659,7 @@
                                 <div class="exp-role">Senior PM, HRIS Sync Lead</div>
                                 <div class="exp-date">Dec 2021 — Apr 2023</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-4">
                                 <p>Owned end-to-end development of HRIS Sync, a core enterprise integration that
                                     strengthened Lever's upmarket positioning through automation, workflow reliability,
                                     and enterprise-grade data sync.</p>
@@ -634,7 +696,7 @@
                                         Research</span><span class="tag">Workflow Automation</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-5">
                             <div class="exp-icon"><img src="https://middleton.io/images/sendoso-logo.png" alt="Sendoso">
                             </div>
                             <div class="exp-info">
@@ -646,7 +708,7 @@
                                 <div class="exp-role">Senior PM, Core Platform & eGift</div>
                                 <div class="exp-date">Mar 2021 — Dec 2021</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-5">
                                 <p>Joined between Sendoso's Series B and $100M Series C to scale the eGift platform
                                     while the market window was open. eGifts were the most popular send option on the
                                     platform, representing over half of all sends in 2021. Owned eGift partnerships,
@@ -678,7 +740,7 @@
                                 </div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-6">
                             <div class="exp-icon"><img src="https://middleton.io/images/rocket-lawyer-logo.png"
                                     alt="Rocket Lawyer"></div>
                             <div class="exp-info">
@@ -690,7 +752,7 @@
                                 <div class="exp-role">Senior PM, Core Product & Platform</div>
                                 <div class="exp-date">Apr 2018 — Jan 2021</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-6">
                                 <p>Led product strategy and execution for Rocket Lawyer's Platform and Legal Document
                                     teams, expanding market reach, improving mobile engagement, and diversifying revenue
                                     streams while advancing Rocket Lawyer's mission to make legal services more
@@ -728,7 +790,7 @@
                                         Channels</span><span class="tag">Cross-Platform Integration</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-7">
                             <div class="exp-icon"><img src="https://middleton.io/images/oracle-logo.png" alt="Oracle">
                             </div>
                             <div class="exp-info">
@@ -740,7 +802,7 @@
                                 <div class="exp-role">Senior PM, Engage & Integrations</div>
                                 <div class="exp-date">Apr 2013 — Jan 2018</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-7">
                                 <p>Promoted to lead Oracle Social Cloud's Engage product through a full platform
                                     modernization, doubling supported social networks and shipping a year-long series of
                                     upgrades across UI, performance, and workflow design. Directed two engineering teams
@@ -772,7 +834,7 @@
                                         class="tag">Beta Testing</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-8">
                             <div class="exp-icon"><img src="https://middleton.io/images/caci-international-logo.png"
                                     alt="CACI International"></div>
                             <div class="exp-info">
@@ -784,7 +846,7 @@
                                 <div class="exp-role">Consultant, Product Specialist, & UAT Lead</div>
                                 <div class="exp-date">Dec 2007 — Apr 2013</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-8">
                                 <p>Momentum Financial Management System Analyst supporting large-scale federal
                                     financial transformation across six Department of Justice component
                                     agencies (DOJ, DEA, ATF, BOP, USMS, FBI). Managed UAT strategy,
@@ -809,7 +871,7 @@
                                         class="tag">Top Secret Clearance</span></div>
                             </div>
                         </article>
-                        <article class="exp-item" onclick="this.classList.toggle('open')">
+                        <article class="exp-item" role="button" tabindex="0" aria-expanded="false" aria-controls="exp-detail-9">
                             <div class="exp-icon"><img src="https://middleton.io/images/cgi-logo.png"
                                     alt="CGI Federal"></div>
                             <div class="exp-info">
@@ -821,7 +883,7 @@
                                 <div class="exp-role">Software Engineer & QA Automation</div>
                                 <div class="exp-date">Jan 2006 — Nov 2007</div>
                             </div>
-                            <div class="exp-detail">
+                            <div class="exp-detail" id="exp-detail-9">
                                 <p>Started as a C++ software engineer on Momentum, the federal government's core
                                     financial management system. Transitioned into QA automation, building automated
                                     test suites and providing functional support for the testing team.</p>
@@ -843,6 +905,128 @@
             </section>
 
             <!-- projects/ -->
+            <!-- kevbot.aim -->
+            <section class="window" role="dialog" aria-label="Instant Message with KevBot" id="aim" data-window="aim">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close" aria-label="Close window"></button>
+                        <button class="window-dot yellow" data-action="minimize" aria-label="Minimize window"></button>
+                        <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon aim-icon" aria-hidden="true"><svg><use href="#ico-aim"></use></svg></span>
+                        kevbot.aim
+                        <span class="file-badge im">IM</span>
+                    </div>
+                    <span class="window-path">~/kevin/</span>
+                </header>
+                <div class="window-content aim-content">
+                    <div class="aim-bar">
+                        <span class="aim-buddy">
+                            <span class="aim-dot" aria-hidden="true"></span>
+                            <b>KevBot</b>
+                            <span class="aim-idle">online</span>
+                        </span>
+                        <span class="aim-warn" aria-hidden="true">Warn</span>
+                    </div>
+                    <div class="aim-log" id="aimLog" role="log" aria-live="polite" aria-label="Conversation">
+                        <p class="aim-sys">KevBot signed on at <span id="aimSignOn">9:41 AM</span>.</p>
+                    </div>
+                    <div class="aim-prompts" id="aimPrompts">
+                        <button type="button" class="aim-prompt">What does Kevin do?</button>
+                        <button type="button" class="aim-prompt">What is he looking for?</button>
+                        <button type="button" class="aim-prompt">How do I reach him?</button>
+                    </div>
+                    <form class="aim-compose" id="aimForm">
+                        <label class="sr-only" for="aimInput">Message KevBot</label>
+                        <textarea id="aimInput" class="aim-input" rows="2" maxlength="500"
+                            placeholder="Type a message..." autocomplete="off"></textarea>
+                        <button type="submit" class="aim-send" id="aimSend">Send</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- strengths/ -->
+            <section class="window" role="dialog" aria-label="Strengths" id="strengths" data-window="strengths">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close" aria-label="Close window"></button>
+                        <button class="window-dot yellow" data-action="minimize" aria-label="Minimize window"></button>
+                        <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon"><svg><use href="#ico-strengths"></use></svg></span>
+                        strengths/
+                    </div>
+                    <span class="window-path">~/kevin/</span>
+                </header>
+                <div class="window-content">
+                    <p class="str-spine">I wrote the code, I deployed it inside other people's organizations, and
+                        now as a product leader I'm accountable for what ships (and I can help you build it, too).</p>
+                    <div class="str-tabs" role="tablist" aria-label="Specialties">
+                        <button class="str-tab" role="tab" id="str-tb-ai" aria-controls="str-sp-ai" aria-selected="true" tabindex="0"><b>AI Workflows</b><span>Shipped + open-sourced</span></button>
+                        <button class="str-tab" role="tab" id="str-tb-tools" aria-controls="str-sp-tools" aria-selected="false" tabindex="-1"><b>Internal Tools</b><span>Empowering ops teams</span></button>
+                        <button class="str-tab" role="tab" id="str-tb-platform" aria-controls="str-sp-platform" aria-selected="false" tabindex="-1"><b>Platforms</b><span>Building for scale</span></button>
+                        <button class="str-tab" role="tab" id="str-tb-integrations" aria-controls="str-sp-integrations" aria-selected="false" tabindex="-1"><b>Integrations</b><span>SCIM · OAuth · OIDC</span></button>
+                        <button class="str-tab" role="tab" id="str-tb-growth" aria-controls="str-sp-growth" aria-selected="false" tabindex="-1"><b>Growth</b><span>CRO + A/B testing</span></button>
+                        <button class="str-tab" role="tab" id="str-tb-gov" aria-controls="str-sp-gov" aria-selected="false" tabindex="-1"><b>Public Sector</b><span>Federal agencies + grid</span></button>
+                    </div>
+                    <div class="str-stage">
+                        <div class="str-panel" role="tabpanel" id="str-sp-ai" aria-labelledby="str-tb-ai">
+                            <p class="str-lead">Shipped AI in production, and I build my own on the weekend.</p>
+                            <div class="str-list">
+                                <div class="str-ev"><i>GridStrong AI</i><p>Delivered an AI-powered compliance copilot for <a class="str-lk" href="https://www.gridstrong.ai" target="_blank" rel="noopener noreferrer">GridStrong</a>, guiding power plant owners through plant profiles, compliance workflows, and cross-standard tasks. Early prototypes helped secure a $1.4M DOE grant.</p></div>
+                                <div class="str-ev"><i>HVAC.com</i><p>Defined and drove development of an LLM-powered assistant that answers homeowner questions conversationally and moves them toward replacement and repair. <a class="str-lk" href="https://middleton.io/casestudies/case-study-hvac.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Hurd AI</i><p>Launched Whisper-powered on-device transcription, summarization, and a study chatbot for <a class="str-lk" href="https://hurd.ai" target="_blank" rel="noopener noreferrer">Hurd</a>. 700% user growth off a ProductHunt launch.</p></div>
+                                <div class="str-ev"><i>Sendoso</i><p>Shipped AI-driven fraud detection alongside two-factor authentication, protecting gift card transactions from bot-driven attacks on the platform's most-used send type. <a class="str-lk" href="https://middleton.io/casestudies/case-study-sendoso.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Built for myself</i><p><a class="str-lk" href="https://quietfeed.com" target="_blank" rel="noopener noreferrer">QuietFeed</a>, KevinOS, and a few open-sourced <a class="str-lk" href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener noreferrer">Claude plugins</a>.</p></div>
+                            </div>
+                        </div>
+                        <div class="str-panel" role="tabpanel" id="str-sp-tools" aria-labelledby="str-tb-tools" hidden>
+                            <p class="str-lead">Tools that make teams more efficient, and happier.</p>
+                            <div class="str-list">
+                                <div class="str-ev"><i>Lever</i><p>Cut bulk upload times from days to minutes with a self-serve Bulk Candidate Importer, reducing support and implementation load. <a class="str-lk" href="https://middleton.io/casestudies/case-study-lever.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Sendoso</i><p>Built internal tools for eGift deactivation, refunds, and swaps that reduced engineering reliance and sped up support resolutions. <a class="str-lk" href="https://middleton.io/casestudies/case-study-sendoso.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Rocket Lawyer</i><p>Built internal analytics tools linking site performance to user behavior, which directly informed site speed and checkout work. <a class="str-lk" href="https://middleton.io/casestudies/case-study-rocketlawyer-mobile.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                            </div>
+                        </div>
+                        <div class="str-panel" role="tabpanel" id="str-sp-platform" aria-labelledby="str-tb-platform" hidden>
+                            <p class="str-lead">The layer other teams build on top of.</p>
+                            <div class="str-list">
+                                <div class="str-ev"><i>Oracle</i><p>Led a full overhaul of Engage, shipping 36 features in 12 months and internationalizing the platform across 30+ languages. <a class="str-lk" href="https://middleton.io/casestudies/case-study-oracle.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Rocket Lawyer</i><p>Owned strategy and execution across the Platform and Legal Document teams. Launched co-branded partner sites reaching 11.5M users. <a class="str-lk" href="https://middleton.io/casestudies/case-study-rocketlawyer-mobile.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Sendoso</i><p>Built foundational platform capabilities: user management, invitation flows, and a feature-tiering system adopted by other product teams. <a class="str-lk" href="https://middleton.io/casestudies/case-study-sendoso.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Lever</i><p>Built HRIS Sync as a core enterprise integration, plus the scalable tooling and workflow automation that carried Lever upmarket. <a class="str-lk" href="https://middleton.io/casestudies/case-study-lever.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                            </div>
+                        </div>
+                        <div class="str-panel" role="tabpanel" id="str-sp-integrations" aria-labelledby="str-tb-integrations" hidden>
+                            <p class="str-lead">Connecting products to each other.</p>
+                            <div class="str-list">
+                                <div class="str-ev"><i>Lever</i><p>Launched HRIS Sync with 37% customer engagement: org chart-aware approvals, automated user provisioning, and manager-relationship sync. <a class="str-lk" href="https://middleton.io/casestudies/case-study-lever.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Oracle</i><p>Doubled network coverage by integrating the LinkedIn, Instagram, Sina Weibo, and Tumblr APIs. <a class="str-lk" href="https://middleton.io/casestudies/case-study-oracle.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Rocket Lawyer</i><p>Enabled OpenID Connect authentication for partner sites, and lifted eSign start rates 13% by integrating Legal Documents with RocketSign. <a class="str-lk" href="https://middleton.io/casestudies/case-study-rocketlawyer-mobile.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Sendoso</i><p>Landed Square as a strategic partner, enabling personalized small business gifting across four markets. <a class="str-lk" href="https://middleton.io/casestudies/case-study-sendoso.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                            </div>
+                        </div>
+                        <div class="str-panel" role="tabpanel" id="str-sp-growth" aria-labelledby="str-tb-growth" hidden>
+                            <p class="str-lead">Experiments and experiences that drive conversion.</p>
+                            <div class="str-list">
+                                <div class="str-ev"><i>HVAC.com</i><p>Built high-intent tools that converted at ~50× the 0.1% site baseline, a sustained lift. Calculators peaked at 7.3% and settled around 5%, QuoteScore at 6%, video at 3.4%, landing pages at 2.3%. <a class="str-lk" href="https://middleton.io/casestudies/case-study-hvac.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Sendoso</i><p>Doubled active eGift coverage from 800 to 1,600 options across 47 countries, and landed Square as a strategic partner across four markets. <a class="str-lk" href="https://middleton.io/casestudies/case-study-sendoso.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                                <div class="str-ev"><i>Rocket Lawyer</i><p>Increased mobile gross conversions 5% on the Legal Document line, which carried 90% of U.S. revenue, and hit record-high checkout conversion at 2.34%. <a class="str-lk" href="https://middleton.io/casestudies/case-study-rocketlawyer-mobile.html?from=kevinos" target="_blank" rel="noopener noreferrer">Read the case study</a></p></div>
+                            </div>
+                        </div>
+                        <div class="str-panel" role="tabpanel" id="str-sp-gov" aria-labelledby="str-tb-gov" hidden>
+                            <p class="str-lead">Federal financial systems, and power grid compliance.</p>
+                            <div class="str-list">
+                                <div class="str-ev"><i>CACI International</i><p>Launched multi-year financial system upgrades across six DOJ component agencies (DOJ, DEA, ATF, BOP, USMS, FBI), five large-scale deployments, on systems carrying budgets up to $200M. Ran a 10-person go-live triage team. Held Top Secret clearance (historical).</p></div>
+                                <div class="str-ev"><i>CGI Federal</i><p>C++ engineer on Momentum, the federal government's core financial management platform.</p></div>
+                                <div class="str-ev"><i>GridStrong AI</i><p>Product for the power grid, where federal reliability standards set the requirements. Turned how compliance experts actually audit into software. Sourced the DOE grant opportunity and built the prototypes that helped win the $1.4M award.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section class="window" role="dialog" aria-label="Projects" id="projects" data-window="projects">
                 <header class="window-header">
                     <div class="window-dots">
@@ -851,7 +1035,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">📊</span>
+                        <span class="window-icon"><svg><use href="#ico-projects"></use></svg></span>
                         projects/
                     </div>
                     <span class="window-path">~/kevin/</span>
@@ -948,7 +1132,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🛠️</span>
+                        <span class="window-icon"><svg><use href="#ico-building"></use></svg></span>
                         building/
                     </div>
                     <span class="window-path">~/kevin/</span>
@@ -1027,7 +1211,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">📡</span>
+                        <span class="window-icon"><svg><use href="#ico-writing"></use></svg></span>
                         writing/
                     </div>
                     <span class="window-path">feed://middleton.io/blog</span>
@@ -1101,7 +1285,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">⚙️</span>
+                        <span class="window-icon"><svg><use href="#ico-skills"></use></svg></span>
                         skills.config
                         <span class="file-badge config">CONFIG</span>
                     </div>
@@ -1160,7 +1344,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">💬</span>
+                        <span class="window-icon"><svg><use href="#ico-reviews"></use></svg></span>
                         reviews.chat
                         <span class="file-badge chat">CHAT</span>
                     </div>
@@ -1198,7 +1382,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">📟</span>
+                        <span class="window-icon"><svg><use href="#ico-connect"></use></svg></span>
                         connect.sh
                         <span class="file-badge sh">SH</span>
                     </div>
@@ -1254,7 +1438,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🎮</span>
+                        <span class="window-icon"><svg><use href="#ico-games"></use></svg></span>
                         games/
                     </div>
                     <span class="window-path">~/kevin/</span>
@@ -1869,7 +2053,7 @@
                         <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
                     </div>
                     <div class="window-title">
-                        <span class="window-icon">🗃️</span>
+                        <span class="window-icon"><svg><use href="#ico-recipes"></use></svg></span>
                         recipes.db
                         <span class="file-badge db">DB</span>
                     </div>
@@ -1939,7 +2123,7 @@
                         <span class="widget-location">New York, NY</span>
                     </div>
                     <div class="widget-name">Kevin Middleton</div>
-                    <div class="widget-title">Full-Stack Product Manager</div>
+                    <div class="widget-title">Full Stack Product Manager</div>
                 </div>
                 <div class="widget-weather" id="widgetWeather">
                     <span class="weather-icon" id="weatherIcon">--</span>
@@ -1951,50 +2135,58 @@
         <nav class="mobile-icon-grid">
             <!-- Primary: Who I am -->
             <button class="mobile-grid-icon" data-mobile-open="about">
-                <span class="icon-emoji">👤</span>
+                <span class="icon-emoji"><svg><use href="#ico-profile"></use></svg></span>
                 <span class="icon-label">Profile</span>
             </button>
             <button class="mobile-grid-icon" data-mobile-open="seeking">
-                <span class="icon-emoji">🎯</span>
+                <span class="icon-emoji"><svg><use href="#ico-seeking"></use></svg></span>
                 <span class="icon-label">Seeking</span>
             </button>
             <button class="mobile-grid-icon" data-mobile-open="values">
-                <span class="icon-emoji">🧭</span>
+                <span class="icon-emoji"><svg><use href="#ico-values"></use></svg></span>
                 <span class="icon-label">Values</span>
             </button>
             <!-- Secondary: What I've done -->
             <button class="mobile-grid-icon" data-mobile-open="experience">
-                <span class="icon-emoji">👨🏻‍💻</span>
+                <span class="icon-emoji"><svg><use href="#ico-experience"></use></svg></span>
                 <span class="icon-label">Experience</span>
             </button>
+            <button class="mobile-grid-icon" data-mobile-open="strengths">
+                <span class="icon-emoji"><svg><use href="#ico-strengths"></use></svg></span>
+                <span class="icon-label">Strengths</span>
+            </button>
             <button class="mobile-grid-icon" data-mobile-open="projects">
-                <span class="icon-emoji">📊</span>
+                <span class="icon-emoji"><svg><use href="#ico-projects"></use></svg></span>
                 <span class="icon-label">Projects</span>
             </button>
             <button class="mobile-grid-icon" data-mobile-open="building">
-                <span class="icon-emoji">🛠️</span>
+                <span class="icon-emoji"><svg><use href="#ico-building"></use></svg></span>
                 <span class="icon-label">Building</span>
             </button>
             <button class="mobile-grid-icon" data-mobile-open="writing">
-                <span class="icon-emoji">✍️</span>
+                <span class="icon-emoji"><svg><use href="#ico-writing"></use></svg></span>
                 <span class="icon-label">Writing</span>
             </button>
             <button class="mobile-grid-icon" data-mobile-open="skills">
-                <span class="icon-emoji">⚙️</span>
+                <span class="icon-emoji"><svg><use href="#ico-skills"></use></svg></span>
                 <span class="icon-label">Skills</span>
             </button>
             <button class="mobile-grid-icon" data-mobile-open="recommendations">
-                <span class="icon-emoji">💬</span>
+                <span class="icon-emoji"><svg><use href="#ico-reviews"></use></svg></span>
                 <span class="icon-label">Reviews</span>
+            </button>
+            <button class="mobile-grid-icon" data-mobile-open="aim">
+                <span class="icon-emoji aim-icon" aria-hidden="true"><svg><use href="#ico-aim"></use></svg></span>
+                <span class="icon-label">KevBot</span>
             </button>
             <!-- Apps folder opens popup -->
             <button class="mobile-grid-icon" id="springboardAppsFolder">
-                <span class="icon-emoji apps-folder-icon"><span class="folder-mini-grid"><span>🎮</span><span>🎵</span><span>🍳</span><span></span></span></span>
+                <span class="icon-emoji apps-folder-icon"><span class="folder-mini-grid"><span><svg><use href="#ico-games"></use></svg></span><span><svg><use href="#ico-music"></use></svg></span><span><svg><use href="#ico-recipes"></use></svg></span><span></span></span></span>
                 <span class="icon-label">Apps</span>
             </button>
             <!-- Escape hatch back to the regular site -->
             <a class="mobile-grid-icon plausible-event-name=Website+Mode plausible-event-location=mobile" href="https://middleton.io/?from=kevinos">
-                <span class="icon-emoji">🌐</span>
+                <span class="icon-emoji"><svg><use href="#ico-website"></use></svg></span>
                 <span class="icon-label">Website</span>
             </a>
         </nav>
@@ -2048,7 +2240,7 @@
                     <span class="window-dot green"></span>
                 </div>
                 <div class="video-title">
-                    <span class="window-icon">📺</span>
+                    <span class="window-icon"><svg><use href="#ico-videos"></use></svg></span>
                     Videos.app
                     <span class="file-badge app">APP</span>
                 </div>
@@ -2069,15 +2261,15 @@
         </div>
         <div class="mobile-folder-grid">
             <button class="mobile-folder-item" id="mobileGamesBtn">
-                <span class="icon-emoji">🎮</span>
+                <span class="icon-emoji"><svg><use href="#ico-games"></use></svg></span>
                 <span class="icon-label">Games</span>
             </button>
             <button class="mobile-folder-item" id="mobileMusicBtn">
-                <span class="icon-emoji">🎵</span>
+                <span class="icon-emoji"><svg><use href="#ico-music"></use></svg></span>
                 <span class="icon-label">Music</span>
             </button>
             <button class="mobile-folder-item" data-window="recipesdb">
-                <span class="icon-emoji">🍳</span>
+                <span class="icon-emoji"><svg><use href="#ico-recipes"></use></svg></span>
                 <span class="icon-label">Recipes</span>
             </button>
         </div>
@@ -2124,45 +2316,48 @@
     <!-- macOS-style Dock (outside desktop for party mode) -->
     <nav class="dock" id="dock">
         <button class="dock-item" aria-label="About" data-window="about" data-tooltip="kevin.vcf">
-            <span class="dock-emoji">👤</span>
+            <span class="dock-emoji"><svg><use href="#ico-profile"></use></svg></span>
         </button>
         <button class="dock-item" aria-label="Seeking" data-window="seeking" data-tooltip="ideal_match.sql">
-            <span class="dock-emoji">🎯</span>
+            <span class="dock-emoji"><svg><use href="#ico-seeking"></use></svg></span>
         </button>
         <button class="dock-item" aria-label="Values" data-window="values" data-tooltip="values.json">
-            <span class="dock-emoji">🧭</span>
+            <span class="dock-emoji"><svg><use href="#ico-values"></use></svg></span>
         </button>
         <button class="dock-item" aria-label="Experience" data-window="experience" data-tooltip="experience/">
-            <span class="dock-emoji">👨🏻‍💻</span>
+            <span class="dock-emoji"><svg><use href="#ico-experience"></use></svg></span>
         </button>
         
         <div class="dock-divider"></div>
         
         <button class="dock-item" aria-label="Projects" data-window="projects" data-tooltip="projects/">
-            <span class="dock-emoji">📊</span>
+            <span class="dock-emoji"><svg><use href="#ico-projects"></use></svg></span>
         </button>
         <button class="dock-item" aria-label="Building" data-window="building" data-tooltip="building/">
-            <span class="dock-emoji">🛠️</span>
+            <span class="dock-emoji"><svg><use href="#ico-building"></use></svg></span>
         </button>
         <button class="dock-item" aria-label="Writing" data-window="writing" data-tooltip="writing/">
-            <span class="dock-emoji">✍️</span>
+            <span class="dock-emoji"><svg><use href="#ico-writing"></use></svg></span>
+        </button>
+        <button class="dock-item" aria-label="Strengths" data-window="strengths" data-tooltip="strengths/">
+            <span class="dock-emoji"><svg><use href="#ico-strengths"></use></svg></span>
         </button>
         <button class="dock-item" aria-label="Skills" data-window="skills" data-tooltip="skills.config">
-            <span class="dock-emoji">⚙️</span>
+            <span class="dock-emoji"><svg><use href="#ico-skills"></use></svg></span>
         </button>
         <button class="dock-item" aria-label="Recommendations" data-window="recommendations" data-tooltip="reviews.chat">
-            <span class="dock-emoji">💬</span>
+            <span class="dock-emoji"><svg><use href="#ico-reviews"></use></svg></span>
         </button>
-        <button class="dock-item desktop-only" data-window="games" data-tooltip="games/">
-            <span class="dock-emoji">🎮</span>
+        <button class="dock-item desktop-only" aria-label="Games" data-window="games" data-tooltip="games/">
+            <span class="dock-emoji"><svg><use href="#ico-games"></use></svg></span>
         </button>
         <!-- Mobile Apps folder trigger -->
-        <button class="dock-item mobile-only" id="dockAppsFolder" data-tooltip="Apps">
+        <button class="dock-item mobile-only" id="dockAppsFolder" aria-label="Apps folder" data-tooltip="Apps">
             <span class="dock-emoji dock-folder-icon">
                 <span class="folder-mini-grid">
-                    <span>🎮</span>
-                    <span>🎵</span>
-                    <span>🍳</span>
+                    <span><svg><use href="#ico-games"></use></svg></span>
+                    <span><svg><use href="#ico-music"></use></svg></span>
+                    <span><svg><use href="#ico-recipes"></use></svg></span>
                     <span></span>
                 </span>
             </span>
@@ -2170,17 +2365,20 @@
 
         <div class="dock-divider"></div>
         
+        <button class="dock-item" aria-label="Instant Message KevBot" data-window="aim" data-tooltip="kevbot.aim">
+            <span class="dock-emoji aim-icon" aria-hidden="true"><svg><use href="#ico-aim"></use></svg></span>
+        </button>
         <button class="dock-item" aria-label="Connect" data-window="connect" data-tooltip="connect.sh">
-            <span class="dock-emoji">📟</span>
+            <span class="dock-emoji"><svg><use href="#ico-connect"></use></svg></span>
         </button>
         <button class="dock-item" aria-label="Terminal" data-window="terminal" data-tooltip="terminal.app">
             <!-- icon: MynaUI Icons (MIT) © Praveen Juge — github.com/praveenjuge/mynaui-icons -->
             <span class="dock-emoji dock-term-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.367 2.25h5.266c1.092 0 1.958 0 2.655.057.714.058 1.317.18 1.869.46a4.75 4.75 0 0 1 2.075 2.077c.281.55.403 1.154.461 1.868.057.697.057 1.563.057 2.655v5.266c0 1.092 0 1.958-.057 2.655-.058.714-.18 1.317-.46 1.869a4.75 4.75 0 0 1-2.076 2.075c-.552.281-1.155.403-1.869.461-.697.057-1.563.057-2.655.057H9.367c-1.092 0-1.958 0-2.655-.057-.714-.058-1.317-.18-1.868-.46a4.75 4.75 0 0 1-2.076-2.076c-.281-.552-.403-1.155-.461-1.869-.057-.697-.057-1.563-.057-2.655V9.367c0-1.092 0-1.958.057-2.655.058-.714.18-1.317.46-1.868a4.75 4.75 0 0 1 2.077-2.076c.55-.281 1.154-.403 1.868-.461.697-.057 1.563-.057 2.655-.057M8.53 8.47a.75.75 0 0 0-1.06 1.06L9.94 12l-2.47 2.47a.75.75 0 1 0 1.06 1.06l3-3a.75.75 0 0 0 0-1.06zM13 14.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5z"/></svg></span>
         </button>
-        <a class="dock-item plausible-event-name=Resume+Download" data-tooltip="resume.pdf"
+        <a class="dock-item plausible-event-name=Resume+Download" aria-label="Resume (PDF)" data-tooltip="resume.pdf"
             href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf"
             download>
-            <span class="dock-emoji">📄</span>
+            <span class="dock-emoji"><svg><use href="#ico-resume"></use></svg></span>
         </a>
     </nav>
 
@@ -2283,10 +2481,10 @@
 
     <!-- Mobile Sticky Contact Bar -->
     <div class="mobile-contact-bar">
-        <a href="mailto:kevin@middleton.io" class="mobile-contact-btn"><span class="mobile-btn-icon">📧</span><span class="mobile-btn-label">Email</span></a>
-        <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="mobile-contact-btn"><span class="mobile-btn-icon">🤝</span><span class="mobile-btn-label">LinkedIn</span></a>
-        <a href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf" download class="mobile-contact-btn plausible-event-name=Resume+Download"><span class="mobile-btn-icon">📄</span><span class="mobile-btn-label">Resume</span></a>
-        <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="mobile-contact-btn mobile-contact-cta"><span class="mobile-btn-icon">📅</span><span class="mobile-btn-label">Let's Talk</span></a>
+        <a href="mailto:kevin@middleton.io" class="mobile-contact-btn"><span class="mobile-btn-icon"><svg><use href="#ico-email"></use></svg></span><span class="mobile-btn-label">Email</span></a>
+        <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" class="mobile-contact-btn"><span class="mobile-btn-icon"><svg><use href="#ico-linkedin"></use></svg></span><span class="mobile-btn-label">LinkedIn</span></a>
+        <a href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2006-25-2026.pdf" download class="mobile-contact-btn plausible-event-name=Resume+Download"><span class="mobile-btn-icon"><svg><use href="#ico-resume"></use></svg></span><span class="mobile-btn-label">Resume</span></a>
+        <a href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" class="mobile-contact-btn mobile-contact-cta"><span class="mobile-btn-icon"><svg><use href="#ico-calendar"></use></svg></span><span class="mobile-btn-label">Let's Talk</span></a>
     </div>
 
 
@@ -2372,7 +2570,7 @@
         <p>KevinOS works best in portrait.<br>Rotate back to keep exploring.</p>
     </div>
 
-    <script src="kevinos.js"></script>
+    <script src="kevinos.js?v=8505b690"></script>
 </body>
 
 </html>
