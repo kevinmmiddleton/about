@@ -8750,3 +8750,32 @@ html.kos-rotate-ok .kos-rotate-lock { display: none !important; }
         min-height: 20rem;
     }
 }
+
+/* .desktop-only is a show/hide utility, but its display:block clobbers the
+   display:flex of whatever component it lands on, and at line 2358 it comes
+   after .desktop-icon (676) and .dock-item, so it wins on equal specificity.
+   The visible casualty was Recipes.db: with flex gone, align-items:center
+   stopped applying and its tile sat 8px left of every other icon in the rail.
+   Restoring flex for the two components that are laid out with it. */
+.desktop-icon.desktop-only,
+.dock-item.desktop-only {
+    display: flex;
+}
+
+/* While a window is being resized: no transition lag on the box, and no text
+   selection anywhere, since the pointer is dragging across content. */
+.window.window-resizing {
+    transition: none;
+}
+
+body.kos-resizing {
+    user-select: none;
+    cursor: se-resize;
+}
+
+/* A window given an explicit height must let its content scroll rather than
+   overflow, and max-height would otherwise fight the dragged value. */
+.window.window-resizing,
+.window[style*="height"] {
+    max-height: none;
+}

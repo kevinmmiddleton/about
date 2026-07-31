@@ -4725,6 +4725,16 @@ function applyHomeLayout() {
     const buildingWin = document.querySelector('[data-window="building"]');
     const vw = window.innerWidth;
 
+    // .window caps at calc(100vh - 120px), which assumes a window sitting near
+    // the top. Experience starts lower, to clear the identity card, so that cap
+    // let it run off the bottom of the screen - and the desktop does not scroll,
+    // so anything past the fold was simply unreachable. Cap each window to the
+    // room actually below it, leaving space for the dock.
+    const fit = (win, top) => {
+        if (!win) return;
+        win.style.maxHeight = Math.max(260, window.innerHeight - top - 110) + 'px';
+    };
+
     if (vw >= 1180) {
         const margin = Math.max(30, Math.round((vw - 1460) / 2));
         const gap = 14;
@@ -4739,18 +4749,22 @@ function applyHomeLayout() {
         // Measured rather than hardcoded because the card grows with its content.
         if (experienceWin) {
             experienceWin.style.left = margin + 'px';
-            experienceWin.style.top = clearOfWidget(40) + 'px';
+            const expTop = clearOfWidget(40);
+            experienceWin.style.top = expTop + 'px';
             experienceWin.style.width = experienceW + 'px';
+            fit(experienceWin, expTop);
         }
         if (aboutWin) {
             aboutWin.style.left = aboutLeft + 'px';
             aboutWin.style.top = '40px';
             aboutWin.style.width = aboutW + 'px';
+            fit(aboutWin, 40);
         }
         if (buildingWin) {
             buildingWin.style.left = buildingLeft + 'px';
             buildingWin.style.top = '40px';
             buildingWin.style.width = buildingW + 'px';
+            fit(buildingWin, 40);
         }
     } else {
         // Narrower desktops can't fit three columns; cascade instead of
@@ -4762,6 +4776,7 @@ function applyHomeLayout() {
             win.style.left = (40 + i * 56) + 'px';
             win.style.top = (top0 + i * 46) + 'px';
             win.style.width = w + 'px';
+            fit(win, top0 + i * 46);
         });
     }
 }
@@ -6487,3 +6502,50 @@ try {
         document.documentElement.classList.add('kos-rotate-ok');
     }
 } catch (err) { /* private mode */ }
+
+// ===================
+// WINDOW RESIZE
+// ===================
+// .window::after draws a 16px corner grip with cursor:se-resize, but nothing
+// was ever wired to it: the windows have never been resizable. A pseudo-element
+// cannot take a listener, so the grab is hit-tested against the bottom-right
+// corner of the window itself.
+(function () {
+    const GRIP = 18;
+    const MIN_W = 320;
+    const MIN_H = 220;
+    let resizing = null;
+
+    document.addEventListener('mousedown', (e) => {
+        const win = e.target.closest?.('.window.window-open');
+        if (!win || isMobile()) return;
+        const r = win.getBoundingClientRect();
+        if (e.clientX < r.right - GRIP || e.clientY < r.bottom - GRIP) return;
+        resizing = { win, x: e.clientX, y: e.clientY, w: r.width, h: r.height };
+        // applyHomeLayout sets an inline max-height to keep boot windows on
+        // screen. That is right until someone grabs the corner, at which point
+        // it silently caps the drag, so hand control over.
+        win.style.maxHeight = 'none';
+        win.classList.add('window-resizing');
+        document.body.classList.add('kos-resizing');
+        e.preventDefault();  // otherwise the drag turns into a text selection
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!resizing) return;
+        const { win, x, y, w, h } = resizing;
+        const r = win.getBoundingClientRect();
+        // never let a window be dragged wider or taller than the space it has
+        const maxW = window.innerWidth - r.left - 12;
+        const maxH = window.innerHeight - r.top - 12;
+        win.style.width = Math.max(MIN_W, Math.min(maxW, w + e.clientX - x)) + 'px';
+        win.style.height = Math.max(MIN_H, Math.min(maxH, h + e.clientY - y)) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (!resizing) return;
+        resizing.win.classList.remove('window-resizing');
+        document.body.classList.remove('kos-resizing');
+        resizing = null;
+    });
+})();
