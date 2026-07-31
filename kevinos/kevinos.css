@@ -7894,6 +7894,40 @@ html.kos-mobile body {
 }
 
 /* ===================
+   NAVIGATION ICONS
+   The dock, the springboard and the main window titles use drawn icons rather
+   than emoji. Emoji render as a different picture on every platform (a
+   recruiter on Windows sees Segoe, not Apple), do not follow the theme, and
+   cannot be restyled. Games and the desktop toys keep their emoji on purpose:
+   those are personality, not navigation.
+
+   stroke-width is deliberately NOT set on the <symbol> elements. It is an
+   inherited property, so setting it here lets each context pick its own weight,
+   which a presentation attribute on the symbol would block.
+   =================== */
+.dock-emoji:has(> svg),
+.icon-emoji:has(> svg),
+.window-icon:has(> svg) {
+    display: grid;
+    place-items: center;
+}
+
+.dock-emoji > svg,
+.icon-emoji > svg,
+.window-icon > svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+    color: var(--text);
+    stroke-width: 1.9;
+}
+
+/* 14px titles need a heavier stroke to hold up */
+.window-icon > svg {
+    stroke-width: 2.3;
+}
+
+/* ===================
    KEVBOT.AIM
    An AIM instant-message window wrapped around KevBot, the same assistant
    that runs on middleton.io and the same Cloudflare worker behind it. The
