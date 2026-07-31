@@ -4701,6 +4701,17 @@ loadKevinRecipes();
 // Position the home trio (about / building / writing) for the current
 // viewport: three columns when they fit, a cascade when they don't. The
 // cluster is centered on very wide screens instead of hugging the edges.
+// Windows must not bury the identity card. It is the only thing on the desktop
+// that says who this is, and a recruiter's first screen was nine company logos
+// with no name attached. Returns a top offset that clears the card.
+function clearOfWidget(preferred) {
+    const card = document.querySelector('.desktop-widget');
+    if (!card) return preferred;
+    const b = card.getBoundingClientRect();
+    if (!b.height) return preferred;
+    return Math.max(preferred, Math.round(b.bottom) + 14);
+}
+
 // The desktop's opening arrangement. Experience is the anchor: it is the
 // evidence a recruiter came for, so it gets the widest column and sits at the
 // top of the screen rather than below the fold. About and Building flank it.
@@ -4719,9 +4730,12 @@ function applyHomeLayout() {
         const aboutW = Math.min(400, Math.max(330, Math.round(span * 0.27)));
         const aboutLeft = buildingLeft - gap - aboutW;
         const experienceW = Math.min(680, aboutLeft - gap - margin);
+        // The identity card (name, title, New York, Open to Work) lives at the
+        // top left. Only this column overlaps it, so only this column clears it.
+        // Measured rather than hardcoded because the card grows with its content.
         if (experienceWin) {
             experienceWin.style.left = margin + 'px';
-            experienceWin.style.top = '40px';
+            experienceWin.style.top = clearOfWidget(40) + 'px';
             experienceWin.style.width = experienceW + 'px';
         }
         if (aboutWin) {
@@ -4738,10 +4752,11 @@ function applyHomeLayout() {
         // Narrower desktops can't fit three columns; cascade instead of
         // squeezing windows into slivers. Experience leads the stack.
         const w = Math.min(560, vw - 120);
+        const top0 = clearOfWidget(56);
         [experienceWin, aboutWin, buildingWin].forEach((win, i) => {
             if (!win) return;
             win.style.left = (40 + i * 56) + 'px';
-            win.style.top = (56 + i * 46) + 'px';
+            win.style.top = (top0 + i * 46) + 'px';
             win.style.width = w + 'px';
         });
     }
