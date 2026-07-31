@@ -262,7 +262,9 @@ body {
     transition: opacity 0.15s ease;
     margin-right: 8px;
     display: inline-flex;
-    align-items: baseline;
+    /* Centre, not baseline: the chevron is 20px and the wordmark 12px, so a
+       shared baseline leaves the label sitting visibly low against it. */
+    align-items: center;
     gap: 3px;
 }
 .menubar-back-chev {
@@ -8500,4 +8502,26 @@ svg:has(use[href="#ico-recycle"])    { --ico-hue: var(--text-dim); }
 .dock-item .dock-term-icon > svg {
     width: 40px;
     height: 40px;
+}
+
+/* Spotlight and Launchpad glyphs. Both overlays build their icons from a JS
+   registry, so they were still emitting emoji after the icon pass. */
+.spotlight-item-icon:has(> svg),
+.launchpad-icon:has(> svg) {
+    display: grid;
+    place-items: center;
+}
+
+.spotlight-item-icon > svg {
+    width: 20px;
+    height: 20px;
+    color: var(--ico-hue, var(--text));
+    stroke-width: 1.9;
+}
+
+.launchpad-icon > svg {
+    width: 30px;
+    height: 30px;
+    color: var(--ico-hue, var(--text));
+    stroke-width: 1.9;
 }

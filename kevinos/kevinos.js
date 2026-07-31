@@ -5536,23 +5536,23 @@ const spotlightBtn = document.getElementById('spotlightBtn');
 // Searchable items
 const searchableItems = [
     // Identity
-    { type: 'window', id: 'about', icon: '👤', title: 'Profile', subtitle: 'profile.yaml' },
-    { type: 'window', id: 'values', icon: '🧭', title: 'Values', subtitle: '.values' },
-    { type: 'window', id: 'seeking', icon: '🔍', title: 'Seeking', subtitle: 'seeking.query' },
+    { type: 'window', id: 'about', ico: 'profile', icon: '👤', title: 'Profile', subtitle: 'profile.yaml' },
+    { type: 'window', id: 'values', ico: 'values', icon: '🧭', title: 'Values', subtitle: '.values' },
+    { type: 'window', id: 'seeking', ico: 'seeking', icon: '🔍', title: 'Seeking', subtitle: 'seeking.query' },
     // Proof of work
-    { type: 'window', id: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
-    { type: 'window', id: 'projects', icon: '📊', title: 'Projects', subtitle: 'projects/' },
-    { type: 'window', id: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
-    { type: 'window', id: 'writing', icon: '✍️', title: 'Writing', subtitle: 'writing/' },
-    { type: 'window', id: 'strengths', icon: '🏅', title: 'Strengths', subtitle: 'strengths/' },
-    { type: 'window', id: 'skills', icon: '⚙️', title: 'Skills', subtitle: 'skills.config' },
-    { type: 'window', id: 'recommendations', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
+    { type: 'window', id: 'experience', ico: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
+    { type: 'window', id: 'projects', ico: 'projects', icon: '📊', title: 'Projects', subtitle: 'projects/' },
+    { type: 'window', id: 'building', ico: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
+    { type: 'window', id: 'writing', ico: 'writing', icon: '✍️', title: 'Writing', subtitle: 'writing/' },
+    { type: 'window', id: 'strengths', ico: 'strengths', icon: '🏅', title: 'Strengths', subtitle: 'strengths/' },
+    { type: 'window', id: 'skills', ico: 'skills', icon: '⚙️', title: 'Skills', subtitle: 'skills.config' },
+    { type: 'window', id: 'recommendations', ico: 'reviews', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
     // Fun/personality
-    { type: 'window', id: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
-    { type: 'window', id: 'recipesdb', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },
+    { type: 'window', id: 'games', ico: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
+    { type: 'window', id: 'recipesdb', ico: 'recipes', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },
     // Action
-    { type: 'window', id: 'aim', icon: '💬', title: 'KevBot', subtitle: 'kevbot.aim · instant message' },
-    { type: 'window', id: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
+    { type: 'window', id: 'aim', ico: 'aim', icon: '💬', title: 'KevBot', subtitle: 'kevbot.aim · instant message' },
+    { type: 'window', id: 'connect', ico: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
     // System actions
     { type: 'action', id: 'theme', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
     { type: 'action', id: 'launchpad', icon: '⊞', title: 'Launchpad', subtitle: 'View all apps' },
@@ -5579,6 +5579,11 @@ function openSpotlight() {
 function closeSpotlight() {
     spotlightOverlay.classList.remove('active');
 }
+
+// Spotlight and Launchpad predate the drawn icon set, so their registries still
+// carry an emoji. Where a sprite symbol exists, use it; the emoji stays as the
+// fallback for entries that have no glyph (theme toggle, and the like).
+const icoMarkup = it => it.ico ? `<svg><use href="#ico-${it.ico}"></use></svg>` : it.icon;
 
 function renderSpotlightResults(query) {
     const filtered = query.trim() === ''
@@ -5607,7 +5612,7 @@ function renderSpotlightResults(query) {
         html += '<div class="spotlight-section"><div class="spotlight-section-title">Windows</div>';
         grouped.window.forEach((item, i) => {
             html += `<div class="spotlight-item${i === 0 ? ' selected' : ''}" data-type="${item.type}" data-id="${item.id}">
-                <span class="spotlight-item-icon">${item.icon}</span>
+                <span class="spotlight-item-icon">${icoMarkup(item)}</span>
                 <div class="spotlight-item-info">
                     <div class="spotlight-item-title">${item.title}</div>
                     <div class="spotlight-item-subtitle">${item.subtitle}</div>
@@ -5621,7 +5626,7 @@ function renderSpotlightResults(query) {
         html += '<div class="spotlight-section"><div class="spotlight-section-title">Actions</div>';
         grouped.action.forEach(item => {
             html += `<div class="spotlight-item" data-type="${item.type}" data-id="${item.id}">
-                <span class="spotlight-item-icon">${item.icon}</span>
+                <span class="spotlight-item-icon">${icoMarkup(item)}</span>
                 <div class="spotlight-item-info">
                     <div class="spotlight-item-title">${item.title}</div>
                     <div class="spotlight-item-subtitle">${item.subtitle}</div>
@@ -5635,7 +5640,7 @@ function renderSpotlightResults(query) {
         html += '<div class="spotlight-section"><div class="spotlight-section-title">Links</div>';
         grouped.link.forEach(item => {
             html += `<div class="spotlight-item" data-type="${item.type}" data-id="${item.id}" data-url="${item.url}">
-                <span class="spotlight-item-icon">${item.icon}</span>
+                <span class="spotlight-item-icon">${icoMarkup(item)}</span>
                 <div class="spotlight-item-info">
                     <div class="spotlight-item-title">${item.title}</div>
                     <div class="spotlight-item-subtitle">${item.subtitle}</div>
@@ -5777,23 +5782,23 @@ const launchpadBtn = document.getElementById('launchpadBtn');
 
 const launchpadApps = [
     // Identity
-    { id: 'about', icon: '👤', label: 'Profile' },
-    { id: 'values', icon: '🧭', label: 'Values' },
-    { id: 'seeking', icon: '🔍', label: 'Seeking' },
+    { id: 'about', ico: 'profile', icon: '👤', label: 'Profile' },
+    { id: 'values', ico: 'values', icon: '🧭', label: 'Values' },
+    { id: 'seeking', ico: 'seeking', icon: '🔍', label: 'Seeking' },
     // Proof of work
-    { id: 'experience', icon: '📁', label: 'Experience' },
-    { id: 'projects', icon: '📊', label: 'Projects' },
-    { id: 'strengths', icon: '🏅', label: 'Strengths' },
-    { id: 'skills', icon: '⚙️', label: 'Skills' },
-    { id: 'recommendations', icon: '💬', label: 'Reviews' },
+    { id: 'experience', ico: 'experience', icon: '📁', label: 'Experience' },
+    { id: 'projects', ico: 'projects', icon: '📊', label: 'Projects' },
+    { id: 'strengths', ico: 'strengths', icon: '🏅', label: 'Strengths' },
+    { id: 'skills', ico: 'skills', icon: '⚙️', label: 'Skills' },
+    { id: 'recommendations', ico: 'reviews', icon: '💬', label: 'Reviews' },
     // Fun/personality
-    { id: 'games', icon: '🎮', label: 'Games' },
-    { id: 'recipesdb', icon: '🗃️', label: 'Recipes' },
-    { id: 'party', icon: '🪩', label: 'Party', action: true },
-    { id: 'videos', icon: '📺', label: 'Videos', action: true },
+    { id: 'games', ico: 'games', icon: '🎮', label: 'Games' },
+    { id: 'recipesdb', ico: 'recipes', icon: '🗃️', label: 'Recipes' },
+    { id: 'party', ico: 'party', icon: '🪩', label: 'Party', action: true },
+    { id: 'videos', ico: 'videos', icon: '📺', label: 'Videos', action: true },
     // Action
-    { id: 'aim', icon: '💬', label: 'KevBot' },
-    { id: 'connect', icon: '📟', label: 'Connect' },
+    { id: 'aim', ico: 'aim', icon: '💬', label: 'KevBot' },
+    { id: 'connect', ico: 'connect', icon: '📟', label: 'Connect' },
 ];
 
 function openLaunchpad() {
@@ -5818,7 +5823,7 @@ function renderLaunchpadGrid(filter) {
 
     launchpadGrid.innerHTML = filtered.map(app => `
         <div class="launchpad-item" data-window="${app.id}" data-action="${app.action || false}">
-            <div class="launchpad-icon">${app.icon}</div>
+            <div class="launchpad-icon">${icoMarkup(app)}</div>
             <div class="launchpad-label">${app.label}</div>
         </div>
     `).join('');
