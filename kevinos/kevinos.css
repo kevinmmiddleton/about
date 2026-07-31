@@ -7918,13 +7918,63 @@ html.kos-mobile body {
     width: 1em;
     height: 1em;
     display: block;
-    color: var(--text);
+    /* --ico-hue is set per icon below. Routing the hue through a custom property
+       rather than a competing `color` rule keeps specificity out of it: custom
+       properties do not fight the declaration, they feed it. --text is the
+       fallback for anything without a hue. */
+    color: var(--ico-hue, var(--text));
     stroke-width: 1.9;
 }
+
+/* One hue per app, taken from the existing KevinOS palette so both themes come
+   for free: the light tokens are deep enough to hold up on the pale wallpaper,
+   the dark tokens are bright enough for the dark one. Hues are ordered so no
+   two neighbours in the dock or the springboard share a colour. */
+svg:has(use[href="#ico-profile"])    { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-seeking"])    { --ico-hue: var(--pink); }
+svg:has(use[href="#ico-values"])     { --ico-hue: var(--purple); }
+svg:has(use[href="#ico-experience"]) { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-projects"])   { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-building"])   { --ico-hue: var(--peach); }
+svg:has(use[href="#ico-writing"])    { --ico-hue: var(--purple); }
+svg:has(use[href="#ico-strengths"])  { --ico-hue: var(--yellow); }
+svg:has(use[href="#ico-skills"])     { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-reviews"])    { --ico-hue: var(--pink); }
+svg:has(use[href="#ico-games"])      { --ico-hue: var(--peach); }
+svg:has(use[href="#ico-connect"])    { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-resume"])     { --ico-hue: var(--purple); }
+svg:has(use[href="#ico-website"])    { --ico-hue: var(--mint); }
 
 /* 14px titles need a heavier stroke to hold up */
 .window-icon > svg {
     stroke-width: 2.3;
+}
+
+/* Springboard tiles. A flat single-hue glyph sitting straight on a saturated
+   wallpaper collides wherever the hues match: the pink Reviews icon landed on
+   the pink band of the wallpaper and all but disappeared. iOS puts every app
+   icon on a tile for exactly this reason, and the dock already reads fine
+   because it is frosted. This gives the springboard the same footing.
+
+   The tile is --surface, so it is near-white in light and near-black in dark,
+   which is the right way round: the light palette is deep, the dark palette is
+   bright. Only drawn icons get a tile; the Apps folder already has its own. */
+@media (max-width: 768px) {
+    .mobile-grid-icon .icon-emoji:has(> svg) {
+        width: 58px;
+        height: 58px;
+        border-radius: 14px;
+        background: color-mix(in srgb, var(--surface) 88%, transparent);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        filter: none;
+    }
+
+    .mobile-grid-icon .icon-emoji > svg {
+        width: 32px;
+        height: 32px;
+    }
 }
 
 /* ===================
@@ -8302,6 +8352,10 @@ html.kos-mobile body {
     place-items: center;
     width: 32px;
     height: 32px;
+    /* Black in both themes, by request. Set as --ico-hue rather than plain
+       color: the shared `.dock-emoji > svg` rule sets color on the <svg>
+       itself, which beats inheriting a colour from this span. */
+    --ico-hue: #000;
     color: #000;
     transition: color 0.2s ease;
 }
@@ -8313,6 +8367,7 @@ html.kos-mobile body {
 }
 
 .dock-item:hover .dock-term-icon {
+    --ico-hue: #000;
     color: #000;
 }
 
@@ -8322,6 +8377,7 @@ html.kos-mobile body {
     place-items: center;
     width: 15px;
     height: 15px;
+    --ico-hue: #000;
     color: #000;
     flex: 0 0 auto;
 }
