@@ -78,6 +78,9 @@
     --pink: #ff6eb4;
     --mint: #4ae0a0;
     --mint-hover: #3cc890;
+    --aim-ink: #E8A700;
+    --aim-them: #FF8A80;
+    --aim-you: #8AB4F8;
     --yellow: #ffc048;
     --peach: #ff9f6a;
     --font-mono: 'JetBrains Mono', monospace;
@@ -117,6 +120,9 @@
         --pink: #db2777;
         --mint: #059669;
         --mint-hover: #047857;
+        --aim-ink: #E8A700;
+        --aim-them: #B3261E;
+        --aim-you: #1A4FA0;
         --yellow: #d97706;
         --peach: #ea580c;
         --desktop-bg: url('https://middleton.io/images/lightmode-bg.jpg');
@@ -139,6 +145,9 @@
     --pink: #db2777;
     --mint: #059669;
     --mint-hover: #047857;
+    --aim-ink: #E8A700;
+    --aim-them: #B3261E;
+    --aim-you: #1A4FA0;
     --yellow: #d97706;
     --peach: #ea580c;
     --desktop-bg: url('https://middleton.io/images/lightmode-bg.jpg');
@@ -159,6 +168,9 @@
     --pink: #ff6eb4;
     --mint: #4ae0a0;
     --mint-hover: #3cc890;
+    --aim-ink: #E8A700;
+    --aim-them: #FF8A80;
+    --aim-you: #8AB4F8;
     --yellow: #ffc048;
     --peach: #ff9f6a;
     --desktop-bg: url('https://middleton.io/images/darkmode-bg.jpg');
@@ -7880,6 +7892,174 @@ html.kos-mobile body {
     font-size: 12px;
     color: var(--text-dim);
 }
+
+/* ===================
+   KEVBOT.AIM
+   An AIM instant-message window wrapped around KevBot, the same assistant
+   that runs on middleton.io and the same Cloudflare worker behind it. The
+   chrome is period-accurate; the tokens are KevinOS, so it still themes.
+   =================== */
+.aim-icon svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+    color: var(--aim-ink);
+}
+
+.dock-emoji.aim-icon svg,
+.icon-emoji.aim-icon svg {
+    width: 1em;
+    height: 1em;
+}
+
+.aim-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    min-height: 24rem;
+}
+
+.aim-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.aim-buddy {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    color: var(--text);
+}
+
+.aim-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--mint);
+}
+
+.aim-idle {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.aim-warn {
+    font-size: 11px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 2px 8px;
+}
+
+.aim-log {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    min-height: 12rem;
+    max-height: 22rem;
+    background: var(--surface);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.aim-line {
+    margin: 0 0 7px;
+    word-wrap: break-word;
+}
+
+.aim-line b {
+    font-weight: 700;
+}
+
+/* AIM coloured the two screen names differently. These are the tokens rather
+   than the original red/blue so they stay legible in both themes. */
+.aim-line.them b { color: var(--aim-them); }
+.aim-line.you b  { color: var(--aim-you); }
+
+.aim-sys {
+    margin: 0 0 8px;
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+.aim-typing {
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0 0 7px;
+}
+
+.aim-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 12px 0;
+}
+
+.aim-prompt {
+    font-family: inherit;
+    font-size: 11.5px;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.aim-prompt:hover { border-color: var(--blue); }
+.aim-prompt:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+.aim-compose {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    padding: 10px 12px 12px;
+}
+
+.aim-input {
+    flex: 1;
+    resize: none;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 7px 9px;
+}
+
+.aim-input:focus {
+    outline: none;
+    border-color: var(--blue);
+}
+
+.aim-input::placeholder { color: var(--text-muted); }
+
+.aim-send {
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--blue);
+    border: 0;
+    border-radius: 7px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.aim-send:hover { background: var(--blue-hover); }
+.aim-send:disabled { opacity: 0.5; cursor: default; }
+.aim-send:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 
 /* ===================
    STRENGTHS/

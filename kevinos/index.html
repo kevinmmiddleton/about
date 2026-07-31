@@ -156,6 +156,23 @@
 
 <body>
     <h1 class="sr-only">KevinOS — Kevin Middleton, Full Stack Product Manager. Portfolio as a retro OS.</h1>
+
+    <!-- Icon sprite. The AIM runner is used in the dock, the springboard and the
+         window title, so it is defined once here and referenced with <use>. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="ico-aim" viewBox="0 0 24 24">
+            <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M13.4 8.8 9.6 13.9" />
+                <path d="M13.6 9.6 18.1 11.6" />
+                <path d="M12.4 10.1 6.9 8.5" />
+                <path d="M9.6 13.9 12.5 17.9 10.7 21.7" />
+                <path d="M9.6 13.9 5.3 15.9 5.5 20.3" />
+            </g>
+            <circle cx="15.3" cy="4.5" r="3.1" fill="currentColor" />
+        </symbol>
+    </svg>
+
     <!-- Boot Loader -->
     <div class="boot-loader" id="bootLoader">
         <pre class="boot-logo">
@@ -849,6 +866,47 @@
             </section>
 
             <!-- projects/ -->
+            <!-- kevbot.aim -->
+            <section class="window" role="dialog" aria-label="Instant Message with KevBot" id="aim" data-window="aim">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close" aria-label="Close window"></button>
+                        <button class="window-dot yellow" data-action="minimize" aria-label="Minimize window"></button>
+                        <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
+                    </div>
+                    <div class="window-title">
+                        <span class="window-icon aim-icon" aria-hidden="true"><svg><use href="#ico-aim"></use></svg></span>
+                        kevbot.aim
+                        <span class="file-badge im">IM</span>
+                    </div>
+                    <span class="window-path">~/kevin/</span>
+                </header>
+                <div class="window-content aim-content">
+                    <div class="aim-bar">
+                        <span class="aim-buddy">
+                            <span class="aim-dot" aria-hidden="true"></span>
+                            <b>KevBot</b>
+                            <span class="aim-idle">online</span>
+                        </span>
+                        <span class="aim-warn" aria-hidden="true">Warn</span>
+                    </div>
+                    <div class="aim-log" id="aimLog" role="log" aria-live="polite" aria-label="Conversation">
+                        <p class="aim-sys">KevBot signed on at <span id="aimSignOn">9:41 AM</span>.</p>
+                    </div>
+                    <div class="aim-prompts" id="aimPrompts">
+                        <button type="button" class="aim-prompt">What does Kevin do?</button>
+                        <button type="button" class="aim-prompt">What is he looking for?</button>
+                        <button type="button" class="aim-prompt">How do I reach him?</button>
+                    </div>
+                    <form class="aim-compose" id="aimForm">
+                        <label class="sr-only" for="aimInput">Message KevBot</label>
+                        <textarea id="aimInput" class="aim-input" rows="2" maxlength="500"
+                            placeholder="Type a message..." autocomplete="off"></textarea>
+                        <button type="submit" class="aim-send" id="aimSend">Send</button>
+                    </form>
+                </div>
+            </section>
+
             <!-- strengths/ -->
             <section class="window" role="dialog" aria-label="Strengths" id="strengths" data-window="strengths">
                 <header class="window-header">
@@ -2078,6 +2136,10 @@
                 <span class="icon-emoji">💬</span>
                 <span class="icon-label">Reviews</span>
             </button>
+            <button class="mobile-grid-icon" data-mobile-open="aim">
+                <span class="icon-emoji aim-icon" aria-hidden="true"><svg><use href="#ico-aim"></use></svg></span>
+                <span class="icon-label">KevBot</span>
+            </button>
             <!-- Apps folder opens popup -->
             <button class="mobile-grid-icon" id="springboardAppsFolder">
                 <span class="icon-emoji apps-folder-icon"><span class="folder-mini-grid"><span>🎮</span><span>🎵</span><span>🍳</span><span></span></span></span>
@@ -2264,6 +2326,9 @@
 
         <div class="dock-divider"></div>
         
+        <button class="dock-item" aria-label="Instant Message KevBot" data-window="aim" data-tooltip="kevbot.aim">
+            <span class="dock-emoji aim-icon" aria-hidden="true"><svg><use href="#ico-aim"></use></svg></span>
+        </button>
         <button class="dock-item" aria-label="Connect" data-window="connect" data-tooltip="connect.sh">
             <span class="dock-emoji">📟</span>
         </button>

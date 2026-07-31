@@ -5551,6 +5551,7 @@ const searchableItems = [
     { type: 'window', id: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
     { type: 'window', id: 'recipesdb', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },
     // Action
+    { type: 'window', id: 'aim', icon: '💬', title: 'KevBot', subtitle: 'kevbot.aim · instant message' },
     { type: 'window', id: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
     // System actions
     { type: 'action', id: 'theme', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
@@ -5791,6 +5792,7 @@ const launchpadApps = [
     { id: 'party', icon: '🪩', label: 'Party', action: true },
     { id: 'videos', icon: '📺', label: 'Videos', action: true },
     // Action
+    { id: 'aim', icon: '💬', label: 'KevBot' },
     { id: 'connect', icon: '📟', label: 'Connect' },
 ];
 
@@ -6294,4 +6296,136 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
     });
     mo.observe(win, { attributes: true, attributeFilter: ['class'] });
     if (win.classList.contains('window-open')) boot();
+})();
+
+// ===================
+// KEVBOT.AIM
+// ===================
+// An AIM instant-message window in front of KevBot, the same assistant that
+// runs on middleton.io, talking to the same Cloudflare worker. Only the chrome
+// is new: the contract is { message, history } -> { reply }, and replies are
+// escaped then given the same limited markdown the main widget uses, so both
+// surfaces render a reply identically.
+(function () {
+    const KEVBOT_URL = 'https://kevbot.kevin-middleton.workers.dev';
+    const log = document.getElementById('aimLog');
+    const form = document.getElementById('aimForm');
+    const input = document.getElementById('aimInput');
+    const send = document.getElementById('aimSend');
+    const prompts = document.getElementById('aimPrompts');
+    const signOn = document.getElementById('aimSignOn');
+    if (!log || !form || !input) return;
+
+    let history = [];
+    let busy = false;
+    let greeted = false;
+
+    if (signOn) {
+        signOn.textContent = new Date().toLocaleTimeString([],
+            { hour: 'numeric', minute: '2-digit' });
+    }
+
+    // Same escaping and markdown subset as kevbot.js formatMessage().
+    function fmt(text) {
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+                     '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+            .replace(/\n/g, '<br>');
+    }
+
+    function line(who, text) {
+        const p = document.createElement('p');
+        p.className = 'aim-line ' + (who === 'KevBot' ? 'them' : 'you');
+        p.innerHTML = '<b>' + who + ':</b> ' + fmt(text);
+        log.appendChild(p);
+        log.scrollTop = log.scrollHeight;
+        return p;
+    }
+
+    function greet() {
+        if (greeted) return;
+        greeted = true;
+        line('KevBot', "Hey! I'm KevBot \u{1F916} Ask me anything about Kevin: " +
+                       "his experience, skills, projects, or how to get in touch!");
+    }
+
+    async function ask(text) {
+        if (busy || !text.trim()) return;
+        busy = true;
+        send.disabled = true;
+        if (prompts) prompts.style.display = 'none';
+        line('You', text);
+        input.value = '';
+
+        const typing = document.createElement('p');
+        typing.className = 'aim-typing';
+        typing.textContent = 'KevBot is typing…';
+        log.appendChild(typing);
+        log.scrollTop = log.scrollHeight;
+
+        try {
+            const res = await fetch(KEVBOT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text, history })
+            });
+            const data = await res.json();
+            typing.remove();
+            if (data.error || !data.reply) {
+                line('KevBot', 'Oops, something went wrong. Try again?');
+                if (window.plausible) window.plausible('KevBot+Error');
+            } else {
+                line('KevBot', data.reply);
+                history.push({ role: 'user', content: text });
+                history.push({ role: 'assistant', content: data.reply });
+                if (history.length > 20) history = history.slice(-20);
+                if (window.plausible) window.plausible('KevBot+Message',
+                    { props: { surface: 'kevinos-aim' } });
+            }
+        } catch (e) {
+            typing.remove();
+            line('KevBot', "Couldn't connect. Check your internet and try again!");
+            if (window.plausible) window.plausible('KevBot+Error');
+        }
+
+        busy = false;
+        send.disabled = false;
+        input.focus();
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        ask(input.value);
+    });
+
+    // Enter sends, Shift+Enter makes a new line. This is a textarea so that
+    // Shift+Enter has something to do.
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            ask(input.value);
+        }
+    });
+
+    if (prompts) {
+        prompts.addEventListener('click', (e) => {
+            const btn = e.target.closest('.aim-prompt');
+            if (btn) ask(btn.textContent.trim());
+        });
+    }
+
+    // Greet on first open rather than at load, so the sign-on line reads as if
+    // the conversation starts when the window does.
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('[data-window="aim"], [data-mobile-open="aim"]')) {
+            setTimeout(greet, 250);
+        }
+    });
+    if (new URLSearchParams(location.search).get('open') === 'aim') {
+        setTimeout(greet, 400);
+    }
 })();
