@@ -7940,40 +7940,71 @@ html.kos-mobile body {
    for free: the light tokens are deep enough to hold up on the pale wallpaper,
    the dark tokens are bright enough for the dark one. Hues are ordered so no
    two neighbours in the dock or the springboard share a colour. */
-svg:has(use[href="#ico-profile"])    { --ico-hue: var(--blue); }
-svg:has(use[href="#ico-seeking"])    { --ico-hue: var(--pink); }
-svg:has(use[href="#ico-values"])     { --ico-hue: var(--purple); }
-svg:has(use[href="#ico-experience"]) { --ico-hue: var(--mint); }
-svg:has(use[href="#ico-projects"])   { --ico-hue: var(--blue); }
-svg:has(use[href="#ico-building"])   { --ico-hue: var(--peach); }
-svg:has(use[href="#ico-writing"])    { --ico-hue: var(--purple); }
-svg:has(use[href="#ico-strengths"])  { --ico-hue: var(--yellow); }
-svg:has(use[href="#ico-skills"])     { --ico-hue: var(--mint); }
-svg:has(use[href="#ico-reviews"])    { --ico-hue: var(--pink); }
-svg:has(use[href="#ico-games"])      { --ico-hue: var(--peach); }
-svg:has(use[href="#ico-connect"])    { --ico-hue: var(--blue); }
-svg:has(use[href="#ico-resume"])     { --ico-hue: var(--purple); }
-svg:has(use[href="#ico-website"])    { --ico-hue: var(--mint); }
-svg:has(use[href="#ico-aim"])        { --ico-hue: var(--aim-ink); }
+:has(> svg > use[href="#ico-profile"]),
+svg:has(use[href="#ico-profile"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
+:has(> svg > use[href="#ico-seeking"]),
+svg:has(use[href="#ico-seeking"]) { --ico-hue: var(--pink);  --ico-tile: #db2777; }
+:has(> svg > use[href="#ico-values"]),
+svg:has(use[href="#ico-values"]) { --ico-hue: var(--purple);  --ico-tile: #7c3aed; }
+:has(> svg > use[href="#ico-experience"]),
+svg:has(use[href="#ico-experience"]) { --ico-hue: var(--mint);  --ico-tile: #047857; }
+:has(> svg > use[href="#ico-projects"]),
+svg:has(use[href="#ico-projects"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
+:has(> svg > use[href="#ico-building"]),
+svg:has(use[href="#ico-building"]) { --ico-hue: var(--peach);  --ico-tile: #c2410c; }
+:has(> svg > use[href="#ico-writing"]),
+svg:has(use[href="#ico-writing"]) { --ico-hue: var(--purple);  --ico-tile: #7c3aed; }
+:has(> svg > use[href="#ico-strengths"]),
+svg:has(use[href="#ico-strengths"]) { --ico-hue: var(--yellow);  --ico-tile: #b45309; }
+:has(> svg > use[href="#ico-skills"]),
+svg:has(use[href="#ico-skills"]) { --ico-hue: var(--mint);  --ico-tile: #047857; }
+:has(> svg > use[href="#ico-reviews"]),
+svg:has(use[href="#ico-reviews"]) { --ico-hue: var(--pink);  --ico-tile: #db2777; }
+:has(> svg > use[href="#ico-games"]),
+svg:has(use[href="#ico-games"]) { --ico-hue: var(--peach);  --ico-tile: #c2410c; }
+:has(> svg > use[href="#ico-connect"]),
+svg:has(use[href="#ico-connect"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
+:has(> svg > use[href="#ico-resume"]),
+svg:has(use[href="#ico-resume"]) { --ico-hue: var(--purple);  --ico-tile: #7c3aed; }
+:has(> svg > use[href="#ico-website"]),
+svg:has(use[href="#ico-website"]) { --ico-hue: var(--mint);  --ico-tile: #047857; }
+:has(> svg > use[href="#ico-aim"]),
+svg:has(use[href="#ico-aim"]) { --ico-hue: var(--aim-ink);  --ico-tile: #E8A700; }
 /* Games get their own hues too, spread so no two adjacent tiles in the Games
    folder share one. */
-svg:has(use[href="#ico-invaders"])   { --ico-hue: var(--mint); }
-svg:has(use[href="#ico-tetris"])     { --ico-hue: var(--blue); }
-svg:has(use[href="#ico-bugsquash"])  { --ico-hue: var(--peach); }
-svg:has(use[href="#ico-runner"])     { --ico-hue: var(--pink); }
-svg:has(use[href="#ico-snake"])      { --ico-hue: var(--mint); }
-svg:has(use[href="#ico-standup"])    { --ico-hue: var(--purple); }
-svg:has(use[href="#ico-interview"])  { --ico-hue: var(--yellow); }
-svg:has(use[href="#ico-email"])      { --ico-hue: var(--mint); }
-svg:has(use[href="#ico-linkedin"])   { --ico-hue: var(--blue); }
-svg:has(use[href="#ico-calendar"])   { --ico-hue: var(--blue); }
-svg:has(use[href="#ico-music"])      { --ico-hue: var(--pink); }
-svg:has(use[href="#ico-recipes"])    { --ico-hue: var(--peach); }
-svg:has(use[href="#ico-party"])      { --ico-hue: var(--purple); }
-svg:has(use[href="#ico-virus"])      { --ico-hue: var(--blue); }
-svg:has(use[href="#ico-videos"])     { --ico-hue: var(--yellow); }
+:has(> svg > use[href="#ico-invaders"]),
+svg:has(use[href="#ico-invaders"]) { --ico-hue: var(--mint);  --ico-tile: #047857; }
+:has(> svg > use[href="#ico-tetris"]),
+svg:has(use[href="#ico-tetris"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
+:has(> svg > use[href="#ico-bugsquash"]),
+svg:has(use[href="#ico-bugsquash"]) { --ico-hue: var(--peach);  --ico-tile: #c2410c; }
+:has(> svg > use[href="#ico-runner"]),
+svg:has(use[href="#ico-runner"]) { --ico-hue: var(--pink);  --ico-tile: #db2777; }
+:has(> svg > use[href="#ico-snake"]),
+svg:has(use[href="#ico-snake"]) { --ico-hue: var(--mint);  --ico-tile: #047857; }
+:has(> svg > use[href="#ico-standup"]),
+svg:has(use[href="#ico-standup"]) { --ico-hue: var(--purple);  --ico-tile: #7c3aed; }
+:has(> svg > use[href="#ico-interview"]),
+svg:has(use[href="#ico-interview"]) { --ico-hue: var(--yellow);  --ico-tile: #b45309; }
+:has(> svg > use[href="#ico-email"]),
+svg:has(use[href="#ico-email"]) { --ico-hue: var(--mint);  --ico-tile: #047857; }
+:has(> svg > use[href="#ico-linkedin"]),
+svg:has(use[href="#ico-linkedin"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
+:has(> svg > use[href="#ico-calendar"]),
+svg:has(use[href="#ico-calendar"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
+:has(> svg > use[href="#ico-music"]),
+svg:has(use[href="#ico-music"]) { --ico-hue: var(--pink);  --ico-tile: #db2777; }
+:has(> svg > use[href="#ico-recipes"]),
+svg:has(use[href="#ico-recipes"]) { --ico-hue: var(--peach);  --ico-tile: #c2410c; }
+:has(> svg > use[href="#ico-party"]),
+svg:has(use[href="#ico-party"]) { --ico-hue: var(--purple);  --ico-tile: #7c3aed; }
+:has(> svg > use[href="#ico-virus"]),
+svg:has(use[href="#ico-virus"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
+:has(> svg > use[href="#ico-videos"]),
+svg:has(use[href="#ico-videos"]) { --ico-hue: var(--yellow);  --ico-tile: #b45309; }
 /* The bin is chrome rather than an app, so it stays neutral. */
-svg:has(use[href="#ico-recycle"])    { --ico-hue: var(--text-dim); }
+:has(> svg > use[href="#ico-recycle"]),
+svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var(--text-dim); }
 
 /* 14px titles need a heavier stroke to hold up */
 .window-icon > svg {
@@ -8625,4 +8656,56 @@ html.kos-rotate-ok .kos-rotate-lock { display: none !important; }
     height: 46px;
     color: var(--ico-hue, var(--text));
     stroke-width: 1.7;
+}
+
+/* ===================
+   FILLED APP TILES
+   =================== */
+/* The hue moves into the tile and the glyph goes white, which is the recipe
+   .kos-store-icon already uses in building/ - and those read as real app icons
+   while the neutral tiles read as a design-system sheet. Same tokens, and the
+   gradient is lifted verbatim so the two surfaces match.
+
+   Deliberately NOT applied in three places: window title bars (14px chrome, not
+   an app), the recycle bin (system, stays neutral), and terminal (its glyph IS
+   a solid rounded square already). */
+.dock-item .dock-emoji:has(> svg):not(.dock-term-icon):not(.dock-folder-icon),
+.mobile-grid-icon .icon-emoji:has(> svg):not(.apps-folder-icon),
+.desktop-icons-right .desktop-icon .icon-emoji:has(> svg) {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.04)),
+                var(--ico-tile, var(--ico-hue, var(--text-dim)));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    /* An opaque tile does not need the blur that was rescuing a translucent one. */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* White glyph on the hue, with a touch more weight so it holds at tile size. */
+.dock-item .dock-emoji:has(> svg):not(.dock-term-icon):not(.dock-folder-icon) > svg,
+.mobile-grid-icon .icon-emoji:has(> svg):not(.apps-folder-icon) > svg,
+.desktop-icons-right .desktop-icon .icon-emoji:has(> svg) > svg {
+    color: #fff;
+    stroke-width: 2.1;
+}
+
+/* The AIM runner is a filled mark rather than a stroked one, so on a hue tile
+   it needs to be white like the rest instead of keeping its amber. */
+/* AIM keeps its amber tile because the amber IS the brand, so its glyph goes
+   dark instead of white: white on #E8A700 is 2.11:1, dark on it is 7.8:1.
+   Specificity deliberately matches the generic white-glyph rule above, which
+   scores (0,3,2) once :has() and :not() contribute their arguments. */
+.dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) > svg,
+.mobile-grid-icon .icon-emoji.aim-icon:has(> svg):not(.apps-folder-icon) > svg {
+    color: #1a1a2e;
+}
+
+/* The bin is chrome, not an app: keep it flat and neutral. */
+.desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-recycle"]) {
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+}
+
+.desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-recycle"]) > svg {
+    color: var(--text-dim);
+    stroke-width: 1.9;
 }
