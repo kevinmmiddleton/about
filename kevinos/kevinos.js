@@ -4769,7 +4769,15 @@ function applyHomeLayout() {
 // Handle URL parameters to open specific windows/games
 (function handleUrlParams() {
     const params = new URLSearchParams(window.location.search);
-    const windowToOpen = params.get('open');
+    // projects/ and skills.config were cut: everything in them lives in
+    // strengths/, which organises the same evidence by capability instead of
+    // repeating it. Old links land there rather than opening nothing.
+    const RETIRED = { projects: 'strengths', skills: 'strengths' };
+    const windowToOpen = (params.get('open') || '')
+        .split(',')
+        .map(id => RETIRED[id] || id)
+        .filter(Boolean)
+        .join(',') || null;
     const gameToOpen = params.get('game');
     const validGames = ['invaders', 'tetris', 'bugsquash', 'runner', 'snake', 'standup', 'interview'];
 
@@ -5560,11 +5568,9 @@ const searchableItems = [
     { type: 'window', id: 'seeking', ico: 'seeking', icon: '🔍', title: 'Seeking', subtitle: 'seeking.query' },
     // Proof of work
     { type: 'window', id: 'experience', ico: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
-    { type: 'window', id: 'projects', ico: 'projects', icon: '📊', title: 'Projects', subtitle: 'projects/' },
     { type: 'window', id: 'building', ico: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
     { type: 'window', id: 'writing', ico: 'writing', icon: '✍️', title: 'Writing', subtitle: 'writing/' },
     { type: 'window', id: 'strengths', ico: 'strengths', icon: '🏅', title: 'Strengths', subtitle: 'strengths/' },
-    { type: 'window', id: 'skills', ico: 'skills', icon: '⚙️', title: 'Skills', subtitle: 'skills.config' },
     { type: 'window', id: 'recommendations', ico: 'reviews', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
     // Fun/personality
     { type: 'window', id: 'games', ico: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
@@ -5806,9 +5812,7 @@ const launchpadApps = [
     { id: 'seeking', ico: 'seeking', icon: '🔍', label: 'Seeking' },
     // Proof of work
     { id: 'experience', ico: 'experience', icon: '📁', label: 'Experience' },
-    { id: 'projects', ico: 'projects', icon: '📊', label: 'Projects' },
     { id: 'strengths', ico: 'strengths', icon: '🏅', label: 'Strengths' },
-    { id: 'skills', ico: 'skills', icon: '⚙️', label: 'Skills' },
     { id: 'recommendations', ico: 'reviews', icon: '💬', label: 'Reviews' },
     // Fun/personality
     { id: 'games', ico: 'games', icon: '🎮', label: 'Games' },

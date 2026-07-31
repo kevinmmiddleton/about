@@ -7951,7 +7951,7 @@ svg:has(use[href="#ico-experience"]) { --ico-hue: var(--mint);  --ico-tile: #047
 :has(> svg > use[href="#ico-projects"]),
 svg:has(use[href="#ico-projects"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
 :has(> svg > use[href="#ico-building"]),
-svg:has(use[href="#ico-building"]) { --ico-hue: var(--peach);  --ico-tile: #c2410c; }
+svg:has(use[href="#ico-building"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
 :has(> svg > use[href="#ico-writing"]),
 svg:has(use[href="#ico-writing"]) { --ico-hue: var(--purple);  --ico-tile: #7c3aed; }
 :has(> svg > use[href="#ico-strengths"]),
@@ -8709,3 +8709,5 @@ html.kos-rotate-ok .kos-rotate-lock { display: none !important; }
     color: var(--text-dim);
     stroke-width: 1.9;
 }
+
+
