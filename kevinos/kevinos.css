@@ -7944,10 +7944,53 @@ svg:has(use[href="#ico-games"])      { --ico-hue: var(--peach); }
 svg:has(use[href="#ico-connect"])    { --ico-hue: var(--blue); }
 svg:has(use[href="#ico-resume"])     { --ico-hue: var(--purple); }
 svg:has(use[href="#ico-website"])    { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-email"])      { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-linkedin"])   { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-calendar"])   { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-music"])      { --ico-hue: var(--pink); }
+svg:has(use[href="#ico-recipes"])    { --ico-hue: var(--peach); }
+svg:has(use[href="#ico-party"])      { --ico-hue: var(--purple); }
+svg:has(use[href="#ico-virus"])      { --ico-hue: var(--blue); }
+svg:has(use[href="#ico-videos"])     { --ico-hue: var(--yellow); }
+/* The bin is chrome rather than an app, so it stays neutral. */
+svg:has(use[href="#ico-recycle"])    { --ico-hue: var(--text-dim); }
 
 /* 14px titles need a heavier stroke to hold up */
 .window-icon > svg {
     stroke-width: 2.3;
+}
+
+/* The mobile contact bar and the Apps folder were sized for emoji at 52px and
+   36px. A drawn glyph at that size is far too heavy, so they get their own
+   sizes. The bar itself is frosted, so these need no tile of their own. */
+@media (max-width: 768px) {
+    .mobile-btn-icon:has(> svg) {
+        display: grid;
+        place-items: center;
+        filter: none;
+    }
+
+    .mobile-btn-icon > svg {
+        width: 30px;
+        height: 30px;
+        display: block;
+        color: var(--ico-hue, var(--text));
+        stroke-width: 1.9;
+    }
+
+    .mobile-folder-item .icon-emoji > svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* The 3-up preview inside the Apps tile */
+    .folder-mini-grid > span > svg {
+        width: 14px;
+        height: 14px;
+        display: block;
+        color: var(--ico-hue, var(--text));
+        stroke-width: 2.2;
+    }
 }
 
 /* Springboard tiles. A flat single-hue glyph sitting straight on a saturated
