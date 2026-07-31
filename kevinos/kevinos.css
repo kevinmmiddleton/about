@@ -8120,12 +8120,22 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
     height: 1em;
 }
 
+/* The window has a max-height but no definite height, so it sizes to its
+   content and flex:1 on the log had nothing to fill. Giving the window a real
+   height lets the log take whatever is left after the buddy bar, the prompts
+   and the composer, instead of being pinned at 22rem. */
+#aim {
+    height: min(72vh, 620px);
+}
+
 .aim-content {
     display: flex;
     flex-direction: column;
     gap: 0;
     padding: 0;
-    min-height: 24rem;
+    /* the log scrolls, not the whole pane */
+    overflow: hidden;
+    min-height: 0;
 }
 
 .aim-bar {
@@ -8166,11 +8176,12 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
 }
 
 .aim-log {
-    flex: 1;
+    flex: 1 1 auto;
     overflow-y: auto;
     padding: 12px;
-    min-height: 12rem;
-    max-height: 22rem;
+    /* min-height:0 is what actually lets a flex item shrink below its content
+       and scroll; without it the log would push the composer off the bottom. */
+    min-height: 0;
     background: var(--surface);
     font-size: 13px;
     line-height: 1.55;
@@ -8318,21 +8329,36 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
     margin-top: 1px;
 }
 
+/* Each chip carries its own colour, the way the specialty chips do on
+   middleton.io. Same fixed deep palette as the app tiles, so a white label is
+   guaranteed to clear 4.5:1 on every one of them. */
+.str-tab:nth-child(1) { --chip: #2563eb; }
+.str-tab:nth-child(2) { --chip: #047857; }
+.str-tab:nth-child(3) { --chip: #7c3aed; }
+.str-tab:nth-child(4) { --chip: #db2777; }
+.str-tab:nth-child(5) { --chip: #c2410c; }
+.str-tab:nth-child(6) { --chip: #b45309; }
+
+.str-tab {
+    border-color: color-mix(in srgb, var(--chip) 40%, transparent);
+}
+
 .str-tab:hover {
-    border-color: var(--blue);
+    border-color: var(--chip);
 }
 
 .str-tab[aria-selected="true"] {
-    border-color: var(--blue);
-    background: color-mix(in srgb, var(--blue) 12%, transparent);
+    border-color: var(--chip);
+    background: var(--chip);
+    color: #fff;
 }
 
 .str-tab[aria-selected="true"] span {
-    color: var(--text);
+    color: rgba(255, 255, 255, 0.82);
 }
 
 .str-tab:focus-visible {
-    outline: 2px solid var(--blue);
+    outline: 2px solid var(--chip);
     outline-offset: 2px;
 }
 
@@ -8711,3 +8737,16 @@ html.kos-rotate-ok .kos-rotate-lock { display: none !important; }
 }
 
 
+
+/* Same on the mobile sheet: the clone needs the flex chain too, or the log
+   falls back to content height inside a scrolling sheet. */
+@media (max-width: 768px) {
+    .mobile-overlay-content .aim-content {
+        /* vh first as the fallback, then dvh: on a real phone 100vh includes the
+           strip under Safari's collapsing toolbar, so a vh-only value overshoots
+           and pushes the composer under the contact bar. */
+        height: calc(100vh - 260px);
+        height: calc(100dvh - 260px);
+        min-height: 20rem;
+    }
+}
