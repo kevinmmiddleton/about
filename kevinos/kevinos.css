@@ -7950,6 +7950,7 @@ svg:has(use[href="#ico-games"])      { --ico-hue: var(--peach); }
 svg:has(use[href="#ico-connect"])    { --ico-hue: var(--blue); }
 svg:has(use[href="#ico-resume"])     { --ico-hue: var(--purple); }
 svg:has(use[href="#ico-website"])    { --ico-hue: var(--mint); }
+svg:has(use[href="#ico-aim"])        { --ico-hue: var(--aim-ink); }
 svg:has(use[href="#ico-email"])      { --ico-hue: var(--mint); }
 svg:has(use[href="#ico-linkedin"])   { --ico-hue: var(--blue); }
 svg:has(use[href="#ico-calendar"])   { --ico-hue: var(--blue); }
@@ -8524,4 +8525,18 @@ svg:has(use[href="#ico-recycle"])    { --ico-hue: var(--text-dim); }
     height: 30px;
     color: var(--ico-hue, var(--text));
     stroke-width: 1.9;
+}
+
+/* The Launchpad scrim is rgba(0,0,0,.7) in both themes, so in light mode the
+   deep light-palette hues sat on a dark background and measured 1.05-2.00:1.
+   The overlay is visually dark, so it should resolve the dark palette. */
+.launchpad-overlay {
+    --blue: #5c8aff;
+    --purple: #a078ff;
+    --pink: #ff6eb4;
+    --mint: #4ae0a0;
+    --yellow: #ffc048;
+    --peach: #ff9f6a;
+    --text: #e8e8f0;
+    --text-dim: #8888a0;
 }

@@ -5889,7 +5889,10 @@ function openMissionControl() {
     mcWindows.innerHTML = '';
 
     openWindows.forEach(win => {
-        const icon = win.querySelector('.window-icon')?.textContent || '📄';
+        // innerHTML, not textContent: window icons are <svg><use> now, whose
+        // textContent is empty, so every card fell through to the fallback and
+        // Mission Control became a wall of identical page emoji.
+        const icon = win.querySelector('.window-icon')?.innerHTML?.trim() || '📄';
         // Get title text without the icon or badge - clone and remove them to get clean text
         const titleEl = win.querySelector('.window-title');
         let title = win.dataset.window;
@@ -6326,24 +6329,19 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
 // is new: the contract is { message, history } -> { reply }, and replies are
 // escaped then given the same limited markdown the main widget uses, so both
 // surfaces render a reply identically.
+//
+// Everything is delegated and scoped to the nearest .aim-content. The mobile
+// sheet is built with cloneNode(true), which copies markup but NOT listeners,
+// so anything bound directly to a node is dead in the clone — and KevBot is
+// more prominent on mobile than on desktop. For the same reason the markup uses
+// classes, not ids: two copies of the window exist once a sheet is open.
 (function () {
     const KEVBOT_URL = 'https://kevbot.kevin-middleton.workers.dev';
-    const log = document.getElementById('aimLog');
-    const form = document.getElementById('aimForm');
-    const input = document.getElementById('aimInput');
-    const send = document.getElementById('aimSend');
-    const prompts = document.getElementById('aimPrompts');
-    const signOn = document.getElementById('aimSignOn');
-    if (!log || !form || !input) return;
-
+    // Shared across instances on purpose: it is one conversation, wherever the
+    // visitor happens to be typing.
     let history = [];
-    let busy = false;
-    let greeted = false;
-
-    if (signOn) {
-        signOn.textContent = new Date().toLocaleTimeString([],
-            { hour: 'numeric', minute: '2-digit' });
-    }
+    const busy = new WeakSet();
+    const greeted = new WeakSet();
 
     // Same escaping and markdown subset as kevbot.js formatMessage().
     function fmt(text) {
@@ -6357,35 +6355,48 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             .replace(/\n/g, '<br>');
     }
 
-    function line(who, text) {
+    function line(root, who, text) {
+        const log = root.querySelector('.aim-log');
+        if (!log) return;
         const p = document.createElement('p');
         p.className = 'aim-line ' + (who === 'KevBot' ? 'them' : 'you');
         p.innerHTML = '<b>' + who + ':</b> ' + fmt(text);
         log.appendChild(p);
         log.scrollTop = log.scrollHeight;
-        return p;
     }
 
-    function greet() {
-        if (greeted) return;
-        greeted = true;
-        line('KevBot', "Hey! I'm KevBot \u{1F916} Ask me anything about Kevin: " +
-                       "his experience, skills, projects, or how to get in touch!");
+    function prepare(root) {
+        const stamp = root.querySelector('.aim-signon');
+        if (stamp && !stamp.dataset.set) {
+            stamp.textContent = new Date().toLocaleTimeString([],
+                { hour: 'numeric', minute: '2-digit' });
+            stamp.dataset.set = '1';
+        }
+        if (greeted.has(root)) return;
+        greeted.add(root);
+        // A clone carries over whatever the desktop copy already said, so only
+        // greet when this instance has no conversation in it yet.
+        if (root.querySelector('.aim-line')) return;
+        line(root, 'KevBot', "Hey! I'm KevBot \u{1F916} Ask me anything about Kevin: " +
+                             "his experience, skills, projects, or how to get in touch!");
     }
 
-    async function ask(text) {
-        if (busy || !text.trim()) return;
-        busy = true;
-        send.disabled = true;
+    async function ask(root, text) {
+        if (!root || busy.has(root) || !text || !text.trim()) return;
+        busy.add(root);
+        const send = root.querySelector('.aim-send');
+        const input = root.querySelector('.aim-input');
+        const prompts = root.querySelector('.aim-prompts');
+        const log = root.querySelector('.aim-log');
+        if (send) send.disabled = true;
         if (prompts) prompts.style.display = 'none';
-        line('You', text);
-        input.value = '';
+        line(root, 'You', text);
+        if (input) input.value = '';
 
         const typing = document.createElement('p');
         typing.className = 'aim-typing';
         typing.textContent = 'KevBot is typing…';
-        log.appendChild(typing);
-        log.scrollTop = log.scrollHeight;
+        if (log) { log.appendChild(typing); log.scrollTop = log.scrollHeight; }
 
         try {
             const res = await fetch(KEVBOT_URL, {
@@ -6396,10 +6407,10 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             const data = await res.json();
             typing.remove();
             if (data.error || !data.reply) {
-                line('KevBot', 'Oops, something went wrong. Try again?');
+                line(root, 'KevBot', 'Oops, something went wrong. Try again?');
                 if (window.plausible) window.plausible('KevBot+Error');
             } else {
-                line('KevBot', data.reply);
+                line(root, 'KevBot', data.reply);
                 history.push({ role: 'user', content: text });
                 history.push({ role: 'assistant', content: data.reply });
                 if (history.length > 20) history = history.slice(-20);
@@ -6408,44 +6419,49 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             }
         } catch (e) {
             typing.remove();
-            line('KevBot', "Couldn't connect. Check your internet and try again!");
+            line(root, 'KevBot', "Couldn't connect. Check your internet and try again!");
             if (window.plausible) window.plausible('KevBot+Error');
         }
 
-        busy = false;
-        send.disabled = false;
-        input.focus();
+        busy.delete(root);
+        if (send) send.disabled = false;
+        if (input) input.focus();
     }
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        ask(input.value);
+    document.addEventListener('submit', (e) => {
+        const root = e.target.closest?.('.aim-content');
+        if (!root) return;
+        e.preventDefault();  // without this the form does a native GET and reloads
+        ask(root, root.querySelector('.aim-input')?.value);
     });
 
     // Enter sends, Shift+Enter makes a new line. This is a textarea so that
     // Shift+Enter has something to do.
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            ask(input.value);
-        }
+    document.addEventListener('keydown', (e) => {
+        const input = e.target.closest?.('.aim-input');
+        if (!input || e.key !== 'Enter' || e.shiftKey) return;
+        e.preventDefault();
+        ask(input.closest('.aim-content'), input.value);
     });
 
-    if (prompts) {
-        prompts.addEventListener('click', (e) => {
-            const btn = e.target.closest('.aim-prompt');
-            if (btn) ask(btn.textContent.trim());
-        });
-    }
-
-    // Greet on first open rather than at load, so the sign-on line reads as if
-    // the conversation starts when the window does.
     document.addEventListener('click', (e) => {
-        if (e.target.closest('[data-window="aim"], [data-mobile-open="aim"]')) {
-            setTimeout(greet, 250);
+        const chip = e.target.closest?.('.aim-prompt');
+        if (chip) { ask(chip.closest('.aim-content'), chip.textContent.trim()); return; }
+        // Greet whichever copy just became visible: desktop window or mobile sheet.
+        if (e.target.closest?.('[data-window="aim"], [data-mobile-open="aim"]')) {
+            setTimeout(() => {
+                document.querySelectorAll('.aim-content').forEach(root => {
+                    if (root.offsetParent !== null) prepare(root);
+                });
+            }, 300);
         }
     });
+
     if (new URLSearchParams(location.search).get('open') === 'aim') {
-        setTimeout(greet, 400);
+        setTimeout(() => {
+            document.querySelectorAll('.aim-content').forEach(root => {
+                if (root.offsetParent !== null) prepare(root);
+            });
+        }, 500);
     }
 })();
