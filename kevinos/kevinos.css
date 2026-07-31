@@ -7882,6 +7882,124 @@ html.kos-mobile body {
 }
 
 /* ===================
+   STRENGTHS/
+   Ported from the My Strengths section on middleton.io. Same six specialties
+   and the same evidence, rebuilt on KevinOS tokens as a tabbed browser.
+   =================== */
+.str-spine {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text);
+    margin: 0 0 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* A fixed grid rather than flex-wrap: with six tabs, wrapping leaves a lone
+   orphan on the second row at most window widths. 3x2 is tidy at any size. */
+.str-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.str-tab {
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.str-tab b {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.str-tab span {
+    display: block;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin-top: 1px;
+}
+
+.str-tab:hover {
+    border-color: var(--blue);
+}
+
+.str-tab[aria-selected="true"] {
+    border-color: var(--blue);
+    background: color-mix(in srgb, var(--blue) 12%, transparent);
+}
+
+.str-tab[aria-selected="true"] span {
+    color: var(--text);
+}
+
+.str-tab:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+}
+
+.str-lead {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 10px;
+}
+
+.str-list {
+    display: grid;
+    gap: 8px;
+}
+
+.str-ev {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.str-ev i {
+    display: block;
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.str-ev p {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text);
+}
+
+.str-lk {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.str-lk:hover {
+    color: var(--blue-hover);
+}
+
+@media (max-width: 768px) {
+    .str-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ===================
    TERMINAL.APP
    A real shell in a KevinOS window. Uses the OS tokens; only the screen
    goes darker than --surface so it reads as a device inside the desktop.

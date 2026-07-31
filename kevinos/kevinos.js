@@ -304,6 +304,37 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
 });
 
+// strengths/ is an ARIA tab set: six specialties, one evidence panel each.
+// Delegated like the experience rows, because the mobile sheet clones these
+// nodes. Arrow keys move between tabs, per the tablist pattern.
+function selectStrengthTab(tab) {
+    const list = tab.closest('.str-tabs');
+    const stage = list.parentElement.querySelector('.str-stage');
+    list.querySelectorAll('.str-tab').forEach(t => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+    });
+    stage.querySelectorAll('.str-panel').forEach(p => {
+        p.hidden = p.id !== tab.getAttribute('aria-controls');
+    });
+}
+document.addEventListener('click', (e) => {
+    const tab = e.target.closest?.('.str-tab');
+    if (tab) selectStrengthTab(tab);
+});
+document.addEventListener('keydown', (e) => {
+    const tab = e.target.closest?.('.str-tab');
+    if (!tab) return;
+    const keys = {ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1};
+    if (!(e.key in keys)) return;
+    const tabs = [...tab.closest('.str-tabs').querySelectorAll('.str-tab')];
+    const next = tabs[(tabs.indexOf(tab) + keys[e.key] + tabs.length) % tabs.length];
+    e.preventDefault();
+    selectStrengthTab(next);
+    next.focus();
+});
+
 // Experience rows are disclosures. Delegated rather than per-row inline handlers,
 // because the desktop window and the mobile sheet reuse the same DOM nodes, so one
 // listener covers both. Keyboard support is the point: these rows were mouse-only.
@@ -5513,6 +5544,7 @@ const searchableItems = [
     { type: 'window', id: 'projects', icon: '📊', title: 'Projects', subtitle: 'projects/' },
     { type: 'window', id: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
     { type: 'window', id: 'writing', icon: '✍️', title: 'Writing', subtitle: 'writing/' },
+    { type: 'window', id: 'strengths', icon: '🏅', title: 'Strengths', subtitle: 'strengths/' },
     { type: 'window', id: 'skills', icon: '⚙️', title: 'Skills', subtitle: 'skills.config' },
     { type: 'window', id: 'recommendations', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
     // Fun/personality
@@ -5750,6 +5782,7 @@ const launchpadApps = [
     // Proof of work
     { id: 'experience', icon: '📁', label: 'Experience' },
     { id: 'projects', icon: '📊', label: 'Projects' },
+    { id: 'strengths', icon: '🏅', label: 'Strengths' },
     { id: 'skills', icon: '⚙️', label: 'Skills' },
     { id: 'recommendations', icon: '💬', label: 'Reviews' },
     // Fun/personality
@@ -6041,7 +6074,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
         '~': { dirs: ['work', 'writing', 'about'], files: ['resume.pdf', 'values.txt', 'contact.md'] },
         '~/work': { dirs: [], files: ['quietfeed', 'visionbort', 'officehours', 'kevinos', 'job-search-agent', 'build-with-claude'] },
         '~/writing': { dirs: [], files: ['its-almost-always-the-resume', 'curiosity-makes-or-breaks', 'applying-for-jobs-is-like-stand-up-comedy', 'everyone-can-build-now'] },
-        '~/about': { dirs: [], files: ['experience', 'skills', 'outcomes', 'recommendations'] }
+        '~/about': { dirs: [], files: ['experience', 'strengths', 'skills', 'outcomes', 'recommendations'] }
     };
 
     const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -6122,6 +6155,13 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
                 officehours: '<span class="a">Office Hours</span> — free product coaching, all week.\n<a href="/officehours/">book →</a>',
                 kevinos: '<span class="a">KevinOS</span> — this portfolio, as a retro operating system.\n<span class="d">You are, in a sense, already inside it.</span>',
                 experience: experience(),
+                strengths: '<span class="d">Six specialties, each with the receipts. Full evidence in </span><span class="a">strengths/</span>\n\n' +
+                    '<span class="a">AI Workflows</span>     shipped in production, and built on the weekend\n' +
+                    '<span class="a">Internal Tools</span>   tools that make teams faster, and happier\n' +
+                    '<span class="a">Platforms</span>        the layer other teams build on top of\n' +
+                    '<span class="a">Integrations</span>     SCIM \u00b7 OAuth \u00b7 OIDC\n' +
+                    '<span class="a">Growth</span>           CRO + A/B testing\n' +
+                    '<span class="a">Public Sector</span>    federal agencies + grid',
                 skills: skills(),
                 outcomes: outcomes()
             };
