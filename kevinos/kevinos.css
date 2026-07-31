@@ -80,6 +80,7 @@
     --mint-hover: #3cc890;
     --aim-ink: #E8A700;
     --aim-them: #FF8A80;
+    --label-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
     --aim-you: #8AB4F8;
     --yellow: #ffc048;
     --peach: #ff9f6a;
@@ -122,6 +123,7 @@
         --mint-hover: #047857;
         --aim-ink: #E8A700;
         --aim-them: #B3261E;
+        --label-shadow: 0 1px 2px rgba(255, 255, 255, 0.75);
         --aim-you: #1A4FA0;
         --yellow: #d97706;
         --peach: #ea580c;
@@ -147,6 +149,7 @@
     --mint-hover: #047857;
     --aim-ink: #E8A700;
     --aim-them: #B3261E;
+    --label-shadow: 0 1px 2px rgba(255, 255, 255, 0.75);
     --aim-you: #1A4FA0;
     --yellow: #d97706;
     --peach: #ea580c;
@@ -170,6 +173,7 @@
     --mint-hover: #3cc890;
     --aim-ink: #E8A700;
     --aim-them: #FF8A80;
+    --label-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
     --aim-you: #8AB4F8;
     --yellow: #ffc048;
     --peach: #ff9f6a;
@@ -7993,6 +7997,36 @@ svg:has(use[href="#ico-recycle"])    { --ico-hue: var(--text-dim); }
     }
 }
 
+/* Desktop icons sit straight on the wallpaper, which is the one surface in the
+   OS with no backing of its own: the dock is frosted and the springboard is
+   tiled. That left the purple Party and blue Do_Not_Click glyphs landing on the
+   blue-purple band of the wallpaper and disappearing into it.
+
+   Same fix as the springboard, dialled down. The tile is quieter here so the
+   desktop still reads as a desktop rather than a second home screen, and the
+   label gets a shadow because small mono text on a photograph needs one. */
+.desktop-icons-right .desktop-icon .icon-emoji:has(> svg) {
+    width: 46px;
+    height: 46px;
+    border-radius: 11px;
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+.desktop-icons-right .desktop-icon .icon-emoji > svg {
+    width: 26px;
+    height: 26px;
+}
+
+/* A dark shadow only helps light text. On the pale wallpaper the label is dark
+   already, so light mode gets a white halo instead: same job, opposite colour. */
+.desktop-icons-right .desktop-icon .icon-label {
+    text-shadow: var(--label-shadow);
+    color: var(--text);
+}
+
 /* Springboard tiles. A flat single-hue glyph sitting straight on a saturated
    wallpaper collides wherever the hues match: the pink Reviews icon landed on
    the pink band of the wallpaper and all but disappeared. iOS puts every app
@@ -8432,3 +8466,38 @@ svg:has(use[href="#ico-recycle"])    { --ico-hue: var(--text-dim); }
 }
 
 /* No per-scheme override: the glyph is black in light and dark alike. */
+
+/* ===================
+   DOCK TILES
+   =================== */
+/* Appended at the end deliberately: these override .dock-term-icon and
+   .aim-icon svg, both of which are defined further up.
+
+   Real macOS dock icons are rounded-square artwork in their own right, so
+   tiling here is more faithful, not less. With the springboard and the desktop
+   both tiled, a dock of bare glyphs had become the odd surface out.
+
+   Terminal is excluded from the backing because its glyph already IS a solid
+   rounded square. It is resized instead, so its footprint matches the tiles
+   either side of it. */
+.dock-item .dock-emoji:has(> svg):not(.dock-term-icon) {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.dock-item .dock-emoji > svg {
+    width: 24px;
+    height: 24px;
+}
+
+.dock-term-icon,
+.dock-term-icon svg,
+.dock-item .dock-term-icon > svg {
+    width: 40px;
+    height: 40px;
+}
