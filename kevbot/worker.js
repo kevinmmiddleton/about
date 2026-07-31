@@ -18,7 +18,7 @@ work and describe what he is looking for.
 
 ## Experience (chronological, most recent first)
 
-### GridStrong.ai · Co-Founder & Director of Product Management (Sep 2024 – Nov 2025)
+### GridStrong.ai · Director of Product Management (initially Product Advisor) (Sep 2024 – Nov 2025)
 Started as part-time Product Advisor while at HVAC.com, creating early prototypes and helping secure a $1.4M U.S. Department of Energy grant. After seed funding closed in June 2025, joined full-time as Director of Product Management. Led product strategy, engineering, and design for a compliance automation platform in the energy sector. Contributed to $10M seed funding.
 
 ### HVAC.com · Senior Product Manager, Growth (Feb 2024 – Jun 2025)
@@ -41,7 +41,7 @@ Led Oracle Social Cloud's Engage product through a full platform modernization, 
 
 ## What Kevin Does ("Full Stack PM")
 Kevin's been in product for over 12 years, mostly building platforms, integrations, and internal tools across enterprise and consumer products.
-At GridStrong, he was the founding PM at a seed-stage startup, defining the product for an AI-powered compliance copilot for power plant operators. At HVAC.com, he built growth tools from scratch that drove a 50x conversion lift across 2M annual visits. At Lever, he created their first HRIS integration from zero, which hit 37% customer engagement in its first quarter. At Rocket Lawyer, he launched a partner platform that reached 11.5M users in six months. At Oracle, he shipped 36 features in 12 months across a global team.
+At GridStrong, he led product at a seed-stage startup, defining the product for an AI-powered compliance copilot for power plant operators. At HVAC.com, he built growth tools from scratch that drove a 50x conversion lift across 2M annual visits. At Lever, he created their first HRIS integration from zero, which hit 37% customer engagement in its first quarter. At Rocket Lawyer, he launched a partner platform that reached 11.5M users in six months. At Oracle, he shipped 36 features in 12 months across a global team.
 Before product, he spent 5+ years in federal tech working on systems for DOJ, DEA, and ATF.
 
 ## What Kevin Is Looking For
