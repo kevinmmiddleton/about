@@ -3089,18 +3089,28 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 .lbx-count{margin:0;font-family:var(--mono);font-size:.62rem;color:#9C9CA8}
 /* .28 measured 2.52 against the scrim, under the 3:1 floor for a control
    outline. .45 lands at 4.28. */
-.lbx-btn{position:absolute;border:1px solid rgba(255,255,255,.45);border-radius:99px;
+/* The bar is the phone layout: prev, counter, next in a row under the caption.
+   Desktop lifts the two arrows out of it into the side gutters. */
+.lbx-bar{display:flex;align-items:center;justify-content:center;gap:1.1rem}
+.lbx-bar[hidden]{display:none}
+/* .28 measured 2.52 against the scrim, under the 3:1 floor for a control
+   outline. .45 lands at 4.28. */
+.lbx-btn{border:1px solid rgba(255,255,255,.45);border-radius:99px;
   background:rgba(20,20,24,.82);color:#F2F2F4;cursor:pointer;line-height:1;
   display:grid;place-items:center;transition:background .18s,transform .18s}
 .lbx-btn:hover{background:rgba(50,50,58,.95)}
 .lbx-btn:focus-visible{outline:3px solid #E8A317;outline-offset:2px}
 .lbx-btn[hidden]{display:none}
-/* 44px minimum so these clear the WCAG 2.5.8 target size on touch. Positioned
-   against .lbx rather than the stage, so they sit in the padding gutter and
-   never overlap the screenshot. */
-.lbx-prev,.lbx-next{top:50%;transform:translateY(-50%);width:44px;height:44px;font-size:1.5rem}
-.lbx-prev{left:.75rem}.lbx-next{right:.75rem}
-.lbx-btn:hover{transform:translateY(-50%) scale(1.06)}
+/* 44px minimum so these clear the WCAG 2.5.8 target size on touch. */
+.lbx-prev,.lbx-next{width:44px;height:44px;font-size:1.5rem;flex:0 0 auto}
+/* Desktop only: lift the arrows out of the bar into the side gutters. Fixed
+   rather than absolute so they anchor to the viewport regardless of the stage
+   they now live inside, which is what keeps them off the image. */
+@media (min-width:641px){
+  .lbx-prev,.lbx-next{position:fixed;top:50%;transform:translateY(-50%)}
+  .lbx-prev{left:.75rem}.lbx-next{right:.75rem}
+  .lbx-btn:hover{transform:translateY(-50%) scale(1.06)}
+}
 @media (max-width:900px){
   /* below this the 17rem column starves the text, so the strip goes underneath
      and runs four-across instead */
@@ -3108,13 +3118,13 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
   .fv .exp-shots{grid-column:1;grid-row:auto;grid-template-columns:repeat(4,1fr);max-width:26rem}
 }
 @media (max-width:640px){
-  /* A 4.75rem gutter each side would take 152px of a 375px screen, so on a
-     phone the arrows drop to the bottom corners and the image gets the width. */
+  /* A 4.75rem gutter each side would take 152px of a 375px screen, and floating
+     the arrows in the viewport corners left them stranded a long way from the
+     image they control. On a phone they stay in the bar under the caption, and
+     swiping the image does the same job. */
   .lbx{padding:1rem}
-  .lbx-prev,.lbx-next{top:auto;bottom:.75rem;transform:none}
-  .lbx-prev{left:.75rem}.lbx-next{right:.75rem}
   .lbx-btn:hover{transform:none}
-  .lbx-img{max-height:68vh}
+  .lbx-img{max-height:66vh;touch-action:pan-y}
 }
 @media (prefers-reduced-motion:reduce){.fv .exp-shot:hover{transform:none}}
 /* Mobile ledger. The old rule set two columns but placed nothing, so the job

@@ -554,7 +554,7 @@ document.addEventListener("DOMContentLoaded",function(){
   var lbx=document.getElementById("lbx");
   if(!lbx) return;
   var img=document.getElementById("lbxImg"), cap=document.getElementById("lbxCap"),
-      count=document.getElementById("lbxCount"),
+      count=document.getElementById("lbxCount"), bar=document.getElementById("lbxBar"),
       btnPrev=document.getElementById("lbxPrev"), btnNext=document.getElementById("lbxNext");
   var shots=[], at=0, opener=null;
 
@@ -566,7 +566,7 @@ document.addEventListener("DOMContentLoaded",function(){
     cap.textContent=a.getAttribute("data-alt")||"";
     count.textContent=(at+1)+" / "+shots.length;
     var solo=shots.length<2;
-    btnPrev.hidden=solo; btnNext.hidden=solo; count.hidden=solo;
+    btnPrev.hidden=solo; btnNext.hidden=solo; count.hidden=solo; bar.hidden=solo;
   }
   function open(a){
     var strip=a.closest(".exp-shots");
@@ -600,6 +600,24 @@ document.addEventListener("DOMContentLoaded",function(){
        caption or the padding around the image used to hit nothing. */
     if(!e.target.closest(".lbx-img")) close();
   });
+
+  /* Swipe to page on touch. touch-action:pan-y on the image lets the browser
+     keep vertical scrolling while we claim the horizontal axis, so this never
+     fights the page. The threshold and the axis test together mean a sloppy
+     vertical drag does not count as a swipe. */
+  (function(){
+    var x0=null,y0=null;
+    img.addEventListener("touchstart",function(e){
+      if(e.touches.length!==1){ x0=null; return; }
+      x0=e.touches[0].clientX; y0=e.touches[0].clientY;
+    },{passive:true});
+    img.addEventListener("touchend",function(e){
+      if(x0===null||shots.length<2) return;
+      var t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0;
+      x0=null;
+      if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)) show(at+(dx<0?1:-1));
+    },{passive:true});
+  })();
 
   document.addEventListener("keydown",function(e){
     if(lbx.hidden) return;
@@ -726,12 +744,15 @@ if(egg){
   <div class="lbx-stage">
     <img class="lbx-img" id="lbxImg" alt="">
     <p class="lbx-cap" id="lbxCap"></p>
-    <p class="lbx-count" id="lbxCount" aria-hidden="true"></p>
+    <!-- On a phone these stay here, in flow, directly under the image they
+         control. On desktop the two arrows are lifted out to the side gutters
+         and only the counter remains. -->
+    <div class="lbx-bar" id="lbxBar">
+      <button type="button" class="lbx-btn lbx-prev" id="lbxPrev" aria-label="Previous screenshot">&#8249;</button>
+      <p class="lbx-count" id="lbxCount" aria-hidden="true"></p>
+      <button type="button" class="lbx-btn lbx-next" id="lbxNext" aria-label="Next screenshot">&#8250;</button>
+    </div>
   </div>
-  <!-- the arrows are children of the overlay, not the stage, so they sit in the
-       gutter beside the image instead of on top of it -->
-  <button type="button" class="lbx-btn lbx-prev" id="lbxPrev" aria-label="Previous screenshot">&#8249;</button>
-  <button type="button" class="lbx-btn lbx-next" id="lbxNext" aria-label="Next screenshot">&#8250;</button>
 </div>
 
 <!-- 15 KEVBOT -->
