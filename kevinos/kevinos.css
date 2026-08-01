@@ -888,9 +888,16 @@ body {
     cursor: grabbing;
 }
 
+/* 12px dots at a 7px gap sit 19px centre to centre. WCAG 2.5.8 AA lets an
+   undersized target pass on spacing, but only if a 24px circle centred on each
+   does not intersect its neighbour's, which needs 24px centre to centre. 12px
+   gap gets there exactly, and it is the least invasive fix available: the dots
+   keep their 12px size, so the macOS pastiche is untouched and only the cluster
+   gets 10px wider. Enlarging the dots or overlapping their hit areas would both
+   change how this reads. */
 .window-dots {
     display: flex;
-    gap: 7px;
+    gap: 12px;
 }
 
 .window-dot {

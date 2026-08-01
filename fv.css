@@ -2967,7 +2967,13 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
    them (bg here, colour on .bc/.val) is what put white on marigold.
    `.fv` prefix is load-bearing: it makes these (0,2,0) so they outrank
    `.fv a{color:inherit}` at (0,1,1) on cards that are links. */
-.fv .b-blue{background:var(--cobalt);color:var(--on-hue)}.fv .b-red{background:var(--madder);color:var(--on-hue)}.fv .b-green{background:var(--viridian);color:var(--on-hue)}.fv .b-plum{background:var(--plum);color:var(--on-hue)}.fv .b-mari{background:var(--marigold);color:var(--on-mari)}.fv .b-ink{background:var(--invert);color:var(--on-invert)}.fv .posts{display:grid;gap:.42rem;margin-top:.55rem}.fv .posts a{display:flex;gap:.5rem;align-items:flex-start;font-size:.78rem;line-height:1.34;
+.fv .b-blue{background:var(--cobalt);color:var(--on-hue)}.fv .b-red{background:var(--madder);color:var(--on-hue)}.fv .b-green{background:var(--viridian);color:var(--on-hue)}.fv .b-plum{background:var(--plum);color:var(--on-hue)}.fv .b-mari{background:var(--marigold);color:var(--on-mari)}.fv .b-ink{background:var(--invert);color:var(--on-invert)}.fv .posts{display:grid;gap:.42rem;margin-top:.55rem}/* A single-line post link is 16.71px tall with a 6.72px gap, which puts adjacent
+   rows 23.43px apart centre to centre: 0.57px under the 24px WCAG 2.5.8 AA
+   spacing exception. Rather than widen the gap to squeak past on a technicality,
+   the row itself now clears the 24px minimum directly, which is the stronger
+   half of the criterion and a better target besides. The .bento variant sets its
+   own padding at higher specificity and already passed. */
+.fv .posts a{padding-block:.24rem;display:flex;gap:.5rem;align-items:flex-start;font-size:.78rem;line-height:1.34;
   color:inherit;text-decoration:none;transition:opacity .18s}.fv .posts a:hover{text-decoration:underline;text-underline-offset:3px}/* dots on the light card need a dark fill; the inline colours are tuned for ink */
 .fv .b-mari .posts i{background:var(--on-mari)}/* .31rem lands the dot on the first line's optical centre at the base font
    size; the bento override re-tunes it for its own scale. */
