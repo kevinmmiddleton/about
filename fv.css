@@ -2987,6 +2987,23 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 /* company first, dates last. The company column is fixed because the names
    vary in length and a ragged left edge kills the ledger read; "CACI
    INTERNATIONAL" is the longest at 18 characters. */
+/* Two tokens this section needs that the shared palette has no equivalent for.
+   Scoped to .fv rather than added to :root because the palette blocks are
+   duplicated four times in this file and only the ledger uses these.
+
+   --gold-rule is gold drawn ON THE PAGE, which is the opposite ground from
+   --gold-on-invert and therefore the opposite value. Raw --marigold measures
+   1.97 against the light page, so the open-row rule, the list markers and the
+   case-study underline were all effectively invisible in light mode: opening a
+   row made its bottom edge disappear instead of highlight. The two golds are
+   never the same value at the same time, which is why this needs its own name.
+
+   --tag-line: --rule is 1.29 against the page. Correct for a hairline between
+   rows, too faint for a pill that has to read as a discrete object. */
+.fv{--gold-rule:#815B0C;/* 5.42 on the light page */ --tag-line:#8C8C94;/* 3.03 */}
+@media (prefers-color-scheme: dark){
+  .fv{--gold-rule:#E8A317;/* 9.24 on the dark page */ --tag-line:#6E6E7A;/* 3.69 */}
+}
 .fv .rrow{display:grid;grid-template-columns:11.2rem 1fr auto 1.1rem;gap:1rem;align-items:baseline;
   padding:.85rem .5rem;margin-inline:-.5rem;
   border-bottom:2px solid var(--ink);font-size:clamp(.95rem,2vw,1.28rem);font-weight:700;letter-spacing:-.02em;
@@ -3002,14 +3019,21 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 .fv .rrow i{display:flex;flex-wrap:wrap;align-items:baseline;gap:.3rem .5rem;
   font-style:normal;font-weight:700;font-size:.78rem;letter-spacing:.02em;color:var(--ink)}/* the acquisition note always starts its own line under the name + pill */
 .fv .exp-acq{flex-basis:100%}/* same pill vocabulary as .rrow-tags, so the row and its expanded body match */
-/* Four sector types, four hues. The hue carries the border and a 14% tint;
-   the label stays --ink. Colouring the label itself would fail: as ~8.5px text
+/* Four sector types, four hues. The hue carries the border and a tint; the
+   label stays --ink. Colouring the label itself would fail: as ~8.5px text
    the hues land between 3.63 and 4.02 on the dark page, under 4.5. Border-only
-   needs 3:1, which is exactly what the --c*-line values guarantee. */
+   needs 3:1, which is exactly what the --c*-line values guarantee.
+
+   The tint was 14%, which measured 1.10-1.25 against the page in both modes:
+   present in the stylesheet, absent to the eye, so the four sectors read as one
+   object in four barely-different shades. 22% is the compromise. Note that no
+   tint of these hues reaches 3:1 on a near-white page, and it does not need to:
+   the BORDER is the graphical object here (4.69-7.76) and the label is 17:1.
+   The tint's only job is telling the four sectors apart from each other. */
 .fv .exp-tag{font-family:var(--mono);font-size:.53rem;font-weight:700;letter-spacing:.1em;
   text-transform:uppercase;font-style:normal;padding:.18rem .45rem;border-radius:99px;
   border:1px solid var(--pill,var(--rule));color:var(--ink);
-  background:color-mix(in srgb, var(--pill, transparent) 14%, transparent)}.fv .exp-tag--startup{--pill:var(--c3-line)}.fv .exp-tag--acquired{--pill:var(--c5-line)}.fv .exp-tag--enterprise{--pill:var(--c4-line)}.fv .exp-tag--public{--pill:var(--c2-line)}/* dotted at rest so it reads as a link inside a row that is itself clickable */
+  background:color-mix(in srgb, var(--pill, transparent) 22%, transparent)}.fv .exp-tag--startup{--pill:var(--c3-line)}.fv .exp-tag--acquired{--pill:var(--c5-line)}.fv .exp-tag--enterprise{--pill:var(--c4-line)}.fv .exp-tag--public{--pill:var(--c2-line)}/* dotted at rest so it reads as a link inside a row that is itself clickable */
 .fv .exp-co{color:inherit;text-decoration:underline;text-decoration-style:dotted;
   text-decoration-color:var(--rule);text-underline-offset:3px;transition:text-decoration-color .18s}.fv .exp-co:hover, .fv .exp-co:focus-visible{text-decoration-style:solid;text-decoration-color:var(--ink)}.fv .exp-acq{font-family:var(--mono);font-size:.55rem;font-style:normal;font-weight:400;
   letter-spacing:.02em;line-height:1.35;color:var(--ink2)}.fv .exp-loc{display:block;font-size:.85em;margin-top:.2rem;color:var(--ink2)}/* Resume / Journey. Journey reorders the ledger oldest-first and adds the
@@ -3021,11 +3045,64 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
   transition:background .18s,color .18s}.fv .exp-mode[aria-pressed="true"]{background:var(--invert);color:var(--on-invert)}.fv .exp-mode:focus-visible{outline:3px solid var(--ink);outline-offset:2px}.fv .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.fv .exp-hint{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:var(--ink2)}/* expandable ledger. <details> so it works with zero JS and stays keyboard
    and screen-reader operable for free. */
 .fv summary.rrow{cursor:pointer;list-style:none}.fv summary.rrow::-webkit-details-marker{display:none}.fv summary.rrow::after{content:"+";font-family:var(--mono);font-weight:400;font-size:1rem;
-  color:var(--ink2);justify-self:end;transition:transform .2s}.fv .rrow-d[open] summary.rrow::after{transform:rotate(45deg)}.fv .rrow-d[open] summary.rrow{border-bottom-color:var(--marigold)}.fv .rrow-d{border-bottom:0}.fv .rrow-body{padding:.9rem .5rem 1.4rem;margin-inline:-.5rem;
-  border-bottom:2px solid var(--ink);display:grid;gap:.85rem}.fv .rrow-desc{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink2);max-width:68ch}.fv .rrow-hi{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}.fv .rrow-hi li{font-size:.86rem;line-height:1.55;color:var(--ink2);max-width:72ch}.fv .rrow-hi li::marker{color:var(--marigold)}.fv .rrow-tags{display:flex;flex-wrap:wrap;gap:.32rem}.fv .rrow-tags span{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;
-  padding:.24rem .5rem;border-radius:99px;border:1px solid var(--rule);color:var(--ink2)}.fv .rrow-cs{justify-self:start;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
+  color:var(--ink2);justify-self:end;transition:transform .2s}.fv .rrow-d[open] summary.rrow::after{transform:rotate(45deg)}.fv .rrow-d[open] summary.rrow{border-bottom-color:var(--gold-rule)}.fv .rrow-d{border-bottom:0}.fv .rrow-body{padding:.9rem .5rem 1.4rem;margin-inline:-.5rem;
+  border-bottom:2px solid var(--ink);display:grid;gap:.85rem 2.2rem;
+  grid-template-columns:minmax(0,1fr) minmax(0,17rem)}
+/* Two rows carry no screenshots, so their text takes the whole width rather
+   than leaving a 17rem hole beside it. */
+.fv .rrow-body:not(:has(.exp-shots)){grid-template-columns:minmax(0,1fr)}
+.fv .rrow-desc,.fv .rrow-hi,.fv .rrow-tags,.fv .rrow-cs{grid-column:1}
+/* the strip spans the full height of the text beside it */
+.fv .exp-shots{grid-column:2;grid-row:1/-1;align-self:start;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem}
+.fv .rrow-desc{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink2);max-width:68ch}.fv .rrow-hi{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}.fv .rrow-hi li{font-size:.86rem;line-height:1.55;color:var(--ink2);max-width:72ch}.fv .rrow-hi li::marker{color:var(--gold-rule)}.fv .rrow-tags{display:flex;flex-wrap:wrap;gap:.32rem}.fv .rrow-tags span{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.24rem .5rem;border-radius:99px;border:1px solid var(--tag-line);color:var(--ink2)}.fv .rrow-cs{justify-self:start;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
   text-transform:uppercase;font-weight:700;color:var(--accent-text);text-decoration:none;
-  border-bottom:2px solid var(--marigold);padding-bottom:.12rem}.fv .rrow-cs:hover{color:var(--ink)}
+  border-bottom:2px solid var(--gold-rule);padding-bottom:.12rem}.fv .rrow-cs:hover{color:var(--ink)}
+/* ---- experience screenshots + lightbox ----
+   Thumbs are 400px JPEGs (496K for all 23) standing in for 8.2MB of originals;
+   the full file is only fetched when a thumb is actually opened. They live
+   inside a closed <details>, so loading="lazy" means a visitor who never
+   expands a row pays nothing at all. */
+.fv .exp-shot{display:block;border:1px solid var(--tag-line);border-radius:6px;
+  overflow:hidden;background:var(--bg2);line-height:0;cursor:zoom-in;
+  transition:transform .18s,border-color .18s}
+.fv .exp-shot img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.fv .exp-shot:hover{transform:scale(1.04);border-color:var(--ink2)}
+.fv .exp-shot:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.fv .exp-shots:has(.exp-shot:only-child){grid-template-columns:1fr}
+.lbx{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:clamp(1rem,4vw,3rem)}
+.lbx[hidden]{display:none}
+.lbx-scrim{position:absolute;inset:0;background:rgba(8,8,10,.88);cursor:zoom-out}
+.lbx-stage{position:relative;max-width:min(1100px,92vw);max-height:88vh;display:grid;gap:.7rem;justify-items:center}
+.lbx-img{max-width:100%;max-height:78vh;width:auto;height:auto;display:block;
+  border-radius:8px;box-shadow:0 24px 70px rgba(0,0,0,.55)}
+/* the caption sits on the scrim, not on the page, so it takes a fixed light
+   value rather than --ink: --ink is near-black in light mode and would vanish */
+.lbx-cap{margin:0;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;
+  text-transform:uppercase;color:#E8E8EE;text-align:center}
+.lbx-count{margin:0;font-family:var(--mono);font-size:.62rem;color:#9C9CA8}
+/* .28 measured 2.52 against the scrim, under the 3:1 floor for a control
+   outline. .45 lands at 4.28. */
+.lbx-btn{position:absolute;border:1px solid rgba(255,255,255,.45);border-radius:99px;
+  background:rgba(20,20,24,.82);color:#F2F2F4;cursor:pointer;line-height:1;
+  display:grid;place-items:center;transition:background .18s,transform .18s}
+.lbx-btn:hover{background:rgba(50,50,58,.95)}
+.lbx-btn:focus-visible{outline:3px solid #E8A317;outline-offset:2px}
+.lbx-btn[hidden]{display:none}
+/* 44px minimum so these clear the WCAG 2.5.8 target size on touch */
+.lbx-x{top:-.6rem;right:-.6rem;width:44px;height:44px;font-size:1rem}
+.lbx-prev,.lbx-next{top:calc(39vh - 22px);width:44px;height:44px;font-size:1.5rem}
+.lbx-prev{left:-.6rem}.lbx-next{right:-.6rem}
+@media (max-width:900px){
+  /* below this the 17rem column starves the text, so the strip goes underneath
+     and runs four-across instead */
+  .fv .rrow-body,.fv .rrow-body:not(:has(.exp-shots)){grid-template-columns:minmax(0,1fr)}
+  .fv .exp-shots{grid-column:1;grid-row:auto;grid-template-columns:repeat(4,1fr);max-width:26rem}
+  .lbx-x{top:-.4rem;right:-.4rem}
+  .lbx-prev{left:-.2rem}.lbx-next{right:-.2rem}
+}
+@media (prefers-reduced-motion:reduce){.fv .exp-shot:hover{transform:none}}
 /* Mobile ledger. The old rule set two columns but placed nothing, so the job
    title auto-flowed into the 1.1rem chevron column: an 18px-wide box that
    rendered the title one character per line, 160px tall. Every child is now
