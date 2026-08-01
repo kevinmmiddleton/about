@@ -191,6 +191,10 @@ function openWindow(id) {
 }
 
 function closeWindow(id) {
+    // drop the genie hook so a closed window is not left carrying it
+    const gw = document.querySelector(`.window[data-window="${id}"]`);
+    if (gw) gw.classList.remove('window-genie');
+
     const win = document.querySelector(`.window[data-window="${id}"]`);
     if (!win) return;
     win.classList.remove('window-open');

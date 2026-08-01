@@ -8923,3 +8923,36 @@ body.kos-resizing {
 .mobile-widget .widget-badge {
     display: none !important;
 }
+
+/* The pane still rendered in Outfit, a 2020s geometric sans, while the
+   formatting strip above it said "Arial" - the strip was advertising a typeface
+   nothing on screen was using. Arial IS the texture of the era; this moves the
+   window further than any other single change left. */
+.aim-log,
+.aim-line,
+.aim-sys,
+.aim-typing,
+.aim-input,
+.aim-send,
+.aim-prompt,
+.aim-buddy {
+    font-family: Arial, Helvetica, "Liberation Sans", sans-serif;
+}
+
+/* Period IM windows sank the transcript and the composer into the chrome
+   rather than sitting them flush. A 2px inset well, not a modern 1px outline. */
+.aim-log {
+    border: 2px inset #9a9aa4;
+    border-top-color: #7d7d88;
+    border-left-color: #7d7d88;
+    margin: 8px 9px 0;
+}
+
+.aim-input {
+    border: 2px inset #9a9aa4;
+    border-top-color: #7d7d88;
+    border-left-color: #7d7d88;
+    border-radius: 0;
+}
+
+.aim-prompts { padding-left: 9px; padding-right: 9px; }
