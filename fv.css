@@ -2476,9 +2476,12 @@ body.p-recipes .filter-btn{border-radius:99px;font-family:var(--mono);font-size:
 
 
 /* --- shared nav component: hold its own colours -------------------------
-   On the blog, styles-merged.css sets a{color:var(--coral-text)}, which the
-   wordmark inherited. The component has to be self-contained to look the same
-   on every page, so it states its colours rather than relying on inheritance. */
+   The blog loads fv.css and then blog/blog.css, which sets a link colour the
+   wordmark would otherwise inherit. The component has to be self-contained to
+   look the same on every page, so it states its colours rather than relying on
+   inheritance. (The original note here blamed styles-merged.css, which has not
+   been loaded by any page since the relaunch; the rule is still needed, the
+   reason had just moved.) */
 .nav .mk,.nav .mk:visited{color:var(--ink);text-decoration:none}
 .nav .mk small{color:var(--ink2)}
 .nav-l a,.nav-l a:visited{color:var(--ink2);text-decoration:none}
