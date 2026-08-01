@@ -6656,7 +6656,12 @@ document.addEventListener('keydown', (e) => {
             m.addedNodes.forEach((n) => {
                 if (n.nodeType !== 1 || !n.classList?.contains('photo-window')) return;
                 n.setAttribute('role', 'dialog');
-                n.setAttribute('aria-modal', 'true');
+                /* NOT aria-modal. This is a draggable window that leaves the
+                   rest of the desktop live behind it, exactly like every other
+                   KevinOS window, and it has no scrim and no focus trap.
+                   Claiming modality to a screen reader while the page stays
+                   interactive is worse than claiming nothing: it tells the user
+                   the rest of the page is inert when it is not. */
                 n.setAttribute('aria-label',
                     (n.querySelector('.photo-title')?.textContent || 'Photo').trim());
                 n.setAttribute('tabindex', '-1');

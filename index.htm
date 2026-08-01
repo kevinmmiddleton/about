@@ -104,9 +104,13 @@
 </head>
 <body>
 
-<link rel="stylesheet" href="/fv.css?v=922d4959">
+<link rel="stylesheet" href="/fv.css?v=1dc742f1">
 
 <div class="fv">
+
+<!-- First thing in the tab order, invisible until focused. Without it a
+     keyboard user walks the whole nav on every visit before reaching content. -->
+<a class="skip" href="#main">Skip to content</a>
 
 <nav class="nav pad">
   <span class="mk">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></span>
@@ -116,6 +120,8 @@
   </span>
   <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/" target="_blank" rel="noopener noreferrer">Office Hours</a>
 </nav>
+
+<main id="main" tabindex="-1">
 
 <!-- 01 HERO -->
 <header class="hero pad obs">
@@ -454,6 +460,8 @@
   <div class="sec-h rv"><h2>Away from the desk</h2><span>The rest of it</span></div>
   <p class="offsite-note rv d1">I live in New York with three cats who supervise every deploy. I <a class="lk lk-app" href="/recipes/">cook</a> most nights. I am reliably great at useless pop-culture facts and should probably find a new trivia team to join.</p>
 </section>
+
+</main>
 
 <footer class="colophon pad obs">
     <nav class="colo-nav rv d2" aria-label="More from Kevin">

@@ -77,7 +77,12 @@
       btn.type = 'button';
       btn.className = 'copy-btn';
       btn.textContent = 'Copy';
-      btn.setAttribute('aria-label', 'Copy to clipboard');
+      /* No static aria-label. One used to sit here reading "Copy to clipboard",
+         which permanently overrode the visible text, so when the label changed
+         to "Copied!" a screen reader still announced "Copy to clipboard" and
+         the user got no confirmation at all. The visible text is the accessible
+         name, and aria-live announces it when it changes. */
+      btn.setAttribute('aria-live', 'polite');
       btn.addEventListener('click', function () {
         navigator.clipboard.writeText(code).then(function () {
           btn.textContent = 'Copied!';

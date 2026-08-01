@@ -76,6 +76,14 @@
        (text > dim > muted), so both moved and the gap between them is kept. */
     --text-dim: #adadc6;
     --text-muted: #9595b4;
+    /* KevinOS references these three but never declared them, so `color:
+       var(--text-secondary)` was invalid at computed-value time and silently
+       fell back to inheriting the parent's colour. It happened to look close
+       enough that nobody noticed. Aliased to this surface's real tokens rather
+       than deleted, because 17 rules depend on them. */
+    --text-primary: var(--text);
+    --text-secondary: var(--text-dim);
+    --accent: var(--blue);
     --blue: #5c8aff;
     --blue-hover: #7aa3ff;
     --purple: #a078ff;
@@ -169,6 +177,14 @@
     --text: #e8e8f0;
     --text-dim: #adadc6;
     --text-muted: #9595b4;
+    /* KevinOS references these three but never declared them, so `color:
+       var(--text-secondary)` was invalid at computed-value time and silently
+       fell back to inheriting the parent's colour. It happened to look close
+       enough that nobody noticed. Aliased to this surface's real tokens rather
+       than deleted, because 17 rules depend on them. */
+    --text-primary: var(--text);
+    --text-secondary: var(--text-dim);
+    --accent: var(--blue);
     --blue: #5c8aff;
     --blue-hover: #7aa3ff;
     --purple: #a078ff;
@@ -1579,6 +1595,25 @@ body {
 
 .exp-item.open .exp-detail {
     display: block;
+}
+
+/* GLOBAL focus ring. A dozen components had declared their own, but there was
+   no baseline, so anything without a bespoke rule (dock items, desktop icons,
+   traffic lights, menubar controls) fell through to the browser default, which
+   on a dark surface is close to invisible. Individual rules below still win
+   where a component wants something tighter. */
+:where(a, button, summary, input, select, textarea, [tabindex]:not([tabindex="-1"]),
+       [role="button"], [role="tab"], [role="option"]):focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+/* The traffic lights are 12px, so a 2px ring at a 2px offset reads as a blob.
+   Tighter offset, and the ring follows the circle. */
+.window-dot:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 1px;
+    border-radius: 50%;
 }
 
 /* These rows are keyboard-operable disclosures, so they need a visible focus
@@ -6039,6 +6074,19 @@ body {
     flex-shrink: 0;
 }
 
+/* Recipe gallery photos are built at runtime from per-recipe sources, so they
+   cannot carry static width/height the way the markup images do. The only rule
+   for them lived inside a max-width:768px media query, which meant that at
+   desktop they had no sizing at all: height auto, aspect-ratio auto, and every
+   photo reflowed the gallery as it decoded. This reserves the box before the
+   bytes arrive, which is what the attributes would have bought. */
+.recipe-photo-item img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
 .db-detail-header-info {
     flex: 1;
 }
@@ -6245,6 +6293,14 @@ body {
         height: auto;
         display: block;
         border-radius: 16px 16px 0 0;
+        /* These are built at runtime from per-recipe sources, so they cannot
+           carry static width/height the way the markup images do. Measured with
+           no reservation at all: height auto, aspect-ratio auto, so every photo
+           reflowed the gallery as it decoded. aspect-ratio reserves the box
+           before the bytes arrive, which is what the attributes would have
+           bought; object-fit keeps non-4:3 originals from distorting. */
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
     }
 
     .recipe-photo-item .recipe-photo-title {
