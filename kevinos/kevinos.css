@@ -8961,3 +8961,26 @@ body.kos-resizing {
 }
 
 .aim-prompts { padding-left: 9px; padding-right: 9px; }
+
+/* The Apps folder was rgba(128,128,128,.35) - a mid grey at a third opacity,
+   which all but vanishes on the dark wallpaper while every tile beside it is a
+   saturated hue. iOS renders a folder as a frosted LIGHT panel on any
+   wallpaper, which is also what distinguishes a container from an app, so it
+   stays visibly different from the tiles rather than becoming one. */
+.folder-mini-grid,
+[data-theme="light"] .folder-mini-grid,
+[data-theme="dark"] .folder-mini-grid {
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+/* The mini glyphs were inheriting --ico-hue, which in dark mode is the BRIGHT
+   variant - bright peach on a light panel is the wrong way round. --ico-tile is
+   the fixed deep palette built for exactly this: colour on a light ground. */
+.folder-mini-grid > span > svg {
+    color: var(--ico-tile, var(--ico-hue, var(--text)));
+    stroke-width: 2.4;
+}
