@@ -3115,6 +3115,12 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 .fv .cb.c-oh{background:var(--viridian);color:var(--on-hue)}/* 3.67 vs ink, 5.16 label */
 .fv .cb.c-li{background:var(--cta-blue);color:var(--on-hue)}/* 3.72 vs ink, 5.10 label */
 .fv .cb.c-gh{background:var(--cta-plum);color:var(--on-hue)}/* GitHub had no rule */
+/* The resume is the one thing a recruiter has to leave with, so it does NOT
+   join the hue rotation - it inverts against the band instead. That is the
+   highest contrast available here (#F2F2F4 on #111113 = 17.4, and the tokens
+   swap in light mode so it stays inverted either way) and it reads as the
+   primary action without needing a size or weight change. */
+.fv .cb.c-cv{background:var(--on-invert);color:var(--invert)}
 .fv .cb:hover{transform:translateY(-2px)}/* ---- strengths concept: specialty tabs -> one wide detail stage ---- */
 /* the claim the six chips are evidence FOR. Without it the section is a menu;
    with it, the chips are subordinate. */
