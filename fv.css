@@ -3098,7 +3098,7 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
    mode switch. Nested inside the title cell, so it inherits that cell's grid
    placement and needs no change to the row's own layout on any breakpoint.
    Measured cost: 108px across all nine rows. */
-.fv .rrow-metric{display:block;font-family:var(--mono);font-size:.6rem;
+.fv .rrow-metric{display:block;font-family:var(--mono);font-size:.62rem;
   letter-spacing:.06em;line-height:1.4;color:var(--ink2);margin-top:.28rem;
   font-weight:400;text-transform:none}
 .fv .rrow-metric b{color:var(--ink);font-weight:700}

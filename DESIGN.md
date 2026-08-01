@@ -185,14 +185,14 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 173,826 | 150 / 457 | 6 | 9 |
+| `fv.css` | 173,827 | 150 / 457 | 6 | 9 |
 | `kevinos/kevinos.css` | 210,622 | 53 / 214 | 0 | 1 |
 | `blog/blog.css` | 16,088 | 25 / 47 | 0 | 0 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=47b9f903`
-- `blog` (/blog/index.html): `/fv.css?v=47b9f903`, `/blog/blog.css?v=d428f456`, `inline`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=cd1fc8cf`
+- `blog` (/blog/index.html): `/fv.css?v=cd1fc8cf`, `/blog/blog.css?v=d428f456`, `inline`
 - `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=0791dcf2`
 
 <!-- design-extract:end -->
