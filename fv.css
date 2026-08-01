@@ -2980,7 +2980,7 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 .fv .posts i{width:.42rem;height:.42rem;border-radius:99px;flex:0 0 auto;margin-top:.31rem}/* six distinct hues, no repeats, each >=3:1 on the panel it sits on. The panel
    flips per mode, so the tokens do too. */
 .fv .posts i.d1{background:var(--dot-1)}.fv .posts i.d2{background:var(--dot-2)}.fv .posts i.d3{background:var(--dot-3)}.fv .posts i.d4{background:var(--dot-4)}.fv .posts i.d5{background:var(--dot-5)}.fv .posts i.d6{background:var(--dot-6)}/* looking for */
-.fv .want{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.6rem}.fv .want-col{border-radius:var(--r);padding:1.1rem;border:2px solid var(--ink)}.fv .want-col h3{margin:0 0 .7rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase}.fv .want-col.no{background:var(--invert);color:var(--on-invert);border-color:var(--invert)}.fv .want-col.no h3{color:var(--accent-on-invert)}.fv .chips{display:flex;flex-wrap:wrap;gap:.35rem}.fv .chip{font-size:.82rem;font-weight:600;padding:.28rem .6rem;border-radius:99px;background:var(--invert);color:var(--on-invert)}.fv .want-col.also .chip{background:none;border:1.5px solid var(--ink);color:var(--ink)}.fv .want-col.no .chip{background:none;border:1.5px solid var(--madder);color:var(--on-invert);text-decoration:line-through;text-decoration-color:var(--madder)}/* values */
+/* values */
 /* 6 items. auto-fit chased the widest fit and landed on 4 or 5 columns at
    common widths, orphaning the last card. Lock to divisors of 6 (3/2/1) so
    every row is full at every size. */

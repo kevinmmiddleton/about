@@ -185,14 +185,14 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 173,863 | 150 / 457 | 6 | 9 |
+| `fv.css` | 173,002 | 150 / 457 | 6 | 9 |
 | `kevinos/kevinos.css` | 214,409 | 53 / 214 | 0 | 1 |
 | `blog/blog.css` | 16,096 | 25 / 47 | 0 | 0 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=cd1fc8cf`
-- `blog` (/blog/index.html): `/fv.css?v=cd1fc8cf`, `/blog/blog.css?v=d428f456`, `inline`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=83794f02`
+- `blog` (/blog/index.html): `/fv.css?v=83794f02`, `/blog/blog.css?v=d428f456`, `inline`
 - `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=e317f3ff`
 
 <details><summary><strong>blog</strong>: 100 tokens, 45 flip between modes</summary>
@@ -645,9 +645,14 @@ OS title and the Recipes heading); that is a known exception, not a target.
 Stated explicitly so nobody assumes coverage that is not here:
 
 - **Content and copy decisions.** `PRODUCT.md` owns those, including the analytics goals.
-- **`is-off`.** `.fv .is-off{display:none}` hides `#looking` ("What I'm Looking For"),
-  Skills & Expertise, and Certifications on the homepage. **This is deliberate.**
-  Do not "restore" them.
+- **`is-off`.** `.fv .is-off{display:none}` hides Skills & Expertise and
+  Certifications on the homepage. **This is deliberate.** Do not "restore" them.
+  Note that `display:none` hides from the eye, not from a crawler: the markup is
+  still served and still indexable. For anything that must not be *readable*
+  rather than merely not *visible*, delete it. "What I'm Looking For" was removed
+  outright on 2026-08-01 for exactly this reason, after Kevin accepted an offer;
+  hiding it would have left "Not for me: Ad tech, Crypto, Web3" answerable by an
+  LLM summarizing the page.
 - **Micro-sites and `/slides/`.** Each keeps its own liberty by design.
 - **The case-study and recipes page-scoped blocks**, beyond the scoping rules above.
 - **Taste.** Judgements like "this feels balanced" are not encoded here. Earlier
