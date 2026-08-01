@@ -40,8 +40,12 @@ const hashOf = (abs) => {
   return hashCache.get(abs);
 };
 
-const REF = /((?:href|src)=")([^"?]+\.(?:css|js))\?v=([a-f0-9]+)(")/g;
-let stale = 0, ok = 0, missing = 0, filesChanged = 0;
+const REF = /((?:href|src)=["'])([^"'?]+\.(?:css|js))\?v=([a-f0-9]+)(["'])/g;
+// Refs with no ?v= at all were completely invisible: not ok, not stale, not
+// missing. "55 ok" was measuring only what someone had already instrumented.
+const UNSTAMPED = /(?:href|src)=["']((?!https?:|\/\/)[^"'?]+\.(?:css|js))["']/g;
+let stale = 0, ok = 0, missing = 0, filesChanged = 0, unstamped = 0;
+const unstampedRefs = new Set();
 const report = new Map();
 
 for (const page of pages) {
@@ -69,11 +73,28 @@ for (const page of pages) {
   });
 
   if (touched) { writeFileSync(abs, out); filesChanged++; }
+
+  for (const m of src.matchAll(UNSTAMPED)) {
+    const target = m[1].startsWith('/') ? join(ROOT, m[1].slice(1))
+                                        : normalize(join(ROOT, dirname(page), m[1]));
+    try { hashOf(target); unstamped++; unstampedRefs.add(m[1]); } catch { /* not a local file */ }
+  }
 }
 
 for (const line of report.values()) console.log('  ' + line);
-console.log(`\n  references ok: ${ok}   stale: ${stale}   missing: ${missing}`);
-if (WRITE) console.log(`  files rewritten: ${filesChanged}`);
-else if (stale) console.log('  run with --write to fix');
+console.log(`\n  references ok: ${ok}   stale: ${stale}   missing: ${missing}   unstamped: ${unstamped}`);
+if (unstampedRefs.size) {
+  console.log('\n  local assets referenced WITHOUT a ?v= stamp (a change to these will not');
+  console.log('  invalidate a cached copy). Not an error, but not covered either:');
+  for (const r of [...unstampedRefs].sort()) console.log('    ' + r);
+}
+if (WRITE) console.log(`\n  files rewritten: ${filesChanged}`);
+else if (stale) console.log('\n  run with --write to fix');
 
+// A reference to a file that does not exist is a broken page. It used to print
+// MISSING and exit 0, so the gate reported a dead href as success.
+if (missing) {
+  console.error(`\n  ${missing} reference(s) point at files that do not exist. Failing.`);
+  process.exit(1);
+}
 process.exit(stale && !WRITE ? 1 : 0);

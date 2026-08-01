@@ -10,6 +10,7 @@ import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync, rmSync
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
+import { createHash } from 'node:crypto';
 
 const SITE = 'https://middleton.io';
 
@@ -162,10 +163,21 @@ function seriesCallouts(post, all) {
 }
 
 // ---------- shared chrome ----------
+// Cache stamps are COMPUTED, never hardcoded. They were literal strings here
+// until 2026-08-01, pinned at fv.css?v=3bb54490. fv.css had moved on, so every
+// regenerated post shipped a dead stamp and silently undid the cache-busting
+// the rest of the site relies on. Worse, it was invisible: tools/stamp-assets.mjs
+// only ever saw the already-correct committed pages, because nothing had been
+// regenerated since. Same md5-head-8 that stamp-assets.mjs uses, so the two
+// agree by construction rather than by anyone remembering.
+const stamp = (rel) => createHash('md5')
+  .update(readFileSync(resolve(ROOT, rel)))
+  .digest('hex').slice(0, 8);
+
 const HEAD_LINKS = `    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
-    <link rel="stylesheet" href="/fv.css?v=3bb54490">
-    <link rel="stylesheet" href="/blog/blog.css?v=d428f456">
+    <link rel="stylesheet" href="/fv.css?v=${stamp('fv.css')}">
+    <link rel="stylesheet" href="/blog/blog.css?v=${stamp('blog/blog.css')}">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every

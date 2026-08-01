@@ -1278,6 +1278,66 @@ body {
     color: var(--peach);
 }
 
+/* TEXT SAFETY for the hue-on-its-own-tint pattern.
+   .pill and .file-badge both put a saturated hue on a 10-20% tint of itself at
+   9-11px. Whichever mode makes the hue closest to its own tint is the one that
+   fails, and it is not the same mode for every hue, so both directions need a
+   variant. Measured failures before this: light .pill.yellow 3.03,
+   .file-badge.json 3.36, .pill.peach 3.33, .file-badge.sh 3.81; dark
+   .file-badge.sql 3.88, .file-badge.chat 3.30.
+
+   TEXT only. Tints, borders and fills are untouched, so the palette still reads
+   as the same palette. Written per family rather than per instance, because
+   fixing these one at a time is what produced three rounds of whack-a-mole.
+
+   These were missed originally because only 3 of KevinOS's 20 windows are open
+   at boot and the audit measured what was on screen. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .pill.blue,
+  :root:not([data-theme="dark"]) .file-badge.md,
+  :root:not([data-theme="dark"]) .file-badge.chat   { color: #1d4ed8; }
+  :root:not([data-theme="dark"]) .pill.purple,
+  :root:not([data-theme="dark"]) .file-badge.yaml,
+  :root:not([data-theme="dark"]) .file-badge.sql    { color: #6d28d9; }
+  :root:not([data-theme="dark"]) .pill.pink,
+  :root:not([data-theme="dark"]) .file-badge.sh,
+  :root:not([data-theme="dark"]) .file-badge.vcf    { color: #a8175a; }
+  :root:not([data-theme="dark"]) .pill.mint,
+  :root:not([data-theme="dark"]) .file-badge.config,
+  :root:not([data-theme="dark"]) .file-badge.json   { color: #047857; }
+  :root:not([data-theme="dark"]) .pill.yellow,
+  :root:not([data-theme="dark"]) .file-badge.log    { color: #9a5504; }
+  :root:not([data-theme="dark"]) .pill.peach        { color: #b8410b; }
+  /* the SQL-pastiche window and the About callout use hues as body text too */
+  :root:not([data-theme="dark"]) .query-code .str   { color: #047857; }
+  :root:not([data-theme="dark"]) .window-body h4    { color: #1d4ed8; }
+}
+:root[data-theme="light"] .pill.blue,
+:root[data-theme="light"] .file-badge.md,
+:root[data-theme="light"] .file-badge.chat   { color: #1d4ed8; }
+:root[data-theme="light"] .pill.purple,
+:root[data-theme="light"] .file-badge.yaml,
+:root[data-theme="light"] .file-badge.sql    { color: #6d28d9; }
+:root[data-theme="light"] .pill.pink,
+:root[data-theme="light"] .file-badge.sh,
+:root[data-theme="light"] .file-badge.vcf    { color: #a8175a; }
+:root[data-theme="light"] .pill.mint,
+:root[data-theme="light"] .file-badge.config,
+:root[data-theme="light"] .file-badge.json   { color: #047857; }
+:root[data-theme="light"] .pill.yellow,
+:root[data-theme="light"] .file-badge.log    { color: #9a5504; }
+:root[data-theme="light"] .pill.peach        { color: #b8410b; }
+:root[data-theme="light"] .query-code .str   { color: #047857; }
+:root[data-theme="light"] .window-body h4    { color: #1d4ed8; }
+
+/* Dark: --purple and --blue sit too close to their own 20% tint here. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .file-badge.sql  { color: #c4b5fd; }
+  :root:not([data-theme="light"]) .file-badge.chat { color: #93c5fd; }
+}
+:root[data-theme="dark"] .file-badge.sql  { color: #c4b5fd; }
+:root[data-theme="dark"] .file-badge.chat { color: #93c5fd; }
+
 .query-note {
     color: var(--text-muted);
     font-size: 13px;
@@ -2030,7 +2090,11 @@ body {
 }
 
 .chat-bubble {
-    background: #007AFF;
+    /* White on #007AFF measures 4.02, under the 4.5 small-text floor at 14px.
+       This is a fixed ground, not a token, so it does not flip with the mode
+       and the fix must not be mode-scoped either. #0071f0 reaches 4.55 and is
+       within a hair of the iOS blue it is imitating. */
+    background: #0071f0;
     color: #fff;
     padding: 10px 14px;
     border-radius: 18px;
@@ -2063,7 +2127,9 @@ body {
 /* CHAT badge for file type */
 .file-badge.chat {
     background: rgba(0, 122, 255, 0.2);
-    color: #007AFF;
+    /* was a hardcoded #007AFF, which failed in both modes (3.09 / 3.30). Its
+       six sibling badges all follow a hue token; this one was the exception. */
+    color: var(--blue);
 }
 
 /* ===================
@@ -5891,7 +5957,10 @@ body {
 /* DB Badge */
 .file-badge.db {
     background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: var(--bg);
+    /* was var(--bg), which is near-white in light mode: light text on an amber
+       gradient, 1.14. Amber is a LIGHT surface whichever mode you are in, so
+       this takes fixed dark text rather than a token that flips. */
+    color: #2c1a00;
 }
 
 /* Toolbar */
@@ -7817,14 +7886,12 @@ html:not(.kos-mobile) .share-sheet-backdrop {
   :root:not([data-theme="dark"]) .kos-store-row.yellow .kos-pill { color: #9a5504; }
   :root:not([data-theme="dark"]) .kos-store-row.pink .kos-pill   { color: #a8175a; }
   :root:not([data-theme="dark"]) .kos-store-row.blue .kos-pill   { color: #1d4ed8; }
-  :root:not([data-theme="dark"]) .file-badge.vcf                 { color: #a8175a; }
 }
 :root[data-theme="light"] .kos-store-row.mint .kos-pill   { color: #047857; }
 :root[data-theme="light"] .kos-store-row.peach .kos-pill  { color: #b8410b; }
 :root[data-theme="light"] .kos-store-row.yellow .kos-pill { color: #9a5504; }
 :root[data-theme="light"] .kos-store-row.pink .kos-pill   { color: #a8175a; }
 :root[data-theme="light"] .kos-store-row.blue .kos-pill   { color: #1d4ed8; }
-:root[data-theme="light"] .file-badge.vcf                 { color: #a8175a; }
 .kos-store-row.blue:hover .kos-pill,   .kos-store-row.blue:focus-visible .kos-pill   { background: var(--blue); color: #fff; }
 .kos-store-row.purple:hover .kos-pill, .kos-store-row.purple:focus-visible .kos-pill { background: var(--purple); color: #fff; }
 .kos-store-row.pink:hover .kos-pill,   .kos-store-row.pink:focus-visible .kos-pill   { background: var(--pink); color: #fff; }

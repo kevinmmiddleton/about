@@ -39,13 +39,20 @@ const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const WRITE = process.argv.includes('--write');
 const JSON_OUT = process.argv.includes('--json');
 
+// CHROME_PATH first so CI can point at whatever the runner ships.
 const CHROME = [
+  process.env.CHROME_PATH,
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
   '/Applications/Chromium.app/Contents/MacOS/Chromium',
   '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
-].find((p) => existsSync(p));
+  '/usr/bin/google-chrome',
+  '/usr/bin/chromium-browser',
+  '/usr/bin/chromium',
+].filter(Boolean).find((p) => existsSync(p));
 
 /** The surfaces this document governs, and the element whose scope defines each. */
+const VIEWPORT = { w: 1440, h: 900 };   // stated, so the caps below mean something
+
 const SURFACES = [
   { key: 'homepage', path: '/index.htm', host: '.fv' },
   { key: 'blog', path: '/blog/index.html', host: ':root' },
@@ -130,15 +137,23 @@ class Chrome {
       sessionId,
       goto: async (u) => {
         await this.send('Page.navigate', { url: u }, sessionId);
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 200; i++) {
           await sleep(60);
           const r = await this.send('Runtime.evaluate',
             { expression: 'document.readyState', returnByValue: true }, sessionId);
-          if (r.result.value === 'complete') return;
+          // KevinOS runs a boot sequence, so readyState alone is not enough.
+          if (r.result.value === 'complete') { await sleep(400); return; }
         }
+        // Used to fall out of the loop and return success, so a page that never
+        // finished loading yielded partial tokens that --write committed as truth.
+        throw new Error(`timed out waiting for ${u} to finish loading`);
       },
       scheme: (v) => this.send('Emulation.setEmulatedMedia',
         { features: [{ name: 'prefers-color-scheme', value: v }] }, sessionId),
+      // Caps are width-dependent, so the width has to be declared rather than
+      // inherited from whatever Chrome defaults to.
+      viewport: (w, h) => this.send('Emulation.setDeviceMetricsOverride',
+        { width: w, height: h, deviceScaleFactor: 1, mobile: false }, sessionId),
       eval: async (expr) => {
         const r = await this.send('Runtime.evaluate',
           { expression: expr, returnByValue: true, awaitPromise: true }, sessionId);
@@ -149,7 +164,21 @@ class Chrome {
     };
   }
 
-  kill() { try { this.ws.close(); } catch {} this.proc.kill(); try { rmSync(this.dir, { recursive: true, force: true }); } catch {} }
+  // Must AWAIT the exit. proc.kill() only delivers SIGTERM; if Node exits in the
+  // same tick, Chrome never finishes shutting down and its helper processes are
+  // reparented to init and survive. Ten stale profiles and nine live browsers
+  // accumulated this way before this was noticed. SIGKILL is the backstop.
+  async kill() {
+    try { this.ws.close(); } catch {}
+    if (this.proc.exitCode === null && !this.proc.killed) {
+      const dead = new Promise((ok) => this.proc.once('exit', ok));
+      this.proc.kill('SIGTERM');
+      const timer = setTimeout(() => { try { this.proc.kill('SIGKILL'); } catch {} }, 2000);
+      await Promise.race([dead, new Promise((ok) => setTimeout(ok, 5000))]);
+      clearTimeout(timer);
+    }
+    try { rmSync(this.dir, { recursive: true, force: true }); } catch {}
+  }
 }
 
 /* -------------------------------------------------------- in-page extractor */
@@ -209,12 +238,13 @@ function cssFacts() {
   const strip = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '');
   const out = {};
   for (const [key, file] of [['fv', 'fv.css'], ['kevinos', 'kevinos/kevinos.css'], ['blog', 'blog/blog.css']]) {
-    const raw = readFileSync(join(ROOT, file), 'utf8');
+    const buf = readFileSync(join(ROOT, file));
+    const raw = buf.toString('utf8');
     const code = strip(raw);
     const decls = code.match(/--[a-z0-9-]+\s*:/g) || [];
     out[key] = {
       file,
-      bytes: raw.length,
+      bytes: buf.byteLength,   // real bytes; raw.length is UTF-16 code units
       declarationsOfCustomProps: decls.length,
       distinctCustomProps: new Set(decls.map((d) => d.replace(/\s*:$/, ''))).size,
       paletteBlocksDeclaringInk: (code.match(/--ink\s*:/g) || []).length,
@@ -282,6 +312,40 @@ function renderBlock(data) {
     L.push(`- \`${key}\` (${s.light.url}): ${s.light.stylesheets.map((x) => `\`${x}\``).join(', ')}`);
   }
   L.push('');
+
+  // The blog and KevinOS token maps used to be extracted and then thrown away,
+  // so changing a token on either surface was invisible to the drift check.
+  // They are printed now, which is what makes the check cover them.
+  for (const key of ['blog', 'kevinos']) {
+    const surf = data.surfaces[key];
+    if (!surf) continue;
+    const names = Object.keys(surf.light.tokens)
+      .filter((n) => surf.dark.tokens[n] !== undefined).sort();
+    const flips = names.filter((n) => surf.light.tokens[n] !== surf.dark.tokens[n]);
+    L.push(`<details><summary><strong>${key}</strong>: ${names.length} tokens, ${flips.length} flip between modes</summary>`);
+    L.push('');
+    L.push('| Token | Light | Dark |');
+    L.push('|---|---|---|');
+    for (const n of names) {
+      const l = surf.light.tokens[n], d = surf.dark.tokens[n];
+      L.push(`| \`${n}\` | \`${l}\` | ${l === d ? '_same_' : `\`${d}\``} |`);
+    }
+    L.push('');
+    L.push('</details>');
+    L.push('');
+  }
+
+  // Dark caps were extracted and never printed either.
+  L.push('**Layout caps in dark mode** (they should match light; a difference here is a bug):');
+  L.push('');
+  const capDiffs = [];
+  for (const [key, s] of Object.entries(data.surfaces)) {
+    for (const [sel, v] of Object.entries(s.dark.caps)) {
+      if (v && v !== s.light.caps[sel]) capDiffs.push(`- \`${sel}\` on ${key}: light ${s.light.caps[sel]}, dark ${v}`);
+    }
+  }
+  L.push(capDiffs.length ? capDiffs.join('\n') : '- none differ.');
+  L.push('');
   L.push('<!-- design-extract:end -->');
   return L.join('\n');
 }
@@ -289,6 +353,7 @@ function renderBlock(data) {
 /* --------------------------------------------------------------------- main */
 const { server, port } = await serve();
 let chrome;
+let exitCode = 0;
 try {
   chrome = await Chrome.launch();
   const page = await chrome.page();
@@ -297,6 +362,7 @@ try {
     surfaces[s.key] = {};
     for (const scheme of ['light', 'dark']) {
       await page.scheme(scheme);
+      await page.viewport(VIEWPORT.w, VIEWPORT.h);
       await page.goto(`http://127.0.0.1:${port}${s.path}`);
       await page.eval(`(() => { const st=document.createElement('style');
         st.textContent='*,*::before,*::after{transition:none!important;animation:none!important}';
@@ -308,33 +374,60 @@ try {
 
   const data = { surfaces, css: cssFacts() };
 
-  if (JSON_OUT) { console.log(JSON.stringify(data, null, 2)); process.exit(0); }
-
-  const block = renderBlock(data);
-  const docPath = join(ROOT, 'DESIGN.md');
-  const doc = readFileSync(docPath, 'utf8');
-  const re = /<!-- design-extract:start -->[\s\S]*?<!-- design-extract:end -->/;
-
-  if (!re.test(doc)) {
-    console.error('  DESIGN.md has no <!-- design-extract:start --> / <!-- design-extract:end --> markers.');
-    console.error('  Add them where the generated tables should live, then re-run with --write.');
-    process.exit(2);
+  // SANITY GATE. A surface that failed to load yields an empty token map, and
+  // without this the empty result renders as a valid-looking block: check mode
+  // exits 1, tells you to run --write, and --write then bakes the emptiness in
+  // and exits 0 forever. A broken load must never be mistaken for drift.
+  for (const [key, modes] of Object.entries(surfaces)) {
+    for (const [scheme, snap] of Object.entries(modes)) {
+      if (!snap || snap.tokenCount === 0) {
+        throw new Error(`${key}/${scheme} produced 0 tokens. The surface did not load; ` +
+          `refusing to write. Check the path in SURFACES and that the page renders.`);
+      }
+      const spec = SURFACES.find((x) => x.key === key);
+      if (spec.host !== ':root' && snap.hostIsRoot) {
+        throw new Error(`${key}/${scheme}: selector "${spec.host}" did not match, so tokens were ` +
+          `read from :root instead. That would be published under the wrong heading.`);
+      }
+    }
   }
 
-  const updated = doc.replace(re, block);
-  if (updated === doc) {
-    console.log('  DESIGN.md generated block is up to date.');
-    process.exit(0);
+  if (JSON_OUT) { console.log(JSON.stringify(data, null, 2)); exitCode = 0; }
+  else {
+    const block = renderBlock(data);
+    const docPath = join(ROOT, 'DESIGN.md');
+    const doc = readFileSync(docPath, 'utf8');
+    const re = /<!-- design-extract:start -->[\s\S]*?<!-- design-extract:end -->/;
+
+    if (!re.test(doc)) {
+      console.error('  DESIGN.md has no <!-- design-extract:start --> / <!-- design-extract:end --> markers.');
+      console.error('  Add them where the generated tables should live, then re-run with --write.');
+      exitCode = 2;
+    } else {
+      const updated = doc.replace(re, block);
+      if (updated === doc) {
+        console.log('  DESIGN.md generated block is up to date.');
+        exitCode = 0;
+      } else if (WRITE) {
+        writeFileSync(docPath, updated);
+        console.log('  DESIGN.md generated block updated.');
+        exitCode = 0;
+      } else {
+        console.error('  DRIFT: DESIGN.md generated block does not match the live values.');
+        console.error('  Run: node tools/design-extract.mjs --write');
+        exitCode = 1;
+      }
+    }
   }
-  if (WRITE) {
-    writeFileSync(docPath, updated);
-    console.log('  DESIGN.md generated block updated.');
-    process.exit(0);
-  }
-  console.error('  DRIFT: DESIGN.md generated block does not match the live values.');
-  console.error('  Run: node tools/design-extract.mjs --write');
-  process.exit(1);
+} catch (err) {
+  console.error('  FAILED: ' + err.message);
+  exitCode = 3;
 } finally {
-  chrome?.kill();
+  // These must run. Every exit path used to be a process.exit() inside the try,
+  // which terminates immediately and skips finally entirely, so Chrome was never
+  // killed and the temp profile was never removed. Set an exit code, let finally
+  // clean up, then exit.
+  await chrome?.kill();
   server.close();
 }
+process.exit(exitCode);

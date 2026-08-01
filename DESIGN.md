@@ -185,15 +185,172 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 173,827 | 150 / 457 | 6 | 9 |
-| `kevinos/kevinos.css` | 210,622 | 53 / 214 | 0 | 1 |
-| `blog/blog.css` | 16,088 | 25 / 47 | 0 | 0 |
+| `fv.css` | 173,863 | 150 / 457 | 6 | 9 |
+| `kevinos/kevinos.css` | 214,409 | 53 / 214 | 0 | 1 |
+| `blog/blog.css` | 16,096 | 25 / 47 | 0 | 0 |
 
 **Stylesheets each surface loads:**
 
 - `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=cd1fc8cf`
 - `blog` (/blog/index.html): `/fv.css?v=cd1fc8cf`, `/blog/blog.css?v=d428f456`, `inline`
-- `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=0791dcf2`
+- `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=e317f3ff`
+
+<details><summary><strong>blog</strong>: 100 tokens, 45 flip between modes</summary>
+
+| Token | Light | Dark |
+|---|---|---|
+| `--accent` | `#E8A317` | _same_ |
+| `--accent-hover` | `#111113` | `#F2F2F4` |
+| `--accent-on-invert` | `#CF5F6F` | `#AB3142` |
+| `--accent-text` | `#AB3142` | `#D26978` |
+| `--bg` | `#F4F4F5` | `#0F0F12` |
+| `--bg2` | `#E9E9EC` | `#17171B` |
+| `--black-rgb` | `17,17,19` | _same_ |
+| `--border` | `#ddd8d0` | `#30363d` |
+| `--brand-rss` | `#F26522` | _same_ |
+| `--brand-sa` | `#f7941e` | _same_ |
+| `--c1-fill` | `#E8A317` | _same_ |
+| `--c1-line` | `#A77510` | `#E8A317` |
+| `--c1-on` | `#241700` | _same_ |
+| `--c1-text` | `#8A6210` | `#E8A317` |
+| `--c2-fill` | `#C3384B` | _same_ |
+| `--c2-line` | `#C3384B` | _same_ |
+| `--c2-on` | `#FFFFFF` | _same_ |
+| `--c2-text` | `#AB3142` | `#E8697C` |
+| `--c3-fill` | `#2C7A63` | _same_ |
+| `--c3-line` | `#2C7A63` | _same_ |
+| `--c3-on` | `#FFFFFF` | _same_ |
+| `--c3-text` | `#266B57` | `#3FA588` |
+| `--c4-fill` | `#1F4B8F` | _same_ |
+| `--c4-line` | `#1F4B8F` | `#4B6FA5` |
+| `--c4-on` | `#FFFFFF` | _same_ |
+| `--c4-text` | `#1F4B8F` | `#6E93CC` |
+| `--c5-fill` | `#6D4AA8` | _same_ |
+| `--c5-line` | `#6D4AA8` | `#8A6EB9` |
+| `--c5-on` | `#FFFFFF` | _same_ |
+| `--c5-text` | `#6D4AA8` | `#A98FD8` |
+| `--c6-fill` | `#9E227D` | _same_ |
+| `--c6-line` | `#9E227D` | `#B14E97` |
+| `--c6-on` | `#FFFFFF` | _same_ |
+| `--c6-text` | `#9E227D` | `#D96BB8` |
+| `--card-bg` | `#ffffff` | `#161b22` |
+| `--cobalt` | `#1F4B8F` | _same_ |
+| `--coral-text` | `#AB3142` | `#D26978` |
+| `--cta-blue` | `#4B6FA5` | _same_ |
+| `--cta-plum` | `#7B55BC` | _same_ |
+| `--dot-1` | `#4B6FA5` | `#1F4B8F` |
+| `--dot-2` | `#B35299` | `#9E227D` |
+| `--dot-3` | `#E8A317` | `#A77510` |
+| `--dot-4` | `#8A6EB9` | `#6D4AA8` |
+| `--dot-5` | `#2C7A63` | _same_ |
+| `--dot-6` | `#C3384B` | _same_ |
+| `--font-family` | `"Helvetica Neue",Helvetica,Arial,sans-serif` | _same_ |
+| `--font-heading` | `"Helvetica Neue",Helvetica,Arial,sans-serif` | _same_ |
+| `--fuchsia` | `#9E227D` | _same_ |
+| `--glass` | `rgba(255,255,255,.92)` | _same_ |
+| `--gold-on-invert` | `#E8A317` | `#815B0C` |
+| `--hairline-invert` | `rgba(255,255,255,.17)` | `rgba(0,0,0,.17)` |
+| `--hairline-mari` | `rgba(0,0,0,.17)` | _same_ |
+| `--ink` | `#111113` | `#F2F2F4` |
+| `--ink2` | `#5B5B62` | `#A2A2AC` |
+| `--invert` | `#111113` | `#EDEDF0` |
+| `--madder` | `#C3384B` | _same_ |
+| `--marigold` | `#E8A317` | _same_ |
+| `--mono` | `"SF Mono",Menlo,ui-monospace,"Cascadia Mono",Consolas,monospace` | _same_ |
+| `--nav-bg` | `rgba(244,244,245,.92)` | `rgba(15,15,18,.92)` |
+| `--on-hue` | `#FFFFFF` | _same_ |
+| `--on-invert` | `#F2F2F4` | `#111113` |
+| `--on-mari` | `#241700` | _same_ |
+| `--plum` | `#6D4AA8` | _same_ |
+| `--purple-rgb` | `109,74,168` | _same_ |
+| `--r` | `10px` | _same_ |
+| `--radius-full` | `99px` | _same_ |
+| `--radius-lg` | `1.5rem` | _same_ |
+| `--radius-md` | `1rem` | _same_ |
+| `--rule` | `#D8D8DD` | `#2C2C33` |
+| `--rule-strong` | `#8B8B90` | `#656570` |
+| `--sans` | `"Helvetica Neue",Helvetica,Arial,sans-serif` | _same_ |
+| `--scrim-dark` | `rgba(0,0,0,.28)` | _same_ |
+| `--scrim-light` | `rgba(255,255,255,.28)` | _same_ |
+| `--shadow-06` | `0 1px 3px rgba(0,0,0,.06)` | `0 1px 3px rgba(0,0,0,.5)` |
+| `--shadow-1` | `0 1px 3px rgba(0,0,0,.06)` | `0 1px 3px rgba(0,0,0,.5)` |
+| `--shadow-12` | `0 4px 14px rgba(0,0,0,.10)` | `0 4px 14px rgba(0,0,0,.6)` |
+| `--shadow-2` | `0 4px 14px rgba(0,0,0,.10)` | `0 4px 14px rgba(0,0,0,.6)` |
+| `--shadow-20` | `0 10px 30px rgba(0,0,0,.15)` | `0 10px 30px rgba(0,0,0,.7)` |
+| `--shadow-3` | `0 10px 30px rgba(0,0,0,.15)` | `0 10px 30px rgba(0,0,0,.7)` |
+| `--shadow-md` | `0 4px 6px rgba(0,0,0,0.07)` | _same_ |
+| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | _same_ |
+| `--spacing-2xl` | `4rem` | _same_ |
+| `--spacing-lg` | `2rem` | _same_ |
+| `--spacing-md` | `1.5rem` | _same_ |
+| `--spacing-sm` | `1rem` | _same_ |
+| `--spacing-xl` | `3rem` | _same_ |
+| `--spacing-xs` | `0.5rem` | _same_ |
+| `--surface` | `#F5F4F0` | `#161b22` |
+| `--surface-alt` | `#ECEAE4` | `#1c2128` |
+| `--swap-1` | `#1F4B8F` | `#4B6FA5` |
+| `--swap-2` | `#6D4AA8` | `#8A6EB9` |
+| `--swap-3` | `#2C7A63` | _same_ |
+| `--swap-4` | `#C3384B` | _same_ |
+| `--text-muted` | `#5A6B7D` | `#848d97` |
+| `--text-primary` | `#1a202c` | `#e6edf3` |
+| `--text-secondary` | `#4a5568` | `#8b949e` |
+| `--tint-soft` | `rgba(0,0,0,.05)` | `rgba(255,255,255,.06)` |
+| `--transition-base` | `.2s ease` | _same_ |
+| `--transition-fast` | `.12s ease` | _same_ |
+| `--viridian` | `#2C7A63` | _same_ |
+
+</details>
+
+<details><summary><strong>kevinos</strong>: 39 tokens, 23 flip between modes</summary>
+
+| Token | Light | Dark |
+|---|---|---|
+| `--accent` | `#2563eb` | `#5c8aff` |
+| `--aim-ink` | `#E8A700` | _same_ |
+| `--aim-them` | `#B3261E` | `#FF8A80` |
+| `--aim-you` | `#1A4FA0` | `#8AB4F8` |
+| `--bg` | `#f0f0f5` | `#0a0a0f` |
+| `--bg-rgb` | `240, 240, 245` | `10, 10, 15` |
+| `--blue` | `#2563eb` | `#5c8aff` |
+| `--blue-hover` | `#3b82f6` | `#7aa3ff` |
+| `--border` | `rgba(140, 140, 180, 0.4)` | `#2a2a3a` |
+| `--desktop-bg` | `url('https://middleton.io/images/lightmode-bg.jpg')` | `url('https://middleton.io/images/darkmode-bg.jpg')` |
+| `--font-mono` | `'JetBrains Mono', monospace` | _same_ |
+| `--font-sans` | `'Outfit', sans-serif` | _same_ |
+| `--game-bg` | `#0a0a0f` | _same_ |
+| `--game-bg-deep` | `#0a0a12` | _same_ |
+| `--game-border` | `#2a2a3e` | _same_ |
+| `--game-border-light` | `#3a3a4e` | _same_ |
+| `--game-surface` | `#1a1a24` | _same_ |
+| `--game-surface-2` | `#2a2a3e` | _same_ |
+| `--game-text` | `#e8e8f0` | _same_ |
+| `--game-text-dim` | `#a0a0b8` | _same_ |
+| `--game-text-faint` | `#666677` | _same_ |
+| `--game-text-inverse` | `#0a0a0f` | _same_ |
+| `--game-text-muted` | `#888899` | _same_ |
+| `--label-shadow` | `0 1px 2px rgba(255, 255, 255, 0.75)` | `0 1px 2px rgba(0, 0, 0, 0.55)` |
+| `--mint` | `#059669` | `#4ae0a0` |
+| `--mint-hover` | `#047857` | `#3cc890` |
+| `--peach` | `#ea580c` | `#ff9f6a` |
+| `--pink` | `#db2777` | `#ff6eb4` |
+| `--purple` | `#7c3aed` | `#a078ff` |
+| `--radius` | `12px` | _same_ |
+| `--surface` | `#ffffff` | `#12121a` |
+| `--surface-2` | `#ffffff` | `#1a1a24` |
+| `--taskbar` | `0px` | _same_ |
+| `--text` | `#1a1a2e` | `#e8e8f0` |
+| `--text-dim` | `#3a3a55` | `#adadc6` |
+| `--text-muted` | `#5a5a75` | `#9595b4` |
+| `--text-primary` | `#1a1a2e` | `#e8e8f0` |
+| `--text-secondary` | `#3a3a55` | `#adadc6` |
+| `--yellow` | `#d97706` | `#ffc048` |
+
+</details>
+
+**Layout caps in dark mode** (they should match light; a difference here is a bug):
+
+- none differ.
 
 <!-- design-extract:end -->
 
@@ -336,7 +493,7 @@ the goal list. A card without one ships untracked.
 
 `[all]` **Focus** is `outline: 3px solid var(--ink); outline-offset: 2px`. On a fixed
 dark ground such as the lightbox, gold substitutes, since `--ink` would vanish.
-`[kevinos]` KevinOS has no global `:focus-visible` rule; it should.
+`[kevinos]` KevinOS has its own global rule (`kevinos.css`, a `:where(...)` baseline so component rules still win).
 
 `[all]` **Target size: WCAG 2.5.8 AA.** 24×24 minimum, or the spacing exception (a
 24px circle centred on each undersized target must not intersect a neighbour's).
@@ -346,7 +503,10 @@ dark ground such as the lightbox, gold substitutes, since `--ink` would vanish.
 rule colour *and* rotates its `+` glyph.
 
 `[all]` **Reserve space for images.** Every `<img>` carries `width`/`height` alongside
-`width:100%; height:auto`. `[kevinos]` KevinOS does not currently comply.
+`width:100%; height:auto`, **or** has its box reserved another way. `[kevinos]` KevinOS
+carries dimensions on its markup images and uses `aspect-ratio` for the recipe photos it
+builds at runtime. Two lightbox `<img>` elements on the homepage and blog have no `src`
+until opened and are the deliberate exception.
 
 `[all]` **A modal overlay takes `aria-modal`, a focus trap, Escape, and focus returned
 to whatever opened it.** `[kevinos]` KevinOS windows are the deliberate exception:
@@ -472,7 +632,9 @@ them because they are absent from `fv.css`.
 - `[all]` Images: JPEG for anything that doubles as `og:image`. WebP only for inline
   images needing alpha. Never ship multi-MB originals; serve a thumbnail at display
   size and keep the original for the lightbox.
-- `[all]` Every image has `alt`. One `<h1>` per page.
+- `[all]` Every image has `alt`.
+`[homepage]` `[blog]` One `<h1>` per page. `[kevinos]` KevinOS ships two (a visually hidden
+OS title and the Recipes heading); that is a known exception, not a target.
 - `[all]` Never claim a fix works without measuring it in **both** themes and at a
   phone width, having asserted the viewport actually applied.
 

@@ -1,0 +1,66 @@
+name: design checks
+
+# Both of these were manual until 2026-08-01, which meant "a change would be
+# caught before shipping" was a story rather than a fact. Now they run on every
+# push and PR that touches something they actually govern.
+#
+# Node 22+ is required: design-extract.mjs speaks the DevTools protocol using
+# the global WebSocket, which does not exist on 20. deploy-blog.yml still pins
+# 20 and is left alone; these are separate jobs.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.css'
+      - '**.htm'
+      - '**.html'
+      - 'DESIGN.md'
+      - 'tools/**'
+      - '.github/workflows/design-checks.yml'
+  pull_request:
+    paths:
+      - '**.css'
+      - '**.htm'
+      - '**.html'
+      - 'DESIGN.md'
+      - 'tools/**'
+  workflow_dispatch:
+
+jobs:
+  stamps:
+    name: cache stamps match their files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      # Exits non-zero on a stale stamp OR on a reference to a file that does
+      # not exist. It also reports local assets carrying no stamp at all, which
+      # is information rather than a failure.
+      - run: node tools/stamp-assets.mjs
+
+  design-md:
+    name: DESIGN.md matches the stylesheets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      # The runner ships Chrome; the script finds it via CHROME_PATH or the
+      # usual install locations.
+      - name: Resolve a Chrome binary
+        run: |
+          if [ -n "${CHROME_PATH:-}" ] && [ -x "${CHROME_PATH:-}" ]; then
+            echo "using $CHROME_PATH"
+          elif command -v google-chrome >/dev/null; then
+            echo "CHROME_PATH=$(command -v google-chrome)" >> "$GITHUB_ENV"
+          elif command -v chromium-browser >/dev/null; then
+            echo "CHROME_PATH=$(command -v chromium-browser)" >> "$GITHUB_ENV"
+          else
+            echo "No Chrome found on the runner." >&2; exit 1
+          fi
+      # Exits 1 on drift, 2 if the markers are missing, 3 if a surface failed to
+      # load. A load failure must never be reported as drift, because the
+      # remediation for drift (--write) would bake the empty result in.
+      - run: node tools/design-extract.mjs
