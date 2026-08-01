@@ -11,3 +11,13 @@ node_modules/
 # `git add -A` swept into the relaunch branch
 *.bak
 *.orig
+
+# Working notes and audits. This repo is PUBLIC and serves middleton.io, so a
+# candid review of Kevin's own record ("four months as co-founder is a red
+# flag", "I will probe the short tenures hard") must never reach it: useful to
+# him, damaging if a recruiter found it on his own domain. Same `git add -A`
+# hazard as the backups above, higher cost.
+*-REVIEW-*.md
+*-AUDIT-*.md
+notes/
+_working/
