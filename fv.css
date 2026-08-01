@@ -2613,13 +2613,23 @@ body.p-slides .entry-card:hover{transform:translateY(-2px);box-shadow:var(--shad
 /* --- prototype cards: logo + company on one line ---------------------------
    The company name used to sit under the mark on its own row, which read as two
    separate labels for the same thing. Side by side it reads as one lockup. */
-body.p-proto .card-head{display:flex;align-items:center;gap:.65rem;min-width:0}
-body.p-proto .card-head .card-logo{flex:0 0 auto;margin-bottom:0}
+/* The name starts at the same x on every card. A flex row could not do that:
+   the plain marks are pinned to 130px by their width attribute while the two
+   tiles hug their glyph (44px and 96px), so the name landed at three different
+   offsets, 142 / 109 / 56. A fixed track holds the column, and justify-self on
+   .card-logo keeps each tile hugging inside it rather than stretching to fill. */
+body.p-proto .card-head{--logo-col:130px;display:grid;
+  grid-template-columns:var(--logo-col) 1fr;align-items:center;gap:.65rem;min-width:0}
+body.p-proto .card-head .card-logo{margin-bottom:0}
 body.p-proto .card-head .card-k{min-width:0;line-height:1.25}
 /* No wrap fallback on phones: the point of the lockup is that the name sits
-   beside the mark. The name wraps to two lines instead, the mark shrinks. */
+   beside the mark. The name wraps to two lines instead, the mark shrinks.
+   The track matches the 88px cap because that is genuinely the widest mark
+   here: the tiles hug to 76px and 38px at this height. A grid item overflows
+   a track too small for it rather than shrinking, so this was measured at
+   390px rather than derived from the image ratios, which omit tile padding. */
 @media(max-width:480px){
-  body.p-proto .card-head{gap:.55rem}
+  body.p-proto .card-head{gap:.55rem;--logo-col:88px}
   body.p-proto .card-head .card-logo{max-width:88px}
   body.p-proto .card-head .card-logo.tile{max-width:none;height:32px}
 }
