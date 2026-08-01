@@ -3210,7 +3210,23 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
    marigold was 1.97 on a light fill and invisible on the marigold card. */
 .fv .case:hover .case-m{color:var(--c-on)}.fv .case b{font-size:1.02rem;font-weight:800;letter-spacing:-.02em}/* No blanket opacity here: `.case span` is (0,1,1) and silently overrode
    `.case-m`'s own opacity at (0,1,0), dragging the metric to 3.85:1. */
-.fv .case span{font-size:.78rem;line-height:1.42}.fv .case-m{font-family:var(--mono);font-size:.66rem;font-weight:700;color:var(--accent-text);transition:.22s}/* about */
+.fv .case span{font-size:.78rem;line-height:1.42}/* Case cards are whole-card links but read as static panels, so they get the
+   same drawn arrow the outbound prose links use. Colour comes from the card's
+   own --c-line, which each :nth-child already sets and which the token contract
+   guarantees at 3:1 against the page, so the arrow is legible on every card
+   without a per-card rule. On hover the card fills with --c-fill and its text
+   becomes --c-on, so the arrow follows. */
+.fv .case{position:relative}
+.fv .case .arw-ne{position:absolute;top:1rem;right:1rem;margin:0;
+  width:.95rem;height:.95rem;color:var(--c-line,var(--ink));
+  transition:transform .22s,color .22s}
+/* only the title needs to clear the arrow; the description sits below it */
+.fv .case b{padding-right:1.6rem}
+.fv .case:hover .arw-ne,.fv .case:focus-visible .arw-ne{color:var(--c-on);transform:translate(2px,-2px)}
+@media(prefers-reduced-motion:reduce){.fv .case .arw-ne{transition:color .22s}
+  .fv .case:hover .arw-ne,.fv .case:focus-visible .arw-ne{transform:none}}
+
+.fv .case-m{font-family:var(--mono);font-size:.66rem;font-weight:700;color:var(--accent-text);transition:.22s}/* about */
 .fv .about{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(1.2rem,4vw,3rem);align-items:start}.fv .about-lead{margin:0;font-size:clamp(1.25rem,3.2vw,2.1rem);font-weight:800;letter-spacing:-.032em;
   line-height:1.1;text-wrap:balance}/* square source, so a circle avoids an arbitrary crop and keeps the column
    rhythm. Wraps above the lead on narrow screens rather than shrinking it. */
