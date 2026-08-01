@@ -8795,9 +8795,14 @@ body.kos-resizing {
 /* 6. Desktop labels were breaking mid-word ("Do_Not_Cli / ck.exe"). Wrap at
    word boundaries and only break a word that genuinely cannot fit. */
 .desktop-icons-right .desktop-icon .icon-label {
-    max-width: 84px;
+    /* The first attempt at this was self-defeating: overflow-wrap:anywhere is
+       precisely what authorised the "Do_Not_Cli / ck.exe" split, and the
+       max-width never bound because the icon content box is 62px, not 84.
+       Break only at real opportunities - the label markup carries a <wbr> at
+       the sensible point. */
+    max-width: none;
     word-break: normal;
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
     hyphens: none;
 }
 

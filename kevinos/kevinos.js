@@ -6619,16 +6619,22 @@ document.addEventListener('keydown', (e) => {
     lb.setAttribute('aria-label', 'Photo viewer');
     let opener = null;
 
+    // Two different things open two different viewers, and the first pass wired
+    // the keyboard to the wrong one: img[data-photo] builds a draggable
+    // .photo-window, while the lightbox is only ever opened by .exp-img. Both
+    // need a key path, and the opener has to be recorded from whichever fired.
+    const OPENERS = 'img[data-photo], img.exp-img';
+
     document.addEventListener('keydown', (e) => {
         if (e.key !== 'Enter' && e.key !== ' ') return;
-        const img = e.target.closest?.('img[data-photo]');
+        const img = e.target.closest?.(OPENERS);
         if (!img) return;
         e.preventDefault();
         img.click();
     });
 
     document.addEventListener('click', (e) => {
-        const img = e.target.closest?.('img[data-photo]');
+        const img = e.target.closest?.(OPENERS);
         if (img) opener = img;
     }, true);
 
@@ -6641,6 +6647,31 @@ document.addEventListener('keydown', (e) => {
             opener = null;
         }
     }).observe(lb, { attributes: true, attributeFilter: ['class'] });
+
+    // The [data-photo] path does not use the lightbox at all - it builds a
+    // draggable .photo-window, which had no role, took no focus and returned
+    // none. Same dialog treatment, applied as it is created and torn down.
+    new MutationObserver((muts) => {
+        for (const m of muts) {
+            m.addedNodes.forEach((n) => {
+                if (n.nodeType !== 1 || !n.classList?.contains('photo-window')) return;
+                n.setAttribute('role', 'dialog');
+                n.setAttribute('aria-modal', 'true');
+                n.setAttribute('aria-label',
+                    (n.querySelector('.photo-title')?.textContent || 'Photo').trim());
+                n.setAttribute('tabindex', '-1');
+                n.focus();
+            });
+            m.removedNodes.forEach((n) => {
+                if (n.nodeType !== 1 || !n.classList?.contains('photo-window')) return;
+                if (opener) { opener.focus(); opener = null; }
+            });
+        }
+    // Photo windows are appended to #photoWindows, not to body. Watching body
+    // non-recursively saw nothing; the teardown branch only looked correct
+    // because focus had never moved off the opener in the first place.
+    }).observe(document.getElementById('photoWindows') || document.body,
+               { childList: true, subtree: true });
 
     // Tab must not escape the dialog while it is up.
     lb.addEventListener('keydown', (e) => {
