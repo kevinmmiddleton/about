@@ -74,7 +74,7 @@ chip contexts.
      Values are COMPUTED, read from headless Chrome per surface and
      per colour scheme, so they reflect the real cascade. -->
 
-**Homepage (`.fv`): 87 tokens, 38 flip between modes, 49 are mode-stable.**
+**Homepage (`.fv`): 88 tokens, 38 flip between modes, 50 are mode-stable.**
 
 | Token | Light | Dark |
 |---|---|---|
@@ -122,6 +122,7 @@ chip contexts.
 | Token | Value |
 |---|---|
 | `--black-rgb` | `17,17,19` |
+| `--brand-optimum` | `#F66608` |
 | `--brand-rss` | `#F26522` |
 | `--brand-sa` | `#f7941e` |
 | `--c1-fill` | `#E8A317` |
@@ -185,17 +186,17 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 173,002 | 150 / 457 | 6 | 9 |
+| `fv.css` | 173,134 | 152 / 460 | 6 | 9 |
 | `kevinos/kevinos.css` | 210,834 | 53 / 212 | 0 | 1 |
 | `blog/blog.css` | 16,096 | 25 / 47 | 0 | 0 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=83794f02`
-- `blog` (/blog/index.html): `/fv.css?v=83794f02`, `/blog/blog.css?v=d428f456`, `inline`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=e06c2b08`
+- `blog` (/blog/index.html): `/fv.css?v=e06c2b08`, `/blog/blog.css?v=d428f456`, `inline`
 - `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=f6c6e715`
 
-<details><summary><strong>blog</strong>: 100 tokens, 45 flip between modes</summary>
+<details><summary><strong>blog</strong>: 101 tokens, 45 flip between modes</summary>
 
 | Token | Light | Dark |
 |---|---|---|
@@ -207,6 +208,7 @@ chip contexts.
 | `--bg2` | `#E9E9EC` | `#17171B` |
 | `--black-rgb` | `17,17,19` | _same_ |
 | `--border` | `#ddd8d0` | `#30363d` |
+| `--brand-optimum` | `#F66608` | _same_ |
 | `--brand-rss` | `#F26522` | _same_ |
 | `--brand-sa` | `#f7941e` | _same_ |
 | `--c1-fill` | `#E8A317` | _same_ |

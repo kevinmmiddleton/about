@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kevin Middleton | Justworks Case Study</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: Inter, "Helvetica Neue", "Arial Nova", sans-serif;
+    background: #F7F8FB;
+    color: #1C1D1F;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  @media (max-width: 600px) {
+    body {
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 24px 16px;
+    }
+    .card {
+      padding: 28px 24px 32px;
+    }
+  }
+
+  .container { max-width: 560px; width: 100%; }
+
+  .top-stripe {
+    height: 4px;
+    border-radius: 4px 4px 0 0;
+    background: linear-gradient(90deg, #DF5A31, #F3B715, #1E98FF);
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #E8EAF0;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 36px 40px 40px;
+  }
+
+  .logo-bar {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .logo-bar img { height: 26px; }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .topic-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #A0A4AC;
+    margin-bottom: 4px;
+  }
+
+  .topic-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .sep {
+    width: 100%;
+    height: 1px;
+    background: #E8EAF0;
+    margin: 0 0 20px;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    border-radius: 8px;
+    border: 1px solid #E8EAF0;
+    background: #F7F8FB;
+    text-decoration: none;
+    color: #1C1D1F;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .link-card:hover {
+    border-color: #C0C4CC;
+    background: #fff;
+  }
+
+  .link-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .link-icon.pres { background: #DF5A31; }
+  .link-icon.work { background: #1E98FF; }
+  .link-icon svg { width: 20px; height: 20px; }
+
+  .link-text .label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 1px;
+  }
+
+  .link-text .desc {
+    font-size: 13px;
+    color: #6D717A;
+  }
+
+  .link-arrow {
+    margin-left: auto;
+    color: #C0C4CC;
+    flex-shrink: 0;
+    transition: color 0.15s, transform 0.15s;
+  }
+
+  .link-card:hover .link-arrow {
+    color: #6D717A;
+    transform: translateX(2px);
+  }
+
+  .portfolio {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #E8EAF0;
+  }
+
+  .portfolio a {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1E98FF;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color 0.15s;
+  }
+
+  .portfolio a:hover {
+    color: #1E98FF;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="top-stripe"></div>
+  <div class="card">
+    <div class="logo-bar">
+      <img src="https://static.wikia.nocookie.net/logopedia/images/7/7d/Justworks_2020.svg/revision/latest?cb=20220125181720" alt="Justworks" />
+    </div>
+
+    <div class="hero">
+      <h1>Kevin Middleton</h1>
+      <p class="topic-label">Case study</p>
+      <p class="topic-title">Reducing friction in wage garnishment processing</p>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="links">
+      <a class="link-card" href="https://docs.google.com/presentation/d/1vpY6TP6rT2hVj2mUACsyXtjJrF-sdsM4/edit?usp=sharing&ouid=112268249790441829192&rtpof=true&sd=true" target="_blank" rel="noopener" id="presentation-link">
+        <div class="link-icon pres">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="label">Presentation</div>
+          <div class="desc">20-minute case study walkthrough</div>
+        </div>
+        <svg class="link-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="10" x2="15" y2="10"/><polyline points="10 5 15 10 10 15"/>
+        </svg>
+      </a>
+
+      <a class="link-card" href="https://www.figma.com/board/jJFMW16X5RSRmADGf7lkJY/Wage-Garnishment-MVP-Workshop?node-id=0-1&t=efJyCWFHcIttwULc-1" target="_blank" rel="noopener">
+        <div class="link-icon work">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="label">Workshop</div>
+          <div class="desc">45-minute collaborative MVP scoping</div>
+        </div>
+        <svg class="link-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="10" x2="15" y2="10"/><polyline points="10 5 15 10 10 15"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="portfolio">
+      <a href="https://middleton.io" target="_blank" rel="noopener">middleton.io</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

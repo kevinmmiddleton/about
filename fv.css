@@ -39,6 +39,7 @@
   --tint-soft:rgba(0,0,0,.05);
   /* brand marks that must stay their own colour regardless of theme */
   --brand-sa:#f7941e;
+  --brand-optimum:#F66608;
   --brand-rss:#F26522;
   /* ---------- neutrals (flip per mode) ---------- */
   --bg:#F4F4F5; --bg2:#E9E9EC; --ink:#111113; --ink2:#5B5B62; --rule:#D8D8DD;
@@ -258,7 +259,8 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
 .card--soft:hover .card-m{color:var(--accent-text)}
 .card-logo{height:30px;max-width:130px;object-fit:contain;object-position:left center;
   justify-self:start;margin-bottom:.15rem}
-.card-logo.tile{height:38px;padding:8px 11px;background:var(--brand-sa);border-radius:7px}
+.card-logo.tile{height:38px;padding:8px 11px;background:var(--tile-plate,var(--brand-sa));border-radius:7px}
+.card-logo.tile--optimum{--tile-plate:var(--brand-optimum)}
 
 /* ---------------------------------------------------------------------------
    Manual theme override. The site is system-driven by default; /slides/ keeps a
@@ -309,6 +311,7 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
   --tint-soft:rgba(0,0,0,.05);
   /* brand marks that must stay their own colour regardless of theme */
   --brand-sa:#f7941e;
+  --brand-optimum:#F66608;
   --brand-rss:#F26522;
   /* ---------- neutrals (flip per mode) ---------- */
   --bg:#F4F4F5; --bg2:#E9E9EC; --ink:#111113; --ink2:#5B5B62; --rule:#D8D8DD;
