@@ -3090,7 +3090,20 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
    --ink2, so the lead-in needs --ink to read as a tier above it rather than
    just heavier grey. KevinOS already bolds all 36 of its equivalents; this is
    the main site catching up. */
-.fv .rrow-hi strong{color:var(--ink);font-weight:700}.fv .rrow-hi li::marker{color:var(--gold-rule)}.fv .rrow-tags{display:flex;flex-wrap:wrap;gap:.32rem}/* DIRECT children only. As a descendant selector this also matched the spans
+.fv .rrow-hi strong{color:var(--ink);font-weight:700}.fv .rrow-hi li::marker{color:var(--gold-rule)}.fv .rrow-tags{display:flex;flex-wrap:wrap;gap:.32rem}/* One metric per row, visible while the row is still collapsed. The section
+   used to hold zero numbers until a visitor clicked, which meant the strongest
+   proof on the page was behind an interaction most readers never make. This
+   uses the spare line the title column already has on eight of nine rows, in
+   the mono ledger register the section already speaks, at the same size as the
+   mode switch. Nested inside the title cell, so it inherits that cell's grid
+   placement and needs no change to the row's own layout on any breakpoint.
+   Measured cost: 108px across all nine rows. */
+.fv .rrow-metric{display:block;font-family:var(--mono);font-size:.6rem;
+  letter-spacing:.06em;line-height:1.4;color:var(--ink2);margin-top:.28rem;
+  font-weight:400;text-transform:none}
+.fv .rrow-metric b{color:var(--ink);font-weight:700}
+
+/* DIRECT children only. As a descendant selector this also matched the spans
    INSIDE a tag, so the drawn arrow in the "0 -> 1" pill was getting the pill's
    own padding and border: 8+8+1+1 = 18px wide and 3.84+3.84+1+1 = 9.67px tall
    under border-box, which is a floor its .78em square could never get under.

@@ -185,15 +185,15 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 171,133 | 150 / 457 | 6 | 7 |
-| `kevinos/kevinos.css` | 205,335 | 50 / 208 | 0 | 1 |
+| `fv.css` | 172,821 | 150 / 457 | 6 | 8 |
+| `kevinos/kevinos.css` | 210,622 | 53 / 214 | 0 | 1 |
 | `blog/blog.css` | 16,088 | 25 / 47 | 0 | 0 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=922d4959`
-- `blog` (/blog/index.html): `/fv.css?v=922d4959`, `/blog/blog.css?v=d428f456`, `inline`
-- `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=b61678dd`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=1d9eaee2`
+- `blog` (/blog/index.html): `/fv.css?v=1d9eaee2`, `/blog/blog.css?v=d428f456`, `inline`
+- `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=0791dcf2`
 
 <!-- design-extract:end -->
 
