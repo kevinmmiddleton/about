@@ -6205,7 +6205,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             '  <span class="c">why</span>       the argument this site is making\n' +
             '  <span class="c">skills</span>    what I actually do\n' +
             '  <span class="c">stack</span>     what this is built with\n' +
-            '  <span class="c">hire</span>      what I\'m looking for\n' +
+            '  <span class="c">contact</span>   email and office hours\n' +
             '  <span class="c">uptime</span>    career, as a load average\n' +
             '  <span class="c">open</span>      <span class="d">open writing</span> — launches a KevinOS window\n' +
             '  <span class="c">clear</span>     wipe the screen\n' +
@@ -6272,10 +6272,14 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             'Blog            <span class="d">markdown → Sveltia CMS → node generator</span>\n' +
             'Data            <span class="d">Supabase · pg_cron</span>\n' +
             'Analytics       <span class="d">Plausible</span>',
-        hire: () =>
-            'Looking for   product leadership · internal tools · platforms\n' +
-            '              public sector · AI workflows · integrations\n\n' +
-            '<a href="mailto:kevin@middleton.io">kevin@middleton.io</a>',
+        contact: () =>
+            'Email         <a href="mailto:kevin@middleton.io">kevin@middleton.io</a>\n' +
+            'Office hours  <a href="https://middleton.io/officehours/" target="_blank" rel="noopener noreferrer">middleton.io/officehours</a>\n' +
+            'LinkedIn      <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener noreferrer">linkedin.com/in/kevinmiddleton</a>',
+        // `hire` was the original verb, back when the output was a wishlist of
+        // roles. Kept as an undocumented alias so anyone who remembers it still
+        // lands somewhere, rather than getting "command not found".
+        hire: () => CMD.contact(),
         uptime: () => {
             const y = new Date().getFullYear() - 2014;
             return `up <span class="a">${y} years</span>, 6 companies, 1 cat-heavy household\n` +
