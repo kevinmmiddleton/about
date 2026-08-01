@@ -3071,10 +3071,15 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 .fv .exp-shot:hover{transform:scale(1.04);border-color:var(--ink2)}
 .fv .exp-shot:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 .fv .exp-shots:has(.exp-shot:only-child){grid-template-columns:1fr}
-.lbx{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:clamp(1rem,4vw,3rem)}
+/* The side padding is the arrow gutter: 44px button + 12px offset = 56px, so
+   4.75rem guarantees the stage can never grow under an arrow. */
+.lbx{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
+  padding:clamp(1rem,4vw,3rem) 4.75rem;cursor:zoom-out}
 .lbx[hidden]{display:none}
-.lbx-scrim{position:absolute;inset:0;background:rgba(8,8,10,.88);cursor:zoom-out}
-.lbx-stage{position:relative;max-width:min(1100px,92vw);max-height:88vh;display:grid;gap:.7rem;justify-items:center}
+.lbx:focus{outline:none}
+.lbx-scrim{position:absolute;inset:0;background:rgba(8,8,10,.88)}
+.lbx-stage{position:relative;max-width:min(1100px,100%);max-height:88vh;display:grid;gap:.7rem;justify-items:center}
+.lbx-img{cursor:default}
 .lbx-img{max-width:100%;max-height:78vh;width:auto;height:auto;display:block;
   border-radius:8px;box-shadow:0 24px 70px rgba(0,0,0,.55)}
 /* the caption sits on the scrim, not on the page, so it takes a fixed light
@@ -3090,17 +3095,26 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 .lbx-btn:hover{background:rgba(50,50,58,.95)}
 .lbx-btn:focus-visible{outline:3px solid #E8A317;outline-offset:2px}
 .lbx-btn[hidden]{display:none}
-/* 44px minimum so these clear the WCAG 2.5.8 target size on touch */
-.lbx-x{top:-.6rem;right:-.6rem;width:44px;height:44px;font-size:1rem}
-.lbx-prev,.lbx-next{top:calc(39vh - 22px);width:44px;height:44px;font-size:1.5rem}
-.lbx-prev{left:-.6rem}.lbx-next{right:-.6rem}
+/* 44px minimum so these clear the WCAG 2.5.8 target size on touch. Positioned
+   against .lbx rather than the stage, so they sit in the padding gutter and
+   never overlap the screenshot. */
+.lbx-prev,.lbx-next{top:50%;transform:translateY(-50%);width:44px;height:44px;font-size:1.5rem}
+.lbx-prev{left:.75rem}.lbx-next{right:.75rem}
+.lbx-btn:hover{transform:translateY(-50%) scale(1.06)}
 @media (max-width:900px){
   /* below this the 17rem column starves the text, so the strip goes underneath
      and runs four-across instead */
   .fv .rrow-body,.fv .rrow-body:not(:has(.exp-shots)){grid-template-columns:minmax(0,1fr)}
   .fv .exp-shots{grid-column:1;grid-row:auto;grid-template-columns:repeat(4,1fr);max-width:26rem}
-  .lbx-x{top:-.4rem;right:-.4rem}
-  .lbx-prev{left:-.2rem}.lbx-next{right:-.2rem}
+}
+@media (max-width:640px){
+  /* A 4.75rem gutter each side would take 152px of a 375px screen, so on a
+     phone the arrows drop to the bottom corners and the image gets the width. */
+  .lbx{padding:1rem}
+  .lbx-prev,.lbx-next{top:auto;bottom:.75rem;transform:none}
+  .lbx-prev{left:.75rem}.lbx-next{right:.75rem}
+  .lbx-btn:hover{transform:none}
+  .lbx-img{max-height:68vh}
 }
 @media (prefers-reduced-motion:reduce){.fv .exp-shot:hover{transform:none}}
 /* Mobile ledger. The old rule set two columns but placed nothing, so the job

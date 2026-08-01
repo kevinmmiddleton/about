@@ -555,7 +555,6 @@ document.addEventListener("DOMContentLoaded",function(){
   if(!lbx) return;
   var img=document.getElementById("lbxImg"), cap=document.getElementById("lbxCap"),
       count=document.getElementById("lbxCount"),
-      btnX=document.getElementById("lbxX"),
       btnPrev=document.getElementById("lbxPrev"), btnNext=document.getElementById("lbxNext");
   var shots=[], at=0, opener=null;
 
@@ -576,7 +575,9 @@ document.addEventListener("DOMContentLoaded",function(){
     show(shots.indexOf(a));
     lbx.hidden=false;
     document.body.style.overflow="hidden";
-    btnX.focus();
+    /* There is no close button, so focus lands on the dialog itself. Its
+       aria-label carries the way out for anyone who cannot see the scrim. */
+    lbx.focus();
     if(window.plausible) window.plausible("Experience Screenshot");
   }
   function close(){
@@ -591,9 +592,13 @@ document.addEventListener("DOMContentLoaded",function(){
   document.addEventListener("click",function(e){
     var shot=e.target.closest(".exp-shot");
     if(shot){ e.preventDefault(); open(shot); return; }
-    if(e.target.closest("[data-lbx-close]")||e.target===btnX){ close(); return; }
+    if(lbx.hidden||!e.target.closest(".lbx")) return;
     if(e.target===btnPrev){ show(at-1); return; }
-    if(e.target===btnNext){ show(at+1); }
+    if(e.target===btnNext){ show(at+1); return; }
+    /* Anything inside the overlay that is not the image or an arrow closes it.
+       Not just the scrim: the stage sits above the scrim, so clicking the
+       caption or the padding around the image used to hit nothing. */
+    if(!e.target.closest(".lbx-img")) close();
   });
 
   document.addEventListener("keydown",function(e){
@@ -603,10 +608,13 @@ document.addEventListener("DOMContentLoaded",function(){
     else if(e.key==="ArrowRight"&&shots.length>1){ e.preventDefault(); show(at+1); }
     else if(e.key==="Tab"){
       /* keep Tab inside the dialog: without this the focus ring walks the page
-         behind the scrim and the user is typing into something they cannot see */
-      var f=[btnX,btnPrev,btnNext].filter(function(b){ return !b.hidden; });
-      var i=f.indexOf(document.activeElement);
+         behind the scrim and the user is tabbing through something they cannot
+         see. A single-screenshot row has no arrows, so focus stays on the
+         dialog and Tab simply has nowhere to go. */
+      var f=[btnPrev,btnNext].filter(function(b){ return !b.hidden; });
       e.preventDefault();
+      if(!f.length){ lbx.focus(); return; }
+      var i=f.indexOf(document.activeElement);
       f[(i + (e.shiftKey?-1:1) + f.length) % f.length].focus();
     }
   });
@@ -712,16 +720,18 @@ if(egg){
      Markup only, inert until JS opens it. The thumbnails are plain anchors to
      the full-size file, so with JS blocked a click still shows the image; this
      overlay is the enhancement, not the mechanism. -->
-<div class="lbx" id="lbx" hidden>
-  <div class="lbx-scrim" data-lbx-close></div>
-  <div class="lbx-stage" role="dialog" aria-modal="true" aria-label="Screenshot viewer">
+<div class="lbx" id="lbx" hidden tabindex="-1" role="dialog" aria-modal="true"
+     aria-label="Screenshot viewer. Press Escape or click outside the image to close.">
+  <div class="lbx-scrim"></div>
+  <div class="lbx-stage">
     <img class="lbx-img" id="lbxImg" alt="">
     <p class="lbx-cap" id="lbxCap"></p>
-    <button type="button" class="lbx-btn lbx-x"    id="lbxX"    aria-label="Close">&#10005;</button>
-    <button type="button" class="lbx-btn lbx-prev" id="lbxPrev" aria-label="Previous screenshot">&#8249;</button>
-    <button type="button" class="lbx-btn lbx-next" id="lbxNext" aria-label="Next screenshot">&#8250;</button>
     <p class="lbx-count" id="lbxCount" aria-hidden="true"></p>
   </div>
+  <!-- the arrows are children of the overlay, not the stage, so they sit in the
+       gutter beside the image instead of on top of it -->
+  <button type="button" class="lbx-btn lbx-prev" id="lbxPrev" aria-label="Previous screenshot">&#8249;</button>
+  <button type="button" class="lbx-btn lbx-next" id="lbxNext" aria-label="Next screenshot">&#8250;</button>
 </div>
 
 <!-- 15 KEVBOT -->
