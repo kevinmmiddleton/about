@@ -119,6 +119,19 @@ function kosSyncUrl(push) {
     else history.replaceState(state, '', url);
 }
 
+// The three boot windows get their spots from applyHomeLayout; everything else
+// cascades so two open windows are never perfectly stacked.
+const BOOT_TRIO = ['experience', 'about', 'building'];
+let kosCascade = 0;
+
+function rememberWindowPlace(win) {
+    if (!win) return;
+    const r = win.getBoundingClientRect();
+    win.dataset.kosLeft = Math.round(r.left) + 'px';
+    win.dataset.kosTop = Math.round(r.top) + 'px';
+    win.dataset.kosPlaced = '1';
+}
+
 function openWindow(id) {
     const win = document.querySelector(`.window[data-window="${id}"]`);
     if (!win) return;
@@ -127,6 +140,23 @@ function openWindow(id) {
     win.style.zIndex = zIndex;
 
     win.classList.add('window-open');
+    // 12. Every non-boot window shares one CSS position, so opening a second one
+    // buried the first under an identically sized rectangle. Cascade each new
+    // window off the last, and remember where it ended up so reopening it (or a
+    // user drag) is never overridden.
+    if (!wasOpen && !isMobile() && !BOOT_TRIO.includes(id)) {
+        if (win.dataset.kosPlaced) {
+            win.style.left = win.dataset.kosLeft;
+            win.style.top = win.dataset.kosTop;
+        } else {
+            const step = 28;
+            const n = kosCascade++ % 8;
+            const base = win.getBoundingClientRect();
+            win.style.left = Math.round(base.left + n * step) + 'px';
+            win.style.top = Math.round(Math.max(40, base.top + n * step)) + 'px';
+            win.dataset.kosPlaced = '1';
+        }
+    }
     // First open only: keep the window inside the viewport (CSS default
     // positions assume a wide screen; don't fight the user's own drags)
     if (!wasOpen && !isMobile()) {
@@ -348,8 +378,12 @@ function toggleExpItem(item) {
 }
 document.addEventListener('click', (e) => {
     const item = e.target.closest?.('.exp-item');
-    // The company link inside also stops propagation itself; this is the backstop.
-    if (item && !e.target.closest('a')) toggleExpItem(item);
+    if (!item) return;
+    if (e.target.closest('a')) return;            // the company link handles itself
+    if (e.target.closest('.exp-detail')) return;  // reading the body must not close it
+    // A click that ends a text selection is a read, not a tap.
+    if (String(getSelection?.() || '').length > 0) return;
+    toggleExpItem(item);
 });
 document.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
@@ -435,6 +469,7 @@ windows.forEach(win => {
     document.addEventListener('mouseup', () => {
         if (isDragging) {
             isDragging = false;
+            rememberWindowPlace(win);
             win.style.transition = '';
         }
     });
@@ -5591,6 +5626,7 @@ const searchableItems = [
     { type: 'window', id: 'games', ico: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
     { type: 'window', id: 'recipesdb', ico: 'recipes', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },
     // Action
+    { type: 'window', id: 'terminal', ico: 'terminal', icon: '⌨️', title: 'Terminal', subtitle: 'terminal.app' },
     { type: 'window', id: 'aim', ico: 'aim', icon: '💬', title: 'KevBot', subtitle: 'kevbot.aim · instant message' },
     { type: 'window', id: 'connect', ico: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
     // System actions
@@ -5835,6 +5871,7 @@ const launchpadApps = [
     { id: 'party', ico: 'party', icon: '🪩', label: 'Party', action: true },
     { id: 'videos', ico: 'videos', icon: '📺', label: 'Videos', action: true },
     // Action
+    { id: 'terminal', ico: 'terminal', icon: '⌨️', label: 'Terminal' },
     { id: 'aim', ico: 'aim', icon: '💬', label: 'KevBot' },
     { id: 'connect', ico: 'connect', icon: '📟', label: 'Connect' },
 ];
@@ -6434,6 +6471,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
                 if (window.plausible) window.plausible('KevBot+Error');
             } else {
                 line(root, 'KevBot', data.reply);
+                kosSound.play('message');
                 history.push({ role: 'user', content: text });
                 history.push({ role: 'assistant', content: data.reply });
                 if (history.length > 20) history = history.slice(-20);
@@ -6546,6 +6584,199 @@ try {
         if (!resizing) return;
         resizing.win.classList.remove('window-resizing');
         document.body.classList.remove('kos-resizing');
+        rememberWindowPlace(resizing.win);
         resizing = null;
+    });
+})();
+
+// ===================
+// MENUBAR KEYBOARD ACCESS
+// ===================
+// The five menubar controls were bare spans: no tab stop, no role, no name.
+// They now carry role="button" + tabindex, so they need Enter/Space too.
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const btn = e.target.closest?.('.menubar-icon[role="button"], .menubar-time[role="button"]');
+    if (!btn || btn !== e.target) return;
+    e.preventDefault();
+    btn.click();
+});
+
+// ===================
+// LIGHTBOX FOCUS
+// ===================
+// The photo lightbox is a modal, so it must behave like one: announce itself,
+// take focus, keep Tab inside, and hand focus back to the photo that opened it.
+(function () {
+    const lb = document.getElementById('lightboxOverlay');
+    if (!lb) return;
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-modal', 'true');
+    lb.setAttribute('aria-label', 'Photo viewer');
+    let opener = null;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const img = e.target.closest?.('img[data-photo]');
+        if (!img) return;
+        e.preventDefault();
+        img.click();
+    });
+
+    document.addEventListener('click', (e) => {
+        const img = e.target.closest?.('img[data-photo]');
+        if (img) opener = img;
+    }, true);
+
+    new MutationObserver(() => {
+        if (lb.classList.contains('active')) {
+            if (!lb.hasAttribute('tabindex')) lb.setAttribute('tabindex', '-1');
+            lb.focus();
+        } else if (opener) {
+            opener.focus();
+            opener = null;
+        }
+    }).observe(lb, { attributes: true, attributeFilter: ['class'] });
+
+    // Tab must not escape the dialog while it is up.
+    lb.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab') return;
+        const f = [...lb.querySelectorAll('button,[href],[tabindex]:not([tabindex="-1"])')]
+            .filter(el => el.offsetParent !== null);
+        if (!f.length) { e.preventDefault(); return; }
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+})();
+
+// ===================
+// SPOTLIGHT ARIA
+// ===================
+// Results are rendered as plain divs, so a screen reader was told nothing about
+// how many there are or which is selected. Also keeps the active row in view:
+// .spotlight-results scrolls at 400px, so arrow-keying could walk off screen.
+(function () {
+    const input = document.getElementById('spotlightInput');
+    const results = document.getElementById('spotlightResults');
+    if (!input || !results) return;
+
+    const sync = () => {
+        const items = [...results.querySelectorAll('.spotlight-item')];
+        items.forEach((el, i) => {
+            el.setAttribute('role', 'option');
+            if (!el.id) el.id = 'spotlight-opt-' + i;
+            const on = el.classList.contains('selected');
+            el.setAttribute('aria-selected', on ? 'true' : 'false');
+            if (on) {
+                input.setAttribute('aria-activedescendant', el.id);
+                el.scrollIntoView({ block: 'nearest' });
+            }
+        });
+        input.setAttribute('aria-expanded', items.length ? 'true' : 'false');
+        if (!items.length) input.removeAttribute('aria-activedescendant');
+    };
+    new MutationObserver(sync).observe(results, {
+        childList: true, subtree: true, attributes: true, attributeFilter: ['class']
+    });
+})();
+
+// ===================
+// GENIE OPEN
+// ===================
+// 15. Windows faded in from nowhere while the dock icon that summoned them
+// bounced somewhere else. macOS scales the window out of the thing you clicked,
+// which is the signature motion of the desktop this is imitating. Sets
+// transform-origin from the launcher's position, so the window appears to grow
+// out of it; the keyframes themselves stay in CSS.
+document.addEventListener('click', (e) => {
+    const launcher = e.target.closest?.('.dock-item[data-window], .desktop-icon[data-window], ' +
+                                        '.folder-item[data-window], .launchpad-item[data-window]');
+    if (!launcher || isMobile()) return;
+    const id = launcher.dataset.window;
+    const win = document.querySelector(`.window[data-window="${id}"]`);
+    if (!win) return;
+    const l = launcher.getBoundingClientRect();
+    requestAnimationFrame(() => {
+        const w = win.getBoundingClientRect();
+        if (!w.width) return;
+        const ox = ((l.left + l.width / 2) - w.left) / w.width * 100;
+        const oy = ((l.top + l.height / 2) - w.top) / w.height * 100;
+        win.style.setProperty('--genie-x', ox.toFixed(1) + '%');
+        win.style.setProperty('--genie-y', oy.toFixed(1) + '%');
+        win.classList.remove('window-genie');
+        void win.offsetWidth;               // restart the animation
+        win.classList.add('window-genie');
+    });
+});
+
+// ===================
+// SOUND
+// ===================
+// 13. There was no audio anywhere in a retro OS, including no door sound on the
+// one window built for it. Everything here is synthesised with Web Audio, so it
+// costs no assets and no requests. Off by default and remembered: autoplay
+// policy aside, a recruiter opening this in a quiet office should not be
+// ambushed. The AudioContext is created on the first deliberate toggle, which
+// is also the user gesture browsers require.
+const kosSound = (function () {
+    let ctx = null;
+    let on = false;
+    try { on = localStorage.getItem('kosSound') === '1'; } catch (e) { /* private mode */ }
+
+    const blip = (freq, start, dur, type, peak) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = type || 'sine';
+        o.frequency.setValueAtTime(freq, ctx.currentTime + start);
+        g.gain.setValueAtTime(0.0001, ctx.currentTime + start);
+        g.gain.exponentialRampToValueAtTime(peak || 0.12, ctx.currentTime + start + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
+        o.connect(g).connect(ctx.destination);
+        o.start(ctx.currentTime + start);
+        o.stop(ctx.currentTime + start + dur + 0.02);
+    };
+
+    const voices = {
+        // the door swinging open: two rising notes, a beat apart
+        door:    () => { blip(392, 0, 0.16, 'triangle', 0.14); blip(587, 0.09, 0.22, 'triangle', 0.11); },
+        // a buddy typing back at you
+        message: () => { blip(880, 0, 0.09, 'sine', 0.09); blip(1175, 0.07, 0.12, 'sine', 0.07); },
+        // the sound of the toggle itself, so enabling it demonstrates itself
+        toggle:  () => { blip(660, 0, 0.10, 'sine', 0.10); },
+    };
+
+    return {
+        get on() { return on; },
+        set(v) {
+            on = !!v;
+            try { localStorage.setItem('kosSound', on ? '1' : '0'); } catch (e) { /* private mode */ }
+            if (on) this.play('toggle');
+        },
+        play(name) {
+            if (!on || !voices[name]) return;
+            try {
+                if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+                if (ctx.state === 'suspended') ctx.resume();
+                voices[name]();
+            } catch (e) { /* no audio available; never let it break a click */ }
+        }
+    };
+})();
+
+(function () {
+    const btn = document.getElementById('menubarSound');
+    if (!btn) return;
+    const paint = () => {
+        btn.textContent = kosSound.on ? '\u{1F50A}' : '\u{1F507}';
+        btn.setAttribute('aria-pressed', kosSound.on ? 'true' : 'false');
+        btn.setAttribute('aria-label', kosSound.on ? 'Sound on' : 'Sound off');
+    };
+    paint();
+    btn.addEventListener('click', () => { kosSound.set(!kosSound.on); paint(); });
+
+    // the door belongs to AIM, so it fires wherever AIM is opened from
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('[data-window="aim"], [data-mobile-open="aim"]')) kosSound.play('door');
     });
 })();

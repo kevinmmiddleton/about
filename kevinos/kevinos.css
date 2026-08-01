@@ -13,7 +13,6 @@
     position: fixed;
     inset: 0;
     z-index: 99999;
-    background: #0a0a0f;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,7 +31,7 @@
     font-family: monospace;
     font-size: clamp(6px, 1.5vw, 14px);
     line-height: 1.2;
-    color: #e8e8f0;
+    color: var(--text);
     text-align: center;
     white-space: pre;
 }
@@ -8778,4 +8777,149 @@ body.kos-resizing {
 .window.window-resizing,
 .window[style*="height"] {
     max-height: none;
+}
+
+/* 9. Share-sheet glyphs, matching the contact bar directly below it. */
+.share-sheet-icon:has(> svg) {
+    display: grid;
+    place-items: center;
+}
+
+.share-sheet-icon > svg {
+    width: 26px;
+    height: 26px;
+    color: var(--ico-hue, var(--text));
+    stroke-width: 1.9;
+}
+
+/* 6. Desktop labels were breaking mid-word ("Do_Not_Cli / ck.exe"). Wrap at
+   word boundaries and only break a word that genuinely cannot fit. */
+.desktop-icons-right .desktop-icon .icon-label {
+    max-width: 84px;
+    word-break: normal;
+    overflow-wrap: anywhere;
+    hyphens: none;
+}
+
+/* 8. The boot screen was hardcoded #0a0a0f, so a light-theme visitor got a
+   black flash before a pale desktop. Tokens instead. */
+.boot-loader {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* 15. Genie open: the window scales out of the icon that launched it. The
+   origin comes from JS (--genie-x/y); the motion lives here so
+   prefers-reduced-motion can flatten it like everything else. */
+@keyframes kosGenie {
+    from { opacity: 0; transform: scale(0.28); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.window.window-genie {
+    transform-origin: var(--genie-x, 50%) var(--genie-y, 100%);
+    animation: kosGenie 0.26s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+/* ===================
+   14. AIM, actually looking like AIM
+   =================== */
+/* It was a 2024 chat pane wearing the name: rounded pill chips, a flat blue
+   Send, and a themed message area. The period cues are the white pane, the
+   formatting strip, and the beveled button. */
+
+/* The message pane is white in both themes, the way the real thing was. */
+.aim-log {
+    background: #fff;
+    color: #1a1a2e;
+}
+
+.aim-log .aim-sys,
+.aim-log .aim-typing {
+    color: #6b6b78;
+}
+
+/* Screen names go back to the classic pairing on a white pane. */
+.aim-line.them b { color: #B3261E; }
+.aim-line.you b  { color: #1A4FA0; }
+.aim-line { color: #1a1a2e; }
+.aim-log .str-lk,
+.aim-log a { color: #1A4FA0; }
+
+/* The formatting strip. Non-functional on purpose: it is set dressing, and it
+   is aria-hidden so it is never announced as a control that does nothing. */
+.aim-format {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 9px;
+    background: linear-gradient(#fdfdfd, #ececec);
+    border-top: 1px solid #b9b9c2;
+    border-bottom: 1px solid #b9b9c2;
+    font-size: 11px;
+    color: #3a3a45;
+    user-select: none;
+}
+
+.aim-fmt-font { font-family: Arial, Helvetica, sans-serif; opacity: .8; }
+.aim-fmt-b { font-weight: 800; }
+.aim-fmt-i { font-style: italic; font-family: Georgia, serif; }
+.aim-fmt-u { text-decoration: underline; }
+.aim-fmt-sep { width: 1px; height: 13px; background: #c3c3cc; }
+.aim-fmt-color {
+    width: 13px; height: 13px; border-radius: 2px;
+    border: 1px solid #9a9aa4;
+    background: linear-gradient(135deg, #d33 50%, #1A4FA0 50%);
+}
+.aim-fmt-emo { color: #c9a227; font-size: 13px; }
+
+/* Beveled Send, not a flat pill. */
+.aim-send {
+    color: #1a1a2e;
+    background: linear-gradient(#fcfcfc, #dcdce2);
+    border: 1px solid #9a9aa4;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 #fff, 0 1px 1px rgba(0,0,0,.14);
+    padding: 7px 18px;
+    font-weight: 700;
+}
+.aim-send:hover { background: linear-gradient(#fff, #e6e6ec); }
+.aim-send:active { background: linear-gradient(#dcdce2, #f2f2f6); box-shadow: inset 0 1px 3px rgba(0,0,0,.2); }
+
+/* The suggestion chips were the other tell. Beveled, square-ish, period. */
+.aim-prompt {
+    border-radius: 4px;
+    border: 1px solid #9a9aa4;
+    background: linear-gradient(#fcfcfc, #e8e8ee);
+    color: #1a1a2e;
+    box-shadow: inset 0 1px 0 #fff;
+}
+.aim-prompt:hover { border-color: #6b6b78; background: linear-gradient(#fff, #eee); }
+
+.aim-prompts { background: #fff; padding: 10px 12px 4px; }
+.aim-compose { background: linear-gradient(#f4f4f7, #e9e9ef); border-top: 1px solid #b9b9c2; }
+
+.aim-input {
+    background: #fff;
+    color: #1a1a2e;
+    border: 1px solid #9a9aa4;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.10);
+}
+.aim-input::placeholder { color: #8a8a95; }
+
+/* ===================
+   OPEN TO WORK - HIDDEN
+   ===================
+   Hidden at Kevin's request, deliberately NOT deleted. The markup is untouched
+   in kevinos/index.html:
+     - the desktop menu bar status   <span class="menubar-status">
+     - the mobile springboard badge  <span class="widget-badge">
+   To switch it back on, delete this one block. Nothing else needs changing.
+
+   Both surfaces are covered on purpose: hiding only the menu bar would leave
+   the springboard still announcing it, and a phone visitor sees that one first. */
+.menubar-status,
+.mobile-widget .widget-badge {
+    display: none !important;
 }
