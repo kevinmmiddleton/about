@@ -3047,15 +3047,28 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 .fv summary.rrow{cursor:pointer;list-style:none}.fv summary.rrow::-webkit-details-marker{display:none}.fv summary.rrow::after{content:"+";font-family:var(--mono);font-weight:400;font-size:1rem;
   color:var(--ink2);justify-self:end;transition:transform .2s}.fv .rrow-d[open] summary.rrow::after{transform:rotate(45deg)}.fv .rrow-d[open] summary.rrow{border-bottom-color:var(--gold-rule)}.fv .rrow-d{border-bottom:0}.fv .rrow-body{padding:.9rem .5rem 1.4rem;margin-inline:-.5rem;
   border-bottom:2px solid var(--ink);display:grid;gap:.85rem 2.2rem;
-  grid-template-columns:minmax(0,1fr) minmax(0,17rem)}
+  grid-template-columns:minmax(0,1fr) minmax(0,17rem);align-items:start}
+/* The text is wrapped in .rrow-main so the column is ONE grid item. It used to
+   be four siblings sharing rows with the screenshot strip, and `grid-row:1/-1`
+   did not span what it looked like: with no declared grid-template-rows every
+   row is implicit, so -1 resolves to the end of the EXPLICIT grid (line 1) and
+   the span collapsed to row 1. The strip then inflated the paragraph's row to
+   its own height and the paragraph stretched to fill it, opening ~90px of dead
+   space under the text before the bullets. One item per column, no shared rows,
+   no inflation. */
+.fv .rrow-main{display:grid;gap:.85rem;min-width:0}
 /* Two rows carry no screenshots, so their text takes the whole width rather
    than leaving a 17rem hole beside it. */
 .fv .rrow-body:not(:has(.exp-shots)){grid-template-columns:minmax(0,1fr)}
-.fv .rrow-desc,.fv .rrow-hi,.fv .rrow-tags,.fv .rrow-cs{grid-column:1}
-/* the strip spans the full height of the text beside it */
-.fv .exp-shots{grid-column:2;grid-row:1/-1;align-self:start;
+.fv .exp-shots{grid-column:2;align-self:start;
   display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem}
-.fv .rrow-desc{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink2);max-width:68ch}.fv .rrow-hi{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}.fv .rrow-hi li{font-size:.86rem;line-height:1.55;color:var(--ink2);max-width:72ch}.fv .rrow-hi li::marker{color:var(--gold-rule)}.fv .rrow-tags{display:flex;flex-wrap:wrap;gap:.32rem}/* DIRECT children only. As a descendant selector this also matched the spans
+.fv .rrow-desc{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink2);max-width:68ch}.fv .rrow-hi{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}.fv .rrow-hi li{font-size:.86rem;line-height:1.55;color:var(--ink2);max-width:72ch}
+/* The label lead-in is the scan line: it lets a reader take nine rows of
+   bullets by their headings and stop at the one they want. Body copy sits at
+   --ink2, so the lead-in needs --ink to read as a tier above it rather than
+   just heavier grey. KevinOS already bolds all 36 of its equivalents; this is
+   the main site catching up. */
+.fv .rrow-hi strong{color:var(--ink);font-weight:700}.fv .rrow-hi li::marker{color:var(--gold-rule)}.fv .rrow-tags{display:flex;flex-wrap:wrap;gap:.32rem}/* DIRECT children only. As a descendant selector this also matched the spans
    INSIDE a tag, so the drawn arrow in the "0 -> 1" pill was getting the pill's
    own padding and border: 8+8+1+1 = 18px wide and 3.84+3.84+1+1 = 9.67px tall
    under border-box, which is a floor its .78em square could never get under.
@@ -3123,7 +3136,7 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
   /* below this the 17rem column starves the text, so the strip goes underneath
      and runs four-across instead */
   .fv .rrow-body,.fv .rrow-body:not(:has(.exp-shots)){grid-template-columns:minmax(0,1fr)}
-  .fv .exp-shots{grid-column:1;grid-row:auto;grid-template-columns:repeat(4,1fr);max-width:26rem}
+  .fv .exp-shots{grid-column:1;grid-template-columns:repeat(4,1fr);max-width:26rem}
 }
 @media (max-width:640px){
   /* A 4.75rem gutter each side would take 152px of a 375px screen, and floating
