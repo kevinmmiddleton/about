@@ -2512,9 +2512,6 @@ body {
 /* ===================
    MOBILE-ONLY SEEKING CONTENT (hidden on desktop)
    =================== */
-.seeking-mobile-content {
-    display: none;
-}
 
 /* ===================
    MOBILE FALLBACK
@@ -2834,14 +2831,12 @@ body {
     .mobile-overlay-content .chat-message,
     .mobile-overlay-content .value-card,
     .mobile-overlay-content .exp-item,
-    .mobile-overlay-content .seeking-section,
     .mobile-overlay-content .profile-callout {
         transition: transform 0.15s ease, opacity 0.15s ease;
     }
 
     .mobile-overlay-content .chat-message:active,
     .mobile-overlay-content .value-card:active,
-    .mobile-overlay-content .seeking-section:active,
     .mobile-overlay-content .profile-callout:active {
         transform: scale(0.98);
         opacity: 0.9;
@@ -3062,127 +3057,23 @@ body {
         display: none;
     }
 
-    /* Show mobile-only seeking content */
-    .seeking-mobile-content {
-        display: none;
-    }
 
-    .mobile-overlay-content .seeking-mobile-content {
-        display: block;
-    }
 
-    .mobile-overlay-content .seeking-header {
-        text-align: center;
-        margin-bottom: 24px;
-    }
 
-    .mobile-overlay-content .seeking-header h2 {
-        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-        font-size: 28px;
-        font-weight: 700;
-        color: var(--text);
-        margin-bottom: 8px;
-    }
 
-    .mobile-overlay-content .seeking-header p {
-        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-        font-size: 17px;
-        color: var(--text-dim);
-    }
 
-    .mobile-overlay-content .seeking-footer {
-        text-align: center;
-        margin-top: 20px;
-        padding: 0 12px;
-    }
 
-    .mobile-overlay-content .seeking-footer p {
-        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-        font-size: 15px;
-        color: var(--text-muted);
-        font-style: italic;
-        line-height: 1.5;
-    }
 
-    .mobile-overlay-content .seeking-section {
-        background: var(--surface);
-        border-radius: 16px;
-        padding: 16px 18px;
-        margin-bottom: 12px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-    }
 
-    .mobile-overlay-content .seeking-section h3 {
-        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 12px;
-    }
 
-    .mobile-overlay-content .seeking-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
 
-    .mobile-overlay-content .seeking-tag {
-        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-        font-size: 13px;
-        font-weight: 500;
-        padding: 6px 12px;
-        border-radius: 10px;
-    }
 
-    .mobile-overlay-content .seeking-tag.primary {
-        background: var(--blue);
-        color: #fff;
-    }
 
-    .mobile-overlay-content .seeking-tag.secondary {
-        background: rgba(92, 138, 255, 0.12);
-        color: var(--blue);
-    }
 
-    .mobile-overlay-content .seeking-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
 
-    .mobile-overlay-content .seeking-list li {
-        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-        font-size: 15px;
-        color: var(--text);
-        padding: 8px 0;
-        border-bottom: 1px solid var(--border);
-    }
 
-    .mobile-overlay-content .seeking-list li:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
 
-    .mobile-overlay-content .seeking-list li:first-child {
-        padding-top: 0;
-    }
 
-    .mobile-overlay-content .seeking-cta {
-        display: block;
-        text-align: center;
-        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-        font-size: 17px;
-        font-weight: 600;
-        padding: 16px 24px;
-        border-radius: 14px;
-        background: var(--blue);
-        color: #fff;
-        text-decoration: none;
-        margin-top: 20px;
-        box-shadow: 0 2px 8px rgba(92, 138, 255, 0.3);
-    }
 
     .mobile-overlay-content .query-note {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
@@ -8104,8 +7995,6 @@ html.kos-mobile body {
    two neighbours in the dock or the springboard share a colour. */
 :has(> svg > use[href="#ico-profile"]),
 svg:has(use[href="#ico-profile"]) { --ico-hue: var(--blue);  --ico-tile: #2563eb; }
-:has(> svg > use[href="#ico-seeking"]),
-svg:has(use[href="#ico-seeking"]) { --ico-hue: var(--pink);  --ico-tile: #db2777; }
 :has(> svg > use[href="#ico-values"]),
 svg:has(use[href="#ico-values"]) { --ico-hue: var(--purple);  --ico-tile: #7c3aed; }
 :has(> svg > use[href="#ico-experience"]),

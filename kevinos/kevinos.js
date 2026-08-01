@@ -5075,7 +5075,6 @@ window.addEventListener('resize', () => {
 // Window title configuration for mobile overlays (iOS-style clean titles)
 const mobileWindowConfig = {
     readme: { title: 'README' },
-    seeking: { title: 'Seeking' },
     about: { title: 'Profile' },
     values: { title: 'Values' },
     experience: { title: 'Experience' },
@@ -5619,7 +5618,6 @@ const searchableItems = [
     // Identity
     { type: 'window', id: 'about', ico: 'profile', icon: '👤', title: 'Profile', subtitle: 'profile.yaml' },
     { type: 'window', id: 'values', ico: 'values', icon: '🧭', title: 'Values', subtitle: '.values' },
-    { type: 'window', id: 'seeking', ico: 'seeking', icon: '🔍', title: 'Seeking', subtitle: 'seeking.query' },
     // Proof of work
     { type: 'window', id: 'experience', ico: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
     { type: 'window', id: 'building', ico: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
@@ -5864,7 +5862,6 @@ const launchpadApps = [
     // Identity
     { id: 'about', ico: 'profile', icon: '👤', label: 'Profile' },
     { id: 'values', ico: 'values', icon: '🧭', label: 'Values' },
-    { id: 'seeking', ico: 'seeking', icon: '🔍', label: 'Seeking' },
     // Proof of work
     { id: 'experience', ico: 'experience', icon: '📁', label: 'Experience' },
     { id: 'strengths', ico: 'strengths', icon: '🏅', label: 'Strengths' },
