@@ -3055,8 +3055,16 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 /* the strip spans the full height of the text beside it */
 .fv .exp-shots{grid-column:2;grid-row:1/-1;align-self:start;
   display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem}
-.fv .rrow-desc{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink2);max-width:68ch}.fv .rrow-hi{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}.fv .rrow-hi li{font-size:.86rem;line-height:1.55;color:var(--ink2);max-width:72ch}.fv .rrow-hi li::marker{color:var(--gold-rule)}.fv .rrow-tags{display:flex;flex-wrap:wrap;gap:.32rem}.fv .rrow-tags span{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;
-  padding:.24rem .5rem;border-radius:99px;border:1px solid var(--tag-line);color:var(--ink2)}.fv .rrow-cs{justify-self:start;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
+.fv .rrow-desc{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink2);max-width:68ch}.fv .rrow-hi{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}.fv .rrow-hi li{font-size:.86rem;line-height:1.55;color:var(--ink2);max-width:72ch}.fv .rrow-hi li::marker{color:var(--gold-rule)}.fv .rrow-tags{display:flex;flex-wrap:wrap;gap:.32rem}/* DIRECT children only. As a descendant selector this also matched the spans
+   INSIDE a tag, so the drawn arrow in the "0 -> 1" pill was getting the pill's
+   own padding and border: 8+8+1+1 = 18px wide and 3.84+3.84+1+1 = 9.67px tall
+   under border-box, which is a floor its .78em square could never get under.
+   That is why the arrow rendered oversized and sat off-centre. */
+.fv .rrow-tags > span{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.24rem .5rem;border-radius:99px;border:1px solid var(--tag-line);color:var(--ink2)}
+/* the two digits and the glyph, centred as boxes rather than on a baseline */
+.fv .rrow-tags > span:has(.arw){display:inline-flex;align-items:center;gap:.5em}
+.fv .rrow-tags > span:has(.arw) .arw{margin:0;vertical-align:0;flex:0 0 auto}.fv .rrow-cs{justify-self:start;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
   text-transform:uppercase;font-weight:700;color:var(--accent-text);text-decoration:none;
   border-bottom:2px solid var(--gold-rule);padding-bottom:.12rem}.fv .rrow-cs:hover{color:var(--ink)}
 /* ---- experience screenshots + lightbox ----
