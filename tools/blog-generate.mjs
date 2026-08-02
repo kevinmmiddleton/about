@@ -146,6 +146,16 @@ function renderMarkdown(md='') {
 }
 
 // ---------- series cross-links ----------
+// A title that already ends a sentence does not need another period after it.
+// Eight of the sixteen published titles do, so "Try this one." was rendering as
+// "Try this one.." wherever a callout linked to it.
+//
+// The trailing class allows anything non-alphanumeric after the punctuation, so
+// a title that ends in an emoji or a closing bracket still counts as terminated:
+// "An AI tool for us? 🙈" needs no period, while "...audiences (yet)" does.
+const endsSentence = (t) => /[.!?…][^\p{L}\p{N}]*$/u.test(String(t).trim());
+const stop = (t) => (endsSentence(t) ? '' : '.');
+
 function seriesCallouts(post, all) {
   if (!post.series) return { top:'', bottom:'' };
   const sibs = all.filter(p => p.series === post.series).sort((a,b)=>(a.series_order||0)-(b.series_order||0));
@@ -155,9 +165,9 @@ function seriesCallouts(post, all) {
   const next = sibs[idx+1];
   let top;
   if (idx === 0) top = `This is Part 1 of a series on ${esc(post.series)}.`;
-  else top = `Part ${part} of a series on ${esc(post.series)}. Start at the beginning: <a href="/blog/${first.slug}/">${esc(first.title)}</a>.`;
+  else top = `Part ${part} of a series on ${esc(post.series)}. Start at the beginning: <a href="/blog/${first.slug}/">${esc(first.title)}</a>${stop(first.title)}`;
   let bottom;
-  if (next) bottom = `Next in the series: <a href="/blog/${next.slug}/">${esc(next.title)}</a>.`;
+  if (next) bottom = `Next in the series: <a href="/blog/${next.slug}/">${esc(next.title)}</a>${stop(next.title)}`;
   else bottom = `That's the series so far. Start over at <a href="/blog/${first.slug}/">Part 1</a>, or browse everything on the <a href="/blog/">blog</a>.`;
   return { top: `<p class="callout">${top}</p>`, bottom: `<p class="callout">${bottom}</p>` };
 }
