@@ -245,7 +245,13 @@ function articlePage(post, all) {
       {"@type":"ListItem",position:2,name:"Blog",item:`${SITE}/blog/`},
       {"@type":"ListItem",position:3,name:post.title,item:url}]};
   const body = [top, renderMarkdown(post.body_markdown), bottom,
-    `<div class="article-bio">\n  <p>Kevin Middleton is a Full Stack Product Manager who builds systems that help product teams not lose their minds. Currently looking for his next role in NYC. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>\n</div>`
+    // Says nothing about employment status in either direction, per the rule
+    // adopted 2026-07-31. This line read "Currently looking for his next role
+    // in NYC" until 2026-08-01: the sweep that stripped the homepage, KevinOS,
+    // llms.txt and the KevBot worker missed the generator, so the claim stayed
+    // live at the foot of all 16 posts after it stopped being true. Keep it
+    // status-free, and avoid implying a current role indirectly too.
+    `<div class="article-bio">\n  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>\n</div>`
   ].filter(Boolean).join('\n\n');
   // every link in the article body opens in a new tab
   const bodyLinked = body.replace(/<a (?![^>]*\btarget=)/g, '<a target="_blank" rel="noopener" ');
