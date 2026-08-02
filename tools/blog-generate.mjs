@@ -169,6 +169,12 @@ const TOPIC_HUE = {
 };
 const hueClass = (topic) => `hue-${TOPIC_HUE[topic] || 2}`;
 
+// topic_new wins when it is filled in, which is how a topic outside the
+// dropdown gets created. Trimmed, because a stray space would fork the
+// taxonomy silently: that is exactly how the tags ended up with both
+// "Job Search" and "job search".
+const topicOf = (post) => ((post.topic_new || '').trim() || post.topic || '');
+
 const seriesMembers = (post, all) =>
   all.filter((p) => p.series && p.series === post.series)
      .sort((a, b) => (a.series_order || 0) - (b.series_order || 0));
@@ -183,7 +189,7 @@ const seriesMembers = (post, all) =>
 // It REPLACES the topic here rather than appending to it: two mono uppercase
 // kickers in the same band would collide.
 function seriesKicker(post, all) {
-  if (!post.series) return esc(post.topic || '');
+  if (!post.series) return esc(topicOf(post));
   const sibs = seriesMembers(post, all);
   const idx = sibs.findIndex((p) => p.id === post.id);
   const part = post.series_order || (idx + 1);
@@ -214,8 +220,8 @@ function readNext(post, all) {
   }
   for (const p of all) {
     if (picks.length >= 2) break;
-    if (taken.has(p.id) || p.topic !== post.topic) continue;
-    picks.push({ p, kicker: `More in ${p.topic}` });
+    if (taken.has(p.id) || topicOf(p) !== topicOf(post)) continue;
+    picks.push({ p, kicker: `More in ${topicOf(p)}` });
     taken.add(p.id);
   }
   for (const p of all) {
@@ -226,7 +232,7 @@ function readNext(post, all) {
   }
   if (!picks.length) return '';
   const inSeries = picks[0].kicker.startsWith('Part');
-  const cards = picks.map((c) => `            <a class="rn ${hueClass(c.p.topic)}" href="/blog/${c.p.slug}/">
+  const cards = picks.map((c) => `            <a class="rn ${hueClass(topicOf(c.p))}" href="/blog/${c.p.slug}/">
                 <span class="rn-k">${esc(c.kicker)}</span>
                 <span class="rn-t">${esc(c.p.title)}</span>
                 <span class="rn-x">${esc(c.p.excerpt || '')}</span>
@@ -388,7 +394,7 @@ ${PLAUSIBLE}
 ${HEADER}
 
     <main id="content" tabindex="-1">
-    <article class="article ${hueClass(post.topic)}">
+    <article class="article ${hueClass(topicOf(post))}">
         <!-- The lede. The headline sits ON the art rather than after it: the
              image used to arrive below the eyebrow, title, dek and byline, at
              exactly the text column's width, so it read as an illustration
@@ -451,10 +457,10 @@ function hubPage(posts) {
     const part = p.series
       ? ` <span class="part">&middot; Part ${p.series_order || ''} of ${sibs.length}</span>` : '';
     const eager = i < 3;
-    return `            <a class="post-card ${hueClass(p.topic)} plausible-event-name=Blog+Card+Click plausible-event-post=${p.slug}" href="/blog/${p.slug}/">
+    return `            <a class="post-card ${hueClass(topicOf(p))} plausible-event-name=Blog+Card+Click plausible-event-post=${p.slug}" href="/blog/${p.slug}/">
                 <img class="post-card__thumb" src="${escAttr(p.cover_image||'')}"${dimAttrs(p.cover_image)} alt=""${eager ? ' fetchpriority="high" decoding="async"' : ' loading="lazy" decoding="async"'}>
                 <div class="post-card__body">
-                    <p class="post-eyebrow">${esc(p.topic||'')}${part}</p>
+                    <p class="post-eyebrow">${esc(topicOf(p))}${part}</p>
                     <h2>${esc(p.title)}</h2>
                     <p>${esc(p.excerpt||'')}</p>
                 </div>
@@ -825,6 +831,11 @@ async function main() {
     .filter(p => p.status === 'published' && p.published_at)
     .sort((a, b) => new Date(b.published_at || 0) - new Date(a.published_at || 0));
   console.log(`Loaded ${all.length} post file(s); ${posts.length} published.`);
+  const adhoc = [...new Set(posts.filter(p => (p.topic_new || '').trim()).map(p => topicOf(p)))];
+  if (adhoc.length) {
+    console.warn(`  ! topic(s) set via "New topic" and not yet in the dropdown: ${adhoc.join(', ')}`);
+    console.warn('    Promote them into the topic options in admin/config.yml so they are one click next time.');
+  }
   for (const p of posts) {
     const dir = resolve(BLOG_DIR, p.slug);
     mkdirSync(dir, { recursive: true });

@@ -36,7 +36,12 @@ collections:
       - { name: status, label: Status, widget: select, options: [draft, ready, published, archived], default: draft }
       - { name: published_at, label: Published date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { name: updated_at, label: Updated date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
-      - { name: topic, label: Topic, widget: string, required: false, default: "Building with AI" }
+      # Sveltia has no combobox: `select` is a fixed list and `relation` cannot
+      # create entries from its UI. So the dropdown is the curated list, and
+      # "New topic" below is the escape hatch. The build warns when the escape
+      # hatch is used, so a genuinely new topic gets promoted into this list.
+      - { name: topic, label: Topic, widget: select, required: false, options: ["Building with AI", "Career", "Leadership", "Product", "Tech & Society"], hint: "Pick one. Leave blank only if you are creating a new topic below." }
+      - { name: topic_new, label: New topic, widget: string, required: false, hint: "Only for a topic that is not in the list above. Whatever you type here wins over the dropdown. Tell Claude and it gets added to the list so it is one click next time." }
       - { name: series, label: Series, widget: string, required: false }
       - { name: series_order, label: Series order, widget: number, value_type: int, required: false }
       - { name: tags, label: Tags, widget: list, required: false }
