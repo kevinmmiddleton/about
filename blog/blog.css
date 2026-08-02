@@ -800,16 +800,23 @@ figcaption {
      noise is not worth the sliver of tone it buys. Lightness comes from the
      colour, legibility from the opacity: they are separate levers and they
      were fighting each other while this was rgba. */
-  background: #161b22;
+  /* 85%. Lightness comes from the colour (#161b22, the site's dark surface);
+     this is the separate transparency lever, letting a little of the cover
+     through the band. Watch the title-card covers: their own wordmark is what
+     shows first as this drops. */
+  background: rgba(22, 27, 34, .85);
   border-top: 2px solid var(--lede-topic, var(--c1-line));
 }
 
-/* Pinned to the dark-mode set in both schemes, because the band is always dark.
-   Measured against the worst case, a pure white pixel under a .93 band, which
-   composites to roughly 18/255: the darkest of these still clears 6:1. */
-.hue-1 .article-lede-in{--lede-topic:#E8A317} .hue-2 .article-lede-in{--lede-topic:#E8697C}
-.hue-3 .article-lede-in{--lede-topic:#3FA588} .hue-4 .article-lede-in{--lede-topic:#6E93CC}
-.hue-5 .article-lede-in{--lede-topic:#A98FD8} .hue-6 .article-lede-in{--lede-topic:#D96BB8}
+/* Pinned light-on-dark in both schemes, because the band is always dark, and
+   LIFTED above the dark-mode set. Those values are tuned for a #0F0F12 page; a
+   band at 85% composites to roughly rgb(57,61,67) over a bright cover, which is
+   lighter, and the eyebrow measured 3.49-4.36 against it on three of four
+   covers. The title and dek were never at risk: they were 10.9-13.7.
+   This is the cost of the transparency, paid in the one place it was due. */
+.hue-1 .article-lede-in{--lede-topic:#F5C65F} .hue-2 .article-lede-in{--lede-topic:#F5A0AC}
+.hue-3 .article-lede-in{--lede-topic:#82D2BA} .hue-4 .article-lede-in{--lede-topic:#AECBF0}
+.hue-5 .article-lede-in{--lede-topic:#CFBEF0} .hue-6 .article-lede-in{--lede-topic:#EFA8D8}
 
 .article-lede-in .article-eyebrow { color: var(--lede-topic, #E8A317); }
 /* The series name links to Part 1. Only the name underlines, not the
