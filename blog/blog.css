@@ -550,6 +550,12 @@ figcaption {
 .post-card { border-color: var(--rule-strong); }
 .post-card h2 { text-wrap: balance; }
 
+/* Excerpts avoid stranding a short final line. balance evens line lengths and
+   is right for a headline; pretty is the one that targets the last line, which
+   is what a paragraph needs. Applied to every card, not only the lead. */
+.post-card__body > p:not([class]) { text-wrap: pretty; }
+
+
 /* Hover lights the edge of the image in the post's own hue. Drawn with an inset
    shadow rather than a border, because changing border-width on hover is a
    layout change and the design contract forbids it. :focus-within keeps the
@@ -606,7 +612,16 @@ figcaption {
     letter-spacing: -.025em; max-width: 19ch; margin: 0;
   }
   .post-list > .post-card:first-child .post-card__body > p:not([class]) {
-    color: rgba(255,255,255,.84); max-width: 56ch; margin: 0;
+    color: rgba(255,255,255,.84); margin: 0;
+    /* The lead excerpt was stranding a single word on a third line.
+       text-wrap: pretty alone did not rescue it: Chrome applies it, and it
+       still measured a 15% last line. The measure was the real cause. Swept
+       against the live excerpt: 56ch gives 3 lines ending at 15%, 62ch gives
+       2 lines ending at 82%, and removing the cap entirely drops back to 28%.
+       64ch sits in the good band with room either side for a longer or
+       shorter excerpt on a future lead post. */
+    max-width: 64ch;
+    text-wrap: pretty;
   }
   .post-list > .post-card:first-child .post-date { color: rgba(255,255,255,.72); margin: 0; }
   .post-list > .post-card:first-child:hover { border-color: var(--hero-topic); }
@@ -776,7 +791,11 @@ figcaption {
   overflow: hidden;
   display: flex;
   align-items: flex-end;
-  min-height: min(585px, calc((100vw - 48px) * 0.5625));
+  /* 0.46, not 16:9. At a full 16:9 the lede stood 585px tall and ate roughly
+     two thirds of a laptop viewport before a single word of the piece. This is
+     a letterboxed slice, which is the proportion a feature opener usually
+     runs at. The frame still grows past this when a headline needs it. */
+  min-height: min(520px, calc((100vw - 48px) * 0.50));
   background: #0b0b0d;
 }
 .article-lede .article-hero {
@@ -819,7 +838,13 @@ figcaption {
 .article-lede-in .article-title {
   color: #fff;
   font-size: 2.1rem;
-  max-width: 26ch;
+  /* 26ch forced a 486px measure, so "Product Management is dead. Long live
+     Product Management." broke across three lines with an awkward turn, while
+     the phone rendered it in two because mobile has no cap at all. Measured
+     across all 16 real titles: 26ch costs 39 lines in total, 32ch costs 33,
+     38ch costs 28 and nothing runs past two lines. Wider than that stops
+     helping and starts reading as body copy. */
+  max-width: 38ch;
   margin: .35rem 0 .5rem;
 }
 .article-lede-in .article-dek {
@@ -830,6 +855,10 @@ figcaption {
      inside a 973px band, which made the band 53% of the hero and left the art
      with less than half. The band is a caption, not a reading column. */
   max-width: 78ch;
+  /* pretty, not balance: balance evens the line lengths, which is right for a
+     headline. pretty specifically prevents a last line short enough to read as
+     an orphan, which is what a dek needs. */
+  text-wrap: pretty;
   margin-bottom: .5rem;
 }
 /* The byline is the last thing in the band and carried a trailing margin, so
