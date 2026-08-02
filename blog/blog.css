@@ -451,7 +451,6 @@ figcaption {
     margin-bottom: 8px;
 }
 .post-card p { font-size: 16px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 16px; }
-.post-card .post-date { font-size: 13px; color: var(--text-muted); margin-top: auto; }
 
 /* Mobile menu (full-width sheet + Office Hours action) is defined once in
    styles-merged.css so the homepage and blog share it. */
@@ -501,7 +500,6 @@ figcaption {
    The blog used 13px Helvetica for all of it and so read as a different
    product. tabular-nums makes the date column align optically row to row. */
 .post-eyebrow,
-.post-date,
 .article-eyebrow,
 .article-meta {
   font-family: var(--mono);
@@ -511,7 +509,6 @@ figcaption {
   font-variant-numeric: tabular-nums;
 }
 .post-eyebrow  { font-size: .64rem; color: var(--topic, var(--coral-text)); }
-.post-date     { font-size: .68rem; }
 .article-eyebrow { font-size: .64rem; color: var(--topic, var(--coral-text)); }
 /* Deliberately NOT a link. It looks like one already (it resolved to the exact
    same computed colour as body links), and there is nowhere for it to go until
@@ -623,7 +620,6 @@ figcaption {
     max-width: 64ch;
     text-wrap: pretty;
   }
-  .post-list > .post-card:first-child .post-date { color: rgba(255,255,255,.72); margin: 0; }
   .post-list > .post-card:first-child:hover { border-color: var(--hero-topic); }
   .post-list > .post-card:first-child:hover .post-card__thumb { box-shadow: none; }
 }
@@ -795,7 +791,7 @@ figcaption {
      two thirds of a laptop viewport before a single word of the piece. This is
      a letterboxed slice, which is the proportion a feature opener usually
      runs at. The frame still grows past this when a headline needs it. */
-  min-height: min(520px, calc((100vw - 48px) * 0.50));
+  min-height: min(480px, calc((100vw - 48px) * 0.46));
   background: #0b0b0d;
 }
 .article-lede .article-hero {
@@ -812,7 +808,7 @@ figcaption {
 .article-lede-in {
   position: relative;
   width: 100%;
-  padding: 1.6rem 2.1rem;
+  padding: 1.4rem 2.1rem;
   /* The site's own dark surface, not near-black. #0a0a0c read as a void cut
      into the page; #161b22 is the same colour the footer and code blocks use in
      dark mode, so the band reads as a panel belonging to the site rather than
@@ -837,7 +833,7 @@ figcaption {
 .article-lede-in .article-eyebrow { color: var(--lede-topic, #E8A317); }
 .article-lede-in .article-title {
   color: #fff;
-  font-size: 2.1rem;
+  font-size: 1.95rem;
   /* 26ch forced a 486px measure, so "Product Management is dead. Long live
      Product Management." broke across three lines with an awkward turn, while
      the phone rendered it in two because mobile has no cap at all. Measured

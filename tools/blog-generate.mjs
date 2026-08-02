@@ -405,9 +405,10 @@ ${HEADER}
                      og:description, and previously thrown away on the page
                      where it does the most work. -->
                 <p class="article-dek">${esc(post.excerpt||'')}</p>
+                <!-- No byline. It is a single-author blog, the name is in the
+                     nav lockup and again in the bio at the foot, so a third
+                     printing of it only cost a line in the band. -->
                 <div class="article-meta">
-                    <span>By Kevin Middleton</span>
-                    <span class="dot" aria-hidden="true">·</span>
                     <span>${fmtDate(post.published_at)}</span>${metaLink}
                 </div>
             </div>
@@ -453,7 +454,6 @@ function hubPage(posts) {
                     <p class="post-eyebrow">${esc(p.topic||'')}${part}</p>
                     <h2>${esc(p.title)}</h2>
                     <p>${esc(p.excerpt||'')}</p>
-                    <span class="post-date">${fmtDate(p.published_at)}</span>
                 </div>
             </a>`;
   }).join('\n\n');
