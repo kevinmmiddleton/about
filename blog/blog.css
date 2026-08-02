@@ -867,6 +867,34 @@ figcaption {
    absolutely positioned inside a flex frame. Dropping that is the entire fix,
    with no generator change. The band keeps its measured contrast because it is
    opaque either way, and nothing now overlaps it. */
+/* Per-post: put the lede text on the right instead of the left. Set from
+   Sveltia as "Lede text side", for covers whose subject sits on the left and
+   leaves the other side open.
+
+   Desktop only. On a phone the band is full width under the image and there is
+   no subject to avoid, so right-aligned text would just be harder to read: the
+   eye starts a line on the left.
+
+   The dek's accent rule has to travel with the text. Left-aligned it sits to
+   the left of the copy; right-aligned it belongs on the right, or it reads as a
+   stray mark floating away from what it marks. Same for the margin that pushes
+   the capped boxes over: text-align alone right-aligns the words inside a box
+   that is still anchored left, which would leave the rule stranded mid-band. */
+@media (min-width: 761px) {
+  .article-lede-in.lede-right { text-align: right; }
+  .article-lede-in.lede-right .article-title,
+  .article-lede-in.lede-right .article-dek { margin-left: auto; }
+  /* .article-meta is a flex row, so text-align cannot move it and the date sat
+     alone at the bottom left while everything above it had gone right. */
+  .article-lede-in.lede-right .article-meta { justify-content: flex-end; }
+  .article-lede-in.lede-right .article-dek {
+    border-left: 0;
+    border-right: 2px solid var(--lede-topic, #E8A317);
+    padding-left: 0;
+    padding-right: 1rem;
+  }
+}
+
 @media (max-width: 760px) {
   .article-lede {
     display: block;

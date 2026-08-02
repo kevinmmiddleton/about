@@ -18,6 +18,7 @@ sort_order: null
 excerpt: AI made everyone a builder. It didn't say who orchestrates them, or who validates and integrates all the prototypes.
 cover_image: /blog/images/prototype-customer-problems.jpg
 cover_alt: Meme. A mom ("Leadership") plays with one happy kid ("The prototype that 'works'") while another kid ("Integration & validation") drowns behind her, and a skeleton ("Customers") sits forgotten at the bottom of the pool.
+lede_align: right
 linkedin_url: ''
 ---
 

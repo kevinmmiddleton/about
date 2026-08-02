@@ -45,5 +45,6 @@ collections:
       - { name: excerpt, label: Excerpt, widget: text, required: false }
       - { name: cover_image, label: Cover image, widget: image, required: false }
       - { name: cover_alt, label: Cover alt text, widget: string, required: false }
+      - { name: lede_align, label: Lede text side, widget: select, options: [left, right], default: left, required: false, hint: "Which side the kicker, headline and dek sit on inside the cover band. Desktop only — phones always stack to the left, where the eye starts a line." }
       - { name: linkedin_url, label: LinkedIn URL, widget: string, required: false }
       - { name: body, label: Body, widget: markdown }

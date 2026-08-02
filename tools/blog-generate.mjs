@@ -400,7 +400,7 @@ ${HEADER}
              immediately before the same words in the h1. -->
         <div class="article-lede">
             <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)} alt="${escAttr(post.cover_alt||'')}" fetchpriority="high" decoding="async">
-            <div class="article-lede-in">
+            <div class="article-lede-in${post.lede_align === 'right' ? ' lede-right' : ''}">
                 <p class="article-eyebrow">${seriesKicker(post, all)}</p>
                 <h1 class="article-title">${esc(post.title)}</h1>
                 <!-- The dek. Already written for every post as the excerpt
