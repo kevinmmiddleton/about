@@ -5,8 +5,8 @@ status: published
 published_at: 2026-07-29
 updated_at: ''
 topic: Building with AI
-series: Building with AI
-series_order: 8
+series: Building the Job Search Agent
+series_order: 5
 tags:
   - AI
   - job search

@@ -5,8 +5,8 @@ status: published
 published_at: 2026-06-10
 updated_at: ''
 topic: Building with AI
-series: Building with AI
-series_order: 7
+series: ''
+series_order: null
 tags:
   - AI
   - GEO

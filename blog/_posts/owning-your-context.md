@@ -5,8 +5,8 @@ status: "published"
 published_at: "2026-03-02"
 updated_at: "2026-06-06"
 topic: "Building with AI"
-series: "Building with AI"
-series_order: 2
+series: ''
+series_order: null
 tags: ["AI", "Privacy", "Data Brokers", "Local Models", "On-Device AI", "Personal Context"]
 featured: false
 sort_order: 2

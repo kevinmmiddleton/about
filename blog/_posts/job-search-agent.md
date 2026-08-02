@@ -5,8 +5,8 @@ status: "published"
 published_at: "2026-06-06"
 updated_at: "2026-06-06"
 topic: "Building with AI"
-series: "Building with AI"
-series_order: 5
+series: Building the Job Search Agent
+series_order: 4
 tags: ["AI", "Job Search", "Open Source", "Claude Code"]
 featured: false
 sort_order: 1000

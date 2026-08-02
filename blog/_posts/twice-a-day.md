@@ -5,8 +5,8 @@ status: published
 published_at: 2026-06-08
 updated_at: 2026-06-07
 topic: Building with AI
-series: Building with AI
-series_order: 6
+series: ''
+series_order: null
 tags:
   - AI
   - Job Search

@@ -5,8 +5,8 @@ status: published
 published_at: 2026-03-20
 updated_at: 2026-06-06
 topic: Building with AI
-series: Building with AI
-series_order: 4
+series: Building the Job Search Agent
+series_order: 3
 tags:
   - AI Tools
   - Product Management

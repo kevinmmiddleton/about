@@ -5,8 +5,8 @@ status: "published"
 published_at: "2026-03-06"
 updated_at: "2026-06-06"
 topic: "Building with AI"
-series: "Building with AI"
-series_order: 3
+series: Building the Job Search Agent
+series_order: 2
 tags: ["AI Workflows", "Job Search", "Automation", "Web Scraping", "Reliability", "Product Management"]
 featured: false
 sort_order: 3
