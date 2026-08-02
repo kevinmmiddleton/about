@@ -793,12 +793,18 @@ figcaption {
 .article-lede-in {
   position: relative;
   width: 100%;
-  padding: 1.9rem 2.1rem;
-  /* .97, not .93. At .93 a title-card cover still ghosted its own wordmark and
-     pill row through the band, which is visible noise directly behind the
-     headline. At .97 a pure white pixel composites to about 8/255, so the band
-     reads as solid while keeping a whisper of the art's tone. */
-  background: rgba(10, 10, 12, .97);
+  padding: 1.6rem 2.1rem;
+  /* The site's own dark surface, not near-black. #0a0a0c read as a void cut
+     into the page; #161b22 is the same colour the footer and code blocks use in
+     dark mode, so the band reads as a panel belonging to the site rather than
+     a void cut into it. That colour change is what makes it lighter.
+
+     Opaque, not translucent. Every partial value let a title-card cover ghost
+     its own wordmark and pill row through, directly behind the dek, and that
+     noise is not worth the sliver of tone it buys. Lightness comes from the
+     colour, legibility from the opacity: they are separate levers and they
+     were fighting each other while this was rgba. */
+  background: #161b22;
   border-top: 2px solid var(--lede-topic, var(--c1-line));
 }
 
@@ -813,17 +819,24 @@ figcaption {
 .article-lede-in .article-title {
   color: #fff;
   font-size: 2.1rem;
-  max-width: 24ch;
-  margin: .4rem 0 .55rem;
+  max-width: 26ch;
+  margin: .35rem 0 .5rem;
 }
 .article-lede-in .article-dek {
   color: rgba(255,255,255,.87);
   border-left-color: var(--lede-topic, #E8A317);
   font-size: 1rem;
-  max-width: 56ch;
-  margin-bottom: .6rem;
+  /* Wider than the body measure on purpose. At 56ch the dek ran to three lines
+     inside a 973px band, which made the band 53% of the hero and left the art
+     with less than half. The band is a caption, not a reading column. */
+  max-width: 78ch;
+  margin-bottom: .5rem;
 }
-.article-lede-in .article-meta { color: rgba(255,255,255,.76); }
+/* The byline is the last thing in the band and carried a trailing margin, so
+   the space below it measured 62px against 32px above: nearly double the
+   padding, and the dead space at the bottom of the frame. */
+.article-lede-in > *:last-child { margin-bottom: 0; }
+.article-lede-in .article-meta { color: rgba(255,255,255,.76); margin-bottom: 0; }
 .article-lede-in .article-meta a { color: rgba(255,255,255,.92); }
 
 @media (max-width: 760px) {
