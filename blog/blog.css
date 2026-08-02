@@ -735,3 +735,141 @@ figcaption {
   .post-card:hover { transform: none; }
   .rn:hover { transform: none; }
 }
+
+
+/* ============================================================================
+   THE ARTICLE LEDE — headline over the art                added 2026-08-02
+   ----------------------------------------------------------------------------
+   The image used to arrive after the eyebrow, title, dek and byline at exactly
+   the 720px text measure, so it read as an illustration dropped into the queue
+   rather than an opening. Now the headline sits on the art.
+
+   Two things this treatment has to survive.
+
+   1. THE TWO-GROUND PROBLEM, in its sharpest form. The scrim is an inverted
+      panel that stays dark in BOTH colour schemes, so its foregrounds must not
+      follow the page mode. Light-mode --c4-text is #1F4B8F, a dark blue that
+      would be invisible here. The overlay pins the dark-mode hue values.
+
+   2. TITLE-CARD COVERS. Several covers carry their own large wordmark, and a
+      plain scrim left that type ghosting straight through behind the headline.
+      A darker scrim alone cannot fix it: the source type is white on black, so
+      it survives even at 6% opacity. What kills it is a progressive backdrop
+      blur, masked so the blur fades out toward the top and the art stays sharp
+      where nothing is written over it.
+   ========================================================================= */
+.article-lede {
+  position: relative;
+  /* Breaks out of the 720px measure symmetrically. margin-left:50% puts the
+     left edge at the centre of the column, then translateX(-50%) pulls back by
+     half the element's own width. Capped at the viewport so it never overflows.
+     Do NOT use width:auto here: on a replaced element that resolves to the
+     intrinsic image width and runs off the page. */
+  width: min(1040px, calc(100vw - 48px));
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 2.4rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  /* min-height, not aspect-ratio. A hard ratio cannot grow, and a long headline
+     plus a three-line dek overflows the frame on a phone: the wrapper was
+     absolutely positioned and the top of the headline was clipped away by
+     overflow:hidden. The frame is 16:9 when the text fits and taller when it
+     does not. */
+  min-height: min(585px, calc((100vw - 48px) * 0.5625));
+  background: #0b0b0d;
+}
+.article-lede .article-hero {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+/* The scrim and the blur are SEPARATE layers, and getting that wrong is worth
+   recording. Putting the mask on this element faded out its background too, so
+   the scrim vanished exactly where the headline sits: measured 1.63:1 on a
+   light illustration and 2.13:1 on a photo. The mask now applies only to a
+   pseudo-element that carries nothing but the blur.
+
+   The wrapper also fills the whole frame rather than hugging its text, so the
+   gradient is measured against the full height of the hero and the headline is
+   always in its dark end. */
+.article-lede-in {
+  position: relative;
+  width: 100%;
+  /* The tall top padding is what gives the art room to breathe above the text
+     AND what gives the gradient enough height that its dark end fully covers
+     the headline. Both were measured. */
+  padding: 7rem 2.2rem 2.2rem;
+  /* Stops chosen by measurement, not by eye. The eyebrow sits higher in the
+     frame than the headline, so it lands where the scrim is weakest: it read
+     2.92:1 when the mid-band was lighter. */
+  background: linear-gradient(to top,
+    rgba(0,0,0,.94) 0%, rgba(0,0,0,.92) 52%, rgba(0,0,0,.86) 74%, rgba(0,0,0,.48) 92%, rgba(0,0,0,.22) 100%);
+}
+/* Progressive blur only. Fades out toward the top so the art stays sharp where
+   nothing is written over it, and softens to nothing legible behind the text.
+   This is what kills the wordmark ghosting on title-card covers, which no
+   amount of extra scrim could do: white-on-black source type survives even at
+   6% opacity. */
+.article-lede-in::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  backdrop-filter: blur(18px) saturate(115%);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 66%, transparent 95%);
+  mask-image: linear-gradient(to top, #000 0%, #000 66%, transparent 95%);
+  pointer-events: none;
+}
+.article-lede-in > * { position: relative; }
+/* Where backdrop-filter is unavailable the mask would still clip the scrim, so
+   the gradient is re-declared solid and slightly heavier. Nothing is left
+   depending on a filter that did not apply. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  /* No blur available, so the scrim has to carry the whole job alone. */
+  .article-lede-in::before { display: none; }
+  .article-lede-in {
+    background: linear-gradient(to top,
+      rgba(0,0,0,.95) 0%, rgba(0,0,0,.93) 50%, rgba(0,0,0,.82) 75%, rgba(0,0,0,.5) 100%);
+  }
+}
+
+/* Foregrounds pinned to the light-on-dark set, in both schemes. */
+/* Lighter than the dark-mode set. Those are tuned for a #0F0F12 page, and the
+   top of this scrim is lighter than that, so cobalt and viridian in particular
+   needed lifting to clear 4.5:1 on the eyebrow. */
+.hue-1 .article-lede-in{--lede-topic:#F0B54A} .hue-2 .article-lede-in{--lede-topic:#F08A99}
+.hue-3 .article-lede-in{--lede-topic:#6FC4AB} .hue-4 .article-lede-in{--lede-topic:#9DBCE8}
+.hue-5 .article-lede-in{--lede-topic:#C3B0EA} .hue-6 .article-lede-in{--lede-topic:#E795CD}
+
+.article-lede-in .article-eyebrow { color: var(--lede-topic, #6E93CC); }
+.article-lede-in .article-title   { color: #fff; margin: .45rem 0 .7rem; max-width: 20ch; }
+.article-lede-in .article-dek {
+  color: rgba(255,255,255,.88);
+  border-left-color: var(--lede-topic, #6E93CC);
+  max-width: 54ch;
+  margin-bottom: .9rem;
+}
+.article-lede-in .article-meta { color: rgba(255,255,255,.76); }
+.article-lede-in .article-meta a { color: rgba(255,255,255,.9); }
+
+/* Phones: a 16:9 box cannot hold a three-line headline plus a dek at 390px, so
+   the aspect ratio is dropped and the box grows to fit its content instead.
+   The image still covers. Nothing is ever clipped. */
+@media (max-width: 760px) {
+  .article-lede {
+    min-height: 340px;
+    width: calc(100vw - 32px);
+  }
+  .article-lede-in { padding: 5rem 1.25rem 1.5rem; }
+  .article-lede-in .article-title { font-size: 1.9rem; max-width: none; }
+  .article-lede-in .article-dek { font-size: 1rem; max-width: none; }
+}

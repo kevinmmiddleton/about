@@ -386,22 +386,32 @@ ${HEADER}
     <article class="article ${hueClass(post.topic)}">
         <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
         ${ribbon}
-        <p class="article-eyebrow">${esc(post.topic||'')}</p>
-        <h1 class="article-title">${esc(post.title)}</h1>
-        <!-- The dek. Already written for every post as the excerpt field,
-             already used on the index card and in og:description, and
-             previously thrown away on the page where it does the most work.
-             No headline should run naked. -->
-        <p class="article-dek">${esc(post.excerpt||'')}</p>
-        <div class="article-meta">
-            <span>By Kevin Middleton, Full Stack Product Manager</span>
-            <span class="dot" aria-hidden="true">·</span>
-            <span>${fmtDate(post.published_at)}</span>${metaLink}
-        </div>
+        <!-- The lede. The headline sits ON the art rather than after it: the
+             image used to arrive below the eyebrow, title, dek and byline, at
+             exactly the text column's width, so it read as an illustration
+             dropped into the queue instead of an opening.
 
-        <!-- The hero is the LCP element on every post, so it is never lazy and
-             always high priority. -->
-        <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)} alt="${escAttr(post.cover_alt||post.title)}" fetchpriority="high" decoding="async">
+             The hero is the LCP element on every post, so it is never lazy and
+             always high priority. alt is empty because the headline beside it
+             carries the meaning; a descriptive alt here would be read out
+             immediately before the same words in the h1. -->
+        <div class="article-lede">
+            <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)} alt="" fetchpriority="high" decoding="async">
+            <div class="article-lede-in">
+                <p class="article-eyebrow">${esc(post.topic||'')}</p>
+                <h1 class="article-title">${esc(post.title)}</h1>
+                <!-- The dek. Already written for every post as the excerpt
+                     field, already used on the index card and in
+                     og:description, and previously thrown away on the page
+                     where it does the most work. -->
+                <p class="article-dek">${esc(post.excerpt||'')}</p>
+                <div class="article-meta">
+                    <span>By Kevin Middleton</span>
+                    <span class="dot" aria-hidden="true">·</span>
+                    <span>${fmtDate(post.published_at)}</span>${metaLink}
+                </div>
+            </div>
+        </div>
 
         <div class="article-body">
 ${bodyLinked}

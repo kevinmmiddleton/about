@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=d8bff338">
-    <link rel="stylesheet" href="/blog/blog.css?v=b703acf0">
+    <link rel="stylesheet" href="/blog/blog.css?v=057cbaf6">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -141,22 +141,32 @@
     <article class="article hue-3">
         <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
         
-        <p class="article-eyebrow">Leadership</p>
-        <h1 class="article-title">Everyone can build now. The fundamentals shouldn't change.</h1>
-        <!-- The dek. Already written for every post as the excerpt field,
-             already used on the index card and in og:description, and
-             previously thrown away on the page where it does the most work.
-             No headline should run naked. -->
-        <p class="article-dek">AI made everyone a builder. It didn't say who orchestrates them, or who validates and integrates all the prototypes.</p>
-        <div class="article-meta">
-            <span>By Kevin Middleton, Full Stack Product Manager</span>
-            <span class="dot" aria-hidden="true">·</span>
-            <span>June 23, 2026</span>
-        </div>
+        <!-- The lede. The headline sits ON the art rather than after it: the
+             image used to arrive below the eyebrow, title, dek and byline, at
+             exactly the text column's width, so it read as an illustration
+             dropped into the queue instead of an opening.
 
-        <!-- The hero is the LCP element on every post, so it is never lazy and
-             always high priority. -->
-        <img class="article-hero" src="/blog/images/prototype-customer-problems.jpg" width="1600" height="620" alt="Meme. A mom (&quot;Leadership&quot;) plays with one happy kid (&quot;The prototype that 'works'&quot;) while another kid (&quot;Integration &amp; validation&quot;) drowns behind her, and a skeleton (&quot;Customers&quot;) sits forgotten at the bottom of the pool." fetchpriority="high" decoding="async">
+             The hero is the LCP element on every post, so it is never lazy and
+             always high priority. alt is empty because the headline beside it
+             carries the meaning; a descriptive alt here would be read out
+             immediately before the same words in the h1. -->
+        <div class="article-lede">
+            <img class="article-hero" src="/blog/images/prototype-customer-problems.jpg" width="1600" height="620" alt="" fetchpriority="high" decoding="async">
+            <div class="article-lede-in">
+                <p class="article-eyebrow">Leadership</p>
+                <h1 class="article-title">Everyone can build now. The fundamentals shouldn't change.</h1>
+                <!-- The dek. Already written for every post as the excerpt
+                     field, already used on the index card and in
+                     og:description, and previously thrown away on the page
+                     where it does the most work. -->
+                <p class="article-dek">AI made everyone a builder. It didn't say who orchestrates them, or who validates and integrates all the prototypes.</p>
+                <div class="article-meta">
+                    <span>By Kevin Middleton</span>
+                    <span class="dot" aria-hidden="true">·</span>
+                    <span>June 23, 2026</span>
+                </div>
+            </div>
+        </div>
 
         <div class="article-body">
 <p>In my career group last week we got into how AI is fundamentally changing organizations. AI is a new tool, and while it can accelerate outcomes, it shouldn't overwrite good process. This isn't the first time this has happened. Most of what I'm watching isn't reinvention. It's organizations mistaking a tooling change for a process change, and eagerly skipping the discovery that was always the actual product work.</p>
