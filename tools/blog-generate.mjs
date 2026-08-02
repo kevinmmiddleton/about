@@ -101,8 +101,11 @@ function renderMarkdown(md='') {
       i++; continue;
     }
     // heading
-    let h = line.match(/^(#{2,3})\s+(.*)$/);
-    if (h) { const lvl = h[1].length; out.push(`<h${lvl}>${inline(h[2])}</h${lvl}>`); i++; continue; }
+    // Posts author their top section level as ###, and none uses ##, so
+    // passing the level straight through produced h1 -> h3 with no h2 on every
+    // article. Shift by one: ## and ### both become h2, #### becomes h3.
+    let h = line.match(/^(#{2,4})\s+(.*)$/);
+    if (h) { const lvl = Math.max(2, h[1].length - 1); out.push(`<h${lvl}>${inline(h[2])}</h${lvl}>`); i++; continue; }
     // list (unordered) — tolerates blank lines between items (one list, not many)
     if (/^[-*]\s+/.test(line)) {
       const items = [];
@@ -170,24 +173,27 @@ const seriesMembers = (post, all) =>
   all.filter((p) => p.series && p.series === post.series)
      .sort((a, b) => (a.series_order || 0) - (b.series_order || 0));
 
-// The series, made visible at the top of the piece. Replaces the old prose
-// callout: same information, but it reads as packaging rather than a sentence.
-// The pips are decorative, so the position is stated in text for screen readers
-// and the pips carry aria-hidden.
-function seriesRibbon(post, all) {
-  if (!post.series) return '';
+// The series signal, as one line of metadata rather than a component.
+// It used to be a bordered 672x52 box above the lede carrying the name, the
+// position, five decorative pips and a "Start at Part 1" link. The pips
+// duplicated the position in ink and their margin-left:auto is what wrapped the
+// row onto three lines at 390px. hubPage() already prints series context in the
+// card kicker as "Topic - Part N of M", so putting it in the article kicker
+// makes the card and the article one pattern instead of two.
+// It REPLACES the topic here rather than appending to it: two mono uppercase
+// kickers in the same band would collide.
+function seriesKicker(post, all) {
+  if (!post.series) return esc(post.topic || '');
   const sibs = seriesMembers(post, all);
   const idx = sibs.findIndex((p) => p.id === post.id);
   const part = post.series_order || (idx + 1);
   const first = sibs[0];
-  const pips = sibs.map((_, i) => `<i class="pip${i < part ? ' on' : ''}"></i>`).join('');
-  const start = idx === 0 ? ''
-    : `\n            <a class="ser-start" href="/blog/${first.slug}/">Start at Part 1</a>`;
-  return `<div class="series-ribbon">
-            <span class="ser-nm">${esc(post.series)}</span>
-            <span class="ser-pos">Part ${part} of ${sibs.length}</span>
-            <span class="ser-pips" aria-hidden="true">${pips}</span>${start}
-        </div>`;
+  // The series name is the link, so it describes its own destination. The old
+  // "Start at Part 1" read as a bare, referent-free string in a links list.
+  const name = idx === 0
+    ? esc(post.series)
+    : `<a href="/blog/${first.slug}/">${esc(post.series)}</a>`;
+  return `${name} <span class="kick-sep" aria-hidden="true">&middot;</span> Part ${part} of ${sibs.length}`;
 }
 
 // Every post gets an exit. Eight of the sixteen had none: only the series posts
@@ -226,7 +232,7 @@ function readNext(post, all) {
                 <span class="rn-x">${esc(c.p.excerpt || '')}</span>
             </a>`).join('\n');
   return `<nav class="readnext" aria-label="Read next">
-        <p class="rn-lbl">${inSeries ? 'Next in this series' : 'Read next'}</p>
+        <h2 class="rn-lbl">${inSeries ? 'Next in this series' : 'Read next'}</h2>
         <div class="rn-grid">
 ${cards}
         </div>
@@ -271,7 +277,7 @@ const HEADER = `    <nav class="nav pad">
           <a href="/#about">About</a>
           <a href="/#record">Experience</a>
           <a href="/#cases">Case Studies</a>
-          <a href="/blog/" target="_blank" rel="noopener noreferrer">Blog</a>
+          <a href="/blog/">Blog</a>
         </span>
         <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
       </nav>`;
@@ -300,7 +306,6 @@ function articlePage(post, all) {
     ? coverAbs : `${SITE}/images/kevin-middleton-og.png`;
   const pub = isoDate(post.published_at);
   const mod = isoDate(post.updated_at) || pub;
-  const ribbon = seriesRibbon(post, all);
   const next = readNext(post, all);
   const metaLink = post.linkedin_url
     ? `\n            <span class="dot" aria-hidden="true">·</span>\n            <a href="${escAttr(post.linkedin_url)}" target="_blank" rel="noopener">First published on LinkedIn</a>` : '';
@@ -384,8 +389,6 @@ ${HEADER}
 
     <main id="content" tabindex="-1">
     <article class="article ${hueClass(post.topic)}">
-        <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
-        ${ribbon}
         <!-- The lede. The headline sits ON the art rather than after it: the
              image used to arrive below the eyebrow, title, dek and byline, at
              exactly the text column's width, so it read as an illustration
@@ -396,9 +399,9 @@ ${HEADER}
              carries the meaning; a descriptive alt here would be read out
              immediately before the same words in the h1. -->
         <div class="article-lede">
-            <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)} alt="" fetchpriority="high" decoding="async">
+            <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)} alt="${escAttr(post.cover_alt||'')}" fetchpriority="high" decoding="async">
             <div class="article-lede-in">
-                <p class="article-eyebrow">${esc(post.topic||'')}</p>
+                <p class="article-eyebrow">${seriesKicker(post, all)}</p>
                 <h1 class="article-title">${esc(post.title)}</h1>
                 <!-- The dek. Already written for every post as the excerpt
                      field, already used on the index card and in
@@ -409,7 +412,7 @@ ${HEADER}
                      nav lockup and again in the bio at the foot, so a third
                      printing of it only cost a line in the band. -->
                 <div class="article-meta">
-                    <span>${fmtDate(post.published_at)}</span>${metaLink}
+                    <time datetime="${isoDate(post.published_at)}">${fmtDate(post.published_at)}</time>${metaLink}
                 </div>
             </div>
         </div>

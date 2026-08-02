@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=d8bff338">
-    <link rel="stylesheet" href="/blog/blog.css?v=9c531f2e">
+    <link rel="stylesheet" href="/blog/blog.css?v=845f955b">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -131,20 +131,13 @@
           <a href="/#about">About</a>
           <a href="/#record">Experience</a>
           <a href="/#cases">Case Studies</a>
-          <a href="/blog/" target="_blank" rel="noopener noreferrer">Blog</a>
+          <a href="/blog/">Blog</a>
         </span>
         <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
       </nav>
 
     <main id="content" tabindex="-1">
     <article class="article hue-4">
-        <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
-        <div class="series-ribbon">
-            <span class="ser-nm">Building the Job Search Agent</span>
-            <span class="ser-pos">Part 4 of 5</span>
-            <span class="ser-pips" aria-hidden="true"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span>
-            <a class="ser-start" href="/blog/ai-job-search-assistant/">Start at Part 1</a>
-        </div>
         <!-- The lede. The headline sits ON the art rather than after it: the
              image used to arrive below the eyebrow, title, dek and byline, at
              exactly the text column's width, so it read as an illustration
@@ -155,9 +148,9 @@
              carries the meaning; a descriptive alt here would be read out
              immediately before the same words in the h1. -->
         <div class="article-lede">
-            <img class="article-hero" src="/blog/images/1780711744499-job-search-agent-banner.png" width="2280" height="930" alt="" fetchpriority="high" decoding="async">
+            <img class="article-hero" src="/blog/images/1780711744499-job-search-agent-banner.png" width="2280" height="930" alt="Job Search Agent banner. Turn Claude into your job search assistant." fetchpriority="high" decoding="async">
             <div class="article-lede-in">
-                <p class="article-eyebrow">Building with AI</p>
+                <p class="article-eyebrow"><a href="/blog/ai-job-search-assistant/">Building the Job Search Agent</a> <span class="kick-sep" aria-hidden="true">&middot;</span> Part 4 of 5</p>
                 <h1 class="article-title">Need an AI recruiter that works for you? Try this one.</h1>
                 <!-- The dek. Already written for every post as the excerpt
                      field, already used on the index card and in
@@ -168,7 +161,7 @@
                      nav lockup and again in the bio at the foot, so a third
                      printing of it only cost a line in the band. -->
                 <div class="article-meta">
-                    <span>June 6, 2026</span>
+                    <time datetime="2026-06-06">June 6, 2026</time>
                 </div>
             </div>
         </div>
@@ -222,7 +215,7 @@
 <p>This is the first thing I've open-sourced from my personal job search system. Hopefully more will follow. It's the least I can do.</p>
         </div>
 <nav class="readnext" aria-label="Read next">
-        <p class="rn-lbl">Next in this series</p>
+        <h2 class="rn-lbl">Next in this series</h2>
         <div class="rn-grid">
             <a class="rn hue-4" href="/blog/building-personal-ai-tools-for-everyone-else/">
                 <span class="rn-k">Part 5 of 5</span>

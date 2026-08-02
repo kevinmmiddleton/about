@@ -102,8 +102,12 @@ img{max-width:100%;height:auto;display:block}
     margin: 0 auto;
     /* Was calc(80px + 2.5rem). The 80px compensated for a fixed nav; the
        shared nav is sticky and in flow, so it was dead space. .blog-index
-       had the identical fix applied already. */
-    padding: 2.6rem 24px 2rem;
+       had the identical fix applied already.
+
+       Trimmed again once the top back link was removed: that space existed to
+       separate the link from the nav, and with the lede now the first thing in
+       the article there is nothing to separate. */
+    padding: 1.5rem 24px 2rem;
 }
 
 .article-eyebrow,
@@ -153,6 +157,10 @@ img{max-width:100%;height:auto;display:block}
     transition: color 0.15s ease;
 }
 .article-back:hover { color: var(--coral-text); }
+/* Was 22px tall and conformed to 2.5.8 only via the spacing exception, with
+   about 1px of slack. padding-block clears the 24px minimum outright so a
+   future neighbour cannot break it silently. */
+.article-back { padding-block: .3rem; }
 .article-back-bottom {
     margin: 40px 0 0;
     padding-top: 24px;
@@ -624,33 +632,6 @@ figcaption {
   .post-list > .post-card:first-child:hover .post-card__thumb { box-shadow: none; }
 }
 
-/* ---------------------------------------------------------- the series ribbon */
-.series-ribbon {
-  display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
-  border: 1px solid var(--topic-line, var(--c4-line));
-  border-radius: var(--radius-md);
-  padding: .8rem 1rem;
-  margin: 0 0 1.5rem;
-  background: var(--tint-soft);
-}
-.series-ribbon .ser-nm {
-  font-family: var(--mono); font-size: .58rem; letter-spacing: .1em;
-  text-transform: uppercase; font-weight: 700; color: var(--topic, var(--c4-text));
-}
-.series-ribbon .ser-pos {
-  font-family: var(--mono); font-size: .58rem; letter-spacing: .09em;
-  text-transform: uppercase; font-weight: 700; color: var(--text-secondary);
-}
-.series-ribbon .ser-pips { display: flex; gap: 4px; margin-left: auto; }
-.series-ribbon .pip { width: 14px; height: 4px; border-radius: 2px; background: var(--rule-strong); }
-.series-ribbon .pip.on { background: var(--topic-line, var(--c4-line)); }
-.series-ribbon .ser-start {
-  font-family: var(--mono); font-size: .58rem; letter-spacing: .08em;
-  text-transform: uppercase; font-weight: 700; color: var(--topic, var(--c4-text));
-  text-decoration: none; padding-block: .3rem;
-}
-.series-ribbon .ser-start:hover { text-decoration: underline; text-underline-offset: 3px; }
-
 /* -------------------------------------------------------------- read next */
 /* The exit. Eight of the sixteen posts previously ended with no onward link at
    all, and they were the newest and most shareable ones. */
@@ -831,6 +812,11 @@ figcaption {
 .hue-5 .article-lede-in{--lede-topic:#A98FD8} .hue-6 .article-lede-in{--lede-topic:#D96BB8}
 
 .article-lede-in .article-eyebrow { color: var(--lede-topic, #E8A317); }
+/* The series name links to Part 1. Only the name underlines, not the
+   "- Part N of M" run after it, so the target reads as one thing. */
+.article-lede-in .article-eyebrow a { color: inherit; text-decoration: none; padding-block: .25rem; }
+.article-lede-in .article-eyebrow a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.article-eyebrow .kick-sep { opacity: .55; margin: 0 .15em; }
 .article-lede-in .article-title {
   color: #fff;
   font-size: 1.95rem;
@@ -864,12 +850,31 @@ figcaption {
 .article-lede-in .article-meta { color: rgba(255,255,255,.76); margin-bottom: 0; }
 .article-lede-in .article-meta a { color: rgba(255,255,255,.92); }
 
+/* Phones do not get the overlay. Measured at 390px it was not running the
+   pattern anyway: the band needed 267-291px of a 320px frame, so the cover was
+   29px tall on a plain post and 53px on a series post, roughly a 6.8:1 slice of
+   a 16:9 image. That reads as a rendering fault, not a crop, and it was the
+   first thing on the page.
+
+   The markup already stacks; the overlay existed only because the hero was
+   absolutely positioned inside a flex frame. Dropping that is the entire fix,
+   with no generator change. The band keeps its measured contrast because it is
+   opaque either way, and nothing now overlaps it. */
 @media (max-width: 760px) {
   .article-lede {
-    min-height: 320px;
+    display: block;
+    min-height: 0;
     width: calc(100vw - 32px);
   }
-  .article-lede-in { padding: 1.4rem 1.25rem; }
+  .article-lede .article-hero {
+    position: static;
+    width: 100%;
+    height: auto;
+    /* 2:1. Covers here run 1.67 to 2.58, so this centre-crops every family
+       without shearing a wordmark. */
+    aspect-ratio: 2 / 1;
+  }
+  .article-lede-in { padding: 1.25rem 1.25rem 1.35rem; }
   .article-lede-in .article-title { font-size: 1.75rem; max-width: none; }
   .article-lede-in .article-dek { font-size: .96rem; max-width: none; }
 }
