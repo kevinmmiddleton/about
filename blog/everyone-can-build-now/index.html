@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=d8bff338">
-    <link rel="stylesheet" href="/blog/blog.css?v=d428f456">
+    <link rel="stylesheet" href="/blog/blog.css?v=b703acf0">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -123,7 +123,8 @@
     plausible.init()
     </script>
 </head>
-<body>
+<body class="p-post">
+    <a class="skip" href="#content">Skip to content</a>
     <nav class="nav pad">
         <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
         <span class="nav-l">
@@ -136,18 +137,26 @@
         <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
       </nav>
 
-    <main>
-    <article class="article">
+    <main id="content" tabindex="-1">
+    <article class="article hue-3">
         <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+        
         <p class="article-eyebrow">Leadership</p>
         <h1 class="article-title">Everyone can build now. The fundamentals shouldn't change.</h1>
+        <!-- The dek. Already written for every post as the excerpt field,
+             already used on the index card and in og:description, and
+             previously thrown away on the page where it does the most work.
+             No headline should run naked. -->
+        <p class="article-dek">AI made everyone a builder. It didn't say who orchestrates them, or who validates and integrates all the prototypes.</p>
         <div class="article-meta">
-            <span>By Kevin Middleton</span>
+            <span>By Kevin Middleton, Full Stack Product Manager</span>
             <span class="dot" aria-hidden="true">·</span>
             <span>June 23, 2026</span>
         </div>
 
-        <img class="article-hero" src="/blog/images/prototype-customer-problems.jpg" width="1600" height="620" alt="Meme. A mom (&quot;Leadership&quot;) plays with one happy kid (&quot;The prototype that 'works'&quot;) while another kid (&quot;Integration &amp; validation&quot;) drowns behind her, and a skeleton (&quot;Customers&quot;) sits forgotten at the bottom of the pool.">
+        <!-- The hero is the LCP element on every post, so it is never lazy and
+             always high priority. -->
+        <img class="article-hero" src="/blog/images/prototype-customer-problems.jpg" width="1600" height="620" alt="Meme. A mom (&quot;Leadership&quot;) plays with one happy kid (&quot;The prototype that 'works'&quot;) while another kid (&quot;Integration &amp; validation&quot;) drowns behind her, and a skeleton (&quot;Customers&quot;) sits forgotten at the bottom of the pool." fetchpriority="high" decoding="async">
 
         <div class="article-body">
 <p>In my career group last week we got into how AI is fundamentally changing organizations. AI is a new tool, and while it can accelerate outcomes, it shouldn't overwrite good process. This isn't the first time this has happened. Most of what I'm watching isn't reinvention. It's organizations mistaking a tooling change for a process change, and eagerly skipping the discovery that was always the actual product work.</p>
@@ -208,11 +217,25 @@
 <p>I am worried that organizations are about to unnecessarily rewrite the fundamentals without an eye on outcomes. We're already seeing reversals on AI firings, reductions in AI spend, and I think that the next conversation will be a pendulum swing back to first principles.</p>
 
 <p>I don't think organizations need to be fundamentally reinvented. The tools are new and the fundamentals didn't move. Customer problems, usability, outcomes, and the glue that holds it together were the work before, and they're still the work. The orgs that remember that will be fine. The ones redrawing the org chart around the tool are going to relearn it the expensive way.</p>
-
-<div class="article-bio">
-  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a target="_blank" rel="noopener" href="https://middleton.io">middleton.io</a> and <a target="_blank" rel="noopener" href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
-</div>
         </div>
+<nav class="readnext" aria-label="Read next">
+        <p class="rn-lbl">Read next</p>
+        <div class="rn-grid">
+            <a class="rn hue-3" href="/blog/curiosity-makes-or-breaks/">
+                <span class="rn-k">More in Leadership</span>
+                <span class="rn-t">At work, curiosity can be the difference between thriving and surviving</span>
+                <span class="rn-x">You can usually tell within a few weeks whether you'll thrive at a company or just survive it. It comes down to what happens when you ask one simple question.</span>
+            </a>
+            <a class="rn hue-4" href="/blog/building-personal-ai-tools-for-everyone-else/">
+                <span class="rn-k">From the blog</span>
+                <span class="rn-t">An AI tool for me 🎉 An AI tool for us? 🙈</span>
+                <span class="rn-x">The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.</span>
+            </a>
+        </div>
+    </nav>
+        <div class="article-bio">
+  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
+</div>
         <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
     </article>
     </main>
@@ -222,13 +245,6 @@
             <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
         </div>
     </footer>
-
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <div class="lightbox-content">
-            <img id="lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        </div>
-    </div>
 
     <script src="/blog/blog-nav.js"></script>
 </body>

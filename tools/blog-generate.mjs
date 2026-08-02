@@ -156,21 +156,83 @@ function renderMarkdown(md='') {
 const endsSentence = (t) => /[.!?…][^\p{L}\p{N}]*$/u.test(String(t).trim());
 const stop = (t) => (endsSentence(t) ? '' : '.');
 
-function seriesCallouts(post, all) {
-  if (!post.series) return { top:'', bottom:'' };
-  const sibs = all.filter(p => p.series === post.series).sort((a,b)=>(a.series_order||0)-(b.series_order||0));
-  const idx = sibs.findIndex(p => p.id === post.id);
-  const part = post.series_order || (idx+1);
+// Topic -> hue. The six triads already exist for the homepage sector pills.
+// Every one was measured against BOTH the card ground and the page ground, in
+// BOTH modes: minimum 4.98:1. c2 is the fallback so an unrecognised topic still
+// resolves rather than rendering an empty custom property.
+const TOPIC_HUE = {
+  'Building with AI': 4, 'Product': 5, 'Career': 1,
+  'Leadership': 3, 'Tech & Society': 6,
+};
+const hueClass = (topic) => `hue-${TOPIC_HUE[topic] || 2}`;
+
+const seriesMembers = (post, all) =>
+  all.filter((p) => p.series && p.series === post.series)
+     .sort((a, b) => (a.series_order || 0) - (b.series_order || 0));
+
+// The series, made visible at the top of the piece. Replaces the old prose
+// callout: same information, but it reads as packaging rather than a sentence.
+// The pips are decorative, so the position is stated in text for screen readers
+// and the pips carry aria-hidden.
+function seriesRibbon(post, all) {
+  if (!post.series) return '';
+  const sibs = seriesMembers(post, all);
+  const idx = sibs.findIndex((p) => p.id === post.id);
+  const part = post.series_order || (idx + 1);
   const first = sibs[0];
-  const next = sibs[idx+1];
-  let top;
-  if (idx === 0) top = `This is Part 1 of a series on ${esc(post.series)}.`;
-  else top = `Part ${part} of a series on ${esc(post.series)}. Start at the beginning: <a href="/blog/${first.slug}/">${esc(first.title)}</a>${stop(first.title)}`;
-  let bottom;
-  if (next) bottom = `Next in the series: <a href="/blog/${next.slug}/">${esc(next.title)}</a>${stop(next.title)}`;
-  else bottom = `That's the series so far. Start over at <a href="/blog/${first.slug}/">Part 1</a>, or browse everything on the <a href="/blog/">blog</a>.`;
-  return { top: `<p class="callout">${top}</p>`, bottom: `<p class="callout">${bottom}</p>` };
+  const pips = sibs.map((_, i) => `<i class="pip${i < part ? ' on' : ''}"></i>`).join('');
+  const start = idx === 0 ? ''
+    : `\n            <a class="ser-start" href="/blog/${first.slug}/">Start at Part 1</a>`;
+  return `<div class="series-ribbon">
+            <span class="ser-nm">${esc(post.series)}</span>
+            <span class="ser-pos">Part ${part} of ${sibs.length}</span>
+            <span class="ser-pips" aria-hidden="true">${pips}</span>${start}
+        </div>`;
 }
+
+// Every post gets an exit. Eight of the sixteen had none: only the series posts
+// carried onward links, and purely by accident of having a mechanism. Order is
+// next-in-series first, then same-topic newest, then newest on the site, so a
+// post can never end in a dead end regardless of its metadata.
+function readNext(post, all) {
+  const picks = [];
+  const taken = new Set([post.id]);
+  if (post.series) {
+    const sibs = seriesMembers(post, all);
+    const idx = sibs.findIndex((p) => p.id === post.id);
+    const next = sibs[idx + 1];
+    if (next) {
+      picks.push({ p: next, kicker: `Part ${next.series_order || idx + 2} of ${sibs.length}` });
+      taken.add(next.id);
+    }
+  }
+  for (const p of all) {
+    if (picks.length >= 2) break;
+    if (taken.has(p.id) || p.topic !== post.topic) continue;
+    picks.push({ p, kicker: `More in ${p.topic}` });
+    taken.add(p.id);
+  }
+  for (const p of all) {
+    if (picks.length >= 2) break;
+    if (taken.has(p.id)) continue;
+    picks.push({ p, kicker: 'From the blog' });
+    taken.add(p.id);
+  }
+  if (!picks.length) return '';
+  const inSeries = picks[0].kicker.startsWith('Part');
+  const cards = picks.map((c) => `            <a class="rn ${hueClass(c.p.topic)}" href="/blog/${c.p.slug}/">
+                <span class="rn-k">${esc(c.kicker)}</span>
+                <span class="rn-t">${esc(c.p.title)}</span>
+                <span class="rn-x">${esc(c.p.excerpt || '')}</span>
+            </a>`).join('\n');
+  return `<nav class="readnext" aria-label="Read next">
+        <p class="rn-lbl">${inSeries ? 'Next in this series' : 'Read next'}</p>
+        <div class="rn-grid">
+${cards}
+        </div>
+    </nav>`;
+}
+
 
 // ---------- shared chrome ----------
 // Cache stamps are COMPUTED, never hardcoded. They were literal strings here
@@ -218,12 +280,14 @@ const FOOTER = `    <footer id="footer" class="footer">
             <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
         </div>
     </footer>`;
-const LIGHTBOX = `    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <div class="lightbox-content">
-            <img id="lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        </div>
-    </div>`;
+// The lightbox markup used to be emitted here. Its only CSS lives in fv.css
+// scoped `body.p-case`, and blog articles carry no such class, so none of it
+// applied: the container sat in normal flow and painted a bare 10x19px "×"
+// glyph BELOW the footer on all 16 posts, plus 26px of dead page. blog.css also
+// advertised `cursor: zoom-in` on figures for a zoom that could never happen.
+// Removed rather than wired up, because a real lightbox owes a dialog role,
+// Escape, focus return and a keyboard path to open it, and none of that is in
+// scope here. Figures are plain images again.
 
 // ---------- article page ----------
 function articlePage(post, all) {
@@ -236,7 +300,8 @@ function articlePage(post, all) {
     ? coverAbs : `${SITE}/images/kevin-middleton-og.png`;
   const pub = isoDate(post.published_at);
   const mod = isoDate(post.updated_at) || pub;
-  const { top, bottom } = seriesCallouts(post, all);
+  const ribbon = seriesRibbon(post, all);
+  const next = readNext(post, all);
   const metaLink = post.linkedin_url
     ? `\n            <span class="dot" aria-hidden="true">·</span>\n            <a href="${escAttr(post.linkedin_url)}" target="_blank" rel="noopener">First published on LinkedIn</a>` : '';
   const article = {
@@ -254,15 +319,15 @@ function articlePage(post, all) {
       {"@type":"ListItem",position:1,name:"Home",item:`${SITE}/`},
       {"@type":"ListItem",position:2,name:"Blog",item:`${SITE}/blog/`},
       {"@type":"ListItem",position:3,name:post.title,item:url}]};
-  const body = [top, renderMarkdown(post.body_markdown), bottom,
+  const body = [renderMarkdown(post.body_markdown)].filter(Boolean).join('\n\n');
+  const bio =
     // Says nothing about employment status in either direction, per the rule
     // adopted 2026-07-31. This line read "Currently looking for his next role
     // in NYC" until 2026-08-01: the sweep that stripped the homepage, KevinOS,
     // llms.txt and the KevBot worker missed the generator, so the claim stayed
     // live at the foot of all 16 posts after it stopped being true. Keep it
     // status-free, and avoid implying a current role indirectly too.
-    `<div class="article-bio">\n  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>\n</div>`
-  ].filter(Boolean).join('\n\n');
+    `<div class="article-bio">\n  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>\n</div>`;
   // every link in the article body opens in a new tab
   const bodyLinked = body.replace(/<a (?![^>]*\btarget=)/g, '<a target="_blank" rel="noopener" ');
 
@@ -313,32 +378,41 @@ ${HEAD_LINKS}
 
 ${PLAUSIBLE}
 </head>
-<body>
+<body class="p-post">
+    <a class="skip" href="#content">Skip to content</a>
 ${HEADER}
 
-    <main>
-    <article class="article">
+    <main id="content" tabindex="-1">
+    <article class="article ${hueClass(post.topic)}">
         <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+        ${ribbon}
         <p class="article-eyebrow">${esc(post.topic||'')}</p>
         <h1 class="article-title">${esc(post.title)}</h1>
+        <!-- The dek. Already written for every post as the excerpt field,
+             already used on the index card and in og:description, and
+             previously thrown away on the page where it does the most work.
+             No headline should run naked. -->
+        <p class="article-dek">${esc(post.excerpt||'')}</p>
         <div class="article-meta">
-            <span>By Kevin Middleton</span>
+            <span>By Kevin Middleton, Full Stack Product Manager</span>
             <span class="dot" aria-hidden="true">·</span>
             <span>${fmtDate(post.published_at)}</span>${metaLink}
         </div>
 
-        <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)} alt="${escAttr(post.cover_alt||post.title)}">
+        <!-- The hero is the LCP element on every post, so it is never lazy and
+             always high priority. -->
+        <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)} alt="${escAttr(post.cover_alt||post.title)}" fetchpriority="high" decoding="async">
 
         <div class="article-body">
 ${bodyLinked}
         </div>
+${next}
+        ${bio}
         <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
     </article>
     </main>
 
 ${FOOTER}
-
-${LIGHTBOX}
 
     <script src="/blog/blog-nav.js"></script>
 </body>
@@ -355,15 +429,24 @@ function hubPage(posts) {
   const crumbs = {"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[
     {"@type":"ListItem",position:1,name:"Home",item:`${SITE}/`},
     {"@type":"ListItem",position:2,name:"Blog",item:`${SITE}/blog/`}]};
-  const cards = posts.map(p=>`            <a class="post-card plausible-event-name=Blog+Card+Click plausible-event-post=${p.slug}" href="/blog/${p.slug}/">
-                <img class="post-card__thumb" src="${escAttr(p.cover_image||'')}" alt="" loading="lazy">
+  // The first row is above the fold at every width, so those three are the LCP
+  // candidates and must not be lazy. Lazy-loading an in-viewport image defers
+  // the request behind the main parse, which is a straight LCP regression.
+  const cards = posts.map((p, i) => {
+    const sibs = p.series ? posts.filter((q) => q.series === p.series) : [];
+    const part = p.series
+      ? ` <span class="part">&middot; Part ${p.series_order || ''} of ${sibs.length}</span>` : '';
+    const eager = i < 3;
+    return `            <a class="post-card ${hueClass(p.topic)} plausible-event-name=Blog+Card+Click plausible-event-post=${p.slug}" href="/blog/${p.slug}/">
+                <img class="post-card__thumb" src="${escAttr(p.cover_image||'')}"${dimAttrs(p.cover_image)} alt=""${eager ? ' fetchpriority="high" decoding="async"' : ' loading="lazy" decoding="async"'}>
                 <div class="post-card__body">
-                    <p class="post-eyebrow">${esc(p.topic||'')}</p>
+                    <p class="post-eyebrow">${esc(p.topic||'')}${part}</p>
                     <h2>${esc(p.title)}</h2>
                     <p>${esc(p.excerpt||'')}</p>
                     <span class="post-date">${fmtDate(p.published_at)}</span>
                 </div>
-            </a>`).join('\n\n');
+            </a>`;
+  }).join('\n\n');
   return `<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -405,10 +488,11 @@ ${HEAD_LINKS}
 
 ${PLAUSIBLE}
 </head>
-<body>
+<body class="p-blog">
+    <a class="skip" href="#content">Skip to content</a>
 ${HEADER}
 
-    <main>
+    <main id="content" tabindex="-1">
     <section class="blog-index">
         <div class="blog-index-header">
             <div class="blog-index-top">
@@ -593,6 +677,24 @@ function updateKevinosWriting(posts) {
 // still publishes.
 const MAX_IMG_W = 1600;
 const MAX_IMG_BYTES = 500 * 1024;
+// Mean absolute per-channel difference, 0-255, above which a palette-quantized
+// PNG is rejected as visibly degraded. Flat illustration lands near 0.5; a
+// photograph does not.
+const PALETTE_MAX_ERR = 2;
+
+// Both buffers are compared after normalising to RGBA, because a palette PNG
+// decodes to a different channel count than the RGBA original and a raw
+// byte-length comparison would just report a mismatch.
+async function meanChannelError(sharp, aBuf, bBuf) {
+  const [a, b] = await Promise.all([
+    sharp(aBuf).ensureAlpha().raw().toBuffer(),
+    sharp(bBuf).ensureAlpha().raw().toBuffer(),
+  ]);
+  if (a.length !== b.length) return Infinity;
+  let sum = 0;
+  for (let i = 0; i < a.length; i++) sum += Math.abs(a[i] - b[i]);
+  return sum / a.length;
+}
 const IMG_DIR = resolve(BLOG_DIR, 'images');
 const IMG_ORIGINALS = resolve(IMG_DIR, '_originals');
 async function optimizeImages() {
@@ -608,17 +710,53 @@ async function optimizeImages() {
     if (bytes <= MAX_IMG_BYTES) continue; // already lean -> leave it (idempotent)
     let width;
     try { ({ width } = await sharp(file).metadata()); } catch { continue; }
-    if (!width || width <= MAX_IMG_W) continue; // heavy but not wide -> nothing safe to trim
+    // Was `width <= MAX_IMG_W`, which permanently exempted any file exactly
+    // 1600px wide however heavy it was. Four covers had been resized to exactly
+    // 1600 by an earlier run and were excluded from every run after, so the
+    // index shipped 4.4MB in two PNGs. Recompression alone is worth taking, and
+    // the "only adopt if genuinely smaller" guard below already makes a no-op
+    // re-encode safe and idempotent.
+    if (!width) continue;
     // resize + recompress, keeping the same format/extension
     const ext = name.toLowerCase().match(/\.(png|jpe?g)$/)[1];
-    const pipe = sharp(file).resize({ width: MAX_IMG_W, withoutEnlargement: true });
-    const buf = ext === 'png'
-      ? await pipe.png({ compressionLevel: 9 }).toBuffer()
-      : await pipe.jpeg({ quality: 82, mozjpeg: true }).toBuffer();
-    if (buf.length >= bytes) continue; // re-encode didn't help -> don't bloat it
-    // preserve (or refresh, on re-upload) the full-size original, then serve the smaller copy
+    const targetW = Math.min(width, MAX_IMG_W);
+    const pipe = () => sharp(file).resize({ width: targetW, withoutEnlargement: true });
+    let buf;
+    if (ext === 'png') {
+      // compressionLevel 9 alone does nothing to an already-compressed PNG:
+      // all four heavy covers came back byte-identical, which is why the
+      // "only adopt if smaller" guard kept declining them. What actually works
+      // is palette quantization, which is the right container for flat
+      // illustration and the wrong one for a photograph.
+      //
+      // Rather than classify by hand, quantize and then MEASURE: adopt only if
+      // the mean per-channel error against the plain re-encode is negligible.
+      // A photograph banded by a 256-colour palette fails that test on its own.
+      // Measured across the nine heavy PNGs here, every one came in under
+      // 0.53/255 and the set went 9.79MB -> 3.91MB.
+      const plain = await pipe().png({ compressionLevel: 9 }).toBuffer();
+      const pal = await pipe().png({ compressionLevel: 9, effort: 10, palette: true, quality: 100 }).toBuffer();
+      buf = plain;
+      if (pal.length < plain.length) {
+        const err = await meanChannelError(sharp, plain, pal);
+        if (err < PALETTE_MAX_ERR) buf = pal;
+        else console.log(`  kept ${name} unquantized (mean error ${err.toFixed(2)} exceeds ${PALETTE_MAX_ERR})`);
+      }
+    } else {
+      buf = await pipe().jpeg({ quality: 82, mozjpeg: true }).toBuffer();
+    }
+    // Must be a MEANINGFUL win, not any win. A palette re-encode of an already
+    // palette-quantized PNG comes back a few bytes smaller every time, so a
+    // plain `>=` comparison re-triggered on every run and the job was never
+    // idempotent.
+    if (buf.length >= bytes * 0.98) continue;
     mkdirSync(IMG_ORIGINALS, { recursive: true });
-    copyFileSync(file, resolve(IMG_ORIGINALS, name));
+    // Preserve the full-size original, and NEVER replace a preserved original
+    // with an already-optimized copy. Without this guard the second run copied
+    // the 734KB optimized file over the 4.9MB source and the original was gone.
+    // A genuine re-upload is larger than what is stored, so it still refreshes.
+    const keep = resolve(IMG_ORIGINALS, name);
+    if (!existsSync(keep) || statSync(keep).size < bytes) copyFileSync(file, keep);
     writeFileSync(file, buf);
     changed++;
     console.log(`  optimized blog/images/${name} (${width}px/${Math.round(bytes/1024)}KB -> ${MAX_IMG_W}px/${Math.round(buf.length/1024)}KB; original kept in _originals/)`);

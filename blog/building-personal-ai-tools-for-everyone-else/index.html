@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=d8bff338">
-    <link rel="stylesheet" href="/blog/blog.css?v=d428f456">
+    <link rel="stylesheet" href="/blog/blog.css?v=b703acf0">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -121,7 +121,8 @@
     plausible.init()
     </script>
 </head>
-<body>
+<body class="p-post">
+    <a class="skip" href="#content">Skip to content</a>
     <nav class="nav pad">
         <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
         <span class="nav-l">
@@ -134,22 +135,33 @@
         <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
       </nav>
 
-    <main>
-    <article class="article">
+    <main id="content" tabindex="-1">
+    <article class="article hue-4">
         <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+        <div class="series-ribbon">
+            <span class="ser-nm">Building the Job Search Agent</span>
+            <span class="ser-pos">Part 5 of 5</span>
+            <span class="ser-pips" aria-hidden="true"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i></span>
+            <a class="ser-start" href="/blog/ai-job-search-assistant/">Start at Part 1</a>
+        </div>
         <p class="article-eyebrow">Building with AI</p>
         <h1 class="article-title">An AI tool for me 🎉 An AI tool for us? 🙈</h1>
+        <!-- The dek. Already written for every post as the excerpt field,
+             already used on the index card and in og:description, and
+             previously thrown away on the page where it does the most work.
+             No headline should run naked. -->
+        <p class="article-dek">The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.</p>
         <div class="article-meta">
-            <span>By Kevin Middleton</span>
+            <span>By Kevin Middleton, Full Stack Product Manager</span>
             <span class="dot" aria-hidden="true">·</span>
             <span>July 29, 2026</span>
         </div>
 
-        <img class="article-hero" src="/blog/images/1780711744499-job-search-agent-banner.png" width="2280" height="930" alt="An AI tool for me 🎉 An AI tool for us? 🙈">
+        <!-- The hero is the LCP element on every post, so it is never lazy and
+             always high priority. -->
+        <img class="article-hero" src="/blog/images/1780711744499-job-search-agent-banner.png" width="2280" height="930" alt="An AI tool for me 🎉 An AI tool for us? 🙈" fetchpriority="high" decoding="async">
 
         <div class="article-body">
-<p class="callout">Part 5 of a series on Building the Job Search Agent. Start at the beginning: <a target="_blank" rel="noopener" href="/blog/ai-job-search-assistant/">I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To</a>.</p>
-
 <p>When I started my job search, I didn't want to constantly refresh LinkedIn all day, riding the little hit of dopamine when a new role popped up and the drop when it turned out to be one I'd already seen. I wanted my search to feel deliberate instead of compulsive, and I wanted to feel a sense of control of the process. So I built an agent and a dashboard to handle the search for me.</p>
 
 <p>My personal job search agent reads my profile, pulls fresh roles that actually match, ignores the companies on my skip list, kills duplicates before I ever see them, scores what's left so the best ones sit on top, and pings me when something good lands. I use my personal dashboard instead of the job boards, which totally reframes a job search. It really makes it feel like it's more on your own terms, at least it does for me.</p>
@@ -204,13 +216,25 @@ through it one step at a time. Use this open-source project as a starting point:
 <p>The five of them start in the next couple of weeks. Something will break, and I'll write about that too.</p>
 
 <p>The best job search tool I've ever used had exactly one user (me) and it got better the more I used it and understood my own friction points. It'll get better still once my friends start telling me what they need.</p>
-
-<p class="callout">That's the series so far. Start over at <a target="_blank" rel="noopener" href="/blog/ai-job-search-assistant/">Part 1</a>, or browse everything on the <a target="_blank" rel="noopener" href="/blog/">blog</a>.</p>
-
-<div class="article-bio">
-  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a target="_blank" rel="noopener" href="https://middleton.io">middleton.io</a> and <a target="_blank" rel="noopener" href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
-</div>
         </div>
+<nav class="readnext" aria-label="Read next">
+        <p class="rn-lbl">Read next</p>
+        <div class="rn-grid">
+            <a class="rn hue-4" href="/blog/one-page-you-own/">
+                <span class="rn-k">More in Building with AI</span>
+                <span class="rn-t">You should have a website. And you can build it in an hour with Claude.</span>
+                <span class="rn-x">An old colleague got laid off, shipped a personal site ten days after I sent him a starter kit, and took back his story online. So I turned the starter into a free plugin.</span>
+            </a>
+            <a class="rn hue-4" href="/blog/ai-is-researching-you/">
+                <span class="rn-k">More in Building with AI</span>
+                <span class="rn-t">AI is researching you. Make sure it gets your story right.</span>
+                <span class="rn-x">ChatGPT showed up in my site's referrer logs. Companies are worrying about how they appear in AI search. The same logic applies to many of us.</span>
+            </a>
+        </div>
+    </nav>
+        <div class="article-bio">
+  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
+</div>
         <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
     </article>
     </main>
@@ -220,13 +244,6 @@ through it one step at a time. Use this open-source project as a starting point:
             <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
         </div>
     </footer>
-
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <div class="lightbox-content">
-            <img id="lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        </div>
-    </div>
 
     <script src="/blog/blog-nav.js"></script>
 </body>

@@ -100,7 +100,10 @@ img{max-width:100%;height:auto;display:block}
 .article {
     max-width: 720px;
     margin: 0 auto;
-    padding: calc(80px + 2.5rem) 24px 2rem;
+    /* Was calc(80px + 2.5rem). The 80px compensated for a fixed nav; the
+       shared nav is sticky and in flow, so it was dead space. .blog-index
+       had the identical fix applied already. */
+    padding: 2.6rem 24px 2rem;
 }
 
 .article-eyebrow,
@@ -238,7 +241,6 @@ figure img {
     border: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
     display: block;
-    cursor: zoom-in;
     background: var(--card-bg);
 }
 figcaption {
@@ -309,8 +311,14 @@ figcaption {
 
 /* Pull-callout (e.g. series note) */
 .callout {
-    border-left: 3px solid var(--accent);
-    background: var(--surface);
+    /* --surface is #F5F4F0 against a #F4F4F5 page: 1.00:1, so the panel did
+       not exist in light mode. --accent resolves to raw --marigold, which
+       measures 1.97:1 on a light page and is the exact two-ground bug
+       DESIGN.md records having shipped twice. --tint-soft is expressed
+       relative to the ground so it works on both, and --c1-line clears 3:1
+       in both modes. */
+    border-left: 3px solid var(--topic-line, var(--c1-line));
+    background: var(--tint-soft);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     padding: 14px 18px;
     font-size: 16px;
@@ -341,7 +349,6 @@ figcaption {
 }
 .article-bio a { color: var(--coral-text); text-decoration: underline; text-underline-offset: 2px; }
 
-/* Make figures zoomable via the homepage lightbox (#lightbox is styled in styles-merged.css) */
 
 /* ===================
    BLOG INDEX (HUB)
@@ -353,6 +360,10 @@ figcaption {
 .blog-index { max-width: 1400px; margin: 0 auto; padding: 2.6rem clamp(1rem, 4vw, 3rem) 2rem; }
 .blog-index-header { margin-bottom: 40px; }
 .blog-index-header h1 {
+    /* Had no line-height, so the biggest type on the site inherited
+       body{line-height:1.6} and sat in an 83px line box. */
+    line-height: 1.05;
+    letter-spacing: -.035em;
     font-family: var(--font-heading);
     font-size: clamp(34px, 6vw, 52px);
     font-weight: 800;
@@ -454,3 +465,273 @@ figcaption {
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 12H5M11.5 5.5 5 12l6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
   transition:transform .18s ease}
 .article-back:hover .arw-back{transform:translateX(-3px)}
+
+
+/* ============================================================================
+   THE REGISTER, THE MOVEMENT, AND THE SERIES            added 2026-08-02
+   ----------------------------------------------------------------------------
+   blog.css is loaded only by /blog/ pages, so nothing here needs extra scoping.
+
+   Two rules govern everything below.
+
+   1. The two-ground problem. A colour drawn on the page and one drawn on the
+      card are different grounds, and the hero scrim is a third. Every value
+      here was measured against the ground it actually lands on, in both modes.
+      Never reach for --marigold or --accent for a line on a light page: they
+      measure 1.97:1 there.
+   2. .fv-scoped tokens do not reach this file. The blog has no .fv wrapper, so
+      --gold-rule and --tag-line compute to nothing here and an element using
+      them renders with no colour, while still looking correct on the homepage.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- the hues */
+/* The six triads already exist for the homepage sector pills. Measured on both
+   the card ground and the page ground, in both modes: minimum 4.98:1 for text,
+   3.28:1 for lines. --topic cascades, so a card or an article sets it once and
+   the eyebrow, the rules and the hover edge all follow. */
+.hue-1{--topic:var(--c1-text);--topic-line:var(--c1-line)}
+.hue-2{--topic:var(--c2-text);--topic-line:var(--c2-line)}
+.hue-3{--topic:var(--c3-text);--topic-line:var(--c3-line)}
+.hue-4{--topic:var(--c4-text);--topic-line:var(--c4-line)}
+.hue-5{--topic:var(--c5-text);--topic-line:var(--c5-line)}
+.hue-6{--topic:var(--c6-text);--topic-line:var(--c6-line)}
+
+/* ------------------------------------------------------- the ledger register */
+/* The homepage's identity is a mono register on dates, kickers and counters.
+   The blog used 13px Helvetica for all of it and so read as a different
+   product. tabular-nums makes the date column align optically row to row. */
+.post-eyebrow,
+.post-date,
+.article-eyebrow,
+.article-meta {
+  font-family: var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.post-eyebrow  { font-size: .64rem; color: var(--topic, var(--coral-text)); }
+.post-date     { font-size: .68rem; }
+.article-eyebrow { font-size: .64rem; color: var(--topic, var(--coral-text)); }
+/* Deliberately NOT a link. It looks like one already (it resolved to the exact
+   same computed colour as body links), and there is nowhere for it to go until
+   section pages exist. A link to nothing is worse than a label. */
+.article-meta  { font-size: .62rem; letter-spacing: .09em; }
+.post-eyebrow .part { color: var(--text-muted); }
+
+/* ------------------------------------------------------------------ the dek */
+.article-dek {
+  font-size: 1.12rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  max-width: 52ch;
+  margin: 0 0 1.1rem;
+  border-left: 2px solid var(--topic-line, var(--c1-line));
+  padding-left: 1rem;
+}
+
+/* --------------------------------------------------------- h2 as a landmark */
+/* The homepage puts a 2px rule above every section head. A 900-word post with
+   six h2s had no landmarks at all when skimmed. */
+.article-body h2::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--topic-line, var(--text-primary));
+  margin-bottom: .8rem;
+}
+.article-body h3 { line-height: 1.3; }
+
+/* ------------------------------------------------------- cards, defined edge */
+/* --border is 1.29:1 against the light page, so a white card on #F4F4F5 read as
+   a floating image with text under it rather than as a card. --rule-strong is
+   the token that exists for this job: 3.08 light, 3.33 dark. */
+.post-card { border-color: var(--rule-strong); }
+.post-card h2 { text-wrap: balance; }
+
+/* Hover lights the edge of the image in the post's own hue. Drawn with an inset
+   shadow rather than a border, because changing border-width on hover is a
+   layout change and the design contract forbids it. :focus-within keeps the
+   keyboard path identical to the pointer one. */
+.post-card__thumb { box-shadow: inset 0 -1px 0 var(--border); }
+.post-card:hover .post-card__thumb,
+.post-card:focus-within .post-card__thumb { box-shadow: inset 0 -2px 0 var(--topic-line, var(--c2-line)); }
+
+/* ------------------------------------------------------------- the hero lede */
+/* The newest post leads. A 16:9 cover beside a text column always fights the
+   card height, so it goes full bleed with the headline over a scrim.
+
+   The scrim is an inverted panel and does NOT follow the page mode. Light-mode
+   --c4-text is #1F4B8F, a dark blue that would be invisible here, so the
+   overlay pins the dark-mode hue values. The scrim reaches rgba(0,0,0,.94)
+   behind the text, so even a pure white pixel underneath composites to about
+   20/255: measured worst case on the busiest cover is 17.0:1 for the headline
+   and 5.0:1 for the kicker.
+
+   grid-column: span 2, never 1 / -1. In an implicit grid -1 resolves to the end
+   of the EXPLICIT grid and silently collapses the span. */
+.hue-1{--hero-topic:#E8A317} .hue-2{--hero-topic:#E8697C} .hue-3{--hero-topic:#3FA588}
+.hue-4{--hero-topic:#6E93CC} .hue-5{--hero-topic:#A98FD8} .hue-6{--hero-topic:#D96BB8}
+
+@media (min-width: 900px) {
+  .post-list > .post-card:first-child {
+    grid-column: span 2;
+    position: relative;
+    display: block;
+    min-height: 430px;
+    overflow: hidden;
+  }
+  .post-list > .post-card:first-child .post-card__thumb {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    aspect-ratio: auto;
+    object-fit: cover;
+    border: 0; box-shadow: none;
+  }
+  .post-list > .post-card:first-child .post-card__body {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    gap: .5rem; padding: 2.1rem;
+    /* Reaches the top rather than fading out: several covers are title cards
+       carrying their own large wordmark, and a bottom-only scrim left that type
+       arguing with the headline. */
+    background: linear-gradient(to top,
+      rgba(0,0,0,.94) 0%, rgba(0,0,0,.90) 30%, rgba(0,0,0,.72) 58%, rgba(0,0,0,.52) 100%);
+  }
+  .post-list > .post-card:first-child .post-eyebrow { color: var(--hero-topic); }
+  .post-list > .post-card:first-child .post-eyebrow .part { color: rgba(255,255,255,.7); }
+  .post-list > .post-card:first-child h2 {
+    color: #fff; font-size: 2.15rem; line-height: 1.08;
+    letter-spacing: -.025em; max-width: 19ch; margin: 0;
+  }
+  .post-list > .post-card:first-child .post-card__body > p:not([class]) {
+    color: rgba(255,255,255,.84); max-width: 56ch; margin: 0;
+  }
+  .post-list > .post-card:first-child .post-date { color: rgba(255,255,255,.72); margin: 0; }
+  .post-list > .post-card:first-child:hover { border-color: var(--hero-topic); }
+  .post-list > .post-card:first-child:hover .post-card__thumb { box-shadow: none; }
+}
+
+/* ---------------------------------------------------------- the series ribbon */
+.series-ribbon {
+  display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
+  border: 1px solid var(--topic-line, var(--c4-line));
+  border-radius: var(--radius-md);
+  padding: .8rem 1rem;
+  margin: 0 0 1.5rem;
+  background: var(--tint-soft);
+}
+.series-ribbon .ser-nm {
+  font-family: var(--mono); font-size: .58rem; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 700; color: var(--topic, var(--c4-text));
+}
+.series-ribbon .ser-pos {
+  font-family: var(--mono); font-size: .58rem; letter-spacing: .09em;
+  text-transform: uppercase; font-weight: 700; color: var(--text-secondary);
+}
+.series-ribbon .ser-pips { display: flex; gap: 4px; margin-left: auto; }
+.series-ribbon .pip { width: 14px; height: 4px; border-radius: 2px; background: var(--rule-strong); }
+.series-ribbon .pip.on { background: var(--topic-line, var(--c4-line)); }
+.series-ribbon .ser-start {
+  font-family: var(--mono); font-size: .58rem; letter-spacing: .08em;
+  text-transform: uppercase; font-weight: 700; color: var(--topic, var(--c4-text));
+  text-decoration: none; padding-block: .3rem;
+}
+.series-ribbon .ser-start:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* -------------------------------------------------------------- read next */
+/* The exit. Eight of the sixteen posts previously ended with no onward link at
+   all, and they were the newest and most shareable ones. */
+.readnext { border-top: 2px solid var(--text-primary); margin: 2.6rem 0 0; padding-top: 1.2rem; }
+.readnext .rn-lbl {
+  font-family: var(--mono); font-size: .58rem; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 700; color: var(--text-secondary);
+  margin: 0 0 1rem;
+}
+.rn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+@media (max-width: 640px) { .rn-grid { grid-template-columns: 1fr; } }
+.rn {
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  text-decoration: none;
+  display: block;
+  transition: border-color .2s, transform .2s;
+}
+.rn:hover { border-color: var(--topic-line, var(--c2-line)); transform: translateY(-2px); }
+.rn-k {
+  font-family: var(--mono); font-size: .56rem; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 700; color: var(--topic, var(--c2-text));
+  display: block; margin-bottom: .4rem;
+}
+.rn-t { font-size: 1rem; font-weight: 700; line-height: 1.3; color: var(--text-primary); display: block; margin-bottom: .35rem; }
+.rn-x { font-size: .85rem; line-height: 1.5; color: var(--text-secondary); display: block; }
+
+/* ------------------------------------------------------------- the skip link */
+/* fv.css defines .fv .skip, which never reaches a page with no .fv wrapper. */
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--text-primary); color: var(--bg);
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .08em;
+  text-transform: uppercase; font-weight: 700;
+  padding: .7rem 1rem; text-decoration: none;
+}
+.skip:focus { left: .5rem; top: .5rem; }
+#content:focus { outline: none; }
+
+/* --------------------------------------------------------------- the motion */
+/* Both effects are scroll-COUPLED, never autonomous: they track the reader's
+   own scroll and reverse when it does. Both sit behind @supports, so the
+   failure mode in a browser without scroll-driven animations (Firefox today) is
+   that nothing happens, not that something breaks. No JavaScript is involved,
+   which is why the index can never be left invisible by a failed observer. */
+
+/* The reading meter: the sticky nav's 1px bottom rule becomes a 2px track,
+   filled by scroll position and tinted by the post's topic. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    body.p-post .nav { position: relative; }
+    body.p-post .nav::after {
+      content: "";
+      position: absolute; left: 0; right: 0; bottom: -1px;
+      height: 2px;
+      background: var(--c4-line);
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      animation: readmeter linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes readmeter { to { transform: scaleX(1); } }
+  }
+}
+
+/* The card settle: 6px, not 24px. That is the difference between craft and a
+   template. opacity starts at .001 rather than 0 because some engines skip
+   paint entirely at exactly 0. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .post-card {
+      animation: settle linear both;
+      animation-timeline: view(block);
+      animation-range: entry 0% entry 42%;
+    }
+    @keyframes settle { from { opacity: .001; transform: translateY(6px); } }
+  }
+}
+
+/* ------------------------------------------------------------ reduced motion */
+/* blog.css had ZERO prefers-reduced-motion blocks. fv.css sets
+   html{scroll-behavior:auto} under reduce, but blog.css re-declares
+   html{scroll-behavior:smooth} at equal specificity and later source order, so
+   the override lost. This undoes it. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .post-card,
+  .rn,
+  .copy-btn,
+  .blog-rss,
+  .article-back .arw-back { transition: none; }
+  .post-card:hover { transform: none; }
+  .rn:hover { transform: none; }
+}

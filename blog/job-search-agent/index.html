@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=d8bff338">
-    <link rel="stylesheet" href="/blog/blog.css?v=d428f456">
+    <link rel="stylesheet" href="/blog/blog.css?v=b703acf0">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -122,7 +122,8 @@
     plausible.init()
     </script>
 </head>
-<body>
+<body class="p-post">
+    <a class="skip" href="#content">Skip to content</a>
     <nav class="nav pad">
         <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
         <span class="nav-l">
@@ -135,22 +136,33 @@
         <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
       </nav>
 
-    <main>
-    <article class="article">
+    <main id="content" tabindex="-1">
+    <article class="article hue-4">
         <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+        <div class="series-ribbon">
+            <span class="ser-nm">Building the Job Search Agent</span>
+            <span class="ser-pos">Part 4 of 5</span>
+            <span class="ser-pips" aria-hidden="true"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span>
+            <a class="ser-start" href="/blog/ai-job-search-assistant/">Start at Part 1</a>
+        </div>
         <p class="article-eyebrow">Building with AI</p>
         <h1 class="article-title">Need an AI recruiter that works for you? Try this one.</h1>
+        <!-- The dek. Already written for every post as the excerpt field,
+             already used on the index card and in og:description, and
+             previously thrown away on the page where it does the most work.
+             No headline should run naked. -->
+        <p class="article-dek">Open-sourced a Claude Code plugin that turns Claude into your job search assistant. The accessible version of the system I built for myself, free on GitHub.</p>
         <div class="article-meta">
-            <span>By Kevin Middleton</span>
+            <span>By Kevin Middleton, Full Stack Product Manager</span>
             <span class="dot" aria-hidden="true">·</span>
             <span>June 6, 2026</span>
         </div>
 
-        <img class="article-hero" src="/blog/images/1780711744499-job-search-agent-banner.png" width="2280" height="930" alt="Job Search Agent banner. Turn Claude into your job search assistant.">
+        <!-- The hero is the LCP element on every post, so it is never lazy and
+             always high priority. -->
+        <img class="article-hero" src="/blog/images/1780711744499-job-search-agent-banner.png" width="2280" height="930" alt="Job Search Agent banner. Turn Claude into your job search assistant." fetchpriority="high" decoding="async">
 
         <div class="article-body">
-<p class="callout">Part 4 of a series on Building the Job Search Agent. Start at the beginning: <a target="_blank" rel="noopener" href="/blog/ai-job-search-assistant/">I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To</a>.</p>
-
 <p>I built an AI job-search system <a target="_blank" rel="noopener" href="https://middleton.io/blog/ai-job-search-assistant/">for myself first</a>. A Mac Mini sitting in my office, scanning the boards twice a day, texting me only the roles worth a look, costing about a penny per run. I've written about how it works in the previous posts in this series.</p>
 
 <p>But the biggest thing that really bothered me was that most of the people who need automation like this either don't have the time or can't build it themselves.</p>
@@ -197,13 +209,25 @@
 <p>I've shared this with a handful of friends already. Putting it in public was the obvious next step. The alternative, keeping a useful tool in my own pocket, felt wrong. We should be sharing the things that make this part of life less brutal, not hoarding them.</p>
 
 <p>This is the first thing I've open-sourced from my personal job search system. Hopefully more will follow. It's the least I can do.</p>
-
-<p class="callout">Next in the series: <a target="_blank" rel="noopener" href="/blog/building-personal-ai-tools-for-everyone-else/">An AI tool for me 🎉 An AI tool for us? 🙈</a></p>
-
-<div class="article-bio">
-  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a target="_blank" rel="noopener" href="https://middleton.io">middleton.io</a> and <a target="_blank" rel="noopener" href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
-</div>
         </div>
+<nav class="readnext" aria-label="Read next">
+        <p class="rn-lbl">Next in this series</p>
+        <div class="rn-grid">
+            <a class="rn hue-4" href="/blog/building-personal-ai-tools-for-everyone-else/">
+                <span class="rn-k">Part 5 of 5</span>
+                <span class="rn-t">An AI tool for me 🎉 An AI tool for us? 🙈</span>
+                <span class="rn-x">The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.</span>
+            </a>
+            <a class="rn hue-4" href="/blog/one-page-you-own/">
+                <span class="rn-k">More in Building with AI</span>
+                <span class="rn-t">You should have a website. And you can build it in an hour with Claude.</span>
+                <span class="rn-x">An old colleague got laid off, shipped a personal site ten days after I sent him a starter kit, and took back his story online. So I turned the starter into a free plugin.</span>
+            </a>
+        </div>
+    </nav>
+        <div class="article-bio">
+  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
+</div>
         <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
     </article>
     </main>
@@ -213,13 +237,6 @@
             <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
         </div>
     </footer>
-
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <div class="lightbox-content">
-            <img id="lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        </div>
-    </div>
 
     <script src="/blog/blog-nav.js"></script>
 </body>

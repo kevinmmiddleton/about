@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=d8bff338">
-    <link rel="stylesheet" href="/blog/blog.css?v=d428f456">
+    <link rel="stylesheet" href="/blog/blog.css?v=b703acf0">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -121,7 +121,8 @@
     plausible.init()
     </script>
 </head>
-<body>
+<body class="p-post">
+    <a class="skip" href="#content">Skip to content</a>
     <nav class="nav pad">
         <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
         <span class="nav-l">
@@ -134,18 +135,26 @@
         <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
       </nav>
 
-    <main>
-    <article class="article">
+    <main id="content" tabindex="-1">
+    <article class="article hue-4">
         <a class="article-back" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+        
         <p class="article-eyebrow">Building with AI</p>
         <h1 class="article-title">How to Digitally Detox Right Now (Even If You're Job Searching)</h1>
+        <!-- The dek. Already written for every post as the excerpt field,
+             already used on the index card and in og:description, and
+             previously thrown away on the page where it does the most work.
+             No headline should run naked. -->
+        <p class="article-dek">I check my inbox twice a day. Here's what a morning briefing from my AI assistant gave me back in a brutal job market.</p>
         <div class="article-meta">
-            <span>By Kevin Middleton</span>
+            <span>By Kevin Middleton, Full Stack Product Manager</span>
             <span class="dot" aria-hidden="true">·</span>
             <span>June 8, 2026</span>
         </div>
 
-        <img class="article-hero" src="/blog/images/robot-assistant.png" width="1470" height="600" alt="Robot avatar of my AI assistant">
+        <!-- The hero is the LCP element on every post, so it is never lazy and
+             always high priority. -->
+        <img class="article-hero" src="/blog/images/robot-assistant.png" width="1470" height="600" alt="Robot avatar of my AI assistant" fetchpriority="high" decoding="async">
 
         <div class="article-body">
 <p>I check my inbox twice a day. That's enough.</p>
@@ -215,11 +224,25 @@
 <blockquote>
   <p><strong>If you want a smaller starting point, the open-source version of this assistant is</strong> <a target="_blank" rel="noopener" href="https://middleton.io/blog/job-search-agent/"><strong>a Claude Code plugin</strong></a> <strong>you can install yourself.</strong></p>
 </blockquote>
-
-<div class="article-bio">
-  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a target="_blank" rel="noopener" href="https://middleton.io">middleton.io</a> and <a target="_blank" rel="noopener" href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
-</div>
         </div>
+<nav class="readnext" aria-label="Read next">
+        <p class="rn-lbl">Read next</p>
+        <div class="rn-grid">
+            <a class="rn hue-4" href="/blog/building-personal-ai-tools-for-everyone-else/">
+                <span class="rn-k">More in Building with AI</span>
+                <span class="rn-t">An AI tool for me 🎉 An AI tool for us? 🙈</span>
+                <span class="rn-x">The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.</span>
+            </a>
+            <a class="rn hue-4" href="/blog/one-page-you-own/">
+                <span class="rn-k">More in Building with AI</span>
+                <span class="rn-t">You should have a website. And you can build it in an hour with Claude.</span>
+                <span class="rn-x">An old colleague got laid off, shipped a personal site ten days after I sent him a starter kit, and took back his story online. So I turned the starter into a free plugin.</span>
+            </a>
+        </div>
+    </nav>
+        <div class="article-bio">
+  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
+</div>
         <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
     </article>
     </main>
@@ -229,13 +252,6 @@
             <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
         </div>
     </footer>
-
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <div class="lightbox-content">
-            <img id="lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        </div>
-    </div>
 
     <script src="/blog/blog-nav.js"></script>
 </body>
