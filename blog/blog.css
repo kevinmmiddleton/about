@@ -1042,3 +1042,17 @@ figcaption {
 .blog-tail a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) { .ser-row { transition: none; } }
+
+/* The second RSS entry point. Same mono register as .blog-tail a, because the
+   two are the same affordance in two places and should be recognisable as
+   such. It keeps the icon the old top pill had: a bare micro-caps link sitting
+   directly under body copy reads as a label, not something you can click. */
+.blog-sub {
+  display: inline-flex; align-items: center; gap: .45rem;
+  margin-top: 1.1rem; padding-block: .35rem;
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 700;
+  color: var(--c1-text); text-decoration: none;
+}
+.blog-sub:hover { text-decoration: underline; text-underline-offset: 3px; }
+.blog-sub svg { flex: none; }
