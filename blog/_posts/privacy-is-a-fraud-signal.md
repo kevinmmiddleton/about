@@ -5,6 +5,7 @@ status: ready
 published_at: ''
 updated_at: ''
 topic: Tech & Society
+topic_new: ''
 series: ''
 series_order: null
 tags:
@@ -17,7 +18,8 @@ featured: false
 sort_order: null
 excerpt: A recruiter asked if I'd used AI to auto-apply (I didn't). An ATS flagged my application as possible fraud. When I checked, every signal traced back to a privacy choice.
 cover_image: /blog/images/privacy-is-a-fraud-signal-cover.png
-cover_alt: A dark, phone-style "Candidate Identity Verification" card on a surveillance-toned background, showing a single green check next to "Established email" and red flags next to "VOIP number," "No online profiles," and "Privacy settings on."
+cover_alt: 'A dark editorial collage of overlapping "prove you''re real" verification screens: an "I am not a robot" checkbox, a "select all squares with buses" picture puzzle, a scanned government ID card, a six-digit code texted to your phone, a facial-recognition scan of a face, a live verification video call, a "verified identity" badge, a blue verified checkmark, a fingerprint scan, and a large red "suspicious activity detected" alert. Several screens glow warning red.'
+lede_align: left
 linkedin_url: ''
 ---
 
@@ -60,6 +62,16 @@ Turn that around and it gets ugly. The people doing the responsible thing, using
 And it's not just hiring. I recently argued in a take-home that a company should add Apple Sign-in to widen the top of their funnel. The objection was that Apple lets people hide their real email behind a relay that forwards to it, and the team didn't want that. Privacy-preserving login was treated as the problem, not the feature. That this is still a debate in 2026 tells you how deep the assumption runs: privacy reads as risk.
 
 [Fake and AI-generated candidates are a real problem](https://www.cnbc.com/2025/07/11/how-deepfake-ai-job-applicants-are-stealing-remote-work.html), and a tool that helps a swamped recruiter triage thousands of applications is reasonable. The problem is what counts as suspicious. Somewhere along the way it came to mean private, and the person on the other end never gets told.
+
+### The fix isn't complicated
+
+Screening isn't the problem. Fake candidates are real, and recruiters are drowning. The problem is a system that only collects **red flags 🚩** and never tells you. A few things would fix it:
+
+- **Let candidates add green flags.** Verify once through a channel you trust and carry the proof, so you're not stripping your privacy at every company. LinkedIn already does ID verification. Greenhouse verifies through CLEAR. The systems exist, we should be using them.
+- **Tell people.** If a VOIP number or a missing profile hurts you, say so, the way a form tells you a file is too big to upload. Hidden tips like these are exactly what feeds the "beat the ATS" industry. Transparency kills the snake oil; opacity sells it.
+- **Investigate, don't auto-reject.** A signal is a reason to look closer, not a verdict. The good recruiters already treat it that way.
+
+![A Greenhouse hiring pipeline for a Project Manager role showing candidate identity verification: a "CLEAR verified Julia's identity" badge with a green check on the current interview stage, a "Request new verification" option, and previously verified screenings.](/blog/images/greenhouse-clear-verification.png "Greenhouse lets a candidate verify once through CLEAR, and the proof follows them through the process. Letting people vouch for themselves, instead of only scoring them.")
 
 ### What I'm going to do, and what I shouldn't have to
 
