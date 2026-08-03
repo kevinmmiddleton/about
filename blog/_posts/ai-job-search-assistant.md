@@ -5,7 +5,7 @@ status: published
 published_at: 2026-02-23
 updated_at: 2026-06-06
 topic: Building with AI
-series: Building the Job Search Agent
+series: Building a Job Search Agent
 series_order: 1
 tags:
   - AI Workflows
