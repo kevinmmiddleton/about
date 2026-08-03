@@ -1,7 +1,7 @@
 ---
 title: How to Do Less
 slug: how-to-do-less
-status: ready
+status: published
 published_at: 2026-08-02
 updated_at: ''
 topic: ''
