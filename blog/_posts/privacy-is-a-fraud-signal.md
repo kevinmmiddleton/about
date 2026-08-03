@@ -68,7 +68,7 @@ And it's not just hiring. I recently argued in a take-home that a company should
 Screening isn't the problem. Fake candidates are real, and recruiters are drowning. The problem is a system that only collects **red flags 🚩** and never tells you. A few things would fix it:
 
 - **Let candidates add green flags.** Verify once through a channel you trust and carry the proof, so you're not stripping your privacy at every company. LinkedIn already does ID verification. Greenhouse verifies through CLEAR. The systems exist, we should be using them.
-- **Tell people.** If a VOIP number or a missing profile hurts you, say so, the way a form tells you a file is too big to upload. Hidden tips like these are exactly what feeds the "beat the ATS" industry. Transparency kills the snake oil; opacity sells it.
+- **Tell people.** If a VOIP number or a missing social profile hurts a candidate, say so, the way a form tells you a file is too big to upload. Hidden tips like these are exactly what feeds the "beat the ATS" industry. Transparency beats  snake oil; opacity sells it.
 - **Investigate, don't auto-reject.** A signal is a reason to look closer, not a verdict. The good recruiters already treat it that way.
 
 ![A Greenhouse hiring pipeline for a Project Manager role showing candidate identity verification: a "CLEAR verified Julia's identity" badge with a green check on the current interview stage, a "Request new verification" option, and previously verified screenings.](/blog/images/greenhouse-clear-verification.png "Greenhouse lets a candidate verify once through CLEAR, and the proof follows them through the process. Letting people vouch for themselves, instead of only scoring them.")
