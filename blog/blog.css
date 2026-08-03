@@ -971,7 +971,6 @@ figcaption {
    itself. `span 2`, never `1 / -1`: in an implicit grid -1 resolves to the end
    of the explicit grid and collapses silently. */
 @media (min-width: 900px) {
-  .band-lead .post-list > .post-card:first-child { grid-row: span 2; min-height: 0; }
 
   .band:not(.band-lead) .post-list > .post-card:first-child {
     grid-column: auto; position: static; display: flex; min-height: 0; overflow: visible;
@@ -991,6 +990,22 @@ figcaption {
   .band:not(.band-lead) .post-list > .post-card:first-child .post-eyebrow {
     color: var(--topic, var(--coral-text));
   }
+}
+
+/* The two-row span only makes sense once the grid actually HAS three columns.
+   .post-list is repeat(auto-fill, minmax(340px, 1fr)), so the column count is
+   implicit: measured, it turns 3 at 1161px. Between 900 and 1160 there are two
+   columns, the hero already spans both, and asking it to own two rows as well
+   gave those rows nothing to be sized by. Together with a `min-height: 0` I
+   should not have added, that collapsed the hero to a 64px bar for the whole
+   900-1160 range. The 430px floor above is the backstop; this query is the fix.
+
+   Erring low is the safe direction. Too low and the hero spans two rows in a
+   two-column grid, which the floor renders correctly anyway. Too high and the
+   third card is stranded on a row of its own with a hole beside it. So this
+   sits at 1160, one pixel under the measured handoff. */
+@media (min-width: 1160px) {
+  .band-lead .post-list > .post-card:first-child { grid-row: span 2; }
 }
 
 /* ---- the series, as text ------------------------------------------------- */
