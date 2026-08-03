@@ -35,13 +35,13 @@ So I did what I do with any system I don't understand. I read the docs and pulle
 
 ### Every flag traced back to a privacy choice
 
-[Ashby, the hiring software](https://www.ashbyhq.com/product-updates/introducing-fraudulent-candidate-detection-and-management-to-help-you-focus-on-legitimate-candidates), rates you on a handful of things: your device, your email, your phone, and where you seem to be. Mine lit up in a few places, and every one came back to a choice I made on purpose.
+[Ashby, the hiring software](https://www.ashbyhq.com/product-updates/introducing-fraudulent-candidate-detection-and-management-to-help-you-focus-on-legitimate-candidates), rates you on a handful of things: your device, your email, your phone, and where you seem to be. Mine lit up in a few places, and every one came back to a choice I made on purpose to protect my privacy.
 
 ![Ashby's fraud-signal panel for my application: green checks for an associated LinkedIn account and an established email (48 accounts, 17.8 years old), a phone carrier reading as VOIP with a zero-account footprint, a red flag under Automation Signals for "Multiple Users on Same Device," and a red flag under Spoofing Signals for "No Online Profiles Found."](/blog/images/ashby-fraud-signals.png "The fraud panel in Ashby. The green checks include my old email. The red flags are my privacy choices.")
 
 The clearest flag, filed under "spoofing signals," was "no online profiles found." I deleted my social media a while back (gestures at the world), and I even [pay to scrub my data from data brokers](https://middleton.io/blog/owning-your-context/). There's very little of me out there to find. To the system, a person with no footprint might not be a person at all.
 
-I use a Google Voice number on my resume so I don't hand my personal cell to every job board on the internet. It registers as VOIP, and per [Ashby's own docs](https://docs.ashbyhq.com/running-candidate-fraud-detection-checks-and-reviewing-fraud-signals), that adds to your risk score. So the thing I do to protect my number quietly counts against me.
+I use a Google Voice number on my resume so I don't hand my personal cell to every job board on the internet. It registers as VOIP, and per [Ashby's own docs](https://docs.ashbyhq.com/running-candidate-fraud-detection-checks-and-reviewing-fraud-signals), that adds to your risk score. So the thing I do to protect my number ends up counting against me.
 
 Then, under "automation signals," there was "multiple users on same device," which puzzled me, because I just use my laptop. My best guess is Safari, which deliberately makes every Mac look the same to trackers, so my device can't be told apart from everyone else running the same browser. I can't fully confirm that, and honestly that's the unsettling part. Even after reading the docs, I couldn't always tell why the machine had decided I looked suspicious.
 
@@ -57,7 +57,7 @@ A friendly LinkedIn connection who's also a recruiter noticed a fraud signal on 
 
 From what I can tell, these systems decide you're trustworthy based on how much of yourself you've left lying around the internet. A long social history. A phone tied to your real name. A stable, traceable device. The more exposed you are, the more real you look.
 
-Turn that around and it gets ugly. The people doing the responsible thing, using a VOIP number, deleting their socials, leaving on the privacy features their devices ship with, all look more suspicious, not less. We built identity verification on the assumption that privacy is something only fraudsters want. That was always wrong, and now it has consequences you can count in callbacks.
+Turn that around and it gets ugly. The people doing the responsible thing, using a VOIP number, deleting their socials, leaving on the privacy features their devices ship with, all look more suspicious, not less. We built identity verification on the assumption that privacy is something only fraudsters want. That was always wrong, and it has potentially serious consequences.
 
 And it's not just hiring. I recently argued in a take-home that a company should add Apple Sign-in to widen the top of their funnel. The objection was that Apple lets people hide their real email behind a relay that forwards to it, and the team didn't want that. Privacy-preserving login was treated as the problem, not the feature. That this is still a debate in 2026 tells you how deep the assumption runs: privacy reads as risk.
 
@@ -65,10 +65,10 @@ And it's not just hiring. I recently argued in a take-home that a company should
 
 ### The fix isn't complicated
 
-Screening isn't the problem. Fake candidates are real, and recruiters are drowning. The problem is a system that only collects **red flags 🚩** and never tells you. A few things would fix it:
+Screening isn't the problem. Fake candidates are real, and recruiters are drowning. The problem is a system that only collects **red flags 🚩** and never tells the candidate how to do better. A few things would fix it:
 
 - **Let candidates add green flags.** Verify once through a channel you trust and carry the proof, so you're not stripping your privacy at every company. LinkedIn already does ID verification. Greenhouse verifies through CLEAR. The systems exist, we should be using them.
-- **Tell people.** If a VOIP number or a missing social profile hurts a candidate, say so, the way a form tells you a file is too big to upload. Hidden tips like these are exactly what feeds the "beat the ATS" industry. Transparency beats  snake oil; opacity sells it.
+- **Tell people.** If a VOIP number or a missing social profile hurts a candidate, say so, the way a form tells you a file is too big to upload. Hidden tips like these are exactly what feeds the "beat the ATS" industry. Transparency beats snake oil; opacity sells it.
 - **Investigate, don't auto-reject.** A signal is a reason to look closer, not a verdict. The good recruiters already treat it that way.
 
 ![A Greenhouse hiring pipeline for a Project Manager role showing candidate identity verification: a "CLEAR verified Julia's identity" badge with a green check on the current interview stage, a "Request new verification" option, and previously verified screenings.](/blog/images/greenhouse-clear-verification.png "Greenhouse lets a candidate verify once through CLEAR, and the proof follows them through the process. Letting people vouch for themselves, instead of only scoring them.")
@@ -81,6 +81,6 @@ It'll probably work. That's the part that bugs me. The fix for "a machine misrea
 
 I'm usually the loudest voice telling people to stop chasing "beat the ATS" advice, that most of it is snake oil sold to exhausted job seekers. So it really pains me to write this: this time, I'm optimizing to beat the system. Beat the ATS. Yuck. The difference is that I'm not gaming a hardly used keyword filter, I'm making myself look more legit to pass a fraud check I didn't even know existed. But hey, at least this advice is free. Nothing to sell here.
 
-And this reaches past job seekers. My partner just set up a new .com email (he'd been in the EU, so, fair reason). He's not job hunting, but the same logic would ding him: a fresh address with no history looks thin to a system that rewards a long paper trail. Or think of the people who keep a separate email just for job applications, so the flood of recruiter spam and auto-rejections doesn't bury their real inbox. That address is new by design, and to the machine, new looks like fake. So whether you're searching or not, it's worth knowing what these systems reward. An old email and a direct phone line read as green flags. The privacy-focused, careful choices read as risk.
+And this reaches past job seekers. Think about all the systems out there verifying risk, and how they can be at odds with the steps we take to protect our privacy. My partner just set up a new .com email (he'd been in the EU, so, fair reason). He's not job hunting, but the same logic would ding him: a fresh address with no history looks thin to a system that rewards a long paper trail. Or think of the people who keep a separate email just for job applications, so the flood of recruiter spam and auto-rejections doesn't bury their real inbox. That address is new by design, and to the system, new looks like fake. So whether you're searching or not, it's worth knowing what these systems reward. An old email and a direct phone line read as green flags. The privacy-focused, careful choices read as risk.
 
 If you're job hunting and you've been careful with your data, go check your number, your resume, and your browser. You didn't do anything wrong. The system reading your application just can't tell the difference between careful and fake.
