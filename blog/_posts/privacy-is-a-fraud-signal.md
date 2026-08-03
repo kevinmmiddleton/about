@@ -2,7 +2,7 @@
 title: Privacy is a fraud signal now
 slug: privacy-is-a-fraud-signal
 status: ready
-published_at: ''
+published_at: 2026-08-05
 updated_at: ''
 topic: Tech & Society
 topic_new: ''
@@ -18,7 +18,7 @@ featured: false
 sort_order: null
 excerpt: A recruiter asked if I'd used AI to auto-apply (I didn't). An ATS flagged my application as possible fraud. When I checked, every signal traced back to a privacy choice.
 cover_image: /blog/images/privacy-is-a-fraud-signal-cover.png
-cover_alt: 'A dark editorial collage of overlapping "prove you''re real" verification screens: an "I am not a robot" checkbox, a "select all squares with buses" picture puzzle, a scanned government ID card, a six-digit code texted to your phone, a facial-recognition scan of a face, a live verification video call, a "verified identity" badge, a blue verified checkmark, a fingerprint scan, and a large red "suspicious activity detected" alert. Several screens glow warning red.'
+cover_alt: 'A dark editorial collage of overlapping "prove you''re real" verification screens: an "I am not a robot" checkbox, a "select all squares with buses" picture puzzle, a scanned government ID card, a six-digit code texted to your phone, a facial-recognition scan of a face, a live verification video call, a gold "verified identity" digital badge, a blue verified checkmark next to a user handle, a fingerprint scan, and a large red "suspicious activity detected" alert. Several screens glow warning red.'
 lede_align: left
 linkedin_url: ''
 ---
