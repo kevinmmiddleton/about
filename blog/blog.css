@@ -1048,11 +1048,33 @@ figcaption {
    such. It keeps the icon the old top pill had: a bare micro-caps link sitting
    directly under body copy reads as a label, not something you can click. */
 .blog-sub {
-  display: inline-flex; align-items: center; gap: .45rem;
-  margin-top: 1.1rem; padding-block: .35rem;
+  /* Inline at the end of the subhead sentence, not on its own line: the
+     subhead's last line is short at every width, so the link fills trailing
+     whitespace instead of spending a whole row on itself. inline-flex keeps
+     the icon and label on one baseline and, crucially, keeps them from being
+     split across a wrap. The 24px tap-target box fits inside the subhead's
+     28.8px line box, so it adds no height. */
+  display: inline-flex; align-items: center; gap: .45rem; vertical-align: baseline;
+  margin-left: .85rem; padding-block: .35rem;
   font-family: var(--mono); font-size: .62rem; letter-spacing: .1em;
   text-transform: uppercase; font-weight: 700;
   color: var(--c1-text); text-decoration: none;
 }
 .blog-sub:hover { text-decoration: underline; text-underline-offset: 3px; }
 .blog-sub svg { flex: none; }
+
+/* Below ~571px (measured: the exact width depends on the subhead's length, so
+   treat that number as an observation, not a constant) the link no longer fits
+   after the sentence and wraps. A wrapped inline box starts the new line at the
+   content edge PLUS its left margin, which left it hanging 14px out of
+   alignment with the text above it. So below that width it stops pretending to
+   be inline and becomes a proper own-line link. The rule sits at 600px rather
+   than 571 to leave ~30px of slack for the sentence growing a few characters. */
+@media (max-width: 600px) {
+  /* Right-aligned rather than flush left, so it tucks under the Office Hours
+     pill in the nav. Both are the same gold, so the two form a column on the
+     right edge instead of the link reading as a stray third line of the
+     subhead. margin-left:auto needs width:fit-content to have anything to
+     push against. */
+  .blog-sub { display: flex; width: fit-content; margin-left: auto; margin-top: .9rem; }
+}
