@@ -169,6 +169,25 @@ const TOPIC_HUE = {
 };
 const hueClass = (topic) => `hue-${TOPIC_HUE[topic] || 2}`;
 
+// Descriptions lifted from the Claude plugins card on the homepage and
+// lengthened slightly for this page. Event names deliberately match the
+// homepage so a repo's clicks aggregate across both surfaces.
+const TAKEAWAYS = [
+  ['Job Search Agent', 'Your AI recruiter. It reads your profile, pulls fresh roles, and skips what you have already seen.',
+   'https://github.com/kevinmmiddleton/job-search-agent', 'Building+JobSearchAgent'],
+  ['Personal Site', 'A website from an interview. Answer the questions, get a site you own.',
+   'https://github.com/kevinmmiddleton/personal-site', 'Building+PersonalSite'],
+  ['Build with Claude', 'Ship apps from your phone. No IDE, no laptop, just a message.',
+   'https://github.com/kevinmmiddleton/build-with-claude', 'Building+Claude'],
+];
+
+const SHORT_MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function shortDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return `${SHORT_MON[d.getUTCMonth()]} ${d.getUTCDate()}`;
+}
+
 // topic_new wins when it is filled in, which is how a topic outside the
 // dropdown gets created. Trimmed, because a stray space would fork the
 // taxonomy silently: that is exactly how the tags ended up with both
@@ -452,20 +471,83 @@ function hubPage(posts) {
   // The first row is above the fold at every width, so those three are the LCP
   // candidates and must not be lazy. Lazy-loading an in-viewport image defers
   // the request behind the main parse, which is a straight LCP regression.
-  const cards = posts.map((p, i) => {
+  // One card renderer, used by every band. `n` is the card's position across
+  // the whole page, not within its band: it drives eager loading, and the LCP
+  // candidate is always in the first band regardless of which band it is in.
+  const card = (p, n) => {
     const sibs = p.series ? posts.filter((q) => q.series === p.series) : [];
     const part = p.series
       ? ` <span class="part">&middot; Part ${p.series_order || ''} of ${sibs.length}</span>` : '';
-    const eager = i < 3;
+    const eager = n < 3;
     return `            <a class="post-card ${hueClass(topicOf(p))} plausible-event-name=Blog+Card+Click plausible-event-post=${p.slug}" href="/blog/${p.slug}/">
                 <img class="post-card__thumb" src="${escAttr(p.cover_image||'')}"${dimAttrs(p.cover_image)} alt=""${eager ? ' fetchpriority="high" decoding="async"' : ' loading="lazy" decoding="async"'}>
                 <div class="post-card__body">
                     <p class="post-eyebrow">${esc(topicOf(p))}${part}</p>
-                    <h2>${esc(p.title)}</h2>
+                    <h3>${esc(p.title)}</h3>
                     <p>${esc(p.excerpt||'')}</p>
                 </div>
             </a>`;
-  }).join('\n\n');
+  };
+
+  const bandHead = (title, aside) => `            <div class="band-h">
+                <h2>${esc(title)}</h2>${aside ? `\n                <span>${esc(aside)}</span>` : ''}
+            </div>`;
+
+  // The series comes out of the river entirely. In the flat grid its five parts
+  // landed at positions 1, 11, 13, 14 and 16 and printed backwards, part five
+  // first, so the only way to read it in order was to reconstruct it from five
+  // separate kickers. As one numbered list it is also text-only by
+  // construction, which needs no per-post decision about suppressing art.
+  const seriesPosts = posts.filter((p) => p.series)
+    .sort((a, b) => (a.series_order || 0) - (b.series_order || 0));
+  const soloPosts = posts.filter((p) => !p.series);
+  const leadPosts = soloPosts.slice(0, 3);
+  const restPosts = soloPosts.slice(3);
+
+  const seriesBand = seriesPosts.length < 2 ? '' : `
+        <div class="band">
+${bandHead(seriesPosts[0].series, 'Build with me')}
+            <div class="ser-list">
+${seriesPosts.map((p, i) => `                <a class="ser-row ${hueClass(topicOf(p))} plausible-event-name=Blog+Series+Click plausible-event-part=${i + 1}" href="/blog/${p.slug}/">
+                    <span class="ser-n">${i + 1}</span>
+                    <span class="ser-t">${esc(p.title)}</span>
+                    <span class="ser-d">${shortDate(p.published_at)}${i === seriesPosts.length - 1 ? ' <b>Newest</b>' : ''}</span>
+                </a>`).join('\n')}
+            </div>
+        </div>`;
+
+  // Not a promo: the nav already links every section of the site. This is the
+  // one thing the nav cannot say, which is that these exist, they are free, and
+  // several of these posts are their write-ups. Event names match the homepage
+  // so clicks aggregate per repo; the source property keeps the two separable.
+  const takeBand = `
+        <div class="band">
+${bandHead('Things you can take', 'Free, on GitHub')}
+            <div class="take">
+${TAKEAWAYS.map(([t, x, u, ev]) => `                <a class="plausible-event-name=${ev} plausible-event-source=blog" href="${u}" target="_blank" rel="noopener noreferrer">
+                    <span class="take-t">${esc(t)}</span>
+                    <span class="take-x">${esc(x)}</span>
+                    <span class="take-k">GitHub<span class="vh"> (opens in a new tab)</span></span>
+                </a>`).join('\n')}
+            </div>
+        </div>`;
+
+  const bands = [
+    `        <div class="band band-lead">
+${bandHead('Latest')}
+            <div class="post-list">
+${leadPosts.map((p, i) => card(p, i)).join('\n\n')}
+            </div>
+        </div>`,
+    seriesBand,
+    takeBand,
+    restPosts.length ? `        <div class="band">
+${bandHead('More writing')}
+            <div class="post-list">
+${restPosts.map((p, i) => card(p, i + leadPosts.length)).join('\n\n')}
+            </div>
+        </div>` : '',
+  ].filter(Boolean).join('\n\n');
   return `<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -514,19 +596,19 @@ ${HEADER}
     <main id="content" tabindex="-1">
     <section class="blog-index">
         <div class="blog-index-header">
-            <div class="blog-index-top">
-                <p class="eyebrow">Blog</p>
-                <a class="blog-rss" href="/blog/feed.xml">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
-                    Subscribe via RSS
-                </a>
-            </div>
+            <p class="eyebrow">Blog</p>
             <h1>Product, He Built</h1>
             <p class="subhead">Essays on product, AI, leadership, and building. Long-form, hands-on, and occasionally about what broke.</p>
         </div>
 
-        <div class="post-list">
-${cards}
+${bands}
+
+        <!-- The RSS link used to be a 14px pill at the TOP of the page, which is
+             the wrong end: nobody subscribes before they have read anything. -->
+        <div class="blog-tail">
+            <p>Follow along</p>
+            <a class="plausible-event-name=Blog+RSS" href="/blog/feed.xml">Subscribe via RSS</a>
+            <a class="plausible-event-name=Blog+OfficeHours" href="/officehours/">Office hours</a>
         </div>
     </section>
     </main>

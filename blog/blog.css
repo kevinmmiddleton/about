@@ -913,3 +913,132 @@ figcaption {
   .article-lede-in .article-title { font-size: 1.75rem; max-width: none; }
   .article-lede-in .article-dek { font-size: .96rem; max-width: none; }
 }
+
+
+/* ============================================================================
+   THE BANDED INDEX                                        added 2026-08-02
+   ----------------------------------------------------------------------------
+   The index was 16 identical cards in one river. Measured, the only variety
+   after the lead was 27px of height between two card sizes, which is just
+   whether a headline wrapped. Variety now comes from labelled zone boundaries
+   rather than from varying the cards, for three reasons:
+
+   1. Alternating card treatments have a period of 2 over 6 rows. That is
+      enough repetition for a reader to notice inconsistency and not enough to
+      infer a rule, which reads as arbitrary rather than edited.
+   2. Every size rule on this page sits behind min-width:900px, so on a phone
+      no card device applies at all. Labels and rules survive one column.
+   3. The old outline was h1 followed by 16 sibling h2s: the flatness was
+      encoded in the heading structure. Bands are h2, card titles are h3.
+   ========================================================================= */
+
+/* ---- spacing -------------------------------------------------------------
+   The page already had whitespace. It was trapped inside bordered cards,
+   where it read as a rendering fault rather than as air: the grid stretches
+   every card in a row to the tallest, and .post-card p carried a bottom
+   margin as the last child on top of the body's padding. 24px was a fine
+   gutter and a poor row separation. Equal gaps on both axes make a mesh, and
+   a mesh has no beat to break. */
+.post-list { gap: 64px 24px; }
+.post-card__body { padding: 26px; }
+.post-card__body > *:last-child { margin-bottom: 0; }
+.blog-index-header { margin-bottom: 72px; padding-bottom: 1.6rem; border-bottom: 2px solid var(--text-primary); }
+
+/* ---- bands --------------------------------------------------------------- */
+.band + .band { margin-top: 72px; }
+.band-h {
+  display: flex; align-items: baseline; gap: 1rem;
+  margin: 0 0 24px; padding-bottom: .7rem;
+  border-bottom: 2px solid var(--text-primary);
+}
+.band-h h2 {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 700; color: var(--text-primary); margin: 0;
+}
+.band-h span {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-left: auto;
+}
+
+/* ---- the lead well -------------------------------------------------------
+   The hero rule further up this file targets `.post-list > .post-card:first-child`,
+   which matches EVERY grid on the page. With more than one .post-list the
+   archive band grew a second hero, so the treatment is scoped to the lead band
+   and explicitly undone elsewhere.
+
+   The hero spans two ROWS as well as two columns. Columns alone leave two
+   units of a three-column row unused and strand card three on a row by
+   itself. `span 2`, never `1 / -1`: in an implicit grid -1 resolves to the end
+   of the explicit grid and collapses silently. */
+@media (min-width: 900px) {
+  .band-lead .post-list > .post-card:first-child { grid-row: span 2; min-height: 0; }
+
+  .band:not(.band-lead) .post-list > .post-card:first-child {
+    grid-column: auto; position: static; display: flex; min-height: 0; overflow: visible;
+  }
+  .band:not(.band-lead) .post-list > .post-card:first-child .post-card__thumb {
+    position: static; width: 100%; height: auto; aspect-ratio: 16/9;
+  }
+  .band:not(.band-lead) .post-list > .post-card:first-child .post-card__body {
+    position: static; inset: auto; display: block; padding: 26px; background: none;
+  }
+  .band:not(.band-lead) .post-list > .post-card:first-child h3 {
+    color: var(--text-primary); font-size: 1.15rem; max-width: none;
+  }
+  .band:not(.band-lead) .post-list > .post-card:first-child .post-card__body > p:not([class]) {
+    color: var(--text-secondary); max-width: none;
+  }
+  .band:not(.band-lead) .post-list > .post-card:first-child .post-eyebrow {
+    color: var(--topic, var(--coral-text));
+  }
+}
+
+/* ---- the series, as text ------------------------------------------------- */
+.ser-list { border: 1px solid var(--rule-strong); border-radius: var(--radius-lg); overflow: hidden; }
+.ser-row {
+  display: grid; grid-template-columns: 2.6rem 1fr auto; gap: 1rem; align-items: baseline;
+  padding: 1.05rem 1.4rem; text-decoration: none;
+  border-top: 1px solid var(--border); transition: background .18s;
+}
+.ser-row:first-child { border-top: 0; }
+.ser-row:hover { background: var(--tint-soft); }
+.ser-n { font-family: var(--mono); font-size: .78rem; font-weight: 700; letter-spacing: .08em; color: var(--topic, var(--c4-text)); }
+.ser-t { font-size: 1.05rem; font-weight: 700; line-height: 1.35; color: var(--text-primary); }
+.ser-d {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .09em; text-transform: uppercase;
+  font-weight: 700; color: var(--text-muted); white-space: nowrap;
+}
+.ser-d b { color: var(--topic, var(--c4-text)); }
+@media (max-width: 640px) {
+  .ser-row { grid-template-columns: 2rem 1fr; row-gap: .35rem; }
+  .ser-d { grid-column: 2; }
+}
+
+/* ---- the takeaways, as furniture -----------------------------------------
+   Deliberately NOT a card: no card ground, no radius, no hover lift. If it
+   looks like a card the reader clicks expecting a post and feels sold to when
+   they get a repo. A rule and the mono register read as masthead furniture. */
+.take { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem 2.4rem; }
+.take a { text-decoration: none; display: block; padding-top: 1rem; border-top: 1px solid var(--rule-strong); }
+.take a:hover .take-t { text-decoration: underline; text-underline-offset: 3px; }
+.take-t { display: block; font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: .3rem; }
+.take-x { display: block; font-size: .88rem; line-height: 1.5; color: var(--text-secondary); }
+.take-k {
+  display: block; font-family: var(--mono); font-size: .56rem; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 700; color: var(--c3-text); margin-top: .4rem;
+}
+
+/* ---- the tail ------------------------------------------------------------ */
+.blog-tail {
+  margin-top: 72px; padding-top: 1.6rem; border-top: 2px solid var(--text-primary);
+  display: flex; gap: 1.4rem; align-items: baseline; flex-wrap: wrap;
+}
+.blog-tail p, .blog-tail a {
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 700; margin: 0;
+}
+.blog-tail p { color: var(--text-secondary); }
+.blog-tail a { color: var(--c1-text); text-decoration: none; padding-block: .3rem; }
+.blog-tail a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) { .ser-row { transition: none; } }

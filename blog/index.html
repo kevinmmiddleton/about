@@ -28,7 +28,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=d8bff338">
-    <link rel="stylesheet" href="/blog/blog.css?v=5946ed40">
+    <link rel="stylesheet" href="/blog/blog.css?v=22c93c83">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -198,32 +198,21 @@
     <main id="content" tabindex="-1">
     <section class="blog-index">
         <div class="blog-index-header">
-            <div class="blog-index-top">
-                <p class="eyebrow">Blog</p>
-                <a class="blog-rss" href="/blog/feed.xml">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
-                    Subscribe via RSS
-                </a>
-            </div>
+            <p class="eyebrow">Blog</p>
             <h1>Product, He Built</h1>
             <p class="subhead">Essays on product, AI, leadership, and building. Long-form, hands-on, and occasionally about what broke.</p>
         </div>
 
-        <div class="post-list">
-            <a class="post-card hue-4 plausible-event-name=Blog+Card+Click plausible-event-post=building-personal-ai-tools-for-everyone-else" href="/blog/building-personal-ai-tools-for-everyone-else/">
-                <img class="post-card__thumb" src="/blog/images/1780711744499-job-search-agent-banner.png" width="2280" height="930" alt="" fetchpriority="high" decoding="async">
-                <div class="post-card__body">
-                    <p class="post-eyebrow">Building with AI <span class="part">&middot; Part 5 of 5</span></p>
-                    <h2>An AI tool for me 🎉 An AI tool for us? 🙈</h2>
-                    <p>The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.</p>
-                </div>
-            </a>
-
+        <div class="band band-lead">
+            <div class="band-h">
+                <h2>Latest</h2>
+            </div>
+            <div class="post-list">
             <a class="post-card hue-5 plausible-event-name=Blog+Card+Click plausible-event-post=product-management-is-dead" href="/blog/product-management-is-dead/">
                 <img class="post-card__thumb" src="/blog/images/product-management-is-dead-cover.png" width="1600" height="893" alt="" fetchpriority="high" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Product</p>
-                    <h2>Product Management is dead. Long live Product Management.</h2>
+                    <h3>Product Management is dead. Long live Product Management.</h3>
                     <p>We keep killing product management. It keeps coming back. What the latest round of obituaries gets wrong about the work, and who actually does it.</p>
                 </div>
             </a>
@@ -232,25 +221,92 @@
                 <img class="post-card__thumb" src="/blog/images/ai-guilt-recycling-cover.png" width="1600" height="893" alt="" fetchpriority="high" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Tech &amp; Society</p>
-                    <h2>AI guilt is the new recycling</h2>
+                    <h3>AI guilt is the new recycling</h3>
                     <p>AI guilt is everywhere, and it is landing on exhausted people instead of the leaders who earned it. We have done this before. Last time we called it recycling.</p>
                 </div>
             </a>
 
             <a class="post-card hue-1 plausible-event-name=Blog+Card+Click plausible-event-post=its-almost-always-the-resume" href="/blog/its-almost-always-the-resume/">
-                <img class="post-card__thumb" src="/blog/images/resume-red-pen-markup.jpg" width="1600" height="893" alt="" loading="lazy" decoding="async">
+                <img class="post-card__thumb" src="/blog/images/resume-red-pen-markup.jpg" width="1600" height="893" alt="" fetchpriority="high" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Career</p>
-                    <h2>It's almost always the resume</h2>
+                    <h3>It's almost always the resume</h3>
                     <p>When a search stalls, people blame the ATS, the AI, the economy. Almost every time I look, it's the resume. So I overhauled my own. Here's exactly what changed and why.</p>
                 </div>
             </a>
+            </div>
+        </div>
 
+
+        <div class="band">
+            <div class="band-h">
+                <h2>Building a Job Search Agent</h2>
+                <span>Build with me</span>
+            </div>
+            <div class="ser-list">
+                <a class="ser-row hue-4 plausible-event-name=Blog+Series+Click plausible-event-part=1" href="/blog/ai-job-search-assistant/">
+                    <span class="ser-n">1</span>
+                    <span class="ser-t">I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To</span>
+                    <span class="ser-d">Feb 23</span>
+                </a>
+                <a class="ser-row hue-4 plausible-event-name=Blog+Series+Click plausible-event-part=2" href="/blog/ai-job-scanner-daily/">
+                    <span class="ser-n">2</span>
+                    <span class="ser-t">What Running an AI Job Scanner Daily Actually Looks Like</span>
+                    <span class="ser-d">Mar 6</span>
+                </a>
+                <a class="ser-row hue-4 plausible-event-name=Blog+Series+Click plausible-event-part=3" href="/blog/ai-tools-non-technical/">
+                    <span class="ser-n">3</span>
+                    <span class="ser-t">We're not building great AI tools for non-technical audiences (yet)</span>
+                    <span class="ser-d">Mar 20</span>
+                </a>
+                <a class="ser-row hue-4 plausible-event-name=Blog+Series+Click plausible-event-part=4" href="/blog/job-search-agent/">
+                    <span class="ser-n">4</span>
+                    <span class="ser-t">Need an AI recruiter that works for you? Try this one.</span>
+                    <span class="ser-d">Jun 6</span>
+                </a>
+                <a class="ser-row hue-4 plausible-event-name=Blog+Series+Click plausible-event-part=5" href="/blog/building-personal-ai-tools-for-everyone-else/">
+                    <span class="ser-n">5</span>
+                    <span class="ser-t">An AI tool for me 🎉 An AI tool for us? 🙈</span>
+                    <span class="ser-d">Jul 29 <b>Newest</b></span>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="band">
+            <div class="band-h">
+                <h2>Things you can take</h2>
+                <span>Free, on GitHub</span>
+            </div>
+            <div class="take">
+                <a class="plausible-event-name=Building+JobSearchAgent plausible-event-source=blog" href="https://github.com/kevinmmiddleton/job-search-agent" target="_blank" rel="noopener noreferrer">
+                    <span class="take-t">Job Search Agent</span>
+                    <span class="take-x">Your AI recruiter. It reads your profile, pulls fresh roles, and skips what you have already seen.</span>
+                    <span class="take-k">GitHub<span class="vh"> (opens in a new tab)</span></span>
+                </a>
+                <a class="plausible-event-name=Building+PersonalSite plausible-event-source=blog" href="https://github.com/kevinmmiddleton/personal-site" target="_blank" rel="noopener noreferrer">
+                    <span class="take-t">Personal Site</span>
+                    <span class="take-x">A website from an interview. Answer the questions, get a site you own.</span>
+                    <span class="take-k">GitHub<span class="vh"> (opens in a new tab)</span></span>
+                </a>
+                <a class="plausible-event-name=Building+Claude plausible-event-source=blog" href="https://github.com/kevinmmiddleton/build-with-claude" target="_blank" rel="noopener noreferrer">
+                    <span class="take-t">Build with Claude</span>
+                    <span class="take-x">Ship apps from your phone. No IDE, no laptop, just a message.</span>
+                    <span class="take-k">GitHub<span class="vh"> (opens in a new tab)</span></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="band">
+            <div class="band-h">
+                <h2>More writing</h2>
+            </div>
+            <div class="post-list">
             <a class="post-card hue-3 plausible-event-name=Blog+Card+Click plausible-event-post=curiosity-makes-or-breaks" href="/blog/curiosity-makes-or-breaks/">
                 <img class="post-card__thumb" src="/blog/images/product-managers-backstreet-boys-4-year-olds-venn.jpg" width="1600" height="893" alt="" loading="lazy" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Leadership</p>
-                    <h2>At work, curiosity can be the difference between thriving and surviving</h2>
+                    <h3>At work, curiosity can be the difference between thriving and surviving</h3>
                     <p>You can usually tell within a few weeks whether you'll thrive at a company or just survive it. It comes down to what happens when you ask one simple question.</p>
                 </div>
             </a>
@@ -259,7 +315,7 @@
                 <img class="post-card__thumb" src="/blog/images/applying-for-jobs-is-like-stand-up-comedy.jpg" width="1600" height="960" alt="" loading="lazy" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Career</p>
-                    <h2>Applying for jobs is like stand-up comedy</h2>
+                    <h3>Applying for jobs is like stand-up comedy</h3>
                     <p>A lot of the standard job search advice is bunk, and the rest is easier to follow if you treat the whole thing like an open mic. Go up rusty, test your material, learn to handle hecklers.</p>
                 </div>
             </a>
@@ -268,7 +324,7 @@
                 <img class="post-card__thumb" src="/blog/images/prototype-customer-problems.jpg" width="1600" height="620" alt="" loading="lazy" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Leadership</p>
-                    <h2>Everyone can build now. The fundamentals shouldn't change.</h2>
+                    <h3>Everyone can build now. The fundamentals shouldn't change.</h3>
                     <p>AI made everyone a builder. It didn't say who orchestrates them, or who validates and integrates all the prototypes.</p>
                 </div>
             </a>
@@ -277,7 +333,7 @@
                 <img class="post-card__thumb" src="/blog/images/personal-site-blog-cover.png" width="2280" height="930" alt="" loading="lazy" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Building with AI</p>
-                    <h2>You should have a website. And you can build it in an hour with Claude.</h2>
+                    <h3>You should have a website. And you can build it in an hour with Claude.</h3>
                     <p>An old colleague got laid off, shipped a personal site ten days after I sent him a starter kit, and took back his story online. So I turned the starter into a free plugin.</p>
                 </div>
             </a>
@@ -286,7 +342,7 @@
                 <img class="post-card__thumb" src="/blog/images/janet-from-accounting.png" width="3200" height="1800" alt="" loading="lazy" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Building with AI</p>
-                    <h2>AI is researching you. Make sure it gets your story right.</h2>
+                    <h3>AI is researching you. Make sure it gets your story right.</h3>
                     <p>ChatGPT showed up in my site's referrer logs. Companies are worrying about how they appear in AI search. The same logic applies to many of us.</p>
                 </div>
             </a>
@@ -295,17 +351,8 @@
                 <img class="post-card__thumb" src="/blog/images/robot-assistant.png" width="1470" height="600" alt="" loading="lazy" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Building with AI</p>
-                    <h2>How to Digitally Detox Right Now (Even If You're Job Searching)</h2>
+                    <h3>How to Digitally Detox Right Now (Even If You're Job Searching)</h3>
                     <p>I check my inbox twice a day. Here's what a morning briefing from my AI assistant gave me back in a brutal job market.</p>
-                </div>
-            </a>
-
-            <a class="post-card hue-4 plausible-event-name=Blog+Card+Click plausible-event-post=job-search-agent" href="/blog/job-search-agent/">
-                <img class="post-card__thumb" src="/blog/images/1780711744499-job-search-agent-banner.png" width="2280" height="930" alt="" loading="lazy" decoding="async">
-                <div class="post-card__body">
-                    <p class="post-eyebrow">Building with AI <span class="part">&middot; Part 4 of 5</span></p>
-                    <h2>Need an AI recruiter that works for you? Try this one.</h2>
-                    <p>Open-sourced a Claude Code plugin that turns Claude into your job search assistant. The accessible version of the system I built for myself, free on GitHub.</p>
                 </div>
             </a>
 
@@ -313,26 +360,8 @@
                 <img class="post-card__thumb" src="/blog/images/build-with-claude-cover.png" width="2280" height="930" alt="" loading="lazy" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Building with AI</p>
-                    <h2>I build web apps from my phone. Here's the whole setup.</h2>
+                    <h3>I build web apps from my phone. Here's the whole setup.</h3>
                     <p>No code, no IDE, just a Telegram message. A Mac at home runs Claude Code, and a free guide gets you the same setup.</p>
-                </div>
-            </a>
-
-            <a class="post-card hue-4 plausible-event-name=Blog+Card+Click plausible-event-post=ai-tools-non-technical" href="/blog/ai-tools-non-technical/">
-                <img class="post-card__thumb" src="/blog/images/ai-tools-non-technical-cover.jpg" width="1279" height="720" alt="" loading="lazy" decoding="async">
-                <div class="post-card__body">
-                    <p class="post-eyebrow">Building with AI <span class="part">&middot; Part 3 of 5</span></p>
-                    <h2>We're not building great AI tools for non-technical audiences (yet)</h2>
-                    <p>I built a job scanner that runs while I sleep. I couldn't hand it to a smart, motivated friend. The gap between 'I want that' and 'I can do that' is still enormous.</p>
-                </div>
-            </a>
-
-            <a class="post-card hue-4 plausible-event-name=Blog+Card+Click plausible-event-post=ai-job-scanner-daily" href="/blog/ai-job-scanner-daily/">
-                <img class="post-card__thumb" src="/blog/images/ai-job-scanner-daily-cover.jpg" width="1280" height="720" alt="" loading="lazy" decoding="async">
-                <div class="post-card__body">
-                    <p class="post-eyebrow">Building with AI <span class="part">&middot; Part 2 of 5</span></p>
-                    <h2>What Running an AI Job Scanner Daily Actually Looks Like</h2>
-                    <p>Two weeks running my AI job scanner. The field report: extraction failures, a temporary block, duplicate noise, and what actually held up.</p>
                 </div>
             </a>
 
@@ -340,19 +369,19 @@
                 <img class="post-card__thumb" src="/blog/images/owning-your-context-cover.jpg" width="1279" height="720" alt="" loading="lazy" decoding="async">
                 <div class="post-card__body">
                     <p class="post-eyebrow">Building with AI</p>
-                    <h2>I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</h2>
+                    <h3>I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</h3>
                     <p>I pay a service to scrub my data from hundreds of brokers. Then I hand an AI my taxes, my finances, my fears. Where should that personal context actually live?</p>
                 </div>
             </a>
+            </div>
+        </div>
 
-            <a class="post-card hue-4 plausible-event-name=Blog+Card+Click plausible-event-post=ai-job-search-assistant" href="/blog/ai-job-search-assistant/">
-                <img class="post-card__thumb" src="/blog/images/ai-job-search-assistant-cover.jpg" width="1280" height="720" alt="" loading="lazy" decoding="async">
-                <div class="post-card__body">
-                    <p class="post-eyebrow">Building with AI <span class="part">&middot; Part 1 of 5</span></p>
-                    <h2>I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To</h2>
-                    <p>How a Mac Mini in my apartment scans LinkedIn twice a day, filters for roles that match my profile, and texts me the results, for about six cents a day.</p>
-                </div>
-            </a>
+        <!-- The RSS link used to be a 14px pill at the TOP of the page, which is
+             the wrong end: nobody subscribes before they have read anything. -->
+        <div class="blog-tail">
+            <p>Follow along</p>
+            <a class="plausible-event-name=Blog+RSS" href="/blog/feed.xml">Subscribe via RSS</a>
+            <a class="plausible-event-name=Blog+OfficeHours" href="/officehours/">Office hours</a>
         </div>
     </section>
     </main>
