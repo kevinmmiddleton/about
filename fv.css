@@ -3211,6 +3211,13 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
     align-items:start;
   }.fv summary.rrow i{grid-area:1/1/2/2}.fv summary.rrow::after{grid-area:1/2/2/3;align-self:start;line-height:1}.fv summary.rrow span{grid-area:2/1/3/3;line-height:1.25}.fv summary.rrow time{grid-area:3/1/4/3;text-align:left;margin-top:.12rem}
 }/* footer easter egg, carried over from the live site */
+/* The machine surfaces (llms.txt, the OKF bundle) were reachable but invisible:
+   nothing on the page told a human reader they existed. Deliberately quiet,
+   sized and coloured like the colophon nav rather than competing with it. */
+.fv .colo-machine{font-family:var(--mono);font-size:.66rem;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);margin:0}
+.fv .colo-machine a{color:var(--ink2);text-decoration:none;border-bottom:1px solid transparent}
+.fv .colo-machine a:hover{color:var(--ink);border-bottom-color:var(--marigold)}
 .fv .egg-line{margin:1.2rem 0 0}.fv .egg{font-size:.84rem;color:var(--ink2);text-decoration:none;
   border-bottom:1px dashed var(--rule);transition:color .18s,border-color .18s}.fv .egg:hover{color:var(--accent-text);border-bottom-color:var(--accent-text)}/* case studies */
 /* same 6-item orphan problem as .vals */

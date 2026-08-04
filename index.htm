@@ -13,6 +13,13 @@
      the rest of this build standardised on (title, header, hero arc line). -->
 <meta name="description" content="Kevin Middleton, Full Stack Product Manager. 12+ years building platforms, internal tools, and AI workflows for enterprise and consumer SaaS.">
 <link rel="canonical" href="https://middleton.io/">
+<!-- The machine-facing half of the footer's "If you're an AI" line. The llms.txt
+     spec defines the file's location and format and says nothing about discovery,
+     so this is the practitioner convention rather than anything standardised. Kept
+     on the homepage only: `alternate` means an alternate representation of *this*
+     page, which is true for the site root and would be a stretch on every URL. The
+     HTTP `Link:` header equivalent is not available to us on GitHub Pages. -->
+<link rel="alternate" type="text/markdown" href="/llms.txt" title="llms.txt">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <!-- Identity verification -->
@@ -148,7 +155,7 @@
     <button class="spec" role="tab" id="tb-ai" aria-controls="sp-ai" aria-selected="true" tabindex="0"><b>AI Workflows</b><span>Shipped + open-sourced</span></button>
     <button class="spec" role="tab" id="tb-tools" aria-controls="sp-tools" aria-selected="false" tabindex="-1"><b>Internal Tools</b><span>Empowering ops teams</span></button>
     <button class="spec" role="tab" id="tb-platform" aria-controls="sp-platform" aria-selected="false" tabindex="-1"><b>Platforms</b><span>Building for scale</span></button>
-    <button class="spec" role="tab" id="tb-integrations" aria-controls="sp-integrations" aria-selected="false" tabindex="-1"><b>Integrations</b><span>SCIM · OAuth · OIDC</span></button>
+    <button class="spec" role="tab" id="tb-integrations" aria-controls="sp-integrations" aria-selected="false" tabindex="-1"><b>Integrations</b><span>APIs · SCIM · OAuth · OIDC</span></button>
     <button class="spec" role="tab" id="tb-growth" aria-controls="sp-growth" aria-selected="false" tabindex="-1"><b>Growth</b><span>CRO + A/B testing</span></button>
     <button class="spec" role="tab" id="tb-gov" aria-controls="sp-gov" aria-selected="false" tabindex="-1"><b>Public Sector</b><span>Federal agencies + grid</span></button>
   </div>
@@ -434,7 +441,7 @@
 <section class="connect pad obs" id="connect">
   <h2 class="rv">Bring me something <em>messy.</em></h2>
   <div class="cbtns rv d2">
-    <a class="cb c-cv plausible-event-name=Resume+Download" href="/Kevin%20Middleton%20-%20Product%20Manager%2007-22-2026.pdf" target="_blank" rel="noopener noreferrer">Résumé (PDF)<span class="vh">, opens in a new tab</span></a>
+    <a class="cb c-cv plausible-event-name=Resume+Download" href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2007-22-2026.pdf" target="_blank" rel="noopener noreferrer">Résumé (PDF)<span class="vh">, opens in a new tab</span></a>
     <a class="cb c-mail plausible-event-name=Contact+Email" href="mailto:kevin@middleton.io">kevin@middleton.io</a>
     <a class="cb c-oh plausible-event-name=Contact+OfficeHours" href="/officehours/" target="_blank" rel="noopener noreferrer">Office Hours</a>
     <a class="cb c-li plausible-event-name=Contact+LinkedIn" href="https://linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -458,6 +465,7 @@
       <a href="/recipes/">Recipes</a>
       <a href="/visionbort/">Visionbort</a>
     </nav>
+  <p class="colo-machine rv d3">If you're an AI: <a href="/llms.txt" class="plausible-event-name=Machine+LlmsTxt">llms.txt</a> &middot; <a href="/okf/index.md" class="plausible-event-name=Machine+OKF">/okf/</a></p>
   <p class="egg-line rv d4"><a href="#" id="confetti-trigger" class="egg plausible-event-name=Easter+Egg+Confetti">⚠️ Whatever you do, don't click here</a></p>
 </footer>
 </div>
@@ -591,7 +599,8 @@ document.addEventListener("DOMContentLoaded",function(){
     /* There is no close button, so focus lands on the dialog itself. Its
        aria-label carries the way out for anyone who cannot see the scrim. */
     lbx.focus();
-    if(window.plausible) window.plausible("Experience Screenshot");
+    if(window.plausible) window.plausible("Experience Screenshot",
+      {props:{shot:a.getAttribute("data-alt")||"untitled"}});
   }
   function close(){
     lbx.hidden=true;
@@ -685,6 +694,21 @@ if(expList&&expModes.length){
   });
 }
 
+/* Which roles actually get read. Clicking through to a case study was already
+   tracked; expanding a row and reading it in place was not, which is the
+   cheaper and far more common version of the same intent. Bound to `toggle`
+   rather than a click on the summary so keyboard and programmatic opens count
+   too, and fired only on open: a close event would double every count without
+   telling us anything we can act on. Sits outside the mode block because the
+   rows exist whether or not the Resume/Journey control does. */
+[].slice.call(document.querySelectorAll("details.rrow-d")).forEach(function(d){
+  d.addEventListener("toggle",function(){
+    if(!d.open) return;
+    if(window.plausible) plausible("Experience Detail",
+      {props:{company:d.id.replace(/^exp-/,"")}});
+  });
+});
+
 /* Strengths concept: ARIA tab pattern. Panels are in the DOM and only
    [hidden] is toggled, so every specialty stays crawlable and, with JS off,
    the first panel is simply the one that shows. */
@@ -709,7 +733,10 @@ if(tabs.length){
   tabs.forEach(function(t,i){
     t.addEventListener("click",function(){
       pick(i);
-      if(window.plausible) plausible("Strength Open",{props:{strength:t.textContent.trim().slice(0,40)}});
+      /* Read the label node only. Using the whole button ran the name and the
+         sub-label together with no separator ("GrowthCRO + A/B testing"). */
+      if(window.plausible) plausible("Strength Open",
+        {props:{strength:(t.querySelector("b")||t).textContent.trim()}});
     });
     t.addEventListener("keydown",function(e){
       var n=null;
