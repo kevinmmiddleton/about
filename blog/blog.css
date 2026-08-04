@@ -450,7 +450,13 @@ figcaption {
     color: var(--coral-text);
     margin-bottom: 8px;
 }
-.post-card h2 {
+/* :is(h2, h3) rather than a bare tag. Card titles moved from h2 to h3 when
+   the index gained band headings, and every rule here kept targeting h2, so
+   all of this silently detached: the cards fell back to browser h3 defaults
+   and the hero headline lost its white, its 2.15rem and its measure, landing
+   at 2.85:1 on the scrim in light mode. Matching both levels means the next
+   outline change cannot repeat that. */
+.post-card :is(h2, h3) {
     font-family: var(--font-heading);
     font-size: 22px;
     font-weight: 700;
@@ -553,7 +559,7 @@ figcaption {
    a floating image with text under it rather than as a card. --rule-strong is
    the token that exists for this job: 3.08 light, 3.33 dark. */
 .post-card { border-color: var(--rule-strong); }
-.post-card h2 { text-wrap: balance; }
+.post-card :is(h2, h3) { text-wrap: balance; }
 
 /* Excerpts avoid stranding a short final line. balance evens line lengths and
    is right for a headline; pretty is the one that targets the last line, which
@@ -586,21 +592,21 @@ figcaption {
 .hue-4{--hero-topic:#6E93CC} .hue-5{--hero-topic:#A98FD8} .hue-6{--hero-topic:#D96BB8}
 
 @media (min-width: 900px) {
-  .post-list > .post-card:first-child {
+  .band-lead .post-list > .post-card:first-child {
     grid-column: span 2;
     position: relative;
     display: block;
     min-height: 430px;
     overflow: hidden;
   }
-  .post-list > .post-card:first-child .post-card__thumb {
+  .band-lead .post-list > .post-card:first-child .post-card__thumb {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     aspect-ratio: auto;
     object-fit: cover;
     border: 0; box-shadow: none;
   }
-  .post-list > .post-card:first-child .post-card__body {
+  .band-lead .post-list > .post-card:first-child .post-card__body {
     position: absolute; inset: 0;
     display: flex; flex-direction: column; justify-content: flex-end;
     gap: .5rem; padding: 2.1rem;
@@ -610,13 +616,13 @@ figcaption {
     background: linear-gradient(to top,
       rgba(0,0,0,.94) 0%, rgba(0,0,0,.90) 30%, rgba(0,0,0,.72) 58%, rgba(0,0,0,.52) 100%);
   }
-  .post-list > .post-card:first-child .post-eyebrow { color: var(--hero-topic); }
-  .post-list > .post-card:first-child .post-eyebrow .part { color: rgba(255,255,255,.7); }
-  .post-list > .post-card:first-child h2 {
+  .band-lead .post-list > .post-card:first-child .post-eyebrow { color: var(--hero-topic); }
+  .band-lead .post-list > .post-card:first-child .post-eyebrow .part { color: rgba(255,255,255,.7); }
+  .band-lead .post-list > .post-card:first-child :is(h2, h3) {
     color: #fff; font-size: 2.15rem; line-height: 1.08;
     letter-spacing: -.025em; max-width: 19ch; margin: 0;
   }
-  .post-list > .post-card:first-child .post-card__body > p:not([class]) {
+  .band-lead .post-list > .post-card:first-child .post-card__body > p:not([class]) {
     color: rgba(255,255,255,.84); margin: 0;
     /* The lead excerpt was stranding a single word on a third line.
        text-wrap: pretty alone did not rescue it: Chrome applies it, and it
@@ -628,8 +634,8 @@ figcaption {
     max-width: 64ch;
     text-wrap: pretty;
   }
-  .post-list > .post-card:first-child:hover { border-color: var(--hero-topic); }
-  .post-list > .post-card:first-child:hover .post-card__thumb { box-shadow: none; }
+  .band-lead .post-list > .post-card:first-child:hover { border-color: var(--hero-topic); }
+  .band-lead .post-list > .post-card:first-child:hover .post-card__thumb { box-shadow: none; }
 }
 
 /* -------------------------------------------------------------- read next */
@@ -961,7 +967,7 @@ figcaption {
 }
 
 /* ---- the lead well -------------------------------------------------------
-   The hero rule further up this file targets `.post-list > .post-card:first-child`,
+   The hero rule further up this file targets `.band-lead .post-list > .post-card:first-child`,
    which matches EVERY grid on the page. With more than one .post-list the
    archive band grew a second hero, so the treatment is scoped to the lead band
    and explicitly undone elsewhere.
@@ -972,24 +978,13 @@ figcaption {
    of the explicit grid and collapses silently. */
 @media (min-width: 900px) {
 
-  .band:not(.band-lead) .post-list > .post-card:first-child {
-    grid-column: auto; position: static; display: flex; min-height: 0; overflow: visible;
-  }
-  .band:not(.band-lead) .post-list > .post-card:first-child .post-card__thumb {
-    position: static; width: 100%; height: auto; aspect-ratio: 16/9;
-  }
-  .band:not(.band-lead) .post-list > .post-card:first-child .post-card__body {
-    position: static; inset: auto; display: block; padding: 26px; background: none;
-  }
-  .band:not(.band-lead) .post-list > .post-card:first-child h3 {
-    color: var(--text-primary); font-size: 1.15rem; max-width: none;
-  }
-  .band:not(.band-lead) .post-list > .post-card:first-child .post-card__body > p:not([class]) {
-    color: var(--text-secondary); max-width: none;
-  }
-  .band:not(.band-lead) .post-list > .post-card:first-child .post-eyebrow {
-    color: var(--topic, var(--coral-text));
-  }
+  /* The reset block that used to live here is gone. It existed only because
+     the hero rule matched `.post-list > .post-card:first-child` in EVERY grid,
+     so the archive band grew a second hero that had to be undone rule by rule.
+     Undoing it also flattened that card's title to 1.15rem while its siblings
+     stayed at 22px. Scoping the hero to .band-lead removes the cause, so the
+     archive band is simply never a hero and needs no correction. */
+
 }
 
 /* The two-row span only makes sense once the grid actually HAS three columns.
