@@ -1,11 +1,12 @@
 /* ==========================================================================
    COLOUR NOTE: --coral-text and --accent were #B8431F / #FF7F50, a coral that
    predates the redesign and appears nowhere in the site palette. They drove
-   every blog link, the category eyebrows, callout rules and the copy button.
+   every blog link, the category eyebrows and the copy button.
    They now defer to the shared tokens: --accent-text (madder) for accent text
    and --marigold for accent rules, so the blog reads in the same palette as
-   everything else. --brand-rss stays orange on purpose; that is RSS's own
-   brand colour, not ours.
+   everything else. --brand-rss went with the .blog-rss pill: it was declared
+   here and in fv.css but consumed by nothing once the pill was replaced by
+   .blog-sub, which takes --c1-text like the other mono links.
 
    Tokens and base rules ported from styles-merged.css so the blog no longer
    needs to load it. Values are the ones styles-merged actually computed here
@@ -27,7 +28,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-  --accent:var(--marigold); --accent-hover:var(--ink); --border:#ddd8d0; --brand-rss:#F26522;
+  --accent:var(--marigold); --accent-hover:var(--ink); --border:#ddd8d0;
   --card-bg:#ffffff; --coral-text:var(--accent-text); --font-heading:"Helvetica Neue",Helvetica,Arial,sans-serif;
   --radius-lg:1.5rem; --radius-md:1rem; --rule:#D8D8DD;
   --shadow-2:0 4px 14px rgba(0,0,0,.10); --shadow-md:0 4px 6px rgba(0,0,0,0.07);
@@ -320,7 +321,9 @@ figcaption {
    no post in blog/_posts uses it, and it matched zero elements on all 18
    pages. The two-ground lesson its comment carried is in DESIGN.md. */
 
-/* Blockquotes — same left-accent treatment as callouts */
+/* Blockquotes: a left accent rule and a tinted panel. This used to say "same
+   treatment as callouts", but the callout is gone, so the treatment lives here
+   on its own now. */
 .article-body blockquote {
     border-left: 3px solid var(--accent);
     background: var(--surface);
