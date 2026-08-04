@@ -6473,20 +6473,20 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             typing.remove();
             if (data.error || !data.reply) {
                 line(root, 'KevBot', 'Oops, something went wrong. Try again?');
-                if (window.plausible) window.plausible('KevBot+Error');
+                if (window.plausible) window.plausible('KevBot Error');
             } else {
                 line(root, 'KevBot', data.reply);
                 kosSound.play('message');
                 history.push({ role: 'user', content: text });
                 history.push({ role: 'assistant', content: data.reply });
                 if (history.length > 20) history = history.slice(-20);
-                if (window.plausible) window.plausible('KevBot+Message',
+                if (window.plausible) window.plausible('KevBot Message',
                     { props: { surface: 'kevinos-aim' } });
             }
         } catch (e) {
             typing.remove();
             line(root, 'KevBot', "Couldn't connect. Check your internet and try again!");
-            if (window.plausible) window.plausible('KevBot+Error');
+            if (window.plausible) window.plausible('KevBot Error');
         }
 
         busy.delete(root);

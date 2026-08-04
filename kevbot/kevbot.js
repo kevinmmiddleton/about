@@ -591,7 +591,7 @@ return { create: function(host, opts){ return Orb(host, opts); } };
           prompts.style.display = 'none';
 
           if (action === 'contact') {
-            if (window.plausible) window.plausible('KevBot+Prompt+Contact');
+            if (window.plausible) window.plausible('KevBot Prompt Contact');
             // Scroll to connect section
             const connectEl = document.querySelector('#connect');
             if (connectEl) {
@@ -600,7 +600,7 @@ return { create: function(host, opts){ return Orb(host, opts); } };
             // Close KevBot
             this.toggle();
           } else if (promptText) {
-            if (window.plausible) window.plausible('KevBot+Prompt+WhatDoesKevinDo');
+            if (window.plausible) window.plausible('KevBot Prompt WhatDoesKevinDo');
             this.inputEl.value = promptText;
             this.send();
           }
@@ -626,7 +626,7 @@ return { create: function(host, opts){ return Orb(host, opts); } };
         btn.className = 'kevbot-prompt';
         btn.textContent = text;
         btn.addEventListener('click', () => {
-          if (window.plausible) window.plausible('KevBot+FollowUp+Clicked');
+          if (window.plausible) window.plausible('KevBot FollowUp Clicked');
           this.inputEl.value = text;
           this.send();
         });
@@ -670,9 +670,9 @@ return { create: function(host, opts){ return Orb(host, opts); } };
       this.panel.classList.toggle('open', this.isOpen);
       if (this.isOpen) {
         this.inputEl.focus();
-        if (window.plausible) window.plausible('KevBot+Open');
+        if (window.plausible) window.plausible('KevBot Open');
       } else {
-        if (window.plausible) window.plausible('KevBot+Close');
+        if (window.plausible) window.plausible('KevBot Close');
       }
     },
 
@@ -748,7 +748,7 @@ return { create: function(host, opts){ return Orb(host, opts); } };
       this.addMessage('user', text);
       if (window.plausible) {
         const meta = this.classifyMessage(text);
-        window.plausible('KevBot+Message+Sent', { props: meta });
+        window.plausible('KevBot Message Sent', { props: meta });
       }
       this.burstOrbs();                        // the send itself pulses
       const typing = this.showTyping();
@@ -770,7 +770,7 @@ return { create: function(host, opts){ return Orb(host, opts); } };
 
         if (data.error) {
           this.addMessage('bot', "Oops, something went wrong. Try again?");
-          if (window.plausible) window.plausible('KevBot+Error');
+          if (window.plausible) window.plausible('KevBot Error');
         } else {
           this.addMessage('bot', data.reply);
           // Update history for context
@@ -787,7 +787,7 @@ return { create: function(host, opts){ return Orb(host, opts); } };
         typing.remove();
         this.setOrbRate(1);
         this.addMessage('bot', "Couldn't connect. Check your internet and try again!");
-        if (window.plausible) window.plausible('KevBot+Error');
+        if (window.plausible) window.plausible('KevBot Error');
       }
 
       this.inputEl.disabled = false;

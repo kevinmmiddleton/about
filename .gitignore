@@ -24,3 +24,10 @@ _working/
 
 # Local-only explainers and decks. Public repo: these must never ship.
 _*.html
+
+# 53MB of full-size blog sources that GitHub Pages was serving publicly while
+# nothing linked them. Kept locally by tools/blog-generate.mjs; the README stays
+# tracked so the folder explains itself on GitHub. See that README before
+# assuming an original still exists: CI-run optimizations cannot preserve one.
+blog/images/_originals/*
+!blog/images/_originals/README.md
