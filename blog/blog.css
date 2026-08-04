@@ -183,8 +183,7 @@ img{max-width:100%;height:auto;display:block}
 .article-body > ul,
 .article-body > ol,
 .article-body > figure,
-.article-body > .prompt-block,
-.article-body > .callout {
+.article-body > .prompt-block {
     margin-bottom: 24px;
 }
 
@@ -317,22 +316,9 @@ figcaption {
     word-break: break-word;
 }
 
-/* Pull-callout (e.g. series note) */
-.callout {
-    /* --surface is #F5F4F0 against a #F4F4F5 page: 1.00:1, so the panel did
-       not exist in light mode. --accent resolves to raw --marigold, which
-       measures 1.97:1 on a light page and is the exact two-ground bug
-       DESIGN.md records having shipped twice. --tint-soft is expressed
-       relative to the ground so it works on both, and --c1-line clears 3:1
-       in both modes. */
-    border-left: 3px solid var(--topic-line, var(--c1-line));
-    background: var(--tint-soft);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    padding: 14px 18px;
-    font-size: 16px;
-    color: var(--text-secondary);
-}
-.callout a { color: var(--coral-text); }
+/* The pull-callout block that lived here is gone. No markdown syntax emits it,
+   no post in blog/_posts uses it, and it matched zero elements on all 18
+   pages. The two-ground lesson its comment carried is in DESIGN.md. */
 
 /* Blockquotes — same left-accent treatment as callouts */
 .article-body blockquote {
@@ -388,22 +374,8 @@ figcaption {
     margin-bottom: 14px;
 }
 .blog-index-top .eyebrow { margin-bottom: 0; }
-.blog-rss {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    flex-shrink: 0;
-    padding: 6px 14px;
-    border: 1px solid var(--border, var(--shadow-2));
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-}
-.blog-rss svg { color: var(--brand-rss); flex-shrink: 0; }
-.blog-rss:hover { color: var(--text-primary); border-color: var(--brand-rss); background: color-mix(in srgb, var(--brand-rss) 6%, transparent); }
+/* The .blog-rss pill that lived here is gone: the masthead RSS link is
+   .blog-sub now, and nothing emits .blog-rss on any of the 18 pages. */
 
 .post-list {
     display: grid;
@@ -528,7 +500,6 @@ figcaption {
    same computed colour as body links), and there is nowhere for it to go until
    section pages exist. A link to nothing is worse than a label. */
 .article-meta  { font-size: .62rem; letter-spacing: .09em; }
-.post-eyebrow .part { color: var(--text-muted); }
 
 /* ------------------------------------------------------------------ the dek */
 .article-dek {
@@ -617,7 +588,6 @@ figcaption {
       rgba(0,0,0,.94) 0%, rgba(0,0,0,.90) 30%, rgba(0,0,0,.72) 58%, rgba(0,0,0,.52) 100%);
   }
   .band-lead .post-list > .post-card:first-child .post-eyebrow { color: var(--hero-topic); }
-  .band-lead .post-list > .post-card:first-child .post-eyebrow .part { color: rgba(255,255,255,.7); }
   .band-lead .post-list > .post-card:first-child :is(h2, h3) {
     color: #fff; font-size: 2.15rem; line-height: 1.08;
     letter-spacing: -.025em; max-width: 19ch; margin: 0;
@@ -728,7 +698,6 @@ figcaption {
   .post-card,
   .rn,
   .copy-btn,
-  .blog-rss,
   .article-back .arw-back { transition: none; }
   .post-card:hover { transform: none; }
   .rn:hover { transform: none; }

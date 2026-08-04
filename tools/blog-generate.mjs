@@ -474,15 +474,16 @@ function hubPage(posts) {
   // One card renderer, used by every band. `n` is the card's position across
   // the whole page, not within its band: it drives eager loading, and the LCP
   // candidate is always in the first band regardless of which band it is in.
+  // No part marker here. A post is either a member of a rendered series band,
+  // in which case it never appears as a card, or it is not in a multi-post
+  // series at all, in which case "Part 1 of 1" is noise. The span and its CSS
+  // are gone; the band carries the numbering.
   const card = (p, n) => {
-    const sibs = p.series ? posts.filter((q) => q.series === p.series) : [];
-    const part = p.series
-      ? ` <span class="part">&middot; Part ${p.series_order || ''} of ${sibs.length}</span>` : '';
     const eager = n < 3;
     return `            <a class="post-card ${hueClass(topicOf(p))} plausible-event-name=Blog+Card+Click plausible-event-post=${p.slug}" href="/blog/${p.slug}/">
                 <img class="post-card__thumb" src="${escAttr(p.cover_image||'')}"${dimAttrs(p.cover_image)} alt=""${eager ? ' fetchpriority="high" decoding="async"' : ' loading="lazy" decoding="async"'}>
                 <div class="post-card__body">
-                    <p class="post-eyebrow">${esc(topicOf(p))}${part}</p>
+                    <p class="post-eyebrow">${esc(topicOf(p))}</p>
                     <h3>${esc(p.title)}</h3>
                     <p>${esc(p.excerpt||'')}</p>
                 </div>
@@ -498,23 +499,39 @@ function hubPage(posts) {
   // first, so the only way to read it in order was to reconstruct it from five
   // separate kickers. As one numbered list it is also text-only by
   // construction, which needs no per-post decision about suppressing art.
-  const seriesPosts = posts.filter((p) => p.series)
-    .sort((a, b) => (a.series_order || 0) - (b.series_order || 0));
-  const soloPosts = posts.filter((p) => !p.series);
+  // Grouped, not flattened. Two things were wrong with filtering on `p.series`
+  // alone: a series with a single post was pulled out of the solo list but the
+  // band needs two members to render, so that post appeared NOWHERE on the
+  // index; and a second series would have been merged into the first band under
+  // the first series' name. A series earns a band at two posts; anything short
+  // of that stays an ordinary card.
+  const bySeries = new Map();
+  for (const p of posts) {
+    if (!p.series) continue;
+    if (!bySeries.has(p.series)) bySeries.set(p.series, []);
+    bySeries.get(p.series).push(p);
+  }
+  for (const [name, list] of bySeries) {
+    if (list.length < 2) bySeries.delete(name);
+    else list.sort((a, b) => (a.series_order || 0) - (b.series_order || 0));
+  }
+  const banded = new Set([...bySeries.values()].flat());
+
+  const soloPosts = posts.filter((p) => !banded.has(p));
   const leadPosts = soloPosts.slice(0, 3);
   const restPosts = soloPosts.slice(3);
 
-  const seriesBand = seriesPosts.length < 2 ? '' : `
+  const seriesBand = [...bySeries.entries()].map(([name, list]) => `
         <div class="band">
-${bandHead(seriesPosts[0].series, 'Build with me')}
+${bandHead(name, 'Build with me')}
             <div class="ser-list">
-${seriesPosts.map((p, i) => `                <a class="ser-row ${hueClass(topicOf(p))} plausible-event-name=Blog+Series+Click plausible-event-part=${i + 1}" href="/blog/${p.slug}/">
+${list.map((p, i) => `                <a class="ser-row ${hueClass(topicOf(p))} plausible-event-name=Blog+Series+Click plausible-event-part=${i + 1}" href="/blog/${p.slug}/">
                     <span class="ser-n">${i + 1}</span>
                     <span class="ser-t">${esc(p.title)}</span>
-                    <span class="ser-d">${shortDate(p.published_at)}${i === seriesPosts.length - 1 ? ' <b>Newest</b>' : ''}</span>
+                    <span class="ser-d">${shortDate(p.published_at)}${i === list.length - 1 ? ' <b>Newest</b>' : ''}</span>
                 </a>`).join('\n')}
             </div>
-        </div>`;
+        </div>`).join('\n');
 
   // Not a promo: the nav already links every section of the site. This is the
   // one thing the nav cannot say, which is that these exist, they are free, and
