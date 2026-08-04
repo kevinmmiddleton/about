@@ -3,10 +3,12 @@ User-agent: *
 Allow: /
 Disallow: /*?from=*
 
-# Past versions of the site. Browsable at /archive/ on purpose, but kept out of
-# search: their Person markup predates the entity consolidation, so indexing them
-# would split one Kevin Middleton into several. The pages also carry noindex.
-Disallow: /archive/
+# Past versions of the site. Browsable at /archive/ on purpose, and kept out of
+# search by the noindex,noarchive meta tag on all 8 pages, NOT by a Disallow.
+# It used to carry both, which cancelled itself out: Disallow stops Google
+# fetching the page, so it never reads the noindex, and a linked URL can still
+# be listed with no snippet. Crawlable + noindex is what actually de-indexes,
+# and it is the honest signal for pages that are deliberately browsable.
 
 # OG-image generators (unlinked; not pages)
 Disallow: /OG.html
