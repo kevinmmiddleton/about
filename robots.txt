@@ -1,7 +1,12 @@
 # Welcome, crawlers!
 User-agent: *
 Allow: /
-Disallow: /*?from=*
+# No Disallow for ?from= tracking params. KevinOS appends ?from=kevinos to its
+# 28 outbound links, and blocking that pattern was the same mistake as the old
+# /archive/ Disallow: every case study already self-canonicalises to its clean
+# URL, but robots.txt stopped Google fetching the page, so it never read the
+# canonical and the URL sat in "Blocked by robots.txt" instead of being folded
+# into the original. Crawlable + canonical is what actually consolidates.
 
 # Past versions of the site. Browsable at /archive/ on purpose, and kept out of
 # search by the noindex,noarchive meta tag on all 8 pages, NOT by a Disallow.
