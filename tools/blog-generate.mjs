@@ -482,7 +482,7 @@ ${next}
 
 ${FOOTER}
 
-    <script src="/blog/blog-nav.js"></script>
+    <script src="/blog/blog-nav.js?v=${stamp('blog/blog-nav.js')}"></script>
 </body>
 </html>
 `;
@@ -665,7 +665,7 @@ ${bands}
 
 ${FOOTER}
 
-    <script src="/blog/blog-nav.js"></script>
+    <script src="/blog/blog-nav.js?v=${stamp('blog/blog-nav.js')}"></script>
 </body>
 </html>
 `;
