@@ -127,11 +127,36 @@
     var r = body.getBoundingClientRect();
     // on only between the end of the lede and the start of Read Next
     toc.classList.toggle('is-on', r.top < 120 && r.bottom > 260);
-    // the current section is the last heading to have passed reading height
-    var best = 0;
+    /* The active section is the one covering the most of the screen right now,
+       not the last heading to pass some fixed line.
+
+       A fixed line 140px from the top made the highlight LAG: a section you
+       were already reading stayed dark until the next heading arrived, which is
+       what Kevin reported. Moving the line to the viewport middle fixed that at
+       laptop heights but then ran AHEAD on a 1080px-tall window, because a short
+       section's heading crosses the halfway mark while the previous section
+       still fills most of the glass. Measuring coverage has no such tuning
+       constant and behaves the same at every viewport height. */
+    /* Coverage is measured over the TOP 70% of the glass, not all of it. Plain
+       coverage tripped on a short section: parked at heading 5, section 5 held
+       404px and section 6 held 412, so section 6 lit by an 8px margin while the
+       reader was sitting on heading 5. Where the coverage falls matters, and
+       the eye is in the upper part of the screen. */
+    var vt = window.scrollY, vb = vt + window.innerHeight * 0.7;
+    var bodyBottom = body.getBoundingClientRect().bottom + window.scrollY;
+    var best = 0, bestCover = -1;
     for (var i = 0; i < heads.length; i++) {
-      if (heads[i].getBoundingClientRect().top <= 140) best = i;
+      var top = heads[i].getBoundingClientRect().top + window.scrollY;
+      var end = (i + 1 < heads.length)
+        ? heads[i + 1].getBoundingClientRect().top + window.scrollY
+        : bodyBottom;
+      var cover = Math.min(end, vb) - Math.max(top, vt);
+      if (cover > bestCover) { bestCover = cover; best = i; }
     }
+    /* A short final section can end before it ever wins the upper band, so at
+       the very bottom of the page the last one takes it outright. */
+    var doc = document.documentElement;
+    if (window.scrollY + window.innerHeight >= doc.scrollHeight - 4) best = heads.length - 1;
     for (var j = 0; j < links.length; j++) {
       links[j].classList.toggle('is-active', j === best);
     }
