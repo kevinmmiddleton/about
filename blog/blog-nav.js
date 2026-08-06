@@ -100,3 +100,45 @@
     });
   }
 })();
+
+/* ---------------------------------------------------------------------------
+   Section contents: active-section tracking, and gating the margin rail.
+
+   The rail is position:fixed rather than sticky because body.p-post carries
+   overflow:hidden auto, which makes the body its own scroll container; a sticky
+   child pins to that instead of to the page and never engages. So the rail is
+   fixed and shown only while the prose is on screen, which keeps it off the
+   cover art at the top and off Read Next at the foot.
+
+   Below 1180px the same nav is an inline card in normal flow: no gating, no
+   active state, nothing to do here. matchMedia keeps the work off phones.
+   --------------------------------------------------------------------------- */
+(function () {
+  var toc = document.querySelector('.toc');
+  var body = document.querySelector('.article-body');
+  if (!toc || !body) return;
+  var heads = [].slice.call(body.querySelectorAll('h2.sec'));
+  if (!heads.length) return;
+  var links = [].slice.call(toc.querySelectorAll('a'));
+  var rail = window.matchMedia('(min-width: 1180px)');
+
+  function update() {
+    if (!rail.matches) { toc.classList.remove('is-on'); return; }
+    var r = body.getBoundingClientRect();
+    // on only between the end of the lede and the start of Read Next
+    toc.classList.toggle('is-on', r.top < 120 && r.bottom > 260);
+    // the current section is the last heading to have passed reading height
+    var best = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= 140) best = i;
+    }
+    for (var j = 0; j < links.length; j++) {
+      links[j].classList.toggle('is-active', j === best);
+    }
+  }
+
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  if (rail.addEventListener) rail.addEventListener('change', update);
+})();

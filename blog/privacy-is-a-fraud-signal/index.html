@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=5c2d6408">
-    <link rel="stylesheet" href="/blog/blog.css?v=c7cffbd6">
+    <link rel="stylesheet" href="/blog/blog.css?v=91297b7b">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -167,6 +167,19 @@
             </div>
         </div>
 
+
+        <nav class="toc" aria-label="Sections">
+            <p class="toc-lbl">In this piece</p>
+            <ol>
+                <li><a href="#every-flag-traced-back-to-a-privacy-choice">Every flag traced back to a privacy choice</a></li>
+                <li><a href="#i-only-know-because-i-got-lucky">I only know because I got lucky</a></li>
+                <li><a href="#exposure-is-what-fraud-detection-systems-prefer">Exposure is what fraud detection systems prefer</a></li>
+                <li><a href="#the-fix-isn-t-complicated">The fix isn't complicated</a></li>
+                <li><a href="#i-shouldn-t-have-to-trade-privacy-for-a-callback-i-m-going-to-anyway">I shouldn't have to trade privacy for a callback. I'm going to anyway.</a></li>
+                <li><a href="#this-reaches-past-job-seekers">This reaches past job seekers</a></li>
+            </ol>
+        </nav>
+
         <div class="article-body">
 <p>A recruiter I know messaged me recently because my job application had been flagged for "fraud signals." She knew I was real, we're friendly LinkedIn connections, so what she actually wanted to know was whether I'd used AI to auto-apply.</p>
 
@@ -181,7 +194,7 @@
 
 <p>So I did what I do with any system I don't understand. I read the docs and looked into what activity triggers fraud alerts.</p>
 
-<h2>Every flag traced back to a privacy choice</h2>
+<h2 id="every-flag-traced-back-to-a-privacy-choice" class="sec">Every flag traced back to a privacy choice</h2>
 
 <p><a target="_blank" rel="noopener" href="https://www.ashbyhq.com/product-updates/introducing-fraudulent-candidate-detection-and-management-to-help-you-focus-on-legitimate-candidates">Ashby, the hiring software</a>, rates you on a handful of things: your device, your email, your phone, and where you seem to be. Mine lit up in a few places, and every one came back to a choice I intentionally made to protect my privacy.</p>
 
@@ -198,11 +211,11 @@
 
 <p>The one thing that saved me was my email. It's almost eighteen years old, so the system rated me low risk. The single part of my identity I never locked down might be what kept me off the reject pile.</p>
 
-<h2>I only know because I got lucky</h2>
+<h2 id="i-only-know-because-i-got-lucky" class="sec">I only know because I got lucky</h2>
 
 <p>The recruiter looked twice because she knew me, but a stranger probably wouldn't have. It makes me wonder how many times I've been skipped over for a speck of red on my candidate profile, when the only crime was being careful with my data. How would I ever know?</p>
 
-<h2>Exposure is what fraud detection systems prefer</h2>
+<h2 id="exposure-is-what-fraud-detection-systems-prefer" class="sec">Exposure is what fraud detection systems prefer</h2>
 
 <p>From what I can tell, these systems decide you're trustworthy based on how much of yourself you've left lying around the internet: a long social history, a phone tied to your real name, or an easily traceable device. The more exposed you are, the more "real" you look.</p>
 
@@ -212,7 +225,7 @@
 
 <p><a target="_blank" rel="noopener" href="https://www.cnbc.com/2025/07/11/how-deepfake-ai-job-applicants-are-stealing-remote-work.html">Fake and AI-generated candidates are a serious issue</a>, and a tool that helps a swamped recruiter triage thousands of applications is reasonable. The problem is what counts as suspicious. Somewhere along the way it came to mean private, and candidates have no way to know their risk scores.</p>
 
-<h2>The fix isn't complicated</h2>
+<h2 id="the-fix-isn-t-complicated" class="sec">The fix isn't complicated</h2>
 
 <p>The system only collects <strong>red flags 🚩</strong> and never tells the candidate how to do better. There are some obvious ways to fix this:</p>
 
@@ -227,7 +240,7 @@
   <figcaption>Greenhouse lets a candidate verify their identity through CLEAR in MyGreenhouse, and the verification stays on their candidate profile as a green flag.</figcaption>
 </figure>
 
-<h2>I shouldn't have to trade privacy for a callback. I'm going to anyway.</h2>
+<h2 id="i-shouldn-t-have-to-trade-privacy-for-a-callback-i-m-going-to-anyway" class="sec">I shouldn't have to trade privacy for a callback. I'm going to anyway.</h2>
 
 <p>I've made my contact information consistent everywhere, using my direct cell phone number and applying in Chrome with the privacy features off, making myself look traceable, boring, and less safe during my job hunt.</p>
 
@@ -235,7 +248,7 @@
 
 <p>I'm usually the loudest voice telling people to stop chasing "beat the ATS" advice, that most of it is snake oil sold to exhausted job seekers. So it really pains me to write this: you may need to make some changes to "beat the ATS." <strong>Yuck.</strong></p>
 
-<h2>This reaches past job seekers</h2>
+<h2 id="this-reaches-past-job-seekers" class="sec">This reaches past job seekers</h2>
 
 <p>Think about all the fraud detection systems out there verifying risk, and how they can be at odds with the steps we take to protect our privacy. My partner just set up a new .com email (he'd been in the EU, so, fair reason). He's not job hunting, but the same logic would ding him: a fresh address with no history looks like potential fraud to a system that rewards a long paper trail. Or think of the people who keep a separate email for specific use cases, so the flood of spam doesn't bury their real inbox. That address is new by design. So whether you're searching or not, it's worth knowing what these systems reward: an old email and a direct phone line read as green flags, and careful, privacy-focused choices read as risk.</p>
 

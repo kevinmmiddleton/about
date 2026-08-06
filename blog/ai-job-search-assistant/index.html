@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=5c2d6408">
-    <link rel="stylesheet" href="/blog/blog.css?v=c7cffbd6">
+    <link rel="stylesheet" href="/blog/blog.css?v=91297b7b">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -171,6 +171,19 @@
             </div>
         </div>
 
+
+        <nav class="toc" aria-label="Sections">
+            <p class="toc-lbl">In this piece</p>
+            <ol>
+                <li><a href="#the-problem">The Problem</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#getting-the-cost-to-zero">Getting the Cost to Zero</a></li>
+                <li><a href="#the-model-experiment">The Model Experiment</a></li>
+                <li><a href="#what-broke-along-the-way">What Broke Along the Way</a></li>
+                <li><a href="#try-it-yourself">Try It Yourself</a></li>
+            </ol>
+        </nav>
+
         <div class="article-body">
 <p>Most job seekers refresh LinkedIn like it's a slot machine. Open the app, scroll, scroll, scroll, close the app, feel vaguely bad about it. Repeat three hours later.</p>
 
@@ -180,13 +193,13 @@
 
 <p>Here's how it works, what I learned testing five different AI models, and a prompt you can copy to try this yourself in 5 minutes.</p>
 
-<h2>The Problem</h2>
+<h2 id="the-problem" class="sec">The Problem</h2>
 
 <p>Postings fill fast. A role that goes up at 9am might have 200 applicants by 5pm. If you're only checking once a day, you're already behind.</p>
 
 <p>A friend of mine manually checks LinkedIn three times a day on a schedule. He inspired me to automate this, because the thought of doing that manually wasn't something that exactly thrilled me.</p>
 
-<h2>How It Works</h2>
+<h2 id="how-it-works" class="sec">How It Works</h2>
 
 <p>My Mac Mini runs a script twice a day (8am and 6pm). The whole pipeline: the Mac Mini fires on schedule, <code>curl</code> fetches LinkedIn with a 12-hour time filter, Python strips the HTML and extracts the job data, an AI model classifies each role as INCLUDE or EXCLUDE, and a bridge server hands the results to Apple Shortcuts, which texts me over iMessage. (That last hop is a pattern from u/ai_brews on r/mac.)</p>
 
@@ -215,7 +228,7 @@
   <figcaption>A morning text from my job scan. Eight new roles, clickable links, no scrolling required.</figcaption>
 </figure>
 
-<h2>Getting the Cost to Zero</h2>
+<h2 id="getting-the-cost-to-zero" class="sec">Getting the Cost to Zero</h2>
 
 <p>The first version of this system used an expensive AI model and sent it roughly 300KB of data per scan: raw HTML, navigation junk, CSS, historical notes the scan didn't need. It worked, but it burned through API credits.</p>
 
@@ -223,7 +236,7 @@
 
 <p>But I wanted to see if I could get it to zero.</p>
 
-<h2>The Model Experiment</h2>
+<h2 id="the-model-experiment" class="sec">The Model Experiment</h2>
 
 <p>I installed Ollama, which runs open-source AI models locally, and tested five models on the same LinkedIn scan.</p>
 
@@ -246,7 +259,7 @@
   <figcaption>I got my job agent down to six (6!) cents per day.</figcaption>
 </figure>
 
-<h2>What Broke Along the Way</h2>
+<h2 id="what-broke-along-the-way" class="sec">What Broke Along the Way</h2>
 
 <p>I want to be honest: I didn't know how to fix any of these. I'm a product manager, not a systems engineer. Claude (Anthropic's AI assistant) walked me through every one, and actually wrote all of the code.</p>
 
@@ -256,7 +269,7 @@
 
 <p><strong>Silent failures everywhere.</strong> Most of the problems I hit produced zero error output. The automation just... didn't run, or ran and produced garbage. The single best decision was making the scan text me even when there are no new roles. If I don't get a text, I know something broke.</p>
 
-<h2>Try It Yourself</h2>
+<h2 id="try-it-yourself" class="sec">Try It Yourself</h2>
 
 <p>You don't need a Mac Mini or any code. Here's a prompt you can paste into Claude (or any AI assistant) right now:</p>
 

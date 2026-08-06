@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=5c2d6408">
-    <link rel="stylesheet" href="/blog/blog.css?v=c7cffbd6">
+    <link rel="stylesheet" href="/blog/blog.css?v=91297b7b">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -166,6 +166,17 @@
             </div>
         </div>
 
+
+        <nav class="toc" aria-label="Sections">
+            <p class="toc-lbl">In this piece</p>
+            <ol>
+                <li><a href="#two-paths-if-you-want-to-try-it">Two paths if you want to try it</a></li>
+                <li><a href="#how-to-use-it">How to use it</a></li>
+                <li><a href="#why-share-it">Why share it</a></li>
+                <li><a href="#why-open">Why open</a></li>
+            </ol>
+        </nav>
+
         <div class="article-body">
 <p>I built an AI job-search system <a target="_blank" rel="noopener" href="https://middleton.io/blog/ai-job-search-assistant/">for myself first</a>. A Mac Mini sitting in my office, scanning the boards twice a day, texting me only the roles worth a look, costing about a penny per run. I've written about how it works in the previous posts in this series.</p>
 
@@ -177,7 +188,7 @@
 
 <p>It's open source and does the things you actually want a job-search assistant to do: scan job boards for roles that fit your career profile and goals, track your applications in a plain CSV you own, build interview guides from job descriptions. No always-on machine, no servers, no $200-a-month SaaS. Runs on whatever laptop you already have.</p>
 
-<h2>Two paths if you want to try it</h2>
+<h2 id="two-paths-if-you-want-to-try-it" class="sec">Two paths if you want to try it</h2>
 
 <ol>
 <li>Download <a target="_blank" rel="noopener" href="https://github.com/kevinmmiddleton/job-search-agent/raw/main/job-search-agent.plugin"><code>job-search-agent.plugin</code></a> and open it with Cowork. That's the whole install.</li>
@@ -186,7 +197,7 @@
 
 <p>If you fork it, improve it, or break it, tell me. Issues and PRs welcome.</p>
 
-<h2>How to use it</h2>
+<h2 id="how-to-use-it" class="sec">How to use it</h2>
 
 <ul>
 <li>"Set up my job search" → onboarding + saved search</li>
@@ -196,7 +207,7 @@
 <li>"Can this run automatically?" → automation options</li>
 </ul>
 
-<h2>Why share it</h2>
+<h2 id="why-share-it" class="sec">Why share it</h2>
 
 <p>A few things I keep coming back to from my own search:</p>
 
@@ -208,7 +219,7 @@
 
 <p>Automation doesn't fix the market. But it does pull the noise off your plate so the energy you have left can go to what actually moves the needle: writing better cover notes, prepping harder for interviews, talking to people who matter.</p>
 
-<h2>Why open</h2>
+<h2 id="why-open" class="sec">Why open</h2>
 
 <p>I've shared this with a handful of friends already. Putting it in public was the obvious next step. The alternative, keeping a useful tool in my own pocket, felt wrong. We should be sharing the things that make this part of life less brutal, not hoarding them.</p>
 

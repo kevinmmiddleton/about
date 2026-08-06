@@ -350,6 +350,33 @@ function articlePage(post, all) {
       {"@type":"ListItem",position:2,name:"Blog",item:`${SITE}/blog/`},
       {"@type":"ListItem",position:3,name:post.title,item:url}]};
   const body = [renderMarkdown(post.body_markdown)].filter(Boolean).join('\n\n');
+
+  // Section anchors. Posts author their section heads as ###, which the remap
+  // above turns into h2, so the contents list keys off h2 and not h3.
+  const sections = [];
+  const seen = new Set();
+  const bodyAnchored = body.replace(/<h2>([\s\S]*?)<\/h2>/g, (m, inner) => {
+    const text = inner.replace(/<[^>]+>/g, '');
+    let id = text.normalize('NFKD').replace(/[^\x00-\x7F]/g, '')
+      .replace(/[^A-Za-z0-9]+/g, '-').replace(/^-+|-+$/g, '').toLowerCase() || 'section';
+    // Two sections can share a title. A duplicate id would send both anchors to
+    // the first one, so later collisions get a suffix.
+    let uniq = id, n = 2;
+    while (seen.has(uniq)) uniq = id + '-' + n++;
+    seen.add(uniq);
+    sections.push({ id: uniq, text });
+    return `<h2 id="${uniq}" class="sec">${inner}</h2>`;
+  });
+
+  // Below three sections a contents list is noise rather than navigation.
+  // Two of the published posts sit under that line and get nothing.
+  const toc = sections.length < 3 ? '' : `
+        <nav class="toc" aria-label="Sections">
+            <p class="toc-lbl">In this piece</p>
+            <ol>
+${sections.map((sec) => `                <li><a href="#${sec.id}">${esc(sec.text)}</a></li>`).join('\n')}
+            </ol>
+        </nav>`;
   const bio =
     // Says nothing about employment status in either direction, per the rule
     // adopted 2026-07-31. This line read "Currently looking for his next role
@@ -359,7 +386,7 @@ function articlePage(post, all) {
     // status-free, and avoid implying a current role indirectly too.
     `<div class="article-bio">\n  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>\n</div>`;
   // every link in the article body opens in a new tab
-  const bodyLinked = body.replace(/<a (?![^>]*\btarget=)/g, '<a target="_blank" rel="noopener" ');
+  const bodyLinked = bodyAnchored.replace(/<a (?![^>]*\btarget=)/g, '<a target="_blank" rel="noopener" ');
 
   return `<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -441,6 +468,8 @@ ${HEADER}
                 </div>
             </div>
         </div>
+
+${toc}
 
         <div class="article-body">
 ${bodyLinked}

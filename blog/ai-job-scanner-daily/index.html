@@ -34,7 +34,7 @@
     <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
          system stack, which is also why the old Inter/Epilogue links are gone. -->
     <link rel="stylesheet" href="/fv.css?v=5c2d6408">
-    <link rel="stylesheet" href="/blog/blog.css?v=c7cffbd6">
+    <link rel="stylesheet" href="/blog/blog.css?v=91297b7b">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <!-- Identity verification. Same three profiles the homepage claims, so every
@@ -170,10 +170,22 @@
             </div>
         </div>
 
+
+        <nav class="toc" aria-label="Sections">
+            <p class="toc-lbl">In this piece</p>
+            <ol>
+                <li><a href="#when-a-third-of-your-results-are-noise">When a Third of Your Results Are Noise</a></li>
+                <li><a href="#don-t-ask-the-ai-to-do-what-code-can-do-better">Don't Ask the AI to Do What Code Can Do Better</a></li>
+                <li><a href="#what-broke-and-what-s-still-annoying">What Broke (and What's Still Annoying)</a></li>
+                <li><a href="#what-s-working-well">What's Working Well</a></li>
+                <li><a href="#the-honest-take">The Honest Take</a></li>
+            </ol>
+        </nav>
+
         <div class="article-body">
 <p>My AI job scanner has been running for two weeks. It broke in interesting ways, and I learned things I didn't expect. Here's the field report.</p>
 
-<h2>When a Third of Your Results Are Noise</h2>
+<h2 id="when-a-third-of-your-results-are-noise" class="sec">When a Third of Your Results Are Noise</h2>
 
 <p>The system was built to scan 60 LinkedIn job cards per run, twice a day. Each scan sends those listings to an AI model along with my preferences, my skip list, and a de-dupe file containing every role I've already applied to, skipped, or been rejected from.</p>
 
@@ -185,7 +197,7 @@
 
 <p>When a third of your results are noise, the system is creating work instead of saving it.</p>
 
-<h2>Don't Ask the AI to Do What Code Can Do Better</h2>
+<h2 id="don-t-ask-the-ai-to-do-what-code-can-do-better" class="sec">Don't Ask the AI to Do What Code Can Do Better</h2>
 
 <p>This was the key insight. URL matching is a perfect deterministic task. No interpretation needed. Either you've seen this exact URL before or you haven't.</p>
 
@@ -197,7 +209,7 @@
 
 <p>The lesson: if a task has a definitive right answer, don't make the AI guess. Use code for what code is good at and save the model for what actually requires judgment.</p>
 
-<h2>What Broke (and What's Still Annoying)</h2>
+<h2 id="what-broke-and-what-s-still-annoying" class="sec">What Broke (and What's Still Annoying)</h2>
 
 <p>Any system that scrapes a website is one HTML change away from failing. Two weeks gave me a solid reminder of that.</p>
 
@@ -211,7 +223,7 @@
 
 <p>The other recurring annoyance: LinkedIn's location filter doesn't do what you think it does. I search for "New York, New York" explicitly. LinkedIn still returns roles in Jersey City, Newark, sometimes Philadelphia-area postings. The AI catches most of these and excludes them, but some slip through. This isn't a bug in my system. It's a known behavior with LinkedIn's search. Worth knowing if you build something similar.</p>
 
-<h2>What's Working Well</h2>
+<h2 id="what-s-working-well" class="sec">What's Working Well</h2>
 
 <p>The three-file system has held up. A Google Sheet acts as my master tracker (400+ rows and growing). A local text file handles de-dupe for the scanner. A markdown file serves as a staging area for new scan results. Three locations, manually synced, but the separation is intentional. The scanner never touches my master data. If the scanner breaks, my sheet is fine.</p>
 
@@ -219,7 +231,7 @@
 
 <p>And the economics still work. The AI classification costs about $0.06 per day. The second model I use for a different classification pass is still free. For a system that processes roughly 1,800 job cards across 30+ scans and maintains a 97% success rate post-stabilization, that's a pretty good deal.</p>
 
-<h2>The Honest Take</h2>
+<h2 id="the-honest-take" class="sec">The Honest Take</h2>
 
 <p>Systems like this aren't "set it and forget it." In two weeks, I dealt with extraction failures, a temporary block, duplicate noise, cookie refreshes, and location filter weirdness. That's real maintenance.</p>
 

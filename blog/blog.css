@@ -1047,3 +1047,74 @@ figcaption {
 }
 .blog-sub:hover { text-decoration: underline; text-underline-offset: 3px; }
 .blog-sub svg { flex: none; }
+
+
+/* ============================================================================
+   SECTION CONTENTS                                        added 2026-08-03
+   ----------------------------------------------------------------------------
+   One list, two presentations. Below 1180px it is an inline card between the
+   lede and the first paragraph; above it, where there is margin to spare, the
+   same element becomes a rail pinned in the left margin. One nav in the DOM
+   rather than two, so there is a single set of links for a screen reader and
+   no duplicated anchors.
+
+   Fixed rather than sticky, and that is forced rather than preferred:
+   body.p-post carries overflow:hidden auto, which makes the body its own scroll
+   container, and a position:sticky child then pins to that container instead of
+   to the page, so it never engages. blog-nav.js gates the fixed rail to the
+   body's scroll range, which lands in the same place: nothing over the cover
+   art, nothing over Read Next.
+
+   Suppressed under three sections by the generator, not by CSS.
+   ========================================================================= */
+
+.toc { max-width: 720px; margin: 0 auto 2.2rem; padding: 0 24px; }
+.toc .toc-lbl {
+  font-family: var(--mono); font-size: .56rem; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin: 0 0 .8rem;
+}
+.toc ol { list-style: none; margin: 0; padding: 0; counter-reset: t; }
+.toc li { counter-increment: t; margin: 0; }
+.toc a {
+  display: grid; grid-template-columns: 1.6rem 1fr; gap: .45rem; align-items: baseline;
+  padding: .4rem 0; font-size: .92rem; line-height: 1.4;
+  color: var(--text-secondary); text-decoration: none; transition: color .18s;
+}
+.toc a::before {
+  content: counter(t, decimal-leading-zero);
+  font-family: var(--mono); font-size: .6rem; font-weight: 700; letter-spacing: .06em;
+  color: var(--topic, var(--c1-text));
+}
+.toc a:hover { color: var(--text-primary); text-decoration: underline; text-underline-offset: 3px; }
+.toc a:focus-visible { outline: 2px solid var(--c1-text); outline-offset: 3px; border-radius: 3px; }
+
+/* the inline card, up to the width where a margin rail fits */
+@media (max-width: 1179px) {
+  .toc { }
+  .toc ol { border: 1px solid var(--rule-strong); border-radius: var(--radius-md); padding: 1.05rem 1.3rem; }
+  .toc .toc-lbl { padding-left: 0; }
+}
+
+/* the margin rail */
+@media (min-width: 1180px) {
+  /* left is measured from the centred 720px column, NOT from the lede. The lede
+     art breaks out to 1040px, 160px wider per side, so a rail placed to clear it
+     would need a 1512px viewport. Gating on scroll solves the collision instead:
+     by the time the rail appears, the art is above the fold. */
+  .toc {
+    position: fixed; top: 100px; left: calc(50% - 572px);
+    width: 200px; max-width: none; margin: 0; padding: 0; z-index: 5;
+    opacity: 0; visibility: hidden; transition: opacity .2s;
+  }
+  .toc.is-on { opacity: 1; visibility: visible; }
+  .toc .toc-lbl { padding-bottom: .5rem; border-bottom: 2px solid var(--text-primary); margin-bottom: .9rem; }
+  .toc ol { border: 0; padding: 0; }
+  .toc a { grid-template-columns: 1.5rem 1fr; gap: .5rem; font-size: .82rem; line-height: 1.35; padding: .45rem 0; }
+  .toc a::before { color: var(--text-muted); }
+  .toc a:hover { text-decoration: none; }
+  .toc a.is-active { color: var(--text-primary); font-weight: 700; }
+  .toc a.is-active::before { color: var(--topic, var(--c1-text)); }
+}
+
+.article-body h2.sec { scroll-margin-top: 96px; }
+@media (prefers-reduced-motion: reduce) { .toc, .toc a { transition: none; } }
