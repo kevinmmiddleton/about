@@ -1,10 +1,10 @@
 ---
-title: "Everyone owns a stage. Nobody owns the journey."
+title: The team owns pieces of the experience. Who owns the entire journey?
 slug: nobody-owns-the-journey
 status: draft
 published_at: ''
 updated_at: ''
-topic: "Product"
+topic: Product
 topic_new: ''
 series: ''
 series_order: null
@@ -15,9 +15,9 @@ tags:
   - Strategy
 featured: false
 sort_order: null
-excerpt: "I have asked who owns the entire customer lifecycle at every company I've worked at. Nobody has ever raised their hand. Here's what that costs, and what a PM can actually do about it."
-cover_image:
-cover_alt: "A long winding path drawn across one page, with milestones marked along it: research, purchase, install, app, filters, next unit. Several gaps in the path are circled in red."
+excerpt: I have asked who owns the entire customer lifecycle at every company I've worked at. Nobody has ever raised their hand. Here's what that costs, and what a PM can actually do about it.
+cover_image: null
+cover_alt: 'A long winding path drawn across one page, with milestones marked along it: research, purchase, install, app, filters, next unit. Several gaps in the path are circled in red.'
 lede_align: left
 linkedin_url: ''
 ---
