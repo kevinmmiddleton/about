@@ -1,7 +1,7 @@
 ---
 title: Ask the question. Let them filter you.
 slug: let-them-filter-you
-status: published
+status: ready
 published_at: 2026-08-05
 updated_at: ''
 topic: Career
@@ -16,8 +16,8 @@ tags:
 featured: false
 sort_order: null
 excerpt: Someone told me companies are mostly looking for reasons to filter candidates out. And what? The version of you that gets hired is the one who has to show up on Monday, so you may as well ask the question now.
-cover_image:
-cover_alt:
+cover_image: null
+cover_alt: null
 lede_align: left
 linkedin_url: ''
 ---
