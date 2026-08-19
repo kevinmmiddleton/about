@@ -4,7 +4,14 @@ title: Kevin's Skills and Expertise
 description: Areas of product and technical expertise for Kevin Middleton.
 resource: https://middleton.io
 tags: [skills, expertise, product-management]
-timestamp: 2026-06-30
+generated:
+  by: human:kevin-middleton
+  at: 2026-06-30T00:00:00Z
+verified:
+  - by: human:kevin-middleton
+    at: 2026-08-18T00:00:00Z
+status: stable
+stale_after: 2027-02-17
 ---
 
 # Skills and Expertise

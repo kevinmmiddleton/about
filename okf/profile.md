@@ -4,7 +4,14 @@ title: Kevin Middleton
 description: Senior Product Manager and Full Stack PM with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products. Ships working software with AI without being an engineer.
 resource: https://middleton.io
 tags: [profile, product-manager, building-with-ai, new-york]
-timestamp: 2026-06-30
+generated:
+  by: human:kevin-middleton
+  at: 2026-08-18T00:00:00Z
+verified:
+  - by: human:kevin-middleton
+    at: 2026-08-18T00:00:00Z
+status: stable
+stale_after: 2027-02-17
 ---
 
 # Kevin Middleton
@@ -19,7 +26,7 @@ Kevin Middleton is a hands-on product leader with 12+ years building platforms, 
 
 ## Builds with AI
 
-What makes him unusual is that he ships real, working software without writing code by hand. He treats AI as the implementation layer and keeps the parts only a person can do: knowing what to build, and knowing when it's right. The proof is his own infrastructure. He runs a self-hosted [Personal OS](personal-os.md) that automates his job search, publishes his blog, and keeps AI writing in his voice. For how he does it, see [building with AI](building-with-ai.md). For the belief underneath it, see [owning your context](owning-your-context.md).
+What makes him unusual is that he ships real, working software without writing code by hand. He treats AI as the implementation layer and keeps the parts only a person can do: knowing what to build, and knowing when it's right. The proof is his own infrastructure. He runs a self-hosted [Personal OS](personal-os.md) that runs an automated job scanner, publishes his blog, and keeps AI writing in his voice. For how he does it, see [building with AI](building-with-ai.md). For the belief underneath it, see [owning your context](owning-your-context.md).
 
 ## Links
 

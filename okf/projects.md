@@ -4,7 +4,14 @@ title: Personal Projects
 description: Side projects and products built by Kevin Middleton, several of them open-source Claude tools.
 resource: https://middleton.io
 tags: [projects, side-projects, building-with-ai]
-timestamp: 2026-06-30
+generated:
+  by: human:kevin-middleton
+  at: 2026-06-30T00:00:00Z
+verified:
+  - by: human:kevin-middleton
+    at: 2026-08-18T00:00:00Z
+status: stable
+stale_after: 2027-06-30
 ---
 
 # Personal Projects

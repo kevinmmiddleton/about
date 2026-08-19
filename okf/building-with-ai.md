@@ -4,7 +4,20 @@ title: Building With AI
 description: How Kevin Middleton, a product manager rather than an engineer, ships real working software with AI. Own the goal and the verification, let AI handle implementation, and work inside a system that improves over time.
 resource: https://middleton.io/blog/everyone-can-build-now/
 tags: [building-with-ai, product-management, methodology]
-timestamp: 2026-06-30
+generated:
+  by: human:kevin-middleton
+  at: 2026-08-18T00:00:00Z
+verified:
+  - by: human:kevin-middleton
+    at: 2026-08-18T00:00:00Z
+status: stable
+stale_after: 2027-06-30
+sources:
+  - id: everyone-can-build-now-post
+    resource: https://middleton.io/blog/everyone-can-build-now/
+    title: "Everyone can build now. The fundamentals shouldn't change."
+    author: human:kevin-middleton
+    last_modified: 2026-06-23
 ---
 
 # Building With AI
@@ -23,6 +36,6 @@ The thesis: the bottleneck in building software was never knowing how to build. 
 
 ## The proof
 
-His own systems are the evidence: an automated job search, a self-deploying blog pipeline, and a voice system that keeps AI writing in his own voice. All of it built and operated by a PM, not an engineering team. See [Personal OS](personal-os.md) for the builds and [owning your context](owning-your-context.md) for the belief underneath.
+His own systems are the evidence: an automated job scanner, a self-deploying blog pipeline, and a voice system that keeps AI writing in his own voice. All of it built and operated by a PM, not an engineering team. See [Personal OS](personal-os.md) for the builds and [owning your context](owning-your-context.md) for the belief underneath.
 
 Related reading: [Everyone can build now. The fundamentals shouldn't change.](https://middleton.io/blog/everyone-can-build-now/)

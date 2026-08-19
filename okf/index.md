@@ -1,10 +1,5 @@
 ---
-type: Collection
-title: "Kevin Middleton: Open Knowledge Bundle"
-description: Machine-readable knowledge about Kevin Middleton, a Senior / Full Stack Product Manager in New York who builds working software with AI.
-resource: https://middleton.io
-tags: [profile, product-management, building-with-ai, index]
-timestamp: 2026-06-30
+okf_version: "0.2"
 ---
 
 # Kevin Middleton: Open Knowledge Bundle
@@ -34,5 +29,6 @@ Source of truth for this content is the website at https://middleton.io. Files i
 - [`projects.md`](projects.md): personal and side projects
 - [`writing.md`](writing.md): essays and where to find them
 - [`contact.md`](contact.md): how to reach Kevin
+- [`log.md`](log.md): change history for this bundle
 
-Last reviewed: 2026-06-30. OKF spec version targeted: v0.1.
+Last reviewed: 2026-08-18. OKF spec version targeted: v0.2.

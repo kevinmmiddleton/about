@@ -4,7 +4,14 @@ title: Selected Case Studies
 description: Representative product work by Kevin Middleton across HVAC.com, Sendoso, Lever, Rocket Lawyer, and Oracle.
 resource: https://middleton.io/casestudies/
 tags: [case-studies, work-history, product-management]
-timestamp: 2026-06-30
+generated:
+  by: human:kevin-middleton
+  at: 2026-06-30T00:00:00Z
+verified:
+  - by: human:kevin-middleton
+    at: 2026-08-18T00:00:00Z
+status: stable
+stale_after: 2027-02-17
 ---
 
 # Selected Case Studies

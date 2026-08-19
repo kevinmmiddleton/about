@@ -1,10 +1,23 @@
 ---
 type: System
 title: Personal OS
-description: Kevin Middleton's self-hosted personal operating system. A shared database brain plus version-controlled skills that his AI agents read and write across multiple machines, running his job search, his blog, and more.
+description: Kevin Middleton's self-hosted personal operating system. A shared database brain plus version-controlled skills that his AI agents read and write across multiple machines, running an automated job scanner, his blog, and more.
 resource: https://middleton.io/blog/ai-job-search-assistant/
 tags: [personal-os, automation, building-with-ai, infrastructure]
-timestamp: 2026-06-30
+generated:
+  by: human:kevin-middleton
+  at: 2026-08-18T00:00:00Z
+verified:
+  - by: human:kevin-middleton
+    at: 2026-08-18T00:00:00Z
+status: stable
+stale_after: 2027-06-30
+sources:
+  - id: ai-job-search-assistant-post
+    resource: https://middleton.io/blog/ai-job-search-assistant/
+    title: "I Built an AI Job Search Assistant That Texts Me When It Finds Roles I Should Apply To"
+    author: human:kevin-middleton
+    last_modified: 2026-02-23
 ---
 
 # Personal OS
@@ -21,7 +34,7 @@ Personal OS is the infrastructure under everything Kevin builds with AI. The ide
 
 ## What it runs
 
-**An automated job search.** Twice a day the Mac Mini scans for product-manager roles, classifies each one with a small language model, and texts Kevin the matches for about six cents a day. Every application is tracked in the database, more than 1,200 and counting. Written up in [I Built an AI Job Search Assistant That Texts Me](https://middleton.io/blog/ai-job-search-assistant/).
+**An automated job scanner.** Twice a day the Mac Mini scans for product-manager postings, classifies each one with a small language model, and texts Kevin the matches for about six cents a day. Everything it finds is tracked in the database. Written up in [I Built an AI Job Search Assistant That Texts Me](https://middleton.io/blog/ai-job-search-assistant/).
 
 **A self-deploying blog.** A post is one database row. Flipping its status to published triggers a build that renders static HTML and deploys the site, so content is baked in for search and AI crawlers.
 

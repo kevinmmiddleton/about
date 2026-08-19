@@ -4,12 +4,19 @@ title: How Kevin Works
 description: Kevin Middleton's working style and approach to collaboration.
 resource: https://middleton.io
 tags: [working-style, collaboration, values]
-timestamp: 2026-06-30
+generated:
+  by: human:kevin-middleton
+  at: 2026-08-18T00:00:00Z
+verified:
+  - by: human:kevin-middleton
+    at: 2026-08-18T00:00:00Z
+status: stable
+stale_after: 2027-06-30
 ---
 
 # How Kevin Works
 
-## Quietly effective
+## Shows up prepared
 
 Shows up prepared, keeps things organized, and follows through without making a big deal out of it. A former manager put it simply: "He just shows up and knows his job and the value his products will bring."
 

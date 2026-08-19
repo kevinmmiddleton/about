@@ -4,7 +4,20 @@ title: Owning Your Context
 description: Kevin Middleton's belief that your data and the infrastructure around it are your real advantage. Keep your context yourself and bring it to whichever model is best, rather than renting your second mind from a product that can change the terms.
 resource: https://middleton.io/blog/owning-your-context/
 tags: [data-ownership, privacy, infrastructure, philosophy]
-timestamp: 2026-06-30
+generated:
+  by: human:kevin-middleton
+  at: 2026-06-30T00:00:00Z
+verified:
+  - by: human:kevin-middleton
+    at: 2026-08-18T00:00:00Z
+status: stable
+stale_after: 2027-06-30
+sources:
+  - id: owning-your-context-post
+    resource: https://middleton.io/blog/owning-your-context/
+    title: "I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI."
+    author: human:kevin-middleton
+    last_modified: 2026-03-02
 ---
 
 # Owning Your Context
