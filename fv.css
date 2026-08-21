@@ -51,7 +51,7 @@
   --invert:#111113; --on-invert:#F2F2F4;
 
   /* ---------- hue identity (same in both modes) ---------- */
-  --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;
+  --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;--forest:#14432F;--slate:#3F4A5A;
   --cobalt:#1F4B8F;   --plum:#6D4AA8;   --fuchsia:#9E227D;
   --on-hue:#FFFFFF;    /* text on a saturated card: >=5.16 on all five */
   --on-mari:#241700;   /* marigold is a LIGHT surface, so it needs dark text */
@@ -323,7 +323,7 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
   --invert:#111113; --on-invert:#F2F2F4;
 
   /* ---------- hue identity (same in both modes) ---------- */
-  --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;
+  --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;--forest:#14432F;--slate:#3F4A5A;
   --cobalt:#1F4B8F;   --plum:#6D4AA8;   --fuchsia:#9E227D;
   --on-hue:#FFFFFF;    /* text on a saturated card: >=5.16 on all five */
   --on-mari:#241700;   /* marigold is a LIGHT surface, so it needs dark text */
@@ -2753,7 +2753,7 @@ body.p-cases .cs-metric-label{
   --invert:#111113; --on-invert:#F2F2F4;
 
   /* ---------- hue identity (same in both modes) ---------- */
-  --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;
+  --marigold:#E8A317; --madder:#C3384B; --viridian:#2C7A63;--forest:#14432F;--slate:#3F4A5A;
   --cobalt:#1F4B8F;   --plum:#6D4AA8;   --fuchsia:#9E227D;
   --on-hue:#FFFFFF;    /* text on a saturated card: >=5.16 on all five */
   --on-mari:#241700;   /* marigold is a LIGHT surface, so it needs dark text */
@@ -2917,24 +2917,26 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
   display:inline-block; width:1px; height:1px; vertical-align:baseline;
   overflow:hidden; clip-path:inset(50%); white-space:nowrap;
 }/* bento */
-/* 3 columns with an uneven second row, matching the live bento. The 4-col
-   version squeezed the plugin list to 276px and clipped it. */
-/* Row heights are derived, not eyeballed. A small card needs 89.4px of content
+/* 3 columns. The 4-col version squeezed the plugin list to 276px and clipped it.
+   Row heights are derived, not eyeballed. A small card needs 89.4px of content
    (55.8 of text + 2x1.05rem padding) plus ~31px of clear space for the .go
    hover bar that slides up over the bottom edge: 7.6rem = 121.6px leaves 32.2.
-   Row 2 holds the 2-up .bstack, so it MUST be two small cards plus the gap:
-   2 x 7.6rem + .6rem = 15.8rem exactly. Get that wrong and the two stacked
-   cards stop matching the two beside them. */
-.fv .bento{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:7.6rem 15.8rem;gap:.6rem}.fv .bstack{display:grid;grid-template-rows:1fr 1fr;gap:.6rem;min-height:0}.fv .bstack .bc{min-height:0}/* Clearance for the .go bar at every width. The bar is ~31px and the content
+   Four equal tracks, because the content is exactly 12 row-units: six single
+   cards, the writing card spanning 4 and the plugins card spanning 2. No other
+   combination of spans divides evenly by three, so any other shape leaves a
+   hole. A card spanning two rows is therefore 2 x 7.6rem + .6rem = 15.8rem,
+   which is why the old single 15.8rem track and these four tracks come to the
+   same height per card. */
+.fv .bento{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,7.6rem);gap:.6rem}/* Clearance for the .go bar at every width. The bar is ~31px and the content
    box already has 16.8px of bottom padding, so it eats ~14px of content. The
    old 14px of padding left exactly that much underneath it, which is why
    "Read more" printed over the last list item. */
-.fv .bento .h2>div, .fv .bento .b-mari>div{padding-bottom:34px}
+.fv .bento .h4>div, .fv .bento .b-mari>div{padding-bottom:34px}
 /* Touch has no hover, so a hover-only CTA is either dead UI or slides over
    text. Show it in place instead. */
 @media(hover:none){.fv .bc .go{transform:none}}
 /* The two list cards are taller than their content by construction: the writing
-   card spans both rows and the plugins card is sized by the .bstack next to it,
+   card spans all four rows and the plugins card spans two, so neither height
    so neither height has anything to do with what's in it. Let the list itself
    take up the room instead of pooling every spare pixel as a blank band at the
    bottom. padding-bottom stops the list at the top edge of the .go bar, which
@@ -2945,19 +2947,30 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
      content-sizes the single in-flow row, so height:100% on the child resolves
      to the child's own height and nothing stretches. stretch grows the auto row
      to the full card instead. */
-  .fv .bento .h2, .fv .bento .b-mari{align-content:stretch}.fv .bento .h2>div, .fv .bento .b-mari>div{display:flex;flex-direction:column}/* Equal rows, so the list fills the leftover height instead of leaving a blank
+  /* Explicit placement, because auto-flow puts One Night Only BESIDE the repo
+   links rather than above them. Column 1 is One Night Only, the plugins card
+   and QuietFeed; column 3 is Writing; the four remaining cards auto-fill
+   column 2 in DOM order. */
+.fv .bento .h4{grid-column:3;grid-row:1/5}
+.fv .bento .b-forest{grid-column:1;grid-row:1}
+.fv .bento .b-mari{grid-column:1;grid-row:2/4}
+.fv .bento .b-blue{grid-column:1;grid-row:4}
+.fv .bento .h4, .fv .bento .b-mari{align-content:stretch}.fv .bento .h4>div, .fv .bento .b-mari>div{display:flex;flex-direction:column}/* Equal rows, so the list fills the leftover height instead of leaving a blank
      band under it. 6 rows in the writing card and 3 in the plugins card come out
      within ~2px of each other (52.4 vs 54.3), so the two read as the same list.
      grid-auto-rows:1fr is minmax(auto,1fr) — rows still refuse to shrink below
      their text, so nothing clips when the titles wrap at narrow 3-col widths. */
-  .fv .bento .h2 .posts, .fv .bento .b-mari .posts{flex:1;gap:0;grid-auto-rows:1fr}/* The row track is 1fr, so the <a> is centred in its band by the grid; inside
+  .fv .bento .h4 .posts, .fv .bento .b-mari .posts{flex:1;gap:0;grid-auto-rows:1fr}/* The row track is 1fr, so the <a> is centred in its band by the grid; inside
      the <a> the dot aligns to the FIRST line, not to the centre of a wrapped
      block. Centring both put the dot between the two lines of a title that
      wraps. margin-top drops it onto the first line's optical centre. */
-  .fv .bento .h2 .posts a, .fv .bento .b-mari .posts a{align-items:flex-start;align-self:center;padding:.3rem 0;
-    border-top:1px solid var(--hairline-invert)}.fv .bento .b-mari .posts a{border-top-color:var(--hairline-mari)}.fv .bento .h2 .posts a:first-child, .fv .bento .b-mari .posts a:first-child{border-top:0}.fv .bento .h2 .posts i, .fv .bento .b-mari .posts i{margin-top:.3rem}
+  .fv .bento .h4 .posts a, .fv .bento .b-mari .posts a{align-items:flex-start;align-self:center;padding:.3rem 0;
+    border-top:1px solid var(--hairline-invert)}.fv .bento .b-mari .posts a{border-top-color:var(--hairline-mari)}.fv .bento .h4 .posts a:first-child, .fv .bento .b-mari .posts a:first-child{border-top:0}.fv .bento .h4 .posts i, .fv .bento .b-mari .posts i{margin-top:.3rem}
 }
-@media(max-width:900px){.fv .bento{grid-template-columns:repeat(2,1fr);grid-template-rows:none;grid-auto-rows:minmax(8.6rem,auto)}.fv .bento .h2, .fv .bstack{grid-row:span 2}
+@media(max-width:900px){.fv .bento{grid-template-columns:repeat(2,1fr);grid-template-rows:none;grid-auto-rows:minmax(8.6rem,auto)}.fv .bento .h4{grid-row:span 2}
+  /* Two columns: 12 units over 2 columns is 6 rows exactly, with no orphan
+     cell -- which the live grid did have at this width. */
+  .fv .bento .b-forest, .fv .bento .b-mari, .fv .bento .b-blue{grid-column:auto;grid-row:auto}
 }
 /* Below 700 go single column and let every card size to its own content. The
    bento composition is a desktop idea; at 2 columns it degrades into ragged
@@ -2965,7 +2978,7 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
    item wraps to two lines and overflows its row. */
 @media(max-width:700px){/* template-rows:none is explicit so this block stands on its own instead of
      inheriting it from the 900px rule above. */
-  .fv .bento{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:auto}.fv .bento .h2, .fv .bstack{grid-row:auto}.fv .bstack{grid-template-rows:auto auto}.fv .bento .bc{min-height:8.6rem}
+  .fv .bento{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:auto}.fv .bento .h4{grid-row:auto}.fv .fv .bento .bc{min-height:8.6rem}
 }.fv .bc{border-radius:var(--r);padding:1.05rem;display:grid;align-content:space-between;
   position:relative;overflow:hidden;text-decoration:none;transition:transform .3s cubic-bezier(.2,.8,.3,1)}/* Two selectors on purpose. `.bc` elements carry `.rv` themselves, and the
    reveal's end state `.js-reveal .rv.on{transform:none}` is (0,3,0) — it was
@@ -2980,7 +2993,21 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
    them (bg here, colour on .bc/.val) is what put white on marigold.
    `.fv` prefix is load-bearing: it makes these (0,2,0) so they outrank
    `.fv a{color:inherit}` at (0,1,1) on cards that are links. */
-.fv .b-blue{background:var(--cobalt);color:var(--on-hue)}.fv .b-red{background:var(--madder);color:var(--on-hue)}.fv .b-green{background:var(--viridian);color:var(--on-hue)}.fv .b-plum{background:var(--plum);color:var(--on-hue)}.fv .b-mari{background:var(--marigold);color:var(--on-mari)}.fv .b-ink{background:var(--invert);color:var(--on-invert)}.fv .posts{display:grid;gap:.42rem;margin-top:.55rem}/* A single-line post link is 16.71px tall with a 6.72px gap, which puts adjacent
+.fv .b-blue{background:var(--cobalt);color:var(--on-hue)}.fv .b-red{background:var(--madder);color:var(--on-hue)}.fv .b-green{background:var(--viridian);color:var(--on-hue)}.fv .b-plum{background:var(--plum);color:var(--on-hue)}.fv .b-mari{background:var(--marigold);color:var(--on-mari)}.fv .b-ink{background:var(--invert);color:var(--on-invert)}
+/* One Night Only carries its own subsite green so the card and the site match.
+   It is far darker than every other card and exactly ONE pairing fails: forest
+   against the black Writing card is 1.68:1, where the two read as a single dark
+   block with a seam. The grid solves that by never letting them touch -- forest
+   is column 1, Writing is column 3, column 2 sits between. */
+.fv .b-forest{background:var(--forest);color:var(--on-hue)}
+/* Shortlist left green so the section has ONE green rather than two. Slate is
+   the only unsaturated card, which gives the eye somewhere to rest among six
+   hues, and it carries white at 8.98:1. */
+.fv .b-slate{background:var(--slate);color:var(--on-hue)}
+/* Visionbort returns on --fuchsia, already in the palette as --c6-text and the
+   one hue no bento surface used. Kept away from KevinOS plum, which it measures
+   1.07:1 against. */
+.fv .b-fuchsia{background:var(--fuchsia);color:var(--on-hue)}.fv .posts{display:grid;gap:.42rem;margin-top:.55rem}/* A single-line post link is 16.71px tall with a 6.72px gap, which puts adjacent
    rows 23.43px apart centre to centre: 0.57px under the 24px WCAG 2.5.8 AA
    spacing exception. Rather than widen the gap to squeak past on a technicality,
    the row itself now clears the 24px minimum directly, which is the stronger

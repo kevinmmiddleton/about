@@ -74,7 +74,7 @@ chip contexts.
      Values are COMPUTED, read from headless Chrome per surface and
      per colour scheme, so they reflect the real cascade. -->
 
-**Homepage (`.fv`): 88 tokens, 38 flip between modes, 50 are mode-stable.**
+**Homepage (`.fv`): 90 tokens, 38 flip between modes, 52 are mode-stable.**
 
 | Token | Light | Dark |
 |---|---|---|
@@ -144,6 +144,7 @@ chip contexts.
 | `--cta-plum` | `#7B55BC` |
 | `--dot-5` | `#2C7A63` |
 | `--dot-6` | `#C3384B` |
+| `--forest` | `#14432F` |
 | `--fuchsia` | `#9E227D` |
 | `--glass` | `rgba(255,255,255,.92)` |
 | `--hairline-mari` | `rgba(0,0,0,.17)` |
@@ -160,6 +161,7 @@ chip contexts.
 | `--sans` | `"Helvetica Neue",Helvetica,Arial,sans-serif` |
 | `--scrim-dark` | `rgba(0,0,0,.28)` |
 | `--scrim-light` | `rgba(255,255,255,.28)` |
+| `--slate` | `#3F4A5A` |
 | `--spacing-2xl` | `2.8rem` |
 | `--spacing-lg` | `1.15rem` |
 | `--spacing-md` | `.85rem` |
@@ -186,17 +188,17 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 174,467 | 153 / 462 | 6 | 9 |
+| `fv.css` | 176,180 | 155 / 468 | 6 | 9 |
 | `kevinos/kevinos.css` | 210,834 | 53 / 212 | 0 | 1 |
 | `blog/blog.css` | 49,621 | 28 / 70 | 0 | 5 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=5c2d6408`
-- `blog` (/blog/index.html): `/fv.css?v=5c2d6408`, `/blog/blog.css?v=d2b2626d`, `inline`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=bf82a8ea`
+- `blog` (/blog/index.html): `/fv.css?v=bf82a8ea`, `/blog/blog.css?v=d2b2626d`, `inline`
 - `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=f6c6e715`
 
-<details><summary><strong>blog</strong>: 101 tokens, 45 flip between modes</summary>
+<details><summary><strong>blog</strong>: 103 tokens, 45 flip between modes</summary>
 
 | Token | Light | Dark |
 |---|---|---|
@@ -248,6 +250,7 @@ chip contexts.
 | `--dot-6` | `#C3384B` | _same_ |
 | `--font-family` | `"Helvetica Neue",Helvetica,Arial,sans-serif` | _same_ |
 | `--font-heading` | `"Helvetica Neue",Helvetica,Arial,sans-serif` | _same_ |
+| `--forest` | `#14432F` | _same_ |
 | `--fuchsia` | `#9E227D` | _same_ |
 | `--glass` | `rgba(255,255,255,.92)` | _same_ |
 | `--gold-on-invert` | `#E8A317` | `#815B0C` |
@@ -282,6 +285,7 @@ chip contexts.
 | `--shadow-3` | `0 10px 30px rgba(0,0,0,.15)` | `0 10px 30px rgba(0,0,0,.7)` |
 | `--shadow-md` | `0 4px 6px rgba(0,0,0,0.07)` | _same_ |
 | `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | _same_ |
+| `--slate` | `#3F4A5A` | _same_ |
 | `--spacing-2xl` | `4rem` | _same_ |
 | `--spacing-lg` | `2rem` | _same_ |
 | `--spacing-md` | `1.5rem` | _same_ |
