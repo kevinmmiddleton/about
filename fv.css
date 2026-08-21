@@ -39,6 +39,10 @@
   --tint-soft:rgba(0,0,0,.05);
   /* brand marks that must stay their own colour regardless of theme */
   --brand-sa:#f7941e;
+  /* A white plate for logos whose wordmark is dark or saturated enough to
+     disappear against the dark card. Cypress measures 1.16:1 on that card and
+     WeightWatchers 1.95:1; on this plate they are 16.51:1 and 9.8:1. */
+  --plate-white:#FFFFFF;
   --brand-optimum:#F66608;
   --brand-rss:#F26522;
   /* ---------- neutrals (flip per mode) ---------- */
@@ -261,6 +265,11 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
   justify-self:start;margin-bottom:.15rem}
 .card-logo.tile{height:38px;padding:8px 11px;background:var(--tile-plate,var(--brand-sa));border-radius:7px}
 .card-logo.tile--optimum{--tile-plate:var(--brand-optimum)}
+/* The Cypress wordmark is #1B1E2E, which measures 1.16:1 against the dark card
+   and disappears. A white plate is the same fix Success Academy and Optimum
+   already use, and it takes the mark to 16.51:1 in both schemes. */
+.tile--cypress{--tile-plate:var(--plate-white)}
+.tile--ww{--tile-plate:var(--plate-white)}
 
 /* ---------------------------------------------------------------------------
    Manual theme override. The site is system-driven by default; /slides/ keeps a
@@ -311,6 +320,10 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
   --tint-soft:rgba(0,0,0,.05);
   /* brand marks that must stay their own colour regardless of theme */
   --brand-sa:#f7941e;
+  /* A white plate for logos whose wordmark is dark or saturated enough to
+     disappear against the dark card. Cypress measures 1.16:1 on that card and
+     WeightWatchers 1.95:1; on this plate they are 16.51:1 and 9.8:1. */
+  --plate-white:#FFFFFF;
   --brand-optimum:#F66608;
   --brand-rss:#F26522;
   /* ---------- neutrals (flip per mode) ---------- */

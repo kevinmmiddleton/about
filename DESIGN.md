@@ -74,7 +74,7 @@ chip contexts.
      Values are COMPUTED, read from headless Chrome per surface and
      per colour scheme, so they reflect the real cascade. -->
 
-**Homepage (`.fv`): 90 tokens, 38 flip between modes, 52 are mode-stable.**
+**Homepage (`.fv`): 91 tokens, 38 flip between modes, 53 are mode-stable.**
 
 | Token | Light | Dark |
 |---|---|---|
@@ -153,6 +153,7 @@ chip contexts.
 | `--mono` | `"SF Mono",Menlo,ui-monospace,"Cascadia Mono",Consolas,monospace` |
 | `--on-hue` | `#FFFFFF` |
 | `--on-mari` | `#241700` |
+| `--plate-white` | `#FFFFFF` |
 | `--plum` | `#6D4AA8` |
 | `--purple-rgb` | `109,74,168` |
 | `--r` | `10px` |
@@ -188,17 +189,17 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 176,180 | 155 / 468 | 6 | 9 |
+| `fv.css` | 177,001 | 156 / 472 | 6 | 9 |
 | `kevinos/kevinos.css` | 210,834 | 53 / 212 | 0 | 1 |
 | `blog/blog.css` | 49,621 | 28 / 70 | 0 | 5 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=bf82a8ea`
-- `blog` (/blog/index.html): `/fv.css?v=bf82a8ea`, `/blog/blog.css?v=d2b2626d`, `inline`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=0332741b`
+- `blog` (/blog/index.html): `/fv.css?v=0332741b`, `/blog/blog.css?v=d2b2626d`, `inline`
 - `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=f6c6e715`
 
-<details><summary><strong>blog</strong>: 103 tokens, 45 flip between modes</summary>
+<details><summary><strong>blog</strong>: 104 tokens, 45 flip between modes</summary>
 
 | Token | Light | Dark |
 |---|---|---|
@@ -266,6 +267,7 @@ chip contexts.
 | `--on-hue` | `#FFFFFF` | _same_ |
 | `--on-invert` | `#F2F2F4` | `#111113` |
 | `--on-mari` | `#241700` | _same_ |
+| `--plate-white` | `#FFFFFF` | _same_ |
 | `--plum` | `#6D4AA8` | _same_ |
 | `--purple-rgb` | `109,74,168` | _same_ |
 | `--r` | `10px` | _same_ |
