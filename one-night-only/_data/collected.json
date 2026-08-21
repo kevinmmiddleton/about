@@ -17,7 +17,8 @@
       "geo": [
         40.72510044,
         -73.98999404
-      ]
+      ],
+      "neighborhood": "East Village"
     },
     "bailey-playground": {
       "name": "Bailey Playground",
@@ -42,7 +43,8 @@
       "geo": [
         40.68675163,
         -73.9776769
-      ]
+      ],
+      "neighborhood": "Fort Greene"
     },
     "behagen-playground": {
       "name": "Behagen Playground",
@@ -78,7 +80,8 @@
       "geo": [
         40.700099945068,
         -73.997299194336
-      ]
+      ],
+      "neighborhood": "Brooklyn Heights"
     },
     "brooklyn-public-library-macon-branch": {
       "name": "Brooklyn Public Library - Macon Branch",
@@ -114,7 +117,8 @@
       "geo": [
         40.754116748576,
         -73.983368813992
-      ]
+      ],
+      "neighborhood": "Midtown"
     },
     "carmansville-playground": {
       "name": "Carmansville Playground",
@@ -203,7 +207,8 @@
       "geo": [
         40.77405187,
         -73.98387596
-      ]
+      ],
+      "neighborhood": "Lincoln Square"
     },
     "film-forum": {
       "name": "Film Forum",
@@ -212,7 +217,8 @@
       "geo": [
         40.72870239,
         -74.00437292
-      ]
+      ],
+      "neighborhood": "Hudson Square"
     },
     "fort-greene-park": {
       "name": "Fort Greene Park",
@@ -229,7 +235,8 @@
     "green-wood-cemetery": {
       "name": "Green-Wood Cemetery",
       "address": "500 25th St, Brooklyn, NY 11232",
-      "url": "https://www.green-wood.com/"
+      "url": "https://www.green-wood.com/",
+      "neighborhood": "Greenwood Heights"
     },
     "highland-park-lawn-area": {
       "name": "Highland Park Lawn Area",
@@ -246,12 +253,14 @@
       "geo": [
         40.73132755,
         -74.00168293
-      ]
+      ],
+      "neighborhood": "Greenwich Village"
     },
     "industry-city": {
       "name": "Industry City",
       "address": "220 36th St, Brooklyn, NY 11232",
-      "url": "https://industrycity.com/"
+      "url": "https://industrycity.com/",
+      "neighborhood": "Sunset Park"
     },
     "inspiration-point": {
       "name": "Inspiration Point",
@@ -304,7 +313,8 @@
     "maysles-cinema": {
       "name": "Maysles Cinema",
       "address": "343 Lenox Ave, New York, NY 10027",
-      "url": "https://maysles.org"
+      "url": "https://maysles.org",
+      "neighborhood": "Harlem"
     },
     "mccarren-park": {
       "name": "McCarren Park",
@@ -321,7 +331,8 @@
       "geo": [
         40.71543575,
         -73.99101795
-      ]
+      ],
+      "neighborhood": "Lower East Side"
     },
     "midland-field": {
       "name": "Midland Field",
@@ -375,7 +386,8 @@
       "geo": [
         40.7739709,
         -73.9801793
-      ]
+      ],
+      "neighborhood": "Upper West Side"
     },
     "nitehawk-cinema-prospect-park": {
       "name": "Nitehawk Cinema Prospect Park",
@@ -384,7 +396,8 @@
       "geo": [
         40.66178109,
         -73.97976426
-      ]
+      ],
+      "neighborhood": "Park Slope"
     },
     "nitehawk-cinema-williamsburg": {
       "name": "Nitehawk Cinema Williamsburg",
@@ -393,7 +406,8 @@
       "geo": [
         40.71623242,
         -73.9624248
-      ]
+      ],
+      "neighborhood": "Williamsburg"
     },
     "noble-playground": {
       "name": "Noble Playground",
@@ -410,7 +424,8 @@
       "geo": [
         40.764506,
         -73.973914
-      ]
+      ],
+      "neighborhood": "Midtown"
     },
     "play-area": {
       "name": "Play Area",
@@ -431,7 +446,8 @@
       "geo": [
         40.7359436,
         -73.9960851
-      ]
+      ],
+      "neighborhood": "Greenwich Village"
     },
     "rainey-park": {
       "name": "Rainey Park",
@@ -464,12 +480,14 @@
       "geo": [
         40.71960133,
         -74.00480781
-      ]
+      ],
+      "neighborhood": "Tribeca"
     },
     "scandinavia-house": {
       "name": "Scandinavia House",
       "address": "58 Park Ave, New York, NY 10016",
-      "url": "https://www.scandinaviahouse.org"
+      "url": "https://www.scandinaviahouse.org",
+      "neighborhood": "Murray Hill"
     },
     "seth-low-playground-bealin-square": {
       "name": "Seth Low Playground/ Bealin Square",
@@ -491,6 +509,7 @@
       "name": "Snug Harbor Cultural Center",
       "address": "1000 Richmond Terrace, Staten Island, NY 10301",
       "url": "https://snug-harbor.org/",
+      "neighborhood": "Staten Island",
       "geo": [
         40.640832141454,
         -74.10152890788
@@ -542,12 +561,14 @@
       "geo": [
         40.7365837097168,
         -73.98987579345703
-      ]
+      ],
+      "neighborhood": "Union Square"
     },
     "victor-borge-hall": {
       "name": "Victor Borge Hall",
       "address": "58 Park Ave, New York, NY 10016",
-      "url": "https://www.scandinaviahouse.org/"
+      "url": "https://www.scandinaviahouse.org/",
+      "neighborhood": "Murray Hill"
     },
     "von-briesen-park": {
       "name": "Von Briesen Park",
@@ -2054,8 +2075,7 @@
       "start_local": "2026-08-20T18:00",
       "end_local": "2026-08-20T22:00",
       "url": "https://luma.com/7ptchtfz",
-      "source": "luma",
-      "source_ref": "evt-fLHlM3e56WFPfll"
+      "source": "luma"
     },
     {
       "uid": "89489d7fda45f043@screenings.middleton.io",
