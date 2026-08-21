@@ -21,6 +21,7 @@
 import {
   fetchText, tidy, slugify, localStamp, dateOnly, parseClock12, timeOfDay,
   localDate, shiftDate, assertParsedTimes, assertDateSpread, filmKey,
+  cleanFormat,
 } from './common.mjs';
 
 export const id = 'repertory-nyc';
@@ -145,6 +146,8 @@ export async function collect(ctx) {
   const venues = [];
   let droppedNoTime = 0;
   let droppedNoTheater = 0;
+  // Values that arrived in `format` and are not a format. See cleanFormat().
+  const rejectedFormats = [];
 
   for (const row of rows) {
     const theater = bySlug.get(row.theater_slug);
@@ -182,7 +185,11 @@ export async function collect(ctx) {
       start_local: start,
       end_local: null, // build.mjs derives from runtime; never guessed here
       url: cleanUrl(row.ticket_url) || (theater && theater.website) || BASE,
-      format: tidy(row.format || '') || null,
+      format: (() => {
+        const { format, rejected } = cleanFormat(row.format);
+        if (rejected) rejectedFormats.push(rejected);
+        return format;
+      })(),
       series: null,
       // special_event is an OBJECT ({event_type, guests, description}), not a
       // string. Stringifying it yields "[object Object]", which is the kind of
@@ -192,6 +199,10 @@ export async function collect(ctx) {
     });
   }
 
+  if (rejectedFormats.length) {
+    const seen = [...new Set(rejectedFormats)].slice(0, 3).join(', ');
+    notes.push(`${rejectedFormats.length} format value(s) were not a format and were dropped (${seen})`);
+  }
   assertParsedTimes(id, rows.length, screenings, droppedNoTime);
   assertDateSpread(id, screenings);
   if (droppedNoTheater > 0) notes.push(`${droppedNoTheater} rows had no theater name`);

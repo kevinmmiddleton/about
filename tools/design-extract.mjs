@@ -87,19 +87,49 @@ class Chrome {
   static async launch() {
     if (!CHROME) throw new Error('No Chrome/Chromium/Edge found. Install one, or run with --json against a running instance.');
     const dir = mkdtempSync(join(tmpdir(), 'design-extract-'));
-    const proc = spawn(CHROME, [
+    const args = [
       '--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check',
       '--disable-extensions', '--mute-audio', '--remote-debugging-port=0',
-      `--user-data-dir=${dir}`, 'about:blank',
-    ], { stdio: ['ignore', 'ignore', 'pipe'] });
+      `--user-data-dir=${dir}`,
+    ];
+    // A CI runner has no usable sandbox: Chrome's setuid helper is not present
+    // and user namespaces are restricted, so it exits before writing
+    // DevToolsActivePort and the launch times out with nothing to show for it.
+    // Scoped to CI on purpose. The sandbox is a real defence and stays on for
+    // a local run, where it works.
+    if (process.env.CI) args.push('--no-sandbox', '--disable-dev-shm-usage');
+    args.push('about:blank');
+    const proc = spawn(CHROME, args, { stdio: ['ignore', 'ignore', 'pipe'] });
+
+    // Chrome explains itself on stderr and this used to be piped and never
+    // read, so every launch failure surfaced as the same four words and the
+    // real reason was discarded. Two weeks of red CI said only "Chrome did not
+    // report a debugging port". Collect it, cap it, and put it in the error.
+    let stderr = '';
+    proc.stderr.on('data', (d) => { if (stderr.length < 4000) stderr += d.toString(); });
+    let exited = null;
+    proc.on('exit', (code, signal) => { exited = signal ? `signal ${signal}` : `code ${code}`; });
 
     let port = null;
     for (let i = 0; i < 100 && !port; i++) {
       await sleep(100);
       const f = join(dir, 'DevToolsActivePort');
       if (existsSync(f)) port = readFileSync(f, 'utf8').split('\n')[0].trim();
+      // No point waiting out the full ten seconds once the process is gone.
+      if (exited && !port) break;
     }
-    if (!port) { proc.kill(); throw new Error('Chrome did not report a debugging port'); }
+    if (!port) {
+      proc.kill();
+      const why = [
+        'Chrome did not report a debugging port',
+        `  binary: ${CHROME}`,
+        exited ? `  chrome exited with ${exited}` : '  chrome was still running when we gave up',
+        process.env.CI ? '  running with --no-sandbox (CI)' : '  running WITH the sandbox (not CI)',
+        stderr.trim() ? `  chrome stderr:\n${stderr.trim().split('\n').map((l) => '    ' + l).join('\n')}`
+          : '  chrome stderr: (empty)',
+      ].join('\n');
+      throw new Error(why);
+    }
 
     const info = await (await fetch(`http://127.0.0.1:${port}/json/version`)).json();
     const ws = new WebSocket(info.webSocketDebuggerUrl);

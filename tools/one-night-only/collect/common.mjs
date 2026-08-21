@@ -205,6 +205,35 @@ export function slugify(s) {
     .slice(0, 60) || 'unknown';
 }
 
+/**
+ * A projection format, or null.
+ *
+ * repertory.nyc's `format` field is not always a format. It has been observed
+ * carrying an admission price ("General Admission: $17", 10 rows) and a runtime
+ * ("100m", 2 rows). Both are true facts about the screening sitting in the
+ * wrong field, and neither is a format.
+ *
+ * They are DROPPED rather than rehomed. A runtime has its own field, and moving
+ * a value into it on the theory that the source mislabelled it is a guess about
+ * data we already know to be malformed. The renderer treats an unknown runtime
+ * as unknown and says so, which is the honest outcome.
+ *
+ * Returns { format, rejected } so a caller can count what it threw away.
+ */
+export function cleanFormat(raw) {
+  const value = tidy(raw ?? '');
+  if (!value) return { format: null, rejected: null };
+  // A currency symbol or the word "admission" means this is a price.
+  if (/[$\u00A3\u20AC]|\badmission\b|\bticket/i.test(value)) {
+    return { format: null, rejected: value };
+  }
+  // A bare duration: "100m", "95 min", "1h 42m".
+  if (/^\d+\s*(m|min|mins|minutes)$/i.test(value) || /^\d+\s*h(\s*\d+\s*m)?$/i.test(value)) {
+    return { format: null, rejected: value };
+  }
+  return { format: value, rejected: null };
+}
+
 export const sha16 = (s) => createHash('sha256').update(s, 'utf8').digest('hex').slice(0, 16);
 
 /** Upgrade a known-good http URL to https. Used on NYC Parks deep links. */

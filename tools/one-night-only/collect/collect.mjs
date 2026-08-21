@@ -809,6 +809,28 @@ async function main() {
   const venues = {};
   for (const slug of [...venuesRaw.keys()].sort()) venues[slug] = venuesRaw.get(slug);
 
+  // Invariant: every record leaves here carrying the two filter flags. The
+  // renderer's fail-safe treats an absent flag as "publish it" and warns, which
+  // is the right direction to fail, but a record stored without one keeps that
+  // warning for as long as the record lives, and a tombstone can outlive the
+  // run that made it by a month. One record reached the published dataset this
+  // way and the path that produced it could not be reproduced afterwards, so
+  // the invariant is asserted here rather than inferred.
+  let repaired = 0;
+  for (const r of screenings) {
+    if (r.limited === undefined) { r.limited = true; r.dates_at_venue = null; repaired++; }
+    if (r.vintage === undefined) {
+      // Same treatment assignVintage() gives an unresolvable year: published,
+      // marked, never dropped.
+      r.vintage = true; r.vintage_year = null; r.vintage_year_from = null; repaired++;
+    }
+  }
+  if (repaired) {
+    log(`  warning: ${repaired} record(s) reached the writer without a filter flag ` +
+      'and were defaulted to published. This should not happen; see assignLimited() ' +
+      'and assignVintage().');
+  }
+
   const collected = {
     version: 1,
     generated_by: 'build/collect/collect.mjs',

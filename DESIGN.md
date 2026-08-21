@@ -192,7 +192,7 @@ chip contexts.
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=d8bff338`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=5c2d6408`
 - `blog` (/blog/index.html): `/fv.css?v=5c2d6408`, `/blog/blog.css?v=d2b2626d`, `inline`
 - `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=f6c6e715`
 

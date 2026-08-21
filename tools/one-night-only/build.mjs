@@ -783,6 +783,34 @@ function normalizeFormat(raw) {
 // JEAN-LUC survive. Every change is logged by the caller.
 const MINOR_WORDS = new Set(['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for',
   'from', 'in', 'nor', 'of', 'on', 'or', 'the', 'to', 'v', 'vs', 'with']);
+
+// Tokens that must survive the pass with their capitals intact.
+//
+// This is a TABLE and not a heuristic, on purpose. Inside an all-caps title
+// there is no case signal left, so NYC and THE look identical to any rule, and
+// every vowel-based test for an initialism breaks on SKY, WHY, DRY and SPY.
+// A roman-numeral regex is no better: it also matches MIX, DIM and CIVIC.
+//
+// Shipped once without this, which published "The Godfather Part Ii",
+// "Mix Nyc Presents" and sixteen rows of "Ec:".
+const KEEP_CASE = new Set([
+  // Roman numerals, written out rather than matched.
+  'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',
+  'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX',
+  // Initialisms seen in the listings. The build reports every short token it
+  // recased, so this table grows from evidence rather than from guessing.
+  'EC',   // Anthology's Essential Cinema strand, 14 listings
+  'PGM',  // "program", as the venue prints it, 11 listings
+  'NYC',
+  // NOT 'BAM'. It appears as "BAM BAM + BUBBLING BABY", where it is a noise
+  // rather than the venue, and preserving it would be the same class of error
+  // this table exists to prevent.
+]);
+
+// Short tokens that were recased, reported at the end of a build so a new
+// initialism surfaces instead of quietly turning into Title Case.
+const recasedShortTokens = new Set();
+
 function titleCase(raw) {
   const s = String(raw);
   const letters = s.replace(/[^A-Za-z]/g, '');
@@ -794,6 +822,9 @@ function titleCase(raw) {
   const last = wordIdx[wordIdx.length - 1];
   return parts.map((w, i) => {
     if (i % 2 === 1) return w;
+    const bare = w.replace(/[^A-Za-z]/g, '');
+    if (KEEP_CASE.has(bare)) return w;
+    if (bare.length >= 1 && bare.length <= 4) recasedShortTokens.add(bare);
     const lower = w.toLowerCase();
     if (i !== first && i !== last && MINOR_WORDS.has(lower.replace(/[^a-z]/g, ''))) return lower;
     return lower.replace(/\p{L}+/gu, (m) => m[0].toUpperCase() + m.slice(1));
@@ -1722,6 +1753,7 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
     opts.report.rows = runs.length;
     opts.report.titlesRecased = notes.titlesRecased;
     opts.report.formatsDropped = notes.formatsDropped;
+    opts.report.shortTokens = [...recasedShortTokens].sort();
   }
   return out.join('\n') + '\n';
 }
@@ -2153,6 +2185,14 @@ function main() {
       `  titles        ${report.titlesRecased.length} all-caps title(s) recased for the page ` +
       `(e.g. ${sample})\n    The ICS and the feed carry the venue's own spelling.\n`
     );
+    // Short tokens are where this pass goes wrong: an initialism inside an
+    // all-caps title is indistinguishable from a word. Listed so a new one can
+    // be added to KEEP_CASE rather than discovered on the live site.
+    if (report.shortTokens && report.shortTokens.length) {
+      process.stdout.write(
+        `    short tokens recased (check for an initialism): ${report.shortTokens.join(' ')}\n`
+      );
+    }
   }
   if (report.formatsDropped) {
     process.stdout.write(
