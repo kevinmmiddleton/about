@@ -1486,7 +1486,7 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   w('<div class="ono-band" id="subscribe">');
   w('<span class="ono-band__sub">The screenings listed have been rated</span>');
   w('<figure class="ono-block" role="img" aria-label="Rated O. Contains screenings that happen once. Two dates or fewer at the same venue. middleton.io.">');
-  w('<div class="ono-block__name">Rated O</div>');
+  w('<div class="ono-block__name">Rated</div>');
   w('<div class="ono-block__letter"><span class="ono-ring"></span></div>');
   w('<p class="ono-block__desc">Contains<br>screenings that<br>happen once</p>');
   w('<div class="ono-block__foot">');
@@ -1816,7 +1816,7 @@ function buildIdentity() {
     const cls = 'ono-block' + (compact ? ' ono-block--compact' : '');
     const rows = [`<figure class="${cls}" style="--ono-h:${h}px" role="img" ` +
       `aria-label="Rated O.${compact ? '' : ' Contains screenings that happen once.'}">`,
-      '<div class="ono-block__name">Rated O</div>',
+      '<div class="ono-block__name">Rated</div>',
       '<div class="ono-block__letter"><span class="ono-ring"></span></div>'];
     if (!compact) {
       rows.push('<p class="ono-block__desc">Contains<br>screenings that<br>happen once</p>');
