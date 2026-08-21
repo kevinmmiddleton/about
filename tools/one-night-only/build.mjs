@@ -1419,7 +1419,9 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   }
 
   const out = [];
-  const w = (s) => out.push(s);
+  // Variadic: a one-argument sink silently drops all but the first tag when
+  // called with a spread, which is how the page shipped with og:type alone.
+  const w = (...lines) => out.push(...lines);
   const esc = htmlEscape;
 
   w('<!DOCTYPE html>');
@@ -1774,7 +1776,9 @@ const IDENTITY_CSS = String.raw`
 
 function buildIdentity() {
   const out = [];
-  const w = (s) => out.push(s);
+  // Variadic: a one-argument sink silently drops all but the first tag when
+  // called with a spread, which is how the page shipped with og:type alone.
+  const w = (...lines) => out.push(...lines);
   const esc = htmlEscape;
   const block = (h, compact) => {
     const cls = 'ono-block' + (compact ? ' ono-block--compact' : '');
@@ -2106,8 +2110,20 @@ function main() {
 
   writeFileSync(join(outDir, 'calendar.ics'), Buffer.from(ics, 'utf8'));
   writeFileSync(join(outDir, 'feed.xml'), Buffer.from(rss, 'utf8'));
+  const identity = buildIdentity();
+  // This shipped once with og:type and nothing else, because the line writer
+  // took a single argument and the tags arrive as a spread. A social card that
+  // is silently absent looks exactly like one that is present until somebody
+  // pastes a link, so assert the count rather than trust the call.
+  for (const [name, doc] of [['index.html', html], ['identity.html', identity]]) {
+    const n = (doc.match(/<meta (?:property="og:|name="twitter:)/g) || []).length;
+    if (n < 13) {
+      process.stderr.write(`\nbuild: FAIL ${name} carries ${n} social tag(s), expected 13.\n`);
+      process.exit(1);
+    }
+  }
   writeFileSync(join(outDir, 'index.html'), Buffer.from(html, 'utf8'));
-  writeFileSync(join(outDir, 'identity.html'), Buffer.from(buildIdentity(), 'utf8'));
+  writeFileSync(join(outDir, 'identity.html'), Buffer.from(identity, 'utf8'));
 
   const icsBytes = statSync(join(outDir, 'calendar.ics')).size;
   const qualifying = records.filter(qualifies).length;
