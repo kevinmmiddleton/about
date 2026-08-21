@@ -1,0 +1,179 @@
+{
+  "_comment": [
+    "Hand-written collector output, run 1. This is the shape a collector hands to",
+    "tombstones.mjs: no uid, no guid, no created_at, no sequence. The ledger mints",
+    "identity on first discovery and owns every lifecycle field from then on.",
+    "",
+    "Pinned to NABE_NOW=2026-08-20T12:00:00Z. Every screening sits inside the",
+    "6-month forward window from that instant.",
+    "",
+    "Run 2 (collected-run2.json) drops meshes-of-the-afternoon so the ledger has",
+    "something to tombstone."
+  ],
+  "venues": {
+    "paris-theater": {
+      "name": "Paris Theater",
+      "address": "4 W 58th St, New York, NY 10019",
+      "url": "https://www.paristheaternyc.com/",
+      "geo": [40.7645, -73.9739]
+    },
+    "metrograph": {
+      "name": "Metrograph",
+      "address": "7 Ludlow St, New York, NY 10002",
+      "url": "https://metrograph.com/"
+    },
+    "spectacle": {
+      "name": "Spectacle Theater",
+      "address": "124 S 3rd St, Brooklyn, NY 11211",
+      "url": "https://www.spectacletheater.com/"
+    },
+    "cherry-lane": {
+      "name": "Cherry Lane Theatre",
+      "address": "38 Commerce St, New York, NY 10014",
+      "url": "https://www.cherrylanetheatre.org/"
+    },
+    "nitehawk-prospect-park": {
+      "name": "Nitehawk Cinema, Prospect Park",
+      "address": "188 Prospect Park W, Brooklyn, NY 11215",
+      "url": "https://nitehawkcinema.com/prospectpark/"
+    },
+    "anthology": {
+      "name": "Anthology Film Archives",
+      "address": "32 Second Ave, New York, NY 10003",
+      "url": "https://anthologyfilmarchives.org/"
+    }
+  },
+  "screenings": [
+    {
+      "_case": "a normal evening screening",
+      "venue_slug": "paris-theater",
+      "title": "Boogie Nights",
+      "year": 1997,
+      "director": "Paul Thomas Anderson",
+      "runtime_min": 155,
+      "format": "35mm",
+      "limited": true,
+      "dates_at_venue": 1,
+      "start_local": "2026-09-04T19:30",
+      "url": "https://www.paristheaternyc.com/film/boogie-nights-paris"
+    },
+
+    {
+      "_case": "double feature, same venue, same night, first half",
+      "venue_slug": "metrograph",
+      "title": "Chungking Express",
+      "year": 1994,
+      "director": "Wong Kar-wai",
+      "runtime_min": 102,
+      "format": "35mm",
+      "series": "Wong Kar-wai in 35mm",
+      "limited": true,
+      "dates_at_venue": 1,
+      "start_local": "2026-09-12T19:00",
+      "url": "https://metrograph.com/film/chungking-express/"
+    },
+    {
+      "_case": "double feature, same venue, same night, second half",
+      "venue_slug": "metrograph",
+      "title": "Fallen Angels",
+      "year": 1995,
+      "director": "Wong Kar-wai",
+      "runtime_min": 96,
+      "format": "35mm",
+      "series": "Wong Kar-wai in 35mm",
+      "limited": true,
+      "dates_at_venue": 1,
+      "start_local": "2026-09-12T21:30",
+      "url": "https://metrograph.com/film/fallen-angels/"
+    },
+
+    {
+      "_case": "title containing a comma, a semicolon, an apostrophe and a colon. The first three must be escaped in TEXT values; the colon must NOT be, and a stray backslash must survive as \\\\",
+      "venue_slug": "spectacle",
+      "title": "Sex, Lies; and Videotape: A Projectionist's Cut \\ Reel 2",
+      "year": 1989,
+      "director": "Steven Soderbergh",
+      "runtime_min": 100,
+      "format": "16mm",
+      "note": "Print courtesy of a collector; expect scratches, splices, and one missing frame.",
+      "limited": true,
+      "dates_at_venue": 1,
+      "start_local": "2026-09-26T20:00",
+      "url": "https://www.spectacletheater.com/sex-lies-and-videotape/"
+    },
+
+    {
+      "_case": "a very long title with accented Latin and CJK, to force multi-octet-safe folding of SUMMARY and DESCRIPTION. Also TENTATIVE, since this one is from a soft source",
+      "venue_slug": "cherry-lane",
+      "title": "The Extremely Long and Frankly Unreasonable Title of a Film That Nobody Has Seen Since Its Première at a Festival in Montréal, 1974 (幻の映画)",
+      "year": 1974,
+      "director": "Unattributed",
+      "runtime_min": 71,
+      "format": "Digital restoration",
+      "status": "tentative",
+      "note": "Listed on the venue calendar but not yet confirmed by the programmer.",
+      "limited": true,
+      "dates_at_venue": 1,
+      "start_local": "2026-10-08T19:00",
+      "url": "https://www.cherrylanetheatre.org/events/the-extremely-long-and-frankly-unreasonable-title-of-a-film-that-nobody-has-seen"
+    },
+
+    {
+      "_case": "a midnight show that crosses the date boundary. 23:50 plus 105 min plus 15 min of trailers ends at 01:50 the following day",
+      "venue_slug": "nitehawk-prospect-park",
+      "title": "The Texas Chain Saw Massacre",
+      "year": 1974,
+      "director": "Tobe Hooper",
+      "runtime_min": 105,
+      "format": "35mm",
+      "series": "Nitehawk Nasties",
+      "limited": true,
+      "dates_at_venue": 1,
+      "start_local": "2026-09-19T23:50",
+      "url": "https://nitehawkcinema.com/prospectpark/film/the-texas-chain-saw-massacre/"
+    },
+
+    {
+      "_case": "present in run 1, absent in run 2. The ledger turns this into a tombstone",
+      "venue_slug": "anthology",
+      "title": "Meshes of the Afternoon",
+      "year": 1943,
+      "director": "Maya Deren",
+      "runtime_min": 14,
+      "format": "16mm",
+      "series": "Essential Cinema",
+      "limited": true,
+      "dates_at_venue": 1,
+      "start_local": "2026-10-17T20:00",
+      "url": "https://anthologyfilmarchives.org/film_screenings/series/meshes-of-the-afternoon"
+    },
+
+    {
+      "_case": "the evening of the fall-back DST transition. 18:00 local on 2026-11-01 is EST, so it must resolve to 23:00Z, not 22:00Z",
+      "venue_slug": "anthology",
+      "title": "Daughters of the Dust",
+      "year": 1991,
+      "director": "Julie Dash",
+      "runtime_min": 112,
+      "format": "DCP",
+      "limited": true,
+      "dates_at_venue": 1,
+      "start_local": "2026-11-01T18:00",
+      "url": "https://anthologyfilmarchives.org/film_screenings/series/daughters-of-the-dust"
+    },
+
+    {
+      "_case": "a week-long run. dates_at_venue is above the two-date threshold so the collector marked it limited:false. It must appear on index.html, labelled, and must NOT appear in calendar.ics or feed.xml. Its date carries no other listing, so the day section renders data-limited=\"0\" and the filter hides the whole day",
+      "venue_slug": "metrograph",
+      "title": "Jeanne Dielman, 23 quai du Commerce, 1080 Bruxelles",
+      "year": 1975,
+      "director": "Chantal Akerman",
+      "runtime_min": 201,
+      "format": "DCP",
+      "limited": false,
+      "dates_at_venue": 7,
+      "start_local": "2026-09-30T19:00",
+      "url": "https://metrograph.com/film/jeanne-dielman/"
+    }
+  ]
+}

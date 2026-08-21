@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>One Night Only, social card source</title>
+<!--
+  SOURCE for one-night-only/og.png. Not published, and not built by build.mjs.
+
+  The card is a committed PNG rather than a build artifact for two reasons: it
+  does not change when the listings change, and every social scraper wants a
+  raster at an absolute URL. Rendering it in CI would mean a browser in CI for
+  an image that is identical every time.
+
+  To regenerate after an identity change, render this file at exactly 1200x630
+  with a device scale factor of 1 and save over one-night-only/og.png:
+
+    node tools/one-night-only/og-render.mjs
+
+  The mark below is the same construction as PAGE_CSS in build.mjs, at a fixed
+  height. Keep the two in step: if the block's grid changes there, change it
+  here and re-render.
+-->
+<style>
+:root{
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",Menlo,ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --ono-green:#14432F; --ono-on-green:#FFFFFF;
+  --ono-green-mute:#C9DED2; --ono-green-tint:#205A41;
+  --ono-ink:var(--ono-on-green); --ono-field:var(--ono-green);
+  --ono-h:196px;
+  --ono-rule:max(2px,calc(var(--ono-h) * .021));
+  --ono-ring-d:calc(var(--ono-h) * .49);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{background:var(--ono-green);color:var(--ono-on-green);font-family:var(--sans);
+  display:grid;grid-template-rows:auto 1fr auto;padding:54px 64px;position:relative}
+/* The same watermark ring the masthead plate carries. Positioned in absolute
+   pixels rather than percentages: a percentage inset resolves against the body's
+   PADDING box, which put the ring off-centre and clipped it against the right
+   edge in a way that read as a mistake rather than as composition. */
+body::before{content:"";position:absolute;left:600px;top:315px;translate:-50% -50%;
+  width:604px;height:604px;border-radius:50%;border:58px solid var(--ono-green-tint)}
+body > *{position:relative}
+
+.sub{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ono-green-mute)}
+.mid{display:flex;align-items:center;gap:44px}
+
+.ono-block{height:var(--ono-h);aspect-ratio:2.315;display:grid;
+  grid-template-columns:33.8% 1fr;grid-template-rows:13.2% 1fr 14.7%;gap:var(--ono-rule);
+  background:var(--ono-ink);border:var(--ono-rule) solid var(--ono-ink);
+  color:var(--ono-ink);overflow:hidden;flex:0 0 auto}
+.ono-block > *{background:var(--ono-field)}
+.ono-block__name{grid-area:1/1/2/2;background:var(--ono-ink);color:var(--ono-field);
+  font-family:var(--mono);font-size:calc(var(--ono-h) * .095);font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;white-space:nowrap;display:grid;place-items:center;text-indent:.12em}
+.ono-block__letter{grid-area:2/1/3/2;display:grid;place-items:center}
+.ono-ring{display:block;width:var(--ono-ring-d);aspect-ratio:1;border-radius:50%;
+  border:calc(var(--ono-ring-d) * .24) solid currentColor}
+.ono-block__desc{grid-area:1/2/3/3;display:grid;align-content:center;
+  padding-inline:calc(var(--ono-h) * .06);font-size:calc(var(--ono-h) * .125);
+  font-weight:800;line-height:.98;letter-spacing:-.01em;text-transform:uppercase}
+.ono-block__foot{grid-area:3/1/4/3;display:grid;grid-template-columns:1fr auto;
+  gap:var(--ono-rule);background:var(--ono-ink)}
+.ono-block__foot > *{background:var(--ono-field);display:grid;align-content:center;
+  padding-inline:calc(var(--ono-h) * .035);font-size:calc(var(--ono-h) * .072);
+  font-weight:700;line-height:1;white-space:nowrap}
+.ono-block__cell{font-family:var(--mono);font-size:calc(var(--ono-h) * .058);
+  letter-spacing:.1em;text-transform:uppercase;justify-items:center}
+
+/* The block says RATED O, never the site's name, so the wordmark has to be
+   here: at a timeline thumbnail this is the only legible thing on the card. */
+.word{font-size:82px;font-weight:800;line-height:.92;letter-spacing:-.035em;
+  text-transform:uppercase}
+.word em{display:block;font-style:normal;font-family:var(--mono);font-size:17px;
+  font-weight:700;letter-spacing:.13em;color:var(--ono-green-mute);
+  margin-top:18px;text-transform:uppercase}
+
+.foot{display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+  border-top:3px solid var(--ono-on-green);padding-top:20px;
+  font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.foot span:last-child{color:var(--ono-green-mute)}
+</style>
+</head>
+<body>
+<p class="sub">The screenings listed have been rated</p>
+
+<div class="mid">
+  <figure class="ono-block">
+    <div class="ono-block__name">Rated O</div>
+    <div class="ono-block__letter"><span class="ono-ring"></span></div>
+    <p class="ono-block__desc">Contains<br>screenings that<br>happen once</p>
+    <div class="ono-block__foot">
+      <span>Two Dates or Fewer at the Same Venue</span>
+      <span class="ono-block__cell">middleton.io</span>
+    </div>
+  </figure>
+  <p class="word">One<br>Night<br>Only<em>New York City</em></p>
+</div>
+
+<p class="foot"><span>middleton.io/one-night-only</span><span>Calendar &middot; RSS</span></p>
+</body>
+</html>

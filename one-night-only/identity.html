@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Rated O mark &middot; One Night Only</title>
+<meta name="description" content="How the Rated O mark works: one rating, its forms, the format ramp, and the colours and type behind them.">
+<link rel="canonical" href="https://middleton.io/one-night-only/identity.html">
+<meta property="og:type" content="website">
+<style>
+:root{
+color-scheme:light dark;
+--sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+--mono:"SF Mono",Menlo,ui-monospace,"Cascadia Mono",Consolas,monospace;
+--bg:#F4F4F5; --bg2:#E9E9EC;
+--ink:#111113;          
+--ink2:#5B5B62;         
+--rule:#D8D8DD;         
+--rule-strong:#8B8B90;  
+--c2-text:#AB3142;      
+--tint-soft:rgba(0,0,0,.05);
+--ono-ink:var(--ink);
+--ono-field:var(--bg);
+--ono-green:#14432F;       
+--ono-on-green:#FFFFFF;    
+--ono-green-mute:#C9DED2;  
+--ono-green-tint:#205A41;  
+--bar:3.25rem;             
+--tcol:5.5rem;             
+--gut:clamp(.8rem,2vw,1.25rem);
+--wrap:70rem;
+--pad:clamp(1rem,4vw,2.5rem);
+}
+@media (prefers-color-scheme:dark){
+:root:not([data-theme="light"]){
+--bg:#0F0F12; --bg2:#17171B;
+--ink:#F2F2F4;        
+--ink2:#A2A2AC;       
+--rule:#2C2C33;       
+--rule-strong:#656570;
+--c2-text:#E8697C;    
+--tint-soft:rgba(255,255,255,.06);
+}
+}
+:root[data-theme="dark"]{
+--bg:#0F0F12; --bg2:#17171B; --ink:#F2F2F4; --ink2:#A2A2AC;
+--rule:#2C2C33; --rule-strong:#656570; --c2-text:#E8697C;
+--tint-soft:rgba(255,255,255,.06);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{
+scroll-behavior:smooth;
+scroll-padding-top:calc(var(--bar) + .25rem);   
+-webkit-text-size-adjust:100%;
+}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,ol,ul,figure{margin:0;padding:0}
+ol,ul{list-style:none}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--bg);
+padding:.7rem 1rem;font:700 .8rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;z-index:9}
+.skip:focus{left:0}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:var(--pad)}
+:root{
+--ono-h:clamp(104px,13vw,150px);
+--ono-rule:max(2px,calc(var(--ono-h) * .021));
+--ono-ring-d:calc(var(--ono-h) * .49);
+--ono-name-fs:calc(var(--ono-h) * .095);
+}
+.ono-block{height:var(--ono-h);aspect-ratio:2.315;display:grid;
+grid-template-columns:33.8% 1fr;grid-template-rows:13.2% 1fr 14.7%;gap:var(--ono-rule);
+background:var(--ono-ink);border:var(--ono-rule) solid var(--ono-ink);border-radius:0;
+color:var(--ono-ink);overflow:hidden}
+.ono-block > *{background:var(--ono-field)}
+.ono-block__name{grid-area:1/1/2/2;background:var(--ono-ink);color:var(--ono-field);
+font-family:var(--mono);font-size:var(--ono-name-fs);font-weight:700;letter-spacing:.12em;
+text-transform:uppercase;white-space:nowrap;display:grid;place-items:center;text-indent:.12em}
+.ono-block__letter{grid-area:2/1/3/2;display:grid;place-items:center}
+.ono-ring{display:block;width:var(--ono-ring-d);aspect-ratio:1;border-radius:50%;
+border:calc(var(--ono-ring-d) * .24) solid var(--ono-ring-colour,currentColor)}
+.ono-block__desc{grid-area:1/2/3/3;display:grid;align-content:center;
+padding-inline:calc(var(--ono-h) * .06);font-family:var(--sans);
+font-size:calc(var(--ono-h) * .125);font-weight:800;line-height:.98;
+letter-spacing:-.01em;text-transform:uppercase}
+.ono-block__foot{grid-area:3/1/4/3;display:grid;grid-template-columns:1fr auto;
+gap:var(--ono-rule);background:var(--ono-ink)}
+.ono-block__foot > *{background:var(--ono-field);display:grid;align-content:center;
+padding-inline:calc(var(--ono-h) * .035);font-family:var(--sans);
+font-size:max(9px,calc(var(--ono-h) * .072));font-weight:700;line-height:1;white-space:nowrap}
+.ono-block__cell{font-family:var(--mono);font-size:max(8.5px,calc(var(--ono-h) * .058));
+letter-spacing:.1em;text-transform:uppercase;justify-items:center}
+.ono-stamp{height:var(--ono-h);aspect-ratio:1;display:grid;place-items:center;
+background:var(--ono-field);border:var(--ono-rule) solid var(--ono-ink);
+color:var(--ono-ink);--ono-ring-d:calc(var(--ono-h) * .62)}
+.ono-band{background:var(--ono-green);color:var(--ono-on-green);
+border:2px solid var(--ono-ink);border-radius:0;position:relative;overflow:hidden;
+padding:clamp(1.4rem,4vw,2.6rem);text-align:center;margin-top:1.4rem}
+.ono-band::before{content:"";position:absolute;inset:50% auto auto 50%;translate:-50% -50%;
+width:min(78%,34rem);aspect-ratio:1;border-radius:50%;
+border:min(9%,3.6rem) solid var(--ono-green-tint);pointer-events:none}
+.ono-band > *{position:relative}
+.ono-band .ono-block{--ono-ink:var(--ono-on-green);--ono-field:var(--ono-green);
+margin-inline:auto}
+.ono-band__sub{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.1em;
+text-transform:uppercase;color:var(--ono-green-mute);margin-bottom:1rem}
+.ono-band__lead{font-family:var(--sans);font-weight:800;text-transform:uppercase;
+letter-spacing:-.01em;line-height:1.18;font-size:clamp(.94rem,2.4vw,1.5rem);
+max-width:34ch;margin:1.15rem auto 0}
+.ono-band__lead span{font-weight:400;font-size:.74em}
+.ono-band__util{margin-top:clamp(1.2rem,3vw,1.9rem);padding-top:1rem;
+border-top:2px solid var(--ono-on-green);text-align:left;
+display:flex;flex-wrap:wrap;gap:.6rem .9rem;align-items:center}
+.btn{font:700 .66rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+color:var(--ono-green);background:var(--ono-on-green);text-decoration:none;
+padding:.75rem .9rem;min-height:44px;display:inline-flex;align-items:center;
+border:2px solid var(--ono-on-green);transition:background .12s ease,color .12s ease}
+.btn--ghost{background:transparent;color:var(--ono-on-green)}
+.btn:hover{background:transparent;color:var(--ono-on-green)}
+.btn--ghost:hover{background:var(--ono-on-green);color:var(--ono-green)}
+.btn:focus-visible{outline:3px solid var(--ono-on-green);outline-offset:2px}
+.ono-band__stat{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.1em;
+text-transform:uppercase;color:var(--ono-green-mute);flex:1 1 16rem;text-align:left}
+.mast{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem 1.2rem;
+flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:.7rem;
+margin-top:clamp(1.2rem,3vw,2rem)}
+.mast h1{font:800 clamp(1.6rem,3.4vw,2.5rem)/1.05 var(--sans);letter-spacing:-.03em;color:var(--ink)}
+.mast p{font:700 .62rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+color:var(--ink2);text-align:right;max-width:52ch}
+.subx{margin:1.1rem 0 1.5rem}
+.subx summary{font:700 .66rem/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;
+color:var(--ink);cursor:pointer;min-height:24px;display:flex;align-items:center;gap:.4rem;list-style:none}
+.subx summary::-webkit-details-marker{display:none}
+.subx summary::before{content:"+";font-weight:800;font-size:1rem;line-height:1}
+.subx[open] summary::before{content:"\2013"}
+.subx p{margin-top:.6rem;font:400 .84rem/1.55 var(--sans);color:var(--ink2);max-width:70ch}
+.url{margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.url code{font:400 .78rem/1.5 var(--mono);color:var(--ink);overflow-wrap:anywhere}
+.copy{font:700 .62rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+background:transparent;color:var(--ink);border:2px solid var(--rule-strong);
+min-height:24px;padding:.4rem .6rem;cursor:pointer}
+.copy:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.copy[hidden]{display:none}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg2);border-bottom:2px solid var(--ink)}
+.bar-in{max-width:var(--wrap);margin:0 auto;padding-inline:var(--pad);
+height:var(--bar);display:flex;align-items:center;gap:.7rem}
+.bar .ono-stamp{--ono-h:26px;flex:0 0 auto}
+.bmark{flex:0 0 auto;display:inline-flex;min-height:26px;text-decoration:none}
+.bscroll{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:.45rem;
+overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;white-space:nowrap}
+.bscroll::-webkit-scrollbar{display:none}
+.tog{position:relative;display:inline-flex;flex:0 0 auto}
+.tog input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.tog label{font:700 .62rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+color:var(--ink);border:2px solid var(--ink2);padding:.45rem .6rem;
+min-height:32px;display:inline-flex;align-items:center;gap:.35rem;cursor:pointer;
+transition:background .12s ease,color .12s ease,border-color .12s ease}
+.tog label b{font-weight:700;color:var(--ink2)}
+.tog input:checked + label::before{content:"\2713";font-weight:800}
+.tog input:checked + label{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tog input:checked + label b{color:var(--bg)}
+.tog input:focus-visible + label{outline:3px solid var(--ink);outline-offset:2px}
+.months{display:flex;gap:.1rem;flex:0 0 auto;margin-left:.35rem}
+.months a{font:700 .62rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+color:var(--ink2);text-decoration:none;padding:.5rem .55rem;min-height:32px;
+display:inline-flex;align-items:center;border:2px solid transparent}
+.months a:hover{color:var(--ink);border-color:var(--ink2)}
+.bsub{flex:0 0 auto;font:700 .62rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+background:var(--ink);color:var(--bg);text-decoration:none;border:2px solid var(--ink);
+padding:.5rem .7rem;min-height:32px;display:inline-flex;align-items:center}
+.bsub:hover{background:transparent;color:var(--ink)}
+main{padding-bottom:4rem}
+.legend{margin-top:1.6rem;padding-left:.9rem;border-left:2px solid var(--ink);
+font:400 .84rem/1.55 var(--sans);color:var(--ink2);max-width:74ch;text-wrap:pretty}
+.day{margin-top:2.4rem}
+.day{content-visibility:auto;contain-intrinsic-size:auto 900px}
+.day-h{position:sticky;top:var(--bar);z-index:2;background:var(--bg);
+padding:.85rem 0 .5rem;display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem .9rem;
+border-bottom:1px solid var(--rule-strong)}
+.wknd .day-h{border-bottom:2px solid var(--ink)}
+.day-d{font:700 .78rem/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.wknd .day-d{color:var(--ink);font-weight:700}
+.day-n{margin-left:auto;font:700 .62rem/1.3 var(--mono);letter-spacing:.1em;
+text-transform:uppercase;color:var(--ink2)}
+.day-n .n-o,.day-n .n-v,.day-n .n-ov{display:none}
+.s{display:grid;grid-template-columns:var(--tcol) minmax(0,1fr);
+border-bottom:1px solid var(--rule);transition:background .12s ease}
+.s:hover{background:var(--tint-soft)}
+.s-t{align-self:stretch;padding:.7rem var(--gut) .7rem 0;text-align:right;white-space:nowrap;
+border-right:2px solid var(--rule-strong);
+font:700 .95rem/1.35 var(--mono);letter-spacing:-.01em;
+font-variant-numeric:tabular-nums;color:var(--ink)}
+.s-t span{display:block;font-size:.6rem;letter-spacing:.1em;color:var(--ink2)}
+.is-o .s-t{border-right-color:var(--ink)}
+.is-x .s-t{border-right-color:var(--c2-text)}
+.s-b{min-width:0;padding:.7rem 0 .75rem var(--gut)}
+.s-h{font:800 1.2rem/1.25 var(--sans);letter-spacing:-.02em;color:var(--ink);
+overflow-wrap:break-word;text-wrap:pretty}
+.s-h a{text-decoration:none;
+padding-block:.12rem}
+.s-h a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.s-yr{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.09em;
+color:var(--ink2);vertical-align:.32em;margin-left:.5em}
+.s-yr-cat{border-bottom:1px dotted var(--rule-strong)}
+.s-h .ono-stamp{--ono-h:24px;display:inline-grid;vertical-align:middle;margin-left:.35em}
+.fmt{display:inline-flex;align-items:center;min-height:24px;padding:.18em .5em;
+font-family:var(--mono);font-size:.58rem;font-weight:700;
+letter-spacing:.1em;text-transform:uppercase;text-indent:.1em;
+border:1px solid transparent;vertical-align:middle;margin-left:.35em}
+.fmt[data-fmt="70mm"]{background:var(--ink);color:var(--bg)}
+.fmt[data-fmt="35mm"]{border:2px solid var(--ink);color:var(--ink)}
+.fmt[data-fmt="16mm"]{border-color:var(--rule-strong);color:var(--ink2)}
+.s-can{font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.1em;
+text-transform:uppercase;color:var(--c2-text);border:2px solid var(--c2-text);
+border-radius:3px;padding:.18em .5em;min-height:24px;display:inline-flex;
+align-items:center;vertical-align:.06em;margin-left:.35em}
+.is-x .s-h a{color:var(--ink2);text-decoration:line-through;text-decoration-thickness:2px}
+.s-v{margin-top:.34rem;display:flex;flex-wrap:wrap;align-items:center;gap:0 .45rem;
+font:700 .62rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.s-v > * + *::before,.s-l time + .s-why::before{content:"\00B7";margin-right:.45rem;
+color:var(--rule-strong)}
+.s-vn{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule-strong);
+min-height:24px;display:inline-flex;align-items:center}
+.s-vn:hover{border-bottom-color:var(--ink)}
+.s-pg::before{content:"Presented by "}
+.s-l{margin-top:.28rem;display:flex;flex-wrap:wrap;align-items:center;gap:0 .5rem;
+font:700 .62rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.s-l time{color:var(--ink);font-variant-numeric:tabular-nums}
+.s-c{margin-top:.34rem;font:400 .84rem/1.5 var(--sans);color:var(--ink2);
+max-width:66ch;text-wrap:pretty}
+body:has(#f-o:checked) .s:not(.is-o){display:none}
+body:has(#f-v:checked) .s:not(.is-v){display:none}
+body:has(#f-o:checked) .day[data-o="0"]{display:none}
+body:has(#f-v:checked) .day[data-v="0"]{display:none}
+body:has(#f-o:checked):has(#f-v:checked) .day[data-ov="0"]{display:none}
+.months-off{opacity:.4;cursor:default}
+body.f-o .s:not(.is-o){display:none}
+body.f-v .s:not(.is-v){display:none}
+body.f-o .day[data-o="0"]{display:none}
+body.f-v .day[data-v="0"]{display:none}
+body.f-o.f-v .day[data-ov="0"]{display:none}
+body:has(#f-o:checked) .s-h .ono-stamp,body.f-o .s-h .ono-stamp{display:none}
+body:has(#f-o:checked) .day-n .n-all,body.f-o .day-n .n-all{display:none}
+body:has(#f-v:checked) .day-n .n-all,body.f-v .day-n .n-all{display:none}
+body:has(#f-o:checked) .day-n .n-o,body.f-o .day-n .n-o{display:inline}
+body:has(#f-v:checked) .day-n .n-v,body.f-v .day-n .n-v{display:inline}
+body:has(#f-o:checked):has(#f-v:checked) .day-n .n-o,body.f-o.f-v .day-n .n-o{display:none}
+body:has(#f-o:checked):has(#f-v:checked) .day-n .n-v,body.f-o.f-v .day-n .n-v{display:none}
+body:has(#f-o:checked):has(#f-v:checked) .day-n .n-ov,body.f-o.f-v .day-n .n-ov{display:inline}
+footer{border-top:2px solid var(--ink);margin-top:3rem;padding:1.2rem 0 0}
+footer h2{font:700 .68rem/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+footer li,footer p{margin-top:.55rem;font:400 .82rem/1.6 var(--sans);color:var(--ink2);max-width:66ch}
+footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center}
+@media (max-width:44rem){
+:root{--tcol:4.4rem;--bar:3rem;--ono-h:118px}
+.ono-band{padding:1.1rem}
+.months{display:none}
+.bsub{display:none}
+.tog label{padding:.45rem .5rem;letter-spacing:.07em}
+.s-h{font-size:1.08rem}
+.ono-band__lead{font-size:clamp(.9rem,4vw,1.2rem)}
+}
+@media (max-width:26rem){
+:root{--tcol:4.1rem}
+.s-c{font-size:.8rem}
+}
+@media (max-width:22rem){
+:root{--ono-h:112px;--pad:.75rem}
+.ono-band{padding:.75rem}
+}
+@media (prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+.s,.tog label,.btn,.copy,.months a,.bsub{transition:none}
+}
+@media print{
+.bar,.ono-band__util,.subx,.copy{display:none}
+.day{content-visibility:visible}
+}
+.manchor{display:block;height:0;overflow:hidden}
+body:has(#f-o:checked) .months a[data-o="0"],
+body.f-o .months a[data-o="0"],
+body:has(#f-v:checked) .months a[data-v="0"],
+body.f-v .months a[data-v="0"],
+body:has(#f-o:checked):has(#f-v:checked) .months a[data-ov="0"],
+body.f-o.f-v .months a[data-ov="0"]{opacity:.45;pointer-events:none}
+.ono-block--compact{aspect-ratio:.782;grid-template-columns:1fr;grid-template-rows:15.4% 1fr;
+--ono-ring-d:calc(var(--ono-h) * .62)}
+.idw{max-width:56rem}
+.id-h{border-bottom:2px solid var(--ink);padding-bottom:.7rem;margin-top:clamp(1.2rem,3vw,2rem);
+display:flex;align-items:baseline;justify-content:space-between;gap:.4rem 1.2rem;flex-wrap:wrap}
+.id-h h1{font:800 clamp(1.6rem,3.4vw,2.5rem)/1.05 var(--sans);letter-spacing:-.03em}
+.id-h p{font:700 .62rem/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.id-s{margin-top:2.6rem}
+.id-s > h2{font:700 .68rem/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+color:var(--ink2);border-bottom:1px solid var(--rule-strong);padding-bottom:.5rem}
+.id-s > p{margin-top:.9rem;font:400 .95rem/1.6 var(--sans);color:var(--ink);max-width:66ch;text-wrap:pretty}
+.id-s > p + p{margin-top:.7rem}
+.id-s .quiet{color:var(--ink2);font-size:.86rem}
+.id-plate{display:flex;flex-wrap:wrap;gap:1.6rem;align-items:flex-end;margin-top:1.4rem;
+padding:1.6rem;background:var(--bg2);border:2px solid var(--ink)}
+.id-plate figcaption{font:700 .58rem/1.4 var(--mono);letter-spacing:.1em;
+text-transform:uppercase;color:var(--ink2);margin-top:.6rem}
+.id-spec{display:flex;flex-direction:column;align-items:flex-start}
+.id-chips{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:1.2rem}
+.id-chips .fmt{margin-left:0}
+.id-tok{width:100%;border-collapse:collapse;margin-top:1.1rem;
+font:400 .82rem/1.5 var(--sans);color:var(--ink)}
+.id-tok th{text-align:left;font:700 .58rem/1.4 var(--mono);letter-spacing:.1em;
+text-transform:uppercase;color:var(--ink2);border-bottom:1px solid var(--rule-strong);padding:.5rem .6rem .5rem 0}
+.id-tok td{border-bottom:1px solid var(--rule);padding:.55rem .6rem .55rem 0;vertical-align:middle}
+.id-tok code{font:400 .78rem/1.5 var(--mono)}
+.id-sw{display:inline-block;width:1.6rem;height:1.6rem;border:1px solid var(--rule-strong);
+vertical-align:middle;margin-right:.5rem}
+.id-back{margin-top:2.6rem;display:inline-flex;align-items:center;min-height:44px;
+font:700 .66rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+background:var(--ink);color:var(--bg);text-decoration:none;padding:.75rem .9rem;border:2px solid var(--ink)}
+.id-back:hover{background:transparent;color:var(--ink)}
+@media (max-width:44rem){.id-plate{padding:1rem;gap:1.1rem}}
+</style>
+</head>
+<body id="top">
+<header class="wrap idw">
+<div class="id-h"><h1>The Rated O mark</h1><p>One Night Only &middot; Identity</p></div>
+</header>
+<main class="wrap idw">
+<section class="id-s">
+<h2>One rating</h2>
+<p>Every listing on this site is either rated O or it is not, and that is the whole system. O means the film plays once or twice at that venue, or on 3 dates with a single showtime each. There is no second grade, no scale, and nothing to interpret.</p>
+<p>The form is borrowed from the green card that runs before a trailer, because that card is doing the same job: a small, official-looking block that tells you one fact about what you are looking at before you look at it. The ring is the letter O and the hole in a reel, which is the only joke on the site.</p>
+<figure class="id-plate" style="background:var(--ono-green);border-color:var(--ono-ink)">
+<div class="id-spec ono-band" style="border:0;padding:0;background:none">
+<figure class="ono-block" style="--ono-h:150px" role="img" aria-label="Rated O. Contains screenings that happen once."><div class="ono-block__name">Rated O</div><div class="ono-block__letter"><span class="ono-ring"></span></div><p class="ono-block__desc">Contains<br>screenings that<br>happen once</p><div class="ono-block__foot"><span>Two Dates or Fewer at the Same Venue</span><span class="ono-block__cell">middleton.io</span></div></figure>
+</div>
+</figure>
+<p class="quiet">The block reversed out of the green plate, at 150px. The plate carries its own ground, so it does not change in dark mode.</p>
+</section>
+<section class="id-s">
+<h2>Three forms, one construction</h2>
+<p>The block, the compact block and the stamp are the same grid at three sizes. Everything scales from a single height variable, so nothing is redrawn and nothing can be redrawn slightly wrong.</p>
+<div class="id-plate">
+<figure class="id-spec"><figure class="ono-block" style="--ono-h:104px" role="img" aria-label="Rated O. Contains screenings that happen once."><div class="ono-block__name">Rated O</div><div class="ono-block__letter"><span class="ono-ring"></span></div><p class="ono-block__desc">Contains<br>screenings that<br>happen once</p><div class="ono-block__foot"><span>Two Dates or Fewer at the Same Venue</span><span class="ono-block__cell">middleton.io</span></div></figure><figcaption>Block &middot; 104px</figcaption></figure>
+<figure class="id-spec"><figure class="ono-block ono-block--compact" style="--ono-h:96px" role="img" aria-label="Rated O."><div class="ono-block__name">Rated O</div><div class="ono-block__letter"><span class="ono-ring"></span></div></figure><figcaption>Compact &middot; 96px</figcaption></figure>
+<figure class="id-spec"><span class="ono-stamp" style="--ono-h:48px" role="img" aria-label="Rated O"><span class="ono-ring"></span></span><figcaption>Stamp &middot; 48px</figcaption></figure>
+<figure class="id-spec"><span class="ono-stamp" style="--ono-h:24px" role="img" aria-label="Rated O"><span class="ono-ring"></span></span><figcaption>Stamp &middot; 24px, on a row</figcaption></figure>
+</div>
+<p class="quiet">The 24px stamp is the one that appears in the listings, beside a film title. It is hidden inside the filtered view, where every row is rated O and the stamp would say nothing.</p>
+</section>
+<section class="id-s">
+<h2>Format is a rarity ramp, not a colour</h2>
+<p>A print is rarer than a file, so the badge gets heavier as the format gets rarer: 70mm is solid, 35mm is a two-pixel rule, 16mm is a hairline. No hue is involved, which means the ramp survives being printed, being colour-blind, and being viewed in either scheme.</p>
+<p>A 4K restoration is a digital file however it is advertised, so it is a fact for the credit line rather than a badge.</p>
+<div class="id-chips">
+<span class="fmt" data-fmt="70mm">70mm</span>
+<span class="fmt" data-fmt="35mm">35mm</span>
+<span class="fmt" data-fmt="16mm">16mm</span>
+</div>
+</section>
+<section class="id-s">
+<h2>What was deliberately not taken</h2>
+<p>The rating card is the reference. The rating <em>scale</em> is not. G, PG, PG-13, R and NC-17 are a judgement about content, made by somebody else, and this site knows nothing about the content of any film it lists. An earlier draft of this page showed those badges and it was wrong: the data has no rating field, so every one of them would have been invented.</p>
+<p>O is not a content rating. It is a scarcity rating, and it is the only claim the site is in a position to make.</p>
+</section>
+<section class="id-s">
+<h2>Colour</h2>
+<p>The neutrals are the same tokens as the rest of middleton.io, so this subsite computes to the same greys as everything else. The green belongs to the plate alone. Every pair below is measured, not estimated.</p>
+<table class="id-tok">
+<tr><th>Token</th><th>Light</th><th>Dark</th><th>Job</th></tr>
+<tr><td><code>--bg</code></td><td><span class="id-sw" style="background:#F4F4F5"></span><code>#F4F4F5</code></td><td><span class="id-sw" style="background:#0F0F12"></span><code>#0F0F12</code></td><td>The page</td></tr>
+<tr><td><code>--ink</code></td><td><span class="id-sw" style="background:#111113"></span><code>#111113</code></td><td><span class="id-sw" style="background:#F2F2F4"></span><code>#F2F2F4</code></td><td>Titles and anything that has to be read first</td></tr>
+<tr><td><code>--ink2</code></td><td><span class="id-sw" style="background:#5B5B62"></span><code>#5B5B62</code></td><td><span class="id-sw" style="background:#A2A2AC"></span><code>#A2A2AC</code></td><td>Ledger fields and credits. 6.13:1 light, 7.56:1 dark</td></tr>
+<tr><td><code>--rule-strong</code></td><td><span class="id-sw" style="background:#8B8B90"></span><code>#8B8B90</code></td><td><span class="id-sw" style="background:#656570"></span><code>#656570</code></td><td>Anything that has to read as an object. 3.08:1</td></tr>
+<tr><td><code>--c2-text</code></td><td><span class="id-sw" style="background:#AB3142"></span><code>#AB3142</code></td><td><span class="id-sw" style="background:#E8697C"></span><code>#E8697C</code></td><td>Cancellation, and nothing else</td></tr>
+<tr><td><code>--ono-green</code></td><td><span class="id-sw" style="background:#14432F"></span><code>#14432F</code></td><td><span class="id-sw" style="background:#14432F"></span><code>#14432F</code></td><td>The plate. Carries its own ground, so it never flips</td></tr>
+</table>
+</section>
+<section class="id-s">
+<h2>Type</h2>
+<p>Two faces doing two jobs. Helvetica for anything a person reads as language: film titles, this paragraph, a director credit. A monospace for anything that behaves like a field in a ledger: times, venues, counts, the rating itself. A venue name repeats hundreds of times down the page and earns the ledger register; a director's name is a name and does not.</p>
+</section>
+<a class="id-back" href="https://middleton.io/one-night-only/">Back to the listings</a>
+</main>
+</body>
+</html>

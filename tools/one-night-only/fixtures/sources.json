@@ -1,0 +1,22 @@
+{
+  "_comment": [
+    "Hand-written stand-in for data/sources.json, so the fixture build exercises",
+    "the credit-rendering path. build.mjs looks for sources.json in the same",
+    "directory as the dataset it was given."
+  ],
+  "version": 1,
+  "credits": [
+    {
+      "source": "repertory-nyc",
+      "name": "repertory.nyc",
+      "url": "https://www.repertory.nyc/",
+      "note": "Cinema showtimes via their open API, used with their robots.txt permission."
+    },
+    {
+      "source": "nyc-parks",
+      "name": "NYC Open Data",
+      "url": "https://data.cityofnewyork.us/d/w3wp-dpdi",
+      "note": "NYC Parks public events, updated daily."
+    }
+  ]
+}

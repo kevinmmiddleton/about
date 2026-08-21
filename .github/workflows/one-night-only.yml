@@ -1,0 +1,87 @@
+name: Publish One Night Only
+
+# Collects NYC one-night-only film screenings and rebuilds /one-night-only/
+# (site, RSS feed, and subscribable calendar). Generated files are committed
+# back; push to main means GitHub Pages deploys. No secrets needed.
+#
+# Twice daily. Venues announce and cancel on their own schedule and a stale
+# calendar sends someone across the city for nothing, so a day-old feed is the
+# thing to avoid. More often than this would add crawl load on ~90 third-party
+# hosts for listings that rarely change intraday. 07:20 and 19:20 UTC are
+# off-peak in New York and deliberately not on the hour, which is when every
+# other scheduled job in the world runs.
+#
+# The build is byte-stable, so a run that finds nothing new produces no commit.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 7,19 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/one-night-only/**'
+      - '.github/workflows/one-night-only.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-one-night-only
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      # Full history: the commit step rebases before pushing, and a rebase on
+      # a depth-1 checkout has nothing to rebase onto.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Zero npm dependencies on purpose, so there is nothing to install and
+      # nothing to audit. If a source needs a parser, write the parser.
+
+      # Fails the run rather than publishing an empty day. A source that
+      # collapses to zero where it previously had many trips the guard inside
+      # collect.mjs, which exits non-zero and writes nothing.
+      - name: Collect screenings
+        run: node tools/one-night-only/collect/collect.mjs
+
+      - name: Build site, feed and calendar
+        run: node tools/one-night-only/build.mjs
+
+      # The gate. Real ICS parsers silently accept structural corruption, so
+      # this is a hand-written linter: CRLF, 75-octet folding, BEGIN/END
+      # matching, and UID uniqueness. A duplicate UID is what gives every
+      # subscriber a doubled event, so it fails the build rather than warns.
+      - name: Validate the calendar
+        run: node tools/one-night-only/lint-ics.mjs one-night-only/calendar.ics
+
+      - name: Commit & push if the output changed
+        run: |
+          git config user.name "one-night-only-bot"
+          git config user.email "noreply@middleton.io"
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes to publish."
+            exit 0
+          fi
+          git add -A
+          git commit -m "Auto-build One Night Only listings"
+          # Kevin publishes blog posts through Sveltia, which commits to main.
+          # A commit landing during this run would make a bare push fail and
+          # turn the run red for a reason that has nothing to do with the
+          # listings. Rebase and retry; only a real conflict fails.
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "Published changes."
+              exit 0
+            fi
+            echo "Push rejected (attempt $attempt). Rebasing onto origin/main."
+            git pull --rebase origin main || exit 1
+          done
+          echo "Could not push after 3 attempts."
+          exit 1

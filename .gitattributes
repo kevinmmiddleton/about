@@ -1,0 +1,6 @@
+# Calendar files are CRLF by RFC 5545 and must stay that way on disk and in the
+# published bytes. Without this, git's text=auto normalisation strips the CRs
+# somewhere between an author's machine and the deploy, and the feed goes out
+# LF-only. That has happened to a live GitHub Pages feed before. Mark them
+# binary-ish so nothing rewrites the line endings in either direction.
+*.ics -text
