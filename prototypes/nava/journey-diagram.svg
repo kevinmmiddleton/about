@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 760" width="1560" height="760" font-family="Calibri, Segoe UI, system-ui, sans-serif" role="img">
+  <title>Application Journey</title>
+  <desc>Two swim lanes. The applicant lane runs across the top, the case worker lane across the bottom, and the rejection reason sits between them as the shared object.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0.6,1.4 L9.4,5 L0.6,8.6 Z" fill="#93A0B4"/>
+    </marker>
+    <marker id="an" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0.6,1.4 L9.4,5 L0.6,8.6 Z" fill="#1F3864"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0.6,1.4 L9.4,5 L0.6,8.6 Z" fill="#1A7F37"/>
+    </marker>
+    <marker id="am" viewBox="0 0 10 10" refX="9.4" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0.6,1.4 L9.4,5 L0.6,8.6 Z" fill="#B0762A"/>
+    </marker>
+  </defs>
+
+  <rect width="1560" height="760" fill="#FFFFFF"/>
+
+  <text x="52" y="48" font-size="26" font-weight="700" fill="#1F3864">Application Journey</text>
+  <text x="52" y="74" font-size="15" fill="#5A6577">Requirements through determination.</text>
+
+  <!-- backbone -->
+  <g font-size="11.5" font-weight="700" fill="#93A0B4" letter-spacing="0.9">
+    <text x="282" y="118" text-anchor="middle">KNOW WHAT&#8217;S NEEDED</text>
+    <text x="558" y="118" text-anchor="middle">SUBMIT</text>
+    <text x="834" y="118" text-anchor="middle">REVIEW</text>
+    <text x="1110" y="118" text-anchor="middle">SAY WHAT&#8217;S WRONG</text>
+    <text x="1386" y="118" text-anchor="middle">FIX, THEN DECIDE</text>
+  </g>
+  <line x1="170" y1="132" x2="1498" y2="132" stroke="#DDE3EC" stroke-width="1.5"/>
+
+  <!-- ============ APPLICANT LANE ============ -->
+  <rect x="0" y="155" width="1560" height="148" fill="#F3F7FD"/>
+  <rect x="0" y="155" width="8" height="148" fill="#1F3864"/>
+  <text x="52" y="217" font-size="15" font-weight="700" fill="#1F3864" letter-spacing="0.6">APPLICANT</text>
+  <text x="52" y="239" font-size="12.5" fill="#7A879B">what a resident</text>
+  <text x="52" y="255" font-size="12.5" fill="#7A879B">sees and does</text>
+
+  <rect x="170" y="176" width="224" height="106" rx="7" fill="#FFFFFF" stroke="#C6CFDE"/>
+  <text x="188" y="204" font-size="14.5" font-weight="700" fill="#1F3864">Sees what complete</text>
+  <text x="188" y="222" font-size="14.5" font-weight="700" fill="#1F3864">looks like</text>
+  <text x="188" y="247" font-size="12.5" fill="#5A6577">Requirements by leave</text>
+  <text x="188" y="264" font-size="12.5" fill="#5A6577">type, with an example</text>
+
+  <rect x="446" y="176" width="224" height="106" rx="7" fill="#FFFFFF" stroke="#C6CFDE"/>
+  <text x="464" y="204" font-size="14.5" font-weight="700" fill="#1F3864">Submits</text>
+  <text x="464" y="232" font-size="12.5" fill="#5A6577">Gets a receipt confirming</text>
+  <text x="464" y="249" font-size="12.5" fill="#5A6577">exactly what arrived</text>
+
+  <rect x="722" y="176" width="224" height="106" rx="7" fill="#FFFFFF" stroke="#C6CFDE"/>
+  <text x="740" y="204" font-size="14.5" font-weight="700" fill="#1F3864">Sees status</text>
+  <text x="740" y="232" font-size="12.5" fill="#5A6577">What happens next, and</text>
+  <text x="740" y="249" font-size="12.5" fill="#5A6577">who it&#8217;s waiting on</text>
+
+  <rect x="998" y="176" width="224" height="106" rx="7" fill="#FFF7E8" stroke="#E0B65B" stroke-width="1.8"/>
+  <text x="1016" y="204" font-size="14.5" font-weight="700" fill="#8A5B00">Gets one message</text>
+  <text x="1016" y="232" font-size="12.5" fill="#7A5A18">Names the item, links an</text>
+  <text x="1016" y="249" font-size="12.5" fill="#7A5A18">example, carries the note</text>
+
+  <rect x="1274" y="176" width="224" height="106" rx="7" fill="#FFFFFF" stroke="#C6CFDE"/>
+  <text x="1292" y="204" font-size="14.5" font-weight="700" fill="#1F3864">Fixes that one item</text>
+  <text x="1292" y="232" font-size="12.5" fill="#5A6577">Keeps their place in line.</text>
+  <text x="1292" y="249" font-size="12.5" fill="#5A6577">Nothing else is touched.</text>
+
+  <g stroke="#93A0B4" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a)">
+    <line x1="402" y1="229" x2="437" y2="229"/>
+    <line x1="678" y1="229" x2="713" y2="229"/>
+    <line x1="1230" y1="229" x2="1265" y2="229"/>
+  </g>
+
+  <!-- ============ THE SHARED OBJECT ============ -->
+  <rect x="722" y="342" width="776" height="122" rx="9" fill="#1F3864"/>
+  <text x="748" y="376" font-size="16.5" font-weight="700" fill="#FFFFFF">THE REJECTION REASON</text>
+  <text x="748" y="398" font-size="12.5" fill="#B9C7DF">A standard, configurable list, plus an optional note when the list isn&#8217;t specific enough.</text>
+  <g font-size="13" fill="#FFFFFF">
+    <text x="748" y="440">1&#160; Writes the applicant&#8217;s message</text>
+    <text x="1018" y="440">2&#160; Clears the case from the queue</text>
+    <text x="1298" y="440">3&#160; Gets counted</text>
+  </g>
+
+  <!-- ============ CASE WORKER LANE ============ -->
+  <rect x="0" y="515" width="1560" height="148" fill="#F3F7FD"/>
+  <rect x="0" y="515" width="8" height="148" fill="#1F3864"/>
+  <text x="52" y="577" font-size="15" font-weight="700" fill="#1F3864" letter-spacing="0.6">CASE WORKER</text>
+  <text x="52" y="599" font-size="12.5" fill="#7A879B">what a reviewer</text>
+  <text x="52" y="615" font-size="12.5" fill="#7A879B">sees and does</text>
+
+  <rect x="722" y="536" width="224" height="106" rx="7" fill="#FFFFFF" stroke="#C6CFDE"/>
+  <text x="740" y="564" font-size="14.5" font-weight="700" fill="#1F3864">One case, one screen</text>
+  <text x="740" y="592" font-size="12.5" fill="#5A6577">Application, employer</text>
+  <text x="740" y="609" font-size="12.5" fill="#5A6577">response, certification</text>
+
+  <rect x="998" y="536" width="224" height="106" rx="7" fill="#FFFFFF" stroke="#C6CFDE"/>
+  <text x="1016" y="564" font-size="14.5" font-weight="700" fill="#1F3864">One item at a time</text>
+  <text x="1016" y="592" font-size="12.5" fill="#5A6577">Accept, reject with a</text>
+  <text x="1016" y="609" font-size="12.5" fill="#5A6577">reason, or send up</text>
+
+  <rect x="1274" y="536" width="224" height="106" rx="7" fill="#EAF6EE" stroke="#1A7F37" stroke-width="1.8"/>
+  <text x="1292" y="564" font-size="14.5" font-weight="700" fill="#1A7F37">Decides once</text>
+  <text x="1292" y="592" font-size="12.5" fill="#2A6B3F">Comes back to accepted</text>
+  <text x="1292" y="609" font-size="12.5" fill="#2A6B3F">evidence only</text>
+
+  <g stroke="#93A0B4" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a)">
+    <line x1="954" y1="589" x2="989" y2="589"/>
+  </g>
+  <g stroke="#1A7F37" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#ag)">
+    <line x1="1230" y1="589" x2="1265" y2="589"/>
+  </g>
+
+  <!-- connectors, drawn last so the lane bands never paint over them -->
+  <!-- submit hands off into the review lane -->
+  <path d="M 558 290 L 558 575 Q 558 589 572 589 L 709 589" stroke="#93A0B4" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a)"/>
+  <text x="546" y="432" font-size="11.5" fill="#7A879B" transform="rotate(-90 546 432)" text-anchor="middle">sent for review</text>
+
+  <!-- the spine -->
+  <path d="M 1110 334 L 1110 291" stroke="#B0762A" stroke-width="2.4" fill="none" stroke-linecap="round" marker-end="url(#am)"/>
+  <text x="1122" y="322" font-size="11.5" font-weight="700" fill="#8A5B00">sends one template: the reason, the note, and how to fix it</text>
+  <path d="M 1110 528 L 1110 473" stroke="#1F3864" stroke-width="2.4" fill="none" stroke-linecap="round" marker-end="url(#an)"/>
+  <text x="1122" y="508" font-size="11.5" font-weight="700" fill="#1F3864">a case worker picks a rejection reason, with an optional note</text>
+
+  <!-- resubmission returns, around the outside -->
+  <path d="M 1504 229 L 1514 229 Q 1526 229 1526 241 L 1526 575 Q 1526 589 1512 589 L 1501 589" stroke="#93A0B4" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-dasharray="5 5" marker-end="url(#a)"/>
+  <text x="1518" y="440" font-size="11.5" fill="#5A6577" transform="rotate(-90 1518 440)" text-anchor="middle">resubmits</text>
+
+  <!-- release key -->
+  <line x1="170" y1="700" x2="1498" y2="700" stroke="#DDE3EC" stroke-width="1.5"/>
+  <g font-size="11.5" fill="#93A0B4">
+    <text x="170" y="726">R1  requirements and receipt</text>
+    <text x="722" y="726">R2  one case view and evidence review</text>
+    <text x="998" y="726">R3  specific notices and status</text>
+    <text x="1274" y="726">R4  correction without restarting</text>
+  </g>
+</svg>

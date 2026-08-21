@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PFML 101 · Kevin Middleton</title>
+<style>
+  :root{
+    --bg:#0f1419; --panel:#161d26; --panel2:#1b2430; --line:#26313f;
+    --ink:#e8eef5; --dim:#93a4b8; --faint:#66788c;
+    --blue:#5aa9f0; --green:#4ec9a0; --amber:#e8b04b; --red:#f0736a; --purple:#b18cf0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;}
+  header{position:sticky;top:0;z-index:10;background:rgba(15,20,25,.96);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:14px 24px}
+  h1{margin:0;font-size:17px;letter-spacing:-.01em}
+  h1 span{color:var(--faint);font-weight:400;font-size:13px;margin-left:10px}
+  nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+  nav button{background:var(--panel2);color:var(--dim);border:1px solid var(--line);
+    padding:6px 12px;border-radius:14px;font-size:12.5px;cursor:pointer;transition:.15s;
+    font-family:inherit;white-space:nowrap}
+  nav button:hover{color:var(--ink);border-color:var(--faint)}
+  nav button.on{background:var(--blue);color:#06121f;border-color:var(--blue);font-weight:650}
+  main{max-width:920px;margin:0 auto;padding:36px 24px 100px}
+  section{display:none;animation:f .25s ease}
+  section.on{display:block}
+  @keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  h2{font-size:27px;line-height:1.25;margin:0 0 6px;letter-spacing:-.02em}
+  .kicker{color:var(--blue);font-size:12px;font-weight:700;letter-spacing:.09em;
+    text-transform:uppercase;margin-bottom:9px}
+  .lede{font-size:18px;color:var(--dim);margin:0 0 26px;line-height:1.55}
+  p{margin:0 0 15px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:19px 22px;margin:16px 0}
+  .card h3{margin:0 0 9px;font-size:15.5px;color:var(--ink)}
+  .big{font-size:40px;font-weight:750;letter-spacing:-.03em;line-height:1.05}
+  .big.r{color:var(--red)} .big.g{color:var(--green)} .big.a{color:var(--amber)} .big.b{color:var(--blue)}
+  .stat{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;
+    background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--red);
+    border-radius:9px;padding:16px 20px;margin:11px 0}
+  .stat.g{border-left-color:var(--green)} .stat.a{border-left-color:var(--amber)}
+  .stat.b{border-left-color:var(--blue)}
+  .stat .n{font-size:31px;font-weight:750;letter-spacing:-.02em;min-width:105px}
+  .stat.g .n{color:var(--green)} .stat.a .n{color:var(--amber)}
+  .stat.b .n{color:var(--blue)} .stat .n{color:var(--red)}
+  .stat .t{font-size:14.5px;color:var(--dim);line-height:1.5}
+  table{width:100%;border-collapse:collapse;margin:15px 0;font-size:14px}
+  th{text-align:left;padding:9px 11px;border-bottom:2px solid var(--line);
+    color:var(--faint);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  td{padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num{font-variant-numeric:tabular-nums;font-weight:650;white-space:nowrap}
+  .gate{display:grid;grid-template-columns:34px 1fr;gap:15px;margin:0 0 3px}
+  .gate .g{width:34px;height:34px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;color:var(--blue)}
+  .gate .b{padding-bottom:19px;border-left:1px dashed var(--line);margin-left:-32px;
+    padding-left:32px}
+  .gate:last-child .b{border-left:none}
+  .gate strong{display:block;margin-bottom:3px;font-size:15px}
+  .gate p{font-size:14px;color:var(--dim);margin:0}
+  .flag{background:rgba(240,115,106,.09);border:1px solid rgba(240,115,106,.3);
+    border-radius:9px;padding:15px 19px;margin:16px 0}
+  .flag.g{background:rgba(78,201,160,.08);border-color:rgba(78,201,160,.3)}
+  .flag.a{background:rgba(232,176,75,.08);border-color:rgba(232,176,75,.3)}
+  .flag.p{background:rgba(177,140,240,.08);border-color:rgba(177,140,240,.3)}
+  .flag strong{color:var(--red)} .flag.g strong{color:var(--green)}
+  .flag.a strong{color:var(--amber)} .flag.p strong{color:var(--purple)}
+  blockquote{margin:16px 0;padding:13px 20px;border-left:3px solid var(--purple);
+    background:var(--panel);color:var(--dim);font-style:italic;font-size:15px;border-radius:0 8px 8px 0}
+  blockquote cite{display:block;font-style:normal;font-size:12.5px;color:var(--faint);margin-top:7px}
+  ul{margin:0 0 15px;padding-left:21px} li{margin-bottom:8px;color:var(--dim)}
+  li strong{color:var(--ink)}
+  a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(90,169,240,.3)}
+  a:hover{border-bottom-color:var(--blue)}
+  .src{font-size:12px;color:var(--faint);margin-top:9px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:700px){.two{grid-template-columns:1fr}.stat{grid-template-columns:1fr}}
+  .foot{display:flex;justify-content:space-between;gap:12px;margin-top:38px;
+    padding-top:19px;border-top:1px solid var(--line)}
+  .foot button{background:var(--panel2);border:1px solid var(--line);color:var(--dim);
+    padding:9px 17px;border-radius:8px;cursor:pointer;font-size:13.5px;font-family:inherit}
+  .foot button:hover{color:var(--ink);border-color:var(--faint)}
+  .foot button:disabled{opacity:.3;cursor:default}
+</style>
+</head>
+<body>
+<header>
+  <h1>PFML 101 <span>the problem space, before the exercise</span></h1>
+  <nav id="nav"></nav>
+</header>
+<main id="main">
+
+<section data-t="The brief">
+  <div class="kicker">What they handed you</div>
+  <h2>The assignment, in their words.</h2>
+  <p class="lede">Before we go learn the space, here is exactly what the exercise asks — because what they ask for tells you what they're really measuring.</p>
+
+  <div class="card">
+    <h3>The scenario</h3>
+    <p style="font-size:15px;margin-bottom:0">Nava has just won a bid to redesign a Paid Family and Medical Leave system for a state. You are the product manager, and you are handling the <strong>client kickoff</strong> — a 30-minute session where you walk through your initial approach while demonstrating the methods Nava uses to build human-centered systems. Nava PMs will play the state agency stakeholders. Normally kickoff is a team activity; here you are the sole Nava representative.</p>
+  </div>
+
+  <p><strong>The program they describe:</strong> it distributes hundreds of millions of dollars a year. To be eligible, a resident must be employed in the state and have earned at least <strong>$5,000 in the most recent four quarters</strong>. The applicant journey they lay out is six steps:</p>
+
+  <div class="gate"><div class="g">1</div><div class="b"><strong>Gather documents and complete paperwork</strong><p>&nbsp;</p></div></div>
+  <div class="gate"><div class="g">2</div><div class="b"><strong>Submit an application to the state</strong><p>&nbsp;</p></div></div>
+  <div class="gate"><div class="g">3</div><div class="b"><strong>The state requests information from the employer(s)</strong><p>&nbsp;</p></div></div>
+  <div class="gate"><div class="g">4</div><div class="b"><strong>The state makes a determination on eligibility</strong><p>&nbsp;</p></div></div>
+  <div class="gate"><div class="g">5</div><div class="b"><strong>The applicant receives notice of determination</strong><p>&nbsp;</p></div></div>
+  <div class="gate"><div class="g">6</div><div class="b"><strong>The applicant begins receiving benefits</strong><p>&nbsp;</p></div></div>
+
+  <div class="flag a">
+    <strong>The three goals they must demonstrate progress against:</strong>
+    <ul style="margin:11px 0 0">
+      <li>Reduce <strong>the time it takes a user to finish the application</strong></li>
+      <li>Reduce <strong>the time it takes staff to process an application</strong></li>
+      <li>Reduce <strong>operating and infrastructure costs</strong></li>
+    </ul>
+    <p style="margin:13px 0 0">Then, verbatim: <em>"These goals can sometimes be in conflict with one another."</em></p>
+    <p style="margin:9px 0 0"><strong>That line is not a warning. It's the test.</strong></p>
+  </div>
+
+  <h3 style="font-size:16px;margin:26px 0 10px">The five opportunity areas they name</h3>
+  <table>
+    <thead><tr><th style="width:150px">Who</th><th>What they say is wrong</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Applicants</strong></td><td>Struggle with the amount of information they must submit · No awareness of application status after submitting · <strong>No way to correct information, which causes processing delays</strong></td></tr>
+      <tr><td><strong>Employers</strong></td><td>Must manually review information submitted by employees · Create slowdowns from lack of response</td></tr>
+      <tr><td><strong>Case workers</strong></td><td>"Desperately overstretched" processing cases · Must <strong>reconcile conflicting information</strong> from applicants and employers</td></tr>
+      <tr><td><strong>IT</strong></td><td>Struggles to keep on-prem servers updated · Delayed shipping features because of legacy code</td></tr>
+      <tr><td><strong>Potential partners</strong></td><td>Dept. of Revenue for applicant info verification · Health care systems for medical records</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card">
+    <h3>What you owe them</h3>
+    <ul style="margin-bottom:8px">
+      <li><strong>In writing:</strong> a <strong>500-word MVP summary</strong>, and <strong>one epic</strong> broken into a story map. Not the whole MVP — one epic.</li>
+      <li><strong>Verbally:</strong> a 10-minute overview. Slides allowed but <em>"not required nor will they be collected by Nava."</em></li>
+      <li><strong>Time cap:</strong> "Please do not spend more than 2 hours cumulatively on these tasks."</li>
+      <li><strong>Disclosure:</strong> if you use generative AI, say so.</li>
+    </ul>
+    <p style="font-size:14px;color:var(--faint);margin:0">Two different requirement lists, easy to conflate. The <strong>500 words</strong> must define the MVP, its value proposition, and justify prioritization. The <strong>plan overall</strong> — the part you speak — sets a 6-month vision, breaks down what a <em>single scrum team</em> delivers and when, connects delivery to client trust, and names the methods the team would use.</p>
+  </div>
+
+  <div class="flag p">
+    <strong>How they say they'll score it.</strong> Product vision and goals ("do your goals address the major issues described?"), justification ("why this strategy and ordering?"), problem solving ("what tradeoffs are you considering across user impact, feasibility, cost and risk?"), and communication ("can your teammate follow your line of thinking?").
+    <br><br>And the line that gives you permission for everything that follows: <em>"The purpose of this exercise is not to test your domain knowledge of PFML. If you already have domain knowledge feel free to use it."</em>
+  </div>
+
+  <p style="margin-top:24px">So: they've handed you five problem areas, one team, six months, and three goals they've told you conflict. Everything from here is about figuring out which of those problems is actually the load-bearing one.</p>
+</section>
+
+<section data-t="The reframe">
+  <div class="kicker">What's actually true</div>
+  <h2>It is not an eligibility system. It is a document-collection system.</h2>
+  <p class="lede">Every instinct says a benefits program decides <em>who qualifies</em>. The data says otherwise. In every state that publishes its denial reasons, most denials are paperwork and timing failures, not people who were ineligible.</p>
+
+  <div class="stat">
+    <div class="n">78%</div>
+    <div class="t"><strong>of Washington's denials</strong> are hours-documentation, missing event documentation, timing errors, or ID problems. Only 2% are "non-qualifying event."</div>
+  </div>
+  <div class="stat">
+    <div class="n">71%</div>
+    <div class="t"><strong>of Connecticut's denials</strong> were simply "did not file requested documentation."</div>
+  </div>
+  <div class="stat">
+    <div class="n">34%</div>
+    <div class="t"><strong>of Massachusetts' 35,964 denials</strong> were documentation problems — either nothing submitted, or documents that didn't comply.</div>
+  </div>
+
+  <div class="flag p">
+    <strong>The reframe that should drive your MVP.</strong> These are not people the program decided to turn away. They are people the program <em>failed to collect a form from</em>. That is a product problem, and it is the one a single scrum team can actually move in six months.
+  </div>
+
+  <div class="flag g">
+    <strong>Look back at the brief with this in hand.</strong> Two of the five bullets they gave you are this exact problem, stated in the agency's own language: applicants <em>"have no way to correct information which can lead to processing delays,"</em> and case workers <em>"must reconcile conflicting information from applicants and employers."</em> Those are the same defect seen from two sides of the desk. The agency has already told you where the bleeding is — they just didn't rank it.
+  </div>
+
+  <p class="src">Sources: <a href="https://esd.wa.gov/media/pdf/4283/2025-annual-paid-family-and-medical-leave-report-finalpdf/download" target="_blank">WA ESD FY25 report</a> · <a href="https://www.mass.gov/info-details/fy2025-annual-report-for-the-massachusetts-paid-family-and-medical-leave-pfml" target="_blank">MA DFML FY25</a> · <a href="https://www.yahoo.com/news/articles/ct-paid-leave-saw-increase-225650334.html" target="_blank">CT FY25 coverage</a></p>
+</section>
+
+<section data-t="The five gates">
+  <div class="kicker">The journey</div>
+  <h2>Five gates. Any one of them ends your claim.</h2>
+  <p class="lede">Nearly identical across states. Notice how many depend on someone who is not the applicant.</p>
+
+  <div class="gate"><div class="g">1</div><div class="b"><strong>Notify your employer — before you can even apply</strong>
+    <p>Massachusetts requires 30 days notice for a planned event. Miss it and leave "might be delayed or denied." 335 MA denials in FY25 were for this alone.</p></div></div>
+
+  <div class="gate"><div class="g">2</div><div class="b"><strong>File inside a narrow window</strong>
+    <p>MA: no earlier than 60 days before, no later than 90 days after. CA: no earlier than day one, no later than day 41. In Washington, <strong>applying too early</strong> is its own denial category — 11% of all denials.</p></div></div>
+
+  <div class="gate"><div class="g">3</div><div class="b"><strong>Prove identity</strong>
+    <p>MA requires an unexpired <em>color</em> copy, front and back. Under 4.5MB. And <strong>.heic — the iPhone default — is rejected.</strong> Color faxes aren't accepted either.</p></div></div>
+
+  <div class="gate"><div class="g">4</div><div class="b"><strong>Get a doctor to complete a certification</strong>
+    <p>The hardest gate. MA explicitly rejects MyChart screenshots, discharge papers, prescriptions, test results, and doctor's notes. And in California, "physicians cannot be required to certify a claim." The state has no leverage over the one person who controls the gate.</p></div></div>
+
+  <div class="gate"><div class="g">5</div><div class="b"><strong>Wait for your employer to respond</strong>
+    <p>MA gives them 10 business days. Minnesota blocks all processing for up to 7 days. Oregon budgets 10 of its 29 average days to employer review.</p></div></div>
+
+  <div class="flag a">
+    <strong>Do the arithmetic.</strong> Massachusetts' own published happy path is 5 business days + 10 business days + 14 calendar days + a 7-day unpaid waiting period. That is five to six weeks before the first dollar — <em>if nothing goes wrong</em>, and on top of however long the doctor took.
+  </div>
+
+  <p class="src">Sources: <a href="https://www.mass.gov/info-details/paid-family-and-medical-leave-pfml-application-approval-timeline" target="_blank">MA approval timeline</a> · <a href="https://www.mass.gov/info-details/required-documents-for-your-paid-family-and-medical-leave-pfml-application" target="_blank">MA required documents</a> · <a href="https://edd.ca.gov/en/disability/pfl_claim_process/" target="_blank">CA EDD claim process</a> · <a href="https://edd.ca.gov/en/disability/faq_physicians-practitioners/" target="_blank">CA EDD physicians FAQ</a> · <a href="https://esd.wa.gov/media/pdf/4283/2025-annual-paid-family-and-medical-leave-report-finalpdf/download" target="_blank">WA ESD FY25</a> · <a href="https://pl.mn.gov/individuals/after-application" target="_blank">MN after you apply</a> · <a href="https://katu.com/news/local/paid-leave-oregon-says-average-wait-is-29-days-some-though-wait-months" target="_blank">KATU on Oregon's 29 days</a> · <a href="https://www.law.cornell.edu/regulations/massachusetts/458-CMR-2-08" target="_blank">458 CMR 2.08</a></p>
+</section>
+
+<section data-t="Who gets denied">
+  <div class="kicker">The pattern</div>
+  <h2>The harder the paperwork, the higher the denial rate. Every time.</h2>
+  <p class="lede">Two natural experiments prove the failure is documentary, not substantive.</p>
+
+  <h3 style="font-size:15px;margin:22px 0 8px">Washington, by leave type, FY25</h3>
+  <table>
+    <thead><tr><th>Leave type</th><th>Approved</th><th>What you must prove</th></tr></thead>
+    <tbody>
+      <tr><td>Family Bonding</td><td class="num" style="color:var(--green)">95%</td><td>A birth certificate</td></tr>
+      <tr><td>Medical Postnatal</td><td class="num" style="color:var(--green)">93%</td><td>Recent, documented event</td></tr>
+      <tr><td>Medical (own condition)</td><td class="num" style="color:var(--amber)">85%</td><td>Clinical judgment</td></tr>
+      <tr><td>Family Care</td><td class="num" style="color:var(--amber)">85%</td><td>Someone <em>else's</em> condition</td></tr>
+      <tr><td>Medical Prenatal</td><td class="num" style="color:var(--red)">72%</td><td>Ongoing clinical judgment</td></tr>
+      <tr><td>Family Military</td><td class="num" style="color:var(--red)">61%</td><td>Third-party military docs</td></tr>
+    </tbody>
+  </table>
+
+  <div class="flag">
+    <strong>Rhode Island runs the cleanest experiment.</strong> Same agency, same month, two programs. Disability claims: <strong>16% denied</strong>. Caregiver claims: <strong>41.6% denied</strong>. The only difference is that caregiving requires a certification about <em>another person's</em> health — a document you have less power to obtain.
+  </div>
+
+  <div class="flag a">
+    <strong>And the one that should make you angry.</strong> 3,578 Massachusetts applicants were denied because the state <em>could not find their employer in its own tax filing data</em>. That is a state data-integration failure, charged to the resident.
+  </div>
+
+  <p class="src">Sources: <a href="https://esd.wa.gov/media/pdf/4283/2025-annual-paid-family-and-medical-leave-report-finalpdf/download" target="_blank">WA ESD FY25 report, Figs. 7–8</a> · <a href="https://dlt.ri.gov/media/12926/download?language=en" target="_blank">RI DLT monthly update</a> · <a href="https://www.mass.gov/info-details/fy2025-annual-report-for-the-massachusetts-paid-family-and-medical-leave-pfml" target="_blank">MA DFML FY25 annual report</a><br><em>Note: the RI figures are from a 2016 monthly update, the most recent RI split found. Treat as historical. Cross-state denial rates are directional — states count "filed," "approved," and "denied" differently.</em></p>
+</section>
+
+<section data-t="The invisible loss">
+  <div class="kicker">What nobody measures</div>
+  <h2>People who never finish don't show up in your metrics.</h2>
+
+  <div class="card">
+    <div class="big r">5,597</div>
+    <p style="margin-top:8px;color:var(--dim)">Massachusetts residents who <strong>started an application on the website and never submitted it</strong> in FY25. They are counted as denials, under "did not complete."</p>
+  </div>
+
+  <p><strong>Massachusetts is the only state that publishes this.</strong> Everywhere else, the person who opens the form, hits the document-upload wall, and closes the tab is simply invisible.</p>
+
+  <div class="flag p">
+    <strong>Nobody publishes a correction rate either.</strong> No state reports what percentage of applications need a fix-and-resubmit round. Minnesota gives you 14 days to answer a Request for Information and says your application "cannot move forward" until then. Massachusetts gives you 90 days. But neither reports how often it happens, or how many people give up mid-loop.
+  </div>
+
+  <p>If you propose instrumenting one thing on day one, make it this. You cannot manage a funnel whose largest leak is unmeasured.</p>
+
+  <p class="src">Sources: <a href="https://www.mass.gov/info-details/fy2025-annual-report-for-the-massachusetts-paid-family-and-medical-leave-pfml" target="_blank">MA DFML FY25</a> · <a href="https://pl.mn.gov/individuals/after-application" target="_blank">MN RFI process</a> · <a href="https://nj.gov/labor/myleavebenefits/assets/pdfs/Annual%20FLI%20TDI%20Report%20for%202024.pdf" target="_blank">NJ DOL 2024 report</a> — NJ is statutorily required to report insufficient-information claims and states the data "were not available for calendar year 2024."</p>
+</section>
+
+<section data-t="Opacity → cost">
+  <div class="kicker">The doom loop</div>
+  <h2>Status opacity is a demand generator for your most expensive channel.</h2>
+  <p class="lede">Washington states the causal chain plainly in its own legislative report:</p>
+
+  <blockquote>
+    "When customers receive claim decisions faster, they are less likely to call to check on their claim, thereby reducing call volume."
+    <cite>Washington ESD, FY2025 Annual PFML Report</cite>
+  </blockquote>
+
+  <p>Then watch what happens when a state doesn't break the loop.</p>
+
+  <div class="stat a"><div class="n">52 min</div><div class="t"><strong>Oregon's average call wait</strong> in late 2023 — up from the <em>7 seconds</em> officials touted at launch.</div></div>
+  <div class="stat"><div class="n">50%</div><div class="t"><strong>of calls to Washington never entered a queue at all</strong> in FY25. They got a "high call volume" message and were disconnected. Median hold for those who got through: over 30 minutes.</div></div>
+
+  <div class="flag">
+    <strong>Washington admits the trade explicitly:</strong> "Paid Leave reprioritized staff who typically answer phones and return calls to focus on processing claim applications." They robbed the phones to pay the queue. Both got worse.
+  </div>
+
+  <div class="flag">
+    <strong>Oregon's is worse than a trade — it's a design defect.</strong> The state mailed paper identity-verification letters, then <em>denied people for not responding</em>, while messages in its own online portal went unassigned. One couple's son was born prematurely and airlifted; they came home to find verification letters and denials for not answering mail they weren't there to receive. 1,500 people were stuck in ID verification after officials had said fewer than 100 were affected.
+  </div>
+
+  <div class="flag g">
+    <strong>Minnesota's counter-pattern is one sentence long,</strong> and it's the best product decision in this entire brief: <em>"The information in your account is the most up-to-date and is the same information our Contact Center can see if you call."</em> That sentence answers "should I call?" before the thought forms.
+  </div>
+
+  <p class="src">Sources: <a href="https://esd.wa.gov/media/pdf/4283/2025-annual-paid-family-and-medical-leave-report-finalpdf/download" target="_blank">WA ESD FY25</a> · <a href="https://leg.wa.gov/jlarc/reports/2024/PFML/p_11/default.html" target="_blank">WA JLARC oversight report</a> · <a href="https://www.governing.com/workforce/oregons-paid-leave-program-offers-frustration-instead-of-payment" target="_blank">Governing / Oregonian on Oregon</a> · <a href="https://www.kgw.com/article/money/paid-leave-oregon-issues-benefits/283-869dba40-555b-4679-b607-c62a695cbdd6" target="_blank">KGW on Oregon benefits</a> · <a href="https://pl.mn.gov/individuals/after-application" target="_blank">MN Paid Leave</a> · <a href="https://paidleave.wa.gov/after-you-apply/" target="_blank">WA status states</a></p>
+</section>
+
+<section data-t="Appeals tell you">
+  <div class="kicker">The tell</div>
+  <h2>When half of appeals get overturned, the appeal is your intake process.</h2>
+
+  <div class="two">
+    <div class="card"><div class="big b">51%</div><p style="margin-top:6px;font-size:14px;color:var(--dim)">of decided New York PFL arbitrations went <strong>for the employee</strong> in Q1 2025 (18 employee / 17 carrier).</p></div>
+    <div class="card"><div class="big a">38%</div><p style="margin-top:6px;font-size:14px;color:var(--dim)">of those disputes were categorized <strong>"PFL claim incomplete"</strong> — the single largest reason.</p></div>
+  </div>
+
+  <p>For comparison, the national unemployment-insurance benchmark is a <strong>28.7%</strong> reversal rate at the lower appeal authority. New York PFL is running nearly double that.</p>
+
+  <div class="flag p">
+    <strong>What that actually means.</strong> In a well-calibrated system, appeals mostly affirm. When half of contested denials flip, and the top dispute category is "incomplete," the appeal is not correcting judgment errors. <em>It is performing the document collection that intake failed to perform</em> — months later, with an arbitrator in the room.
+  </div>
+
+  <p>And note the window: Massachusetts gives you <strong>10 calendar days</strong> from receipt of a mailed notice to appeal. For someone medically incapacitated or caring for a newborn.</p>
+
+  <p class="src">Sources: <a href="https://www.wcb.ny.gov/content/main/forms/PFLDocs/pfl-nam-report-2025-q1.pdf" target="_blank">NY WCB arbitration report, Q1 2025</a> · <a href="https://www.wcb.ny.gov/content/main/forms/PFLDocs/pfl-nam-report-2023-q2.pdf" target="_blank">NY WCB Q2 2023</a> · <a href="https://oui.doleta.gov/unemploy/ui_appeal_reversal.asp" target="_blank">US DOL ETA appeal reversal rates</a> · <a href="https://www.mass.gov/how-to/appealing-a-paid-family-or-medical-leave-decision" target="_blank">MA appeals process</a> · <a href="https://paidleave.wa.gov/appeals/" target="_blank">WA appeals</a> · <a href="https://www.alight.com/library/co-famli-regulatory-clarifications" target="_blank">Alight on CO FAMLI changes</a><br><em>Note: New York is the only state found that publishes routine appeal-outcome data, because its arbitration is contracted out and reported quarterly. Do not assume NY's overturn rate generalizes.</em></p>
+</section>
+
+<section data-t="Three hard inputs">
+  <div class="kicker">The physics</div>
+  <h2>Three inputs the state does not control.</h2>
+
+  <div class="card">
+    <h3 style="color:var(--red)">1 · The healthcare provider certification</h3>
+    <p style="font-size:14.5px">Top denial reason in New Jersey TDI (26.2%). Second in Washington (24%). The cause of Rhode Island's caregiver gap. The state has no authority over the person who must sign.</p>
+    <p style="font-size:14.5px;margin-bottom:0"><strong style="color:var(--green)">Best answer found:</strong> Colorado's provider portal. Providers register and verify their license, get notified in-app when a patient applies, complete the form in-portal, and <em>can delegate to staff</em>. Colorado's own reasoning: "reduce the risk of human error and reduce the amount of patient paperwork during stressful life events." Note it is a portal, not an EHR integration — nobody has cracked true EHR/FHIR yet.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--amber)">2 · The employer response</h3>
+    <p style="font-size:14.5px;margin-bottom:0">Massachusetts made one decision that matters more than any other: the 10-day window <strong>lapses rather than blocks</strong>. Adjudication proceeds either way. Their actual average employer response is 2.69 days, and their median determination is 9 days. Minnesota, by contrast, blocks all processing for up to 7 days regardless.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--blue)">3 · Wage data</h3>
+    <p style="font-size:14.5px;margin-bottom:0">Massachusetts reuses the Department of Revenue contribution feed rather than asking anyone to re-report. Nava validated that integration in <strong>pilot one</strong>, before anything else — 100% of records delivered with zero errors. Minnesota did the same thing with its unemployment-insurance wage data and the UI statutory definition of "wages," specifically to avoid new employer data collection.</p>
+  </div>
+
+  <p class="src">Sources: <a href="https://nj.gov/labor/myleavebenefits/assets/pdfs/Annual%20FLI%20TDI%20Report%20for%202024.pdf" target="_blank">NJ DOL 2024 (medical evidence = top TDI denial reason)</a> · <a href="https://famli.colorado.gov/health-care-providers" target="_blank">Colorado FAMLI provider portal</a> · <a href="https://www.mass.gov/info-details/fy2025-annual-report-for-the-massachusetts-paid-family-and-medical-leave-pfml" target="_blank">MA DFML FY25</a> · <a href="https://www.navapbc.com/case-studies/using-a-pilot-to-minimize-risk-and-rapidly-deliver-new-services" target="_blank">Nava on the DOR integration pilot</a> · <a href="https://minnesotareformer.com/2026/07/15/minnesotas-paid-leave-rollout-was-a-success-heres-what-we-can-learn-from-that/" target="_blank">Minnesota Reformer on UI wage reuse</a><br><em>Note: no verified example of true EHR/FHIR integration for PFML certification exists anywhere. Colorado's is a provider portal with license verification, not a clinical data feed.</em></p>
+</section>
+
+<section data-t="What good looks like">
+  <div class="kicker">The benchmark</div>
+  <h2>Massachusetts, and what they actually did differently.</h2>
+  <p class="lede">Nava calls it "a gold-standard PFML program." Here is what that means operationally, not rhetorically.</p>
+
+  <ul>
+    <li><strong>Employer response is time-boxed and lapses.</strong> Adjudication is never blocked on a third party.</li>
+    <li><strong>Integration-first sequencing.</strong> The wage-data feed was validated in the first pilot, not in an integration-test phase near the end.</li>
+    <li><strong>Pilots run in production with real users</strong> before public launch. The first pilot was deliberately scoped to have zero cross-vendor dependencies.</li>
+    <li><strong>Self-service as a throughput strategy.</strong> Moving intermittent-leave reporting into the portal cut call volume <strong>65%</strong> and freed <strong>763 staff hours per month</strong>.</li>
+    <li><strong>Teams organized around user groups</strong> — applicant, employer, staff, payments — each owning its own roadmap.</li>
+    <li><strong>A spike team absorbs policy shocks</strong> so legislative change doesn't stall the roadmap. A statutory "top-off" change shipped in under four months.</li>
+    <li><strong>They publish the numbers annually,</strong> denial reasons broken out. The transparency is itself part of being good.</li>
+  </ul>
+
+  <div class="stat g"><div class="n">9 days</div><div class="t">Median initial determination, FY25 — down from 13. Median <em>final</em> determination fell from 18 days to 11, while volume rose 12.7%.</div></div>
+
+  <div class="flag">
+    <strong>The counter-example.</strong> New Jersey has the oldest program in the country (1948) and now decides only <strong>20% of disability claims within two weeks</strong> against a 75% goal. Their own report names the cause: the Disability Automated Benefits System, <em>built in 1989</em>, which "requires staff to complete additional manual processes." Also worth noting: 81.2% of their family-leave denials are categorized as "Other." The state cannot tell its own legislature why it denies most claims.
+  </div>
+
+  <p class="src">Sources: <a href="https://www.mass.gov/info-details/fy2025-annual-report-for-the-massachusetts-paid-family-and-medical-leave-pfml" target="_blank">MA DFML FY25</a> · <a href="https://www.navapbc.com/case-studies/automating-report-intermittent-pfml-leave" target="_blank">Nava: 65% call reduction, 763 staff hours/month</a> · <a href="https://www.navapbc.com/case-studies/becoming-premier-pfml-vendor" target="_blank">Nava: team topologies by user group</a> · <a href="https://www.navapbc.com/case-studies/massachusetts-pfml-agile-methodology" target="_blank">Nava: spike team, top-off in under 4 months</a> · <a href="https://www.navapbc.com/case-studies/multilingual-paid-family-medical-leave" target="_blank">Nava: multilingual PFML</a> · <a href="https://nj.gov/labor/myleavebenefits/assets/pdfs/Annual%20FLI%20TDI%20Report%20for%202024.pdf" target="_blank">NJ DOL 2024 report (DABS, 1989)</a></p>
+</section>
+
+<section data-t="Nava's method">
+  <div class="kicker">Scoreable</div>
+  <h2>The exercise asks you to demonstrate Nava's methods. Here they are, in their words.</h2>
+
+  <blockquote>
+    "We are stubborn about pursuing long-term outcomes, but we are flexible and adaptable in how we get there... We tune our approach — we know when to be fast and iterate, and we know when to be methodical and get it right up front."
+    <cite>Nava values — "Delivery over dogma"</cite>
+  </blockquote>
+
+  <blockquote>
+    "Our partners in government bring decades of knowledge, experience, and policy insight to the table... we invite feedback early and often, receive direct feedback as a precious gift."
+    <cite>Nava values — "Build together"</cite>
+  </blockquote>
+
+  <blockquote>
+    "In a pilot, we incrementally develop pieces of the end-to-end experience and test them with real users before the service launches to the public. This helps us identify and mitigate risks early on."
+    <cite>Nava case study — Using a pilot to minimize risk</cite>
+  </blockquote>
+
+  <div class="card">
+    <h3>Their planning guidance, verbatim</h3>
+    <ul style="margin-bottom:0">
+      <li>"Plan for <strong>cycles</strong> of discovery, testing and implementation — not just one planning phase followed by one implementation phase."</li>
+      <li>"Start with your agency and user needs, <strong>not functional requirements</strong>."</li>
+      <li>"Build modularly and incrementally." Modules: <strong>"as few as possible, but no more."</strong></li>
+      <li>"Ask vendors to <strong>show, not tell</strong>."</li>
+    </ul>
+  </div>
+
+  <div class="flag p">
+    <strong>And the USDS play they build against:</strong> "Ship a functioning minimum viable product that solves a core user need as soon as possible, <em>no longer than three months</em> from the beginning of the project." Your exercise gives you six months and one scrum team. Two three-month cycles, not one six-month plan.
+  </div>
+
+  <p class="src">Sources: <a href="https://www.navapbc.com/values" target="_blank">Nava values</a> · <a href="https://www.navapbc.com/case-studies/using-a-pilot-to-minimize-risk-and-rapidly-deliver-new-services" target="_blank">Pilot case study</a> · <a href="https://www.navapbc.com/toolkits/building-technology-power-mission" target="_blank">Nava toolkit</a> · <a href="https://playbook.usds.gov/" target="_blank">USDS Digital Services Playbook</a></p>
+</section>
+
+<section data-t="So what">
+  <div class="kicker">Bringing it back</div>
+  <h2>What this means for your MVP.</h2>
+
+  <div class="flag a">
+    <strong>The exercise hands you a trap and tells you it's a trap.</strong> Three goals: cut applicant time, cut staff processing time, cut operating cost. Then: "these goals can sometimes be in conflict." Most candidates will pick one and optimize it.
+  </div>
+
+  <p><strong>You already know how to refuse that tradeoff</strong>, because you wrote the argument for a completely different company two months ago:</p>
+
+  <blockquote>
+    "The right friction at the top filters customers who would have churned in the first 30 days anyway. Higher quality customers, not fewer customers. The answer isn't slower onboarding, it's <em>right-sized</em> onboarding."
+    <cite>Kevin Middleton, Optimum Mobile take-home, May 2026</cite>
+  </blockquote>
+
+  <p>Same physics here. Validation and correction at intake <em>look</em> like they add applicant time. What they actually do is collapse the rework loop that is consuming staff hours, generating call volume, and producing a 51% appeal-overturn rate.</p>
+
+  <div class="card">
+    <h3>Three candidate MVPs, weighed</h3>
+    <table style="margin-bottom:0">
+      <thead><tr><th>Option</th><th>Hits all 3 goals?</th><th>One team, 6 months?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Status visibility + in-place correction</strong></td><td style="color:var(--green)">Yes — fewer restarts, fewer calls, less rework</td><td style="color:var(--green)">Yes</td></tr>
+        <tr><td>Provider certification portal</td><td style="color:var(--amber)">Big impact, but depends on providers adopting it</td><td style="color:var(--amber)">Risky</td></tr>
+        <tr><td>Dept. of Revenue wage integration</td><td style="color:var(--amber)">High value, invisible to applicants for months</td><td style="color:var(--red)">Partner-dependent</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flag g">
+    <strong>The honest case for status + correction as MVP:</strong> it is the only option that moves all three stated metrics rather than trading them, a single team can ship it, it produces visible value for the client inside the first cycle, and it is <em>the thing the real Minnesota program actually got wrong</em> — where one applicant resubmitted eighteen times, each edit pushing her back in the queue.
+  </div>
+
+  <p style="color:var(--faint);font-size:13.5px;margin-top:26px">Compiled 2026-07-29 from state agency reports, legislative testimony, auditor findings, and Nava's own published material. Every figure above is sourced. Where a number could not be verified, it was left out.</p>
+</section>
+
+<section data-t="All sources">
+  <div class="kicker">Citations</div>
+  <h2>Every source, in one place.</h2>
+  <p class="lede">No source, no claim. If a number isn't here, it isn't in the brief.</p>
+
+  <div class="card">
+    <h3>Nava PBC — methods and case studies</h3>
+    <ul style="margin-bottom:0;font-size:14.5px">
+      <li><a href="https://www.navapbc.com/values" target="_blank">Nava values</a> — "Be active stewards," "Build together," "Progress takes work," "Delivery over dogma"</li>
+      <li><a href="https://www.navapbc.com/toolkits/building-technology-power-mission" target="_blank">Building technology to power your mission</a> — HCD and agile definitions, procurement guidance, "as few modules as possible, but no more"</li>
+      <li><a href="https://www.navapbc.com/case-studies/using-a-pilot-to-minimize-risk-and-rapidly-deliver-new-services" target="_blank">Using a pilot to minimize risk</a> — MA, 13-month build, DOR wage integration validated in pilot one, 28 improvements found</li>
+      <li><a href="https://www.navapbc.com/case-studies/automating-report-intermittent-pfml-leave" target="_blank">Automating intermittent leave reporting</a> — 65% call-volume reduction, 763 staff hours/month</li>
+      <li><a href="https://www.navapbc.com/case-studies/api-paid-family-medical-leave" target="_blank">Building the PFML API layer</a> — integration-first sequencing, record 4,000-call day</li>
+      <li><a href="https://www.navapbc.com/case-studies/massachusetts-pfml-agile-methodology" target="_blank">Agile response to legislation</a> — spike team, statutory top-off shipped in under 4 months</li>
+      <li><a href="https://www.navapbc.com/case-studies/user-research-paid-family-medical-leave" target="_blank">Ongoing user research</a> — 20 interviews since Apr 2025, employer exemptions rebuild</li>
+      <li><a href="https://www.navapbc.com/case-studies/becoming-premier-pfml-vendor" target="_blank">Becoming a premier PFML vendor</a> — teams by user group; 7 → 70+ people in MN in under 5 months</li>
+      <li><a href="https://www.navapbc.com/case-studies/multilingual-paid-family-medical-leave" target="_blank">Multilingual PFML</a> — 5.71% of MA applicants use a non-English language</li>
+      <li><a href="https://www.navapbc.com/case-studies/evaluating-ai-assistive-chatbot-caseworkers" target="_blank">Nava Labs: GenAI assistant for caseworkers</a> · <a href="https://assets.ctfassets.net/t2ekr6eg3fr3/6Mw21Ui0jPkfXGW22BwUhb/9dc81c9ff2a9c251cfc9d484d071c17e/Helping_the_Helpers__Nava_Labs_March_2026.pdf" target="_blank">full report PDF</a></li>
+      <li><a href="https://www.navapbc.com/news/nava-wins-minnesota-paid-leave" target="_blank">Nava wins Minnesota</a> · <a href="https://www.navapbc.com/news/nava-maryland-famli-prime" target="_blank">Maryland FAMLI prime</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Massachusetts</h3>
+    <ul style="margin-bottom:0;font-size:14.5px">
+      <li><a href="https://www.mass.gov/info-details/fy2025-annual-report-for-the-massachusetts-paid-family-and-medical-leave-pfml" target="_blank">DFML FY2025 Annual Report</a> — denial taxonomy, 5,597 abandonments, 9/11-day medians, $3.90B to date</li>
+      <li><a href="https://www.mass.gov/info-details/paid-family-and-medical-leave-pfml-application-approval-timeline" target="_blank">Application approval timeline</a> — the 5 + 10 + 14 + 7 arithmetic</li>
+      <li><a href="https://www.mass.gov/info-details/required-documents-for-your-paid-family-and-medical-leave-pfml-application" target="_blank">Required documents</a> — color ID, 4.5MB cap, .heic rejected, MyChart screenshots refused</li>
+      <li><a href="https://www.mass.gov/how-to/appealing-a-paid-family-or-medical-leave-decision" target="_blank">Appealing a decision</a> — 10-calendar-day window</li>
+      <li><a href="https://www.law.cornell.edu/regulations/massachusetts/458-CMR-2-08" target="_blank">458 CMR 2.08</a> — the statutory lifecycle</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Washington</h3>
+    <ul style="margin-bottom:0;font-size:14.5px">
+      <li><a href="https://esd.wa.gov/media/pdf/4283/2025-annual-paid-family-and-medical-leave-report-finalpdf/download" target="_blank">ESD 2025 Annual PFML Report</a> — denial reasons (Fig. 8), approval by leave type (Fig. 7), call-queue data, the "faster decisions reduce call volume" quote</li>
+      <li><a href="https://paidleave.wa.gov/after-you-apply/" target="_blank">After you apply</a> — the four published claim states</li>
+      <li><a href="https://paidleave.wa.gov/appeals/" target="_blank">Appeals</a> · <a href="https://paidleaveombuds.wa.gov/about" target="_blank">Paid Leave Ombuds</a> · <a href="https://paidleave.wa.gov/help-center/individuals-and-families/payments/" target="_blank">Payments</a></li>
+      <li><a href="https://leg.wa.gov/jlarc/reports/2024/PFML/p_11/default.html" target="_blank">JLARC oversight report</a> — recommended the program adopt published performance measures</li>
+      <li><a href="https://www.thecentersquare.com/washington/article_cebe5c2e-a2db-11ef-87c4-e7ce45a60933.html" target="_blank">State Auditor findings on improper payments</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Minnesota — the program behind this exercise</h3>
+    <ul style="margin-bottom:0;font-size:14.5px">
+      <li><a href="https://pl.mn.gov/individuals/after-application" target="_blank">MN Paid Leave: after you apply</a> — the "same information our Contact Center can see" line, 14-day RFI window</li>
+      <li><a href="https://minnesotareformer.com/2026/07/15/minnesotas-paid-leave-rollout-was-a-success-heres-what-we-can-learn-from-that/" target="_blank">Minnesota Reformer: the rollout was a success</a> — on time, $70M under budget, 340 stakeholder meetings, UI wage reuse</li>
+      <li><a href="https://eplocalnews.org/2026/07/13/many-minnesotans-claim-paid-leave-benefits-but-agency-expects-demand-to-taper-off/" target="_blank">EP Local News</a> — ~126K applications, ~75K approved, $598M paid, 40%+ rejection</li>
+      <li><a href="https://kstp.com/kstp-news/top-news/deed-answers-questions-about-weeks-long-wait-for-paid-leave-application-approvals/" target="_blank">KSTP: DEED on approval delays</a> — certification mismatch named as most common issue</li>
+      <li><a href="https://kstp.com/kstp-news/top-news/frustration-grows-over-minnesotas-paid-family-and-medical-leave-approval-delays/" target="_blank">KSTP: the applicant who resubmitted 18 times</a></li>
+      <li><a href="https://www.kttc.com/2026/07/07/first-6-months-mn-paid-leave-program-draws-100000-applications/" target="_blank">KTTC: first six months</a> · <a href="https://www.mprnews.org/story/2026/01/02/minnesota-paid-leave-program-launches-with-thousands-of-applications-so-far" target="_blank">MPR: launch week</a> · <a href="https://www.northernnewsnow.com/2026/03/20/34000-minnesotans-approved-paid-leave-since-jan-1-state-says/" target="_blank">Northern News Now</a></li>
+      <li><a href="https://www.house.mn.gov/sessiondaily/Story/18857" target="_blank">MN House: fraud-prevention hearing</a> — three levels of identity proofing, MNIT liveness check</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Oregon, New Jersey, New York, and others</h3>
+    <ul style="margin-bottom:0;font-size:14.5px">
+      <li><a href="https://www.governing.com/workforce/oregons-paid-leave-program-offers-frustration-instead-of-payment" target="_blank">Governing / Oregonian on Paid Leave Oregon</a> — 52-minute waits, 1,500 stuck in ID verification, denials for unanswered mail</li>
+      <li><a href="https://katu.com/news/local/paid-leave-oregon-says-average-wait-is-29-days-some-though-wait-months" target="_blank">KATU: Oregon's 29-day average</a> · <a href="https://www.kgw.com/article/money/paid-leave-oregon-issues-benefits/283-869dba40-555b-4679-b607-c62a695cbdd6" target="_blank">KGW</a> · <a href="https://www.oregon.gov/employ/newsandmedia/pages/dashboard.aspx" target="_blank">OED dashboard</a></li>
+      <li><a href="https://nj.gov/labor/myleavebenefits/assets/pdfs/Annual%20FLI%20TDI%20Report%20for%202024.pdf" target="_blank">NJ DOL Annual FLI/TDI Report, CY2024</a> — 20% two-week determination rate, DABS built 1989, 81.2% "Other" denials</li>
+      <li><a href="https://www.wcb.ny.gov/content/main/forms/PFLDocs/pfl-nam-report-2025-q1.pdf" target="_blank">NY WCB arbitration report, Q1 2025</a> — 51% employee win rate, 38.1% "claim incomplete" · <a href="https://www.wcb.ny.gov/content/main/forms/PFLDocs/pfl-nam-report-2023-q2.pdf" target="_blank">Q2 2023 for comparison</a></li>
+      <li><a href="https://oui.doleta.gov/unemploy/ui_appeal_reversal.asp" target="_blank">US DOL ETA: UI appeal reversal rates</a> — the 28.7% national benchmark</li>
+      <li><a href="https://famli.colorado.gov/health-care-providers" target="_blank">Colorado FAMLI provider portal</a> · <a href="https://www.alight.com/library/co-famli-regulatory-clarifications" target="_blank">CO regulatory changes</a></li>
+      <li><a href="https://edd.ca.gov/en/disability/pfl_claim_process/" target="_blank">CA EDD claim process</a> · <a href="https://edd.ca.gov/en/disability/faq_physicians-practitioners/" target="_blank">CA EDD: physicians cannot be required to certify</a></li>
+      <li><a href="https://dlt.ri.gov/media/12926/download?language=en" target="_blank">RI DLT monthly update</a> — the TDI vs TCI denial gap</li>
+      <li><a href="https://www.yahoo.com/news/articles/ct-paid-leave-saw-increase-225650334.html" target="_blank">Connecticut FY25 coverage</a> — 71.33% of denials for unfiled documentation</li>
+      <li><a href="https://www.littler.com/news-analysis/asap/maryland-again-delays-paid-family-and-medical-leave-program" target="_blank">Littler: Maryland delays again</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Government technology practice</h3>
+    <ul style="margin-bottom:0;font-size:14.5px">
+      <li><a href="https://playbook.usds.gov/" target="_blank">USDS Digital Services Playbook</a> — Play 4 (MVP in no more than three months), Play 6 (a single empowered product owner), Play 2 (design online and offline together)</li>
+      <li><a href="https://derisking-guide.18f.gov/" target="_blank">18F De-risking Government Technology Guide</a> · <a href="http://web.archive.org/web/20230727105352/https://derisking-guide.18f.gov/state-field-guide/" target="_blank">State Software Budgeting Handbook (archived)</a> — "Only 13% of large government software projects are successful"</li>
+      <li><a href="https://nationalpartnership.org/report/strong-state-evidence-for-paid-leave-connecticut-rhode-island-washington/" target="_blank">National Partnership: state evidence for paid leave</a> · <a href="https://www.abetterbalance.org/our-issues/paid-family-medical-leave/" target="_blank">A Better Balance on paperwork barriers</a></li>
+    </ul>
+  </div>
+
+  <div class="flag a">
+    <strong>What could not be verified, and is therefore not claimed above:</strong> Colorado FAMLI denial rates or appeal outcomes · current (2025–26) Oregon processing statistics · California EDD denial-reason breakdowns · Rhode Island data after 2018 · appeal volumes for any state except New York · a formal correction or resubmission rate for <em>any</em> state · per-adjudicator caseload or straight-through-processing rates anywhere · any verified EHR/FHIR certification integration · a published Nava "client kickoff" playbook (the pilot case study is the closest proxy).
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('section')),
+      nav=document.getElementById('nav'), i=0;
+  secs.forEach(function(s,n){
+    var b=document.createElement('button');
+    b.textContent=(n+1)+'. '+s.dataset.t;
+    b.onclick=function(){go(n)};
+    nav.appendChild(b);
+    var f=document.createElement('div'); f.className='foot';
+    var p=document.createElement('button'); p.textContent='← Back';
+    p.onclick=function(){go(n-1)}; p.disabled=(n===0);
+    var x=document.createElement('button'); x.textContent='Next →';
+    x.onclick=function(){go(n+1)}; x.disabled=(n===secs.length-1);
+    f.appendChild(p); f.appendChild(x); s.appendChild(f);
+  });
+  function go(n){
+    if(n<0||n>=secs.length)return;
+    i=n;
+    secs.forEach(function(s,k){s.classList.toggle('on',k===n)});
+    [].slice.call(nav.children).forEach(function(b,k){b.classList.toggle('on',k===n)});
+    location.hash='s'+(n+1);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight')go(i+1);
+    if(e.key==='ArrowLeft')go(i-1);
+  });
+  var h=parseInt((location.hash||'').replace('#s',''),10);
+  go(h>0&&h<=secs.length?h-1:0);
+})();
+</script>
+</body>
+</html>

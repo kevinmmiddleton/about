@@ -2634,6 +2634,10 @@ body.p-slides .entry-card:hover{transform:translateY(-2px);box-shadow:var(--shad
 body.p-proto .card-head{--logo-col:130px;display:grid;
   grid-template-columns:var(--logo-col) 1fr;align-items:center;gap:.65rem;min-width:0}
 body.p-proto .card-head .card-logo{margin-bottom:0}
+/* A card with no logo. Some exercises are for companies whose mark this site
+   does not host, and an empty 130px logo track would indent the name past
+   nothing. One column instead of two. */
+body.p-proto .card-head--plain{grid-template-columns:1fr}
 body.p-proto .card-head .card-k{min-width:0;line-height:1.25}
 /* No wrap fallback on phones: the point of the lockup is that the name sits
    beside the mark. The name wraps to two lines instead, the mark shrinks.
