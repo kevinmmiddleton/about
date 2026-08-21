@@ -7,15 +7,22 @@ name: Publish One Night Only
 # Twice daily. Venues announce and cancel on their own schedule and a stale
 # calendar sends someone across the city for nothing, so a day-old feed is the
 # thing to avoid. More often than this would add crawl load on ~90 third-party
-# hosts for listings that rarely change intraday. 07:20 and 19:20 UTC are
-# off-peak in New York and deliberately not on the hour, which is when every
-# other scheduled job in the world runs.
+# hosts for listings that rarely change intraday.
+#
+# 05:20 UTC, not 07:20. The page leads with TODAY in New York, so the overnight
+# run needs to land as soon after New York midnight as possible: 05:20 UTC is
+# 01:20 EDT and 00:20 EST, the first UTC hour that is past midnight in both
+# offsets. GitHub's cron does not observe DST, which is why the hour has to work
+# for both. This shrinks, but cannot close, the window in which a static page
+# still believes yesterday is today; the page script closes the rest.
+# Both times are off-peak in New York and deliberately not on the hour, which is
+# when every other scheduled job in the world runs.
 #
 # The build is byte-stable, so a run that finds nothing new produces no commit.
 on:
   workflow_dispatch:
   schedule:
-    - cron: '20 7,19 * * *'
+    - cron: '20 5,19 * * *'
   push:
     branches: [main]
     paths:

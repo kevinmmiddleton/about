@@ -1108,6 +1108,9 @@ a{color:inherit}
   min-height:24px;padding:.4rem .6rem;cursor:pointer}
 .copy:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .copy[hidden]{display:none}
+/* Author rules set display on .day, so [hidden] has to be stated here or it
+   loses to them. Used only by the midnight guard in the page script. */
+.day[hidden],.months a[hidden]{display:none}
 
 /* ===========================================================================
    THE STICKY BAR
@@ -1181,7 +1184,7 @@ main{padding-bottom:4rem}
   text-transform:uppercase;color:var(--ink2)}
 /* The count has to stay true when a filter is on, and CSS cannot count. The
    generator emits all four and the filter picks one. */
-.day-n .n-o,.day-n .n-v,.day-n .n-ov{display:none}
+.day-n .n-o,.day-n .n-v,.day-n .n-ov,.day-n .n-q{display:none}
 
 /* ===========================================================================
    THE LISTING UNIT
@@ -1289,6 +1292,92 @@ body:has(#f-o:checked):has(#f-v:checked) .day-n .n-v,body.f-o.f-v .day-n .n-v{di
 body:has(#f-o:checked):has(#f-v:checked) .day-n .n-ov,body.f-o.f-v .day-n .n-ov{display:inline}
 
 /* ===========================================================================
+   SEARCH
+   The field is a control, so it takes the chips' own ground rule: its boundary
+   is --ink2, NOT --rule-strong. --rule-strong is the 3:1 token against --bg, but
+   the bar is --bg2, where it measures 2.80:1 and fails. Same two-ground problem
+   the chips already solved, one step sideways.
+   ========================================================================= */
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.bq{display:none;flex:0 1 15rem;min-width:0;align-items:center;gap:.35rem;height:34px;
+  padding-inline:.5rem;background:var(--bg);border:2px solid var(--ink2)}
+html.js .bq{display:flex}
+/* The ring is on the wrapper so it sits concentric with the 2px box. The input's
+   own outline is removed ONLY because this replaces it with a larger one. */
+.bq:focus-within{border-color:var(--ink);outline:3px solid var(--ink);outline-offset:2px}
+.bq-i{flex:1 1 auto;min-width:0;min-height:24px;border:0;background:transparent;color:var(--ink);
+  font:700 .72rem/1 var(--mono);letter-spacing:.04em;padding:.4rem 0;
+  /* iOS Safari rounds type=search by default. Square corners are not optional. */
+  -webkit-appearance:none;appearance:none;border-radius:0}
+.bq-i:focus{outline:none}
+.bq-i::placeholder{color:var(--ink2);opacity:1;font-weight:700;font-size:.92em;
+  letter-spacing:.09em;text-transform:uppercase}
+/* The UA clear affordance is about 14px, under the 24px floor, and off-design. */
+.bq-i::-webkit-search-cancel-button,.bq-i::-webkit-search-decoration{-webkit-appearance:none;display:none}
+.bq-n{flex:0 0 auto;font:700 .64rem/1 var(--mono);letter-spacing:.05em;color:var(--ink2);
+  font-variant-numeric:tabular-nums}
+.bq-n:empty{display:none}
+.bq-x{flex:0 0 auto;display:none;width:26px;height:26px;place-items:center;border:0;
+  background:transparent;color:var(--ink);cursor:pointer;font:700 1.1rem/1 var(--mono);padding:0}
+.bq-x:hover{background:var(--ink);color:var(--bg)}
+html.q-on .bq-x{display:grid}
+
+/* Rows and days a search has excluded. A search hides by class; the two chips
+   hide by :has(). Both resolve to display:none, so they compose without
+   fighting and neither needs to know about the other. */
+.s.q-off{display:none}
+.day.q-off{display:none}
+.months a.q-off{opacity:.45;pointer-events:none}
+
+/* The day tally under a search. CSS cannot count and a search has no build-time
+   counts, so a fifth span is written by script.
+   SPECIFICITY, and this is the trap: the filter rules are written as
+   'body:has(#f-o:checked) .day-n .n-o', and :has() takes the specificity of its
+   most specific argument, so those compute with ID weight. A class-only override
+   loses to them regardless of source order. Measured in a browser before this
+   was written. The :has() form below is required, not stylistic. */
+html.q-on body:has(#f-o:checked) .day-n b.n-all,
+html.q-on body:has(#f-o:checked) .day-n b.n-o,
+html.q-on body:has(#f-o:checked) .day-n b.n-v,
+html.q-on body:has(#f-o:checked) .day-n b.n-ov,
+html.q-on body:has(#f-v:checked) .day-n b.n-all,
+html.q-on body:has(#f-v:checked) .day-n b.n-o,
+html.q-on body:has(#f-v:checked) .day-n b.n-v,
+html.q-on body:has(#f-v:checked) .day-n b.n-ov,
+html.q-on .day-n b.n-all,html.q-on .day-n b.n-o,
+html.q-on .day-n b.n-v,html.q-on .day-n b.n-ov{display:none}
+html.q-on .day-n b.n-q{display:inline}
+
+/* content-visibility:auto is the page's biggest render win at this volume, and
+   it is also the thing a search quietly breaks. A skipped day reports its
+   remembered or placeholder height, not the height it would have with most of
+   its rows filtered out, so the document height is wrong while a query is live.
+   Measured on this page: searching "anthology" reported 33,445px against a true
+   14,014px, a 139% overstatement -- a scrollbar claiming the page is more than
+   twice its real length. Turning containment off during a search measured 0px
+   of error. The optimisation exists to make the unfiltered 851-row view cheap,
+   and that view is by definition not the one being searched. */
+html.q-on .day{content-visibility:visible}
+
+/* Listings stay down while a restored query is still pending, so a shared search
+   link does not paint 851 rows and then collapse them. The head script that sets
+   this ALSO schedules its own removal, so a tail script that never runs cannot
+   leave a blank page. */
+html.pre-q .day{display:none}
+
+/* The result line. Shares the legend's rule so the two read as one column. */
+.qstat{margin-top:1.4rem;padding-left:.9rem;border-left:2px solid var(--ink);
+  font:400 .88rem/1.55 var(--sans);color:var(--ink2);max-width:74ch;text-wrap:pretty}
+.qstat:empty{display:none}
+.qstat b{font-family:var(--mono);font-size:.84em;font-weight:700;letter-spacing:.06em;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+.qstat-b{display:inline-flex;align-items:center;min-height:32px;margin-top:.55rem;
+  font:700 .62rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+  background:transparent;color:var(--ink);border:2px solid var(--rule-strong);
+  padding:.5rem .7rem;cursor:pointer}
+.qstat-b:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* ===========================================================================
    FOOTER
    ========================================================================= */
 footer{border-top:2px solid var(--ink);margin-top:3rem;padding:1.2rem 0 0}
@@ -1310,6 +1399,25 @@ footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center
      block whose footer cell lost the last four characters of middleton.io.
      These two steps are the fitted values, not taste. */
   :root{--tcol:4.4rem;--bar:3rem;--ono-h:118px}
+  /* With a search field there is no single-row answer at 390: the bar already
+     needs 321 of its 321px for the mark and two chips. Measured before choosing
+     this. So the bar becomes two rows, and --bar is restated rather than left to
+     be derived, because .day-h{top:var(--bar)} and scroll-padding-top both read
+     it and 51 sticky headers move with it.
+     html.js is (0,1,1) and beats :root (0,1,0) regardless of source order, so a
+     reader with no scripting keeps the one-row 3rem bar and never sees an empty
+     reserved row. */
+  html.js{--bar:5.2rem}
+  html.js .bar-in{display:grid;height:var(--bar);align-content:center;
+    grid-template-columns:auto 1fr auto;grid-template-rows:34px 32px;gap:6px .6rem}
+  html.js .bmark{grid-area:1/1/2/2}
+  html.js .bq{grid-area:1/2/2/4;flex-basis:auto;width:100%}
+  html.js .bscroll{grid-area:2/1/3/3}
+  html.js .bsub{grid-area:2/3/3/4;display:inline-flex}
+  /* 16px minimum, or iOS zooms the whole page on focus and leaves the reader
+     zoomed into an 850-row document with the bar off screen. This is the single
+     most common way a mobile search field ships broken. */
+  html.js .bq-i{font-size:16px;letter-spacing:.02em}
   .ono-band{padding:1.1rem}
   .months{display:none}
   /* Measured at 390: the bar wants 285px for its controls and has 221px, so the
@@ -1329,6 +1437,10 @@ footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center
 @media (max-width:22rem){
   :root{--ono-h:112px;--pad:.75rem}
   .ono-band{padding:.75rem}
+  html.js .bsub{display:none}
+  html.js .bar-in{grid-template-columns:auto 1fr}
+  html.js .bq{grid-area:1/2/2/3}
+  html.js .bscroll{grid-area:2/1/3/3}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -1336,7 +1448,7 @@ footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center
   .s,.tog label,.btn,.copy,.months a,.bsub{transition:none}
 }
 @media print{
-  .bar,.ono-band__util,.subx,.copy{display:none}
+  .bar,.ono-band__util,.subx,.copy,.qstat{display:none}
   .day{content-visibility:visible}
 }
 
@@ -1471,6 +1583,16 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   w('<style>');
   w(stripCssComments(PAGE_CSS));
   w('</style>');
+  // Runs before <body> is parsed. Two jobs, both of which must happen before the
+  // first paint: mark that scripting is on, so the bar can take its two-row form
+  // without a no-JS reader ever seeing an empty reserved row; and, when the URL
+  // carries a query, hold the listings down so a shared search link does not
+  // paint 851 rows and then collapse them.
+  // The timeout is the safety belt: it removes the hold on its own, so a tail
+  // script that throws or never arrives cannot leave a blank page.
+  w('<script>(function(){var r=document.documentElement;r.classList.add("js");');
+  w('try{if((new URLSearchParams(location.search).get("q")||"").trim()){');
+  w('r.classList.add("pre-q");setTimeout(function(){r.classList.remove("pre-q")},2000)}}catch(e){}})();<\/script>');
   w('</head>');
   w('<body id="top">');
   w('<a class="skip" href="#listings">Skip to the listings</a>');
@@ -1530,13 +1652,23 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   w('<a class="bmark" href="#subscribe" aria-label="One Night Only, back to the calendar">');
   w('<span class="ono-stamp" aria-hidden="true"><span class="ono-ring"></span></span>');
   w('</a>');
+  w('<form class="bq" role="search" aria-label="Search listings">');
+  w('<label class="vh" for="q">Search listings</label>');
+  w('<input class="bq-i" id="q" name="q" type="search" placeholder="Title, director, venue"' +
+    ' autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"' +
+    ' enterkeyhint="search">');
+  // aria-hidden: the figure is announced by the status line below, and twice is
+  // worse than once.
+  w('<output class="bq-n" id="q-n" for="q" aria-hidden="true"></output>');
+  w('<button class="bq-x" id="q-clear" type="button" aria-label="Clear search">&#215;</button>');
+  w('</form>');
   w('<div class="bscroll">');
   // Both boxes start checked. The unfiltered page is the audit view: it exists
   // so the collector's own work can be read, and it is not what anybody came
   // for. What they came for is what is in the calendar.
-  w(`<span class="tog"><input type="checkbox" id="f-o" checked>` +
+  w(`<span class="tog"><input type="checkbox" id="f-o" checked autocomplete="off">` +
     `<label for="f-o">One night only <b>${groupDigits(rowsO)}</b></label></span>`);
-  w(`<span class="tog"><input type="checkbox" id="f-v" checked>` +
+  w(`<span class="tog"><input type="checkbox" id="f-v" checked autocomplete="off">` +
     `<label for="f-v">Revivals <b>${groupDigits(rowsV)}</b></label></span>`);
   if (months.length > 1) {
     w('<nav class="months" aria-label="Jump to month">');
@@ -1548,12 +1680,20 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
     w('</nav>');
   }
   w('</div>');
+  // Shown only once there is something worth sharing. In the default view it is
+  // absent, so its appearance is itself the signal that the view has become a
+  // link. Built from live state rather than read off the address bar, which lags
+  // the last keystroke by the debounce.
+  w('<button class="copy bq-share" type="button" id="copy-link" hidden>Copy link</button>');
   w(`<a class="bsub" href="${xmlAttr(webcal)}">Subscribe</a>`);
   w('</div>');
   w('</div>');
 
   // ---- the listings ------------------------------------------------------
   w('<main class="wrap" id="listings">');
+  // Present and empty rather than absent: a live region toggled between
+  // display:none and visible is the classic way to get it never announced.
+  w('<p class="qstat" id="q-stat" role="status" aria-live="polite"></p>');
   w(`<p class="legend">One night only means the film plays once or twice at that ` +
     `venue, or on ${CONFIG.seriesMaxDates} dates with a single showtime each. ` +
     `Revivals means it was released ${newestVintageYear} or earlier, rather than a ` +
@@ -1587,7 +1727,7 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
     }
     const wd = weekdayIndex(key + 'T00:00');
     const weekend = wd === 0 || wd === 5 || wd === 6;
-    w(`<section class="day${weekend ? ' wknd' : ''}" id="d-${esc(key)}" data-month="${esc(ym)}"` +
+    w(`<section class="day${weekend ? ' wknd' : ''}" id="d-${esc(key)}" data-date="${esc(key)}" data-month="${esc(ym)}"` +
       ` data-o="${dO}" data-v="${dV}" data-ov="${dOV}">`);
     w(`<h2 class="day-h"><span class="day-d">${esc(dayHeading(first.start_local))}</span>` +
       `<span class="day-n">` +
@@ -1595,6 +1735,9 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
       `<b class="n-o">${groupDigits(dO)} listings</b>` +
       `<b class="n-v">${groupDigits(dV)} listings</b>` +
       `<b class="n-ov">${groupDigits(dOV)} listings</b>` +
+      // Written by script when a search is on. CSS cannot count, and a search
+      // has no build-time count to read.
+      '<b class="n-q"></b>' +
       '</span></h2>');
     w('<ol class="rows">');
 
@@ -1720,8 +1863,10 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
     w('</ul>');
   }
   w('<p>Showtimes and ticket links belong to the venues. Check the venue before you travel.</p>');
-  w('<p>There is no search box on this page on purpose. Everything is in the ' +
-    "document, so your browser's own find searches all of it.</p>");
+  w('<p>The search box filters by film, director, venue, neighbourhood, series, ' +
+    'programmer and format. Press / to reach it and Escape to clear it. Every ' +
+    'listing is still in the document either way, so with scripting off your ' +
+    "browser's own find still searches all of it.</p>");
   w(`<p><a href="${xmlAttr(CONFIG.siteBase + 'identity.html')}">How the Rated O mark works</a>` +
     ', if you are the sort of person who wonders.</p>');
   w('</footer>');
@@ -1731,20 +1876,7 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   w(`<script type="application/ld+json">${jsonLdGraph(runs, CONFIG.siteBase)}</script>`);
 
   w('<script>');
-  w('/* Two jobs, both of which the page survives without. The copy button is');
-  w('   emitted hidden and revealed here, so a reader with no scripting is never');
-  w('   shown a button that does nothing. The second is the :has() fallback,');
-  w('   which is harmless where :has() already works. */');
-  w('(function(){');
-  w('var btn=document.getElementById("copy-ics");');
-  w('if(btn&&navigator.clipboard){btn.hidden=false;btn.addEventListener("click",function(){');
-  w('navigator.clipboard.writeText(document.getElementById("ics-url").textContent)');
-  w('.then(function(){var o=btn.textContent;btn.textContent="Copied";');
-  w('setTimeout(function(){btn.textContent=o},2000)})});}');
-  w('["f-o","f-v"].forEach(function(k){var el=document.getElementById(k);if(!el)return;');
-  w('var sync=function(){document.body.classList.toggle(k,el.checked)};');
-  w('el.addEventListener("change",sync);sync();});');
-  w('})();');
+  w(PAGE_JS.trim());
   w('</script>');
   w('</body>');
   w('</html>');
@@ -1804,6 +1936,336 @@ const IDENTITY_CSS = String.raw`
   background:var(--ink);color:var(--bg);text-decoration:none;padding:.75rem .9rem;border:2px solid var(--ink)}
 .id-back:hover{background:transparent;color:var(--ink)}
 @media (max-width:44rem){.id-plate{padding:1rem;gap:1.1rem}}
+`;
+
+// The page script. Authored as one block rather than as sixty w() calls,
+// because the quoting in those is where escaping bugs breed.
+//
+// Four jobs, and the page survives without every one of them:
+//   1. reveal the ICS copy button, so a reader with no scripting is never shown
+//      a button that does nothing;
+//   2. the :has() fallback for the two filter chips;
+//   3. the midnight guard, because a file rebuilt twice a day can still believe
+//      yesterday is today;
+//   4. search, and the shareable URL that goes with it.
+const PAGE_JS = String.raw`
+(function () {
+  var root = document.documentElement;
+  var box   = document.getElementById('q');
+  var out   = document.getElementById('q-n');
+  var stat  = document.getElementById('q-stat');
+  var xbtn  = document.getElementById('q-clear');
+  var link  = document.getElementById('copy-link');
+  var fo    = document.getElementById('f-o');
+  var fv    = document.getElementById('f-v');
+  var months = [].slice.call(document.querySelectorAll('.months a'));
+
+  var rows = null, days = null, tPass = 0, tUrl = 0, tSay = 0, jumped = false;
+  /* Nothing may write the URL until the URL has been READ. The filter sync below
+     runs once on load to set the :has() fallback classes, and it used to call
+     writeUrl() on that first pass -- which rebuilt the address bar from an empty
+     search box and wiped the very ?q= it was about to restore. */
+  var ready = false;
+
+  /* ---- 1. the ICS copy button, and the shared copy behaviour ---- */
+  function wireCopy(btn, get) {
+    if (!btn || !navigator.clipboard) return;
+    btn.hidden = false;
+    btn.addEventListener('click', function () {
+      navigator.clipboard.writeText(get()).then(function () {
+        var o = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = o; }, 2000);
+      });
+    });
+  }
+  wireCopy(document.getElementById('copy-ics'), function () {
+    return document.getElementById('ics-url').textContent;
+  });
+
+  /* ---- 2. the :has() fallback ---- */
+  ['f-o', 'f-v'].forEach(function (k) {
+    var el = document.getElementById(k);
+    if (!el) return;
+    var sync = function () {
+      document.body.classList.toggle(k, el.checked);
+      if (rows) pass();
+      if (ready) writeUrl();
+    };
+    el.addEventListener('change', sync);
+    sync();
+  });
+
+  /* ---- 3. the midnight guard ----
+     Between New York midnight and the first build after it, a static page still
+     leads with yesterday. Hide the days that are over.
+     The date is NEW YORK'S, not the reader's: somebody in London at 06:00 is
+     looking at 01:00 in New York and must still see New York's today.
+     Fails OPEN. Nothing is hidden by CSS and revealed here, so no Intl, a
+     throwing constructor, or a runtime whose tz database silently resolves to
+     UTC all leave the page exactly as it was built. */
+  (function () {
+    var f = null;
+    try {
+      f = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York',
+        year: 'numeric', month: '2-digit', day: '2-digit' });
+    } catch (e) { return; }
+    if (!f || !f.resolvedOptions || f.resolvedOptions().timeZone !== 'America/New_York') return;
+    var p = {}, parts = f.formatToParts(new Date()), i;
+    for (i = 0; i < parts.length; i++) if (parts[i].type !== 'literal') p[parts[i].type] = parts[i].value;
+    if (!p.year || p.year.length !== 4 || !p.month || !p.day) return;
+    var today = p.year + '-' + p.month + '-' + p.day, gone = 0;
+    var secs = document.querySelectorAll('section.day[data-date]');
+    for (i = 0; i < secs.length; i++) {
+      if (secs[i].getAttribute('data-date') < today) { secs[i].hidden = true; gone++; }
+    }
+    if (!gone) return;
+    for (i = 0; i < months.length; i++) {
+      var ym = months[i].getAttribute('href').slice(3);
+      if (!document.querySelector('section.day[data-month="' + ym + '"]:not([hidden])')) {
+        months[i].hidden = true;
+      }
+    }
+  })();
+
+  /* ---- 4. search ---- */
+  if (!box) { root.classList.remove('pre-q'); return; }
+
+  /* Fold once, compare many. NFD then strip combining marks so "celine" finds
+     Céline; everything that is not a letter or a digit collapses to a single
+     space so a curly apostrophe, a slash between alternate titles and a hyphen
+     all stop mattering. */
+  /* NFD decomposition handles a base letter plus a combining mark, so Céline
+     folds to celine. It does NOT handle a letter whose stroke is part of the
+     glyph: 'l' with a stroke stays itself, and the filter below would then turn
+     it into a space, so Żuławski folded to "zu awski" and a search for
+     "zulawski" found nothing. That is live in this data.
+     The apostrophe is DELETED rather than spaced, so Women's, Women’s and
+     Womens all collapse to one token and all three queries hit. */
+  var STROKE = { 'ł': 'l', 'Ł': 'l', 'đ': 'd', 'Đ': 'd',
+    'ø': 'o', 'Ø': 'o', 'æ': 'ae', 'Æ': 'ae',
+    'œ': 'oe', 'Œ': 'oe', 'ß': 'ss', 'ð': 'd', 'Ð': 'd',
+    'þ': 'th', 'Þ': 'th', 'ı': 'i' };
+  function fold(str) {
+    return String(str).normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[łŁđĐøØæÆœŒßðÐþÞı]/g,
+        function (c) { return STROKE[c]; })
+      .toLowerCase()
+      .replace(/[‘’ʼ']/g, '')
+      .replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  /* Built once, on the first keystroke, and never at load: a reader who never
+     searches pays nothing. Harvested from the DOM rather than emitted as a
+     data- attribute per row, which measured at roughly +90KB on the wire for a
+     feature most readers never touch.
+     .s-t (the time) and .s-l (the ledger line) are excluded ON PURPOSE. .s-l
+     carries the generator's own prose -- "Runs 4 dates here.", "Not in the
+     calendar." -- so including it would make "calendar", "run" and "dates" each
+     match several hundred rows. That is a five-minute bug and an hour to find. */
+  function index() {
+    if (rows) return;
+    rows = [];
+    days = [];
+    var secs = document.querySelectorAll('section.day');
+    for (var i = 0; i < secs.length; i++) {
+      var sec = secs[i];
+      var lis = sec.querySelectorAll('.s');
+      var day = { el: sec, n: sec.querySelector('.n-q'), rows: [], last: -1, off: false,
+                  ym: sec.getAttribute('data-month') };
+      for (var j = 0; j < lis.length; j++) {
+        var li = lis[j], text = '';
+        var parts = li.querySelectorAll('.s-h,.s-v,.s-c');
+        for (var k = 0; k < parts.length; k++) text += ' ' + parts[k].textContent;
+        var rec = { el: li, hay: fold(text), hit: true,
+                    o: li.classList.contains('is-o'), v: li.classList.contains('is-v') };
+        rows.push(rec);
+        day.rows.push(rec);
+      }
+      days.push(day);
+    }
+  }
+
+  function pass() {
+    index();
+    var terms = fold(box.value).split(' ').filter(Boolean);
+    /* One character is never a real query, and it is the most expensive frame:
+       it matches most of the page and materialises every day section at once.
+       Wait for the second. */
+    if (terms.length === 1 && terms[0].length < 2) terms = [];
+    var on = terms.length > 0;
+    var oOn = fo && fo.checked, vOn = fv && fv.checked;
+    var shown = 0, loose = 0, i, j, r, hit;
+
+    for (i = 0; i < rows.length; i++) {
+      r = rows[i];
+      hit = true;
+      for (j = 0; j < terms.length; j++) {
+        if (r.hay.indexOf(terms[j]) < 0) { hit = false; break; }
+      }
+      if (hit) {
+        loose++;
+        if ((!oOn || r.o) && (!vOn || r.v)) shown++;
+      }
+      /* Toggle only rows whose state actually CHANGED. After the first
+         character a query narrows monotonically, so the diff is a handful of
+         rows rather than 851 writes per keystroke. */
+      if (r.hit !== hit) { r.hit = hit; r.el.classList.toggle('q-off', !hit); }
+    }
+
+    var byMonth = {};
+    for (i = 0; i < days.length; i++) {
+      var d = days[i], n = 0;
+      for (j = 0; j < d.rows.length; j++) {
+        var x = d.rows[j];
+        if (x.hit && (!oOn || x.o) && (!vOn || x.v)) n++;
+      }
+      if (n !== d.last) {
+        d.last = n;
+        if (d.n) d.n.textContent = n + (n === 1 ? ' listing' : ' listings');
+      }
+      var off = on && n === 0;
+      if (off !== d.off) { d.off = off; d.el.classList.toggle('q-off', off); }
+      if (d.ym) byMonth[d.ym] = (byMonth[d.ym] || 0) + n;
+    }
+    for (i = 0; i < months.length; i++) {
+      var ym = months[i].getAttribute('href').slice(3);
+      months[i].classList.toggle('q-off', on && !byMonth[ym]);
+    }
+
+    root.classList.toggle('q-on', on);
+    if (out) out.textContent = on ? String(shown) : '';
+    if (link) link.hidden = !(on || !oOn || !vOn);
+
+    clearTimeout(tSay);
+    /* Longer than the 120ms that drives the DOM, so a screen reader hears one
+       answer instead of a seven-step countdown while the reader types. */
+    tSay = setTimeout(function () { say(box.value.trim(), shown, loose, oOn, vOn); }, 450);
+
+    /* One jump, on the empty-to-non-empty transition only. Re-scrolling on every
+       keystroke is the version readers hate. */
+    if (on && !jumped) {
+      jumped = true;
+      var m = document.getElementById('listings');
+      if (m) m.scrollIntoView({ block: 'start' });
+    }
+    if (!on) jumped = false;
+  }
+
+  function say(raw, shown, loose, oOn, vOn) {
+    if (!stat) return;
+    stat.textContent = '';
+    if (!raw) return;
+    var q = '"' + raw + '"';
+    if (shown > 0) {
+      stat.textContent = shown + (shown === 1 ? ' listing matches ' : ' listings match ') + q + '.';
+      return;
+    }
+    if (loose > 0) {
+      /* The honest zero state. Search INTERSECTS the chips rather than
+         overriding them, because a ticked checkbox that is not filtering is a
+         broken control -- so when the intersection is empty, say so and offer
+         the way out rather than silently ignoring the chips. */
+      var what = oOn && vOn ? 'rated O revivals' : oOn ? 'rated O listings' : vOn ? 'revivals' : 'listings';
+      stat.textContent = 'No ' + what + ' match ' + q + '. ' + loose +
+        (loose === 1 ? ' listing matches' : ' listings match') + ' with the filters off. ';
+      var b = document.createElement('button');
+      b.className = 'qstat-b';
+      b.type = 'button';
+      b.textContent = 'Show all ' + loose;
+      b.addEventListener('click', function () {
+        [fo, fv].forEach(function (c) {
+          if (c && c.checked) { c.checked = false; c.dispatchEvent(new Event('change', { bubbles: true })); }
+        });
+        box.focus();
+      });
+      stat.appendChild(b);
+      return;
+    }
+    stat.textContent = 'Nothing matches ' + q +
+      '. Search covers title, director, venue, neighbourhood, series, programmer and format.';
+  }
+
+  /* ---- the shareable URL ---- */
+  function stateUrl() {
+    var u = new URL(location.href);
+    u.search = '';
+    var q = box.value.trim();
+    if (q) u.searchParams.set('q', q);
+    /* The OFF state is encoded, not the on state, because both chips default to
+       on: that keeps the common share -- the default view -- a bare URL with
+       nothing appended. */
+    var off = (fo && !fo.checked ? 'o' : '') + (fv && !fv.checked ? 'v' : '');
+    if (off) u.searchParams.set('off', off);
+    return u.href;
+  }
+  function writeUrl() {
+    /* replaceState, never pushState: typing a six-character query would
+       otherwise push six entries and Back would walk the reader backwards
+       through their own word. WebKit rate-limits history writes and throws past
+       the ceiling, and the URL is a convenience the page must not die for. */
+    try { history.replaceState(history.state, '', stateUrl()); } catch (e) {}
+  }
+  wireCopy(link, stateUrl);
+
+  box.addEventListener('input', function () {
+    clearTimeout(tPass);
+    if (!box.value.trim()) { pass(); } else { tPass = setTimeout(pass, 120); }
+    clearTimeout(tUrl);
+    tUrl = setTimeout(writeUrl, 400);
+  });
+  if (box.form) box.form.addEventListener('submit', function (e) { e.preventDefault(); box.blur(); });
+  if (xbtn) xbtn.addEventListener('click', function () {
+    box.value = ''; pass(); writeUrl(); box.focus();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'Escape' && box.value) {
+      box.value = ''; pass(); writeUrl(); box.focus();
+      return;
+    }
+    var t = document.activeElement, tag = t ? t.tagName : '';
+    if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT' &&
+        !(t && t.isContentEditable)) {
+      e.preventDefault(); box.focus(); box.select();
+    }
+  });
+
+  /* ---- restore from the URL ---- */
+  try {
+    var p = null;
+    try { p = new URLSearchParams(location.search); } catch (e) {}
+    var q0 = p ? (p.get('q') || '').trim() : '';
+    /* The OFF state, restored. Parsed forgivingly on purpose: ?off=OV, ?off=vo
+       and ?off=o,v all work, unknown characters are ignored, and an
+       unparseable value yields the default view rather than an error, because
+       the default view is a page and an error is not.
+       Assigning .checked does NOT fire a change event, so the body class the
+       :has() fallback reads is set here in the same breath. */
+    var off = p ? (p.get('off') || '').toLowerCase() : '';
+    if (off) {
+      if (fo && off.indexOf('o') >= 0) { fo.checked = false; document.body.classList.remove('f-o'); }
+      if (fv && off.indexOf('v') >= 0) { fv.checked = false; document.body.classList.remove('f-v'); }
+    }
+    if (q0) { box.value = q0; }
+    if (q0 || off) pass();
+    if (link) link.hidden = !(q0 || (fo && !fo.checked) || (fv && !fv.checked));
+    /* The browser resolved the fragment during parse, while the listings were
+       still held down. Finish the scroll it could not do. */
+    if (location.hash.length > 1) {
+      var target = document.getElementById(location.hash.slice(1));
+      var row = target && target.closest ? target.closest('.s') : null;
+      /* A #s- deep link is a promise about one screening; a query appended to it
+         is not. If they disagree, the screening wins. */
+      if (row && row.classList.contains('q-off')) { box.value = ''; pass(); writeUrl(); }
+      if (target) target.scrollIntoView();
+    }
+  } finally {
+    ready = true;
+    root.classList.remove('pre-q');
+  }
+})();
 `;
 
 function buildIdentity() {
@@ -2046,13 +2508,45 @@ function selectForRss(records, now) {
   return keep;
 }
 
-// The website is the archive, so it carries the full forward window and keeps
-// live past events for 30 days rather than emptying its own past.
+// Today in New York as YYYY-MM-DD, through the same Intl formatter every other
+// date on this page goes through. NOT the build machine's zone and NOT UTC: the
+// overnight build runs in the small hours UTC, which is still the previous day
+// in New York, and a UTC date here would roll the page forward a day early
+// every single night. zonedParts is pinned to CONFIG.tz.
+function nyDateKey(now) {
+  const p = zonedParts(new Date(now));
+  return `${p.year}-${pad2(p.month)}-${pad2(p.day)}`;
+}
+
+// Shift a YYYY-MM-DD by whole days. Calendar arithmetic through UTC, which has
+// no DST, so no hour is ever added or lost. Deliberately NOT localToInstant plus
+// DAY_MS, which drifts an hour twice a year.
+function shiftDateKey(key, days) {
+  const [y, mo, d] = key.split('-').map(Number);
+  const t = new Date(Date.UTC(y, mo - 1, d + days));
+  return `${t.getUTCFullYear()}-${pad2(t.getUTCMonth() + 1)}-${pad2(t.getUTCDate())}`;
+}
+
+// The page leads with TODAY in New York and runs forward. It is a listings page,
+// not an archive: a reader opening it on Friday afternoon and finding Thursday
+// at the top has been handed a page about a night that is already over.
+//
+// Both bounds are DAY keys, not instants, and that is the design. A screening
+// stays on the page for the whole New York day it plays and then it is gone, so
+// this filter changes its mind exactly once a day, at New York midnight, rather
+// than continuously on a schedule set by whenever the build happened to run.
+// A 14:00 screening is still listed at 21:00 the same day, deliberately: rows
+// are collapsed per day, so a row whose first showtime was at 14:00 can still
+// carry a 21:30 one, and "what was on today" is a question people ask.
+// String comparison is safe because every key is fixed-width zero-padded.
 function selectForHtml(records, now) {
-  const forwardBound = now + CONFIG.icsForwardDays * DAY_MS;
-  const floor = now - CONFIG.tombstoneRetentionDays * DAY_MS;
+  const todayKey = nyDateKey(now);
+  const lastKey = shiftDateKey(todayKey, CONFIG.icsForwardDays);
   return records
-    .filter((r) => r.start_instant.getTime() <= forwardBound && r.start_instant.getTime() >= floor)
+    .filter((r) => {
+      const key = localDateKey(r.start_local);
+      return key >= todayKey && key <= lastKey;
+    })
     .sort(byStartThenUid);
 }
 
@@ -2131,6 +2625,20 @@ function main() {
       '  before publishing anything.\n'
     );
     process.exit(1);
+  }
+
+  // The page no longer carries the past, which means it no longer has a floor.
+  // The pre-write guard below checks the CALENDAR, and selectForIcs keeps
+  // cancelled tombstones for 30 days past their event date, so a dataset that is
+  // nothing but stale tombstones satisfies that guard while index.html is empty.
+  // Warn rather than fail: a failure here would also block a perfectly good
+  // calendar.ics from publishing.
+  if (htmlRecords.length === 0 && records.length > 0) {
+    process.stdout.write(
+      `  warning: index.html carries 0 listing(s) from ${records.length} record(s). ` +
+      'Every record in the dataset is in the past.\n' +
+      '    The collector has probably not run, or every source returned nothing.\n'
+    );
   }
 
   mkdirSync(outDir, { recursive: true });
