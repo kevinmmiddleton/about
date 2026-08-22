@@ -3613,3 +3613,44 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
   body.p-case .walkthrough-image img{transition:none}
   body.p-case .walkthrough-image:hover img{transform:none}
 }
+
+
+/* ==========================================================================
+   HERO SCOPE STRIP
+   --------------------------------------------------------------------------
+   Sits under the arc line and carries the level the headline does not: years,
+   reach, result, and that the AI work is in production rather than on a
+   weekend. Mono and small on purpose. It reads as a credential line, not as a
+   third headline, so it cannot compete with the h1 above it.
+
+   "built for 11M+ users" is deliberate wording: the platform was built for and
+   offered to an 11.5M-customer partner base. It is not a claim of confirmed
+   usage, and it should not be softened to "users reached", which would say
+   less and imply more.
+   ========================================================================== */
+.fv .scope{
+  display:flex;flex-wrap:wrap;align-items:baseline;
+  margin:.9rem 0 0;
+  font-family:var(--mono);
+  font-size:clamp(.62rem,1.15vw,.74rem);
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  line-height:1.7;
+  color:var(--ink2);
+  max-width:60ch;
+}
+/* Flex, so a wrap always lands between claims, never inside one. And the
+   separator is an ::after on the claim before it rather than an element of its
+   own: as a sibling it could wrap onto the next line by itself, which it did
+   at 1440 and 1200, where the hero column is narrow enough to break at two
+   lines. Owned by the preceding claim, it can only ever travel with it. */
+.fv .scope-i{white-space:nowrap}
+.fv .scope-i:not(:last-child)::after{content:"\00b7";margin:0 .5em;opacity:.55}
+@media(max-width:820px){
+  /* Below this the strip always wraps, and a middot at the end of a line
+     points at nothing. The line break is the separator. */
+  .fv .scope{font-size:.66rem;letter-spacing:.05em;max-width:none;
+    column-gap:1.15rem;row-gap:0}
+  .fv .scope-i:not(:last-child)::after{content:none}
+}
