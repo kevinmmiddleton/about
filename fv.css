@@ -2631,11 +2631,20 @@ body.p-slides .entry-card:hover{transform:translateY(-2px);box-shadow:var(--shad
 /* The name starts at the same x on every card. A flex row could not do that:
    the plain marks are pinned to 130px by their width attribute while the two
    tiles hug their glyph (44px and 96px), so the name landed at three different
-   offsets, 142 / 109 / 56. A fixed track holds the column, and justify-self on
-   .card-logo keeps each tile hugging inside it rather than stretching to fill. */
+   offsets, 142 / 109 / 56. A fixed track holds the column.
+   The NAME is the first column and the mark is the second, which puts the
+   company name on the same left edge as the title, the description and the
+   tags. With the mark first, the name started 158px in while everything below
+   it started at 18px, so the kicker aligned with nothing on the card.
+   justify-self and object-position both end, not start: the track is fixed at
+   130px, so a narrow mark like American Express (32px) or Baldor (62px) would
+   otherwise float in the middle of its own column and break the right edge the
+   wide marks establish. */
 body.p-proto .card-head{--logo-col:130px;display:grid;
-  grid-template-columns:var(--logo-col) 1fr;align-items:center;gap:.65rem;min-width:0}
-body.p-proto .card-head .card-logo{margin-bottom:0}
+  grid-template-columns:1fr var(--logo-col);align-items:center;gap:.65rem;min-width:0}
+body.p-proto .card-head .card-k{grid-column:1;grid-row:1}
+body.p-proto .card-head .card-logo{grid-column:2;grid-row:1;margin-bottom:0;
+  justify-self:end;object-position:right center}
 /* A card with no logo. Some exercises are for companies whose mark this site
    does not host, and an empty 130px logo track would indent the name past
    nothing. One column instead of two. */
