@@ -1136,10 +1136,8 @@
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
         <button class="lightbox-nav lightbox-prev" onclick="lightboxPrev(event)">&lsaquo;</button>
-        <!-- No src attribute. An empty src resolves to the current document URL, so
-     the browser re-downloads this whole page as an image. The script sets
-     .src when the lightbox opens. -->
-        <img id="lightbox-img" alt="Enlarged screenshot">
+  <!-- A 1x1 transparent GIF placeholder. The script sets .src on open. -->
+        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" id="lightbox-img" alt="Enlarged screenshot">
         <button class="lightbox-nav lightbox-next" onclick="lightboxNext(event)">&rsaquo;</button>
         <div class="lightbox-counter" id="lightbox-counter"></div>
     </div>

@@ -6,13 +6,13 @@
     <title>Lever Case Study | Kevin Middleton</title>
     <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
-    <meta name="description" content="How we proved Lever could operate at enterprise scale—eliminating implementation friction and building enterprise-grade HRIS user management.">
+    <meta name="description" content="How we proved Lever could operate at enterprise scale. Eliminating implementation friction, then building the SCIM provisioning and HRIS sync enterprise IT required.">
     <link rel="canonical" href="https://middleton.io/casestudies/case-study-lever.html">
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://middleton.io/casestudies/case-study-lever.html">
     <meta property="og:title" content="Moving Lever Upmarket: Bulk Import & HRIS Sync">
-    <meta property="og:description" content="How we proved Lever could operate at enterprise scale—eliminating implementation friction and building enterprise-grade user management.">
+    <meta property="og:description" content="How we proved Lever could operate at enterprise scale. Eliminating implementation friction, then building the SCIM provisioning and HRIS sync enterprise IT required.">
     <meta property="og:image" content="https://middleton.io/images/lever-featured.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="627">
@@ -20,14 +20,14 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Moving Lever Upmarket: Bulk Import & HRIS Sync">
     <meta name="twitter:description" content="How we proved Lever could operate at enterprise scale.">
-    <link rel="stylesheet" href="/fv.css?v=5f332607">
+    <link rel="stylesheet" href="/fv.css?v=cf67d33c">
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Moving Lever Upmarket: Bulk Import & HRIS Sync",
-  "description": "How we proved Lever could operate at enterprise scale. First by eliminating implementation friction, then by building enterprise-grade user management.",
+  "description": "How we proved Lever could operate at enterprise scale. First by eliminating implementation friction, then by building the SCIM provisioning and HRIS sync enterprise IT required.",
   "author": {
     "@type": "Person",
     "@id": "https://middleton.io/#kevin",
@@ -91,25 +91,30 @@
     </script>
 </head>
 <body class="p-case">
-    <!-- Window Chrome Header -->
-    <header class="window-chrome">
-        <div class="window-dots">
-            <span class="window-dot red"></span>
-            <span class="window-dot yellow"></span>
-            <span class="window-dot green"></span>
-        </div>
-        <div class="window-title" data-kevinos-title="lever-hris-sync.md" data-portfolio-title="Lever · Moving Upmarket">
-            <img src="https://middleton.io/images/lever-logo.webp" alt="Lever">
-            Lever · Moving Upmarket
-        </div>
+    <nav class="nav pad" aria-label="Site">
+        <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+        <span class="nav-l">
+            <a href="/casestudies/" class="plausible-event-name=CaseStudy+Nav plausible-event-dest=CaseStudies">Case Studies</a>
+            <a href="/prototypes/" class="plausible-event-name=CaseStudy+Nav plausible-event-dest=Prototypes">Prototypes</a>
+            <a href="/blog/" class="plausible-event-name=CaseStudy+Nav plausible-event-dest=Blog">Blog</a>
+            <a href="/#record" class="plausible-event-name=CaseStudy+Nav plausible-event-dest=Experience">Experience</a>
+        </span>
+        <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
+    </nav>
+
+    <div class="cs-bar pad">
         <a href="https://middleton.io" class="back-link plausible-event-name=CaseStudy+Back">Back to Portfolio</a>
-    </header>
+        <p class="cs-bar-who">
+            <img src="/images/lever-logo.webp" alt="" width="20" height="20">
+            <span><b>Lever</b> &middot; Moving Upmarket</span>
+        </p>
+    </div>
 
     <!-- Hero -->
     <section class="hero">
         <p class="hero-label">Case Study · Lever</p>
         <h1>Moving Lever Upmarket:<br>Bulk Import & HRIS Sync</h1>
-        <p class="hero-subtitle">How we proved Lever could operate at enterprise scale. First by eliminating implementation friction, then by building enterprise-grade user management.</p>
+        <p class="hero-subtitle">How we proved Lever could operate at enterprise scale. First by eliminating implementation friction, then by building the SCIM provisioning and HRIS sync enterprise IT required.</p>
         
         <div class="hero-metrics">
             <div class="metric">
@@ -163,11 +168,11 @@
     </nav>
 
     <!-- Introduction -->
-    <section class="section section--blue" id="introduction">
+    <section class="section" id="introduction">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">Context & Mission</p>
-                <h2>🚀 Introduction</h2>
+                <h2>Introduction</h2>
                 <p class="section-intro">Lever was moving upmarket. Enterprise customers expected automatic HRIS integration, self-serve data migration, and workflows that didn't break when managers were unavailable. But Lever required manual provisioning, Support-dependent candidate uploads that took days, and workarounds for basic approval flows. This friction blocked deals, frustrated IT admins, and created operational overhead. If we couldn't prove Lever could operate at enterprise scale, the upmarket expansion would stall.</p>
             </div>
 
@@ -185,17 +190,17 @@
     </section>
 
     <!-- Problem -->
-    <section class="section section--purple" id="problem">
+    <section class="section" id="problem">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">Who we were serving</p>
-                <h2>🎯 The Problem</h2>
+                <h2>The Problem</h2>
                 <p class="section-intro">We were building for multiple stakeholders across implementation, IT infrastructure, and recruiting operations, each facing different bottlenecks but all blocked by the same core issue: Lever wasn't built for enterprise scale.</p>
             </div>
 
             <!-- 3 items: 1x3 -->
             <div class="card-grid grid-3">
-                <div class="card card--blue">
+                <div class="card">
                     <h3>Implementation Teams</h3>
                     <ul>
                         <li>Manually uploaded bulk candidate data via backend processes</li>
@@ -204,7 +209,7 @@
                         <li>Wanted to focus on strategic onboarding, not data entry</li>
                     </ul>
                 </div>
-                <div class="card card--purple">
+                <div class="card">
                     <h3>IT Admins</h3>
                     <ul>
                         <li>Expected SCIM support across their entire IT stack</li>
@@ -213,7 +218,7 @@
                         <li>Responsible for provisioning, compliance, and security</li>
                     </ul>
                 </div>
-                <div class="card card--mint">
+                <div class="card">
                     <h3>Recruiting Teams</h3>
                     <ul>
                         <li>Lost time when managers were OOO and approvals stalled</li>
@@ -245,22 +250,22 @@
     </section>
 
     <!-- Strategy -->
-    <section class="section section--mint" id="strategy">
+    <section class="section" id="strategy">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">Building for enterprise scale</p>
-                <h2>🧠 Strategy & Solution</h2>
+                <h2>Strategy & Solution</h2>
                 <p class="section-intro">We approached Lever's upmarket challenge in two phases: first, prove we could operate efficiently at scale by eliminating implementation friction. Then, prove the product itself could integrate like enterprise infrastructure.</p>
             </div>
 
             <div class="two-col">
                 <div>
                     <h3>Phase 1: Operational Efficiency</h3>
-                    <p>We started by eliminating the biggest implementation bottleneck: manual data migration. I partnered with the Top of Funnel team to build a self-serve bulk importer. Drag-and-drop CSV upload, real-time validation, specific error messages for failed rows. This cut migration time from days to minutes.</p>
+                    <p>We started with the biggest implementation bottleneck: manual data migration. Making it self-serve rather than adding Support headcount was the decision, and it meant partnering with the Top of Funnel team who owned that surface.</p>
                 </div>
                 <div>
                     <h3>Phase 2: Platform Capabilities</h3>
-                    <p>With implementation efficiency proven, we built HRIS Sync to solve the product integration gap. I built the Orion platform team from scratch (0 <span class="arw" aria-hidden="true"></span><span class="vh">to</span> 7 people) and led deep discovery with 12+ CAB customers. We anchored on SCIM as the industry standard and launched with Proxy Approval.</p>
+                    <p>With implementation efficiency proven, HRIS Sync was the next bet. We anchored on SCIM rather than a Lever-shaped integration, because it was the standard enterprise IT already ran everywhere else, and launched with Proxy Approval.</p>
                 </div>
             </div>
 
@@ -285,29 +290,29 @@
     </section>
 
     <!-- Platform Capabilities -->
-    <section class="section section--peach" id="platform">
+    <section class="section" id="platform">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">What we shipped</p>
-                <h2>⚙️ Platform Capabilities</h2>
-                <p class="section-intro">These became the reusable building blocks for Lever's enterprise readiness, proving we could operate efficiently and integrate seamlessly.</p>
+                <h2>Platform Capabilities</h2>
+                <p class="section-intro">These became the reusable building blocks for Lever's enterprise readiness, proving we could operate efficiently and fit the systems enterprise IT already ran.</p>
             </div>
 
             <!-- 4 items: 2x2 -->
             <div class="card-grid grid-4">
-                <div class="card card--blue">
+                <div class="card">
                     <h3>Self-Serve Bulk Importer</h3>
                     <p>Drag-and-drop CSV upload with real-time validation and specific error messages for failed rows. Customers could migrate candidates in minutes instead of waiting days for Support.</p>
                 </div>
-                <div class="card card--purple">
+                <div class="card">
                     <h3>HRIS User Provisioning</h3>
                     <p>IT admins connected their HRIS once and user data (name, email, job title, manager) synced automatically to Lever. No manual provisioning, no stale data.</p>
                 </div>
-                <div class="card card--mint">
+                <div class="card">
                     <h3>Enriched User Profiles</h3>
                     <p>Synced HRIS fields like job title, manager, department, and location, giving recruiting teams better context and enabling org-aware workflows.</p>
                 </div>
-                <div class="card card--peach">
+                <div class="card">
                     <h3>Proxy Approval</h3>
                     <p>Managers could approve requisitions, offers, and postings on behalf of unavailable direct reports. The system automatically routed approvals up the org chart when needed.</p>
                 </div>
@@ -316,36 +321,36 @@
     </section>
 
     <!-- Product Walkthrough -->
-    <section class="section section--blue" id="walkthrough">
+    <section class="section" id="walkthrough">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">See it in action</p>
-                <h2>📸 Product Walkthrough</h2>
+                <h2>Product Walkthrough</h2>
                 <p class="section-intro">Click any image to view full size.</p>
             </div>
 
             <div class="walkthrough-grid walkthrough-4">
                 <div class="walkthrough-item">
                     <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/lever-bulk-candidate-importer.png', 'Bulk Candidate Importer')">
-                        <img src="https://middleton.io/images/lever-bulk-candidate-importer.png" alt="Bulk Candidate Importer">
+                        <img src="https://middleton.io/images/lever-bulk-candidate-importer.png" alt="Bulk Candidate Importer" width="1600" height="1058">
                     </div>
                     <div class="walkthrough-caption">Bulk Candidate Importer</div>
                 </div>
                 <div class="walkthrough-item">
                     <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/lever-scim-user-provisioning.png', 'HRIS User Provisioning')">
-                        <img src="https://middleton.io/images/lever-scim-user-provisioning.png" alt="HRIS User Provisioning">
+                        <img src="https://middleton.io/images/lever-scim-user-provisioning.png" alt="HRIS User Provisioning" width="574" height="576">
                     </div>
                     <div class="walkthrough-caption">HRIS User Provisioning</div>
                 </div>
                 <div class="walkthrough-item">
                     <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/lever-hris-user-profile.png', 'HRIS User Profile')">
-                        <img src="https://middleton.io/images/lever-hris-user-profile.png" alt="HRIS User Profile">
+                        <img src="https://middleton.io/images/lever-hris-user-profile.png" alt="HRIS User Profile" width="1424" height="1094">
                     </div>
                     <div class="walkthrough-caption">HRIS User Profile</div>
                 </div>
                 <div class="walkthrough-item">
                     <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/images/lever-proxy-approval.png', 'Proxy Approval')">
-                        <img src="https://middleton.io/images/lever-proxy-approval.png" alt="Proxy Approval">
+                        <img src="https://middleton.io/images/lever-proxy-approval.png" alt="Proxy Approval" width="709" height="526">
                     </div>
                     <div class="walkthrough-caption">Proxy Approval</div>
                 </div>
@@ -354,30 +359,30 @@
     </section>
 
     <!-- Execution -->
-    <section class="section section--purple" id="execution">
+    <section class="section" id="execution">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">How we stayed on track</p>
-                <h2>🤝 Execution & Key Decisions</h2>
+                <h2>Execution & Key Decisions</h2>
                 <p class="section-intro">Moving Lever upmarket required partnering across teams, building new capabilities from scratch, and sequencing work to deliver value early.</p>
             </div>
 
             <!-- 4 items: 2x2 -->
             <div class="card-grid grid-4">
                 <div class="card">
-                    <h3>🤝 Partnering on Bulk Import</h3>
+                    <h3>Partnering on Bulk Import</h3>
                     <p>I partnered with the Top of Funnel team to build the self-serve bulk importer. This wasn't my direct team, but the work was critical. I helped shape requirements, worked with implementation teams, and ensured smooth integration.</p>
                 </div>
                 <div class="card">
-                    <h3>🏗️ Building the Orion Team</h3>
+                    <h3>Building the Orion Team</h3>
                     <p>I started HRIS Sync with zero dedicated resources. I led discovery with 12+ CAB customers while simultaneously building the Orion platform team. By Fall 2022, we had grown to 7 people.</p>
                 </div>
                 <div class="card">
-                    <h3>🔄 Iterating with CAB Customers</h3>
+                    <h3>Iterating with CAB Customers</h3>
                     <p>We worked closely with 12+ CAB customers throughout development. This helped us understand edge cases, validate SCIM decisions, and ensure the product worked for both IT and recruiters.</p>
                 </div>
                 <div class="card">
-                    <h3>🎯 Prioritizing Manager Approval</h3>
+                    <h3>Prioritizing Manager Approval</h3>
                     <p>Within HRIS Sync, Proxy Approval was the most direct path to measurable impact. By launching it first, we proved HRIS Sync could solve real workflow problems immediately.</p>
                 </div>
             </div>
@@ -385,11 +390,11 @@
     </section>
 
     <!-- Outcomes -->
-    <section class="section section--mint" id="outcomes">
+    <section class="section" id="outcomes">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">What changed after launch</p>
-                <h2>📈 Outcomes</h2>
+                <h2>Outcomes</h2>
             </div>
 
             <!-- 4 items: 2x2 -->
@@ -415,14 +420,14 @@
     </section>
 
     <!-- Challenges -->
-    <section class="section section--peach" id="challenges">
+    <section class="section" id="challenges">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">Where the work was hardest</p>
-                <h2>🚧 Challenges</h2>
+                <h2>Challenges</h2>
             </div>
 
-            <div class="timeline timeline--peach">
+            <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
@@ -436,7 +441,7 @@
                     <div class="timeline-content">
                         <p class="timeline-date">Spring 2022</p>
                         <h3>Building a Team While Doing Discovery</h3>
-                        <p>I started HRIS Sync with no dedicated resources. I conducted deep discovery with 12+ CAB customers while simultaneously building the Orion platform team from 0 to 7 people.</p>
+                        <p>Discovery and hiring competed for the same hours, and neither could wait for the other. Running both at once meant the product's earliest decisions were made before the team that would build it was fully in place.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -460,11 +465,11 @@
     </section>
 
     <!-- Lessons Learned -->
-    <section class="section section--yellow" id="lessons">
+    <section class="section" id="lessons">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">How this shaped my approach</p>
-                <h2>💡 Lessons Learned</h2>
+                <h2>Lessons Learned</h2>
             </div>
 
             <div class="lessons-grid">
@@ -489,17 +494,50 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <a href="https://middleton.io" class="back-link" style="font-size: 14px;">Back to Portfolio</a>
-        <p class="footer-meta" style="margin-top: 16px;">Case Study · Lever · Kevin Middleton</p>
+    <footer class="cs-end">
+
+        <nav class="cs-end-more pad" aria-label="More case studies">
+            <h2 class="cs-end-h">More case studies</h2>
+            <ul class="cs-end-list">
+                <li><a href="/casestudies/case-study-hvac.html" class="plausible-event-name=CaseStudy+HVAC plausible-event-src=CaseStudyFooter"><b>HVAC.com</b><span>Turning Traffic Into Intent</span></a></li>
+                <li><a href="/casestudies/case-study-sendoso.html" class="plausible-event-name=CaseStudy+Sendoso plausible-event-src=CaseStudyFooter"><b>Sendoso</b><span>eGift Platform Expansion</span></a></li>
+                <li><a href="/casestudies/case-study-rocketlawyer-covea.html" class="plausible-event-name=CaseStudy+RocketLawyer+Covea plausible-event-src=CaseStudyFooter"><b>Rocket Lawyer</b><span>Co-Branded Partner Sites</span></a></li>
+                <li><a href="/casestudies/case-study-rocketlawyer-mobile.html" class="plausible-event-name=CaseStudy+RocketLawyer+Mobile plausible-event-src=CaseStudyFooter"><b>Rocket Lawyer</b><span>Mobile Conversion</span></a></li>
+                <li><a href="/casestudies/case-study-oracle.html" class="plausible-event-name=CaseStudy+Oracle plausible-event-src=CaseStudyFooter"><b>Oracle</b><span>Scaling Social</span></a></li>
+            </ul>
+            <a class="cs-end-all plausible-event-name=CaseStudy+Index" href="/casestudies/"><span>All six case studies</span><span class="arw" aria-hidden="true"></span></a>
+        </nav>
+
+        <div class="cs-end-talk pad">
+            <p class="cs-end-ask">Want to talk about any of this in more detail?</p>
+            <span class="cs-end-acts">
+                <a class="cta plausible-event-name=Footer+OfficeHours" href="/officehours/">Office Hours</a>
+                <a class="cs-end-link plausible-event-name=Resume+Download" href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2007-22-2026.pdf" target="_blank" rel="noopener noreferrer">R&eacute;sum&eacute; (PDF)<span class="vh">, opens in a new tab</span></a>
+                <a class="cs-end-link" href="https://www.linkedin.com/in/kevinmiddleton/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="vh">, opens in a new tab</span></a>
+            </span>
+        </div>
+
+        <div class="colophon pad">
+            <nav class="colo-nav" aria-label="More from Kevin">
+                <a href="/">Portfolio</a>
+                <a href="/casestudies/">Case Studies</a>
+                <a href="/prototypes/">Prototypes</a>
+                <a href="/blog/">Blog</a>
+                <a href="/officehours/">Office Hours</a>
+                <a href="/kevinos/">KevinOS</a>
+            </nav>
+            <p class="colo-tip">Case Study &middot; Lever &middot; Kevin Middleton &middot; &copy; 2026</p>
+            <a href="https://middleton.io" class="back-link plausible-event-name=CaseStudy+BackFoot">Back to Portfolio</a>
+        </div>
+
     </footer>
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <img src="" alt="" id="lightbox-img">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" id="lightbox-img">
         <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
 
-    <script src="case-study.js?v=2d64e475"></script>
+    <script src="case-study.js?v=9a791c7f"></script>
 </body>
 </html>

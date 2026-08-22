@@ -339,8 +339,10 @@
 </div>
 
 <div id="lightbox" role="dialog" aria-label="Image preview">
-  <!-- No src attribute; see the note in hvac/index.html. -->
-  <img alt="">
+  <!-- A 1x1 transparent GIF, not an empty or absent src. The script sets
+       .src on open. An image element requires a src attribute, and a data
+       URI costs no network request. -->
+  <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
   <div class="lb-cap">Click anywhere or press Esc to close</div>
 </div>
 
@@ -425,9 +427,9 @@ document.querySelectorAll('a[href^="http"]').forEach(function(a){
       lb.classList.add('open');
     });
   });
-  lb.addEventListener('click', function(){ lb.classList.remove('open'); lbImg.src=''; });
+  lb.addEventListener('click', function(){ lb.classList.remove('open'); lbImg.src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; });
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape'){ lb.classList.remove('open'); lbImg.src=''; }
+    if(e.key === 'Escape'){ lb.classList.remove('open'); lbImg.src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; }
   });
 })();
 </script>

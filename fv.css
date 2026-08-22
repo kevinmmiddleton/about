@@ -505,31 +505,13 @@ body.p-cases .cs-landing{
             text-decoration: none;
             color: inherit;
         }body.p-cases .cs-card{
-            background: rgba(255,255,255, 0.65);
-            border: 1px solid rgba(255,255,255, 0.55);
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-06);
             padding: var(--spacing-lg);
-            transition: transform var(--transition-base), box-shadow var(--transition-base);
+            transition: transform var(--transition-base), border-color var(--transition-base);
             display: flex;
             flex-direction: column;
             height: 100%;
             position: relative;
-        }body.p-cases .cs-card:hover{
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-20);
-        }body.p-cases .cs-card::after{
-            content: '↗';
-            position: absolute;
-            top: var(--spacing-lg);
-            right: var(--spacing-lg);
-            font-size: 1.1rem;
-            color: var(--ink2);
-            opacity: 0;
-            transition: opacity var(--transition-base), transform var(--transition-base);
-        }body.p-cases .cs-card:hover::after{
-            opacity: 0.6;
-            transform: translate(2px, -2px);
         }body.p-cases .cs-card-header{
             display: flex;
             align-items: center;
@@ -623,11 +605,7 @@ body.p-cases .cs-landing{
         }body.p-cases .cs-footer-links a:hover{ opacity: 0.8; }
 
         
-        @media (prefers-color-scheme: dark) {body.p-cases .cs-card{
-                background: rgba(20, 20, 25, 0.55);
-                border: 1px solid rgba(255,255,255, 0.12);
-                box-shadow: var(--shadow-12);
-            }body.p-cases .cs-card:hover{ box-shadow: var(--shadow-20); }body.p-cases .cs-metrics{
+        @media (prefers-color-scheme: dark) {body.p-cases .cs-metrics{
                 border-top-color: rgba(255,255,255, 0.1);
             }body.p-cases .cs-metric:not(:last-child){
                 border-right-color: rgba(255,255,255, 0.1);
@@ -667,12 +645,26 @@ body.p-case{
   --text: var(--ink);
   --text-dim: var(--ink2);
   --text-muted: var(--ink2);
-  --blue: var(--c4-text);
-  --purple: var(--c5-text);
-  --pink: var(--c6-text);
-  --mint: var(--c3-text);
-  --yellow: var(--c1-text);
-  --peach: var(--c1-text);
+  /* Six accent names, bound to the homepage's six hues. Two things were wrong
+     here and both were load-bearing:
+
+     1. --peach and --yellow BOTH resolved to --c1-text, so card--peach and
+        card--yellow rendered the identical colour: #8A6210 light, #E8A317
+        dark. Six names, five colours. Three card pairs on the HVAC page sat
+        side by side in what looked like one hue. --peach now takes c2, the
+        one homepage hue this shim never used.
+
+     2. They were bound to --cN-TEXT, the "hue used as text on the page" role,
+        but they feed 3px BORDERS on cards and section rails. DESIGN.md gives
+        that job to --cN-LINE, which is the value tuned to clear 3:1 against
+        the page in each mode. Same family, correct role, and a future palette
+        change to -line will now reach the case studies. */
+  --blue: var(--c4-line);
+  --purple: var(--c5-line);
+  --pink: var(--c6-line);
+  --mint: var(--c3-line);
+  --yellow: var(--c1-line);
+  --peach: var(--c2-line);
   --font-sans: var(--sans);
   --font-mono: var(--mono);
   --radius: var(--r);
@@ -683,40 +675,9 @@ body.p-case{
     color: var(--text);
     line-height: 1.6;
     min-height: 100vh;
-}body.p-case .window-chrome{
-    background: var(--surface-2);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}body.p-case .window-dots{
-    display: flex;
-    gap: 8px;
-}body.p-case .window-dot{
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-}body.p-case .window-dot.red{ background: #ff5f57; }body.p-case .window-dot.yellow{ background: #ffbd2e; }body.p-case .window-dot.green{ background: #28c840; }body.p-case .window-title{
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--text-dim);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}body.p-case .window-title img{
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
 }body.p-case .back-link{
-    margin-left: auto;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: .75rem;
     color: var(--text-muted);
     text-decoration: none;
     transition: color 0.2s;
@@ -728,18 +689,19 @@ body.p-case{
     border-bottom: 1px solid var(--border);
 }body.p-case .hero-label{
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: .69rem;
     color: var(--purple);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 16px;
 }body.p-case .hero h1{
-    font-size: clamp(28px, 5vw, 42px);
-    font-weight: 700;
+    font-size: clamp(1.75rem, 5vw, 2.63rem);
+    letter-spacing: -.03em;
+    font-weight: 800;
     margin-bottom: 16px;
-    line-height: 1.2;
+    line-height: 1.05;
 }body.p-case .hero-subtitle{
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--text-dim);
     max-width: 600px;
     margin: 0 auto 32px;
@@ -760,16 +722,16 @@ body.p-case{
     min-width: 120px;
 }body.p-case .metric-value{
     font-family: var(--font-mono);
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 600;
     color: var(--mint);
 }body.p-case .metric-label{
-    font-size: 12px;
+    font-size: .75rem;
     color: var(--text-muted);
     margin-top: 4px;
 }body.p-case .hero-meta{
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: .75rem;
     color: var(--text-muted);
 }body.p-case .hero-meta-list{
     display: flex;
@@ -777,7 +739,7 @@ body.p-case{
     gap: 8px 24px;
     flex-wrap: wrap;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: .75rem;
     color: var(--text-muted);
 }body.p-case .hero-meta-item{
     text-align: center;
@@ -802,7 +764,7 @@ body.p-case{
     flex-wrap: wrap;
 }body.p-case .toc-item{
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: .69rem;
     color: var(--text-muted);
     text-decoration: none;
     padding: 6px 12px;
@@ -810,70 +772,25 @@ body.p-case{
     border: 1px solid var(--border);
     transition: all 0.2s;
     white-space: nowrap;
-}body.p-case .toc-item[data-section="introduction"]:hover, body.p-case .toc-item[data-section="introduction"].active{
-    color: var(--blue);
-    border-color: var(--blue);
-    background: rgba(92, 138, 255, 0.1);
-}body.p-case .toc-item[data-section="problem"]:hover, body.p-case .toc-item[data-section="problem"].active{
-    color: var(--purple);
-    border-color: var(--purple);
-    background: rgba(160, 120, 255, 0.1);
-}body.p-case .toc-item[data-section="strategy"]:hover, body.p-case .toc-item[data-section="strategy"].active{
-    color: var(--mint);
-    border-color: var(--mint);
-    background: rgba(74, 224, 160, 0.1);
-}body.p-case .toc-item[data-section="platform"]:hover, body.p-case .toc-item[data-section="platform"].active{
-    color: var(--peach);
-    border-color: var(--peach);
-    background: rgba(255, 159, 106, 0.1);
-}body.p-case .toc-item[data-section="walkthrough"]:hover, body.p-case .toc-item[data-section="walkthrough"].active{
-    color: var(--blue);
-    border-color: var(--blue);
-    background: rgba(92, 138, 255, 0.1);
-}body.p-case .toc-item[data-section="execution"]:hover, body.p-case .toc-item[data-section="execution"].active{
-    color: var(--purple);
-    border-color: var(--purple);
-    background: rgba(160, 120, 255, 0.1);
-}body.p-case .toc-item[data-section="outcomes"]:hover, body.p-case .toc-item[data-section="outcomes"].active{
-    color: var(--mint);
-    border-color: var(--mint);
-    background: rgba(74, 224, 160, 0.1);
-}body.p-case .toc-item[data-section="challenges"]:hover, body.p-case .toc-item[data-section="challenges"].active{
-    color: var(--peach);
-    border-color: var(--peach);
-    background: rgba(255, 159, 106, 0.1);
-}body.p-case .toc-item[data-section="lessons"]:hover, body.p-case .toc-item[data-section="lessons"].active{
-    color: var(--yellow);
-    border-color: var(--yellow);
-    background: rgba(255, 192, 72, 0.1);
-}body.p-case .toc-item[data-section="testimonials"]:hover, body.p-case .toc-item[data-section="testimonials"].active{
-    color: var(--mint);
-    border-color: var(--mint);
-    background: rgba(74, 224, 160, 0.1);
-}body.p-case .toc-item[data-color="blue"]:hover, body.p-case .toc-item[data-color="blue"].active{
-    color: var(--blue);
-    border-color: var(--blue);
-    background: rgba(92, 138, 255, 0.1);
-}body.p-case .toc-item[data-color="purple"]:hover, body.p-case .toc-item[data-color="purple"].active{
-    color: var(--purple);
-    border-color: var(--purple);
-    background: rgba(160, 120, 255, 0.1);
-}body.p-case .toc-item[data-color="mint"]:hover, body.p-case .toc-item[data-color="mint"].active{
-    color: var(--mint);
-    border-color: var(--mint);
-    background: rgba(74, 224, 160, 0.1);
-}body.p-case .toc-item[data-color="peach"]:hover, body.p-case .toc-item[data-color="peach"].active{
-    color: var(--peach);
-    border-color: var(--peach);
-    background: rgba(255, 159, 106, 0.1);
-}body.p-case .toc-item[data-color="yellow"]:hover, body.p-case .toc-item[data-color="yellow"].active{
-    color: var(--yellow);
-    border-color: var(--yellow);
-    background: rgba(255, 192, 72, 0.1);
-}body.p-case .toc-item[data-color="pink"]:hover, body.p-case .toc-item[data-color="pink"].active{
-    color: var(--pink);
-    border-color: var(--pink);
-    background: rgba(255, 110, 180, 0.1);
+}/* ---- TOC pill takes its section's hue ------------------------------------
+   Was ten rules keyed by data-section, each hardcoding an rgba() tint, and
+   cycling only four hues across ten sections. Two problems: the tints were
+   fixed hexes (DESIGN.md rule 1), and the cycle no longer matched the section
+   rails, which now run six. A pill that is a different colour from the rail it
+   scrolls you to is worse than no colour at all.
+
+   Position drives both now, so pill N and rail N are the same hue by
+   construction and stay that way if a section is added or moved. */
+body.p-case .toc-item:nth-child(6n+1){--toc-hue:var(--c4-text)}
+body.p-case .toc-item:nth-child(6n+2){--toc-hue:var(--c5-text)}
+body.p-case .toc-item:nth-child(6n+3){--toc-hue:var(--c3-text)}
+body.p-case .toc-item:nth-child(6n+4){--toc-hue:var(--c2-text)}
+body.p-case .toc-item:nth-child(6n+5){--toc-hue:var(--c1-text)}
+body.p-case .toc-item:nth-child(6n+6){--toc-hue:var(--c6-text)}
+body.p-case .toc-item:hover, body.p-case .toc-item.active{
+    color: var(--toc-hue, var(--ink));
+    border-color: var(--toc-hue, var(--ink));
+    background: color-mix(in srgb, var(--toc-hue, var(--ink)) 10%, transparent);
 }body.p-case .toc-floating{
     position: fixed;
     right: 24px;
@@ -898,60 +815,17 @@ body.p-case{
     align-items: flex-start;
     gap: 4px;
 }body.p-case .toc-floating .toc-item{
-    font-size: 10px;
+    font-size: .63rem;
     padding: 5px 10px;
     width: 100%;
     text-align: left;
     border: none;
     border-radius: 6px;
     background: transparent;
-}body.p-case .toc-floating .toc-item[data-section="introduction"]:hover, body.p-case .toc-floating .toc-item[data-section="introduction"].active{
-    background: rgba(92, 138, 255, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-section="problem"]:hover, body.p-case .toc-floating .toc-item[data-section="problem"].active{
-    background: rgba(160, 120, 255, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-section="strategy"]:hover, body.p-case .toc-floating .toc-item[data-section="strategy"].active{
-    background: rgba(74, 224, 160, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-section="platform"]:hover, body.p-case .toc-floating .toc-item[data-section="platform"].active{
-    background: rgba(255, 159, 106, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-section="walkthrough"]:hover, body.p-case .toc-floating .toc-item[data-section="walkthrough"].active{
-    background: rgba(92, 138, 255, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-section="execution"]:hover, body.p-case .toc-floating .toc-item[data-section="execution"].active{
-    background: rgba(160, 120, 255, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-section="outcomes"]:hover, body.p-case .toc-floating .toc-item[data-section="outcomes"].active{
-    background: rgba(74, 224, 160, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-section="challenges"]:hover, body.p-case .toc-floating .toc-item[data-section="challenges"].active{
-    background: rgba(255, 159, 106, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-section="lessons"]:hover, body.p-case .toc-floating .toc-item[data-section="lessons"].active{
-    background: rgba(255, 192, 72, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-section="testimonials"]:hover, body.p-case .toc-floating .toc-item[data-section="testimonials"].active{
-    background: rgba(74, 224, 160, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-color="blue"]:hover, body.p-case .toc-floating .toc-item[data-color="blue"].active{
-    background: rgba(92, 138, 255, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-color="purple"]:hover, body.p-case .toc-floating .toc-item[data-color="purple"].active{
-    background: rgba(160, 120, 255, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-color="mint"]:hover, body.p-case .toc-floating .toc-item[data-color="mint"].active{
-    background: rgba(74, 224, 160, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-color="peach"]:hover, body.p-case .toc-floating .toc-item[data-color="peach"].active{
-    background: rgba(255, 159, 106, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-color="yellow"]:hover, body.p-case .toc-floating .toc-item[data-color="yellow"].active{
-    background: rgba(255, 192, 72, 0.15);
-    border: none;
-}body.p-case .toc-floating .toc-item[data-color="pink"]:hover, body.p-case .toc-floating .toc-item[data-color="pink"].active{
-    background: rgba(255, 110, 180, 0.15);
+}/* The floating TOC ran a second copy of the same ten rules, at a heavier tint
+   and with no border. Same variable, so it cannot drift from the static one. */
+body.p-case .toc-floating .toc-item:hover, body.p-case .toc-floating .toc-item.active{
+    background: color-mix(in srgb, var(--toc-hue, var(--ink)) 15%, transparent);
     border: none;
 }
 
@@ -967,23 +841,24 @@ body.p-case{
     margin-bottom: 40px;
 }body.p-case .section-label{
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: .69rem;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 8px;
 }body.p-case .section h2{
-    font-size: 28px;
-    font-weight: 700;
+    font-size: clamp(1.5rem, 3.4vw, 1.75rem);
+    letter-spacing: -.03em;
+    font-weight: 800;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 12px;
 }body.p-case .section-intro{
-    font-size: 15px;
+    font-size: .94rem;
     color: var(--text-dim);
     line-height: 1.7;
-}body.p-case .section--blue{ border-left: 3px solid var(--blue); }body.p-case .section--purple{ border-left: 3px solid var(--purple); }body.p-case .section--mint{ border-left: 3px solid var(--mint); }body.p-case .section--peach{ border-left: 3px solid var(--peach); }body.p-case .section--yellow{ border-left: 3px solid var(--yellow); }body.p-case .section--pink{ border-left: 3px solid var(--pink); }body.p-case .two-col{
+    max-width: 68ch;}body.p-case .two-col{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
@@ -992,12 +867,12 @@ body.p-case{
 
 @media (max-width: 768px) {body.p-case .two-col{ grid-template-columns: 1fr; }
 }body.p-case .two-col h3{
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
     margin-bottom: 12px;
     color: var(--text);
 }body.p-case .two-col p{
-    font-size: 14px;
+    font-size: .88rem;
     color: var(--text-dim);
     line-height: 1.7;
 }body.p-case .card-grid{
@@ -1036,20 +911,20 @@ body.p-case{
     border-radius: var(--radius);
     padding: 24px;
 }body.p-case .card h3{
-    font-size: 15px;
+    font-size: .94rem;
     font-weight: 600;
     margin-bottom: 12px;
 }body.p-case .card h4{
-    font-size: 14px;
+    font-size: .88rem;
     font-weight: 600;
     margin-bottom: 8px;
 }body.p-case .card p{
-    font-size: 13px;
+    font-size: .81rem;
     color: var(--text-dim);
     line-height: 1.6;
 }body.p-case .card ul{
     list-style: none;
-    font-size: 13px;
+    font-size: .81rem;
     color: var(--text-dim);
 }body.p-case .card ul li{
     padding-left: 16px;
@@ -1060,7 +935,50 @@ body.p-case{
     position: absolute;
     left: 0;
     color: var(--mint);
-}body.p-case .card--blue{ border-top: 3px solid var(--blue); }body.p-case .card--purple{ border-top: 3px solid var(--purple); }body.p-case .card--mint{ border-top: 3px solid var(--mint); }body.p-case .card--peach{ border-top: 3px solid var(--peach); }body.p-case .card--yellow{ border-top: 3px solid var(--yellow); }body.p-case .card--pink{ border-top: 3px solid var(--pink); }body.p-case .walkthrough-grid{
+}
+/* ---- hue by position, not by name ---------------------------------------
+   Was six hand-written classes per card (card--blue ... card--pink). Two of
+   those names resolved to the same colour for months, one page had 14 cards
+   carrying no class at all, and nothing catches either failure. The homepage
+   never had the problem because it assigns hue by position:
+   .fv .case:nth-child(N){--c-line:var(--cN-line)}. Same idea here.
+
+   A name cannot go stale, a card cannot be missed, and reordering or
+   inserting a card re-cycles the row on its own. Six hues, so a repeat is
+   always five cards away. Bound to --cN-LINE, the outline role, which is the
+   value tuned to clear 3:1 against the page in each mode. */
+body.p-case .card-grid > .card:nth-child(6n+1){--card-hue:var(--c4-line)}
+body.p-case .card-grid > .card:nth-child(6n+2){--card-hue:var(--c5-line)}
+body.p-case .card-grid > .card:nth-child(6n+3){--card-hue:var(--c3-line)}
+body.p-case .card-grid > .card:nth-child(6n+4){--card-hue:var(--c2-line)}
+body.p-case .card-grid > .card:nth-child(6n+5){--card-hue:var(--c1-line)}
+body.p-case .card-grid > .card:nth-child(6n+6){--card-hue:var(--c6-line)}
+/* A section with two grids restarts nth-child at 1, so the first card of the
+   second grid landed directly under the first card of the first grid in the
+   same hue. Three sections do this: hvac execution, hvac outcomes, lever
+   problem. Offsetting a following grid by three keeps the run going. Uses ~
+   rather than +: Lever puts an <h3> between its two grids, so they are not
+   adjacent siblings and + never matched. */
+body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+1){--card-hue:var(--c2-line)}
+body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+2){--card-hue:var(--c1-line)}
+body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+3){--card-hue:var(--c6-line)}
+body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+4){--card-hue:var(--c4-line)}
+body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+5){--card-hue:var(--c5-line)}
+body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+6){--card-hue:var(--c3-line)}
+body.p-case .card{border-top:3px solid var(--card-hue,var(--rule))}
+
+/* Section rails, same treatment. .hero is always the first <section> and does
+   not carry .section, so the content sections start at nth-of-type(2). The old
+   classes cycled four hues across nine sections; six means a rail repeats only
+   after six, which is most of the page away. */
+body.p-case .section:nth-of-type(6n+2){--rail-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+3){--rail-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+4){--rail-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+5){--rail-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+6){--rail-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+1){--rail-hue:var(--c6-line)}
+body.p-case .section{border-left:3px solid var(--rail-hue,var(--rule))}
+body.p-case .walkthrough-grid{
     display: grid;
     gap: 16px;
     margin-top: 32px;
@@ -1121,7 +1039,7 @@ body.p-case{
 }body.p-case .walkthrough-caption{
     padding: 12px 16px;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: .69rem;
     color: var(--text-muted);
     min-height: 44px;
     display: flex;
@@ -1140,28 +1058,60 @@ body.p-case{
     margin-top: 6px;
     flex-shrink: 0;
     position: relative;
-}body.p-case .timeline--blue .timeline-dot{ background: var(--blue); }body.p-case .timeline--purple .timeline-dot{ background: var(--purple); }body.p-case .timeline--mint .timeline-dot{ background: var(--mint); }body.p-case .timeline--peach .timeline-dot{ background: var(--peach); }body.p-case .timeline--yellow .timeline-dot{ background: var(--yellow); }body.p-case .timeline--pink .timeline-dot{ background: var(--pink); }body.p-case .timeline--blue .timeline-date{ color: var(--blue); }body.p-case .timeline--purple .timeline-date{ color: var(--purple); }body.p-case .timeline--mint .timeline-date{ color: var(--mint); }body.p-case .timeline--peach .timeline-date{ color: var(--peach); }body.p-case .timeline--yellow .timeline-date{ color: var(--yellow); }body.p-case .timeline--pink .timeline-date{ color: var(--pink); }body.p-case .timeline-item:not(:last-child) .timeline-dot::after{
+}/* ---- one hue per timeline item -----------------------------------------
+   Was timeline--peach on the whole list, so four phases shared one colour and
+   the dots read as decoration rather than as markers. Now each item takes its
+   own hue by position, and the dot and its label share it exactly.
+
+   Both use --cN-TEXT, not --cN-line. The label is 11px mono, so it is normal
+   text and owes 4.5:1; the -text token is the one tuned for that. A dot filled
+   with a colour that already clears 4.5:1 comfortably clears the 3:1 a
+   non-text element owes, so one token satisfies both and the two match
+   exactly, which is the point. */
+body.p-case .timeline > .timeline-item:nth-child(6n+1){--tl-hue:var(--c4-text)}
+body.p-case .timeline > .timeline-item:nth-child(6n+2){--tl-hue:var(--c5-text)}
+body.p-case .timeline > .timeline-item:nth-child(6n+3){--tl-hue:var(--c3-text)}
+body.p-case .timeline > .timeline-item:nth-child(6n+4){--tl-hue:var(--c2-text)}
+body.p-case .timeline > .timeline-item:nth-child(6n+5){--tl-hue:var(--c1-text)}
+body.p-case .timeline > .timeline-item:nth-child(6n+6){--tl-hue:var(--c6-text)}
+body.p-case .timeline-dot{background:var(--tl-hue,var(--c5-text))}
+/* ---- the spine ----------------------------------------------------------
+   The connector used to hang off the DOT, so its 100% was the dot's own 12px:
+   calc(100% + 16px) = a 28px stub that stopped well short of the next dot.
+   Hanging it off the ITEM instead makes 100% the item's height, which is what
+   has to be spanned.
+
+   Geometry: the dot has margin-top 6px and is 12px tall, so it ends at y=18.
+   The next item's dot begins at (item height + 24px margin + 6px) = H+30.
+   Height H+12 from top 18px lands exactly on it. The line is 2px on a 12px
+   dot, so left:5px centres it. */
+body.p-case .timeline-item{position:relative}
+body.p-case .timeline-item:not(:last-child)::before{
     content: '';
     position: absolute;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 5px;
+    top: 18px;
     width: 2px;
-    height: calc(100% + 16px);
-    background: var(--border);
+    height: calc(100% + 12px);
+    background: var(--rule);
 }body.p-case .timeline-content{
     flex: 1;
-}body.p-case .timeline-date{
+}body.p-case .timeline-content p.timeline-date{
     font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--purple);
+    font-size: .69rem;
+    /* p.timeline-date, not .timeline-date. The label is a <p> inside
+       .timeline-content, so `body.p-case .timeline-content p` at (0,2,2)
+       outranks `body.p-case .timeline-date` at (0,2,1) no matter which comes
+       later, and the hue silently never applied. Measured: --tl-hue resolved
+       to #6E93CC on the element while the computed colour stayed --ink2. */
+    color: var(--tl-hue, var(--c5-text));
     margin-bottom: 4px;
 }body.p-case .timeline-content h3{
-    font-size: 15px;
+    font-size: .94rem;
     font-weight: 600;
     margin-bottom: 8px;
 }body.p-case .timeline-content p{
-    font-size: 13px;
+    font-size: .81rem;
     color: var(--text-dim);
     line-height: 1.6;
 }body.p-case .lessons-grid{
@@ -1172,57 +1122,36 @@ body.p-case{
 }
 
 @media (max-width: 768px) {body.p-case .lessons-grid{ grid-template-columns: 1fr; }
-}body.p-case .lesson-card{
-    background: rgba(255, 192, 72, 0.08);
-    border: 1px solid rgba(255, 192, 72, 0.2);
+}
+/* ---- one hue per lesson --------------------------------------------------
+   Was one colour for all four cards, set by a lessons-grid--* class, with the
+   tint written as eleven hardcoded rgba() values plus a second set for light
+   mode. DESIGN.md rule 1 bans a hex in new work, and hardcoding meant the
+   tint could not follow the hue.
+
+   Now the hue comes from position and the tint is mixed from it, so one token
+   drives the heading, the border and the fill, and light mode needs no
+   separate block. color-mix is already used 13 times in this file. */
+body.p-case .lessons-grid > .lesson-card:nth-child(6n+1){--ls-hue:var(--c4-text)}
+body.p-case .lessons-grid > .lesson-card:nth-child(6n+2){--ls-hue:var(--c5-text)}
+body.p-case .lessons-grid > .lesson-card:nth-child(6n+3){--ls-hue:var(--c3-text)}
+body.p-case .lessons-grid > .lesson-card:nth-child(6n+4){--ls-hue:var(--c2-text)}
+body.p-case .lessons-grid > .lesson-card:nth-child(6n+5){--ls-hue:var(--c1-text)}
+body.p-case .lessons-grid > .lesson-card:nth-child(6n+6){--ls-hue:var(--c6-text)}
+body.p-case .lesson-card{
+    background: color-mix(in srgb, var(--ls-hue, var(--c1-text)) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--ls-hue, var(--c1-text)) 24%, transparent);
     border-radius: var(--radius);
     padding: 24px;
 }body.p-case .lesson-card h3{
-    font-size: 14px;
+    font-size: .88rem;
     font-weight: 600;
     margin-bottom: 8px;
-    color: var(--yellow);
+    color: var(--ls-hue, var(--c1-text));
 }body.p-case .lesson-card p{
-    font-size: 13px;
+    font-size: .81rem;
     color: var(--text-dim);
     line-height: 1.6;
-}body.p-case .lessons-grid--blue .lesson-card{
-    background: rgba(92, 138, 255, 0.08);
-    border-color: rgba(92, 138, 255, 0.2);
-}body.p-case .lessons-grid--blue .lesson-card h3{ color: var(--blue); }body.p-case .lessons-grid--purple .lesson-card{
-    background: rgba(160, 120, 255, 0.08);
-    border-color: rgba(160, 120, 255, 0.2);
-}body.p-case .lessons-grid--purple .lesson-card h3{ color: var(--purple); }body.p-case .lessons-grid--mint .lesson-card{
-    background: rgba(74, 224, 160, 0.08);
-    border-color: rgba(74, 224, 160, 0.2);
-}body.p-case .lessons-grid--mint .lesson-card h3{ color: var(--mint); }body.p-case .lessons-grid--peach .lesson-card{
-    background: rgba(255, 159, 106, 0.08);
-    border-color: rgba(255, 159, 106, 0.2);
-}body.p-case .lessons-grid--peach .lesson-card h3{ color: var(--peach); }body.p-case .lessons-grid--pink .lesson-card{
-    background: rgba(255, 110, 180, 0.08);
-    border-color: rgba(255, 110, 180, 0.2);
-}body.p-case .lessons-grid--pink .lesson-card h3{ color: var(--pink); }
-
-
-@media (prefers-color-scheme: light) {body.p-case .lesson-card{
-        background: rgba(217, 119, 6, 0.08);
-        border-color: rgba(217, 119, 6, 0.25);
-    }body.p-case .lessons-grid--blue .lesson-card{
-        background: rgba(37, 99, 235, 0.08);
-        border-color: rgba(37, 99, 235, 0.25);
-    }body.p-case .lessons-grid--purple .lesson-card{
-        background: rgba(124, 58, 237, 0.08);
-        border-color: rgba(124, 58, 237, 0.25);
-    }body.p-case .lessons-grid--mint .lesson-card{
-        background: rgba(5, 150, 105, 0.08);
-        border-color: rgba(5, 150, 105, 0.25);
-    }body.p-case .lessons-grid--peach .lesson-card{
-        background: rgba(234, 88, 12, 0.08);
-        border-color: rgba(234, 88, 12, 0.25);
-    }body.p-case .lessons-grid--pink .lesson-card{
-        background: rgba(219, 39, 119, 0.08);
-        border-color: rgba(219, 39, 119, 0.25);
-    }
 }body.p-case .testimonials-grid{
     display: flex;
     flex-direction: column;
@@ -1240,6 +1169,13 @@ body.p-case{
         grid-template-columns: 1fr;
     }
 }body.p-case .testimonial-media{
+    /* A floor, not a height. The image has flex-basis 0 and min-height 0 below,
+       so it contributes nothing to this card's natural height: the QUOTE beside
+       it sets the row and the image grows into whatever it gets. Without a
+       floor a short quote would shrink the press capture past legibility.
+       At 240 the image renders 187px tall, enough for the masthead and the
+       headline, which is what object-position:top keeps. */
+    min-height: 240px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -1253,17 +1189,17 @@ body.p-case{
     height: 100%;
 }body.p-case .testimonial-media img{
     width: 100%;
-    flex: 1;
+    flex: 1 1 0;
     object-fit: cover;
     object-position: top;
-    min-height: 200px;
+    min-height: 0;
     transition: transform 0.2s;
 }body.p-case .testimonial-media:hover img{
     transform: scale(1.02);
 }body.p-case .testimonial-media-caption{
     padding: 16px;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: .75rem;
     color: var(--mint);
     text-align: center;
     flex-shrink: 0;
@@ -1283,7 +1219,7 @@ body.p-case{
         max-width: 100%;
     }
 }body.p-case .testimonial-text{
-    font-size: 15px;
+    font-size: .94rem;
     line-height: 1.7;
     color: var(--text);
     font-style: italic;
@@ -1294,11 +1230,11 @@ body.p-case{
     flex-direction: column;
     gap: 2px;
 }body.p-case .testimonial-author-name{
-    font-size: 14px;
+    font-size: .88rem;
     font-weight: 600;
     color: var(--text);
 }body.p-case .testimonial-author-role{
-    font-size: 12px;
+    font-size: .75rem;
     color: var(--text-muted);
 }body.p-case .testimonial-icon{
     position: absolute;
@@ -1317,7 +1253,7 @@ body.p-case{
     background: var(--surface);
 }body.p-case .footer-meta{
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: .75rem;
     color: var(--text-muted);
 }body.p-case .lightbox{
     position: fixed;
@@ -1343,7 +1279,7 @@ body.p-case{
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: .75rem;
     color: var(--text-dim);
     background: var(--surface);
     padding: 12px 20px;
@@ -1353,7 +1289,7 @@ body.p-case{
 }
 
 
-@media (max-width: 768px) {body.p-case .hero{ padding: 40px 16px; }body.p-case .section{ padding: 40px 16px; }body.p-case .hero-metrics{ flex-direction: column; gap: 16px; padding: 20px; }body.p-case .window-chrome{ position: relative; }body.p-case .window-dots{ display: none; }body.p-case .window-title{ font-size: 0; }body.p-case .back-link{ white-space: nowrap; }
+@media (max-width: 768px) {body.p-case .hero{ padding: 40px 16px; }body.p-case .section{ padding: 40px 16px; }body.p-case .hero-metrics{ flex-direction: column; gap: 16px; padding: 20px; }body.p-case .back-link{ white-space: nowrap; }
 }
 
 
@@ -2628,8 +2564,6 @@ body.p-case .toc-item{border-color:var(--rule);color:var(--ink2)}
 body.p-case .toc-item:hover,body.p-case .toc-item.active{border-color:var(--ink);color:var(--ink)}
 body.p-case .back-link{color:var(--ink2)}
 body.p-case .back-link:hover{color:var(--ink)}
-body.p-case .window-chrome{background:var(--bg2);border-color:var(--rule)}
-body.p-case .window-title{color:var(--ink2)}
 
 
 
@@ -2765,7 +2699,18 @@ body.p-proto .card-head{min-height:38px}
 /* --- case-study cards: a border you can actually see -----------------------
    2px of --rule was 1.29:1 in light and, once the translucent dark value was
    composited, 1.39:1 in dark. Both fail the 3:1 an object border needs. */
-body.p-cases .cs-card{border-color:var(--rule-strong)}
+/* Identity colour, matching the homepage card for the same company. Keyed off
+   the href rather than nth-child because the two grids are in different orders:
+   homepage hvac/lever/sendoso/rl-mobile/rl-covea/oracle, index
+   hvac/sendoso/lever/rl-covea/rl-mobile/oracle. A positional cycle would give
+   Lever madder in one place and viridian in the other. */
+body.p-cases .cs-card{border-color:var(--c-line,var(--rule-strong))}
+body.p-cases .cs-card-link[href*="case-study-hvac"] .cs-card{--c-line:var(--c1-line)}
+body.p-cases .cs-card-link[href*="case-study-lever"] .cs-card{--c-line:var(--c2-line)}
+body.p-cases .cs-card-link[href*="case-study-sendoso"] .cs-card{--c-line:var(--c3-line)}
+body.p-cases .cs-card-link[href*="rocketlawyer-mobile"] .cs-card{--c-line:var(--c4-line)}
+body.p-cases .cs-card-link[href*="rocketlawyer-covea"] .cs-card{--c-line:var(--c5-line)}
+body.p-cases .cs-card-link[href*="case-study-oracle"] .cs-card{--c-line:var(--c6-line)}
 
 
 /* --- inline diagonal arrow ------------------------------------------------
@@ -2823,8 +2768,21 @@ body.p-cases .cs-metric-label{
   letter-spacing:.04em;font-weight:600;line-height:1.35;
   white-space:normal;hyphens:auto;
 }
+/* p-cases carries no .fv wrapper, so the blanket .fv *{transition:none} rule
+   never reaches it. Measured before this: .cs-card kept transform+box-shadow
+   transitions under prefers-reduced-motion: reduce. */
+@media(prefers-reduced-motion:reduce){
+  body.p-cases .cs-card{transition:none}
+  body.p-cases .cs-card:hover{transform:none}
+  body.p-cases .cs-card::after{transition:none}
+}
 @media(max-width:460px){
-  body.p-cases .cs-metrics{grid-template-columns:1fr}
+  /* One column: the value/label pair must bind tighter than the gap between
+     two metrics, or each label reads as the next number's caption. Measured
+     before this rule: 6.4px within a pair, 3.2px between pairs. */
+  body.p-cases .cs-metrics{grid-template-columns:1fr;gap:.85rem 0}
+  body.p-cases .cs-metric{gap:0}
+  body.p-cases .cs-metric-value{margin-bottom:1px}
   body.p-cases .cs-metric{padding:0;border-left:0}
 }
 
@@ -3544,3 +3502,114 @@ body.p-case .metric-value .arw{font-size:inherit;width:.9em;height:.9em;
    colour matters more. --marigold is theme-invariant, so this pins it. Scoped
    to this one element; --gold-on-invert is untouched for any other use. */
 .fv .connect h2 em{color:var(--marigold)}
+
+
+/* ==========================================================================
+   CASE STUDIES: real site chrome, replacing the fake macOS window
+   --------------------------------------------------------------------------
+   The window-chrome header was a leftover from the pre-relaunch identity. At
+   390px it rendered a 20px logo tile and "Back to Portfolio" and nothing else
+   (.window-title had font-size:0), so the string "Kevin Middleton" appeared
+   nowhere until you scrolled into the hero. And the page carried exactly ONE
+   unique outbound href, the site root, at the end of ~7,000px of proof.
+
+   This reuses the shared .nav / .mk / .cta / .colophon components so a case
+   study reads as the same site as / and /prototypes/.
+
+   SPECIFICITY: body.p-case *{margin:0;padding:0} is (0,1,1) and outranks .pad,
+   .nav, .cta and .colo-nav at (0,1,0), and it sits earlier in this file. Most
+   of the padding below is putting back what that reset takes away.
+
+   STRUCTURE: .nav and .cs-bar are siblings, not wrapped in a <header>. A
+   sticky child can only stick inside its own parent's box, so wrapping them
+   would confine the bar to the header's ~103px and it would scroll away.
+   ========================================================================== */
+
+body.p-case > .pad,
+body.p-case .cs-end .pad{padding-inline:clamp(1rem,4vw,3rem);max-width:1400px;margin-inline:auto}
+
+/* The nav row scrolls away. Only .cs-bar stays, so the sticky cost is 44px and
+   html{scroll-padding-top:5rem} still clears it with room to spare. */
+body.p-case > .nav{position:static;padding-block:.7rem;background:transparent;
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+body.p-case > .nav .cta,
+body.p-case .cs-end .cta{padding:.5rem .95rem}
+
+body.p-case .cs-bar{
+  position:sticky;top:0;z-index:500;
+  display:flex;align-items:center;gap:.8rem;
+  /* No padding-block: the 44px tap target on the back-link IS the bar height.
+     With .55rem top and bottom it measured 62.6px, which is 18.6px of sticky
+     cost bought for nothing. */
+  min-height:44px;padding-block:0;
+  background:var(--nav-bg);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+}
+/* min-height 44px: the old back-link measured 19.19px tall and missed the
+   WCAG 2.5.8 target size on every one of these pages. */
+body.p-case .cs-bar .back-link{
+  display:inline-flex;align-items:center;min-height:44px;
+  margin-left:0;flex:0 0 auto;
+  font-family:var(--mono);font-size:.66rem;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;
+}
+body.p-case .cs-bar-who{
+  display:flex;align-items:center;gap:.5rem;min-width:0;margin-left:auto;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;color:var(--ink2);
+}
+body.p-case .cs-bar-who img{width:20px;height:20px;border-radius:4px;flex:0 0 auto}
+body.p-case .cs-bar-who b{font-weight:700;color:var(--ink)}
+body.p-case .cs-bar-who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:560px){
+  body.p-case .cs-bar{gap:.5rem}
+  body.p-case .cs-bar .back-link,
+  body.p-case .cs-bar-who{font-size:.62rem}
+}
+
+/* --- the page ending ---------------------------------------------------- */
+body.p-case .cs-end-more{padding-block:clamp(2rem,4vw,3rem) 0}
+body.p-case .cs-end-h{font-size:clamp(1.6rem,3.4vw,2.5rem);font-weight:800;
+  letter-spacing:-.03em;color:var(--ink);
+  border-bottom:2px solid var(--ink);padding-bottom:.7rem;margin-bottom:1.2rem}
+body.p-case .cs-end-list{list-style:none;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.5rem;margin-bottom:1.2rem}
+/* --rule-strong, not --rule: the same 3:1 correction already made on .cs-card. */
+body.p-case .cs-end-list a{display:grid;gap:.2rem;height:100%;align-content:start;
+  border:2px solid var(--rule-strong);background:var(--bg);padding:.8rem .9rem;
+  text-decoration:none;color:var(--ink);transition:border-color .16s,transform .16s}
+body.p-case .cs-end-list a:hover{border-color:var(--ink);transform:translateY(-2px)}
+body.p-case .cs-end-list b{font-family:var(--mono);font-size:.62rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+body.p-case .cs-end-list span{font-size:.92rem;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+body.p-case .cs-end-all{display:inline-flex;align-items:center;gap:.4rem;min-height:44px;
+  font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink);text-decoration:none}
+body.p-case .cs-end-all span:first-of-type{border-bottom:2px solid var(--marigold);padding-bottom:.15rem}
+body.p-case .cs-end-talk{display:flex;align-items:center;flex-wrap:wrap;
+  gap:.7rem 1.1rem;padding-block:clamp(1.6rem,3.5vw,2.4rem)}
+body.p-case .cs-end-ask{font-size:.95rem;color:var(--ink);flex:1 1 18rem}
+body.p-case .cs-end-acts{display:flex;align-items:center;flex-wrap:wrap;gap:.7rem 1.1rem}
+body.p-case .cs-end-link{display:inline-flex;align-items:center;min-height:44px;
+  font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink2);text-decoration:none;
+  border-bottom:1px solid transparent}
+body.p-case .cs-end-link:hover{color:var(--ink);border-bottom-color:var(--marigold)}
+body.p-case .cs-end .colophon{padding-block:clamp(2rem,4vw,3rem) clamp(2.4rem,5vw,3.6rem);
+  border-top:2px solid var(--ink);display:grid;gap:1.1rem;justify-items:start}
+body.p-case .cs-end .colo-nav a{display:inline-flex;align-items:center;min-height:44px}
+body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height:44px;
+  margin-left:0;font-family:var(--mono);font-size:.66rem;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase}
+
+/* p-case carried no prefers-reduced-motion block, and the blanket .fv rule
+   cannot reach these pages: they have no .fv wrapper. */
+@media(prefers-reduced-motion:reduce){
+  body.p-case .cs-end-list a{transition:none}
+  body.p-case .cs-end-list a:hover{transform:none}
+  body.p-case > .nav .cta:hover,
+  body.p-case .cs-end .cta:hover{transform:none}
+  body.p-case .back-link:hover::before{transform:none}
+  body.p-case .walkthrough-image img{transition:none}
+  body.p-case .walkthrough-image:hover img{transform:none}
+}

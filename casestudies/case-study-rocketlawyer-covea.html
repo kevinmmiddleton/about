@@ -20,7 +20,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Co-Branded Partner Sites at Rocket Lawyer">
     <meta name="twitter:description" content="How we launched Rocket Lawyer's first enterprise partnership.">
-    <link rel="stylesheet" href="/fv.css?v=5f332607">
+    <link rel="stylesheet" href="/fv.css?v=cf67d33c">
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
 {
@@ -92,19 +92,24 @@
     </script>
 </head>
 <body class="p-case">
-    <!-- Window Chrome Header -->
-    <header class="window-chrome">
-        <div class="window-dots">
-            <span class="window-dot red"></span>
-            <span class="window-dot yellow"></span>
-            <span class="window-dot green"></span>
-        </div>
-        <div class="window-title" data-kevinos-title="rocketlawyer-covea-partnership.md" data-portfolio-title="Rocket Lawyer · Co-Branded Partner Sites">
-            <img src="https://middleton.io/images/rocket-lawyer-logo-sq.png" alt="Rocket Lawyer">
-            Rocket Lawyer · Co-Branded Partner Sites
-        </div>
+    <nav class="nav pad" aria-label="Site">
+        <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+        <span class="nav-l">
+            <a href="/casestudies/" class="plausible-event-name=CaseStudy+Nav plausible-event-dest=CaseStudies">Case Studies</a>
+            <a href="/prototypes/" class="plausible-event-name=CaseStudy+Nav plausible-event-dest=Prototypes">Prototypes</a>
+            <a href="/blog/" class="plausible-event-name=CaseStudy+Nav plausible-event-dest=Blog">Blog</a>
+            <a href="/#record" class="plausible-event-name=CaseStudy+Nav plausible-event-dest=Experience">Experience</a>
+        </span>
+        <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
+    </nav>
+
+    <div class="cs-bar pad">
         <a href="https://middleton.io" class="back-link plausible-event-name=CaseStudy+Back">Back to Portfolio</a>
-    </header>
+        <p class="cs-bar-who">
+            <img src="/images/rocket-lawyer-logo-sq.png" alt="" width="20" height="20">
+            <span><b>Rocket Lawyer</b> &middot; Co-Branded Partner Sites</span>
+        </p>
+    </div>
 
     <!-- Hero -->
     <section class="hero">
@@ -167,11 +172,11 @@
     </nav>
 
     <!-- Introduction -->
-    <section class="section section--blue" id="introduction">
+    <section class="section" id="introduction">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">Context & Mission</p>
-                <h2>🚀 Introduction</h2>
+                <h2>Introduction</h2>
                 <p class="section-intro">Rocket Lawyer was entering a new phase: expanding beyond direct-to-consumer and proving an enterprise distribution model across Europe. Covéa, an insurer with 11.5M customers, was the first major test. What we built for this launch would determine whether Rocket Lawyer could scale its legal services through partners, unlock new revenue channels, and support future deals already in the pipeline.</p>
             </div>
 
@@ -189,16 +194,16 @@
     </section>
 
     <!-- Problem -->
-    <section class="section section--purple" id="problem">
+    <section class="section" id="problem">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">Who we were serving</p>
-                <h2>🎯 The Problem</h2>
+                <h2>The Problem</h2>
                 <p class="section-intro">We were building for customers who would enter Rocket Lawyer through Covéa's ecosystem. The experience needed to feel native, secure, trustworthy, and co-branded while still delivering Rocket Lawyer's full value.</p>
             </div>
 
             <div class="card-grid grid-2">
-                <div class="card card--blue">
+                <div class="card">
                     <h3>Users & Stakeholders</h3>
                     <ul>
                         <li>Covéa's 11.5M insurance customers across multiple brands</li>
@@ -206,7 +211,7 @@
                         <li>Product, engineering, design, legal, content, marketing, enterprise sales</li>
                     </ul>
                 </div>
-                <div class="card card--purple">
+                <div class="card">
                     <h3>Key Problems to Solve</h3>
                     <ul>
                         <li>Integrate legal services directly into partner journeys</li>
@@ -220,28 +225,28 @@
     </section>
 
     <!-- Strategy -->
-    <section class="section section--mint" id="strategy">
+    <section class="section" id="strategy">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">Designing for partners, not one-offs</p>
-                <h2>🧠 Strategy & Solution</h2>
+                <h2>Strategy & Solution</h2>
                 <p class="section-intro">We framed Covéa as the first of many enterprise integrations. Every decision optimized for durability over convenience, knowing future integrations would benefit.</p>
             </div>
 
             <div class="card-grid grid-4">
-                <div class="card card--blue">
+                <div class="card">
                     <h3>Authentication</h3>
                     <p>Anchoring on OpenID Connect set us up for long-term partner scalability, but meant absorbing short-term complexity to support Covéa's existing identity system. We built a custom connector to isolate edge-case logic.</p>
                 </div>
-                <div class="card card--purple">
+                <div class="card">
                     <h3>Configurability</h3>
-                    <p>Runtime control over branding, pricing, features, and content, no release cycles required. The Partner Config API became the single surface for partner onboarding.</p>
+                    <p>We decided partner configuration had to be a runtime concern, not a deploy concern. Tying a partner's launch date to our release train would have made every integration after Cov&eacute;a slower than the one before it.</p>
                 </div>
-                <div class="card card--mint">
+                <div class="card">
                     <h3>Co-Branding</h3>
-                    <p>A flexible UI and pricing framework that adapted to partner value propositions while preserving Rocket Lawyer's product integrity. Partner-exclusive content coexisted with the core catalog.</p>
+                    <p>The call was that a partner should be able to lead with their own value proposition and their own pricing, and that Rocket Lawyer's product should still be recognisably itself underneath. Partner-exclusive content sits alongside the core catalog rather than replacing it.</p>
                 </div>
-                <div class="card card--peach">
+                <div class="card">
                     <h3>Scalability</h3>
                     <p>Partner-aware reporting and analytics drove billing accuracy and business insights. The unified integration layer was designed to support additional partners without rearchitecting.</p>
                 </div>
@@ -250,36 +255,36 @@
     </section>
 
     <!-- Platform Capabilities -->
-    <section class="section section--peach" id="platform">
+    <section class="section" id="platform">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">What we actually shipped</p>
-                <h2>⚙️ Platform Capabilities</h2>
+                <h2>Platform Capabilities</h2>
                 <p class="section-intro">These became the reusable building blocks for partner expansion:</p>
             </div>
 
             <div class="card-grid grid-6">
-                <div class="card card--blue">
+                <div class="card">
                     <h3>Partner Authentication</h3>
                     <p>Enabled partner customers to access Rocket Lawyer without creating new accounts. Built on OpenID Connect to keep identity ownership with the partner and reduce sign-up friction.</p>
                 </div>
-                <div class="card card--purple">
+                <div class="card">
                     <h3>Custom Connector</h3>
                     <p>An integration layer that handled partner-system exceptions (like Covéa's non-OIDC setup) without breaking platform principles. It isolated edge‑case logic while keeping future partner integrations predictable.</p>
                 </div>
-                <div class="card card--mint">
+                <div class="card">
                     <h3>Partner Config API</h3>
                     <p>A single surface for controlling branding, pricing, features, and content at runtime. This removed the need for release cycles, accelerating partner onboarding and iteration.</p>
                 </div>
-                <div class="card card--peach">
+                <div class="card">
                     <h3>Co-Branding & Pricing</h3>
                     <p>A flexible UI and pricing framework that adapted to partner value propositions while preserving Rocket Lawyer's product integrity. It set the foundation for differentiated models across partners.</p>
                 </div>
-                <div class="card card--yellow">
+                <div class="card">
                     <h3>Partner-Exclusive Content</h3>
                     <p>A curated set of partner-specific documents and workflows colocated with Rocket Lawyer's legal tools. This gave customers a single, coherent place to complete partner and legal tasks.</p>
                 </div>
-                <div class="card card--pink">
+                <div class="card">
                     <h3>Reporting & Billing</h3>
                     <p>Partner-aware event tracking that powered dashboards, billing, and performance reviews, supporting expansion opportunities and strengthening Rocket Lawyer's enterprise story.</p>
                 </div>
@@ -288,42 +293,42 @@
     </section>
 
     <!-- Product Walkthrough -->
-    <section class="section section--blue" id="walkthrough">
+    <section class="section" id="walkthrough">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">Key moments in the partner journey</p>
-                <h2>🛠️ Product Walkthrough</h2>
+                <h2>Product Walkthrough</h2>
                 <p class="section-intro">The partner experience had to feel familiar, fast, and trustworthy inside a non-Rocket Lawyer environment. Authentication had to work without friction, co-branding had to feel natural, pricing had to adjust in real time, and legal help needed to stay clear and actionable.</p>
             </div>
 
             <div class="walkthrough-grid walkthrough-5">
                 <div class="walkthrough-item">
                     <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/casestudies/images/Rocket_Lawyer_Partner_User_Flow_Transparent.png', 'Partner Login & Identity Flow')">
-                        <img src="https://middleton.io/casestudies/images/Rocket_Lawyer_Partner_User_Flow_Transparent.png" alt="Partner Login & Identity Flow">
+                        <img src="https://middleton.io/casestudies/images/Rocket_Lawyer_Partner_User_Flow_Transparent.png" alt="Partner Login & Identity Flow" width="3705" height="1428">
                     </div>
                     <div class="walkthrough-caption">1. Partner Login & Identity Flow</div>
                 </div>
                 <div class="walkthrough-item">
                     <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/casestudies/images/covea-login-screen.png', 'Partner User Login')">
-                        <img src="https://middleton.io/casestudies/images/covea-login-screen.png" alt="Partner User Login">
+                        <img src="https://middleton.io/casestudies/images/covea-login-screen.png" alt="Partner User Login" width="1600" height="937">
                     </div>
                     <div class="walkthrough-caption">2. Partner User Login</div>
                 </div>
                 <div class="walkthrough-item">
                     <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/casestudies/images/covea-onboarding-process.png', 'Co-Branded Onboarding')">
-                        <img src="https://middleton.io/casestudies/images/covea-onboarding-process.png" alt="Co-Branded Onboarding">
+                        <img src="https://middleton.io/casestudies/images/covea-onboarding-process.png" alt="Co-Branded Onboarding" width="1600" height="937">
                     </div>
                     <div class="walkthrough-caption">3. Co‑Branded Onboarding</div>
                 </div>
                 <div class="walkthrough-item">
                     <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/casestudies/images/covea-document-creation.png', 'Document Creation & Partner Pricing')">
-                        <img src="https://middleton.io/casestudies/images/covea-document-creation.png" alt="Document Creation & Partner Pricing">
+                        <img src="https://middleton.io/casestudies/images/covea-document-creation.png" alt="Document Creation & Partner Pricing" width="1882" height="1102">
                     </div>
                     <div class="walkthrough-caption">4. Document Creation & Partner Pricing</div>
                 </div>
                 <div class="walkthrough-item">
                     <div class="walkthrough-image" onclick="openLightbox('https://middleton.io/casestudies/images/covea-ask-a-lawyer.png', 'Ask-A-Lawyer')">
-                        <img src="https://middleton.io/casestudies/images/covea-ask-a-lawyer.png" alt="Ask-A-Lawyer">
+                        <img src="https://middleton.io/casestudies/images/covea-ask-a-lawyer.png" alt="Ask-A-Lawyer" width="1882" height="1102">
                     </div>
                     <div class="walkthrough-caption">5. Ask‑A‑Lawyer</div>
                 </div>
@@ -332,25 +337,25 @@
     </section>
 
     <!-- Execution -->
-    <section class="section section--purple" id="execution">
+    <section class="section" id="execution">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">How we stayed on track</p>
-                <h2>🤝 Execution & Key Decisions</h2>
+                <h2>Execution & Key Decisions</h2>
                 <p class="section-intro">Launching with a major partner required disciplined sequencing and tight coordination. I focused on unblocking engineering early, resolving dependencies ahead of time, and structuring milestones so each one supported the next.</p>
             </div>
 
             <div class="card-grid grid-3">
-                <div class="card card--blue">
-                    <h3>🎯 Scoping for Speed</h3>
+                <div class="card">
+                    <h3>Scoping for Speed</h3>
                     <p>We cut anything that didn't support the partner launch and built around minimum capabilities: authentication, pricing, onboarding, and partner-specific content. This kept engineering focused and avoided late-stage rework.</p>
                 </div>
-                <div class="card card--purple">
-                    <h3>🏗️ Designing for Reuse</h3>
+                <div class="card">
+                    <h3>Designing for Reuse</h3>
                     <p>Every architectural decision supported Covéa while keeping the path open for future partners. We built the Partner Config API, defined consistent integration patterns, and isolated edge-case logic.</p>
                 </div>
-                <div class="card card--mint">
-                    <h3>🤝 Clearing Dependencies</h3>
+                <div class="card">
+                    <h3>Clearing Dependencies</h3>
                     <p>I worked ahead of engineering to resolve open questions with Covéa, align legal and content teams, confirm pricing rules, and prepare the design system for co-branding.</p>
                 </div>
             </div>
@@ -358,27 +363,27 @@
     </section>
 
     <!-- Outcomes -->
-    <section class="section section--mint" id="outcomes">
+    <section class="section" id="outcomes">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">What changed after launch</p>
-                <h2>📈 Outcomes</h2>
+                <h2>Outcomes</h2>
             </div>
 
             <div class="card-grid grid-4">
-                <div class="card card--blue">
+                <div class="card">
                     <h3>Meaningful Partner Traffic</h3>
                     <p>16% of Rocket Lawyer's EU traffic came from partner channels shortly after launch, proving that enterprise distribution could meaningfully extend reach.</p>
                 </div>
-                <div class="card card--purple">
+                <div class="card">
                     <h3>A New Revenue Path</h3>
                     <p>The launch created a net-new enterprise revenue stream and strengthened the case for partner-led growth across Europe.</p>
                 </div>
-                <div class="card card--mint">
+                <div class="card">
                     <h3>Faster Future Integrations</h3>
                     <p>The reusable architecture, documentation, and integration pattern reduced the cost and time required to onboard the next wave of partners.</p>
                 </div>
-                <div class="card card--peach">
+                <div class="card">
                     <h3>Validated Platform Model</h3>
                     <p>The success of this launch validated Rocket Lawyer's partner platform approach, de-risking future deals and giving teams a clear blueprint for expansion.</p>
                 </div>
@@ -387,15 +392,15 @@
     </section>
 
     <!-- Challenges -->
-    <section class="section section--peach" id="challenges">
+    <section class="section" id="challenges">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">Where the work was hardest</p>
-                <h2>🚧 Challenges</h2>
+                <h2>Challenges</h2>
                 <p class="section-intro">Every phase forced hard choices. Here's how the project evolved and what we navigated along the way.</p>
             </div>
 
-            <div class="timeline timeline--peach">
+            <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
@@ -441,11 +446,11 @@
     </section>
 
     <!-- Lessons -->
-    <section class="section section--yellow" id="lessons">
+    <section class="section" id="lessons">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">How this shaped my approach</p>
-                <h2>💡 Lessons Learned</h2>
+                <h2>Lessons Learned</h2>
             </div>
 
             <div class="lessons-grid">
@@ -470,11 +475,11 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="section section--mint" id="testimonials">
+    <section class="section" id="testimonials">
         <div class="section-container">
             <div class="section-header">
                 <p class="section-label">External and internal validation</p>
-                <h2>💬 What People Said</h2>
+                <h2>What People Said</h2>
                 <p class="section-intro">Feedback from Covéa and Rocket Lawyer leadership on the strategic and execution impact.</p>
             </div>
 
@@ -482,7 +487,7 @@
                 <div class="testimonials-row">
                     <div class="testimonial-media">
                         <a href="https://www.rocketlawyer.com/newsroom/rocket-lawyer-covea-deliver-legal-benefits-to-insurance-customers" target="_blank" rel="noopener noreferrer">
-                            <img src="https://middleton.io/casestudies/images/covea-press-release-rounded.png" alt="Rocket Lawyer and Covéa Press Release">
+                            <img src="https://middleton.io/casestudies/images/covea-press-release-rounded.png" alt="Rocket Lawyer and Covéa Press Release" width="1569" height="1533">
                             <span class="testimonial-media-caption">View Press Release<span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></span>
                         </a>
                     </div>
@@ -518,17 +523,50 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <a href="https://middleton.io" class="back-link" style="font-size: 14px;">Back to Portfolio</a>
-        <p class="footer-meta" style="margin-top: 16px;">Case Study · Rocket Lawyer · Kevin Middleton</p>
+    <footer class="cs-end">
+
+        <nav class="cs-end-more pad" aria-label="More case studies">
+            <h2 class="cs-end-h">More case studies</h2>
+            <ul class="cs-end-list">
+                <li><a href="/casestudies/case-study-hvac.html" class="plausible-event-name=CaseStudy+HVAC plausible-event-src=CaseStudyFooter"><b>HVAC.com</b><span>Turning Traffic Into Intent</span></a></li>
+                <li><a href="/casestudies/case-study-sendoso.html" class="plausible-event-name=CaseStudy+Sendoso plausible-event-src=CaseStudyFooter"><b>Sendoso</b><span>eGift Platform Expansion</span></a></li>
+                <li><a href="/casestudies/case-study-lever.html" class="plausible-event-name=CaseStudy+Lever plausible-event-src=CaseStudyFooter"><b>Lever</b><span>Moving Upmarket</span></a></li>
+                <li><a href="/casestudies/case-study-rocketlawyer-mobile.html" class="plausible-event-name=CaseStudy+RocketLawyer+Mobile plausible-event-src=CaseStudyFooter"><b>Rocket Lawyer</b><span>Mobile Conversion</span></a></li>
+                <li><a href="/casestudies/case-study-oracle.html" class="plausible-event-name=CaseStudy+Oracle plausible-event-src=CaseStudyFooter"><b>Oracle</b><span>Scaling Social</span></a></li>
+            </ul>
+            <a class="cs-end-all plausible-event-name=CaseStudy+Index" href="/casestudies/"><span>All six case studies</span><span class="arw" aria-hidden="true"></span></a>
+        </nav>
+
+        <div class="cs-end-talk pad">
+            <p class="cs-end-ask">Want to talk about any of this in more detail?</p>
+            <span class="cs-end-acts">
+                <a class="cta plausible-event-name=Footer+OfficeHours" href="/officehours/">Office Hours</a>
+                <a class="cs-end-link plausible-event-name=Resume+Download" href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2007-22-2026.pdf" target="_blank" rel="noopener noreferrer">R&eacute;sum&eacute; (PDF)<span class="vh">, opens in a new tab</span></a>
+                <a class="cs-end-link" href="https://www.linkedin.com/in/kevinmiddleton/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="vh">, opens in a new tab</span></a>
+            </span>
+        </div>
+
+        <div class="colophon pad">
+            <nav class="colo-nav" aria-label="More from Kevin">
+                <a href="/">Portfolio</a>
+                <a href="/casestudies/">Case Studies</a>
+                <a href="/prototypes/">Prototypes</a>
+                <a href="/blog/">Blog</a>
+                <a href="/officehours/">Office Hours</a>
+                <a href="/kevinos/">KevinOS</a>
+            </nav>
+            <p class="colo-tip">Case Study &middot; Rocket Lawyer &middot; Kevin Middleton &middot; &copy; 2026</p>
+            <a href="https://middleton.io" class="back-link plausible-event-name=CaseStudy+BackFoot">Back to Portfolio</a>
+        </div>
+
     </footer>
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <img src="" alt="" id="lightbox-img">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" id="lightbox-img">
         <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
 
-    <script src="case-study.js?v=2d64e475"></script>
+    <script src="case-study.js?v=9a791c7f"></script>
 </body>
 </html>

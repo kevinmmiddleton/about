@@ -4,7 +4,7 @@
    =================== */
 
 // ===================
-// CONTEXT-AWARE BACK LINKS & TITLE
+// CONTEXT-AWARE BACK LINKS
 // ===================
 (function() {
     const params = new URLSearchParams(window.location.search);
@@ -21,27 +21,6 @@
             link.textContent = 'Back to Portfolio'; // arrow is drawn by .back-link::before
         }
     });
-    
-    // Update window title
-    const windowTitle = document.querySelector('.window-title');
-    if (windowTitle) {
-        const kevinosTitle = windowTitle.dataset.kevinosTitle;
-        const portfolioTitle = windowTitle.dataset.portfolioTitle;
-        
-        if (fromKevinOS && kevinosTitle) {
-            windowTitle.childNodes.forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
-                    node.textContent = '\n            ' + kevinosTitle + '\n        ';
-                }
-            });
-        } else if (!fromKevinOS && portfolioTitle) {
-            windowTitle.childNodes.forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
-                    node.textContent = '\n            ' + portfolioTitle + '\n        ';
-                }
-            });
-        }
-    }
 })();
 
 // ===================
