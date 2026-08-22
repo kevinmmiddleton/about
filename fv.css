@@ -291,6 +291,34 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
    carries its own ground -- a black disc and a blue box. */
 .tile--hvac{--tile-plate:var(--plate-white)}
 
+/* The prototypes grid holds eight cards against a six-hue cycle, so cards 7 and
+   8 repeated cards 1 and 2. Two more hues, taken from the Building section so
+   the two pages draw on one palette: forest and slate, the two Building colours
+   with no equivalent in the cycle.
+   Scheme-tuned, because a fill colour is not a border colour. Raw forest is
+   1.71:1 against the dark page and raw slate 2.13:1; both fail the 3:1 an
+   object border needs, which is the same reason the existing six carry separate
+   light and dark values.
+   Forest is separated from viridian by VALUE rather than hue: tuned for
+   contrast alone it lands on #2A7555, which is viridian, so it is kept dark in
+   light mode and pushed light in dark mode instead. */
+:root{--c7-line:#14432F;--c8-line:#3F4A5A}
+@media(prefers-color-scheme:dark){:root{--c7-line:#5FB894;--c8-line:#8A94A6}}
+:root[data-theme="dark"]{--c7-line:#5FB894;--c8-line:#8A94A6}
+:root[data-theme="light"]{--c7-line:#14432F;--c8-line:#3F4A5A}
+body.p-proto .card:nth-child(6n+1),body.p-proto .card:nth-child(6n+2),
+body.p-proto .card:nth-child(6n+3),body.p-proto .card:nth-child(6n+4),
+body.p-proto .card:nth-child(6n+5),body.p-proto .card:nth-child(6n+6){--c-line:initial}
+body.p-proto .card:nth-child(8n+1){--c-line:var(--c1-line)}
+body.p-proto .card:nth-child(8n+2){--c-line:var(--c2-line)}
+body.p-proto .card:nth-child(8n+3){--c-line:var(--c3-line)}
+body.p-proto .card:nth-child(8n+4){--c-line:var(--c4-line)}
+body.p-proto .card:nth-child(8n+5){--c-line:var(--c5-line)}
+body.p-proto .card:nth-child(8n+6){--c-line:var(--c6-line)}
+body.p-proto .card:nth-child(8n+7){--c-line:var(--c7-line)}
+body.p-proto .card:nth-child(8n+8){--c-line:var(--c8-line)}
+body.p-proto .card--soft{border-color:var(--c-line)}
+
 /* ---------------------------------------------------------------------------
    Manual theme override. The site is system-driven by default; /slides/ keeps a
    visible light/dark toggle, and this lets that toggle win over the media query

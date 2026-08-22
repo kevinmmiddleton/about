@@ -74,7 +74,7 @@ chip contexts.
      Values are COMPUTED, read from headless Chrome per surface and
      per colour scheme, so they reflect the real cascade. -->
 
-**Homepage (`.fv`): 91 tokens, 38 flip between modes, 53 are mode-stable.**
+**Homepage (`.fv`): 93 tokens, 40 flip between modes, 53 are mode-stable.**
 
 | Token | Light | Dark |
 |---|---|---|
@@ -92,6 +92,8 @@ chip contexts.
 | `--c5-text` | `#6D4AA8` | `#A98FD8` |
 | `--c6-line` | `#9E227D` | `#B14E97` |
 | `--c6-text` | `#9E227D` | `#D96BB8` |
+| `--c7-line` | `#14432F` | `#5FB894` |
+| `--c8-line` | `#3F4A5A` | `#8A94A6` |
 | `--dot-1` | `#4B6FA5` | `#1F4B8F` |
 | `--dot-2` | `#B35299` | `#9E227D` |
 | `--dot-3` | `#E8A317` | `#A77510` |
@@ -189,17 +191,17 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 179,620 | 156 / 474 | 6 | 9 |
+| `fv.css` | 181,375 | 158 / 491 | 6 | 9 |
 | `kevinos/kevinos.css` | 210,834 | 53 / 212 | 0 | 1 |
 | `blog/blog.css` | 49,621 | 28 / 70 | 0 | 5 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=912e6a08`
-- `blog` (/blog/index.html): `/fv.css?v=912e6a08`, `/blog/blog.css?v=d2b2626d`, `inline`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=456f0d97`
+- `blog` (/blog/index.html): `/fv.css?v=456f0d97`, `/blog/blog.css?v=d2b2626d`, `inline`
 - `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=f6c6e715`
 
-<details><summary><strong>blog</strong>: 104 tokens, 45 flip between modes</summary>
+<details><summary><strong>blog</strong>: 106 tokens, 47 flip between modes</summary>
 
 | Token | Light | Dark |
 |---|---|---|
@@ -238,6 +240,8 @@ chip contexts.
 | `--c6-line` | `#9E227D` | `#B14E97` |
 | `--c6-on` | `#FFFFFF` | _same_ |
 | `--c6-text` | `#9E227D` | `#D96BB8` |
+| `--c7-line` | `#14432F` | `#5FB894` |
+| `--c8-line` | `#3F4A5A` | `#8A94A6` |
 | `--card-bg` | `#ffffff` | `#161b22` |
 | `--cobalt` | `#1F4B8F` | _same_ |
 | `--coral-text` | `#AB3142` | `#D26978` |
