@@ -1014,6 +1014,10 @@ body.p-case{
     grid-template-columns: repeat(2, 1fr);
 }body.p-case .card-grid.grid-5 .card:nth-child(5){
     grid-column: span 2;
+}body.p-case .card-grid.grid-7{
+    grid-template-columns: repeat(3, 1fr);
+}body.p-case .card-grid.grid-7 .card:nth-child(7){
+    grid-column: span 3;
 }body.p-case .card-grid.grid-6{
     grid-template-columns: repeat(3, 1fr);
 }body.p-case .card-grid.grid-6-tall{
@@ -1021,9 +1025,9 @@ body.p-case{
 }
 
 
-@media (max-width: 768px) {body.p-case .card-grid.grid-2, body.p-case .card-grid.grid-3, body.p-case .card-grid.grid-4, body.p-case .card-grid.grid-5, body.p-case .card-grid.grid-6, body.p-case .card-grid.grid-6-tall{
+@media (max-width: 768px) {body.p-case .card-grid.grid-2, body.p-case .card-grid.grid-3, body.p-case .card-grid.grid-4, body.p-case .card-grid.grid-5, body.p-case .card-grid.grid-6, body.p-case .card-grid.grid-6-tall, body.p-case .card-grid.grid-7{
         grid-template-columns: 1fr;
-    }body.p-case .card-grid.grid-5 .card:nth-child(5){
+    }body.p-case .card-grid.grid-5 .card:nth-child(5), body.p-case .card-grid.grid-7 .card:nth-child(7){
         grid-column: span 1;
     }
 }body.p-case .card{
