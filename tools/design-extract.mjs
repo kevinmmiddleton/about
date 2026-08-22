@@ -139,15 +139,19 @@ class Chrome {
 
   constructor(proc, ws, dir) {
     this.proc = proc; this.ws = ws; this.dir = dir;
-    this.id = 0; this.pending = new Map();
+    this.id = 0; this.pending = new Map(); this.handlers = new Map();
     ws.onmessage = (e) => {
       const m = JSON.parse(e.data);
       if (m.id && this.pending.has(m.id)) {
         const { ok, no } = this.pending.get(m.id); this.pending.delete(m.id);
         m.error ? no(new Error(m.error.message)) : ok(m.result);
+        return;
       }
+      if (m.method) this.handlers.get(`${m.sessionId}\u0000${m.method}`)?.(m.params);
     };
   }
+
+  on(sessionId, method, fn) { this.handlers.set(`${sessionId}\u0000${method}`, fn); }
 
   send(method, params = {}, sessionId) {
     const id = ++this.id;
@@ -163,6 +167,25 @@ class Chrome {
     const { sessionId } = await this.send('Target.attachToTarget', { targetId, flatten: true });
     await this.send('Page.enable', {}, sessionId);
     await this.send('Runtime.enable', {}, sessionId);
+
+    // Every value this tool reports comes from stylesheets in this repo, but
+    // readyState:'complete' waits on the whole subresource graph -- and KevinOS
+    // alone pulls a Google Fonts stylesheet, an absolute middleton.io image and
+    // two weather APIs. On this machine that settles in ~350ms; on a CI runner
+    // it ran past the 12s budget below and failed the build on a page nobody had
+    // touched. Blocking off-origin requests makes the measurement depend on this
+    // repo and nothing else, so the result is the same offline as online.
+    await this.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] }, sessionId);
+    this.on(sessionId, 'Fetch.requestPaused', ({ requestId, request }) => {
+      const local = request.url.startsWith(this.origin);
+      this.send(local ? 'Fetch.continueRequest' : 'Fetch.failRequest',
+        local ? { requestId } : { requestId, errorReason: 'BlockedByClient' },
+        sessionId)
+        // The request can be gone already if the page navigated; that is not a
+        // failure worth stopping an extract for.
+        .catch(() => {});
+    });
+
     return {
       sessionId,
       goto: async (u) => {
@@ -386,6 +409,7 @@ let chrome;
 let exitCode = 0;
 try {
   chrome = await Chrome.launch();
+  chrome.origin = `http://127.0.0.1:${port}`;
   const page = await chrome.page();
   const surfaces = {};
   for (const s of SURFACES) {
