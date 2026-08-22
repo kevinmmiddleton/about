@@ -178,7 +178,7 @@
                 </div>
                 <div>
                     <h3>What I Built</h3>
-                    <p>I launched the Repair experience from scratch, created three interactive calculators, defined and shipped an LLM assistant for homeowner questions, and redesigned the blog to drive traffic into our funnels. No material change shipped without an A/B test. I ran dozens of experiments across all parts of the site, building a culture of data-driven iteration.</p>
+                    <p>I launched the Repair experience from scratch, created three interactive calculators, defined and shipped an LLM assistant for homeowner questions, and redesigned the blog to drive traffic into our funnels. No material change shipped without an A/B test, which was only practical because both funnels sat behind feature flags I controlled directly. I ran dozens of experiments across all parts of the site, building a culture of data-driven iteration.</p>
                 </div>
             </div>
         </div>
@@ -270,6 +270,10 @@
                     <h3>🆕 AI Assistant</h3>
                     <p>Defined and launched an LLM assistant that answers homeowner questions conversationally and routes each answer into the right funnel. Same strategy as the calculators, delivered as a conversation instead of a form. Still live on HVAC.com today.</p>
                 </div>
+                <div class="card card--pink">
+                    <h3>🆕 Split.io Experimentation Controls</h3>
+                    <p>Put both the Repair and Replace funnels behind Split.io flags. That gave me direct control of the funnel itself: remove a step, reorder the sequence, rewrite the copy, and run every variant against control. The funnel structure was the variable, not just the wording on it.</p>
+                </div>
                 <div class="card card--peach">
                     <h3>📈 Replace Funnel Iteration</h3>
                     <p>Inherited and continuously optimized the replacement funnel through dozens of A/B tests on step order, copy, and flow.</p>
@@ -277,10 +281,6 @@
                 <div class="card card--yellow">
                     <h3>📈 QuoteScore Support</h3>
                     <p>Inherited and supported QuoteScore, which validated homeowner quotes and converted at 6% by capturing high-intent users.</p>
-                </div>
-                <div class="card card--pink">
-                    <h3>⚙️ Split.io Controls</h3>
-                    <p>Introduced feature flags and toggles for banners, funnel step order, and step text, enabling rapid iteration without engineering deploys.</p>
                 </div>
             </div>
         </div>
@@ -349,8 +349,8 @@
                     <p>Used session-to-install data, user paths, and behavioral analytics to identify friction points and refine the homeowner journey for better lead quality.</p>
                 </div>
                 <div class="card card--mint">
-                    <h3>🎛️ No-Code Controls</h3>
-                    <p>Built Split.io toggles for banners, funnel step order, and copy changes. This gave us control to iterate rapidly without waiting for engineering deploys.</p>
+                    <h3>🎛️ Funnel-Level Experimentation</h3>
+                    <p>I could remove steps, reorder them, and rewrite copy across both the Repair and Replace funnels, then test each variant against control without an engineering deploy. Changing the funnel stopped being a ticket and became a same-day product decision. Test velocity went from deploy-limited to idea-limited.</p>
                 </div>
             </div>
 
@@ -477,7 +477,7 @@
                 </div>
                 <div class="lesson-card">
                     <h3>Build Controls, Not Just Features</h3>
-                    <p>Split.io toggles for banners, step order, and copy enabled rapid iteration without engineering deploys. Operational flexibility multiplies impact.</p>
+                    <p>The calculators got the credit, but the flags are why we could run dozens of tests in a single season. Owning the ability to remove a step without a deploy changes what you are willing to try. Ship the control surface alongside the feature.</p>
                 </div>
                 <div class="lesson-card">
                     <h3>Small Teams Can Inform Big Roadmaps</h3>
