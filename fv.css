@@ -290,6 +290,8 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
    in EITHER scheme. Baldor and American Express stay bare because each
    carries its own ground -- a black disc and a blue box. */
 .tile--hvac{--tile-plate:var(--plate-white)}
+/* Justworks ink is #000000: 1.01:1 on the dark card. */
+.tile--justworks{--tile-plate:var(--plate-white)}
 
 /* The prototypes grid holds eight cards against a six-hue cycle, so cards 7 and
    8 repeated cards 1 and 2. Two more hues, taken from the Building section so

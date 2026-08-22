@@ -1595,7 +1595,15 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--sa-dark); b
     <span class="icon">&#9432;</span>
     <span>Live view of successacademies.org. The current site drives enrollment through Salesforce (successacademies.my.site.com) but fragments the post-enrollment family experience across three separate authenticated platforms: eSchoolData (grades), ParentSquare (messaging app), and the Salesforce family dashboard. The Family Handbook lives on a public Google Site and is publicly accessible.</span>
   </div>
-  <iframe src="https://www.successacademies.org/" class="current-site-frame" loading="lazy"></iframe>
+  <!-- Was an iframe of successacademies.org. That site sends both
+     `frame-ancestors 'self'` and `x-frame-options: SAMEORIGIN`, so it could
+     never render from middleton.io -- the tab showed an empty box. A dated
+     capture says the same thing and actually appears. -->
+  <figure style="margin:0">
+    <img src="current-site-2026-08.jpg" alt="successacademies.org homepage as captured in August 2026"
+         loading="lazy" width="1200" style="width:100%;height:auto;display:block;border:1px solid rgba(0,0,0,.12)">
+    <figcaption style="margin-top:.5rem;font-size:12px;opacity:.7">successacademies.org, captured August 2026. Their site blocks embedding, so this is a static capture rather than a live frame.</figcaption>
+  </figure>
 </div>
 
 <!-- TAB 2: SCHOOL FINDER -->
@@ -2567,5 +2575,6 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 </script>
+<p style="max-width:70ch;margin:2.4rem auto 1.4rem;padding:0 1.2rem;font:400 12px/1.6 -apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;color:currentColor;opacity:.62;text-align:center">Independent concept work by <a href="https://middleton.io" style="color:inherit">Kevin Middleton</a>. Not affiliated with, endorsed by, or commissioned by Success Academy. All trademarks and product imagery belong to their respective owners.</p>
 </body>
 </html>
