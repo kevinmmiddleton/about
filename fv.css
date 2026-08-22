@@ -275,6 +275,15 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
   justify-self:start;margin-bottom:.15rem}
 .card-logo.tile{height:38px;padding:8px 11px;background:var(--tile-plate,var(--brand-sa));border-radius:7px}
 .card-logo.tile--optimum{--tile-plate:var(--brand-optimum)}
+/* Optimum and American Express carry their own ground inside the artwork --
+   navy and blue -- so they need no plate colour behind them, only the
+   plate's corner and height. Padding and background are dropped and the
+   width cap lifted so the element box hugs the artwork: with a cap in
+   place, object-fit letterboxes and the radius would round transparent
+   edges instead of the mark. Both files are cropped to the same interior
+   proportions a .tile gives a plated mark (22px of ink in 38px, 11px of
+   side air), so a framed mark and a plated one read as the same object. */
+.card-logo.tile--framed{padding:0;background:none;max-width:none}
 /* The Cypress wordmark is #1B1E2E, which measures 1.16:1 against the dark card
    and disappears. A white plate is the same fix Success Academy and Optimum
    already use, and it takes the mark to 16.51:1 in both schemes. */
