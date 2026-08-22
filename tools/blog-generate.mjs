@@ -377,6 +377,14 @@ function articlePage(post, all) {
 ${sections.map((sec) => `                <li><a href="#${sec.id}">${esc(sec.text)}</a></li>`).join('\n')}
             </ol>
         </nav>`;
+  // Every post ends with a route back to the proof. The Read next module below
+  // is blog-to-blog only, so before this a reader who finished a post had no
+  // one-click path to a case study, the experience record, or Shortlist.
+  // Measured across every published post at the time: zero case-study links.
+  // Template-level on purpose, so it lands on all of them from one edit.
+  const rail =
+    `<p class="article-rail">More from Kevin: <a href="/casestudies/">Case studies</a> <span class="dot" aria-hidden="true">\u00b7</span> <a href="/#record">Experience</a> <span class="dot" aria-hidden="true">\u00b7</span> <a href="https://shortlist.middleton.io/" target="_blank" rel="noopener">Shortlist</a></p>`;
+
   const bio =
     // Says nothing about employment status in either direction, per the rule
     // adopted 2026-07-31. This line read "Currently looking for his next role
@@ -475,6 +483,7 @@ ${toc}
 ${bodyLinked}
         </div>
 ${next}
+        ${rail}
         ${bio}
         <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
     </article>

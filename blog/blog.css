@@ -337,10 +337,20 @@ figcaption {
 .article-body blockquote a { color: var(--coral-text); }
 
 /* End-of-article author bio */
-.article-bio {
-    margin-top: 56px;
+/* The rail and the bio read as one closing block: the rail carries the rule
+   and the top margin, the bio follows it with neither. */
+.article-rail {
+    margin: 56px 0 0;
     padding-top: 28px;
     border-top: 1px solid var(--border);
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+.article-rail a { color: var(--coral-text); text-decoration: underline; text-underline-offset: 2px; }
+.article-rail .dot { margin: 0 .45em; opacity: .5; }
+
+.article-bio {
+    margin-top: 12px;
     font-size: 16px;
     color: var(--text-secondary);
 }

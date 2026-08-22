@@ -58,7 +58,7 @@ So of course the correction is already swinging the other way, toward restrictin
 
 ## The C-suite can build now, and that won't turn out well
 
-Leadership has always been frustrated with how long development takes. A lot of that frustration came from the hard parts being invisible to them. Integration, edge cases, the slow work of making everything connect and keep working. That difficulty got obfuscated, so from the top it looked like product development was just "slow."
+Leadership has always been frustrated with how long development takes. A lot of that frustration came from the hard parts being invisible to them. Integration, edge cases, the slow work of [making everything connect and keep working](https://middleton.io/casestudies/case-study-lever.html). That difficulty got obfuscated, so from the top it looked like product development was just "slow."
 
 Now a C-suite leader can (re-)build the thing themselves. Stand up a proof of concept, watch it "work," and reasonably ask why the "real" version took so long to build. The trap is that the prototype was never the hard part. The prototype skips integration, security, scale, the existing systems it has to support, and every workflow it touches. It demos clean and still crashes the roadmap, because nothing about it was aligned with priorities. Proving an idea works in isolation and shipping it into a running business is a completely different beast. Congrats, you rebuilt part of the app, but what's your plan for the rest of our customers still using 90% of the now "legacy" app?
 

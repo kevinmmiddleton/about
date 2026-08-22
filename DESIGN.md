@@ -193,12 +193,12 @@ chip contexts.
 |---|---|---|---|---|
 | `fv.css` | 187,522 | 163 / 534 | 6 | 11 |
 | `kevinos/kevinos.css` | 210,834 | 53 / 212 | 0 | 1 |
-| `blog/blog.css` | 49,621 | 28 / 70 | 0 | 5 |
+| `blog/blog.css` | 50,008 | 28 / 70 | 0 | 5 |
 
 **Stylesheets each surface loads:**
 
 - `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=cf67d33c`
-- `blog` (/blog/index.html): `/fv.css?v=cf67d33c`, `/blog/blog.css?v=d2b2626d`, `inline`
+- `blog` (/blog/index.html): `/fv.css?v=cf67d33c`, `/blog/blog.css?v=a5b1199e`, `inline`
 - `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=f6c6e715`
 
 <details><summary><strong>blog</strong>: 106 tokens, 47 flip between modes</summary>

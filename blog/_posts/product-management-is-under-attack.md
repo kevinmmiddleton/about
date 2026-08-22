@@ -42,7 +42,7 @@ And everyone's supercharged on AI now, shipping faster than ever, merging everyt
 
 ## Building the thing was never the hard part
 
-The hard part is deciding what to build, for whom, and getting it out the door without lighting the house on fire. When everyone can build, the bottleneck doesn't vanish. It just goes from "can we make it" to "should we, for whom, and what breaks when we do."
+The hard part is [deciding what to build](https://middleton.io/casestudies/case-study-hvac.html), for whom, and getting it out the door without lighting the house on fire. When everyone can build, the bottleneck doesn't vanish. It just goes from "can we make it" to "should we, for whom, and what breaks when we do."
 
 And there's something funny about all this bottleneck talk. Weren't we happy enough with last year's pace? Now that AI says we could do 10x more, the judgment in the loop becomes the bottleneck, and nobody stopped to ask whether we should be going 10x faster in the first place. Do customers need 10x more features?
 
