@@ -212,7 +212,13 @@ a.card:hover .card-m{color:var(--c-on)}
 .card b{font-size:1.02rem;font-weight:800;letter-spacing:-.02em}
 .card span{font-size:.78rem;line-height:1.42}
 .card-m{font-family:var(--mono);font-size:.66rem;font-weight:700;color:var(--accent-text);transition:.22s}
-.card-k{font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.12em;
+/* `.card .card-k`, not `.card-k`. At (0,1,0) this lost to `.card span`
+   (0,1,1) two lines above, so the declared .55rem never applied and the kicker
+   rendered at 12.48px -- pixel-identical to the body copy it is supposed to
+   label, with tracking sized for 8.8px type. Measured in a browser, not read.
+   `.tags span` is also (0,1,1) but sits later in source, which is why the tag
+   row was the only micro-label at its intended size. */
+.card .card-k{font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.12em;
   text-transform:uppercase;color:var(--ink2)}
 
 /* ---------- prose, for case studies and articles ---------- */
@@ -235,7 +241,11 @@ a.card:hover .card-m{color:var(--c-on)}
   text-transform:uppercase;color:var(--ink2)}
 .tags{display:flex;flex-wrap:wrap;gap:.32rem}
 .tags span{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;
-  padding:.24rem .5rem;border-radius:99px;border:1px solid var(--rule);color:var(--ink2)}
+  padding:.24rem .5rem;border-radius:99px;border:1px solid var(--rule-strong);color:var(--ink2)}
+/* --rule-strong, not --rule. --rule measures 1.29:1 light and 1.38:1 dark
+   against the page, so the pill outline was invisible. This is the same
+   correction already made for the case-study cards further down this file,
+   with the same tokens and the same numbers; the pills were missed. */
 
 /* ---------- footer ---------- */
 .colophon{padding-block:clamp(2rem,4vw,3rem) clamp(2.4rem,5vw,3.6rem);border-top:2px solid var(--ink)}
@@ -272,6 +282,14 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
 .tile--ww{--tile-plate:var(--plate-white)}
 /* Nava's wordmark is solid black and vanishes on the dark card. Same plate. */
 .tile--nava{--tile-plate:var(--plate-white)}
+/* HVAC.com is the same failure with the polarity reversed: 44.2% of its ink
+   measures under 3:1 against the LIGHT card and 0% against the dark one, so
+   a rule written from dark-mode failures missed it. Measured by rasterising
+   the PNG and scoring every opaque pixel, not by eye.
+   The rule this settles on: a mark gets a plate when its ink falls below 3:1
+   in EITHER scheme. Baldor and American Express stay bare because each
+   carries its own ground -- a black disc and a blue box. */
+.tile--hvac{--tile-plate:var(--plate-white)}
 
 /* ---------------------------------------------------------------------------
    Manual theme override. The site is system-driven by default; /slides/ keeps a
@@ -2650,6 +2668,11 @@ body.p-proto .card-head .card-logo{grid-column:2;grid-row:1;margin-bottom:0;
    nothing. One column instead of two. */
 body.p-proto .card-head--plain{grid-template-columns:1fr}
 body.p-proto .card-head .card-k{min-width:0;line-height:1.25}
+/* A plated mark is 38px and a bare one is 30px, so a card with a plate put
+   its title 8px lower than the card beside it. The tag rows are floored by
+   margin-top:auto and so DO align, which gives the eye a reference edge and
+   makes the mismatched tops more visible, not less. Floor the head instead. */
+body.p-proto .card-head{min-height:38px}
 /* No wrap fallback on phones: the point of the lockup is that the name sits
    beside the mark. The name wraps to two lines instead, the mark shrinks.
    The track matches the 88px cap because that is genuinely the widest mark
