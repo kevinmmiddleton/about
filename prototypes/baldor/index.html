@@ -67,7 +67,12 @@
     <!-- Babel Standalone for JSX transformation (pinned) -->
     <script src="https://unpkg.com/@babel/standalone@8.0.2/babel.min.js"></script>
 
-    <script type="text/jsx" id="baldor-app">
+    <!-- Deliberately a type Babel does NOT auto-scan. Its scanner claims
+         text/jsx, text/babel and module, and it compiles what it claims with
+         the AUTOMATIC JSX runtime, which emits an import statement and throws
+         in a classic script. The explicit transform at the bottom of this file
+         is the one that runs; this tag is only a container for the source. -->
+    <script type="text/x-baldor-jsx" id="baldor-app">
 const { useState } = React;
 
 // ─── Design Tokens ──────────────────────────────────────────────────────────
