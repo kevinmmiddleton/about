@@ -270,6 +270,8 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
    already use, and it takes the mark to 16.51:1 in both schemes. */
 .tile--cypress{--tile-plate:var(--plate-white)}
 .tile--ww{--tile-plate:var(--plate-white)}
+/* Nava's wordmark is solid black and vanishes on the dark card. Same plate. */
+.tile--nava{--tile-plate:var(--plate-white)}
 
 /* ---------------------------------------------------------------------------
    Manual theme override. The site is system-driven by default; /slides/ keeps a
