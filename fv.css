@@ -271,6 +271,23 @@ a.card:hover .card-m{color:var(--c-on)}
 a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px);
   border-color:var(--ink);box-shadow:var(--shadow-2)}
 .card--soft:hover .card-m{color:var(--accent-text)}
+/* The same corner arrow the homepage case cards use, moved to the bottom right.
+   It follows the BORDER, not the homepage's hover fill: .card--soft deliberately
+   never fills, so --c-on (which is the text colour for sitting on a fill) would
+   put near-black on a dark card. Hue at rest to match the outline, ink on hover
+   to match the border firming, which is what the rule above already does.
+   .tags reserves room on its right so a fourth chip wraps instead of running
+   under the arrow: at 390 the HVAC card left only 20px after its last chip. */
+body.p-proto .card{position:relative}
+body.p-proto .card .arw-ne{position:absolute;bottom:1rem;right:1rem;margin:0;
+  width:.95rem;height:.95rem;color:var(--c-line,var(--ink));
+  transition:transform .22s,color .22s}
+body.p-proto .card:hover .arw-ne,body.p-proto .card:focus-visible .arw-ne{
+  color:var(--ink);transform:translate(2px,-2px)}
+body.p-proto .card .tags{padding-right:2.1rem}
+@media(prefers-reduced-motion:reduce){
+  body.p-proto .card .arw-ne{transition:color .22s}
+  body.p-proto .card:hover .arw-ne,body.p-proto .card:focus-visible .arw-ne{transform:none}}
 .card-logo{height:30px;max-width:130px;object-fit:contain;object-position:left center;
   justify-self:start;margin-bottom:.15rem}
 .card-logo.tile{height:38px;padding:8px 11px;background:var(--tile-plate,var(--brand-sa));border-radius:7px}
