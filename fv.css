@@ -1470,7 +1470,7 @@ body.p-slides{
   --info: #7ab8ff;
   --shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
   --shadow-soft: 0 4px 14px rgba(0,0,0,0.25);
-}body.p-slides, body.p-slides .entry-card, body.p-slides .dl, body.p-slides .email, body.p-slides .verdict, body.p-slides .callout, body.p-slides .embed, body.p-slides .intro-panel, body.p-slides .topnav a, body.p-slides .theme-toggle, body.p-slides .hero .meta .pill, body.p-slides .entry-card .tag{
+}body.p-slides, body.p-slides .entry-card, body.p-slides .dl, body.p-slides .email, body.p-slides .verdict, body.p-slides .callout, body.p-slides .embed, body.p-slides .intro-panel, body.p-slides .topnav a, body.p-slides .hero .meta .pill, body.p-slides .entry-card .tag{
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }body.p-slides *, body.p-slides *::before, body.p-slides *::after{ box-sizing: border-box; }body.p-slides{ scroll-behavior: smooth; }body.p-slides{
   margin: 0;
@@ -1502,27 +1502,8 @@ body.p-slides{
   display: flex;
   align-items: center;
   gap: 14px;
-}body.p-slides .topnav .crumb{ color: var(--muted-strong); }body.p-slides .theme-toggle{
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  background: var(--bg-soft);
-  color: var(--text-soft);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  cursor: pointer;
-  font: inherit;
-  transition: color .15s, border-color .15s, background .15s, transform .15s;
-}body.p-slides .theme-toggle:hover{
-  color: var(--accent);
-  border-color: var(--accent);
-  background: var(--surface);
-}body.p-slides .theme-toggle:active{ transform: scale(0.95); }body.p-slides .theme-toggle svg{ width: 16px; height: 16px; display: block; }body.p-slides .theme-toggle .icon-sun{ display: block; }body.p-slides .theme-toggle .icon-moon{ display: none; }body.p-slides [data-theme="light"] .theme-toggle .icon-sun{ display: none; }body.p-slides [data-theme="light"] .theme-toggle .icon-moon{ display: block; }
-@media (prefers-color-scheme: light) {body.p-slides :root:not([data-theme="dark"]) .theme-toggle .icon-sun{ display: none; }body.p-slides :root:not([data-theme="dark"]) .theme-toggle .icon-moon{ display: block; }
-}body.p-slides .hero{ margin-bottom: 56px; }body.p-slides .hero .eyebrow{
+}body.p-slides .topnav .crumb{ color: var(--muted-strong); }
+body.p-slides .hero{ margin-bottom: 56px; }body.p-slides .hero .eyebrow{
   display: inline-block;
   font-size: 11px;
   font-weight: 700;

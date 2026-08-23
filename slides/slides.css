@@ -61,7 +61,7 @@
 
 /* Smooth color transitions on theme change */
 body, .entry-card, .dl, .email, .verdict, .callout, .embed, .intro-panel,
-.topnav a, .theme-toggle, .hero .meta .pill, .entry-card .tag {
+.topnav a, .hero .meta .pill, .entry-card .tag {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
@@ -106,45 +106,10 @@ body {
 }
 .topnav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 .topnav .home { font-weight: 600; }
-.topnav-right {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
 .topnav .crumb { color: var(--muted-strong); }
 
 /* ===== Theme toggle ===== */
-.theme-toggle {
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  background: var(--bg-soft);
-  color: var(--text-soft);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  cursor: pointer;
-  font: inherit;
-  transition: color .15s, border-color .15s, background .15s, transform .15s;
-}
-.theme-toggle:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: var(--surface);
-}
-.theme-toggle:active { transform: scale(0.95); }
-.theme-toggle svg { width: 16px; height: 16px; display: block; }
 /* Show the target theme's icon (click sun to go light, click moon to go dark) */
-.theme-toggle .icon-sun { display: block; }
-.theme-toggle .icon-moon { display: none; }
-[data-theme="light"] .theme-toggle .icon-sun { display: none; }
-[data-theme="light"] .theme-toggle .icon-moon { display: block; }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .theme-toggle .icon-sun { display: none; }
-  :root:not([data-theme="dark"]) .theme-toggle .icon-moon { display: block; }
-}
 
 /* ===== Hero ===== */
 .hero { margin-bottom: 56px; }

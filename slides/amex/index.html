@@ -24,16 +24,6 @@
 <meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
 
 <!-- FOUC prevention: applies the saved theme before paint -->
-<script>
-  (function () {
-    try {
-      var t = localStorage.getItem('slides-theme');
-      if (t === 'light' || t === 'dark') {
-        document.documentElement.setAttribute('data-theme', t);
-      }
-    } catch (e) { /* private mode, ignore */ }
-  })();
-</script>
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
 <!-- fv.css FIRST: slides.css resolves its whole palette through fv.css's tokens
@@ -43,7 +33,7 @@
      after so its rules still win on the class names both sheets touch.
      The Inter/Epilogue webfonts went with this change: --font is var(--sans),
      which fv.css resolves to a system stack, so nothing was using them. -->
-<link rel="stylesheet" href="/fv.css?v=252d9a14">
+<link rel="stylesheet" href="/fv.css?v=54296829">
 <link rel="stylesheet" href="../slides.css" />
 
 <script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
@@ -91,17 +81,6 @@
 
   <nav class="topnav">
     <a href="../" class="home">← Slides I Made for Free</a>
-    <div class="topnav-right">
-      <button class="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"/>
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-    </div>
   </nav>
 
   <header class="hero">
@@ -316,6 +295,5 @@ Kevin</div>
 
 </div>
 
-<script src="../theme.js" defer></script>
 </body>
 </html>
