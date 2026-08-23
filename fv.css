@@ -3773,11 +3773,18 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
    at 1440 and 1200, where the hero column is narrow enough to break at two
    lines. Owned by the preceding claim, it can only ever travel with it. */
 .fv .scope-i{white-space:nowrap}
-.fv .scope-i:not(:last-child)::after{content:"\00b7";margin:0 .5em;opacity:.55}
+/* .72 not .55: at .55 the middot composited to 2.37:1 on the light page,
+   which is where "the separators do not show" came from. Both schemes clear
+   3:1 now. It stays below the text it separates so it still reads as
+   punctuation rather than a fifth item. */
+.fv .scope-i:not(:last-child)::after{content:"\00b7";margin:0 .5em;opacity:.72}
 @media(max-width:820px){
-  /* Below this the strip always wraps, and a middot at the end of a line
-     points at nothing. The line break is the separator. */
-  .fv .scope{font-size:.66rem;letter-spacing:.05em;max-width:none;
-    column-gap:1.15rem;row-gap:0}
-  .fv .scope-i:not(:last-child)::after{content:none}
+  /* The separators used to be dropped here, on the assumption that the strip
+     always wraps below this width so a middot would end a line pointing at
+     nothing. Both halves were wrong: at 768 and 820 all four claims sit on ONE
+     line, where losing the separators turns them into run-on text, and the
+     wrapped case already happens at 1280 with the middots on and reads fine.
+     Sizing still steps down; the separators stay. column-gap went with them:
+     it existed to stand in for the middot, whose own .5em margins now do it. */
+  .fv .scope{font-size:.66rem;letter-spacing:.05em;max-width:none;row-gap:0}
 }
