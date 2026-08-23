@@ -29,7 +29,7 @@ I've worked with all kinds of teams with all kinds of preferences for how we wor
 
 And when I say process or "how we work" I don't mean bureaucracy or process for process' sake. The goal is just enough structure to move fast without anyone being confused on how an idea becomes a shipped product. Structure creates speed, and confusion slows teams down and causes rework. Good team process should feel like breathing: from communication, the way we move through the day and work together, if done right it should feel automatic for everyone on the team.
 
-### HVAC.com: teaching a technology company to work like one
+### Teaching a technology company to work like one
 
 HVAC.com was acquired by Trane Technologies. HVAC.com's parent company, Magenta Tech, had been contracted to build digital experiences for Trane, and at some point it was cheaper to bring us in-house than to keep paying an outside shop. A few years before, Trane had added "Technologies" to its name, a signal it was serious about technology.
 
