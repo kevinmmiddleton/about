@@ -60,6 +60,13 @@ const CONFIG = {
   limitedMaxDates: 2,
   seriesMaxDates: 3,
 
+  // How long a screening stays on the page after it has started. The page is
+  // built twice a day and read at every hour of it, so the trim happens in the
+  // browser, not here. Sixty minutes because a reader running late for the 7:00
+  // can still make it, and because a listing that vanishes the instant the
+  // lights go down reads as a bug.
+  trimGraceMinutes: 60,
+
   // The vintage rule's age threshold, mirrored from GUARD.vintageMinAgeYears in
   // collect/collect.mjs. Same standing as the two numbers above: HERE FOR THE
   // READER-FACING COPY ONLY. The decision is made once in the collector and
@@ -1325,6 +1332,16 @@ html.q-on .bq-x{display:grid}
 /* Rows and days a search has excluded. A search hides by class; the two chips
    hide by :has(). Both resolve to display:none, so they compose without
    fighting and neither needs to know about the other. */
+/* The time trim. Rows and showtimes that have already played are hidden, never
+   removed: the feed deep-links to #s-<hash> per showtime, so the anchors have to
+   survive the day they describe. .t-bare is set by the script when a ledger line
+   has lost every time it had, and it takes out both the word "Also" and the
+   middot that the adjacency rule above would otherwise still draw. */
+.s.t-off{display:none}
+.s-l time.t-past,.s-l time.t-gone{display:none}
+.s-l.t-bare .s-also{display:none}
+.s-l.t-bare time + .s-why::before{content:none}
+
 .s.q-off{display:none}
 .day.q-off{display:none}
 .months a.q-off{opacity:.45;pointer-events:none}
@@ -1601,7 +1618,8 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   w('<header class="wrap">');
   w('<div class="mast">');
   w(`<h1>${esc(CONFIG.productName)}</h1>`);
-  w(`<p>New York City &middot; ${groupDigits(runs.length)} listings at ${venueCount} venues</p>`);
+  w(`<p>New York City &middot; <span class="n-tot">${groupDigits(runs.length)} listings</span>` +
+    ` at <span class="n-ven">${venueCount} venues</span></p>`);
   w('</div>');
 
   // The plate. The announcement, and the only place the mark appears at size.
@@ -1813,7 +1831,7 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
           return `<time id="s-${esc(hashOf(s))}" datetime="${xmlAttr(normalizeLocal(s.start_local))}">` +
             `${esc(label)}</time>`;
         });
-        ledger.push(`Also ${times.join(' ')}`);
+        ledger.push(`<span class="s-also">Also</span> ${times.join(' ')}`);
       }
       const why = [];
       if (!flags.o && Number.isInteger(rec.dates_at_venue)) {
@@ -1876,7 +1894,7 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   w(`<script type="application/ld+json">${jsonLdGraph(runs, CONFIG.siteBase)}</script>`);
 
   w('<script>');
-  w(PAGE_JS.trim());
+  w(PAGE_JS.trim().replace('__GRACE__', String(CONFIG.trimGraceMinutes)));
   w('</script>');
   w('</body>');
   w('</html>');
@@ -1967,7 +1985,214 @@ const PAGE_JS = String.raw`
      search box and wiped the very ?q= it was about to restore. */
   var ready = false;
 
-  /* ---- 1. the ICS copy button, and the shared copy behaviour ---- */
+  /* ---- 1. the time trim ----------------------------------------------
+     The page is built twice a day and read at every hour of it, so a reader
+     opening it at 7pm was being shown the 10:50am show at the top of the list.
+     Everything below runs in America/New_York whatever the reader's own clock
+     says, because the listings are New York wall time and carry no offset.
+     This also owns the day rollover that the standalone midnight guard used to
+     do: between New York midnight and the first build after it a static page
+     still leads with yesterday, and a tab left open crosses that line without
+     ever reloading.
+     Fails OPEN, and that is load-bearing. Nothing here is hidden by CSS and
+     revealed by script, so no JS, a throwing constructor, or a tz database that
+     resolves to UTC all leave the page exactly as it was built. */
+  var GRACE = __GRACE__;
+  var nyFmt = null;
+  try {
+    nyFmt = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York', hour12: false,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit'
+    });
+    /* A runtime whose tz database silently resolves to UTC would trim New York
+       listings against London's clock. Fail open instead. */
+    if (!nyFmt.formatToParts || !nyFmt.resolvedOptions ||
+        nyFmt.resolvedOptions().timeZone !== 'America/New_York') nyFmt = null;
+  } catch (e) { nyFmt = null; }
+
+  /* An instant, written as New York wall clock in the same shape the datetime
+     attributes use: YYYY-MM-DDTHH:MM. Shifting the INSTANT and then converting
+     is what makes the grace window right on the two DST days; doing the
+     subtraction on wall-clock digits is what makes it wrong. */
+  function nyStamp(ms) {
+    var parts = nyFmt.formatToParts(new Date(ms)), p = {}, i;
+    for (i = 0; i < parts.length; i++) p[parts[i].type] = parts[i].value;
+    if (!p.year || p.year.length !== 4 || !p.month || !p.day ||
+        !p.hour || !p.minute) return '';
+    /* hour12:false gives midnight as "24" on some engines and "00" on others. */
+    var h = p.hour === '24' ? '00' : p.hour;
+    return p.year + '-' + p.month + '-' + p.day + 'T' + h + ':' + p.minute;
+  }
+
+  function at(el) { return (el.getAttribute('datetime') || '').slice(0, 16); }
+
+  function dead(t) {
+    return t.classList.contains('t-past') || t.classList.contains('t-gone');
+  }
+
+  /* The headline time is "<time datetime=...>4:05<span>PM</span></time>". Rebuild
+     it from the datetime rather than lifting the ledger's own label: the ledger
+     drops the meridiem whenever it matched the headline it was sitting under, so
+     copying that text across would print "8:50" with nothing to read it against. */
+  function promote(head, src) {
+    var dt = src.getAttribute('datetime') || '';
+    var hh = parseInt(dt.slice(11, 13), 10), mm = dt.slice(14, 16);
+    if (isNaN(hh) || mm.length !== 2) return false;
+    var span = document.createElement('span');
+    span.textContent = hh < 12 ? 'AM' : 'PM';
+    head.setAttribute('datetime', dt);
+    head.textContent = (hh % 12 === 0 ? 12 : hh % 12) + ':' + mm;
+    head.appendChild(span);
+    return true;
+  }
+
+  function trimDay(sec, cutoff) {
+    var lis = sec.querySelectorAll('.s'), changed = false, i, j;
+    for (i = 0; i < lis.length; i++) {
+      var li = lis[i];
+      if (li.classList.contains('t-off')) continue;
+      var head = li.querySelector('.s-t time');
+      if (!head || at(head).length !== 16) continue;
+
+      /* Live showtimes, earliest first: the headline, then the ledger, which the
+         generator already emits in order. */
+      var extra = li.querySelectorAll('.s-l time'), live = [];
+      if (at(head) >= cutoff) live.push(head);
+      for (j = 0; j < extra.length; j++) {
+        if (dead(extra[j])) continue;
+        if (at(extra[j]) >= cutoff) live.push(extra[j]);
+        else { extra[j].classList.add('t-past'); changed = true; }
+      }
+
+      if (!live.length) { li.classList.add('t-off'); changed = true; continue; }
+      if (live[0] !== head && promote(head, live[0])) {
+        live[0].classList.add('t-gone');
+        changed = true;
+      }
+
+      var led = li.querySelector('.s-l'), any = false;
+      if (led) {
+        for (j = 0; j < extra.length; j++) if (!dead(extra[j])) { any = true; break; }
+        led.classList.toggle('t-bare', !any && extra.length > 0);
+      }
+    }
+
+    /* Promoting a headline moves a row forward in the day, so a row that opened
+       at 10:50am and now leads with its 8:50pm show would sit above a 6:30pm
+       that has not played yet. The day is ordered by start time and has to stay
+       that way, so re-sort on the headline the reader can actually see. Sort is
+       stable, ties keep the build's order, and an already-sorted day writes
+       nothing to the DOM. */
+    var ol = sec.querySelector('.rows');
+    if (ol && changed) {
+      var now = [], want, frag, moved = false;
+      for (i = 0; i < ol.children.length; i++) {
+        var el = ol.children[i], h = el.querySelector('.s-t time');
+        now.push({ el: el, k: h ? at(h) : '' });
+      }
+      want = now.slice().sort(function (a, b) { return a.k < b.k ? -1 : a.k > b.k ? 1 : 0; });
+      for (i = 0; i < want.length; i++) if (want[i].el !== now[i].el) { moved = true; break; }
+      if (moved) {
+        frag = document.createDocumentFragment();
+        for (i = 0; i < want.length; i++) frag.appendChild(want[i].el);
+        ol.appendChild(frag);
+      }
+    }
+    return changed;
+  }
+
+  function tally(root, sel, n) {
+    var el = root.querySelector(sel);
+    if (el) el.textContent = n + (n === 1 ? ' listing' : ' listings');
+  }
+
+  /* The four per-day counts and the two month-link counts are baked at build
+     time and switched by CSS off the filter chips, so a trim that hides rows has
+     to write all of them back or the header claims listings the day no longer
+     has. */
+  function recount() {
+    var secs = document.querySelectorAll('section.day');
+    var mon = {}, venues = {}, tot = 0, i, j;
+    for (i = 0; i < secs.length; i++) {
+      var sec = secs[i], lis = sec.querySelectorAll('.s');
+      var a = 0, o = 0, v = 0, ov = 0;
+      if (!sec.hidden) {
+        for (j = 0; j < lis.length; j++) {
+          var li = lis[j];
+          if (li.classList.contains('t-off')) continue;
+          a++;
+          var io = li.classList.contains('is-o'), iv = li.classList.contains('is-v');
+          if (io) o++;
+          if (iv) v++;
+          if (io && iv) ov++;
+          var vn = li.querySelector('.s-vn');
+          if (vn) venues[vn.textContent] = 1;
+        }
+        if (!a) sec.hidden = true;
+      }
+      sec.setAttribute('data-o', o);
+      sec.setAttribute('data-v', v);
+      sec.setAttribute('data-ov', ov);
+      tally(sec, '.n-all', a); tally(sec, '.n-o', o);
+      tally(sec, '.n-v', v);   tally(sec, '.n-ov', ov);
+      tot += a;
+      var ym = sec.getAttribute('data-month');
+      if (!ym) continue;
+      var m = mon[ym] || (mon[ym] = { a: 0, o: 0, v: 0, ov: 0 });
+      m.a += a; m.o += o; m.v += v; m.ov += ov;
+    }
+    for (i = 0; i < months.length; i++) {
+      var link = months[i];
+      var key = (link.getAttribute('href') || '').slice(3);
+      var mm = mon[key] || { a: 0, o: 0, v: 0, ov: 0 };
+      link.setAttribute('data-o', mm.o);
+      link.setAttribute('data-v', mm.v);
+      link.setAttribute('data-ov', mm.ov);
+      link.hidden = mm.a === 0;
+    }
+    var n = 0;
+    for (var k in venues) if (Object.prototype.hasOwnProperty.call(venues, k)) n++;
+    var eT = document.querySelector('.n-tot'), eV = document.querySelector('.n-ven');
+    if (eT) eT.textContent = tot + (tot === 1 ? ' listing' : ' listings');
+    if (eV) eV.textContent = n + (n === 1 ? ' venue' : ' venues');
+  }
+
+  function trim() {
+    if (!nyFmt) return;
+    var now = Date.now();
+    var cutoff = nyStamp(now - GRACE * 60000);
+    var stampNow = nyStamp(now);
+    if (!cutoff || !stampNow) return;
+    var today = stampNow.slice(0, 10);
+    var secs = document.querySelectorAll('section.day'), changed = false, i;
+    for (i = 0; i < secs.length; i++) {
+      var sec = secs[i], date = sec.getAttribute('data-date');
+      if (!date) continue;
+      /* Sections are emitted in date order, so the first future day ends it. */
+      if (date > today) break;
+      /* A day before today means either a build that has gone stale on someone's
+         phone or a tab left open past midnight. Either way it is over. */
+      if (date < today) {
+        if (!sec.hidden) { sec.hidden = true; changed = true; }
+        continue;
+      }
+      if (trimDay(sec, cutoff)) changed = true;
+    }
+    if (changed) { recount(); rows = null; days = null; if (box && box.value.trim()) pass(); }
+  }
+
+  /* Once now, then on a slow tick, then whenever the tab comes back. The tick
+     is the weak signal: phones throttle timers in a backgrounded tab, and the
+     reader who is running late is precisely the one returning to a tab that has
+     been in a pocket for an hour. */
+  trim();
+  setInterval(trim, 60000);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) trim();
+  });
+
+  /* ---- 2. the ICS copy button, and the shared copy behaviour ---- */
   function wireCopy(btn, get) {
     if (!btn || !navigator.clipboard) return;
     btn.hidden = false;
@@ -1983,7 +2208,7 @@ const PAGE_JS = String.raw`
     return document.getElementById('ics-url').textContent;
   });
 
-  /* ---- 2. the :has() fallback ---- */
+  /* ---- 3. the :has() fallback ---- */
   ['f-o', 'f-v'].forEach(function (k) {
     var el = document.getElementById(k);
     if (!el) return;
@@ -1995,38 +2220,6 @@ const PAGE_JS = String.raw`
     el.addEventListener('change', sync);
     sync();
   });
-
-  /* ---- 3. the midnight guard ----
-     Between New York midnight and the first build after it, a static page still
-     leads with yesterday. Hide the days that are over.
-     The date is NEW YORK'S, not the reader's: somebody in London at 06:00 is
-     looking at 01:00 in New York and must still see New York's today.
-     Fails OPEN. Nothing is hidden by CSS and revealed here, so no Intl, a
-     throwing constructor, or a runtime whose tz database silently resolves to
-     UTC all leave the page exactly as it was built. */
-  (function () {
-    var f = null;
-    try {
-      f = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York',
-        year: 'numeric', month: '2-digit', day: '2-digit' });
-    } catch (e) { return; }
-    if (!f || !f.resolvedOptions || f.resolvedOptions().timeZone !== 'America/New_York') return;
-    var p = {}, parts = f.formatToParts(new Date()), i;
-    for (i = 0; i < parts.length; i++) if (parts[i].type !== 'literal') p[parts[i].type] = parts[i].value;
-    if (!p.year || p.year.length !== 4 || !p.month || !p.day) return;
-    var today = p.year + '-' + p.month + '-' + p.day, gone = 0;
-    var secs = document.querySelectorAll('section.day[data-date]');
-    for (i = 0; i < secs.length; i++) {
-      if (secs[i].getAttribute('data-date') < today) { secs[i].hidden = true; gone++; }
-    }
-    if (!gone) return;
-    for (i = 0; i < months.length; i++) {
-      var ym = months[i].getAttribute('href').slice(3);
-      if (!document.querySelector('section.day[data-month="' + ym + '"]:not([hidden])')) {
-        months[i].hidden = true;
-      }
-    }
-  })();
 
   /* ---- 4. search ---- */
   if (!box) { root.classList.remove('pre-q'); return; }
@@ -2076,6 +2269,10 @@ const PAGE_JS = String.raw`
                   ym: sec.getAttribute('data-month') };
       for (var j = 0; j < lis.length; j++) {
         var li = lis[j], text = '';
+        /* A screening that has already played is not a search result. Skipping
+           it here rather than filtering later means pass(), the day counts and
+           the month counts all stay ignorant of the trim. */
+        if (li.classList.contains('t-off')) continue;
         var parts = li.querySelectorAll('.s-h,.s-v,.s-c');
         for (var k = 0; k < parts.length; k++) text += ' ' + parts[k].textContent;
         var rec = { el: li, hay: fold(text), hit: true,
