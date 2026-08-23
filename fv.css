@@ -947,24 +947,148 @@ body.p-case .toc-floating .toc-item:hover, body.p-case .toc-floating .toc-item.a
    inserting a card re-cycles the row on its own. Six hues, so a repeat is
    always five cards away. Bound to --cN-LINE, the outline role, which is the
    value tuned to clear 3:1 against the page in each mode. */
-body.p-case .card-grid > .card:nth-child(6n+1){--card-hue:var(--c4-line)}
-body.p-case .card-grid > .card:nth-child(6n+2){--card-hue:var(--c5-line)}
-body.p-case .card-grid > .card:nth-child(6n+3){--card-hue:var(--c3-line)}
-body.p-case .card-grid > .card:nth-child(6n+4){--card-hue:var(--c2-line)}
-body.p-case .card-grid > .card:nth-child(6n+5){--card-hue:var(--c1-line)}
-body.p-case .card-grid > .card:nth-child(6n+6){--card-hue:var(--c6-line)}
-/* A section with two grids restarts nth-child at 1, so the first card of the
-   second grid landed directly under the first card of the first grid in the
-   same hue. Three sections do this: hvac execution, hvac outcomes, lever
-   problem. Offsetting a following grid by three keeps the run going. Uses ~
-   rather than +: Lever puts an <h3> between its two grids, so they are not
-   adjacent siblings and + never matched. */
-body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+1){--card-hue:var(--c2-line)}
-body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+2){--card-hue:var(--c1-line)}
-body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+3){--card-hue:var(--c6-line)}
-body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+4){--card-hue:var(--c4-line)}
-body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+5){--card-hue:var(--c5-line)}
-body.p-case .card-grid ~ .card-grid > .card:nth-child(6n+6){--card-hue:var(--c3-line)}
+/* Card hues rotate PER SECTION, starting on that section's own rail hue.
+
+   This replaced a `.card-grid ~ .card-grid` offset that almost never fired.
+   Each .card-grid sits in its own div.section-container in its own
+   section.section, so two grids are siblings only when one section holds both.
+   Measured: `.card-grid ~ .card-grid` matched 0 times on hvac, oracle, sendoso
+   and both rocketlawyer pages, and once on lever. Every grid therefore restarted
+   at the same blue and all five sections on HVAC opened with an identical
+   #4B6FA5 card in the top-left.
+
+   Keying off .section:nth-of-type mirrors the rail rules below, which already
+   cycle these six hues by section, so a section's first card matches the rail
+   beside it and no first card repeats until six sections later.
+
+   Two laps. Six hues means a 7th card would otherwise take card 1's hue in the
+   same column a couple of rows down, which is the repeat that gets noticed;
+   HVAC's 7-card "Platform Capabilities" grid is the live case. The second lap
+   is offset ONE further round the same cycle, not three. Six hues and seven
+   cards must repeat something; the only question is where it lands. Offset
+   three put card 7 on card 4's hue, directly above it in the same column, which
+   is worse than what it replaced. Offset one puts card 7 on card 2's, two rows
+   up and a column across, and holds that separation out to twelve cards.
+   Generated per section: a uniform second-lap rule collided on the one section
+   whose own start already sat that far along. */
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+1){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+2){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+3){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+4){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+5){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+6){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+1){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+2){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+3){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+4){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+5){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+6){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+1){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+2){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+3){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+4){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+5){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+6){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+1){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+2){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+3){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+4){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+5){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+6){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+1){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+2){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+3){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+4){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+5){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+6){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+1){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+2){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+3){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+4){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+5){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+6){--card-hue:var(--c1-line)}
+
+/* Second lap: cards 7 through 12, offset three from this section's own start. */
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+1):nth-child(n+7){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+2):nth-child(n+7){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+3):nth-child(n+7){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+4):nth-child(n+7){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+5):nth-child(n+7){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid > .card:nth-child(6n+6):nth-child(n+7){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+1):nth-child(n+7){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+2):nth-child(n+7){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+3):nth-child(n+7){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+4):nth-child(n+7){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+5):nth-child(n+7){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid > .card:nth-child(6n+6):nth-child(n+7){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+1):nth-child(n+7){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+2):nth-child(n+7){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+3):nth-child(n+7){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+4):nth-child(n+7){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+5):nth-child(n+7){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid > .card:nth-child(6n+6):nth-child(n+7){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+1):nth-child(n+7){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+2):nth-child(n+7){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+3):nth-child(n+7){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+4):nth-child(n+7){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+5):nth-child(n+7){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid > .card:nth-child(6n+6):nth-child(n+7){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+1):nth-child(n+7){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+2):nth-child(n+7){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+3):nth-child(n+7){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+4):nth-child(n+7){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+5):nth-child(n+7){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid > .card:nth-child(6n+6):nth-child(n+7){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+1):nth-child(n+7){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+2):nth-child(n+7){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+3):nth-child(n+7){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+4):nth-child(n+7){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+5):nth-child(n+7){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid > .card:nth-child(6n+6):nth-child(n+7){--card-hue:var(--c6-line)}
+
+/* A section holding TWO grids still restarts nth-child at 1, putting the second
+   grid's first card under the first grid's in the same hue. Lever's "The
+   Problem" is the only one today. ~ not +, because an <h3> sits between them.
+   Per section again, and for the same reason as the second lap: a uniform
+   offset collided on Lever, whose section already starts one along, so its
+   first grid ended on the hue the second grid was about to open with. */
+body.p-case .section:nth-of-type(6n+2) .card-grid ~ .card-grid > .card:nth-child(6n+1){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid ~ .card-grid > .card:nth-child(6n+2){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid ~ .card-grid > .card:nth-child(6n+3){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid ~ .card-grid > .card:nth-child(6n+4){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid ~ .card-grid > .card:nth-child(6n+5){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+2) .card-grid ~ .card-grid > .card:nth-child(6n+6){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid ~ .card-grid > .card:nth-child(6n+1){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid ~ .card-grid > .card:nth-child(6n+2){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid ~ .card-grid > .card:nth-child(6n+3){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid ~ .card-grid > .card:nth-child(6n+4){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid ~ .card-grid > .card:nth-child(6n+5){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+3) .card-grid ~ .card-grid > .card:nth-child(6n+6){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid ~ .card-grid > .card:nth-child(6n+1){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid ~ .card-grid > .card:nth-child(6n+2){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid ~ .card-grid > .card:nth-child(6n+3){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid ~ .card-grid > .card:nth-child(6n+4){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid ~ .card-grid > .card:nth-child(6n+5){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+4) .card-grid ~ .card-grid > .card:nth-child(6n+6){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid ~ .card-grid > .card:nth-child(6n+1){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid ~ .card-grid > .card:nth-child(6n+2){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid ~ .card-grid > .card:nth-child(6n+3){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid ~ .card-grid > .card:nth-child(6n+4){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid ~ .card-grid > .card:nth-child(6n+5){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+5) .card-grid ~ .card-grid > .card:nth-child(6n+6){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid ~ .card-grid > .card:nth-child(6n+1){--card-hue:var(--c5-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid ~ .card-grid > .card:nth-child(6n+2){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid ~ .card-grid > .card:nth-child(6n+3){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid ~ .card-grid > .card:nth-child(6n+4){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid ~ .card-grid > .card:nth-child(6n+5){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+6) .card-grid ~ .card-grid > .card:nth-child(6n+6){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid ~ .card-grid > .card:nth-child(6n+1){--card-hue:var(--c3-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid ~ .card-grid > .card:nth-child(6n+2){--card-hue:var(--c2-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid ~ .card-grid > .card:nth-child(6n+3){--card-hue:var(--c1-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid ~ .card-grid > .card:nth-child(6n+4){--card-hue:var(--c6-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid ~ .card-grid > .card:nth-child(6n+5){--card-hue:var(--c4-line)}
+body.p-case .section:nth-of-type(6n+1) .card-grid ~ .card-grid > .card:nth-child(6n+6){--card-hue:var(--c5-line)}
+
 body.p-case .card{border-top:3px solid var(--card-hue,var(--rule))}
 
 /* Section rails, same treatment. .hero is always the first <section> and does

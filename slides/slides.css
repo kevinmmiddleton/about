@@ -26,7 +26,11 @@
   --bg-soft: var(--bg2);
   --surface: var(--bg2);
   --surface-2: var(--bg2);
-  --border: var(--rule);
+  /* --rule is fv.css's hairline DIVIDER; --rule-strong is the one built to
+     read as an object edge at 3:1. Buttons, pills, download rows and cards
+     are objects, so they take the stronger one; --border-soft keeps the
+     hairline for genuine dividers. */
+  --border: var(--rule-strong);
   --border-soft: var(--rule);
   --text: var(--ink);
   --text-soft: var(--ink2);
@@ -46,27 +50,12 @@
 /* Light palette via OS preference */
 /* light override removed: /fv.css already flips every token above */
 
-/* Manual overrides (win regardless of OS preference) */
-[data-theme="dark"] {
-  --bg: #0e0f12;
-  --bg-soft: #15171c;
-  --surface: #1a1d24;
-  --surface-2: #20242d;
-  --border: #2a2f3a;
-  --border-soft: #232831;
-  --text: #e8eaf0;
-  --text-soft: #b6bac6;
-  --muted-strong: #9aa0b0;
-  --accent: #ff8a3d;
-  --accent-soft: #ffb787;
-  --accent-tint: rgba(255, 138, 61, 0.10);
-  --accent-ring: rgba(255, 138, 61, 0.30);
-  --good: #4cfec8;
-  --bad: #ff6b8a;
-  --info: #7ab8ff;
-  --shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
-  --shadow-soft: 0 4px 14px rgba(0,0,0,0.25);
-}
+/* Manual overrides used to be redeclared here with literal values, which meant
+   toggling to dark landed on a DIFFERENT dark than the OS gave you: --accent
+   flipped gold to orange, --surface #17171B to #1a1d24. fv.css already ships
+   :root[data-theme="dark"], and at (0,2,0) it was already winning every token
+   it declares, which is why only half the palette moved. The mappings above
+   now resolve the same way under the toggle as under the media query. */
 
 /* [data-theme=light] removed: fv.css defines the manual override */
 
@@ -165,8 +154,10 @@ body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-tint);
+  color: var(--accent-soft);
+  /* The gold tint fill was pulling the ground toward the text and holding this
+     to 3.98:1 in light. The ring alone reads as the same pill and measures
+     5.03:1. Dark was never the problem (8.91:1 either way). */
   border: 1px solid var(--accent-ring);
   padding: 4px 10px;
   border-radius: 999px;
@@ -222,8 +213,10 @@ section h2 .num {
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 600;
-  color: var(--accent);
-  background: var(--accent-tint);
+  color: var(--accent-soft);
+  /* The gold tint fill was pulling the ground toward the text and holding this
+     to 3.98:1 in light. The ring alone reads as the same pill and measures
+     5.03:1. Dark was never the problem (8.91:1 either way). */
   border: 1px solid var(--accent-ring);
   padding: 2px 8px;
   border-radius: 6px;
@@ -330,7 +323,7 @@ section li { margin-bottom: 6px; }
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-soft);
   margin-bottom: 6px;
 }
 
