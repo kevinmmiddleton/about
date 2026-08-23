@@ -6233,7 +6233,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             if (!a) return '<span class="w">usage: cat &lt;file&gt;</span>';
             const k = a.replace(/\.(pdf|txt|md)$/, '');
             const docs = {
-                resume: '<span class="a">Kevin Middleton — Senior Product Manager.pdf</span>  <span class="d">[148 KB]</span>\n<a href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager%2007-22-2026.pdf" download>download →</a>',
+                resume: '<span class="a">Kevin Middleton — Product Manager.pdf</span>  <span class="d">[143 KB]</span>\n<a href="/Kevin%20Middleton%20-%20Product%20Manager.pdf" download>download →</a>',
                 values: 'start with understanding · give grace, get grace\ncollaboration wins · keep it human\nstructure without rigidity · make it simple',
                 contact: '<a href="mailto:kevin@middleton.io">kevin@middleton.io</a>\n<a href="https://linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener">linkedin.com/in/kevinmiddleton</a>\n<a href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener">github.com/kevinmmiddleton</a>',
                 quietfeed: '<span class="a">QuietFeed</span> — RSS reader that respects your attention.\n<a href="https://quietfeed.com" target="_blank" rel="noopener">quietfeed.com →</a>',
