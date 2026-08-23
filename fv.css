@@ -296,11 +296,16 @@ a.card--soft:hover{background:var(--bg);color:inherit;transform:translateY(-2px)
    a rule written from dark-mode failures missed it. Measured by rasterising
    the PNG and scoring every opaque pixel, not by eye.
    The rule this settles on: a mark gets a plate when its ink falls below 3:1
-   in EITHER scheme. Baldor and American Express stay bare because each
-   carries its own ground -- a black disc and a blue box. */
+   in EITHER scheme. American Express stays bare because it carries its own
+   ground, a blue box. Baldor was listed here too, on the reasoning that its
+   black disc did the same job, but the disc is only part of the mark and the
+   wordmark beside it sits bare on the dark card. It takes a plate now. */
 .tile--hvac{--tile-plate:var(--plate-white)}
 /* Justworks ink is #000000: 1.01:1 on the dark card. */
 .tile--justworks{--tile-plate:var(--plate-white)}
+/* Baldor: white, not the --brand-sa orange that .card-logo.tile falls back to
+   when no modifier names a plate. */
+.tile--baldor{--tile-plate:var(--plate-white)}
 
 /* The prototypes grid holds eight cards against a six-hue cycle, so cards 7 and
    8 repeated cards 1 and 2. Two more hues, taken from the Building section so
