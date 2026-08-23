@@ -16,7 +16,7 @@ tags:
   - Career
 featured: false
 sort_order: null
-excerpt: Building's never been easier. Which makes how you work matter even more. Wanna move fast and not break things? Take a beat first.
+excerpt: Building's never been easier. Which makes how we work matter even more. Wanna move fast and not break things? Take a beat first.
 cover_image: /blog/images/start-slow-to-move-fast-cover.jpg
 cover_alt: ''
 lede_align: left
