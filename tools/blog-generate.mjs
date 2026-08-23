@@ -60,11 +60,73 @@ function inline(text) {
   s = s.replace(/\x02(\d+)\x03/g, (_, n) => `<code>${code[+n]}</code>`);
   return s;
 }
+// Inline PDF embed:
+//   {{pdf: /assets/docs/deck.pdf | title=Deck | pages=15 | download=Deck.pdf}}
+// src is the only required part. Authored from Sveltia as a plain line, the same
+// way an image is, so there is nothing to learn beyond the token itself.
+const PDF_LINE = /^\{\{pdf:\s*([^|}]+?)\s*(\|[^}]*)?\}\}$/i;
 const IMG_LINE = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/;
 // linked image: [![alt](src "title")](url) -> figure whose image is a link
 const IMG_LINK_LINE = /^\[!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)\]\(([^)\s]+)\)$/;
 
-function renderMarkdown(md='') {
+// Params are `key=value` separated by |. Values may contain spaces (a title
+// usually does), so only the FIRST = splits, and an unknown key is ignored
+// rather than fatal: a typo in Sveltia should cost a missing subtitle, not a
+// broken build.
+function pdfParams(rest) {
+  const out = {};
+  for (const part of String(rest || '').split('|')) {
+    const t = part.trim();
+    if (!t) continue;
+    const eq = t.indexOf('=');
+    if (eq < 1) continue;
+    out[t.slice(0, eq).trim().toLowerCase()] = t.slice(eq + 1).trim();
+  }
+  return out;
+}
+
+// The feed gets a link, never the component. A viewer built from a module, two
+// IntersectionObservers and a canvas has no meaning inside an RSS reader, and
+// several of them strip the markup to an empty box.
+function pdfFeedLink(src, title, pages) {
+  const n = Number(pages);
+  const what = Number.isInteger(n) && n > 0 ? `PDF, ${n} page${n === 1 ? '' : 's'}` : 'PDF';
+  return `<p><a href="${escAttr(src)}">${esc(title)}</a> (${what})</p>`;
+}
+
+function pdfEmbed(src, p, slug) {
+  const title = p.title || src.split('/').pop().replace(/\.pdf$/i, '');
+  const file = p.download || src.split('/').pop();
+  const n = Number(p.pages);
+  const sub = Number.isInteger(n) && n > 0 ? `${n} page${n === 1 ? '' : 's'}` : 'PDF document';
+  // target="_self" on the download is not redundant. Every anchor in the body
+  // that does not already declare a target gets target="_blank" bolted on
+  // further down, and a download link that opens a tab is a download link that
+  // flashes a tab. Declaring the default is what opts it out of that rule.
+  // Plausible goals are class-based, matching every other tracked control on
+  // this site. That is also what sidesteps the +-decodes-to-a-space trap: the
+  // classes below are the ONLY place these two goals are fired, so there is no
+  // direct plausible() call anywhere that could disagree about the separator.
+  const tag = (goal) => `plausible-event-name=${goal}` + (slug ? ` plausible-event-post=${escAttr(slug)}` : '');
+  return `<div class="pdf-embed" role="group" aria-label="${escAttr(title)}, PDF document"` +
+    ` data-src="${escAttr(src)}" data-title="${escAttr(title)}">
+  <div class="pdf-poster">
+    <div class="pdf-poster-meta">
+      <span class="pdf-kind">PDF</span>
+      <h3 class="pdf-title">${esc(title)}</h3>
+      <p class="pdf-sub">${esc(sub)}</p>
+    </div>
+    <div class="pdf-actions">
+      <button type="button" class="pdf-btn pdf-open ${tag('PDF+View')}">View document</button>
+      <a class="pdf-btn pdf-btn-primary pdf-dl ${tag('PDF+Download')}" href="${escAttr(src)}" download="${escAttr(file)}" target="_self">Download</a>
+      <a class="pdf-btn pdf-tab" href="${escAttr(src)}" target="_blank" rel="noopener">Open in new tab \u2197</a>
+    </div>
+  </div>
+  <div class="pdf-stage"></div>
+</div>`;
+}
+
+function renderMarkdown(md='', opts={}) {
   const lines = md.replace(/\r\n/g,'\n').split('\n');
   const out = [];
   let i = 0;
@@ -84,6 +146,16 @@ function renderMarkdown(md='') {
       i++; // closing fence
       out.push(`<div class="prompt-block">${esc(buf.join('\n'))}</div>`);
       continue;
+    }
+    // inline PDF embed
+    const pdf = line.trim().match(PDF_LINE);
+    if (pdf) {
+      const src = pdf[1].trim();
+      const params = pdfParams(pdf[2]);
+      out.push(opts.feed
+        ? pdfFeedLink(src, params.title || src.split('/').pop().replace(/\.pdf$/i, ''), params.pages)
+        : pdfEmbed(src, params, opts.slug));
+      i++; continue;
     }
     // linked image -> figure with the image wrapped in a link (check first;
     // its pattern is a superset of the standalone image)
@@ -140,7 +212,8 @@ function renderMarkdown(md='') {
     // paragraph (gather until blank / block start)
     const para = [];
     while (i < lines.length && lines[i].trim() !== '' && !lines[i].trim().startsWith('```')
-           && !/^(#{2,3})\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i]) && !/^>\s?/.test(lines[i]) && !lines[i].trim().match(IMG_LINE) && !lines[i].trim().match(IMG_LINK_LINE)) {
+           && !/^(#{2,3})\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i]) && !/^>\s?/.test(lines[i]) && !lines[i].trim().match(IMG_LINE) && !lines[i].trim().match(IMG_LINK_LINE)
+           && !lines[i].trim().match(PDF_LINE)) {
       para.push(lines[i]); i++;
     }
     out.push(`<p>${inline(para.join(' '))}</p>`);
@@ -349,7 +422,19 @@ function articlePage(post, all) {
       {"@type":"ListItem",position:1,name:"Home",item:`${SITE}/`},
       {"@type":"ListItem",position:2,name:"Blog",item:`${SITE}/blog/`},
       {"@type":"ListItem",position:3,name:post.title,item:url}]};
-  const body = [renderMarkdown(post.body_markdown)].filter(Boolean).join('\n\n');
+  const body = [renderMarkdown(post.body_markdown, { slug: post.slug })].filter(Boolean).join('\n\n');
+  // The viewer's stylesheet and module ride along only on posts that carry an
+  // embed. Every other post pays nothing, which is the point of the whole
+  // click-to-load design.
+  const hasPdf = body.includes('class="pdf-embed"');
+  const pdfCss = hasPdf
+    ? `\n    <link rel="stylesheet" href="/blog/pdf-embed.css?v=${stamp('blog/pdf-embed.css')}">`
+    : '';
+  // type="module" is doing real work: a browser that cannot run it never marks
+  // the embed ready, so the reader never sees a View button that cannot fire.
+  const pdfJs = hasPdf
+    ? `\n    <script type="module" src="/blog/pdf-embed.js?v=${stamp('blog/pdf-embed.js')}"></script>`
+    : '';
 
   // Section anchors. Posts author their section heads as ###, which the remap
   // above turns into h2, so the contents list keys off h2 and not h3.
@@ -429,7 +514,7 @@ ${sections.map((sec) => `                <li><a href="#${sec.id}">${esc(sec.text
     <meta name="twitter:description" content="${escAttr(post.excerpt)}">
     <meta name="twitter:image" content="${escAttr(ogImage)}">
 
-${HEAD_LINKS}
+${HEAD_LINKS}${pdfCss}
 
     <!-- JSON-LD: Article -->
     <script type="application/ld+json">
@@ -491,7 +576,7 @@ ${next}
 
 ${FOOTER}
 
-    <script src="/blog/blog-nav.js?v=${stamp('blog/blog-nav.js')}"></script>
+    <script src="/blog/blog-nav.js?v=${stamp('blog/blog-nav.js')}"></script>${pdfJs}
 </body>
 </html>
 `;
@@ -736,7 +821,7 @@ function feedImage(p) {
 function writeFeed(posts) {
   const items = posts.slice(0, 20).map(p => {
     const url = `${SITE}/blog/${p.slug}/`;
-    const html = absolutize(renderMarkdown(p.body_markdown));
+    const html = absolutize(renderMarkdown(p.body_markdown, { slug: p.slug, feed: true }));
     const img = feedImage(p);
     return `    <item>
       <title>${esc(p.title)}</title>
