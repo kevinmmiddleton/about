@@ -31,7 +31,7 @@ And when I say process or "how we work" I don't mean bureaucracy or process for 
 
 ### Teaching a technology company to work like one
 
-HVAC.com was acquired by Trane Technologies. HVAC.com's parent company, Magenta Tech, had been contracted to build digital experiences for Trane, and at some point it was cheaper to bring us in-house than to keep paying an outside shop. A few years before, Trane had added "Technologies" to its name, a signal it was serious about technology.
+HVAC.com was acquired by Trane Technologies. HVAC.com's parent company, Magenta, had been contracted to build digital experiences for Trane, and at some point it was cheaper to bring us in-house than to keep paying an outside shop. A few years before, Trane had added "Technologies" to its name, a signal it was serious about technology.
 
 Our stakeholders were used to outside vendors that would abstract the process away and charge you for the privilege. In-house product development was new to them. There was no shared template for annual planning and no agreed way to take everything we wanted to do in a year and summarize it, size it, and socialize it across product, engineering, design, and stakeholders.
 
