@@ -36,9 +36,14 @@
 </script>
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤑</text></svg>" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Epilogue:wght@700;800;900&display=swap" rel="stylesheet">
+<!-- fv.css FIRST: slides.css resolves its whole palette through fv.css's tokens
+     (--ink, --sans, --bg2, --rule, --c1-line ...) and defines none of them
+     itself, so without this every token here computes to invalid, the body
+     font falls back to Times, and the page renders unstyled. slides.css comes
+     after so its rules still win on the class names both sheets touch.
+     The Inter/Epilogue webfonts went with this change: --font is var(--sans),
+     which fv.css resolves to a system stack, so nothing was using them. -->
+<link rel="stylesheet" href="/fv.css?v=db583716">
 <link rel="stylesheet" href="../slides.css" />
 
 <script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>

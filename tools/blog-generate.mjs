@@ -118,8 +118,11 @@ function pdfEmbed(src, p, slug) {
   // classes below are the ONLY place these two goals are fired, so there is no
   // direct plausible() call anywhere that could disagree about the separator.
   const tag = (goal) => `plausible-event-name=${goal}` + (slug ? ` plausible-event-post=${escAttr(slug)}` : '');
+  // open=true renders the viewer immediately instead of waiting for a click.
+  // Off by default: it costs the reader the document plus pdf.js on pageview.
+  const auto = /^(1|true|yes)$/i.test(p.open || '') ? ' data-open' : '';
   return `<div class="pdf-embed" role="group" aria-label="${escAttr(title)}, PDF document"` +
-    ` data-src="${escAttr(src)}" data-title="${escAttr(title)}">
+    ` data-src="${escAttr(src)}" data-title="${escAttr(title)}"${auto}>
   <div class="pdf-poster">
     <div class="pdf-poster-meta">
       <span class="pdf-kind">PDF</span>
@@ -434,17 +437,18 @@ function articlePage(post, all) {
       {"@type":"ListItem",position:2,name:"Blog",item:`${SITE}/blog/`},
       {"@type":"ListItem",position:3,name:post.title,item:url}]};
   const body = [renderMarkdown(post.body_markdown, { slug: post.slug })].filter(Boolean).join('\n\n');
-  // The viewer's stylesheet and module ride along only on posts that carry an
-  // embed. Every other post pays nothing, which is the point of the whole
+  // The viewer's stylesheet and module live at the site root and /js rather
+  // than under /blog, because /slides/ uses the same component. They ride along
+  // only on posts that carry an embed. Every other post pays nothing, which is the point of the whole
   // click-to-load design.
   const hasPdf = body.includes('class="pdf-embed"');
   const pdfCss = hasPdf
-    ? `\n    <link rel="stylesheet" href="/blog/pdf-embed.css?v=${stamp('blog/pdf-embed.css')}">`
+    ? `\n    <link rel="stylesheet" href="/pdf-embed.css?v=${stamp('pdf-embed.css')}">`
     : '';
   // type="module" is doing real work: a browser that cannot run it never marks
   // the embed ready, so the reader never sees a View button that cannot fire.
   const pdfJs = hasPdf
-    ? `\n    <script type="module" src="/blog/pdf-embed.js?v=${stamp('blog/pdf-embed.js')}"></script>`
+    ? `\n    <script type="module" src="/js/pdf-embed.js?v=${stamp('js/pdf-embed.js')}"></script>`
     : '';
 
   // Section anchors. Posts author their section heads as ###, which the remap

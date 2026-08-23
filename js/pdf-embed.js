@@ -281,4 +281,13 @@ document.querySelectorAll('.pdf-embed').forEach((embed) => {
   /* Only now does the button exist as far as the reader is concerned. */
   embed.classList.add('is-ready');
   btn.addEventListener('click', () => open(embed));
+
+  /* data-open: the document IS the page, so asking for a click first is
+     ceremony. A slides page is exactly that case. This deliberately gives up
+     the click-to-load saving, which is the right trade only where the reader
+     came for the document and nothing else; on a blog post, where the deck is
+     one block inside an article, leave it off.
+     The poster still renders first and is still what a reader without script
+     keeps, so nothing here weakens the no-JS path. */
+  if ('open' in embed.dataset && embed.dataset.open !== 'false') open(embed);
 });
