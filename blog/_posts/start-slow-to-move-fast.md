@@ -39,6 +39,8 @@ I don't know what it is about me, but as soon as I realize that we have a proces
 
 That annual planning template was used the next year. And we even moved planning up by several months so that the team could get a preview of what was coming and start the process even earlier. Having a template and a way of working is the kind of thing that enables those outcomes.
 
+{{pdf: /assets/docs/magenta-pdp-agile.pdf | title=Magenta PDP Agile | pages=15 | download=Magenta-PDP-Agile.pdf}}
+
 ### Standing up process? You need buy-in.
 
 Setting up process at a newly formed startup with team members who dislike meetings, can't agree on process or ownership and never had a retro is another beast entirely.
