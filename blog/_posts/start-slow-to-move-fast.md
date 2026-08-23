@@ -1,7 +1,7 @@
 ---
 title: How we work > What we're building
 slug: start-slow-to-move-fast
-status: ready
+status: published
 published_at: 2026-08-22
 updated_at: ''
 topic: Product
