@@ -1,5 +1,5 @@
 ---
-title: How we work > What we're building
+title: How we work matters more than ever
 slug: start-slow-to-move-fast
 status: published
 published_at: 2026-08-22
