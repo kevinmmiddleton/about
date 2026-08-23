@@ -64,7 +64,17 @@ function inline(text) {
 //   {{pdf: /assets/docs/deck.pdf | title=Deck | pages=15 | download=Deck.pdf}}
 // src is the only required part. Authored from Sveltia as a plain line, the same
 // way an image is, so there is nothing to learn beyond the token itself.
-const PDF_LINE = /^\{\{pdf:\s*([^|}]+?)\s*(\|[^}]*)?\}\}$/i;
+//
+// Matched LOOSELY and unescaped afterwards rather than matched precisely,
+// because Sveltia escapes markdown punctuation on its way out and the set it
+// escapes -- see the inline() pass below, which already has to undo it for code
+// spans -- covers braces, hyphens and dots. A token typed as
+//   {{pdf: /assets/docs/magenta-pdp-agile.pdf}}
+// can therefore reach this file as
+//   \{\{pdf: /assets/docs/magenta\-pdp\-agile\.pdf\}\}
+// and a strict pattern silently renders it as a paragraph of literal braces.
+const PDF_LINE = /^\\?\{\\?\{\s*pdf:\s*(.+?)\s*\\?\}\\?\}$/i;
+const unCms = (s) => String(s).replace(/\\([\\`*_\[\](){}#+\-.!>~|])/g, '$1');
 const IMG_LINE = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/;
 // linked image: [![alt](src "title")](url) -> figure whose image is a link
 const IMG_LINK_LINE = /^\[!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)\]\(([^)\s]+)\)$/;
@@ -73,9 +83,9 @@ const IMG_LINK_LINE = /^\[!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)\]\(([^)\s]
 // usually does), so only the FIRST = splits, and an unknown key is ignored
 // rather than fatal: a typo in Sveltia should cost a missing subtitle, not a
 // broken build.
-function pdfParams(rest) {
+function pdfParams(parts) {
   const out = {};
-  for (const part of String(rest || '').split('|')) {
+  for (const part of parts) {
     const t = part.trim();
     if (!t) continue;
     const eq = t.indexOf('=');
@@ -150,8 +160,9 @@ function renderMarkdown(md='', opts={}) {
     // inline PDF embed
     const pdf = line.trim().match(PDF_LINE);
     if (pdf) {
-      const src = pdf[1].trim();
-      const params = pdfParams(pdf[2]);
+      const bits = unCms(pdf[1]).split('|').map((x) => x.trim());
+      const src = bits.shift();
+      const params = pdfParams(bits);
       out.push(opts.feed
         ? pdfFeedLink(src, params.title || src.split('/').pop().replace(/\.pdf$/i, ''), params.pages)
         : pdfEmbed(src, params, opts.slug));
