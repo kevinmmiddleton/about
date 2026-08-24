@@ -6,7 +6,15 @@ name: Publish blog
 # No secrets needed. Triggers:
 #   - push to main touching posts/generator (the normal publish path)
 #   - workflow_dispatch: run manually from the Actions tab
-#   - schedule: once-daily safety net
+#   - schedule: daily, and this one is LOAD-BEARING, not a safety net.
+#     status=published with a future published_at is held back by the generator
+#     until that date arrives in New York. This run is what puts it live, so
+#     removing it silently strands every scheduled post.
+#
+#     09:00 UTC is 05:00 EDT and 04:00 EST, both the same calendar day as the
+#     UTC date, so a post dated the 8th goes out on the morning of the 8th in
+#     New York under either offset. GitHub's cron does not observe DST, which
+#     is why the hour has to work for both.
 on:
   push:
     branches: [main]

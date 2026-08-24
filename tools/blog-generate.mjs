@@ -29,6 +29,24 @@ function fmtDate(iso) {
 }
 function isoDate(iso) { return iso ? new Date(iso).toISOString().slice(0,10) : ''; }
 
+// Today's date in New York, as YYYY-MM-DD. Kevin is in NYC and a post dated the
+// 8th should go live on the 8th here, not at 8pm on the 7th.
+//
+// The comparison has to be date-string against date-string. YAML parses
+// `published_at: 2026-06-08` into a Date at UTC MIDNIGHT, which is 8pm on the
+// 7th in New York, so `new Date(published_at) <= Date.now()` calls a post "past"
+// a day early. isoDate() reads the calendar date back out of that Date, so
+// comparing the two strings compares what was actually authored.
+function todayInNY() {
+  try {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).format(new Date());
+  } catch {
+    return new Date().toISOString().slice(0, 10);  // no tz data: never hold a post back
+  }
+}
+
 // ---------- mini markdown ----------
 function inline(text) {
   const lit = [];   // backslash-escaped literals
@@ -1068,10 +1086,18 @@ async function main() {
   const all = loadPosts();
   const skipped = all.filter(p => p.status === 'published' && !p.published_at);
   for (const p of skipped) console.warn(`  ! SKIPPED "${p.slug}": status=published but published_at is empty — set a date to publish.`);
+
+  // Scheduling. status=published with a date in the future is a post waiting for
+  // its day, not a post to build now. The workflow's daily cron re-runs this, so
+  // the post goes live on the morning of its date without anyone touching it.
+  const today = todayInNY();
+  const held = all.filter(p => p.status === 'published' && p.published_at && isoDate(p.published_at) > today);
+  for (const p of held) console.log(`  HELD "${p.slug}": scheduled for ${isoDate(p.published_at)} (today in New York is ${today}).`);
+
   const posts = all
-    .filter(p => p.status === 'published' && p.published_at)
+    .filter(p => p.status === 'published' && p.published_at && isoDate(p.published_at) <= today)
     .sort((a, b) => new Date(b.published_at || 0) - new Date(a.published_at || 0));
-  console.log(`Loaded ${all.length} post file(s); ${posts.length} published.`);
+  console.log(`Loaded ${all.length} post file(s); ${posts.length} published${held.length ? `, ${held.length} scheduled` : ''}.`);
   const adhoc = [...new Set(posts.filter(p => (p.topic_new || '').trim()).map(p => topicOf(p)))];
   if (adhoc.length) {
     console.warn(`  ! topic(s) set via "New topic" and not yet in the dropdown: ${adhoc.join(', ')}`);
