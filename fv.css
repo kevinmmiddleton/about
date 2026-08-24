@@ -3158,6 +3158,13 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
 @media(max-width:700px){/* template-rows:none is explicit so this block stands on its own instead of
      inheriting it from the 900px rule above. */
   .fv .bento{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:auto}.fv .bento .h4{grid-row:auto}.fv .fv .bento .bc{min-height:8.6rem}
+  /* Clearance for the .go bar, for EVERY card rather than just the two list
+     ones. At three and two columns the cards sit in fixed rows and carry slack
+     the bar slides into. Here the rows are auto, so a card is exactly as tall
+     as its content and the bar lands on the description: measured 17px of gap
+     against a 31px bar, so 14px of text went under it on six of the nine.
+     Touch makes it worse, because hover:none pins the bar open permanently. */
+  .fv .bento .bc>div{padding-bottom:34px}
 }.fv .bc{border-radius:var(--r);padding:1.05rem;display:grid;align-content:space-between;
   position:relative;overflow:hidden;text-decoration:none;transition:transform .3s cubic-bezier(.2,.8,.3,1)}/* Two selectors on purpose. `.bc` elements carry `.rv` themselves, and the
    reveal's end state `.js-reveal .rv.on{transform:none}` is (0,3,0) — it was
