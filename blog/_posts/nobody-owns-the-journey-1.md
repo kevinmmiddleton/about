@@ -1,5 +1,5 @@
 ---
-title: Nobody owns the journey
+title: If everyone owns the customer journey, no one does
 slug: nobody-owns-the-journey
 status: ready
 published_at: 2026-08-23
@@ -15,7 +15,7 @@ tags:
   - Strategy
 featured: false
 sort_order: null
-excerpt: If everyone owns the customer journey, no one does.
+excerpt: Is your customer journey smooth, or more like ka-chunk, ka-chunk, ka-chunk?
 cover_image: /blog/images/nobody-owns-the-journey-cover.jpg
 cover_alt: Teams stand on raised platforms, each working on a stage of a journey, reading a map, reviewing tablets, handing off a product, shaking hands, connected by short bridges. A lone customer stands by themselves on a bare platform at the edge of a wide gap that no bridge crosses.
 lede_align: left
