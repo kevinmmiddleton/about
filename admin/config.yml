@@ -8,6 +8,11 @@ backend:
   base_url: https://sveltia-cms-auth.kevin-middleton.workers.dev
   # (Token sign-in still works too, no backend needed.)
 
+# Replaces "Sveltia CMS" on the sign-in screen and in the browser tab. Sveltia
+# adds a small "Powered by Sveltia CMS" line in the sign-in footer once this is
+# set; that attribution stays, it is an MIT project doing the work here.
+app_title: middleton.io
+
 # One shared folder for all images, matching the live site convention.
 media_folder: blog/images
 public_folder: /blog/images

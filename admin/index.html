@@ -4,6 +4,56 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager · middleton.io</title>
+
+  <!-- Editorial Ink: the admin, in the site's palette.
+       Sveltia builds its whole UI from --sui-* custom properties on :root. Its
+       neutral ramp carries a blue cast (10% saturation at hue 210); draining it
+       to 3% leaves the madder as the only colour in the room.
+
+       !important is not optional here. Sveltia injects its own stylesheet AFTER
+       this one, so a plain :root override loses silently: the button just stays
+       blue and nothing errors. Verified by measuring the rendered button.
+
+       These are internal tokens, undocumented, and official theming is still an
+       open request. If a Sveltia release renames them, this block stops working
+       and the admin falls back to stock. Nothing else breaks. -->
+  <style>
+    :root {
+      /* neutral ramp, desaturated */
+      --sui-background-color-1-hsl: 240 3% 7% !important;
+      --sui-background-color-2-hsl: 240 3% 9% !important;
+      --sui-background-color-3-hsl: 240 3% 12% !important;
+      --sui-background-color-4-hsl: 240 3% 15% !important;
+      --sui-background-color-5-hsl: 240 3% 25% !important;
+      --sui-border-color-1-hsl: 240 3% 40% !important;
+      --sui-border-color-2-hsl: 240 3% 24% !important;
+      --sui-border-color-3-hsl: 240 3% 19% !important;
+      /* Madder carries primary actions and selection, nothing else.
+         The accent is a FAMILY, not one value. Overriding only the fill leaves
+         every secondary button's label on the old blue, because those read
+         --sui-primary-accent-color-text, which is derived from --sui-base-hue
+         (still 210) rather than from the fill. All six move together.
+         -text and -light land on dark ground, so they run lighter than the
+         fill's 49%. The site's own dark accent-text is 62%, which measures
+         4.43:1 on a secondary button and misses the 4.5 floor; 65% clears it at
+         4.93:1. White on the fill measures 5.27:1. */
+      --sui-primary-accent-color: #C3384B !important;
+      --sui-primary-accent-color-text: hsl(351 54% 65%) !important;
+      --sui-primary-accent-color-light: hsl(352 55% 58%) !important;
+      --sui-primary-accent-color-dark: hsl(352 55% 38%) !important;
+      --sui-primary-accent-color-translucent: hsl(352 55% 49% / 60%) !important;
+      --sui-primary-accent-color-translucent-light: hsl(352 55% 49% / 40%) !important;
+      --sui-focus-ring-color: hsl(352 55% 49% / 60%) !important;
+      /* the site's stack: fv.css ships no webfont and neither should this */
+      --sui-font-family-default: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+      --sui-font-family-monospace: "SF Mono", Menlo, ui-monospace, "Cascadia Mono", Consolas, monospace !important;
+    }
+    /* The Sveltia mark on the sign-in screen. app_title in config.yml replaces
+       the wordmark under it; there is no config option for the mark itself.
+       Targeted by .logo alone on purpose: the svelte-* hash beside it in the
+       DOM is build-generated and changes between releases. */
+    img.logo { display: none !important; }
+  </style>
 </head>
 <body>
   <!-- Sveltia CMS — git-based editor. Loads from CDN; talks to GitHub via your PAT. -->
