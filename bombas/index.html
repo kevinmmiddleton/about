@@ -1081,7 +1081,7 @@ document.body.appendChild(lightbox);
 document.addEventListener('click', e=>{
   if(lightbox.classList.contains('open')){ lightbox.classList.remove('open'); return; }
   const im=e.target.closest ? e.target.closest('.capture img') : null;
-  if(im){ lightboxImg.src=im.src; lightboxImg.alt=im.alt||''; lightbox.classList.add('open'); }
+  if(im){ lightboxImg.src=im.src; lightboxImg.alt=im.alt||''; lightbox.classList.add('open'); try{ plausible('Bombas Screenshot Zoom', {props:{image: im.src.split('/').pop()}}); }catch(e){} }
 });
 document.addEventListener('keydown', e=>{
   if(lightbox.classList.contains('open')){ if(e.key==='Escape') lightbox.classList.remove('open'); return; }
@@ -1119,6 +1119,20 @@ const startIdx=Math.max(0, SECTIONS.findIndex(sec=>sec.id===hash));
 showTab(startIdx===-1?0:startIdx);
 if('scrollRestoration' in history) history.scrollRestoration='manual';
 window.addEventListener('load', ()=>window.scrollTo(0,0));
+document.addEventListener('click', e=>{
+  const a=e.target.closest ? e.target.closest('a[href^="http"]') : null;
+  if(a && !a.href.includes('middleton.io')){
+    try{ plausible('Bombas Link Click', {props:{link: a.href.replace(/^https?:\/\//,'').split('?')[0].slice(0,80)}}); }catch(err){}
+    return;
+  }
+  const btn=e.target.closest ? e.target.closest('button') : null;
+  if(btn && !btn.closest('#tabbar') && !btn.closest('.gate') && !btn.closest('.routebar')){
+    const sec=btn.closest('section');
+    if(sec && ['finder','guide','gifts','router','search'].includes(sec.id)){
+      try{ plausible('Bombas Widget', {props:{widget: sec.id, choice: (btn.textContent||'').trim().slice(0,40)}}); }catch(err){}
+    }
+  }
+});
 const forParam=new URLSearchParams(location.search).get('for');
 if(forParam && ROUTES.some(r=>r.key===forParam)){ routebarEl.classList.add('show'); setRoute(forParam); }
 
@@ -1136,7 +1150,7 @@ function openGate(){
 }
 function tryGate(){
   if(gatepw.value.trim().toLowerCase()==='concepts'){ openGate(); }
-  else{ gatemiss.textContent="That's not it. Hint: it's what this page is full of."; gatepw.select(); }
+  else{ gatemiss.textContent="That's not it. Hint: it's what this page is full of."; gatepw.select(); try{ plausible('Bombas Login Failed'); }catch(e){} }
 }
 if(unlocked){ gate.classList.add('open'); }
 else{
