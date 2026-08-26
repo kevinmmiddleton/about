@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attract &amp; Discover · concepts by Kevin Middleton</title>
+<link rel="icon" type="image/png" href="captures/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* palette sampled from bombas.com 2025 rebrand: promo bar and Add to Bag #223859, donations band #e8ba4c, page bone #fdfcf6, sage #b2c691 */
+    --navy:#223859; --navy-deep:#192b45; --honey:#e8ba4c; --honey-soft:#f2d58c;
+    --honey-tint:#faf2da; --navy-tint:#edf0f4;
+    --paper:#fdfcf6; --white:#ffffff; --ink:#212936; --soft:#5a6275;
+    --line:#e5e3d9; --good:#4e7a43; --bad:#b3543f; --r:14px;
+    --display:"Bricolage Grotesque", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --body:-apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono:"SF Mono", Menlo, ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body); background:var(--paper); color:var(--ink); line-height:1.55; font-size:15.5px}
+  ::selection{background:var(--honey-soft); color:var(--navy-deep)}
+  :focus-visible{outline:3px solid var(--navy); outline-offset:2px; border-radius:4px}
+  header :focus-visible, footer :focus-visible, .quiz :focus-visible{outline-color:var(--honey)}
+  .sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+  .wrap{max-width:980px; margin:0 auto; padding:0 22px}
+  img{max-width:100%; height:auto; display:block}
+
+  /* type roles: display / section / body / label / micro */
+  h1{font-family:var(--display); font-size:clamp(27px,4.4vw,40px); font-weight:800; letter-spacing:-.5px; line-height:1.12}
+  h2{font-family:var(--display); font-size:22px; font-weight:800; color:var(--navy); margin-bottom:6px}
+  h3{font-size:15.5px; font-weight:700; color:var(--navy)}
+  .label{font-size:13.5px; font-weight:600}
+  .micro{font-family:var(--mono); font-size:12px; font-weight:700}
+
+  header{background:var(--navy); color:var(--white); padding:40px 0 30px}
+  .preline{display:flex; align-items:center; gap:9px; margin-bottom:14px; flex-wrap:wrap}
+  .routebar{margin-left:auto; display:none; gap:6px}
+  .routebar.show{display:flex}
+  .rchip{border:1px solid rgba(255,255,255,.25); background:none; color:#c9d4e6; border-radius:99px; padding:4px 12px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:var(--mono); transition:background .15s, color .15s, border-color .15s}
+  .rchip:hover{border-color:var(--honey-soft); color:var(--white)}
+  .rchip.on{background:var(--honey); border-color:var(--honey); color:var(--navy-deep)}
+  .stab .tdot{display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--honey); margin-left:7px; vertical-align:2px}
+  .beechip{display:inline-flex; align-items:center; justify-content:center; width:32px; height:30px; background:var(--white); clip-path:polygon(25% 2%, 75% 2%, 99% 50%, 75% 98%, 25% 98%, 1% 50%)}
+  .beechip img{width:26px; height:26px}
+  .preline .micro{color:#c9d4e6}
+  header h1{margin:0 0 12px}
+  .sub{color:#c9d4e6; font-size:17px; max-width:640px}
+  .sub b{color:var(--honey-soft)}
+  .evidence{margin-top:22px; padding-top:14px; border-top:1px solid #38507a; color:#9fb0c9; font-size:14px; max-width:640px}
+
+  section{padding:38px 0; display:none}
+  section.active{display:block}
+  .h2sub{color:var(--soft); margin-bottom:20px; font-size:15px; max-width:68ch}
+  .take{font-family:var(--display); font-size:18px; font-weight:600; color:var(--navy); max-width:56ch; margin:2px 0 14px; line-height:1.35}
+  .quiz .take{color:var(--honey-soft)}
+  .lrow ul{margin:0 0 0 18px; padding:0; color:var(--soft); font-size:14.5px; max-width:62ch}
+  .lrow ul li{margin-bottom:5px}
+  .lrow a{color:var(--navy); font-weight:600}
+  .codepair{display:grid; grid-template-columns:1fr; gap:10px; margin:12px 0 4px; max-width:480px}
+  .codepair > *{min-width:0}
+  @media(max-width:560px){.codepair{grid-template-columns:1fr}}
+  .codebox{border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--white)}
+  .codebox .cbhead{font-family:var(--mono); font-size:11.5px; font-weight:700; text-transform:uppercase; padding:6px 12px; border-bottom:1px solid var(--line); background:#f4f5f7}
+  .codebox .cbhead.ob{color:var(--bad)} .codebox .cbhead.co{color:var(--good)}
+  .codebox pre{margin:0; padding:14px; font-family:var(--mono); font-size:12.5px; line-height:1.75; color:var(--ink); white-space:pre-wrap; overflow-wrap:break-word}
+  .codebox pre .dim{color:var(--soft)}
+  .codebox pre i{font-style:normal}
+  .codebox pre i.k{color:var(--navy); font-weight:700}
+  .codebox pre i.v{color:var(--good)}
+  .codebox pre b{font-size:15px; color:var(--bad)}
+
+  /* tab bar */
+  .tabbar{position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--line)}
+  .tabbar .wrap{display:flex; gap:6px; overflow-x:auto; padding:10px 22px; align-items:center}
+  .stab{border:0; background:none; color:var(--soft); border-radius:99px; padding:8px 14px; font-size:13.5px; font-weight:600; cursor:pointer; white-space:nowrap; font-family:var(--body); transition:background .15s}
+  .stab:hover{background:var(--honey-soft); color:var(--navy)}
+  .stab[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .stab .n{font-family:var(--mono); font-size:11px; margin-right:5px; opacity:.65}
+  .tabhint{margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--soft); white-space:nowrap; padding-left:10px}
+  @media(max-width:720px){.tabhint{display:none}}
+
+  /* ---- search sim ---- */
+  .searchbox{background:var(--white); border:2px solid var(--navy); border-radius:99px; display:flex; align-items:center; padding:6px 8px 6px 20px; max-width:560px}
+  .searchbox input{border:0; outline:0; flex:1; font-size:16px; background:transparent; color:var(--ink); font-family:var(--body)}
+  .searchbox .go{background:var(--honey); border:0; display:inline-flex; align-items:center; justify-content:center; padding:8px 18px; border-radius:99px; cursor:pointer; transition:transform .15s}
+  .searchbox .go svg{display:block}
+  .searchbox .go:hover{transform:translateY(-1px)}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 4px}
+  .chip{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:99px; padding:7px 14px; font-size:13.5px; font-weight:600; cursor:pointer; transition:background .15s; font-family:var(--body)}
+  .chip:hover{background:var(--honey-soft)}
+  .chip[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:18px}
+  .cols > *{min-width:0}
+  @media(max-width:720px){.cols{grid-template-columns:1fr}}
+  .panel{background:var(--white); border-radius:var(--r); padding:18px; border:1px solid var(--line)}
+  .panel h3{margin-bottom:12px}
+  .panel .tag{margin-left:6px; text-transform:uppercase; font-size:11.5px}
+  .panel.today .tag{color:var(--bad)}
+  .panel.couldbe .tag{color:var(--good)}
+  .capture{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-bottom:12px; background:var(--white)}
+  .capture img{width:100%; cursor:zoom-in}
+  .gate{position:fixed; inset:0; z-index:200; background:var(--navy); display:flex; align-items:center; justify-content:center; padding:24px}
+  .gate.open{display:none}
+  body.locked{overflow:hidden}
+  .gatecard{text-align:center; max-width:360px; width:100%}
+  .gatecard .beechip{width:44px; height:41px; margin:0 auto 14px}
+  .gatecard .beechip img{width:34px; height:34px}
+  .gatecard h2{color:var(--white); font-size:24px; margin:0 0 4px; border:0; padding:0}
+  .gatecard .micro{color:#c9d4e6; display:block; margin-bottom:26px}
+  .gaterow{display:flex; gap:8px}
+  .gaterow input{flex:1; min-width:0; border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.06); color:var(--white); border-radius:99px; padding:11px 18px; font-size:15px; font-family:var(--body); outline:none}
+  .gaterow input:focus{border-color:var(--honey-soft)}
+  .gaterow button{border:0; background:var(--honey); color:var(--navy-deep); border-radius:99px; padding:11px 22px; font-size:15px; font-weight:700; font-family:var(--body); cursor:pointer}
+  .gatemiss{color:var(--honey-soft); font-size:13.5px; margin-top:14px; min-height:20px}
+  .gatenote{color:#8fa0ba; font-size:12px; margin-top:26px; white-space:nowrap; margin-left:-80px; margin-right:-80px}
+  @media(max-width:600px){.gatenote{white-space:normal; margin-left:0; margin-right:0}}
+  .sitenote{margin-top:48px; padding:20px 0 28px}
+  .sitenote .wrap{font-size:13px; color:var(--white)}
+  .sitenote a{color:var(--honey-soft)}
+  .lightbox{position:fixed; inset:0; z-index:99; display:none; align-items:center; justify-content:center; padding:28px; background:rgba(25,43,69,.9); cursor:zoom-out}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:100%; max-height:100%; width:auto; height:auto; border-radius:8px; box-shadow:0 16px 56px rgba(0,0,0,.45)}
+  .capnote{font-family:var(--mono); font-size:12px; font-weight:700; color:var(--soft); padding:7px 12px; background:#f4f5f7; border-top:1px solid var(--line)}
+  .capnote a{color:var(--navy); white-space:nowrap}
+  .quote span{white-space:nowrap}
+  .zoombox{border:2px solid var(--honey); border-radius:8px; overflow:hidden; margin-bottom:12px; background:var(--white)}
+  .zoombox img{width:100%}
+  .zoombox .capnote{border-top:1px solid var(--honey-soft); background:var(--honey-tint); color:var(--navy-deep)}
+  .comparepair{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0 4px; max-width:620px}
+  .comparepair > *{min-width:0}
+  .comparepair .capture{margin:0}
+  @media(max-width:560px){.comparepair{grid-template-columns:1fr}}
+  /* results and mocks keep the system voice on purpose: they imitate real surfaces */
+  .resultline{padding:8px 10px; border-radius:8px; font-size:14.5px; margin-bottom:6px; background:#f4f5f7}
+  .resultline b{display:block; font-size:14.5px}
+  .resultline span{color:var(--soft); font-size:13px}
+  .whisper{font-size:14px; color:var(--soft); margin-top:12px; max-width:72ch}
+  .flipbar{display:flex; gap:8px; margin:18px 0 12px}
+  .flipbtn{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:10px; padding:10px 18px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:var(--body); transition:background .15s}
+  .flipbtn .tag{margin-left:7px; text-transform:uppercase; font-size:11px; font-weight:700}
+  .flipbtn .t-ob{color:var(--bad)} .flipbtn .t-co{color:var(--good)}
+  .flipbtn[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .flipbtn[aria-pressed="true"] .tag{color:var(--honey-soft)}
+  a.mockaddr{text-decoration:none; display:block}
+  a.mockaddr:hover{border-color:var(--navy)}
+  .flippad{padding:12px}
+  .flippad .capture{margin-bottom:12px}
+  .flipframe #flipbody.swap{animation:arrive .35s cubic-bezier(0.16,1,0.3,1)}
+
+  /* mini storefront mock */
+  .mock{border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--white)}
+  .mockchrome{background:#eef0f3; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px; padding:7px 10px}
+  .mockdots{display:flex; gap:4px}
+  .mockdots i{width:8px; height:8px; border-radius:50%; background:#d3d7dd}
+  .mockaddr{flex:1; min-width:0; background:var(--white); border:1px solid var(--line); border-radius:99px; font-family:var(--mono); font-size:11.5px; color:var(--soft); padding:4px 12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .mockaddr b{color:var(--navy); font-weight:700}
+  .mockbar{background:var(--navy); color:var(--white); display:flex; align-items:center; gap:10px; padding:8px 12px}
+  .mockbrand{font-weight:800; font-size:11px; letter-spacing:.18em}
+  .mockfield{flex:1; background:#ffffff22; border-radius:99px; font-size:12px; padding:4px 12px; color:#dfe7f2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .mockroute{background:var(--honey-tint); color:var(--navy-deep); font-size:12.5px; padding:8px 12px; border-bottom:1px solid var(--line)}
+  .mockroute b{font-weight:700}
+  .mocktiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; padding:10px}
+  .pair .mocktiles{grid-template-columns:repeat(2,1fr)}
+  .mocktile{border-radius:8px; padding:8px; display:flex; flex-direction:column}
+  .mocktile img{width:100%; height:auto; border-radius:6px; margin-bottom:8px}
+  .mocktile.hy{background:var(--honey-tint)} .mocktile.nv{background:var(--navy-tint)}
+  .mocktile b{font-size:12.5px; color:var(--navy); line-height:1.25}
+  .mocktile span{font-size:11.5px; color:var(--soft); margin-top:4px}
+  .mockchip{align-self:flex-start; margin-top:8px; background:var(--white); border:1px solid var(--line); border-radius:99px; font-size:11px; font-weight:700; color:var(--navy); padding:2px 8px}
+  .mockurl{font-family:var(--mono); font-size:11.5px; color:var(--soft); padding:8px 12px; border-top:1px solid var(--line); background:#fafaf8; overflow-x:auto; white-space:nowrap}
+  .mockgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:12px}
+  .mockprod .pimg{background:#f6f6f4; border-radius:8px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; overflow:hidden}
+  .mockprod .pimg img{width:100%; height:auto; mix-blend-mode:multiply}
+  .mockprod b{display:block; font-size:12px; color:var(--navy); margin-top:6px; line-height:1.3}
+  .mockprod span{font-size:11.5px; color:var(--soft)}
+  .mockhero.withimg{display:flex; gap:14px; align-items:center}
+  .mockhero .herobody{flex:1; min-width:0}
+  .mockhero .heroimg{flex:0 0 96px; background:#f6f6f4; border-radius:8px; overflow:hidden}
+  .mockhero .heroimg img{width:100%; height:auto; mix-blend-mode:multiply}
+  .mockhero{padding:12px}
+  .mockcrumb{font-size:11px; color:var(--soft); margin-bottom:6px}
+  .mockh{font-family:var(--display); font-size:17px; font-weight:800; color:var(--navy)}
+  .mocksub{font-size:12.5px; color:var(--soft); margin-top:3px}
+  .mocksub mark{background:var(--honey-soft); color:var(--navy-deep); padding:0 3px; border-radius:3px}
+  .mockquote{margin-top:8px; font-size:12px; color:var(--navy); background:var(--navy-tint); border-radius:8px; padding:7px 10px; display:inline-block}
+  .mockstate{font-family:var(--mono); font-size:11px; color:var(--good); margin-top:8px}
+  .mockflow{display:flex; align-items:center; gap:8px; padding:12px; flex-wrap:wrap}
+  .mockflow .arrow{color:var(--soft); font-size:15px}
+  .flowcard{border:1px solid var(--line); border-radius:8px; padding:8px 11px; font-size:12px; color:var(--navy); background:var(--navy-tint); font-weight:700}
+  .flowcard.dest{background:var(--honey-tint)}
+  .flowcard span{display:block; font-weight:400; color:var(--soft); font-size:11px; margin-top:2px}
+
+  /* complete the day */
+  #fit{flex-basis:100%; border-top:1px solid var(--line); margin-top:18px; padding-top:14px; display:none}
+  #fit.show{display:block}
+  .fitlabel{color:var(--soft); text-transform:uppercase; font-size:11.5px; margin-bottom:10px}
+  .fitgrid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media(max-width:560px){.fitgrid{grid-template-columns:1fr}}
+  .fititem{display:flex; gap:12px; align-items:center; border:1px solid var(--line); border-radius:10px; padding:10px; text-decoration:none; color:var(--ink); transition:transform .15s}
+  .fititem:hover{transform:translateY(-2px)}
+  .fititem .fimg{flex:0 0 64px; background:#f6f6f4; border-radius:8px; overflow:hidden}
+  .fititem .fimg img{width:100%; height:auto; mix-blend-mode:multiply}
+  .fititem b{display:block; font-size:13.5px; color:var(--navy); line-height:1.3}
+  .fititem span{font-size:12.5px; color:var(--soft)}
+  .fitline{font-family:var(--mono); font-size:12.5px; color:var(--soft); margin-top:12px}
+
+  /* guide + gift widgets */
+  .widgetcard{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:22px}
+  .gout{display:grid; grid-template-columns:auto 1fr 170px; gap:24px; align-items:center; margin-top:18px}
+  .gout > *{min-width:0}
+  @media(max-width:640px){.gout{grid-template-columns:1fr; gap:16px}}
+  .gnum{font-family:var(--display); font-size:46px; font-weight:800; color:var(--navy); line-height:1; min-width:180px}
+  .gnum small{display:block; font-family:var(--mono); font-size:12px; font-weight:700; color:var(--soft); margin-top:8px}
+  .gwhat{font-size:14.5px; color:var(--soft); max-width:52ch}
+  .gwhat b{color:var(--ink)}
+  .gprod{display:block; text-decoration:none; max-width:170px}
+  .gprod .pimg{background:#f6f6f4; border-radius:8px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; overflow:hidden}
+  .gprod .pimg img{width:100%; height:auto; mix-blend-mode:multiply}
+  .gprod b{display:block; font-size:12.5px; color:var(--navy); margin-top:6px; line-height:1.3}
+  .gprod span{font-size:11.5px; color:var(--soft)}
+  .mockurl.stand{border:1px solid var(--line); border-radius:8px; margin-top:18px; white-space:normal; font-size:12.5px}
+  .bundle{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px}
+  @media(max-width:560px){.bundle{grid-template-columns:1fr}}
+  .bundle .mockprod{transition:opacity .2s}
+  .bundle .mockprod.dim{opacity:.22}
+  .btotal{margin-top:14px; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+  .btotal .sum{font-family:var(--display); font-size:24px; font-weight:800; color:var(--navy)}
+  .btotal .note{font-size:13px; color:var(--soft)}
+
+  /* callout */
+  .callout{background:var(--navy); border-radius:12px; padding:16px 18px; font-size:14.5px; color:#dfe7f2; max-width:68ch; margin-top:14px}
+  .callout b{color:var(--honey-soft)}
+  .callout.honey{background:var(--honey-tint); color:var(--navy-deep)}
+  .callout.honey b{color:var(--navy)}
+
+  /* branding */
+  .brandrow{display:flex; align-items:center; gap:12px; margin-bottom:16px}
+  .brandrow img{height:38px; width:auto; display:block; filter:brightness(0) saturate(100%) invert(18%) sepia(22%) saturate(1600%) hue-rotate(200deg) brightness(95%) contrast(95%)}
+  .quiz .brandrow img{filter:brightness(0) invert(1)}
+  .brandrow .micro{text-transform:uppercase; font-size:11px; color:var(--soft)}
+  .quiz .brandrow .micro{color:var(--honey-soft)}
+
+  /* door accordion */
+  .doorwrap{border:1px solid var(--line); border-radius:12px; background:var(--white); margin-bottom:10px; overflow:hidden}
+  .door{width:100%; text-align:left; background:none; border:0; cursor:pointer; display:grid; grid-template-columns:180px 1fr auto; gap:12px; align-items:center; padding:14px 16px; font-family:var(--body)}
+  .door:hover{background:var(--honey-tint)}
+  .doorlabel{font-weight:700; color:var(--navy); font-size:14.5px}
+  .doorchips{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .dchip{font-size:12.5px; padding:4px 10px; border-radius:99px; font-weight:600}
+  .dchip.b{background:#f7ebe7; color:var(--bad)}
+  .dchip.g{background:#ebf2e6; color:var(--good)}
+  .doorplus{font-family:var(--mono); color:var(--soft); font-size:18px; transition:transform .2s; line-height:1}
+  .door[aria-expanded="true"] .doorplus{transform:rotate(45deg)}
+  .doorbody{display:none; padding:2px 16px 16px}
+  .door[aria-expanded="true"] + .doorbody{display:block}
+  .doorbody .pair{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px}
+  .doorbody .pair > *{min-width:0}
+  @media(max-width:720px){.doorbody .pair{grid-template-columns:1fr} .door{grid-template-columns:1fr; gap:8px} .doorplus{display:none}}
+
+  /* journey stepper */
+  .journey .jstep{display:none}
+  .journey .jstep.on{display:block; animation:arrive .3s cubic-bezier(0.16,1,0.3,1)}
+  .jdots{display:flex; gap:10px; justify-content:center; align-items:center; margin-top:10px}
+  .jdot{width:11px; height:11px; border-radius:50%; background:var(--line); border:0; cursor:pointer; padding:0; transition:background .15s}
+  .jdot:hover{background:var(--honey)}
+  .jdot[aria-pressed="true"]{background:var(--navy)}
+  .jhint{font-family:var(--mono); font-size:11px; color:var(--soft); margin-left:6px}
+
+  /* mock google organic result */
+  .gres{border:1px solid var(--line); border-radius:10px; background:var(--white); padding:14px; font-family:arial, sans-serif}
+  .gres .gurl{font-size:12px; color:#202124; margin-bottom:2px}
+  .gres .gtitle{color:#1a0dab; font-size:16.5px; margin-bottom:3px}
+  .gres .gsnip{font-size:13px; color:#4d5156; max-width:52ch}
+
+  /* mock AI answer */
+  .aimock{border:1px solid var(--line); border-radius:10px; background:var(--white); padding:14px}
+  .aimock .aiq{font-weight:700; font-size:13.5px; color:var(--navy); margin-bottom:8px}
+  .aimock .aia{font-size:13px; color:var(--ink); max-width:52ch}
+  .aimock .aia b{color:var(--navy)}
+  .aisrc{display:inline-flex; align-items:center; gap:6px; margin-top:10px; border:1px solid var(--line); border-radius:99px; padding:4px 12px; font-family:var(--mono); font-size:11.5px; color:var(--navy); background:var(--honey-tint)}
+
+  /* test card: hypothesis / metric / guardrail */
+  .testcard{margin-top:14px; background:var(--white); border:1px solid var(--line); border-radius:10px; padding:14px 16px; display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:14px}
+  .testcard .micro{color:var(--soft); padding-top:2px; text-transform:uppercase; font-size:11.5px}
+  @media(max-width:560px){.testcard{grid-template-columns:1fr; gap:2px}}
+
+  /* ---- quiz ---- */
+  .quiz{background:var(--navy); border-radius:18px; padding:26px; color:var(--white)}
+  .quiz h2{color:var(--white)}
+  .quiz .h2sub{color:#b9c6da}
+  .qstep{margin-top:14px}
+  .qlabel{color:var(--honey-soft); margin-bottom:8px; font-size:12.5px}
+  .qopts{display:flex; flex-wrap:wrap; gap:8px}
+  .qbtn{background:#31497097; color:var(--white); border:1.5px solid #4d648a; border-radius:10px; padding:10px 16px; cursor:pointer; font-size:14.5px; font-weight:600; transition:border-color .15s, transform .15s; font-family:var(--body)}
+  .qbtn:hover{border-color:var(--honey); transform:translateY(-1px)}
+  .qbtn[aria-pressed="true"]{background:var(--honey); color:var(--navy-deep); border-color:var(--honey); font-weight:800}
+  .progress{display:flex; gap:6px; margin-top:20px; max-width:280px}
+  .progress i{height:6px; flex:1; border-radius:99px; background:#31497097; transition:background .3s}
+  .progress i.on{background:var(--honey)}
+  .verdict{margin-top:16px; background:var(--white); color:var(--ink); border-radius:14px; padding:20px; display:none}
+  .verdict.show{display:flex; flex-wrap:wrap; gap:18px; align-items:flex-start; animation:arrive .45s cubic-bezier(0.16,1,0.3,1)}
+  .vmedia{flex:0 0 120px; background:#f6f6f4; border-radius:10px; overflow:hidden}
+  .vmedia img{width:100%; height:auto; mix-blend-mode:multiply}
+  .vbody{flex:1; min-width:0}
+  @media(max-width:560px){.verdict.show{flex-direction:column} .vmedia{flex-basis:auto; width:120px}}
+  @keyframes arrive{from{transform:translateY(10px) scale(.98); opacity:0} to{transform:none; opacity:1}}
+  .verdict .vtitle{font-family:var(--display); font-weight:800; font-size:20px; color:var(--navy)}
+  .vchips{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0}
+  .vchip{background:var(--honey-tint); color:var(--navy-deep); border-radius:99px; font-size:12px; font-weight:700; padding:4px 10px}
+  .verdict .vwhy{color:var(--soft); font-size:14.5px; margin:6px 0 12px; max-width:68ch}
+  #vlinks a{display:inline-block; background:var(--navy); color:var(--white); text-decoration:none; font-weight:700; border-radius:99px; padding:9px 18px; font-size:14px; transition:transform .15s; margin-right:8px}
+  #vlinks a:hover{transform:translateY(-2px)}
+  #vlinks a.alt{background:var(--white); color:var(--navy); border:1.5px solid var(--navy)}
+  .vroute{font-family:var(--mono); font-size:12.5px; color:var(--soft); margin-top:12px}
+  .tapcount{color:#b9c6da; margin-top:10px}
+
+  /* ---- evidence ledger ---- */
+  .ledger{border-top:2px solid var(--navy)}
+  .lrow{display:grid; grid-template-columns:1.5fr 1fr; gap:10px 28px; padding:20px 0; border-bottom:1px solid var(--line)}
+  .lrow > *{min-width:0}
+  @media(max-width:720px){.lrow{grid-template-columns:1fr}}
+  .lrow h3{font-family:var(--display); font-size:17px; font-weight:800; margin-bottom:6px}
+  .lrow.lead h3{font-size:21px}
+  .lrow p{color:var(--soft); font-size:14.5px; max-width:62ch}
+  .lrow .so{font-size:14px; color:var(--navy); font-weight:600; align-self:start; padding-top:2px}
+  .lrow .so .micro{display:block; color:var(--soft); margin-bottom:4px; text-transform:uppercase; font-size:11.5px}
+  .lrow .capture{margin:12px 0 4px; max-width:600px}
+
+  /* ---- audience strip ---- */
+  .aud{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:22px; display:grid; grid-template-columns:auto 1fr; gap:8px 0; align-items:center}
+  @media(max-width:720px){.aud{grid-template-columns:1fr}}
+  .aud .zerowrap{display:flex; align-items:center; gap:18px}
+  .aud .zero{font-family:var(--display); font-size:92px; font-weight:800; color:var(--navy); line-height:.9}
+  .aud .zerolbl{font-size:14.5px; color:var(--soft); max-width:20ch}
+  .zerolbl a{color:var(--navy); font-weight:600}
+  .audmeta{border-left:1px solid var(--line); margin-left:32px; padding:4px 0 4px 32px; display:flex; flex-direction:column; gap:10px}
+  @media(max-width:720px){.audmeta{border-left:0; margin-left:0; padding:16px 12px 4px; border-top:1px solid var(--line); margin-top:12px}}
+  .bar{height:12px; border-radius:99px; overflow:hidden; display:flex; max-width:420px}
+  .bar .f{background:var(--honey)} .bar .m{background:var(--navy)}
+  .audline{font-size:13.5px; color:var(--soft)}
+  .audline b{color:var(--ink)}
+  .quoteband{grid-column:1/-1; border-top:1px solid var(--line); margin-top:16px; padding-top:16px}
+  .quoteband .micro{color:var(--soft); text-transform:uppercase; font-size:11.5px; display:block; margin-bottom:10px}
+  .quoterow{display:flex; gap:10px; flex-wrap:wrap}
+  .quote{background:var(--navy-tint); border-radius:10px; padding:10px 14px; font-size:13.5px; color:var(--navy); max-width:32ch; text-decoration:none; display:block; transition:transform .15s}
+  a.quote:hover{transform:translateY(-2px)}
+  .quote span{display:block; font-size:12px; color:var(--soft); margin-top:4px}
+  .quoteband p{font-size:13.5px; color:var(--soft); margin:-2px 0 12px; max-width:68ch}
+
+  /* ---- intent router ---- */
+  .router{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:22px}
+  .rtabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px}
+  .rtab{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:10px; padding:9px 15px; font-size:13.5px; font-weight:600; cursor:pointer; transition:background .15s; font-family:var(--body)}
+  .rtab:hover{background:var(--honey-soft)}
+  .rtab[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .route{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .route > *{min-width:0}
+  @media(max-width:720px){.route{grid-template-columns:1fr}}
+  .rsignal{grid-column:1/-1; font-family:var(--mono); font-size:12.5px; color:var(--soft); background:#f4f5f7; border-radius:8px; padding:10px 14px}
+  .rsignal b{color:var(--navy); font-weight:700}
+  .rsignal a{color:var(--navy)}
+  .rcol h3{margin-bottom:8px}
+  .rcol .tag{margin-left:6px; text-transform:uppercase; font-size:11.5px}
+  .rcol.now .tag{color:var(--bad)}
+  .rcol.next .tag{color:var(--good)}
+  .rcol > p{font-size:14px; color:var(--soft); max-width:52ch; margin-bottom:10px}
+  .rcol p b{color:var(--ink)}
+  .route .testcard{grid-column:1/-1; margin-top:2px}
+  .rfoot{margin-top:14px; font-size:13.5px; color:var(--soft)}
+
+  /* ---- open questions ---- */
+  .qs{counter-reset:q}
+  .qitem{display:grid; grid-template-columns:34px 108px 1fr; gap:14px; align-items:baseline; padding:14px 0; border-bottom:1px solid var(--line); font-size:16px}
+  .qitem > span:last-child{text-wrap:pretty}
+  .qitem::before{counter-increment:q; content:counter(q,decimal-leading-zero); font-family:var(--mono); font-weight:700; font-size:13px; color:var(--honey); background:var(--navy); border-radius:6px; padding:2px 7px}
+  .qtag{font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--soft); white-space:nowrap}
+  @media(max-width:560px){.qitem{grid-template-columns:auto 1fr} .qtag{grid-column:2}}
+
+  .postscript{border-top:1px solid var(--line); padding:22px 0; color:var(--soft); font-size:13.5px; max-width:72ch}
+  .postscript b{color:var(--ink)}
+
+  footer{background:var(--navy-deep); color:#9fb0c9; padding:26px 0; font-size:13px}
+  footer a{color:var(--honey-soft)}
+
+  a.ext::after, .arr{content:""; display:inline-block; width:.8em; height:.8em; margin-left:.38em; flex:none;
+    background:currentColor;
+    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 17 L17 7 M9.5 7 H17 V14.5' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+    mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 17 L17 7 M9.5 7 H17 V14.5' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat}
+  .arr{transform:rotate(45deg); margin:0 .18em; vertical-align:-.06em}
+  .mockurl .arr{margin-right:.3em}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gatecard">
+    <span class="beechip"><img src="captures/bombas-icon-filled-256.webp" alt=""></span>
+    <h2>Attract &amp; Discover</h2>
+    <span class="micro">concepts by Kevin Middleton</span>
+    <div class="gaterow">
+      <input type="password" id="gatepw" placeholder="password" autocomplete="off" aria-label="Password">
+      <button id="gatego">Enter</button>
+    </div>
+    <div class="gatemiss" id="gatemiss"></div>
+    <div class="gatenote">An independent concept exercise by a candidate. Not affiliated with Bombas.</div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <p class="preline"><span class="beechip"><img src="captures/bombas-icon-filled-256.webp" alt="" width="26" height="26"></span><span class="micro">Concepts</span><span class="routebar" id="routebar" aria-label="Mark tabs for a conversation"></span></p>
+    <h1>Your customers already tell you what they want. Let's help them find it.</h1>
+    <p class="sub">They might be shopping for <b>a 12-hour shift</b>, <b>a long flight</b>, <b>a lazy Sunday</b>, or <b>a gift</b>. Are they landing on the best spot to find it?</p>
+  </div>
+</header>
+
+<nav class="tabbar" aria-label="Sections">
+  <div class="wrap" id="tabbar"></div>
+</nav>
+
+
+<section id="audience">
+  <div class="wrap">
+    <h2>1 · Who we'd be building for</h2>
+    <p class="take">Everyone already knows the brand. Let's help people find exactly what they might be looking for, and throw in a few surprises, too.</p>
+    <div class="aud">
+      <div class="zerowrap">
+        <div class="zero">0</div>
+        <div class="zerolbl">links to the <a href="https://bombas.com/pages/womens-sock-buying-guide" target="_blank" rel="noopener">guides<span class="sr"> (opens in a new tab)</span></a> Bombas already <a href="https://bombas.com/pages/run-comparison" target="_blank" rel="noopener">created<span class="sr"> (opens in a new tab)</span></a>. Google can find <a href="https://bombas.com/collections/no-show-guide" target="_blank" rel="noopener">them<span class="sr"> (opens in a new tab)</span></a>, but they're not findable from Bombas search or navigation.</div>
+      </div>
+      <div class="audmeta">
+        <div>
+          <div class="bar" role="img" aria-label="Audience is 67 percent women, 33 percent men"><div class="f" style="width:67%"></div><div class="m" style="width:33%"></div></div>
+          <div class="audline" style="margin-top:6px"><b>67% women · 33% men</b></div>
+        </div>
+        <div class="audline"><b>Direct is the #1 traffic source.</b> People arrive already knowing the Bombas brand. The largest group is 25 to 34.</div>
+        <div class="audline">Traffic mix and audience split from <a class="ext" href="https://www.similarweb.com/website/bombas.com/" target="_blank" rel="noopener">Similarweb's public profile of bombas.com<span class="sr"> (opens in a new tab)</span></a></div>
+      </div>
+      <div class="quoteband">
+        <span class="micro">reviews say who's buying</span>
+        <p>Nurses, servers, people on their feet all day. They're already customers. Nothing on the site is built for how they shop.</p>
+        <div class="quoterow">
+          <a class="quote" href="https://bombas.com/products/womens-everyday-compression-calf-socks-15-20mmhg" target="_blank" rel="noopener">"perfect for long days in the OR"<span>their AI review summary <i class="arr" aria-hidden="true"></i></span><span class="sr">(opens in a new tab)</span></a>
+          <a class="quote" href="https://bombas.com/products/womens-everyday-compression-calf-socks-15-20mmhg" target="_blank" rel="noopener">"my feet feel so much better when I get home at the end of the day"<span>Heather S. <i class="arr" aria-hidden="true"></i></span><span class="sr">(opens in a new tab)</span></a>
+          <a class="quote" href="https://bombas.com/products/womens-everyday-compression-calf-socks-15-20mmhg" target="_blank" rel="noopener">"After a days work my feet felt great and there was no swelling"<span>Arthur P. <i class="arr" aria-hidden="true"></i></span><span class="sr">(opens in a new tab)</span></a>
+        </div>
+        <div class="capture" style="max-width:460px; margin-top:12px"><img src="captures/reviews-modal.jpg" width="450" height="620" alt="Bombas review summary panel: Compression mentioned in 18 percent of reviews, perfect for long days in the OR, with highlighted reviews from Heather S. and Arthur P." loading="lazy"><div class="capnote">bombas.com PDP · review topics and highlights · <a class="ext" href="https://bombas.com/products/womens-everyday-compression-calf-socks-15-20mmhg" target="_blank" rel="noopener">see it live<span class="sr"> (opens in a new tab)</span></a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="findings">
+  <div class="wrap">
+    <h2>2 · Observations</h2>
+
+    <div class="ledger">
+      <div class="lrow lead">
+        <div>
+          <h3>Search reads the words, then ignores what they mean</h3>
+          <ul>
+            <li><a class="ext" href="https://bombas.com/search?q=c29ja3MgZm9yIHN0YW5kaW5nIGFsbCBkYXk%3D" target="_blank" rel="noopener">"Socks for standing all day"<span class="sr"> (opens in a new tab)</span></a> returns generic ankle socks. The title shows the query was read perfectly; the results ignore it.</li>
+            <li><b>Credit where due:</b> exact names and even <a class="ext" href="https://bombas.com/search?q=Y29tcHJlc2lvbiBzb2tz" target="_blank" rel="noopener">typos<span class="sr"> (opens in a new tab)</span></a> work. "compresion soks" returns 65 compression products.</li>
+            <li><b>One for engineering:</b> search links only work in the site's own format. Paste a <a class="ext" href="https://bombas.com/search?q=compression" target="_blank" rel="noopener">plain ?q=compression<span class="sr"> (opens in a new tab)</span></a> and the title comes back as <b>r©­ë</b>. Any search link built outside the site breaks this way.</li>
+          </ul>
+          <div class="capture"><img src="captures/search-plain-q.jpg" width="1636" height="788" alt="Browser at bombas.com/search?q=compression showing the results title 2 Items for a string of garbled characters" loading="lazy"><div class="capnote">bombas.com/search?q=compression · the plain query comes back garbled</div></div>
+        </div>
+        <div class="so"><span class="micro">So what</span><div><b>Short term:</b> find the most searched phrases and manually route them to the right results or landing pages (example: a search for "standing all day" on the site or via paid search goes to a long-shifts landing page).</div><div style="margin-top:8px"><b>Long term:</b> build a smarter, more automated search.</div></div>
+      </div>
+
+      <div class="lrow">
+        <div>
+          <h3>The ads already know the right page. Site search doesn't.</h3>
+          <ul>
+            <li>Bombas holds the top sponsored slot for <a class="ext" href="https://www.google.com/search?q=best+compression+socks+for+nurses" target="_blank" rel="noopener">"best compression socks for nurses"<span class="sr"> (opens in a new tab)</span></a>. Every visitor from that ad is paid for, click by click.</li>
+            <li><b>Sockwell sits right under it in the #1 organic spot with a page built for nurses.</b> Those clicks cost Sockwell nothing.</li>
+            <li><b>The ad itself proves the mapping exists:</b> it lands on <a class="ext" href="https://bombas.com/collections/compression-socks" target="_blank" rel="noopener">your compression collection<span class="sr"> (opens in a new tab)</span></a>. We should be working directly with the marketing and SEO teams to identify what landing pages and experiences would drive sales.</li>
+            <li>The ad copy can rotate; the landing pages can stay relatively constant.</li>
+          </ul>
+          <div class="capture"><img src="captures/serp-search.jpg" width="720" height="105" alt="Google search box with the query best compression socks for nurses" loading="lazy"><img src="captures/serp-paid-organic.jpg" width="780" height="500" alt="Google results: Bombas as the sponsored result, Sockwell as the first organic result" loading="lazy"><div class="capnote">google.com</div></div>
+        </div>
+        <div class="so"><span class="micro">So what</span>Every one of these visitors costs ad money today. A dedicated landing page that ranks organically brings customers in without it.</div>
+      </div>
+
+      <div class="lrow">
+        <div>
+          <h3>Competitors own the nurse conversation</h3>
+          <ul>
+            <li>Reddit calls Sockwell "sort of the gold standard" for nurses, and <a class="ext" href="https://www.google.com/search?q=best+compression+socks+for+nurses" target="_blank" rel="noopener">Google surfaces that thread on page one<span class="sr"> (opens in a new tab)</span></a>.</li>
+            <li><a class="ext" href="https://bombas.com/collections/women-long-shifts-compression-socks" target="_blank" rel="noopener">/collections/women-long-shifts-compression-socks<span class="sr"> (opens in a new tab)</span></a> is live on your site. The slug says long-shifts.</li>
+            <li><a class="ext" href="https://bombas.com/products/womens-everyday-compression-calf-socks-15-20mmhg" target="_blank" rel="noopener">Your own reviews<span class="sr"> (opens in a new tab)</span></a> say "long days in the OR."</li>
+          </ul>
+          <div class="capture"><img src="captures/serp-reddit.jpg" width="780" height="200" alt="Reddit r slash Nurses thread on Google: Sockwell is sort of the gold standard" loading="lazy"><div class="capnote">google.com</div></div>
+        </div>
+        <div class="so"><span class="micro">So what</span>Nurses are already in the reviews. There's no page for them, so Sockwell gets the click. Give specific demographics and popular searches dedicated landing pages that can be reached within the site's search and used by the paid media team.</div>
+      </div>
+
+      <div class="lrow">
+        <div>
+          <h3>Big brand pull, and outsiders giving the advice</h3>
+          <ul>
+            <li><b>Direct is your #1 traffic source</b>, which is a great problem to have.</li>
+            <li><b>Bombas has written guides:</b> a <a class="ext" href="https://bombas.com/pages/womens-sock-buying-guide" target="_blank" rel="noopener">women's sock buying guide<span class="sr"> (opens in a new tab)</span></a>, a <a class="ext" href="https://bombas.com/pages/run-comparison" target="_blank" rel="noopener">run comparison<span class="sr"> (opens in a new tab)</span></a>, a <a class="ext" href="https://bombas.com/collections/no-show-guide" target="_blank" rel="noopener">no-show guide<span class="sr"> (opens in a new tab)</span></a>. Google indexes all three; the site links to none of them.</li>
+            <li><b>There's no men's guide and nothing interactive.</b></li>
+            <li>Meanwhile <a class="ext" href="https://elementsofstyleblog.com/gift-guide-extra-bombas-slippers-socks/" target="_blank" rel="noopener">gift bloggers<span class="sr"> (opens in a new tab)</span></a> and even <a class="ext" href="https://apparel.alibaba.com/guide/bombas-socks-guide-how-to-choose-the-right-pair" target="_blank" rel="noopener">Alibaba<span class="sr"> (opens in a new tab)</span></a> publish their own "how to choose Bombas socks" guides.</li>
+          </ul>
+        </div>
+        <div class="so"><span class="micro">So what</span>Build the advice into tools like the finder above: they answer the same questions and end at a product. And let site search find them, so typing "guide" actually returns one.</div>
+      </div>
+
+      <div class="lrow">
+        <div>
+          <h3>Make the site work for agents and screen readers, too</h3>
+          <ul>
+            <li><b>All four category tiles share a deliberate design:</b> click one and it flips open a Shop Women / Shop Men chooser. For humans it works, and the destinations are full collections.</li>
+            <li>The tiles are divs and the chooser buttons have no links and no labels, so screen readers and AI agents dead-end on the whole row.</li>
+            <li>The nav still carries real links to the same collections, so machines can get there the long way. The biggest thing on the page is the part they can't use.</li>
+            <li><b>Same theme site-wide:</b> AI crawlers are welcome in (<a class="ext" href="https://bombas.com/robots.txt" target="_blank" rel="noopener">robots.txt<span class="sr"> (opens in a new tab)</span></a> doesn't block them), but there's no <a class="ext" href="https://bombas.com/llms.txt" target="_blank" rel="noopener">llms.txt<span class="sr"> (opens in a new tab)</span></a> telling them what matters.</li>
+          </ul>
+          <div class="capture"><img src="captures/tile-chooser.jpg" width="1400" height="364" alt="Bombas homepage tiles with one flipped open into a Shop Women / Shop Men chooser" loading="lazy"><div class="capnote">bombas.com · today · the tile chooser, mid-flip</div></div>
+          <div class="capture"><img src="captures/tiles-with-links.jpg" width="2880" height="736" alt="The same four homepage tiles, each with a Shop Women and Shop Men text link added under its title" loading="lazy"><div class="capnote">concept, mocked on the home page</div></div>
+        </div>
+        <div class="so"><span class="micro">So what</span>Keep the design, add real links and labels underneath. Same experience for people, and the homepage opens up to screen readers and AI shopping agents.</div>
+      </div>
+
+      <div class="lrow">
+        <div>
+          <h3>The site has good bones</h3>
+          <ul>
+            <li><b>Product pages carry solid structured data, canonicals are right, and AI crawlers aren't blocked</b>.</li>
+            <li><b>The Bombas site already has AI review summaries.</b> For example, one of the summaries says "ideal for long days."</li>
+            <li><b>The gaps:</b>
+              <ul>
+                <li>No structured data on the homepage.</li>
+                <li>Product pages don't share their review scores with Google. Thousands of reviews, but no star ratings can show in search results.</li>
+                <li>No llms.txt.</li>
+                <li><a class="ext" href="https://bombas.com/collections/women-long-shifts-compression-socks" target="_blank" rel="noopener">The long-shifts pages<span class="sr"> (opens in a new tab)</span></a> are reachable from <a class="ext" href="https://bombas.com/collections/compression-socks" target="_blank" rel="noopener">one CTA on one page<span class="sr"> (opens in a new tab)</span></a>. Search never sends anyone there.</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="codepair">
+            <div class="codebox"><div class="cbhead ob">today · observed</div><pre><span class="dim">$</span> grep -c 'ld+json' bombas-homepage.html
+<b>0</b> <span class="dim">not one line of structured metadata, the code Google reads to understand a page</span></pre></div>
+            <div class="codebox"><div class="cbhead co">could be · concept</div><pre><span class="dim">&lt;script type="application/ld+json"&gt;</span>
+{
+  <i class="k">"@type"</i>:  <i class="v">"Organization"</i>,
+  <i class="k">"name"</i>:   <i class="v">"Bombas"</i>,
+  <i class="k">"slogan"</i>: <i class="v">"One Purchased = One Donated"</i>,
+  <i class="k">"sameAs"</i>: [<i class="v">"instagram.com/bombas"</i>]
+}
+<span class="dim">&lt;/script&gt;
+// plus WebSite + SearchAction,
+// so Google shows a search box</span></pre></div>
+          </div>
+          <div class="capture"><img src="captures/ai-summary.jpg" width="780" height="250" alt="Bombas PDP review summary: Customers say, AI-generated from customer reviews, ideal for long days" loading="lazy"><div class="capnote">bombas.com PDP · their own AI summary</div></div>
+        </div>
+        <div class="so"><span class="micro">So what</span>The pieces are already built. Let's make sure we're taking every opportunity we can to make the site and its products findable.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="search">
+  <div class="wrap">
+    <h2>3 · Try the search</h2>
+    <p class="take">The pages customers need already exist. Search just never sends anyone there.</p>
+    <p class="h2sub">Today is the real site; Could be is the routing layer.</p>
+
+    <div class="searchbox"><input id="q" placeholder="Try: socks for standing all day" readonly aria-label="Selected test query"><button class="go" id="go" aria-label="Cycle to the next test query"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.2" stroke="#1a2c46" stroke-width="2.2"/><line x1="11.6" y1="11.6" x2="16" y2="16" stroke="#1a2c46" stroke-width="2.2" stroke-linecap="round"/></svg></button></div>
+    <div class="chips" id="chips"></div>
+
+    <div class="flipbar" role="group" aria-label="Today or concept view">
+      <button class="flipbtn" id="fb-today" aria-pressed="true">Today <span class="tag t-ob">observed</span></button>
+      <button class="flipbtn" id="fb-could" aria-pressed="false">Could be <span class="tag t-co">concept</span></button>
+    </div>
+    <div class="mock flipframe">
+      <div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><a class="mockaddr" id="flipaddr" href="#" target="_blank" rel="noopener"></a></div>
+      <div id="flipbody"></div>
+    </div>
+    <p class="whisper" id="whisper" aria-live="polite"></p>
+    <div class="testcard" id="testcard"></div>
+  </div>
+</section>
+
+<section id="finder">
+  <div class="wrap">
+    <h2>4 · Find your pair in three taps</h2>
+    <p class="take">Not everyone shops by typing. Three quick questions can do the routing for them, no product vocabulary required.</p>
+    <div class="quiz">
+      <div class="brandrow"><img src="captures/brand/lockup-tag.png" alt="Bombas logo"><span class="micro">find your pair · concept</span></div>
+
+      <div class="qstep">
+        <div class="qlabel micro">What kind of day are you trying to have?</div>
+        <div class="qopts" data-q="day">
+          <button class="qbtn" data-v="shift">12-hour shift</button>
+          <button class="qbtn" data-v="run">Race day</button>
+          <button class="qbtn" data-v="travel">Long-haul flight</button>
+          <button class="qbtn" data-v="cozy">Absolutely nothing</button>
+        </div>
+      </div>
+      <div class="qstep">
+        <div class="qlabel micro">How much cushion?</div>
+        <div class="qopts" data-q="cush">
+          <button class="qbtn" data-v="max">Marshmallow</button>
+          <button class="qbtn" data-v="mid">Goldilocks</button>
+          <button class="qbtn" data-v="lite">Barely there</button>
+        </div>
+      </div>
+      <div class="qstep">
+        <div class="qlabel micro">Shopping for</div>
+        <div class="qopts" data-q="who">
+          <button class="qbtn" data-v="womens">Women</button>
+          <button class="qbtn" data-v="mens">Men</button>
+        </div>
+      </div>
+
+      <div class="progress" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="verdict" id="verdict" aria-live="polite">
+        <div class="vmedia"><img id="vimg" src="captures/products/compression-rosewater.webp" alt=""></div>
+        <div class="vbody">
+          <div class="vtitle" id="vtitle"></div>
+          <div class="vchips" id="vchips"></div>
+          <div class="vwhy" id="vwhy"></div>
+          <div id="vlinks"></div>
+          <div class="vroute" id="vroute"></div>
+        </div>
+        <div id="fit">
+          <div class="fitlabel micro">Complete the day</div>
+          <div class="fitgrid" id="fitgrid"></div>
+          <div class="fitline">The whole day, one basket. Tees and underwear are the categories Bombas is pushing next, and this is where they attach.</div>
+        </div>
+      </div>
+      <div class="tapcount micro" id="tapcount">0 of 3 taps</div>
+    </div>
+    <div class="callout honey"><b>Any experience like this should be embeddable:</b> a paid landing page, a module on a PDP, a link in an email or a text, a social post. Build it once; every campaign can use it.</div>
+  </div>
+</section>
+
+<section id="guide">
+  <div class="wrap">
+    <h2>5 · The buying guide, as a widget</h2>
+    <p class="take">There are several <a href="https://bombas.com/pages/womens-sock-buying-guide" target="_blank" rel="noopener">official<span class="sr"> (opens in a new tab)</span></a> and <a href="https://apparel.alibaba.com/guide/bombas-socks-guide-how-to-choose-the-right-pair" target="_blank" rel="noopener">unofficial<span class="sr"> (opens in a new tab)</span></a> <a href="https://bombas.com/pages/run-comparison" target="_blank" rel="noopener">guides<span class="sr"> (opens in a new tab)</span></a>. They're not findable on site nor are they interactive.</p>
+    <p class="h2sub">These experiences should be reusable, and merchandising should be able to update them without a developer. These tools can be embedded and promoted by paid, social, and organic landing pages.</p>
+    <div class="widgetcard">
+      <div class="brandrow"><img src="captures/brand/lockup-tag.png" alt="Bombas logo"><span class="micro">buying guide · concept</span></div>
+      <div class="chips" id="ggender" aria-label="Shopping for"></div>
+      <div class="chips" id="gchips"></div>
+      <div class="gout" id="gout"></div>
+      <div class="mockurl stand"><span class="arr" aria-hidden="true"></span><a class="ext" href="https://bombas.com/pages/womens-sock-buying-guide" target="_blank" rel="noopener">/pages/womens-sock-buying-guide<span class="sr"> (opens in a new tab)</span></a> · one of <a class="ext" href="https://bombas.com/pages/run-comparison" target="_blank" rel="noopener">three<span class="sr"> (opens in a new tab)</span></a> <a class="ext" href="https://bombas.com/collections/no-show-guide" target="_blank" rel="noopener">guide pages<span class="sr"> (opens in a new tab)</span></a> Google knows about that the site never links to. The men's version doesn't exist; <a class="ext" href="https://apparel.alibaba.com/guide/bombas-socks-guide-how-to-choose-the-right-pair" target="_blank" rel="noopener">Alibaba<span class="sr"> (opens in a new tab)</span></a> wrote one instead.</div>
+    </div>
+    <div class="callout"><b>Guides can be general or focused:</b> this example is for compression socks, but the same pattern could apply to cushion, height, and fabric. The sock buying guide and run comparison Bombas already created are the general written versions, waiting to be made interactive and added to the guide pages, so site search can finally find them.</div>
+    <div class="testcard"><span class="micro">The test</span><span>publish this guide as a real page and link to it from search results and product pages</span><span class="micro">How we'd know</span><span>more people arrive at the guide from Google, and AI assistants start citing it in their answers</span><span class="micro">What we'd watch</span><span>how many readers click through to a product, so the guide sells socks instead of just explaining them</span></div>
+  </div>
+</section>
+
+<section id="gifts">
+  <div class="wrap">
+    <h2>6 · Gifts are a front door too</h2>
+    <p class="take">Gift buyers have the clearest intent on the site, and gift recipients are tomorrow's returning customers.</p>
+    <div class="widgetcard">
+      <div class="brandrow"><img src="captures/brand/lockup-tag.png" alt="Bombas logo"><span class="micro">gift finder · concept</span></div>
+      <div class="qlabel micro" style="color:var(--soft)">Who's it for?</div>
+      <div class="chips" id="giftwho"></div>
+      <div class="qlabel micro" style="color:var(--soft); margin-top:12px">How big are we going?</div>
+      <div class="chips" id="giftsize"></div>
+      <div class="bundle" id="bundle"></div>
+      <div class="btotal"><span class="sum" id="bsum"></span><span class="note" id="bnote"></span></div>
+      <div class="mockurl stand"><span class="arr" aria-hidden="true"></span><a class="ext" href="https://bombas.com/collections/gifts" target="_blank" rel="noopener">/collections/gifts<span class="sr"> (opens in a new tab)</span></a> · live today, static for everyone, in <a class="ext" href="https://bombas.com/collections/mens-gifts" target="_blank" rel="noopener">men's<span class="sr"> (opens in a new tab)</span></a>, <a class="ext" href="https://bombas.com/collections/womens-gifts" target="_blank" rel="noopener">women's<span class="sr"> (opens in a new tab)</span></a>, and <a class="ext" href="https://bombas.com/collections/kids-gifts" target="_blank" rel="noopener">kids<span class="sr"> (opens in a new tab)</span></a> editions</div>
+    </div>
+    <div class="callout"><b>Bombas is more than a socks company:</b> slippers, tees, and underwear fill out the gift box, and every item in it donates one. Gifting is where the whole catalog shows up in one basket.</div>
+    <div class="testcard"><span class="micro">The test</span><span>show half of gift shoppers this guided picker and half the current gifts page</span><span class="micro">How we'd know</span><span>more gift shoppers reach a product, and more recipients come back to buy within 90 days</span><span class="micro">What we'd watch</span><span>the size of the average gift order, to make sure guided picks don't shrink the box</span></div>
+  </div>
+</section>
+
+<section id="router">
+  <div class="wrap">
+    <h2>7 · Four front doors</h2>
+    <p class="take">Most visitors show up with some idea about what they want. We know what they searched, the ad they clicked, and the link they came from. We should personalize the page accordingly.</p>
+    <p class="h2sub">A routing layer could understand each user as they come into the site and send them to the right page. Every test below moves the same number: how many visits end up at a product.</p>
+
+    <div id="doors"></div>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="wrap">
+    <h2>8 · What I can't see from the outside</h2>
+    <p class="take">Everything above is one afternoon from the outside. These answers decide what's actually true.</p>
+    <div class="qs">
+      <div class="qitem"><span class="qtag">engineering</span><span>What do you think of the current stack, and what's already on the roadmap for search?</span></div>
+      <div class="qitem"><span class="qtag">anyone</span><span>If you could change one thing about the site tomorrow, what would it be?</span></div>
+      <div class="qitem"><span class="qtag">team</span><span>What would you change about how product and engineering work together?</span></div>
+      <div class="qitem"><span class="qtag">measurement</span><span>Is the missing research layer a deliberate choice or an unbuilt one? Tools like the finder and the guide can be used by social, paid, email, and texts, embed across the site, or stand alone as landing pages.</span></div>
+      <div class="qitem"><span class="qtag">design</span><span>When a search has no great match, what should the empty state do? Admit it and reroute honestly, show the most popular items, or drop the finder right there?</span></div>
+      <div class="qitem"><span class="qtag">design</span><span>Where does design sit in the experiment loop today: proposing, reviewing, or receiving?</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="sitenote">
+  <div class="wrap">An independent concept exercise by <a href="https://middleton.io" target="_blank" rel="noopener">Kevin Middleton<span class="sr"> (opens in a new tab)</span></a>. Not affiliated with Bombas; the bee mark, product photos, and screenshots belong to Bombas and Google, shown as cited evidence.</div>
+</footer>
+
+<!--
+  Attribution and sources (removed from the visible footer 8/25, kept for the record):
+  Concepts by Kevin Middleton (middleton.io) · built for a conversation with the Bombas team ·
+  not affiliated with Bombas · the bee mark, product photos, and screenshots belong to Bombas
+  and Google, shown as cited evidence · the HVAC.com case study lives at
+  middleton.io/casestudies/case-study-hvac.html · sources: a live walk of bombas.com,
+  Google SERP, Similarweb, one (1) genuine ad click, sorry about the $3.
+-->
+
+<script>
+// ---------- helpers ----------
+const doorTiles = `
+  <div class="mocktile hy"><img src="captures/products/door-everyday.webp" alt="" loading="lazy"><b>For Every Day</b><span>Soothing support for long shifts</span></div>
+  <div class="mocktile nv"><img src="captures/products/door-workouts.webp" alt="" loading="lazy"><b>For Workouts</b><span>Support that keeps up</span></div>
+  <div class="mocktile nv"><img src="captures/products/door-recovery.webp" alt="" loading="lazy"><b>For Recovery</b><span>Fresh legs, faster</span></div>
+  <div class="mocktile nv"><img src="captures/products/door-coldweather.webp" alt="" loading="lazy"><b>For Cold Weather</b><span>Warmth plus support</span></div>`;
+
+// ---------- search sim: the flip ----------
+const QUERIES=[
+  {
+    label:'socks for standing all day',
+    todayUrl:'https://bombas.com/search?q=c29ja3MgZm9yIHN0YW5kaW5nIGFsbCBkYXk%3D',
+    cap:{src:'captures/search-standing-real.jpg', w:1280, h:900, alt:'Bombas search results on the real search path: title reads 20 Items for socks for standing all day, results are generic ankle and sport socks'},
+    zoom:{src:'captures/zoom-standing-real.png', w:520, h:46, alt:'Zoomed page title reading 20 Items for socks for standing all day', note:'zoomed: search read the query perfectly'},
+    todayNote:"Top results: generic ankle and sport socks, $14 to $55. The title proves search understood the words. The results ignore what they mean.",
+    todayWhisper:"Real capture from the search overlay's own path, query encoded the way the site does it. The URL bar is clickable.",
+    could:{
+      url:'https://bombas.com/collections/women-long-shifts-compression-socks',
+      html:`<div class="mockbar"><span class="mockbrand">BOMBAS</span><span class="mockfield">socks for standing all day</span></div>
+      <div class="mockroute">You said <b>standing all day</b>. These are built for long shifts.</div>
+      <div class="mockgrid">
+        <div class="mockprod"><div class="pimg"><img src="captures/products/compression-rosewater.webp" alt="Everyday Compression Calf Socks in Rosewater" loading="lazy"></div><b>Everyday Compression Calf Socks</b><span>$25 · 15-20mmHg</span></div>
+        <div class="mockprod"><div class="pimg"><img src="captures/products/compression-forest.webp" alt="Everyday Compression Knee High Socks in Midnight Forest" loading="lazy"></div><b>Everyday Compression Knee High</b><span>$30 · 15-20mmHg</span></div>
+        <div class="mockprod"><div class="pimg"><img src="captures/products/compression-3pack.webp" alt="Compression Calf Sock 3-Pack" loading="lazy"></div><b>Compression Calf Sock 3-Pack</b><span>$75 · save 10% on 4+</span></div>
+      </div>`
+    },
+    whisper:"That URL is live today. The slug says 'long-shifts,' the reviews say 'long days in the OR.' Nothing needs to be built first. It needs to be wired.",
+    test:{t:"show half of searchers the routed results and half the current ones", m:"we count searches that end in a product click, before and after. Heap already logs those clicks, so the before number is one query away", g:"revenue per shopper who searched, to be sure better looking results don't end up selling fewer socks"}
+  }
+];
+const chips=document.getElementById('chips'), whisper=document.getElementById('whisper'),
+      qinput=document.getElementById('q'), testcard=document.getElementById('testcard'),
+      flipbody=document.getElementById('flipbody'), flipaddr=document.getElementById('flipaddr'),
+      fbToday=document.getElementById('fb-today'), fbCould=document.getElementById('fb-could');
+let currentQ=0, flipView='today';
+QUERIES.forEach((qr,i)=>{
+  const c=document.createElement('button'); c.className='chip'; c.textContent=qr.label;
+  c.setAttribute('aria-pressed','false');
+  c.onclick=()=>{currentQ=i; flipView='today'; renderFlip();}; chips.appendChild(c);
+});
+function fmtUrl(u){ const m=u.replace('https://',''); const i=m.indexOf('/'); return m.slice(0,i)+'<b>'+m.slice(i)+'</b>'; }
+function renderFlip(){
+  const q=QUERIES[currentQ];
+  qinput.value=q.label;
+  [...chips.children].forEach((c,j)=>c.setAttribute('aria-pressed', j===currentQ ? 'true':'false'));
+  fbToday.setAttribute('aria-pressed', flipView==='today' ? 'true':'false');
+  fbCould.setAttribute('aria-pressed', flipView==='could' ? 'true':'false');
+  const url = flipView==='today' ? q.todayUrl : q.could.url;
+  flipaddr.href=url; flipaddr.innerHTML=fmtUrl(url)+'<span class="sr"> (opens in a new tab)</span>';
+  if(flipView==='today'){
+    flipbody.innerHTML=`<div class="flippad">
+      <div class="capture"><img src="${q.cap.src}" width="${q.cap.w}" height="${q.cap.h}" alt="${q.cap.alt}" loading="lazy"></div>
+      <div class="zoombox"><img src="${q.zoom.src}" width="${q.zoom.w}" height="${q.zoom.h}" alt="${q.zoom.alt}" loading="lazy"><div class="capnote">${q.zoom.note}</div></div>
+      <p class="whisper" style="margin-top:0">${q.todayNote}</p>
+    </div>`;
+    whisper.textContent=q.todayWhisper;
+  } else {
+    flipbody.innerHTML=q.could.html;
+    whisper.textContent=q.whisper;
+  }
+  flipbody.classList.remove('swap'); void flipbody.offsetWidth; flipbody.classList.add('swap');
+  testcard.innerHTML=`<span class="micro">The test</span><span>${q.test.t}</span><span class="micro">How we'd know</span><span>${q.test.m}</span><span class="micro">What we'd watch</span><span>${q.test.g}</span>`;
+}
+fbToday.onclick=()=>{flipView='today'; renderFlip();};
+fbCould.onclick=()=>{flipView='could'; renderFlip();};
+document.getElementById('go').onclick=()=>{currentQ=(currentQ+1)%QUERIES.length; flipView='today'; renderFlip();};
+renderFlip();
+
+// ---------- quiz ----------
+const state={day:null,cush:null,who:null};
+const RESULTS={
+  shift:{t:"Everyday Compression Calf Socks",img:"captures/products/compression-rosewater.webp",imgM:"captures/products/compression-mens.webp",alt:"Everyday Compression Calf Socks in Rosewater",altM:"Men's Everyday Compression Socks in Midnight Navy",chips:["15–20mmHg","Graduated support","Firmest at the ankle"],w:"Your reviewers' pick for exactly this: 'perfect for long days in the OR.'",u:g=>`https://bombas.com/collections/${g}-compression-socks`,cta:"See the compression collection",alt2:{label:"The long-shifts page", u:g=>`https://bombas.com/collections/${g==='mens'?'men':'women'}-long-shifts-compression-socks`}},
+  run:{t:"Run socks, plus a whole Marathon Shop",img:"captures/products/run-ankle.webp",imgM:"captures/products/run-mens.webp",alt:"Run Ankle Socks in Purple Mist",altM:"Men's Run Quarter Socks in Sapphire Grey",chips:["Blister tab","Sweat-wicking","Seasonal shop"],w:"Built for race season, and the Marathon Shop proves entry points are already a pattern here.",u:g=>`https://bombas.com/collections/${g}-performance-running-socks`,cta:"See the run collection"},
+  travel:{t:"Compression, travel edition",img:"captures/products/travel-compression.webp",alt:"Travel Compression Knee High Socks in Black",chips:["15–20mmHg","Cabin-pressure friendly"],w:"Support for the flight, plus the Travel Shop for everything else in the bag.",u:()=>`https://bombas.com/collections/travelshop`,cta:"See the Travel Shop"},
+  cozy:{t:"Gripper Slippers",img:"captures/products/gripper-slipper.webp",alt:"Gripper Slipper in Grey Heather",chips:["Grippers","Zero ambition required"],w:"The correct answer to 'absolutely nothing' is a slipper with grippers.",u:g=>`https://bombas.com/collections/${g}-gripper-slippers`,cta:"See the slipper collection"}
+};
+const CUSHLINE={max:"You said marshmallow, so go Midweight or heavier.",mid:"Goldilocks means Midweight. Just enough cush.",lite:"Barely-there means Lightweight or Ultra Lightweight."};
+const CUSHCHIP={max:"Midweight+",mid:"Midweight",lite:"Lightweight"};
+document.querySelectorAll('.qopts').forEach(g=>{
+  g.addEventListener('click',e=>{
+    const b=e.target.closest('.qbtn'); if(!b) return;
+    [...g.children].forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    state[g.dataset.q]=b.dataset.v; render();
+  });
+});
+document.querySelectorAll('.qbtn').forEach(b=>b.setAttribute('aria-pressed','false'));
+function render(){
+  const n=Object.values(state).filter(Boolean).length;
+  document.querySelectorAll('.progress i').forEach((seg,i)=>seg.classList.toggle('on', i<n));
+  document.getElementById('tapcount').textContent=`${n} of 3 taps`;
+  if(n<3) return;
+  const r=RESULTS[state.day];
+  const men=state.who==='mens';
+  const vi=document.getElementById('vimg'); vi.src=(men&&r.imgM)?r.imgM:r.img; vi.alt=(men&&r.altM)?r.altM:r.alt;
+  document.getElementById('vtitle').textContent=r.t;
+  document.getElementById('vchips').innerHTML=[...r.chips, CUSHCHIP[state.cush]].map(c=>`<span class="vchip">${c}</span>`).join('');
+  document.getElementById('vwhy').textContent=r.w+' '+CUSHLINE[state.cush];
+  let links=`<a class="ext" href="${r.u(state.who)}" target="_blank" rel="noopener">${r.cta}<span class="sr"> (opens in a new tab)</span></a>`;
+  if(r.alt2) links+=`<a class="alt ext" href="${r.alt2.u(state.who)}" target="_blank" rel="noopener">${r.alt2.label}<span class="sr"> (opens in a new tab)</span></a>`;
+  document.getElementById('vlinks').innerHTML=links;
+  document.getElementById('vroute').textContent=`3 answers in, 1 collection out. That's a routing layer.`;
+  // complete the day
+  const fits=FIT[state.day];
+  document.getElementById('fitgrid').innerHTML=fits.map(f=>{
+    const img=men&&f.imgM?f.imgM:f.img, name=men&&f.nM?f.nM:f.n, price=men&&f.pM?f.pM:f.p;
+    return `<a class="fititem" href="https://bombas.com/collections/${f.u(state.who)}" target="_blank" rel="noopener">
+      <span class="fimg"><img src="captures/products/${img}.webp" alt="" loading="lazy"></span>
+      <span><b>${name}</b><span>${f.w} · $${price}</span></span><span class="sr">(opens in a new tab)</span></a>`;}).join('');
+  document.getElementById('fit').classList.add('show');
+  document.getElementById('verdict').classList.add('show');
+  document.getElementById('tapcount').textContent='3 of 3. That took about six seconds';
+}
+// complete-the-day pairings, keyed by the day answer
+const FIT={
+  shift:[
+    {img:'gripper-slipper', n:'Gripper Slippers', w:'for walking in the door', p:55, u:g=>`${g}-gripper-slippers`},
+    {img:'tee', imgM:'tee-mens', n:'Pima Cotton Crew Tee', w:'the shift ends, comfort stays', p:48, u:g=>`${g}-t-shirts`}
+  ],
+  run:[
+    {img:'sport-compression', n:'Sport Compression 3-Pack (20-30mmHg)', w:"tomorrow's recovery legs", p:120, u:g=>`${g}-compression-socks`},
+    {img:'tee', imgM:'tee-mens', n:'Pima Cotton Crew Tee', w:'the finish-line change of clothes', p:48, u:g=>`${g}-t-shirts`}
+  ],
+  travel:[
+    {img:'gripper-slipper', n:'Gripper Slippers', w:'hotel-room landing gear', p:55, u:g=>`${g}-gripper-slippers`},
+    {img:'underwear', imgM:'underwear-mens', n:'Seamless 3-Pack', nM:'Boxer 3-Pack', w:'pack light, pack right', p:48, pM:75, u:g=>`${g}-underwear`}
+  ],
+  cozy:[
+    {img:'tee', imgM:'tee-mens', n:'Pima Cotton Crew Tee', w:'the rest of doing nothing', p:48, u:g=>`${g}-t-shirts`},
+    {img:'underwear', imgM:'underwear-mens', n:'Seamless 3-Pack', nM:'Boxer 3-Pack', w:'commit to the day off', p:48, pM:75, u:g=>`${g}-underwear`}
+  ]
+};
+
+// ---------- mmHg guide ----------
+const GUIDE=[
+  {label:'12-hour shift', num:'15–20', name:'everyday',
+   what:'<b>Gentle, graduated squeeze, firmest at the ankle.</b> The all-day level: long shifts, standing jobs, tired legs that have earned it.',
+   w:{img:'compression-rosewater', pn:'Everyday Compression Calf Socks', pp:'$25', pu:'https://bombas.com/collections/womens-compression-socks'},
+   m:{img:'compression-mens', pn:"Men's Everyday Compression Socks", pp:'$30', pu:'https://bombas.com/collections/mens-compression-socks'}},
+  {label:'Long flight', num:'15–20', name:'travel',
+   what:'<b>Gentle, graduated squeeze, firmest at the ankle.</b> The long-sit level: cramped seats, cabin pressure, ankles that swell at 30,000 feet. Wear them before takeoff, not after landing.',
+   w:{img:'travel-compression', pn:'Travel Compression 3-Pack', pp:'$105', pu:'https://bombas.com/collections/travelshop'},
+   m:{img:'travel-compression', pn:"Men's Travel Compression 3-Pack", pp:'$105', pu:'https://bombas.com/collections/travelshop'}},
+  {label:'Marathon recovery', num:'20–30', name:'sport',
+   what:'<b>A firm, deliberate squeeze, strongest at the ankle.</b> The recovery level: post-race legs, heavy training weeks, worn for hours, not all day.',
+   w:{img:'sport-compression', pn:'Sport Compression 3-Pack (20-30mmHg)', pp:'$120', pu:'https://bombas.com/collections/womens-compression-socks'},
+   m:{img:'sport-mens', pn:"Men's Sport Compression 3-Pack (20-30mmHg)", pp:'$120', pu:'https://bombas.com/collections/mens-compression-socks'}},
+  {label:"Doctor's orders", num:'20–30', name:'medical grade',
+   what:'<b>The clinical level.</b> If a clinician gave you a number, match the number. When in doubt, that conversation beats this widget.',
+   w:{img:'medical-3pack', pn:'Medical Grade Compression 3-Pack', pp:'$120', pu:'https://bombas.com/collections/womens-compression-socks'},
+   m:{img:'medical-3pack', pn:"Men's Medical Grade Compression (20-30mmHg)", pp:'$40', pu:'https://bombas.com/collections/mens-compression-socks'}}
+];
+const gchips=document.getElementById('gchips'), gout=document.getElementById('gout'), ggender=document.getElementById('ggender');
+let gIdx=0, gG='w';
+[['Women','w'],['Men','m']].forEach(([lab,val])=>{
+  const b=document.createElement('button'); b.className='chip'; b.textContent=lab;
+  b.setAttribute('aria-pressed', val==='w' ? 'true':'false');
+  b.onclick=()=>{gG=val; [...ggender.children].forEach(c=>c.setAttribute('aria-pressed', c===b ? 'true':'false')); gselect(gIdx);};
+  ggender.appendChild(b);
+});
+GUIDE.forEach((g,i)=>{
+  const b=document.createElement('button'); b.className='chip'; b.textContent=g.label;
+  b.setAttribute('aria-pressed','false'); b.onclick=()=>gselect(i); gchips.appendChild(b);
+});
+function gselect(i){
+  gIdx=i;
+  [...gchips.children].forEach((c,j)=>c.setAttribute('aria-pressed', j===i ? 'true':'false'));
+  const g=GUIDE[i], pr=g[gG];
+  gout.innerHTML=`
+    <div class="gnum">${g.num}<small>mmHg · ${g.name}</small></div>
+    <div class="gwhat">${g.what}</div>
+    <a class="gprod" href="${pr.pu}" target="_blank" rel="noopener"><span class="pimg"><img src="captures/products/${pr.img}.webp" alt="${pr.pn}" loading="lazy"></span><b>${pr.pn}</b><span>${pr.pp}</span><span class="sr">(opens in a new tab)</span></a>`;
+}
+gselect(0);
+
+// ---------- gift finder ----------
+const POOL={
+  slip:{img:'gripper-slipper', n:'Gripper Slippers', p:55},
+  trav:{img:'travel-compression', n:'Travel Compression 3-Pack', p:105},
+  tee:{img:'tee', n:'Pima Cotton Crew Tee', p:48},
+  mtee:{img:'tee-mens', n:'Pima Cotton Crew Tee', p:48},
+  und:{img:'underwear', n:'Seamless 3-Pack', p:48},
+  evc:{img:'compression-rosewater', n:'Everyday Compression Calf Socks', p:25},
+  knee:{img:'compression-forest', n:'Everyday Compression Knee High', p:30},
+  c3p:{img:'compression-3pack', n:'Compression Calf 3-Pack', p:75}
+};
+const GIFTS=[
+  {label:'Dad', items:['slip','trav','mtee']},
+  {label:'The nurse in your life', items:['evc','slip','c3p']},
+  {label:'New mom', items:['slip','und','tee']},
+  {label:'Always cold', items:['knee','slip','tee']}
+];
+const SIZES=[{label:'Just a taste', n:1},{label:'Proper gift', n:2},{label:'The whole day', n:3}];
+const gwho=document.getElementById('giftwho'), gsize=document.getElementById('giftsize');
+let giftState={who:0, size:1};
+GIFTS.forEach((g,i)=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=g.label; b.setAttribute('aria-pressed','false'); b.onclick=()=>{giftState.who=i; grender();}; gwho.appendChild(b); });
+SIZES.forEach((s,i)=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=s.label; b.setAttribute('aria-pressed','false'); b.onclick=()=>{giftState.size=i; grender();}; gsize.appendChild(b); });
+function grender(){
+  [...gwho.children].forEach((c,j)=>c.setAttribute('aria-pressed', j===giftState.who ? 'true':'false'));
+  [...gsize.children].forEach((c,j)=>c.setAttribute('aria-pressed', j===giftState.size ? 'true':'false'));
+  const items=GIFTS[giftState.who].items.map(k=>POOL[k]);
+  const n=SIZES[giftState.size].n;
+  document.getElementById('bundle').innerHTML=items.map((it,idx)=>
+    `<div class="mockprod${idx<n?'':' dim'}"><div class="pimg"><img src="captures/products/${it.img}.webp" alt="${it.n}" loading="lazy"></div><b>${it.n}</b><span>$${it.p}</span></div>`).join('');
+  const total=items.slice(0,n).reduce((a,b)=>a+b.p,0);
+  document.getElementById('bsum').textContent='$'+total;
+  document.getElementById('bnote').textContent=`${n} item${n>1?'s':''} in the box, ${n} donated. One purchased = one donated is the whole brand.`;
+}
+grender();
+
+// ---------- intent router: the four doors ----------
+const prodGrid=`<div class="mockgrid">
+  <div class="mockprod"><div class="pimg"><img src="captures/products/compression-rosewater.webp" alt="" loading="lazy"></div><b>Everyday Compression</b><span>$25 · 15-20mmHg</span></div>
+  <div class="mockprod"><div class="pimg"><img src="captures/products/compression-forest.webp" alt="" loading="lazy"></div><b>Compression Knee High</b><span>$30 · 15-20mmHg</span></div>
+  <div class="mockprod"><div class="pimg"><img src="captures/products/compression-3pack.webp" alt="" loading="lazy"></div><b>Calf Sock 3-Pack</b><span>$75 · save 10% on 4+</span></div>
+</div>`;
+const DOORS=[
+  {
+    label:'Clicked the Google ad',
+    sT:"the page forgets the ad's promise", sC:"the page greets nurses like the ad did",
+    signal:'<b>What arrives with them:</b> <a class="ext" href="https://bombas.com/collections/compression-socks?utm_source=google&utm_medium=cpc&utm_campaign=NONBRANDSEARCH-Search_US_Google_NB_Compression_Exact-Sock-ACQ-NONE" target="_blank" rel="noopener">utm_campaign=&hellip;NB_Compression_Exact&hellip;<span class="sr"> (opens in a new tab)</span></a> · the ad said nurses',
+    now:'The ad lands on a good page, but its header says Travel, Running and Everyday Wear. The nurse who clicked wonders if she is in the right place.',
+    nowVis:`<div class="capture"><img src="captures/skipped-collection.jpg" width="1280" height="900" alt="The real landing page: Compression Socks collection with four use-case doors and nothing about nurses" loading="lazy"><div class="capnote">the real landing page · nothing about nurses</div></div>`,
+    next:'Same page, one conditional state. It reads the campaign tag and greets the visitor the ad invited, review quote and all.',
+    nextVis:`<div class="mock"><div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><span class="mockaddr">bombas.com<b>/collections/compression-socks</b></span></div>
+      <div class="mockroute"><b>Welcome, nurses.</b> Rated by people who wear them through 12-hour shifts: "perfect for long days in the OR."</div>
+      <div class="mockhero withimg"><div class="herobody"><div class="mockcrumb">Home &rsaquo; Socks &rsaquo; Compression</div><div class="mockh">Compression Socks</div><div class="mocksub"><mark>Soothing support for long shifts</mark> and days on your feet</div><div class="mockstate">state: utm_campaign &rarr; nurses</div></div><div class="heroimg"><img src="captures/products/compression-rosewater.webp" alt="" loading="lazy"></div></div>
+      ${prodGrid}</div>`,
+    test:{t:"half the ad clicks see the page greet them the way the ad did, half see it as is", m:"more people who clicked the ad go on to open a product", g:"sales from the campaigns already running, so the experiment never costs a working ad"}
+  },
+  {
+    label:'Searched "bombas" on Google',
+    sT:'asks for "standing all day", gets ankle socks', sC:'intent phrases route to the right shelf',
+    signal:'<b>What arrives with them:</b> a branded search · they land on the homepage already trusting you',
+    now:'They trust the search bar most and type what they need. Intent phrases like "socks for standing all day" return generic socks, aimed at your warmest visitors.',
+    nowVis:`<div class="journey">
+      <div class="jstep on"><div class="capture"><img src="captures/compression-tile.jpg" width="1280" height="380" alt="Bombas homepage category tiles" loading="lazy"><div class="capnote">1 · lands on the homepage, already sold</div></div></div>
+      <div class="jstep"><div class="mock"><div class="mockbar"><span class="mockbrand">BOMBAS</span><span class="mockfield">socks for standing all day</span></div></div><div class="capnote" style="border:1px solid var(--line); border-radius:0 0 8px 8px">2 · types what they actually need</div></div>
+      <div class="jstep"><div class="capture"><img src="captures/search-standing-real.jpg" width="1280" height="900" alt="Real search results: generic ankle and sport socks for socks for standing all day" loading="lazy"><div class="capnote">3 · gets generic socks. No compression in the set</div></div></div>
+      <div class="jdots"><button class="jdot" aria-pressed="true" aria-label="Step 1"></button><button class="jdot" aria-pressed="false" aria-label="Step 2"></button><button class="jdot" aria-pressed="false" aria-label="Step 3"></button><span class="jhint">1 - 2 - 3</span></div>
+    </div>`,
+    next:'Intent phrases route to the shelf that answers them. "Standing all day" lands on the long-shifts collection that already exists.',
+    nextVis:`<div class="mock"><div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><span class="mockaddr">bombas.com<b>/collections/women-long-shifts-compression-socks</b></span></div>
+      <div class="mockbar"><span class="mockbrand">BOMBAS</span><span class="mockfield">socks for standing all day</span></div>
+      <div class="mockroute">You said <b>standing all day</b>. These are built for long shifts.</div>
+      <div class="mocktiles">${doorTiles}</div></div>`,
+    test:{t:"route the most common intent phrases to their collection for half of searchers", m:"more of those searches land on the right shelf, and fewer come back with nothing", g:"how often people back out and search again, in case the routing sends anyone to the wrong place"}
+  },
+  {
+    label:'Searched the nurse query',
+    sT:'Sockwell wins, Bombas pays', sC:'own the page, earn the click',
+    signal:'<b>What arrives with them:</b> "best compression socks for nurses" · high intent, no brand loyalty yet',
+    now:'Bombas rents the top of this page by the click. Sockwell owns the spot right below it, free.',
+    nowVis:`<div class="capture"><img src="captures/serp-paid-organic.jpg" width="780" height="500" alt="Google results: Bombas as the paid ad directly above Sockwell's number one organic result" loading="lazy"><div class="capnote">google.com · real capture</div></div>`,
+    next:'A nurses page one level above the long-shifts collection that already exists. Wiring, not construction. It earns the click the ad currently buys.',
+    nextVis:`<div class="mock"><div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><span class="mockaddr">bombas.com<b>/collections/compression-socks-for-nurses</b></span></div>
+      <div class="mockhero withimg"><div class="herobody"><div class="mockcrumb">Home &rsaquo; Compression &rsaquo; For Nurses</div><div class="mockh">Compression Socks for Nurses</div><div class="mocksub">Built for 12-hour shifts. Graduated 15-20mmHg support.</div><div class="mockstate">/collections/women-long-shifts-compression-socks is live today</div></div><div class="heroimg"><img src="captures/products/compression-forest.webp" alt="" loading="lazy"></div></div>${prodGrid}</div>`,
+    test:{t:"build the nurses page and see if it can earn the traffic the ad now pays for", m:"more people find the page through Google on their own, then go on to open a product", g:"what each new customer costs in ad spend, which should get cheaper once the page ranks"}
+  },
+  {
+    label:'Asked an AI assistant',
+    sT:'AI answers name competitors', sC:'fix one page, AI cites it',
+    signal:'<b>What arrives with them:</b> "what socks should a nurse buy?" · AI answers read the same web Google reads',
+    now:"Google's own AI Overview answers the nurse question with Sockwell and PRO Compression. Bombas isn't in it. I saw the same when I asked Claude.",
+    nowVis:`<div class="capture"><img src="captures/serp-ai-overview.jpg" width="1280" height="380" alt="Google AI Overview citing Sockwell and PRO Compression, with no Bombas" loading="lazy"><div class="capnote">google ai overview · real capture</div></div>`,
+    next:'The nurses page fixes this channel too, because AI answers cite the same pages Google ranks. One fix, both channels inherit it.',
+    nextVis:`<div class="journey">
+      <div class="jstep on"><div class="mock"><div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><span class="mockaddr">bombas.com<b>/collections/compression-socks-for-nurses</b></span></div>
+        <div class="mockhero"><div class="mockcrumb">Home &rsaquo; Compression &rsaquo; For Nurses</div><div class="mockh">Compression Socks for Nurses</div><div class="mocksub">Built for 12-hour shifts. Graduated 15-20mmHg support.</div><div class="mockstate">plus Organization schema and llms.txt on the homepage</div></div></div>
+        <div class="capnote" style="border:1px solid var(--line); border-radius:0 0 8px 8px">1 &middot; ship the page. It mostly exists already</div></div>
+      <div class="jstep"><div class="gres"><div class="gurl">bombas.com &rsaquo; collections &rsaquo; compression-socks-for-nurses</div><div class="gtitle">Compression Socks for Nurses | Bombas</div><div class="gsnip">Built for 12-hour shifts. Graduated 15-20mmHg support, from the brand reviewers in the OR already trust.</div></div>
+        <div class="capnote" style="border:1px solid var(--line); border-radius:0 0 8px 8px">2 &middot; Google ranks a page it can finally find</div></div>
+      <div class="jstep"><div class="aimock"><div class="aiq">what socks should a nurse buy?</div>
+        <div class="aia">For long shifts, look for graduated 15-20mmHg compression. <b>Bombas Compression Socks for Nurses</b> are built for 12-hour days, and reviewers who work in the OR rate them highly.</div>
+        <div class="aisrc">bombas.com &middot; Compression for Nurses</div></div>
+        <div class="capnote" style="border:1px solid var(--line); border-radius:0 0 8px 8px">3 &middot; AI answers cite what Google ranks</div></div>
+      <div class="jdots"><button class="jdot" aria-pressed="true" aria-label="Step 1"></button><button class="jdot" aria-pressed="false" aria-label="Step 2"></button><button class="jdot" aria-pressed="false" aria-label="Step 3"></button><span class="jhint">1 - 2 - 3</span></div>
+    </div>`,
+    test:{t:"nothing to split-test here. Fix the page once and Google and the AI answers both pick it up", m:"more visitors arrive from AI tools, and the brand starts appearing in their answers", g:"nothing extra. This rides along with the search fix"}
+  }
+];
+const doorsEl=document.getElementById('doors');
+DOORS.forEach((d,i)=>{
+  const wrap=document.createElement('div'); wrap.className='doorwrap';
+  wrap.innerHTML=`<button class="door" aria-expanded="false">
+      <span class="doorlabel">${d.label}</span>
+      <span class="doorchips"><span class="dchip b">${d.sT}</span><span class="arr" aria-hidden="true"></span><span class="dchip g">${d.sC}</span></span>
+      <span class="doorplus" aria-hidden="true">+</span>
+    </button>
+    <div class="doorbody">
+      <div class="rsignal">${d.signal}</div>
+      <div class="pair">
+        <div class="rcol now"><h3>Today <span class="tag micro">observed</span></h3><p>${d.now}</p>${d.nowVis}</div>
+        <div class="rcol next"><h3>Could be <span class="tag micro">concept</span></h3><p>${d.next}</p>${d.nextVis}</div>
+      </div>
+      <div class="testcard"><span class="micro">The test</span><span>${d.test.t}</span><span class="micro">How we'd know</span><span>${d.test.m}</span><span class="micro">What we'd watch</span><span>${d.test.g}</span></div>
+    </div>`;
+  doorsEl.appendChild(wrap);
+});
+doorsEl.addEventListener('click', e=>{
+  const dot=e.target.closest('.jdot');
+  if(dot){
+    const j=dot.closest('.journey');
+    const dots=[...j.querySelectorAll('.jdot')], steps=[...j.querySelectorAll('.jstep')];
+    const idx=dots.indexOf(dot);
+    dots.forEach((d,i)=>d.setAttribute('aria-pressed', i===idx?'true':'false'));
+    steps.forEach((st,i)=>st.classList.toggle('on', i===idx));
+    return;
+  }
+  const btn=e.target.closest('.door'); if(!btn) return;
+  const open=btn.getAttribute('aria-expanded')==='true';
+  doorsEl.querySelectorAll('.door').forEach(b=>b.setAttribute('aria-expanded','false'));
+  if(!open) btn.setAttribute('aria-expanded','true');
+});
+
+// ---------- tabs ----------
+const SECTIONS=[
+  {id:'audience', label:'Audience'},
+  {id:'findings', label:'Observations'},
+  {id:'search', label:'Search'},
+  {id:'finder', label:'Find your pair'},
+  {id:'guide', label:'Guide'},
+  {id:'gifts', label:'Gifts'},
+  {id:'router', label:'Front doors'},
+  {id:'questions', label:'Questions'}
+];
+const tabbarEl=document.getElementById('tabbar');
+SECTIONS.forEach((sec,i)=>{
+  const b=document.createElement('button'); b.className='stab';
+  b.innerHTML=sec.un ? sec.label : `<span class="n">${i+1}</span>${sec.label}`;
+  b.setAttribute('aria-pressed','false');
+  b.onclick=()=>showTab(i); tabbarEl.appendChild(b);
+});
+let currentTab=0;
+function showTab(i){
+  currentTab=(i+SECTIONS.length)%SECTIONS.length;
+  SECTIONS.forEach((sec,j)=>{
+    document.getElementById(sec.id).classList.toggle('active', j===currentTab);
+    tabbarEl.children[j].setAttribute('aria-pressed', j===currentTab?'true':'false');
+  });
+  history.replaceState(null, '', '#'+SECTIONS[currentTab].id);
+  window.scrollTo({top:0});
+}
+window.addEventListener('hashchange', ()=>{
+  const idx=SECTIONS.findIndex(sec=>'#'+sec.id===location.hash);
+  if(idx>-1 && idx!==currentTab) showTab(idx);
+});
+const lightbox=document.createElement('div');
+lightbox.className='lightbox';
+const lightboxImg=document.createElement('img');
+lightbox.appendChild(lightboxImg);
+document.body.appendChild(lightbox);
+document.addEventListener('click', e=>{
+  if(lightbox.classList.contains('open')){ lightbox.classList.remove('open'); return; }
+  const im=e.target.closest ? e.target.closest('.capture img') : null;
+  if(im){ lightboxImg.src=im.src; lightboxImg.alt=im.alt||''; lightbox.classList.add('open'); }
+});
+document.addEventListener('keydown', e=>{
+  if(lightbox.classList.contains('open')){ if(e.key==='Escape') lightbox.classList.remove('open'); return; }
+  if(e.target && e.target.matches && e.target.matches('input, textarea, select')) return;
+  if(e.key==='ArrowRight') showTab(currentTab+1);
+  if(e.key==='ArrowLeft') showTab(currentTab-1);
+});
+const ROUTES=[
+  {key:'engineering', tabs:['findings','search','questions']},
+  {key:'design', tabs:['finder','guide','questions']},
+  {key:'retention', tabs:['audience','finder','gifts','router']}
+];
+const routebarEl=document.getElementById('routebar');
+let currentRoute=null;
+function setRoute(key){
+  currentRoute=(key===currentRoute)?null:key;
+  const route=ROUTES.find(r=>r.key===currentRoute);
+  [...routebarEl.children].forEach(c=>c.classList.toggle('on', c.dataset.key===currentRoute));
+  SECTIONS.forEach((sec,i)=>{
+    const b=tabbarEl.children[i];
+    const dot=b.querySelector('.tdot');
+    if(route && route.tabs.includes(sec.id)){
+      if(!dot){const s=document.createElement('span'); s.className='tdot'; b.appendChild(s);}
+    } else if(dot){ dot.remove(); }
+  });
+  history.replaceState(null,'', location.pathname + (currentRoute?'?for='+currentRoute:'') + location.hash);
+}
+ROUTES.forEach(r=>{
+  const c=document.createElement('button'); c.className='rchip'; c.textContent=r.key; c.dataset.key=r.key;
+  c.onclick=()=>setRoute(r.key); routebarEl.appendChild(c);
+});
+const hash=location.hash.replace('#','');
+const startIdx=Math.max(0, SECTIONS.findIndex(sec=>sec.id===hash));
+showTab(startIdx===-1?0:startIdx);
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+window.addEventListener('load', ()=>window.scrollTo(0,0));
+const forParam=new URLSearchParams(location.search).get('for');
+if(forParam && ROUTES.some(r=>r.key===forParam)){ routebarEl.classList.add('show'); setRoute(forParam); }
+
+const gate=document.getElementById('gate');
+const gatepw=document.getElementById('gatepw');
+const gatemiss=document.getElementById('gatemiss');
+let unlocked=false;
+try{ unlocked = sessionStorage.getItem('gate')==='open'; }catch(e){}
+function openGate(){
+  gate.classList.add('open');
+  document.body.classList.remove('locked');
+  window.scrollTo(0,0);
+  try{ sessionStorage.setItem('gate','open'); }catch(e){}
+}
+function tryGate(){
+  if(gatepw.value.trim().toLowerCase()==='concepts'){ openGate(); }
+  else{ gatemiss.textContent="That's not it. Hint: it's what this page is full of."; gatepw.select(); }
+}
+if(unlocked){ gate.classList.add('open'); }
+else{
+  document.body.classList.add('locked');
+  document.getElementById('gatego').onclick=tryGate;
+  gatepw.addEventListener('keydown', e=>{ if(e.key==='Enter') tryGate(); e.stopPropagation(); });
+  gatepw.focus();
+}
+</script>
+</body>
+</html>
