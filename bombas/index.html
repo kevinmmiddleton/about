@@ -1067,7 +1067,10 @@ function showTab(i){
   });
   history.replaceState(null, '', '#'+SECTIONS[currentTab].id);
   window.scrollTo({top:0});
-  try{ plausible('Bombas Tab View', {props:{tab: SECTIONS[currentTab].label}}); }catch(e){}
+  const gateEl=document.getElementById('gate');
+  if(gateEl && gateEl.classList.contains('open')){
+    try{ plausible('Bombas Tab View', {props:{tab: SECTIONS[currentTab].label}}); }catch(e){}
+  }
 }
 window.addEventListener('hashchange', ()=>{
   const idx=SECTIONS.findIndex(sec=>'#'+sec.id===location.hash);
@@ -1147,12 +1150,13 @@ function openGate(){
   window.scrollTo(0,0);
   try{ sessionStorage.setItem('gate','open'); }catch(e){}
   try{ plausible('Bombas Login'); }catch(e){}
+  try{ plausible('Bombas Tab View', {props:{tab: SECTIONS[currentTab].label}}); }catch(e){}
 }
 function tryGate(){
   if(gatepw.value.trim().toLowerCase()==='concepts'){ openGate(); }
   else{ gatemiss.textContent="That's not it. Hint: it's what this page is full of."; gatepw.select(); try{ plausible('Bombas Login Failed'); }catch(e){} }
 }
-if(unlocked){ gate.classList.add('open'); }
+if(unlocked){ gate.classList.add('open'); try{ plausible('Bombas Tab View', {props:{tab: SECTIONS[currentTab].label}}); }catch(e){} }
 else{
   document.body.classList.add('locked');
   document.getElementById('gatego').onclick=tryGate;
