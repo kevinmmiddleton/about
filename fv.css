@@ -4007,3 +4007,8 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 @media(max-width:560px) and (prefers-reduced-motion:reduce){
   .fv #building .pgrid .pcard{transform:none}
 }
+
+/* mobile: the deck speaks for itself; the console chrome is desktop-only */
+@media(max-width:560px){
+  .fv #building .bfilter{display:none}
+}
