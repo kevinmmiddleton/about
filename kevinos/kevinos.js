@@ -4779,7 +4779,9 @@ function applyHomeLayout() {
         const gap = 14;
         const span = vw - margin * 2;
         const buildingW = 320;
-        const buildingLeft = vw - margin - buildingW;
+        // Clear the right-hand desktop-icon rail (90px + breathing room), so
+        // Recycle Bin and middleton.io stay visible under the opening layout.
+        const buildingLeft = vw - Math.max(margin, 104) - buildingW;
         const aboutW = Math.min(400, Math.max(330, Math.round(span * 0.27)));
         const aboutLeft = buildingLeft - gap - aboutW;
         const experienceW = Math.min(680, aboutLeft - gap - margin);

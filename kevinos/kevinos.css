@@ -9036,3 +9036,356 @@ body.kos-resizing {
     color: var(--ico-tile, var(--ico-hue, var(--text)));
     stroke-width: 2.4;
 }
+
+/* ============================================================
+   EDITORIAL RESKIN — desktop only (html:not(.kos-mobile))
+   KevinOS dressed in middleton.io's clothes: the homepage's
+   neutral ground, ink, marigold accent, mono micro-labels, and
+   10px corners. The mobile springboard keeps its own look (it
+   is photographed on the homepage trading card).
+   ============================================================ */
+
+/* ---- tokens: homepage palette. Base is dark (matches this
+   file's :root convention), light arrives via media + manual. */
+html:not(.kos-mobile) {
+    --bg: #0F0F12;
+    --bg-rgb: 15, 15, 18;
+    --surface: #17171B;
+    --surface-2: #1E1E23;
+    --border: #2C2C33;
+    --text: #F2F2F4;
+    --text-dim: #A2A2AC;
+    --text-muted: #8B8B95;
+    --radius: 10px;
+    --marigold: #E8A317;
+    --on-mari: #241700;
+    --os-invert: #EDEDF0;
+    --os-on-invert: #111113;
+    --os-dot: rgba(242, 242, 244, 0.07);
+}
+@media (prefers-color-scheme: light) {
+    html:not(.kos-mobile):not([data-theme="dark"]) {
+        --bg: #F4F4F5;
+        --bg-rgb: 244, 244, 245;
+        --surface: #FFFFFF;
+        --surface-2: #ECECEE;
+        --border: #D8D8DD;
+        --text: #111113;
+        --text-dim: #5B5B62;
+        --text-muted: #6E6E76;
+        --os-invert: #111113;
+        --os-on-invert: #F2F2F4;
+        --os-dot: rgba(17, 17, 19, 0.10);
+    }
+}
+html:not(.kos-mobile)[data-theme="light"] {
+    --bg: #F4F4F5;
+    --bg-rgb: 244, 244, 245;
+    --surface: #FFFFFF;
+    --surface-2: #ECECEE;
+    --border: #D8D8DD;
+    --text: #111113;
+    --text-dim: #5B5B62;
+    --text-muted: #6E6E76;
+    --os-invert: #111113;
+    --os-on-invert: #F2F2F4;
+    --os-dot: rgba(17, 17, 19, 0.10);
+}
+html:not(.kos-mobile)[data-theme="dark"] {
+    --bg: #0F0F12;
+    --bg-rgb: 15, 15, 18;
+    --surface: #17171B;
+    --surface-2: #1E1E23;
+    --border: #2C2C33;
+    --text: #F2F2F4;
+    --text-dim: #A2A2AC;
+    --text-muted: #8B8B95;
+    --os-invert: #EDEDF0;
+    --os-on-invert: #111113;
+    --os-dot: rgba(242, 242, 244, 0.07);
+}
+
+/* ---- wallpaper: the photo goes away; a drafting canvas —
+   quiet dot grid on the homepage ground — replaces it. */
+html:not(.kos-mobile) .desktop {
+    background:
+        radial-gradient(circle at 1px 1px, var(--os-dot) 1px, transparent 1.5px) 0 0 / 24px 24px,
+        linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 88%, var(--border)) 100%);
+}
+
+/* ---- selection + focus ring pick up the accent */
+html:not(.kos-mobile) ::selection {
+    background: var(--marigold);
+    color: var(--on-mari);
+}
+html:not(.kos-mobile) :focus-visible {
+    outline: 2px solid var(--marigold);
+    outline-offset: 2px;
+}
+
+/* ---- menu bar: solid editorial strip, mono micro-labels */
+html:not(.kos-mobile) .menubar {
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+}
+html:not(.kos-mobile) .menubar-app {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+}
+html:not(.kos-mobile) .menubar-menu {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-bottom: 2px solid transparent;
+}
+html:not(.kos-mobile) .menubar-menu:hover {
+    color: var(--text);
+    border-bottom-color: var(--marigold);
+    background: transparent;
+}
+html:not(.kos-mobile) .menubar-back,
+html:not(.kos-mobile) .menubar-back-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+}
+html:not(.kos-mobile) .menubar-back:hover .menubar-back-label {
+    color: var(--text);
+}
+html:not(.kos-mobile) .menubar-right,
+html:not(.kos-mobile) .menubar-clock,
+html:not(.kos-mobile) .menubar-time {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+}
+
+/* ---- windows: hard corners, hairline border, two-layer shadow */
+html:not(.kos-mobile) .window {
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.08),
+        0 14px 34px rgba(0, 0, 0, 0.16);
+}
+html:not(.kos-mobile) .window.window-inactive {
+    opacity: 1;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.06),
+        0 8px 20px rgba(0, 0, 0, 0.10);
+}
+/* the marigold ring says "you are here" */
+html:not(.kos-mobile) .window.window-focused {
+    border-color: transparent;
+    box-shadow:
+        0 0 0 1.5px var(--marigold),
+        0 2px 4px rgba(0, 0, 0, 0.10),
+        0 22px 48px rgba(0, 0, 0, 0.22);
+}
+
+/* ---- window header: flat, no frost; the focused header flips
+   to the invert panel exactly like the homepage Band. Game
+   windows keep their always-dark headers. */
+html:not(.kos-mobile) .window-header,
+html:not(.kos-mobile)[data-theme="light"] .window-header {
+    background: var(--surface-2);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid var(--border);
+}
+html:not(.kos-mobile) .window.window-focused:not(.game-window) .window-header {
+    background: var(--os-invert);
+    border-bottom-color: var(--os-invert);
+}
+html:not(.kos-mobile) .window-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+html:not(.kos-mobile) .window.window-focused:not(.game-window) .window-title {
+    color: var(--os-on-invert);
+}
+html:not(.kos-mobile) .window.window-focused:not(.game-window) .window-title svg {
+    color: var(--os-on-invert);
+}
+@media (prefers-color-scheme: light) {
+    html:not(.kos-mobile):not([data-theme="dark"]) .window-header {
+        background: var(--surface-2);
+    }
+    html:not(.kos-mobile):not([data-theme="dark"]) .window.window-focused:not(.game-window) .window-header {
+        background: var(--os-invert);
+    }
+}
+
+/* ---- dock: flat editorial panel; the magnification stays */
+html:not(.kos-mobile) .dock,
+html:not(.kos-mobile)[data-theme="light"] .dock {
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+html:not(.kos-mobile) .dock-item.active::after {
+    background: var(--marigold);
+}
+html:not(.kos-mobile) .dock-item::before,
+html:not(.kos-mobile)[data-theme="light"] .dock-item::before {
+    background: var(--os-invert);
+    color: var(--os-on-invert);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    border-radius: 6px;
+}
+
+/* ---- desktop icon labels: filesystem mono */
+html:not(.kos-mobile) .icon-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+html:not(.kos-mobile) .desktop-icon.selected .icon-label {
+    background: var(--os-invert);
+    color: var(--os-on-invert);
+}
+
+/* ---- app tile hues: the homepage trading-card palette. The
+   glyph stays white (>=5.16:1 on every hue) except on marigold,
+   a light surface that needs ink — same rule as the homepage. */
+html:not(.kos-mobile) :has(> svg > use[href="#ico-profile"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-profile"]) { --ico-tile: #3F4A5A; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-values"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-values"]) { --ico-tile: #6D4AA8; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-experience"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-experience"]) { --ico-tile: #2C7A63; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-projects"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-projects"]) { --ico-tile: #1F4B8F; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-building"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-building"]) { --ico-tile: #1F4B8F; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-writing"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-writing"]) { --ico-tile: #9E227D; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-strengths"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-strengths"]) { --ico-tile: #E8A317; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-skills"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-skills"]) { --ico-tile: #2C7A63; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-reviews"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-reviews"]) { --ico-tile: #C3384B; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-games"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-games"]) { --ico-tile: #1F4B8F; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-connect"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-connect"]) { --ico-tile: #1F4B8F; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-resume"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-resume"]) { --ico-tile: #6D4AA8; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-website"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-website"]) { --ico-tile: #2C7A63; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-invaders"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-invaders"]) { --ico-tile: #2C7A63; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-tetris"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-tetris"]) { --ico-tile: #1F4B8F; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-bugsquash"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-bugsquash"]) { --ico-tile: #C3384B; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-runner"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-runner"]) { --ico-tile: #9E227D; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-snake"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-snake"]) { --ico-tile: #2C7A63; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-standup"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-standup"]) { --ico-tile: #6D4AA8; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-interview"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-interview"]) { --ico-tile: #E8A317; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-email"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-email"]) { --ico-tile: #2C7A63; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-linkedin"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-linkedin"]) { --ico-tile: #1F4B8F; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-calendar"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-calendar"]) { --ico-tile: #1F4B8F; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-music"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-music"]) { --ico-tile: #9E227D; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-recipes"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-recipes"]) { --ico-tile: #C3384B; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-party"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-party"]) { --ico-tile: #6D4AA8; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-virus"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-virus"]) { --ico-tile: #1F4B8F; }
+html:not(.kos-mobile) :has(> svg > use[href="#ico-videos"]),
+html:not(.kos-mobile) svg:has(use[href="#ico-videos"]) { --ico-tile: #E8A317; }
+/* dark glyphs on the light marigold tiles */
+html:not(.kos-mobile) .dock-item .dock-emoji:has(use[href="#ico-strengths"]) > svg,
+html:not(.kos-mobile) .dock-item .dock-emoji:has(use[href="#ico-interview"]) > svg,
+html:not(.kos-mobile) .dock-item .dock-emoji:has(use[href="#ico-videos"]) > svg,
+html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-strengths"]) > svg,
+html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-interview"]) > svg,
+html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-videos"]) > svg {
+    color: #241700;
+}
+
+/* ---- boot moment: ink terminal, marigold wordmark, mono
+   status lines that check themselves off before the fade */
+html:not(.kos-mobile) .boot-loader {
+    background: #0F0F12;
+    gap: 22px;
+}
+html:not(.kos-mobile) .boot-logo {
+    font-family: var(--font-mono);
+    color: #E8A317;
+    text-shadow: none;
+}
+html:not(.kos-mobile) .boot-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: #A2A2AC;
+    text-align: left;
+}
+html:not(.kos-mobile) .boot-lines span {
+    opacity: 0;
+    animation: bootLine 0.01s linear forwards;
+}
+html:not(.kos-mobile) .boot-lines span:nth-child(1) { animation-delay: 0.15s; }
+html:not(.kos-mobile) .boot-lines span:nth-child(2) { animation-delay: 0.45s; }
+html:not(.kos-mobile) .boot-lines span:nth-child(3) { animation-delay: 0.75s; }
+html:not(.kos-mobile) .boot-lines span:nth-child(4) { animation-delay: 1.05s; }
+html:not(.kos-mobile) .boot-lines i {
+    font-style: normal;
+    color: #E8A317;
+    font-weight: 700;
+}
+@keyframes bootLine {
+    to { opacity: 1; }
+}
+html:not(.kos-mobile) .boot-progress {
+    background: #2C2C33;
+    border-radius: 2px;
+}
+html:not(.kos-mobile) .boot-progress-bar {
+    background: #E8A317;
+}
+/* the springboard never shows the terminal lines */
+.kos-mobile .boot-lines,
+html.kos-mobile .boot-lines {
+    display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+    html:not(.kos-mobile) .boot-lines span {
+        animation: none;
+        opacity: 1;
+    }
+}
