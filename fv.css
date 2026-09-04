@@ -3927,3 +3927,55 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 @media(prefers-reduced-motion:reduce){
   .fv .pgrid .pc{cursor:pointer;will-change:auto}
 }
+
+/* ---- Trading cards v2: compact 5:7 flip cards. The .pc class stays as the
+   filter/physics hook; .pcard carries the new anatomy. Fronts are identity
+   (head + shot), backs carry the spec. The idle float uses the independent
+   `translate` property so it never fights the transform-based tilt/drag. ---- */
+.fv .bf-hint{font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink2)}
+.fv .pgrid{grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
+.fv .pcard{display:block;border:0;background:transparent;overflow:visible;
+  aspect-ratio:5/7;perspective:900px;cursor:pointer}
+.fv .pcard:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.fv .pcard .pc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;
+  transition:transform .55s cubic-bezier(.3,1.4,.4,1)}
+.fv .pcard.flipped .pc-inner{transform:rotateY(180deg)}
+.fv .pc-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;
+  border:1px solid var(--rule);border-radius:var(--r);background:var(--bg);overflow:hidden;
+  display:flex;flex-direction:column}
+.fv .pc-front .pc-shot{flex:1;min-height:0;width:100%;object-fit:cover;object-position:top;border-block:0;border-top:1px solid var(--rule)}
+.fv .pc-hint{position:absolute;bottom:.45rem;right:.55rem;font-family:var(--mono);font-size:.55rem;
+  font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink);
+  background:var(--glass);border:1px solid var(--rule);border-radius:var(--radius-full);padding:.18rem .5rem}
+.fv .pc-back{transform:rotateY(180deg);padding:.85rem .9rem;gap:.5rem}
+.fv .pc-bk{height:4px;border-radius:2px;flex:0 0 auto}
+.fv .pc-bt{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:-.02em}
+.fv .pcard .pc-desc{margin:0;flex:0 1 auto}
+.fv .pcard .pc-posts{margin:0;flex:1 1 auto;min-height:0;overflow-y:auto;gap:.3rem}
+.fv .pcard .pc-posts a{display:flex;gap:.4rem;align-items:flex-start;padding:.25rem 0;font-size:.7rem;
+  line-height:1.3;color:var(--ink);text-decoration:none;border-top:1px solid var(--rule)}
+.fv .pcard .pc-posts a:first-child{border-top:0}
+.fv .pcard .pc-posts a:hover{text-decoration:underline}
+.fv .pcard .pc-posts i{flex:0 0 .38rem;height:.38rem;margin-top:.28rem;border-radius:50%;background:var(--rule-strong)}
+.fv .pcard .pc-spec{padding:0;margin-top:auto}
+.fv .pcard .pc-go{margin:0 -.9rem -.85rem;padding:.5rem .9rem;text-decoration:none}
+/* idle float: alive means touchable. `translate` only, staggered, paused
+   while held, absent under reduced motion. */
+@keyframes pfloat{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@media (hover:hover) and (pointer:fine){
+  .fv .pgrid .pcard{animation:pfloat 5.6s ease-in-out infinite}
+  .fv .pgrid .pcard:nth-child(2n){animation-delay:.9s}
+  .fv .pgrid .pcard:nth-child(3n){animation-delay:1.8s}
+  .fv .pgrid .pcard:nth-child(4n){animation-delay:2.7s}
+  .fv .pgrid .pcard.held{animation-play-state:paused}
+}
+/* mobile: the deck becomes a snap carousel that shuffles itself */
+@media(max-width:560px){
+  .fv .pgrid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+    gap:.6rem;padding-bottom:.5rem;-webkit-overflow-scrolling:touch}
+  .fv .pgrid .pcard{flex:0 0 74vw;scroll-snap-align:center}
+}
+@media(prefers-reduced-motion:reduce){
+  .fv .pgrid .pcard{animation:none}
+  .fv .pcard .pc-inner{transition:none}
+}
