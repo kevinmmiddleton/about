@@ -6823,3 +6823,375 @@ const kosSound = (function () {
         if (e.target.closest('[data-window="aim"], [data-mobile-open="aim"]')) kosSound.play('door');
     });
 })();
+
+// ============================================================
+// HYPER-REAL LAYER (desktop only): working menu-bar drop-downs,
+// desktop context menu, About This Kev, genie minimize, idle
+// screensaver, social battery, toasts.
+// ============================================================
+(function () {
+    if (KOS_MOBILE) return;
+
+    // ---------- toast ----------
+    let toastEl = null, toastT = null;
+    function toast(msg) {
+        if (!toastEl) {
+            toastEl = document.createElement('div');
+            toastEl.className = 'kos-toast';
+            toastEl.setAttribute('role', 'status');
+            document.body.appendChild(toastEl);
+        }
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        clearTimeout(toastT);
+        toastT = setTimeout(() => toastEl.classList.remove('show'), 2600);
+    }
+
+    // ---------- helpers ----------
+    const bootAt = Date.now();
+    function focusedWin() {
+        return document.querySelector('.window.window-open.window-focused') ||
+            [...document.querySelectorAll('.window.window-open')]
+                .sort((a, b) => (+b.style.zIndex || 0) - (+a.style.zIndex || 0))[0] || null;
+    }
+    function themeClick() { document.getElementById('menubarThemeToggle')?.click(); }
+
+    // ---------- About This Kev ----------
+    let aboutEl = null, uptimeT = null;
+    function fmtUptime() {
+        const s = Math.floor((Date.now() - bootAt) / 1000);
+        const m = Math.floor(s / 60);
+        return m > 0 ? `${m}m ${s % 60}s` : `${s}s`;
+    }
+    function showAbout() {
+        if (!aboutEl) {
+            aboutEl = document.createElement('div');
+            aboutEl.className = 'kos-about';
+            aboutEl.innerHTML = `
+              <div class="kos-about-card" role="dialog" aria-label="About This Kev">
+                <div class="kos-about-head">
+                  <button class="kos-about-close" aria-label="Close">×</button>
+                  <h2>KEVIN<span class="mari">OS</span></h2>
+                  <p>Version 2.0 &middot; Editorial &middot; New York</p>
+                </div>
+                <div class="kos-about-rows">
+                  <div class="kos-about-row"><b>Chip</b><span>Kevin M1 Pro (caffeinated)</span></div>
+                  <div class="kos-about-row"><b>Memory</b><span>Mostly NYC trivia and old product specs</span></div>
+                  <div class="kos-about-row"><b>Storage</b><span>Three cats &middot; almost full</span></div>
+                  <div class="kos-about-row"><b>Graphics</b><span>Marigold on ink, integrated</span></div>
+                  <div class="kos-about-row"><b>Uptime</b><span data-uptime>0s</span></div>
+                  <div class="kos-about-row"><b>Serial</b><span>KM-NYC-NOT-A-REAL-COMPUTER</span></div>
+                </div>
+              </div>`;
+            document.body.appendChild(aboutEl);
+            aboutEl.addEventListener('click', (e) => {
+                if (e.target === aboutEl || e.target.closest('.kos-about-close')) hideAbout();
+            });
+        }
+        aboutEl.classList.add('open');
+        const up = aboutEl.querySelector('[data-uptime]');
+        clearInterval(uptimeT);
+        uptimeT = setInterval(() => { up.textContent = fmtUptime(); }, 1000);
+        up.textContent = fmtUptime();
+    }
+    function hideAbout() {
+        aboutEl?.classList.remove('open');
+        clearInterval(uptimeT);
+    }
+
+    // ---------- restart (replays the boot sequence) ----------
+    function restartKevinOS() {
+        closeAnyMenu();
+        const boot = document.getElementById('bootLoader');
+        if (!boot) return;
+        const bar = boot.querySelector('.boot-progress-bar');
+        boot.classList.remove('hidden');
+        if (bar) { bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; }
+        boot.querySelectorAll('.boot-lines span').forEach(sp => {
+            sp.style.animation = 'none'; void sp.offsetWidth; sp.style.animation = '';
+        });
+        setTimeout(() => boot.classList.add('hidden'), 1900);
+    }
+
+    // ---------- menu system ----------
+    let openMenuEl = null, openTrigger = null;
+    function closeAnyMenu() {
+        openMenuEl?.remove();
+        openTrigger?.classList.remove('open');
+        openMenuEl = openTrigger = null;
+    }
+    function buildMenu(items, trigger) {
+        closeAnyMenu();
+        const menu = document.createElement('div');
+        menu.className = 'kos-menu';
+        menu.setAttribute('role', 'menu');
+        for (const it of items) {
+            if (it === '-') {
+                const sep = document.createElement('div');
+                sep.className = 'kos-menu-sep';
+                menu.appendChild(sep);
+                continue;
+            }
+            const row = document.createElement('div');
+            row.className = 'kos-menu-item' + (it.disabled ? ' disabled' : '');
+            row.setAttribute('role', 'menuitem');
+            row.innerHTML = `<span>${it.check ? '<span class="check">✓</span>' : (it.checkSpace ? '<span class="check"></span>' : '')}${it.label}</span>` +
+                (it.keys ? `<span class="keys">${it.keys}</span>` : '');
+            if (!it.disabled && it.fn) row.addEventListener('mousedown', (e) => {
+                e.preventDefault(); e.stopPropagation();
+                closeAnyMenu();
+                it.fn();
+            });
+            menu.appendChild(row);
+        }
+        document.body.appendChild(menu);
+        const r = trigger.getBoundingClientRect();
+        menu.style.top = (r.bottom + 6) + 'px';
+        menu.style.left = Math.min(r.left, window.innerWidth - menu.offsetWidth - 8) + 'px';
+        trigger.classList.add('open');
+        openMenuEl = menu;
+        openTrigger = trigger;
+    }
+
+    function windowMenuItems() {
+        const items = [
+            { label: 'Minimize', keys: '⌘M', fn: () => { const w = focusedWin(); if (w) minimizeWindow(w.dataset.window); } },
+            { label: 'Zoom', fn: () => { const w = focusedWin(); w?.querySelector('.window-dot.green')?.click(); } },
+            '-'
+        ];
+        const open = [...document.querySelectorAll('.window.window-open')];
+        if (!open.length) items.push({ label: 'No windows open', disabled: true });
+        for (const w of open) {
+            const t = (w.querySelector('.window-title')?.textContent || w.dataset.window || '').trim();
+            items.push({
+                label: t,
+                check: w.classList.contains('window-focused'),
+                checkSpace: true,
+                fn: () => { if (typeof bringToFront === 'function') bringToFront(w); }
+            });
+        }
+        return items;
+    }
+
+    const MENUS = {
+        KevinOS: () => [
+            { label: 'About This Kev…', fn: showAbout },
+            '-',
+            { label: 'Sleep', fn: () => saverOn(true) },
+            { label: 'Restart KevinOS…', fn: restartKevinOS },
+            '-',
+            { label: 'Back to middleton.io', fn: () => { window.location.href = 'https://middleton.io/'; } }
+        ],
+        File: () => [
+            { label: 'New Window', keys: '⌘N', fn: () => openWindow('about') },
+            { label: 'Open building/', fn: () => openWindow('building') },
+            { label: 'Open experience/', fn: () => openWindow('experience') },
+            '-',
+            { label: 'Close Window', keys: '⌘W', fn: () => { const w = focusedWin(); if (w) closeWindow(w.dataset.window); } }
+        ],
+        Edit: () => [
+            { label: 'Undo Career Pivot', keys: '⌘Z', disabled: true },
+            { label: 'Redo Career Pivot', keys: '⇧⌘Z', disabled: true },
+            '-',
+            { label: 'Cut', keys: '⌘X', disabled: true },
+            { label: 'Copy', keys: '⌘C', disabled: true },
+            { label: 'Paste', keys: '⌘V', disabled: true },
+            '-',
+            { label: 'Select All Cats', keys: '⌘A', fn: () => toast('3 cats selected. All three decline.') }
+        ],
+        View: () => [
+            { label: 'Toggle Dark Mode', fn: themeClick },
+            { label: 'Mission Control', fn: () => { try { openMissionControl(); } catch (e) {} } },
+            { label: 'Launchpad', fn: () => { try { openLaunchpad(); } catch (e) {} } },
+            '-',
+            { label: 'Start Screensaver', fn: () => saverOn(true) }
+        ],
+        Window: windowMenuItems,
+        Help: () => [
+            { label: 'KevinOS Help', keys: '⌘?', fn: () => openWindow('aim') },
+            '-',
+            { label: 'There is no other help.', disabled: true }
+        ]
+    };
+
+    const triggers = [];
+    const appEl = document.querySelector('.menubar-app');
+    if (appEl) triggers.push([appEl, 'KevinOS']);
+    document.querySelectorAll('.menubar-menu').forEach(el => {
+        const name = el.textContent.trim();
+        if (MENUS[name]) triggers.push([el, name]);
+    });
+    for (const [el, name] of triggers) {
+        el.setAttribute('aria-haspopup', 'menu');
+        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+        // .menubar-app is a link back to the site by default; the menu takes over.
+        el.addEventListener('click', (e) => {
+            e.preventDefault(); e.stopPropagation();
+            if (openTrigger === el) { closeAnyMenu(); return; }
+            buildMenu(MENUS[name](), el);
+        });
+        el.addEventListener('mouseenter', () => {
+            if (openMenuEl && openTrigger !== el) buildMenu(MENUS[name](), el);
+        });
+        el.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+        });
+    }
+    document.addEventListener('mousedown', (e) => {
+        if (e.button === 2) return; // right-click is the context menu's business
+        if (openMenuEl && !e.target.closest('.kos-menu') && !e.target.closest('.menubar')) closeAnyMenu();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { closeAnyMenu(); hideAbout(); }
+    });
+
+    // ---------- desktop context menu ----------
+    let untitledCount = 0;
+    function newFolder() {
+        untitledCount++;
+        const rail = document.querySelector('.desktop-icons-left') || document.querySelector('.desktop-icons');
+        if (!rail) return;
+        const btn = document.createElement('button');
+        btn.className = 'desktop-icon';
+        const name = untitledCount === 1 ? 'UNTITLED_FOLDER' : `UNTITLED_FOLDER_${untitledCount}`;
+        btn.innerHTML = `<span class="icon-emoji"><svg><use href="#ico-projects"></use></svg></span><span class="icon-label">${name}</span>`;
+        btn.addEventListener('dblclick', () => toast("It's empty. Like my calendar, briefly, once."));
+        rail.appendChild(btn);
+        toast('Folder created. It will never be organized.');
+    }
+    const WALLPAPERS = ['', 'wp-graph', 'wp-plain'];
+    const WALLPAPER_NAMES = ['DOT GRID', 'GRAPH PAPER', 'PLAIN'];
+    let wpIndex = 0;
+    function cycleWallpaper() {
+        const d = document.querySelector('.desktop');
+        if (!d) return;
+        d.classList.remove('wp-graph', 'wp-plain');
+        wpIndex = (wpIndex + 1) % WALLPAPERS.length;
+        if (WALLPAPERS[wpIndex]) d.classList.add(WALLPAPERS[wpIndex]);
+        toast('WALLPAPER: ' + WALLPAPER_NAMES[wpIndex]);
+    }
+    document.addEventListener('contextmenu', (e) => {
+        const onDesktop = e.target.closest('.desktop') &&
+            !e.target.closest('.window') && !e.target.closest('.desktop-icon') &&
+            !e.target.closest('.dock') && !e.target.closest('.identity-card, .widget');
+        if (!onDesktop) return;
+        e.preventDefault();
+        const items = [
+            { label: 'New Folder', fn: newFolder },
+            '-',
+            { label: 'Change Wallpaper', fn: cycleWallpaper },
+            { label: 'Toggle Dark Mode', fn: themeClick },
+            { label: 'Tidy Windows', fn: () => { try { applyHomeLayout(); } catch (err) {} } },
+            '-',
+            { label: 'About This Kev…', fn: showAbout }
+        ];
+        closeAnyMenu();
+        const menu = document.createElement('div');
+        menu.className = 'kos-menu kos-context';
+        for (const it of items) {
+            if (it === '-') { const s = document.createElement('div'); s.className = 'kos-menu-sep'; menu.appendChild(s); continue; }
+            const row = document.createElement('div');
+            row.className = 'kos-menu-item';
+            row.innerHTML = `<span>${it.label}</span>`;
+            row.addEventListener('mousedown', (ev) => { ev.preventDefault(); ev.stopPropagation(); closeAnyMenu(); it.fn(); });
+            menu.appendChild(row);
+        }
+        document.body.appendChild(menu);
+        menu.style.left = Math.min(e.clientX, window.innerWidth - menu.offsetWidth - 8) + 'px';
+        menu.style.top = Math.min(e.clientY, window.innerHeight - menu.offsetHeight - 8) + 'px';
+        openMenuEl = menu;
+        openTrigger = null;
+    });
+
+    // ---------- genie-ish minimize ----------
+    const _minimize = minimizeWindow;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    minimizeWindow = function (id) {
+        const win = document.querySelector(`[data-window="${id}"]`);
+        const dock = document.querySelector('.dock');
+        if (!win || !dock || reduceMotion || !win.classList.contains('window-open')) { _minimize(id); return; }
+        const wr = win.getBoundingClientRect();
+        const dr = dock.getBoundingClientRect();
+        const dx = (dr.left + dr.width / 2) - (wr.left + wr.width / 2);
+        const dy = (dr.top + dr.height / 2) - (wr.top + wr.height / 2);
+        win.classList.add('window-genie');
+        win.style.transform = `translate(${dx}px, ${dy}px) scale(0.06)`;
+        win.style.opacity = '0';
+        setTimeout(() => {
+            win.classList.remove('window-genie');
+            win.style.transform = '';
+            win.style.opacity = '';
+            _minimize(id);
+        }, 300);
+    };
+
+    // ---------- idle screensaver ----------
+    const saver = document.createElement('div');
+    saver.className = 'kos-saver';
+    saver.innerHTML = `<div class="kos-saver-logo"><b>KEVIN<span style="color:#F2F2F4">OS</span></b><span data-saver-clock></span></div>`;
+    document.body.appendChild(saver);
+    const saverLogo = saver.querySelector('.kos-saver-logo');
+    const saverClock = saver.querySelector('[data-saver-clock]');
+    let saverRAF = null, idleT = null;
+    let sx = 80, sy = 80, svx = 1.4, svy = 1.1;
+    function saverTick() {
+        const lw = saverLogo.offsetWidth, lh = saverLogo.offsetHeight;
+        sx += svx; sy += svy;
+        if (sx <= 0 || sx + lw >= window.innerWidth) { svx *= -1; sx = Math.max(0, Math.min(sx, window.innerWidth - lw)); }
+        if (sy <= 0 || sy + lh >= window.innerHeight) { svy *= -1; sy = Math.max(0, Math.min(sy, window.innerHeight - lh)); }
+        saverLogo.style.transform = `translate(${sx}px, ${sy}px)`;
+        saverRAF = requestAnimationFrame(saverTick);
+    }
+    function saverOn(manual) {
+        if (saver.classList.contains('on')) return;
+        if (document.getElementById('bootLoader') && !document.getElementById('bootLoader').classList.contains('hidden')) return;
+        closeAnyMenu();
+        saver.classList.add('on');
+        saverClock.textContent = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        if (reduceMotion) {
+            saverLogo.style.transform = `translate(${(window.innerWidth - saverLogo.offsetWidth) / 2}px, ${(window.innerHeight - saverLogo.offsetHeight) / 2}px)`;
+        } else {
+            saverRAF = requestAnimationFrame(saverTick);
+        }
+    }
+    function saverOff() {
+        if (!saver.classList.contains('on')) return;
+        saver.classList.remove('on');
+        cancelAnimationFrame(saverRAF);
+        saverRAF = null;
+    }
+    function resetIdle() {
+        saverOff();
+        clearTimeout(idleT);
+        idleT = setTimeout(() => saverOn(false), 150000);
+    }
+    ['mousemove', 'mousedown', 'keydown', 'wheel', 'touchstart'].forEach(ev =>
+        document.addEventListener(ev, resetIdle, { passive: true }));
+    resetIdle();
+
+    // ---------- social battery ----------
+    const right = document.querySelector('.menubar-right');
+    if (right) {
+        const batt = document.createElement('span');
+        batt.className = 'kos-batt';
+        batt.setAttribute('role', 'img');
+        batt.innerHTML = `<span class="kos-batt-shell"><span class="kos-batt-fill"></span></span><span class="kos-batt-pct"></span>`;
+        right.insertBefore(batt, right.firstElementChild);
+        const fill = batt.querySelector('.kos-batt-fill');
+        const pctEl = batt.querySelector('.kos-batt-pct');
+        function battTick() {
+            const h = new Date().getHours() + new Date().getMinutes() / 60;
+            // full at 8am, drains through the day, dinner tops it back up a bit
+            let pct = h < 8 ? 90 : Math.max(14, Math.round(100 - (h - 8) * 6.5));
+            if (h >= 19 && h < 21) pct = Math.min(pct + 22, 88);
+            fill.style.width = pct + '%';
+            pctEl.textContent = pct + '%';
+            batt.classList.toggle('low', pct <= 25);
+            batt.title = `Social battery: ${pct}%` + (pct <= 25 ? ' — recharges overnight' : '');
+            batt.setAttribute('aria-label', batt.title);
+        }
+        batt.addEventListener('click', () => toast(batt.title.toUpperCase()));
+        battTick();
+        setInterval(battTick, 60000);
+    }
+})();
