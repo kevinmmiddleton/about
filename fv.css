@@ -3913,3 +3913,17 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
   .fv .feat-shot:hover,.fv .pc:hover,.fv .pc.rv.on:hover{transform:none}
   .fv .hero-shot img,.fv .hero-type{transform:none!important}
 }
+
+/* ---- Card physics: the spec cards are trading cards, so you can pick them
+   up. Desktop fine-pointers only; touch keeps the plain grid (drag fights
+   scroll), reduced-motion stays static, no-JS never engages. Transform-only,
+   so the grid layout itself never moves. ---- */
+@media (hover:hover) and (pointer:fine){
+  .fv .pgrid .pc{cursor:grab;will-change:transform}
+  .fv .pgrid .pc.held{cursor:grabbing;z-index:6;transition:none;
+    box-shadow:0 18px 40px rgba(0,0,0,.22)}
+  .fv .pgrid .pc.settling{z-index:5;transition:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .fv .pgrid .pc{cursor:pointer;will-change:auto}
+}

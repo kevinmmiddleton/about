@@ -891,6 +891,57 @@ if(shot&&type&&wide&&!reduce){
   },{passive:true});
 }
 
+/* 2b. Card physics: tilt toward the cursor, grab-and-throw with a spring
+   home. Fine pointers only; a click still navigates (drag wins after 6px). */
+var fine=window.matchMedia&&window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+if(fine&&!reduce){
+  document.querySelectorAll(".pgrid .pc").forEach(function(card){
+    var held=false,moved=false,sx=0,sy=0,dx=0,dy=0,vx=0,vy=0,lx=0,ly=0,raf=null;
+    function tilt(e){
+      if(held)return;
+      var r=card.getBoundingClientRect();
+      var px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+      card.style.transform="perspective(700px) rotateX("+(py*-6)+"deg) rotateY("+(px*6)+"deg) translateY(-6px)";
+    }
+    function untilt(){if(!held)card.style.transform="";}
+    function render(){
+      card.style.transform="perspective(700px) translate("+dx+"px,"+dy+"px) rotateY("+Math.max(-10,Math.min(10,vx*.6))+"deg) rotateX("+Math.max(-10,Math.min(10,vy*-.6))+"deg) scale(1.04)";
+      raf=null;
+    }
+    card.addEventListener("pointerdown",function(e){
+      if(e.button!==0)return;
+      held=true;moved=false;sx=lx=e.clientX;sy=ly=e.clientY;dx=dy=vx=vy=0;
+      card.classList.add("held");card.setPointerCapture(e.pointerId);
+    });
+    card.addEventListener("pointermove",function(e){
+      if(!held){tilt(e);return;}
+      dx=e.clientX-sx;dy=e.clientY-sy;
+      vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY;
+      if(Math.abs(dx)+Math.abs(dy)>6)moved=true;
+      if(!raf)raf=requestAnimationFrame(render);
+    });
+    function release(){
+      if(!held)return;
+      held=false;card.classList.remove("held");
+      var fromX=dx,fromY=dy,thrX=dx+vx*6,thrY=dy+vy*6;
+      card.classList.add("settling");
+      card.style.transform="";
+      if(card.animate&&(moved||Math.abs(vx)+Math.abs(vy)>2)){
+        card.animate([
+          {transform:"perspective(700px) translate("+fromX+"px,"+fromY+"px) scale(1.04)"},
+          {transform:"perspective(700px) translate("+thrX+"px,"+thrY+"px) scale(1.02)",offset:.3},
+          {transform:"translate(0,0) scale(1)"}
+        ],{duration:520,easing:"cubic-bezier(.2,1.35,.3,1)"}).onfinish=function(){card.classList.remove("settling");};
+      }else{card.classList.remove("settling");}
+    }
+    card.addEventListener("pointerup",release);
+    card.addEventListener("pointercancel",release);
+    card.addEventListener("pointerleave",untilt);
+    card.addEventListener("click",function(e){if(moved){e.preventDefault();moved=false;}},true);
+    card.addEventListener("dragstart",function(e){e.preventDefault();});
+  });
+}
+
 /* 3. Building filter pills. Featured card stays; grid cards filter. */
 var pills=document.querySelectorAll(".bf"),cards=document.querySelectorAll(".pgrid .pc"),
     feat=document.querySelector(".feat"),count=document.getElementById("bfCount");
