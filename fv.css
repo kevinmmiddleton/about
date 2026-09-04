@@ -3951,7 +3951,7 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 .fv .pc-bk{height:4px;border-radius:2px;flex:0 0 auto}
 .fv .pc-bt{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:-.02em}
 .fv .pcard .pc-desc{margin:0;flex:0 1 auto}
-.fv .pcard .pc-posts{margin:0;flex:1 1 auto;min-height:0;overflow:hidden;gap:.3rem}
+.fv .pcard .pc-posts{margin:0;flex:1 1 auto;min-height:0;overflow:hidden;gap:.3rem;align-content:start}
 /* a card back holds three posts; Read more carries the rest. No inner scroll. */
 .fv .pcard .pc-posts a:nth-of-type(n+4){display:none}
 .fv .pcard .pc-posts a{display:flex;gap:.4rem;align-items:flex-start;padding:.25rem 0;font-size:.7rem;
@@ -4001,6 +4001,8 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 /* mobile deck: tilted like the desk, one card mostly in view */
 @media(max-width:860px){
   .fv #building .pgrid .pcard{flex-basis:min(80vw,320px)}
+  /* the bigger mobile card has room for a fourth post */
+  .fv .pcard .pc-posts a:nth-of-type(4){display:flex}
   .fv #building .pgrid .pcard:nth-child(odd){transform:rotate(-2.2deg)}
   .fv #building .pgrid .pcard:nth-child(even){transform:rotate(2deg)}
   .fv #building .pgrid .pcard:nth-child(3n){transform:rotate(1.2deg)}
