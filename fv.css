@@ -3975,7 +3975,7 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 @media(max-width:860px){
   .fv .pgrid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
     gap:.6rem;padding-bottom:.5rem;-webkit-overflow-scrolling:touch}
-  .fv .pgrid .pcard{flex:0 0 74vw;scroll-snap-align:center}
+  .fv .pgrid .pcard{flex:0 0 min(80vw,320px);scroll-snap-align:center}
 }
 @media(prefers-reduced-motion:reduce){
   .fv .pgrid .pcard{animation:none}
@@ -4000,7 +4000,7 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 
 /* mobile deck: tilted like the desk, one card mostly in view */
 @media(max-width:860px){
-  .fv #building .pgrid .pcard{flex-basis:80vw}
+  .fv #building .pgrid .pcard{flex-basis:min(80vw,320px)}
   .fv #building .pgrid .pcard:nth-child(odd){transform:rotate(-2.2deg)}
   .fv #building .pgrid .pcard:nth-child(even){transform:rotate(2deg)}
   .fv #building .pgrid .pcard:nth-child(3n){transform:rotate(1.2deg)}
