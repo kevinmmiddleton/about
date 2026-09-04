@@ -3974,7 +3974,7 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 /* mobile: the deck becomes a snap carousel that shuffles itself */
 @media(max-width:860px){
   .fv .pgrid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
-    gap:.6rem;padding:0 12px .5rem;-webkit-overflow-scrolling:touch}
+    gap:.6rem;padding:0 20px .5rem;-webkit-overflow-scrolling:touch}
   .fv .pgrid .pcard{flex:0 0 min(80vw,320px);scroll-snap-align:center}
 }
 @media(prefers-reduced-motion:reduce){
