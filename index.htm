@@ -852,11 +852,51 @@ if(expList&&expModes.length){
   });
 });
 
-/* Strengths concept: ARIA tab pattern. Panels are in the DOM and only
-   [hidden] is toggled, so every specialty stays crawlable and, with JS off,
-   the first panel is simply the one that shows. */
+/* Strengths: ARIA tabs on desktop. On phones the same content becomes an
+   accordion, one panel open at a time, each panel reparented directly under
+   its chip so the answer appears where you tapped. Reparenting breaks the
+   nth-child colour mapping, so accordion chips carry their hue variables
+   inline. Panels stay in the DOM either way: crawlable, and with JS off the
+   first panel simply shows. */
 var tabs=[].slice.call(document.querySelectorAll('.spec[role="tab"]'));
 if(tabs.length){
+  var accMode=window.matchMedia&&window.matchMedia("(max-width: 560px)").matches;
+  if(accMode){
+    var sec=document.getElementById("strengths");if(sec)sec.classList.add("sacc");
+    var row=document.querySelector(".spec-row");
+    if(row){row.removeAttribute("role");row.removeAttribute("aria-label");}
+    var stageEl=document.querySelector(".spec-stage");
+    tabs.forEach(function(t,i){
+      var n=i+1,panel=document.getElementById(t.getAttribute("aria-controls"));
+      ["line","fill","on"].forEach(function(k){
+        t.style.setProperty("--c-"+k,"var(--c"+n+"-"+k+")");});
+      t.removeAttribute("role");t.removeAttribute("aria-selected");t.tabIndex=0;
+      t.setAttribute("aria-expanded","false");
+      if(panel){
+        panel.removeAttribute("role");panel.hidden=true;
+        panel.style.borderColor="var(--c"+n+"-line)";
+        t.insertAdjacentElement("afterend",panel);
+      }
+    });
+    if(stageEl)stageEl.hidden=true;
+    tabs.forEach(function(t){
+      t.addEventListener("click",function(){
+        var panel=document.getElementById(t.getAttribute("aria-controls"));
+        var wasOpen=t.getAttribute("aria-expanded")==="true";
+        tabs.forEach(function(q){
+          q.setAttribute("aria-expanded","false");
+          var p=document.getElementById(q.getAttribute("aria-controls"));
+          if(p)p.hidden=true;
+        });
+        if(!wasOpen){
+          t.setAttribute("aria-expanded","true");
+          if(panel)panel.hidden=false;
+          if(window.plausible) plausible("Strength Open",
+            {props:{strength:(t.querySelector("b")||t).textContent.trim()}});
+        }
+      });
+    });
+  } else {
   var stage=document.querySelector(".spec-stage");
   var tint=function(i){
     if(stage) stage.style.setProperty("--stage-line","var(--c"+(i+1)+"-line)");
@@ -890,6 +930,7 @@ if(tabs.length){
       if(n!==null){e.preventDefault();pick(n,true);}
     });
   });
+  }
 }
 
 /* Footer easter egg. Same library, same Plausible event name as the live

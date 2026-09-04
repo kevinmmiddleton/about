@@ -4020,3 +4020,14 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
     padding:.45rem 0 .5rem;margin-bottom:.4rem}
   .fv #building .pgrid{top:9.8rem}
 }
+
+/* ---- Strengths accordion (phones). Chips stack full-width; the open
+   chip fills with its hue and its panel sits directly beneath it. ---- */
+@media(max-width:560px){
+  .fv .sacc .spec-row{display:block}
+  .fv .sacc .spec{width:100%;margin:0 0 .5rem}
+  .fv .sacc .spec[aria-expanded="true"]{background:var(--c-fill);border-color:var(--c-line);color:var(--c-on)}
+  .fv .sacc .spec[aria-expanded="true"] span{color:var(--c-on)}
+  .fv .sacc .spec-panel{border:2px solid var(--ink);border-radius:var(--r);
+    padding:.95rem .9rem;margin:-.15rem 0 .8rem}
+}
