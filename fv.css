@@ -3795,3 +3795,121 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
      it existed to stand in for the middot, whose own .5em margins now do it. */
   .fv .scope{font-size:.66rem;letter-spacing:.05em;max-width:none;row-gap:0}
 }
+
+/* ===========================================================================
+   ScrollCraft refresh (2026-09-03): Building console + spec cards, Values band,
+   hero stat tick + parallax. Everything scoped .fv; tokens only, no new hexes
+   except the three band kickers, which sit on the always-dark --invert panel
+   and therefore need the dark-mode hue variants regardless of theme.
+   ========================================================================= */
+
+/* ---- Building: filter pills + counter ---- */
+.fv .bfilter{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem;margin:0 0 .9rem}
+.fv .bf{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.11em;
+  text-transform:uppercase;padding:.42rem .8rem;border-radius:var(--radius-full);
+  border:1px solid var(--rule-strong);background:transparent;color:var(--ink);
+  cursor:pointer;min-height:24px;transition:background var(--transition-base),color var(--transition-base)}
+.fv .bf:hover{background:var(--tint-soft)}
+.fv .bf[aria-pressed="true"]{background:var(--invert);color:var(--on-invert);border-color:var(--invert)}
+.fv .bf-count{margin-left:auto;font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink2)}
+@media(max-width:560px){.fv .bf-count{flex-basis:100%;margin-left:0;text-align:left}}
+
+/* ---- Building: featured spread (Cover Story x Window Shelf) ---- */
+.fv .feat{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:1.4rem;
+  border:1px solid var(--rule);border-radius:var(--r);padding:1.4rem;margin:0 0 .9rem;
+  background:var(--bg)}
+.fv .feat-copy{display:flex;flex-direction:column;align-items:flex-start;gap:.65rem}
+.fv .feat-copy .k{font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink2)}
+.fv .feat-copy h3{margin:0;font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:800;letter-spacing:-.03em;line-height:1}
+.fv .feat-rule{width:100%;height:3px;border:0;margin:.1rem 0;background:var(--forest)}
+.fv .feat-copy p{margin:0;font-size:.88rem;line-height:1.5;color:var(--ink2);max-width:34ch}
+.fv .feat-spec{display:flex;gap:1.4rem;margin:.1rem 0 .2rem}
+.fv .feat-spec div{display:grid;gap:.15rem}
+.fv .feat-spec dt{font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+.fv .feat-spec dd{margin:0;font-family:var(--mono);font-size:.66rem;color:var(--ink2)}
+.fv .feat-shot{display:block;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;
+  align-self:center;transition:transform .3s cubic-bezier(.2,.8,.3,1);text-decoration:none}
+.fv .feat-shot:hover{transform:translateY(-4px)}
+.fv .feat-shot .chrome{display:flex;align-items:center;gap:.32rem;padding:.42rem .6rem;
+  background:var(--bg2);border-bottom:1px solid var(--rule)}
+.fv .feat-shot .chrome i{width:.5rem;height:.5rem;border-radius:50%;background:var(--rule-strong);opacity:.55}
+.fv .feat-shot .chrome b{font-family:var(--mono);font-size:.58rem;font-weight:400;color:var(--ink2);
+  background:var(--bg);border-radius:var(--radius-full);padding:.12rem .6rem;margin-left:.2rem}
+.fv .feat-shot img{display:block;width:100%;height:auto}
+@media(max-width:900px){.fv .feat{grid-template-columns:1fr}.fv .feat-shot{align-self:stretch}}
+
+/* ---- Building: spec cards ---- */
+.fv .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+@media(max-width:900px){.fv .pgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.fv .pgrid{grid-template-columns:1fr}}
+.fv .pc{position:relative;display:flex;flex-direction:column;border:1px solid var(--rule);
+  border-radius:var(--r);overflow:hidden;background:var(--bg);text-decoration:none;color:var(--ink);
+  transition:transform .3s cubic-bezier(.2,.8,.3,1)}
+.fv .pc.rv.on:hover,.fv .pc:hover{transform:translateY(-6px)}
+.fv .pc[hidden]{display:none}
+.fv .pc-head{display:grid;gap:.1rem;padding:.7rem .9rem}
+.fv .pc-head .k{font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;opacity:.85}
+.fv .pc-head h3{margin:0;font-size:1.1rem;font-weight:800;letter-spacing:-.024em}
+.fv .pc-shot{display:block;width:100%;height:auto;border-block:1px solid var(--rule)}
+.fv .pc-desc{margin:.6rem .9rem .5rem;font-size:.78rem;line-height:1.4;color:var(--ink2);flex:1}
+.fv .pc-spec{display:flex;gap:1.2rem;padding:0 .9rem .65rem;font-family:var(--mono);font-size:.6rem}
+.fv .pc-spec b{display:block;font-size:.53rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+.fv .pc-spec span span{color:var(--ink2)}
+.fv .pc-go{display:flex;justify-content:space-between;align-items:center;padding:.5rem .9rem;
+  background:var(--invert);color:var(--on-invert);font-family:var(--mono);font-size:.61rem;
+  font-weight:700;letter-spacing:.1em;text-transform:uppercase;min-height:24px}
+.fv .pc-go::after{content:"\2192"}
+/* list-flavored cards (Writing, Claude plugins) keep their .posts lists */
+.fv .pc-list{padding-bottom:0}
+.fv .pc-list .posts{margin:.1rem .9rem .8rem;flex:1}
+.fv .pc-list .posts a{display:flex;gap:.45rem;align-items:flex-start;padding:.32rem 0;font-size:.76rem;
+  line-height:1.35;color:var(--ink);text-decoration:none;border-top:1px solid var(--rule)}
+.fv .pc-list .posts a:first-child{border-top:0}
+.fv .pc-list .posts a:hover{text-decoration:underline}
+.fv .pc-list .posts i{flex:0 0 .44rem;height:.44rem;margin-top:.32rem;border-radius:50%;background:var(--rule-strong)}
+
+/* ---- Values band (full-bleed ink break) ---- */
+.fv #values .vband{background:var(--invert);color:var(--on-invert)}
+.fv .vband-marquee{overflow:hidden;border-bottom:1px solid var(--vb-line);padding:1.1rem 0}
+.fv .vm-track{display:flex;gap:1.6rem;width:max-content;white-space:nowrap;
+  animation:vmslide 46s linear infinite;font-size:clamp(1.9rem,4.6vw,3.4rem);font-weight:800;letter-spacing:-.03em}
+.fv .vm-track em{font-style:normal}
+.fv .vm-track i{font-style:normal;align-self:center;font-size:.6em}
+@keyframes vmslide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.fv .vband-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.fv .vb{padding:1.5rem clamp(1rem,3vw,2.2rem) 1.7rem;border-left:1px solid var(--vb-line)}
+.fv .vb:first-child{border-left:0}
+.fv .vb .k{font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+.fv .vb h3{margin:.5rem 0 .4rem;font-size:1.15rem;font-weight:800;letter-spacing:-.02em;color:var(--on-invert)}
+.fv .vb p{margin:0;font-size:.8rem;line-height:1.5;color:var(--on-invert);opacity:.78}
+/* Kickers sit on the INVERT panel, which flips against the page mode (dark
+   panel on the light page, light panel on the dark page). So they need the
+   hue variant for the panel they sit on, which is the OPPOSITE of the page
+   mode: dark-safe values in light mode, light-safe values in dark mode. The
+   hairlines flip the same way. */
+.fv .vband{--vb-line:rgba(255,255,255,.14)}
+.fv .vb-blue{color:#6E93CC}.fv .vb-green{color:#3FA588}.fv .vb-mari{color:#E8A317}
+@media(prefers-color-scheme:dark){
+  .fv .vband{--vb-line:rgba(0,0,0,.16)}
+  .fv .vb-blue{color:#1F4B8F}.fv .vb-green{color:#266B57}.fv .vb-mari{color:#8A6210}
+}
+:root[data-theme="dark"] .fv .vband{--vb-line:rgba(0,0,0,.16)}
+:root[data-theme="dark"] .fv .vb-blue{color:#1F4B8F}
+:root[data-theme="dark"] .fv .vb-green{color:#266B57}
+:root[data-theme="dark"] .fv .vb-mari{color:#8A6210}
+:root[data-theme="light"] .fv .vband{--vb-line:rgba(255,255,255,.14)}
+:root[data-theme="light"] .fv .vb-blue{color:#6E93CC}
+:root[data-theme="light"] .fv .vb-green{color:#3FA588}
+:root[data-theme="light"] .fv .vb-mari{color:#E8A317}
+.fv .vband-cap{max-width:none}
+@media(max-width:760px){.fv .vband-grid{grid-template-columns:1fr}
+  .fv .vb{border-left:0;border-top:1px solid var(--vb-line)}.fv .vb:first-child{border-top:0}}
+
+/* ---- motion: reduced-motion guard for everything above ---- */
+@media(prefers-reduced-motion:reduce){
+  .fv .vm-track{animation:none}
+  .fv .feat-shot:hover,.fv .pc:hover,.fv .pc.rv.on:hover{transform:none}
+  .fv .hero-shot img,.fv .hero-type{transform:none!important}
+}
