@@ -4031,3 +4031,8 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
   .fv .sacc .spec-panel{border:2px solid var(--ink);border-radius:var(--r);
     padding:.95rem .9rem;margin:-.15rem 0 .8rem}
 }
+
+/* The desk is its own stacking context: card z-indexes climb with every
+   grab, and containment keeps them competing with each other, never with
+   the nav (z 500) above. */
+.fv .pgrid.desk{z-index:0}
