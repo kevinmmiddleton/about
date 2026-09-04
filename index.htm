@@ -1062,7 +1062,7 @@ if(coarse&&!reduce){
   if(deck&&bsec){
     var track=deck.scrollWidth-deck.clientWidth;
     if(track>40){
-      var extra=Math.round(track*0.7);
+      var extra=Math.round(track*0.45);
       var spacer=document.createElement("div");
       spacer.style.height=extra+"px";spacer.setAttribute("aria-hidden","true");
       deck.after(spacer);
@@ -1076,10 +1076,13 @@ if(coarse&&!reduce){
         deck.scrollLeft=p*track;
       }
       window.addEventListener("scroll",scrub,{passive:true});
-      deck.addEventListener("pointerdown",function(){
-        live=false;deck.classList.remove("scrubbing");
-        spacer.remove();
-      },{once:true});
+      var tx=0,ty=0;
+      deck.addEventListener("pointerdown",function(e){tx=e.clientX;ty=e.clientY;},{passive:true});
+      deck.addEventListener("pointermove",function(e){
+        if(!live)return;
+        var dx=Math.abs(e.clientX-tx),dy=Math.abs(e.clientY-ty);
+        if(dx>14&&dx>dy){live=false;deck.classList.remove("scrubbing");spacer.remove();}
+      },{passive:true});
       scrub();
     }
   }

@@ -3995,3 +3995,15 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
   .fv #building .pgrid{position:sticky;top:5.2rem}
   .fv #building .pgrid.scrubbing{scroll-snap-type:none}
 }
+
+/* mobile deck: tilted like the desk, one card mostly in view */
+@media(max-width:560px){
+  .fv #building .pgrid .pcard{flex-basis:80vw}
+  .fv #building .pgrid .pcard:nth-child(odd){transform:rotate(-2.2deg)}
+  .fv #building .pgrid .pcard:nth-child(even){transform:rotate(2deg)}
+  .fv #building .pgrid .pcard:nth-child(3n){transform:rotate(1.2deg)}
+  .fv #building .pgrid{padding-top:.6rem}
+}
+@media(max-width:560px) and (prefers-reduced-motion:reduce){
+  .fv #building .pgrid .pcard{transform:none}
+}
