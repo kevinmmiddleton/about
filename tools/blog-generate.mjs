@@ -888,14 +888,14 @@ ${items}
   return true;
 }
 // Homepage "Writing on AI & Work" card: featured posts first (newest first),
-// topped up with the newest non-featured, 6 total. Injected between WRITING markers in
+// topped up with the newest non-featured, 8 total. Injected between WRITING markers in
 // index.htm so the homepage never goes stale.
 function updateWriting(posts) {
   const f = resolve(ROOT, 'index.htm');
   let html = readFileSync(f, 'utf8');
   const featured = posts.filter(p => p.featured);
   const rest = posts.filter(p => !p.featured);
-  const picks = featured.concat(rest).slice(0, 6);
+  const picks = featured.concat(rest).slice(0, 8);
 
   // Two markups, chosen by sniffing the target rather than by anyone remembering
   // to flip a switch on relaunch day. The Full Volume homepage styles its dots
@@ -907,7 +907,7 @@ function updateWriting(posts) {
   let items;
   if (isFullVolume) {
     items = picks.map((p, i) =>
-      `          <a href="/blog/${p.slug}/" class="plausible-event-name=Writing+Click plausible-event-post=${p.slug}"><i class="d${i + 1}"></i>${esc(p.title)}</a>`).join('\n');
+      `          <a href="/blog/${p.slug}/" class="plausible-event-name=Writing+Click plausible-event-post=${p.slug}"><i class="d${(i % 6) + 1}"></i>${esc(p.title)}</a>`).join('\n');
   } else {
     const colors = ['#3b82f6', '#e07caa', '#f59e0b', '#7c5ce0', '#14b8a6', '#f97316'];
     items = picks.map((p, i) =>

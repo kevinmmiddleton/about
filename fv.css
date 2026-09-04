@@ -4003,6 +4003,7 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
   .fv #building .pgrid .pcard{flex-basis:min(80vw,320px)}
   /* the bigger mobile card has room for the full post list */
   .fv .pcard .pc-posts a:nth-of-type(n+4){display:flex}
+  .fv .pcard .pc-posts a{padding:.14rem 0}
   .fv #building .pgrid .pcard:nth-child(odd){transform:rotate(-2.2deg)}
   .fv #building .pgrid .pcard:nth-child(even){transform:rotate(2deg)}
   .fv #building .pgrid .pcard:nth-child(3n){transform:rotate(1.2deg)}
