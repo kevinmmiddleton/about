@@ -4016,7 +4016,7 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 /* mobile scrub: the section header pins with the deck, so "What I'm
    Building Now" stays as the label for whatever is streaming past */
 @media(max-width:560px){
-  .fv #building .sec-h{position:sticky;top:4.9rem;z-index:3;background:var(--bg);
+  .fv #building .sec-h{position:sticky;top:5.9rem;z-index:3;background:var(--bg);
     padding:.45rem 0 .5rem;margin-bottom:.4rem}
-  .fv #building .pgrid{top:8.8rem}
+  .fv #building .pgrid{top:9.8rem}
 }
