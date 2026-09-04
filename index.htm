@@ -1017,15 +1017,15 @@ function dapply(c,tilt){c.style.transform=dstr(c,tilt);}
 function deskLayout(){
   if(!deskOn)return;
   var vis=all.filter(function(c){return !c.hidden;});
-  var W=grid.clientWidth,rows=1,minStep=CW*0.38;
-  if(vis.length>1&&(W-CW)/(vis.length-1)<minStep)rows=2;
+  var W=grid.clientWidth,rows=1,minStep=CW*0.38,inX=16,inY=14;
+  if(vis.length>1&&(W-CW-inX*2)/(vis.length-1)<minStep)rows=2;
   var perRow=Math.ceil(vis.length/rows);
-  grid.style.height=(CH+(rows-1)*CH*0.58+36)+"px";
+  grid.style.height=(CH+(rows-1)*CH*0.58+36+inY)+"px";
   vis.forEach(function(c,i){
     var row=Math.floor(i/perRow),col=i%perRow;
     var n=Math.min(perRow,vis.length-row*perRow);
-    var sp=n>1?Math.min(CW*0.82,(W-CW)/(n-1)):0;
-    st.set(c,{x:Math.min(col*sp+(row%2?CW*0.16:0),W-CW-6),y:row*CH*0.58+((col%2)?16:0),r:((i*37)%11)-5});
+    var sp=n>1?Math.min(CW*0.82,(W-CW-inX*2)/(n-1)):0;
+    st.set(c,{x:Math.min(inX+col*sp+(row%2?CW*0.16:0),W-CW-inX),y:inY+row*CH*0.58+((col%2)?16:0),r:((i*37)%11)-5});
     c.style.zIndex=++zTop;
     c.classList.add("gliding");dapply(c);
     (function(cc){setTimeout(function(){cc.classList.remove("gliding");},480);})(c);
