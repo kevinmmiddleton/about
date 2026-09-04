@@ -1004,7 +1004,7 @@ if(shot&&type&&wide&&!reduce){
    overlapping trading cards: drag one and it stays where you drop it, a
    grab brings it to the top, a throw glides with friction. Everything
    else (touch, keyboard, no-JS, reduced motion) keeps the plain grid. */
-var fine=window.matchMedia&&window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+var fine=window.matchMedia&&window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 861px)").matches;
 if(fine&&!reduce){
   var grid=document.querySelector(".pgrid");
   var all=Array.prototype.slice.call(grid.querySelectorAll(".pcard"));
@@ -1097,7 +1097,7 @@ document.querySelectorAll(".pcard").forEach(function(card){
    and vertical scroll maps to horizontal card travel, so the motion is
    the visitor's own. First touch on the deck retires the scrub and it
    becomes a plain swipeable carousel. */
-var coarse=window.matchMedia&&window.matchMedia("(max-width: 560px)").matches;
+var coarse=window.matchMedia&&window.matchMedia("(max-width: 860px)").matches;
 if(coarse&&!reduce){
   var deck=document.querySelector(".pgrid"),bsec=document.getElementById("building");
   if(deck&&bsec){
