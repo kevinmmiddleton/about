@@ -1,8 +1,8 @@
 ---
-title: Nobody owns the journey
+title: If everyone owns the customer journey, no one does
 slug: nobody-owns-the-journey
-status: ready
-published_at: 2026-08-23
+status: published
+published_at: 2026-08-24
 updated_at: ''
 topic: Product
 topic_new: ''
@@ -15,9 +15,9 @@ tags:
   - Strategy
 featured: false
 sort_order: null
-excerpt: If everyone owns the customer journey, no one does.
+excerpt: Is your customer journey smooth, or more like ka-chunk, ka-chunk, ka-chunk?
 cover_image: /blog/images/nobody-owns-the-journey-cover.jpg
-cover_alt: Teams stand on raised platforms, each working on a stage of a journey, reading a map, reviewing tablets, handing off a product, shaking hands, connected by short bridges. A lone customer stands by themselves on a bare platform at the edge of a wide gap that no bridge crosses.
+cover_alt: A winding stone path where several teams work at different stages of a customer journey, reading a map, reviewing tablets, handing off a product box. The path breaks at a deep, dark chasm in the center, and a lone customer in red falls into the gap while a team on the far side keeps working, unaware.
 lede_align: left
 linkedin_url: https://www.linkedin.com/posts/kevinmiddleton_one-of-the-most-common-gaps-i-see-in-product-activity-7422279650648940545-beXP
 ---
