@@ -1000,81 +1000,148 @@ if(shot&&type&&wide&&!reduce){
   },{passive:true});
 }
 
-/* 2b. The desk. On fine pointers the grid becomes a table of scattered,
-   overlapping trading cards: drag one and it stays where you drop it, a
-   grab brings it to the top, a throw glides with friction. Everything
-   else (touch, keyboard, no-JS, reduced motion) keeps the plain grid. */
-var fine=window.matchMedia&&window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 861px)").matches;
-if(fine&&!reduce){
-  var grid=document.querySelector(".pgrid");
-  var all=Array.prototype.slice.call(grid.querySelectorAll(".pcard"));
-  var CW=228,CH=CW*7/5,zTop=1,anyMoved=false,st=new Map();
-  grid.classList.add("desk");
-  var tidyBtn=document.getElementById("bfTidy");if(tidyBtn)tidyBtn.hidden=false;
+/* 2b+2d. Two live modes for the Building cards, switched at 861px as the
+   window resizes: the DESK (scattered, draggable, fine pointers) and the
+   DECK (snap carousel scrubbed by page scroll). Each tears down cleanly
+   when the other takes over; reduced motion gets neither. */
+var grid=document.querySelector(".pgrid"),bsec=document.getElementById("building");
+var all=grid?Array.prototype.slice.call(grid.querySelectorAll(".pcard")):[];
+var mqDesk=window.matchMedia&&window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 861px)");
 
-  function str(c,tilt){var p=st.get(c);
-    return "perspective(900px) translate("+p.x+"px,"+p.y+"px) rotate("+p.r+"deg)"+(tilt||"");}
-  function apply(c,tilt){c.style.transform=str(c,tilt);}
-  function layout(){
-    var vis=all.filter(function(c){return !c.hidden;});
-    var W=grid.clientWidth,rows=1,minStep=CW*0.38;
-    if(vis.length>1&&(W-CW)/(vis.length-1)<minStep)rows=2;
-    var perRow=Math.ceil(vis.length/rows);
-    grid.style.height=(CH+(rows-1)*CH*0.58+36)+"px";
-    vis.forEach(function(c,i){
-      var row=Math.floor(i/perRow),col=i%perRow;
-      var n=Math.min(perRow,vis.length-row*perRow);
-      var s=n>1?Math.min(CW*0.82,(W-CW)/(n-1)):0;
-      st.set(c,{x:Math.min(col*s+(row%2?CW*0.16:0),W-CW-6),y:row*CH*0.58+((col%2)?16:0),r:((i*37)%11)-5});
-      c.style.zIndex=++zTop;
-      c.classList.add("gliding");apply(c);
-      setTimeout(function(){c.classList.remove("gliding");},480);
-    });
-    anyMoved=false;
-  }
-  all.forEach(function(card){
-    var held=false,moved=false,sx=0,sy=0,bx=0,by=0,vx=0,vy=0,lx=0,ly=0,raf=null;
-    card.addEventListener("pointermove",function(e){
-      if(held){
-        var p=st.get(card);
-        p.x=bx+e.clientX-sx;p.y=by+e.clientY-sy;
-        vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY;
-        if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>6)moved=true;
-        if(!raf)raf=requestAnimationFrame(function(){
-          apply(card," rotateZ("+Math.max(-8,Math.min(8,vx*.4))+"deg)");raf=null;});
-        return;
-      }
-      var r=card.getBoundingClientRect();
-      var px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
-      apply(card," rotateX("+(py*-6)+"deg) rotateY("+(px*6)+"deg)");
-    });
-    card.addEventListener("pointerleave",function(){if(!held)apply(card);});
-    card.addEventListener("pointerdown",function(e){
-      if(e.button!==0)return;
-      var p=st.get(card);held=true;moved=false;
-      sx=lx=e.clientX;sy=ly=e.clientY;bx=p.x;by=p.y;vx=vy=0;
-      card.style.zIndex=++zTop;card.classList.add("held");
-      card.setPointerCapture(e.pointerId);
-    });
-    function release(){
-      if(!held)return;held=false;card.classList.remove("held");
-      var p=st.get(card);
-      if(moved){anyMoved=true;p.x+=vx*7;p.y+=vy*7;}
-      p.x=Math.max(6,Math.min(grid.clientWidth-CW-6,p.x));
-      p.y=Math.max(6,Math.min(grid.clientHeight-CH-6,p.y));
-      card.classList.add("gliding");apply(card);
-      setTimeout(function(){card.classList.remove("gliding");},480);
-    }
-    card.addEventListener("pointerup",release);
-    card.addEventListener("pointercancel",release);
-    card.addEventListener("click",function(e){if(moved){e.preventDefault();moved=false;}},true);
-    card.addEventListener("dragstart",function(e){e.preventDefault();});
+/* ---- desk ---- */
+var deskOn=false,CW=228,CH=CW*7/5,zTop=1,anyMoved=false,st=new Map();
+var tidyBtn=document.getElementById("bfTidy");
+function dstr(c,tilt){var p=st.get(c);
+  return "perspective(900px) translate("+p.x+"px,"+p.y+"px) rotate("+p.r+"deg)"+(tilt||"");}
+function dapply(c,tilt){c.style.transform=dstr(c,tilt);}
+function deskLayout(){
+  if(!deskOn)return;
+  var vis=all.filter(function(c){return !c.hidden;});
+  var W=grid.clientWidth,rows=1,minStep=CW*0.38;
+  if(vis.length>1&&(W-CW)/(vis.length-1)<minStep)rows=2;
+  var perRow=Math.ceil(vis.length/rows);
+  grid.style.height=(CH+(rows-1)*CH*0.58+36)+"px";
+  vis.forEach(function(c,i){
+    var row=Math.floor(i/perRow),col=i%perRow;
+    var n=Math.min(perRow,vis.length-row*perRow);
+    var sp=n>1?Math.min(CW*0.82,(W-CW)/(n-1)):0;
+    st.set(c,{x:Math.min(col*sp+(row%2?CW*0.16:0),W-CW-6),y:row*CH*0.58+((col%2)?16:0),r:((i*37)%11)-5});
+    c.style.zIndex=++zTop;
+    c.classList.add("gliding");dapply(c);
+    (function(cc){setTimeout(function(){cc.classList.remove("gliding");},480);})(c);
   });
-  layout();
-  window.addEventListener("resize",function(){if(!anyMoved)layout();});
-  if(tidyBtn)tidyBtn.addEventListener("click",layout);
-  document.querySelectorAll(".bf[data-f]").forEach(function(p){
-    p.addEventListener("click",function(){setTimeout(layout,0);});
+  anyMoved=false;
+}
+all.forEach(function(card){
+  var held=false,moved=false,sx=0,sy=0,bx=0,by=0,vx=0,vy=0,lx=0,ly=0,raf=null;
+  card.addEventListener("pointermove",function(e){
+    if(!deskOn)return;
+    if(held){
+      var p=st.get(card);
+      p.x=bx+e.clientX-sx;p.y=by+e.clientY-sy;
+      vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY;
+      if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>6)moved=true;
+      if(!raf)raf=requestAnimationFrame(function(){
+        dapply(card," rotateZ("+Math.max(-8,Math.min(8,vx*.4))+"deg)");raf=null;});
+      return;
+    }
+    var r=card.getBoundingClientRect();
+    var px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+    dapply(card," rotateX("+(py*-6)+"deg) rotateY("+(px*6)+"deg)");
+  });
+  card.addEventListener("pointerleave",function(){if(deskOn&&!held)dapply(card);});
+  card.addEventListener("pointerdown",function(e){
+    if(!deskOn||e.button!==0)return;
+    var p=st.get(card);held=true;moved=false;
+    sx=lx=e.clientX;sy=ly=e.clientY;bx=p.x;by=p.y;vx=vy=0;
+    card.style.zIndex=++zTop;card.classList.add("held");
+    card.setPointerCapture(e.pointerId);
+  });
+  function release(){
+    if(!deskOn||!held)return;held=false;card.classList.remove("held");
+    var p=st.get(card);
+    if(moved){anyMoved=true;p.x+=vx*7;p.y+=vy*7;}
+    p.x=Math.max(6,Math.min(grid.clientWidth-CW-6,p.x));
+    p.y=Math.max(6,Math.min(grid.clientHeight-CH-6,p.y));
+    card.classList.add("gliding");dapply(card);
+    setTimeout(function(){card.classList.remove("gliding");},480);
+  }
+  card.addEventListener("pointerup",release);
+  card.addEventListener("pointercancel",release);
+  card.addEventListener("click",function(e){if(moved){e.preventDefault();moved=false;}},true);
+  card.addEventListener("dragstart",function(e){if(deskOn)e.preventDefault();});
+});
+function enableDesk(){
+  if(deskOn||!grid)return;deskOn=true;
+  grid.classList.add("desk");
+  if(tidyBtn)tidyBtn.hidden=false;
+  deskLayout();
+}
+function disableDesk(){
+  if(!deskOn)return;deskOn=false;
+  grid.classList.remove("desk");grid.style.height="";
+  if(tidyBtn)tidyBtn.hidden=true;
+  all.forEach(function(c){c.style.transform="";c.style.zIndex="";
+    c.classList.remove("held","gliding");});
+}
+window.addEventListener("resize",function(){if(deskOn&&!anyMoved)deskLayout();});
+if(tidyBtn)tidyBtn.addEventListener("click",deskLayout);
+document.querySelectorAll(".bf[data-f]").forEach(function(p){
+  p.addEventListener("click",function(){setTimeout(deskLayout,0);});
+});
+
+/* ---- deck scrub ---- */
+var scrubOn=false,scrubLive=false,spacer=null,track=0,extra=0,pin=0;
+function scrubTick(){
+  if(!scrubLive||!spacer)return;
+  var t=bsec.getBoundingClientRect().top;
+  var p=Math.min(1,Math.max(0,(pin-t)/extra));
+  grid.scrollLeft=p*track;
+}
+function enableScrub(){
+  if(scrubOn||!grid||!bsec)return;
+  setTimeout(function(){
+    track=grid.scrollWidth-grid.clientWidth;
+    if(track>40){
+      scrubOn=true;
+      extra=Math.round(track*0.45);
+      pin=Math.round(window.innerHeight*0.18);
+      spacer=document.createElement("div");
+      spacer.style.height=extra+"px";spacer.setAttribute("aria-hidden","true");
+      grid.after(spacer);
+      grid.classList.add("scrubbing");
+      scrubLive=true;scrubTick();
+    }
+  },60);
+}
+function retireScrub(){
+  scrubLive=false;grid.classList.remove("scrubbing");
+  if(spacer){spacer.remove();spacer=null;}
+}
+function disableScrub(){if(!scrubOn)return;retireScrub();scrubOn=false;grid.scrollLeft=0;}
+window.addEventListener("scroll",scrubTick,{passive:true});
+var tx=0,ty=0;
+if(grid){
+  grid.addEventListener("pointerdown",function(e){tx=e.clientX;ty=e.clientY;},{passive:true});
+  grid.addEventListener("pointermove",function(e){
+    if(!scrubLive)return;
+    var dx=Math.abs(e.clientX-tx),dy=Math.abs(e.clientY-ty);
+    if(dx>14&&dx>dy)retireScrub();
+  },{passive:true});
+}
+
+/* ---- mode switch ---- */
+function applyMode(){
+  if(reduce||!grid)return;
+  if(mqDesk&&mqDesk.matches){disableScrub();enableDesk();}
+  else{disableDesk();enableScrub();}
+}
+if(!reduce&&grid){
+  applyMode();
+  if(mqDesk&&mqDesk.addEventListener)mqDesk.addEventListener("change",applyMode);
+  var modeT=null;
+  window.addEventListener("resize",function(){
+    clearTimeout(modeT);modeT=setTimeout(applyMode,150);
   });
 }
 
@@ -1092,42 +1159,6 @@ document.querySelectorAll(".pcard").forEach(function(card){
     if((e.key==="Enter"||e.key===" ")&&!e.target.closest("a")){e.preventDefault();flip();}
   });
 });
-
-/* 2d. Mobile: scrolling the page scrubs the deck. The deck pins briefly
-   and vertical scroll maps to horizontal card travel, so the motion is
-   the visitor's own. First touch on the deck retires the scrub and it
-   becomes a plain swipeable carousel. */
-var coarse=window.matchMedia&&window.matchMedia("(max-width: 860px)").matches;
-if(coarse&&!reduce){
-  var deck=document.querySelector(".pgrid"),bsec=document.getElementById("building");
-  if(deck&&bsec){
-    var track=deck.scrollWidth-deck.clientWidth;
-    if(track>40){
-      var extra=Math.round(track*0.45);
-      var spacer=document.createElement("div");
-      spacer.style.height=extra+"px";spacer.setAttribute("aria-hidden","true");
-      deck.after(spacer);
-      deck.classList.add("scrubbing");
-      var live=true;
-      var pin=Math.round(window.innerHeight*0.18);
-      function scrub(){
-        if(!live)return;
-        var t=bsec.getBoundingClientRect().top;
-        var p=Math.min(1,Math.max(0,(pin-t)/extra));
-        deck.scrollLeft=p*track;
-      }
-      window.addEventListener("scroll",scrub,{passive:true});
-      var tx=0,ty=0;
-      deck.addEventListener("pointerdown",function(e){tx=e.clientX;ty=e.clientY;},{passive:true});
-      deck.addEventListener("pointermove",function(e){
-        if(!live)return;
-        var dx=Math.abs(e.clientX-tx),dy=Math.abs(e.clientY-ty);
-        if(dx>14&&dx>dy){live=false;deck.classList.remove("scrubbing");spacer.remove();}
-      },{passive:true});
-      scrub();
-    }
-  }
-}
 
 /* 3. Building filter pills. Featured card stays; grid cards filter. */
 var pills=document.querySelectorAll(".bf[data-f]"),cards=document.querySelectorAll(".pgrid .pc"),
