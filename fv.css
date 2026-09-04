@@ -3979,3 +3979,13 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
   .fv .pgrid .pcard{animation:none}
   .fv .pcard .pc-inner{transition:none}
 }
+
+/* ---- Desk mode refinements + flip-chip contrast fix. The chip pairs
+   --invert/--on-invert, the one pairing that stays a panel in both themes;
+   ink-on-glass inverted into light-on-white in dark mode. ---- */
+.fv .pc-hint{background:var(--invert);color:var(--on-invert);border-color:transparent}
+.fv .pgrid.desk{display:block;position:relative}
+.fv .desk .pcard{position:absolute;top:0;left:0;width:228px;transition:none;animation:none}
+.fv .desk .pcard.gliding{transition:transform .45s cubic-bezier(.15,.85,.25,1)}
+.fv .desk .pcard.held{box-shadow:0 18px 40px rgba(0,0,0,.22)}
+.fv .desk .pcard .pc-face{box-shadow:0 2px 10px rgba(0,0,0,.10)}

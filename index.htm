@@ -222,7 +222,8 @@
     <button type="button" class="bf plausible-event-name=Building+Filter" data-f="service" aria-pressed="false">Service</button>
     <button type="button" class="bf plausible-event-name=Building+Filter" data-f="words" aria-pressed="false">Words</button>
     <span class="bf-count" id="bfCount" aria-live="polite">8 of 8 shown</span>
-    <span class="bf-hint" aria-hidden="true">drag a card &middot; flip for details</span>
+    <span class="bf-hint" aria-hidden="true">drag them anywhere &middot; flip for details</span>
+    <button type="button" class="bf" id="bfTidy" hidden>Tidy the desk</button>
   </div>
 
   
@@ -958,54 +959,81 @@ if(shot&&type&&wide&&!reduce){
   },{passive:true});
 }
 
-/* 2b. Card physics: tilt toward the cursor, grab-and-throw with a spring
-   home. Fine pointers only; a click still navigates (drag wins after 6px). */
+/* 2b. The desk. On fine pointers the grid becomes a table of scattered,
+   overlapping trading cards: drag one and it stays where you drop it, a
+   grab brings it to the top, a throw glides with friction. Everything
+   else (touch, keyboard, no-JS, reduced motion) keeps the plain grid. */
 var fine=window.matchMedia&&window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 if(fine&&!reduce){
-  document.querySelectorAll(".pgrid .pc").forEach(function(card){
-    var held=false,moved=false,sx=0,sy=0,dx=0,dy=0,vx=0,vy=0,lx=0,ly=0,raf=null;
-    function tilt(e){
-      if(held)return;
+  var grid=document.querySelector(".pgrid");
+  var all=Array.prototype.slice.call(grid.querySelectorAll(".pcard"));
+  var CW=228,CH=CW*7/5,zTop=1,anyMoved=false,st=new Map();
+  grid.classList.add("desk");
+  var tidyBtn=document.getElementById("bfTidy");if(tidyBtn)tidyBtn.hidden=false;
+
+  function str(c,tilt){var p=st.get(c);
+    return "perspective(900px) translate("+p.x+"px,"+p.y+"px) rotate("+p.r+"deg)"+(tilt||"");}
+  function apply(c,tilt){c.style.transform=str(c,tilt);}
+  function layout(){
+    var vis=all.filter(function(c){return !c.hidden;});
+    var W=grid.clientWidth,rows=1,minStep=CW*0.38;
+    if(vis.length>1&&(W-CW)/(vis.length-1)<minStep)rows=2;
+    var perRow=Math.ceil(vis.length/rows);
+    grid.style.height=(CH+(rows-1)*CH*0.58+36)+"px";
+    vis.forEach(function(c,i){
+      var row=Math.floor(i/perRow),col=i%perRow;
+      var n=Math.min(perRow,vis.length-row*perRow);
+      var s=n>1?Math.min(CW*0.82,(W-CW)/(n-1)):0;
+      st.set(c,{x:col*s+(row%2?CW*0.16:0),y:row*CH*0.58+((col%2)?16:0),r:((i*37)%11)-5});
+      c.style.zIndex=++zTop;
+      c.classList.add("gliding");apply(c);
+      setTimeout(function(){c.classList.remove("gliding");},480);
+    });
+    anyMoved=false;
+  }
+  all.forEach(function(card){
+    var held=false,moved=false,sx=0,sy=0,bx=0,by=0,vx=0,vy=0,lx=0,ly=0,raf=null;
+    card.addEventListener("pointermove",function(e){
+      if(held){
+        var p=st.get(card);
+        p.x=bx+e.clientX-sx;p.y=by+e.clientY-sy;
+        vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY;
+        if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>6)moved=true;
+        if(!raf)raf=requestAnimationFrame(function(){
+          apply(card," rotateZ("+Math.max(-8,Math.min(8,vx*.4))+"deg)");raf=null;});
+        return;
+      }
       var r=card.getBoundingClientRect();
       var px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
-      card.style.transform="perspective(700px) rotateX("+(py*-6)+"deg) rotateY("+(px*6)+"deg) translateY(-6px)";
-    }
-    function untilt(){if(!held)card.style.transform="";}
-    function render(){
-      card.style.transform="perspective(700px) translate("+dx+"px,"+dy+"px) rotateY("+Math.max(-10,Math.min(10,vx*.6))+"deg) rotateX("+Math.max(-10,Math.min(10,vy*-.6))+"deg) scale(1.04)";
-      raf=null;
-    }
+      apply(card," rotateX("+(py*-6)+"deg) rotateY("+(px*6)+"deg)");
+    });
+    card.addEventListener("pointerleave",function(){if(!held)apply(card);});
     card.addEventListener("pointerdown",function(e){
       if(e.button!==0)return;
-      held=true;moved=false;sx=lx=e.clientX;sy=ly=e.clientY;dx=dy=vx=vy=0;
-      card.classList.add("held");card.setPointerCapture(e.pointerId);
-    });
-    card.addEventListener("pointermove",function(e){
-      if(!held){tilt(e);return;}
-      dx=e.clientX-sx;dy=e.clientY-sy;
-      vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY;
-      if(Math.abs(dx)+Math.abs(dy)>6)moved=true;
-      if(!raf)raf=requestAnimationFrame(render);
+      var p=st.get(card);held=true;moved=false;
+      sx=lx=e.clientX;sy=ly=e.clientY;bx=p.x;by=p.y;vx=vy=0;
+      card.style.zIndex=++zTop;card.classList.add("held");
+      card.setPointerCapture(e.pointerId);
     });
     function release(){
-      if(!held)return;
-      held=false;card.classList.remove("held");
-      var fromX=dx,fromY=dy,thrX=dx+vx*6,thrY=dy+vy*6;
-      card.classList.add("settling");
-      card.style.transform="";
-      if(card.animate&&(moved||Math.abs(vx)+Math.abs(vy)>2)){
-        card.animate([
-          {transform:"perspective(700px) translate("+fromX+"px,"+fromY+"px) scale(1.04)"},
-          {transform:"perspective(700px) translate("+thrX+"px,"+thrY+"px) scale(1.02)",offset:.3},
-          {transform:"translate(0,0) scale(1)"}
-        ],{duration:520,easing:"cubic-bezier(.2,1.35,.3,1)"}).onfinish=function(){card.classList.remove("settling");};
-      }else{card.classList.remove("settling");}
+      if(!held)return;held=false;card.classList.remove("held");
+      var p=st.get(card);
+      if(moved){anyMoved=true;p.x+=vx*7;p.y+=vy*7;}
+      p.x=Math.max(-24,Math.min(grid.clientWidth-CW+24,p.x));
+      p.y=Math.max(-16,Math.min(grid.clientHeight-CH+16,p.y));
+      card.classList.add("gliding");apply(card);
+      setTimeout(function(){card.classList.remove("gliding");},480);
     }
     card.addEventListener("pointerup",release);
     card.addEventListener("pointercancel",release);
-    card.addEventListener("pointerleave",untilt);
     card.addEventListener("click",function(e){if(moved){e.preventDefault();moved=false;}},true);
     card.addEventListener("dragstart",function(e){e.preventDefault();});
+  });
+  layout();
+  window.addEventListener("resize",function(){if(!anyMoved)layout();});
+  if(tidyBtn)tidyBtn.addEventListener("click",layout);
+  document.querySelectorAll(".bf[data-f]").forEach(function(p){
+    p.addEventListener("click",function(){setTimeout(layout,0);});
   });
 }
 
@@ -1040,7 +1068,7 @@ if(coarse&&!reduce){
 }
 
 /* 3. Building filter pills. Featured card stays; grid cards filter. */
-var pills=document.querySelectorAll(".bf"),cards=document.querySelectorAll(".pgrid .pc"),
+var pills=document.querySelectorAll(".bf[data-f]"),cards=document.querySelectorAll(".pgrid .pc"),
     feat=document.querySelector(".feat"),count=document.getElementById("bfCount");
 if(pills.length&&cards.length){
   pills.forEach(function(p){
