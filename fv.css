@@ -3989,3 +3989,9 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 .fv .desk .pcard.gliding{transition:transform .45s cubic-bezier(.15,.85,.25,1)}
 .fv .desk .pcard.held{box-shadow:0 18px 40px rgba(0,0,0,.22)}
 .fv .desk .pcard .pc-face{box-shadow:0 2px 10px rgba(0,0,0,.10)}
+
+/* mobile scrub: the deck pins below the nav while page scroll drives it */
+@media(max-width:560px){
+  .fv #building .pgrid{position:sticky;top:5.2rem}
+  .fv #building .pgrid.scrubbing{scroll-snap-type:none}
+}

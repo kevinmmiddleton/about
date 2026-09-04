@@ -217,19 +217,19 @@
   <div class="bfilter rv d1" role="group" aria-label="Filter projects by type">
     <button type="button" class="bf plausible-event-name=Building+Filter" data-f="all" aria-pressed="true">All</button>
     <button type="button" class="bf plausible-event-name=Building+Filter" data-f="app" aria-pressed="false">App</button>
-    <button type="button" class="bf plausible-event-name=Building+Filter" data-f="site" aria-pressed="false">Site</button>
-    <button type="button" class="bf plausible-event-name=Building+Filter" data-f="code" aria-pressed="false">Code</button>
-    <button type="button" class="bf plausible-event-name=Building+Filter" data-f="service" aria-pressed="false">Service</button>
-    <button type="button" class="bf plausible-event-name=Building+Filter" data-f="words" aria-pressed="false">Words</button>
-    <span class="bf-count" id="bfCount" aria-live="polite">8 of 8 shown</span>
-    <span class="bf-hint" aria-hidden="true">drag them anywhere &middot; flip for details</span>
+    <button type="button" class="bf plausible-event-name=Building+Filter" data-f="fun" aria-pressed="false">Fun</button>
+    <button type="button" class="bf plausible-event-name=Building+Filter" data-f="plugins" aria-pressed="false">Plugins</button>
+    <button type="button" class="bf plausible-event-name=Building+Filter" data-f="coaching" aria-pressed="false">Coaching</button>
+    <button type="button" class="bf plausible-event-name=Building+Filter" data-f="blog" aria-pressed="false">Blog</button>
+    <span class="vh" id="bfCount" aria-live="polite">8 of 8 shown</span>
+    <span class="bf-hint" aria-hidden="true">drag anywhere &middot; flip for details</span>
     <button type="button" class="bf" id="bfTidy" hidden>Tidy the desk</button>
   </div>
 
   
 
   <div class="pgrid">
-    <div class="pc pcard rv d2 plausible-event-name=Building+OneNightOnly" data-type="site" tabindex="0" role="button" aria-expanded="false">
+    <div class="pc pcard rv d2 plausible-event-name=Building+OneNightOnly" data-type="fun" tabindex="0" role="button" aria-expanded="false">
       <div class="pc-inner">
         <div class="pc-face pc-front">
           <span class="pc-head b-forest"><span class="k">Film calendar</span><h3>One Night Only</h3></span>
@@ -277,7 +277,7 @@
         </div>
       </div>
     </div>
-    <div class="pc pcard rv d3 plausible-event-name=Building+Visionbort" data-type="app" tabindex="0" role="button" aria-expanded="false">
+    <div class="pc pcard rv d3 plausible-event-name=Building+Visionbort" data-type="fun" tabindex="0" role="button" aria-expanded="false">
       <div class="pc-inner">
         <div class="pc-face pc-front">
           <span class="pc-head b-fuchsia"><span class="k">Web app</span><h3>Visionbort</h3></span>
@@ -293,7 +293,7 @@
         </div>
       </div>
     </div>
-    <div class="pc pcard rv d4 plausible-event-name=Building+KevinOS" data-type="site" tabindex="0" role="button" aria-expanded="false">
+    <div class="pc pcard rv d4 plausible-event-name=Building+KevinOS" data-type="fun" tabindex="0" role="button" aria-expanded="false">
       <div class="pc-inner">
         <div class="pc-face pc-front">
           <span class="pc-head b-plum"><span class="k">Portfolio</span><h3>KevinOS</h3></span>
@@ -309,7 +309,7 @@
         </div>
       </div>
     </div>
-    <div class="pc pcard rv d4 plausible-event-name=Building+OfficeHours" data-type="service" tabindex="0" role="button" aria-expanded="false">
+    <div class="pc pcard rv d4 plausible-event-name=Building+OfficeHours" data-type="coaching" tabindex="0" role="button" aria-expanded="false">
       <div class="pc-inner">
         <div class="pc-face pc-front">
           <span class="pc-head b-red"><span class="k">Coaching</span><h3>Office Hours</h3></span>
@@ -325,7 +325,7 @@
         </div>
       </div>
     </div>
-    <div class="pc pcard rv d4 plausible-event-name=GitHub+Click" data-type="code" tabindex="0" role="button" aria-expanded="false">
+    <div class="pc pcard rv d4 plausible-event-name=GitHub+Click" data-type="plugins" tabindex="0" role="button" aria-expanded="false">
       <div class="pc-inner">
         <div class="pc-face pc-front">
           <span class="pc-head b-mari"><span class="k">Open source</span><h3>Claude plugins</h3></span>
@@ -346,7 +346,7 @@
         </div>
       </div>
     </div>
-    <div class="pc pcard rv d5 plausible-event-name=Writing+Click" data-type="words" tabindex="0" role="button" aria-expanded="false">
+    <div class="pc pcard rv d5 plausible-event-name=Writing+Click" data-type="blog" tabindex="0" role="button" aria-expanded="false">
       <div class="pc-inner">
         <div class="pc-face pc-front">
           <span class="pc-head b-ink"><span class="k">Essays</span><h3>Writing</h3></span>
@@ -1052,18 +1052,36 @@ document.querySelectorAll(".pcard").forEach(function(card){
   });
 });
 
-/* 2d. Mobile: the deck shuffles itself until the visitor touches it. */
+/* 2d. Mobile: scrolling the page scrubs the deck. The deck pins briefly
+   and vertical scroll maps to horizontal card travel, so the motion is
+   the visitor's own. First touch on the deck retires the scrub and it
+   becomes a plain swipeable carousel. */
 var coarse=window.matchMedia&&window.matchMedia("(max-width: 560px)").matches;
 if(coarse&&!reduce){
-  var deck=document.querySelector(".pgrid");
-  if(deck){
-    var shuffle=setInterval(function(){
-      if(document.hidden)return;
-      var w=deck.firstElementChild?deck.firstElementChild.getBoundingClientRect().width+10:280;
-      var max=deck.scrollWidth-deck.clientWidth;
-      deck.scrollTo({left:deck.scrollLeft+w>max+2?0:deck.scrollLeft+w,behavior:"smooth"});
-    },4000);
-    deck.addEventListener("pointerdown",function(){clearInterval(shuffle);},{once:true});
+  var deck=document.querySelector(".pgrid"),bsec=document.getElementById("building");
+  if(deck&&bsec){
+    var track=deck.scrollWidth-deck.clientWidth;
+    if(track>40){
+      var extra=Math.round(track*0.7);
+      var spacer=document.createElement("div");
+      spacer.style.height=extra+"px";spacer.setAttribute("aria-hidden","true");
+      deck.after(spacer);
+      deck.classList.add("scrubbing");
+      var live=true;
+      var pin=Math.round(window.innerHeight*0.12);
+      function scrub(){
+        if(!live)return;
+        var t=bsec.getBoundingClientRect().top;
+        var p=Math.min(1,Math.max(0,(pin-t)/extra));
+        deck.scrollLeft=p*track;
+      }
+      window.addEventListener("scroll",scrub,{passive:true});
+      deck.addEventListener("pointerdown",function(){
+        live=false;deck.classList.remove("scrubbing");
+        spacer.remove();
+      },{once:true});
+      scrub();
+    }
   }
 }
 
