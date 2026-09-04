@@ -3932,7 +3932,7 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
    filter/physics hook; .pcard carries the new anatomy. Fronts are identity
    (head + shot), backs carry the spec. The idle float uses the independent
    `translate` property so it never fights the transform-based tilt/drag. ---- */
-.fv .bf-hint{font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink2)}
+.fv .bf-hint{font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink2);margin-left:auto}
 .fv .pgrid{grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
 .fv .pcard{display:block;border:0;background:transparent;overflow:visible;
   aspect-ratio:5/7;perspective:900px;cursor:pointer}
@@ -3974,7 +3974,7 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 /* mobile: the deck becomes a snap carousel that shuffles itself */
 @media(max-width:860px){
   .fv .pgrid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
-    gap:.6rem;padding-bottom:.5rem;-webkit-overflow-scrolling:touch}
+    gap:.6rem;padding:0 12px .5rem;-webkit-overflow-scrolling:touch}
   .fv .pgrid .pcard{flex:0 0 min(80vw,320px);scroll-snap-align:center}
 }
 @media(prefers-reduced-motion:reduce){
