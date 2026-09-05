@@ -7995,7 +7995,7 @@ document.addEventListener('click', (e) => {
             { type: 'statement', kicker: 'KEY DECISION', title: 'Consolidate before you scale.',
               body: 'Three redemption flows had grown up in parallel. Collapsing them into one went first, not last, because it was the prerequisite for everything else on the marketplace roadmap.',
               note: 'Not glamorous. Foundational. Technical debt from parallel systems compounds.' },
-            { type: 'stats', kicker: 'OUTCOMES', title: 'The window, used', stats: [
+            { type: 'stats', kicker: 'OUTCOMES', title: 'Doubled in a year.', stats: [
                 ['2x', 'active catalog, from 800 to 1,600 eGifts'],
                 ['47', 'countries covered, with 12 new markets added in 2021'],
                 ['1,764', 'total eGifts in the final catalog, 1,420 international'],
