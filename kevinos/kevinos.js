@@ -7516,4 +7516,13 @@ const kosSound = (function () {
     cats.forEach(c => side.appendChild(makeBtn(c.replace(' App', ' Apps').replace('Claude Plugin', 'Plugins'), c)));
     content.appendChild(side);
     content.appendChild(main);
+
+    // APP OF THE DAY hero, seated between the search field and the rows
+    const hero = document.createElement('a');
+    hero.className = 'kos-store-hero plausible-event-name=Building+QuietFeed';
+    hero.href = 'https://quietfeed.com?from=kevinos';
+    hero.target = '_blank';
+    hero.rel = 'noopener noreferrer';
+    hero.innerHTML = '<em>APP OF THE DAY</em><b>QuietFeed</b><span>An RSS reader that respects your attention. No algorithm, no ads, no infinite scroll.</span>';
+    main.querySelector('.kos-store')?.before(hero);
 })();

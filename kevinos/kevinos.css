@@ -10237,3 +10237,89 @@ html:not(.kos-mobile) .window-title {
 }
 /* the new QuietFeed mark is a square tile; round it like an app icon */
 html:not(.kos-mobile) .kos-logo-tile img { border-radius: 24%; }
+
+/* ============================================================
+   APP STORE PROPER — building/ styled the way Apple does it
+   (reference: apps.apple.com). Desktop only.
+   ============================================================ */
+html:not(.kos-mobile) .kos-store-main::before {
+    content: 'Apps';
+    display: block;
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 2px 0 2px;
+    color: var(--text);
+}
+html:not(.kos-mobile) .kos-store-main .kos-store-sub {
+    margin: 0 0 12px;
+    color: var(--text-muted);
+    font-size: 12.5px;
+}
+/* hero card, injected by JS */
+.kos-store-hero {
+    display: block;
+    border-radius: 14px;
+    padding: 16px 16px 14px;
+    margin: 0 0 16px;
+    background: linear-gradient(135deg, #1A1633 0%, #33265E 55%, #4A2E7A 100%);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+.kos-store-hero em {
+    display: block;
+    font-style: normal;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 6px;
+}
+.kos-store-hero b { font-size: 19px; font-weight: 800; display: block; }
+.kos-store-hero span { font-size: 12px; color: rgba(255, 255, 255, 0.8); }
+.kos-store-hero:hover { filter: brightness(1.08); }
+/* rows, the Apple way */
+html:not(.kos-mobile) .kos-store-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+    background: transparent;
+    border-radius: 0;
+}
+html:not(.kos-mobile) .kos-store-row:last-child { border-bottom: none; }
+html:not(.kos-mobile) .kos-store-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 13px;
+    font-size: 30px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 8%, transparent);
+}
+html:not(.kos-mobile) .kos-store-icon img { width: 56px; height: 56px; border-radius: 13px; }
+html:not(.kos-mobile) .kos-store-name { font-size: 14.5px; font-weight: 600; }
+html:not(.kos-mobile) .kos-store-tag { font-size: 12px; color: var(--text-muted); }
+html:not(.kos-mobile) .kos-store-cat {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+html:not(.kos-mobile) .kos-pill {
+    background: color-mix(in srgb, var(--text) 9%, transparent);
+    color: #2C82FE;
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    border-radius: 99px;
+    padding: 5px 16px;
+    flex-shrink: 0;
+}
+html:not(.kos-mobile) .kos-store-row:hover .kos-pill {
+    background: #2C82FE;
+    color: #fff;
+}
