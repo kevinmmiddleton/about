@@ -9878,14 +9878,8 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-projects"
 html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-projects"]) > svg {
     visibility: hidden;
 }
-/* trash: Tahoe first, frosted NuoveXT paints if tahoe/ is ever removed */
-html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-recycle"]) {
-    background: url('images/tahoe/trash-empty.png') center / contain no-repeat,
-                url('images/trash-empty.png') center / contain no-repeat;
-}
-html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji:has(use[href="#ico-recycle"]) {
-    background-image: url('images/tahoe/trash-full.png'), url('images/trash-full.png');
-}
+/* trash: the OG frosted NuoveXT basket, by request - it just looks
+   more like the Mac trash everyone remembers */
 
 /* Terminal's glyph is an inline svg (no <use>), so the mapping above
    missed it; target its own class. */
