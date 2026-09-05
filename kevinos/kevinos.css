@@ -10705,19 +10705,20 @@ html:not(.kos-mobile) #aim .aim-input {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 html:not(.kos-mobile) #aim .aim-send {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     font-size: 0;
     flex-shrink: 0;
     display: grid;
     place-items: center;
+    padding: 0;
 }
 html:not(.kos-mobile) #aim .aim-send::before {
-    content: '↑';
-    font-size: 17px;
-    font-weight: 800;
-    line-height: 1;
+    content: '';
+    width: 17px;
+    height: 17px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M12 20V5M5 12l7-7 7 7'/></svg>") center / contain no-repeat;
 }
 
 /* the send circle sits IN the compose row, not half off the sill */
@@ -10750,3 +10751,6 @@ html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji:has(use[href="#ico-
 
 /* the Claude intro speaks for itself: no bot greeting, no signon line */
 html:not(.kos-mobile) #aim .aim-sys { display: none; }
+
+/* the buddy row goes too - the window is simply Claude now */
+html:not(.kos-mobile) #aim .aim-bar { display: none; }
