@@ -5180,7 +5180,7 @@ function openMobileOverlay(windowId) {
 
     // Keynote is desktop-only for now — its content is built by JS that
     // does not run on mobile, so the clone would be an empty sheet
-    if (windowId === 'keynote') return;
+    if (windowId === 'keynote' || windowId === 'keynoteDeck') return;
 
     // Close any existing overlay
     if (activeMobileOverlay) {
@@ -7916,58 +7916,215 @@ document.addEventListener('click', (e) => {
 });
 
 // ============================================================
-// KEYNOTE — case studies as decks (desktop). One deck ships
-// distilled from the written study; the rest open the written
-// versions until their decks exist.
+// KEYNOTE — case studies as decks (desktop). Each presentation
+// opens as its own document window, like real Keynote. Slide
+// copy is distilled from the written studies on middleton.io.
 // ============================================================
 (function () {
     const chooser = document.getElementById('knChooser');
-    const player = document.getElementById('knPlayer');
-    if (!chooser || KOS_MOBILE) return;
+    const deckWin = document.getElementById('keynoteDeck');
+    if (!chooser || !deckWin || KOS_MOBILE) return;
 
+    const CS = 'https://middleton.io/casestudies/';
     const DECKS = [
-        { id: 'hvac', title: 'Turning Traffic Into Intent', sub: 'HVAC.com · Calculators & Conversion', deck: true },
-        { id: 'sendoso', title: 'eGift Platform Expansion', sub: 'Sendoso', href: 'https://middleton.io/casestudies/case-study-sendoso.html' },
-        { id: 'lever', title: 'Moving Upmarket', sub: 'Lever', href: 'https://middleton.io/casestudies/case-study-lever.html' },
-        { id: 'rl-covea', title: 'Co-Branded Partner Sites', sub: 'Rocket Lawyer', href: 'https://middleton.io/casestudies/case-study-rocketlawyer-covea.html' },
-        { id: 'rl-mobile', title: 'Mobile Conversion', sub: 'Rocket Lawyer', href: 'https://middleton.io/casestudies/case-study-rocketlawyer-mobile.html' },
-        { id: 'oracle', title: 'Scaling Social', sub: 'Oracle', href: 'https://middleton.io/casestudies/case-study-oracle.html' }
+        { id: 'hvac', file: 'hvac.key', title: 'Turning Traffic Into Intent', sub: 'HVAC.com', study: CS + 'case-study-hvac.html' },
+        { id: 'sendoso', file: 'sendoso.key', title: 'eGift Platform Expansion', sub: 'Sendoso', study: CS + 'case-study-sendoso.html' },
+        { id: 'lever', file: 'lever.key', title: 'Moving Upmarket', sub: 'Lever', study: CS + 'case-study-lever.html' },
+        { id: 'covea', file: 'covea.key', title: 'Co-Branded Partner Sites', sub: 'Rocket Lawyer', study: CS + 'case-study-rocketlawyer-covea.html' },
+        { id: 'rlmobile', file: 'mobile.key', title: 'Mobile Conversion', sub: 'Rocket Lawyer', study: CS + 'case-study-rocketlawyer-mobile.html' },
+        { id: 'oracle', file: 'oracle.key', title: 'Scaling Social', sub: 'Oracle', study: CS + 'case-study-oracle.html' }
     ];
 
-    const HVAC = [
-        { type: 'title', kicker: 'CASE STUDY', title: 'Turning Traffic Into Intent', sub: 'HVAC.com · Senior PM, full digital funnel',
-          note: 'The deck is the trailer. The full written study is one click from the last slide.' },
-        { type: 'statement', kicker: 'THE PROBLEM', title: '2M visitors.\n0.1% converted.',
-          body: 'The gap between "I\'m researching HVAC" and "I\'m ready for a quote" had nothing in it — no middle-funnel tools, no reason to stay.',
-          note: 'Every funnel chart I inherited looked like a cliff.' },
-        { type: 'statement', kicker: 'THE INSIGHT', title: 'Value first.\nCommitment second.',
-          body: 'Homeowners were asking three questions: repair or replace? what size system? how much would I save? Answer those for free, and the next step asks itself.',
-          note: 'SEO handed us the roadmap — the search queries literally were the calculator list.' },
-        { type: 'bullets', kicker: 'WHAT SHIPPED', title: 'Four new surfaces in one season', items: [
-            'Three interactive calculators — Repair/Replace, HVAC Load, SEER Savings',
-            'A Repair funnel, launched from scratch',
-            'An LLM assistant answering homeowner questions, routing into the funnels',
-            'A redesigned blog feeding the tools instead of dead-ending'],
-          note: 'Every calculator started life as an ugly Excel prototype. The ugly version saved us a quarter.' },
-        { type: 'statement', kicker: 'KEY DECISION', title: 'The funnel became the variable.',
-          body: 'Both funnels went behind Split.io flags I controlled. Remove a step, reorder, rewrite — same-day, no deploy. Test velocity went from deploy-limited to idea-limited.',
-          note: 'Ship the control surface alongside the feature. The flags are why dozens of tests fit in one season.' },
-        { type: 'statement', kicker: 'KEY DECISION', title: 'Race the season.',
-          body: 'Summer is peak replacement season — a homeowner with broken AC in July doesn\'t wait. Aggressive timelines, ruthless prioritization, launch before the window closed.',
-          note: 'Mid-project, Trane acquired us. We kept shipping through the integration.' },
-        { type: 'stats', kicker: 'OUTCOMES', title: 'From 0.1% to…', stats: [
-            ['7.3%', 'calculator conversion at peak — a 50x lift, settling to ~5%'],
-            ['6%', 'QuoteScore, capturing homeowners ready to validate a quote'],
-            ['2.3%', 'optimized landing pages — 23x the baseline'],
-            ['3.4%', 'video-driven pages, education paired with clear CTAs']],
-          note: 'Peaked at 7.3, settled around 5. Both numbers are true; the second one is the honest one.' },
-        { type: 'statement', kicker: 'BEYOND THE SITE', title: 'Small team, enterprise roadmap.',
-          body: 'HVAC.com insights informed Trane\'s System Recommender pilot in Florida — later expanded to NC, SC, GA, TX and AZ, and shaped 2025 planning.',
-          note: 'Translating scrappy-site learnings into enterprise context was its own product job.' },
-        { type: 'end', kicker: 'LESSONS', title: 'Test everything.\nValue first.\nBuild controls, not just features.',
-          cta: { label: 'Read the full study →', href: 'https://middleton.io/casestudies/case-study-hvac.html' },
-          note: 'Thanks for flipping through. The other five decks are being distilled — their written versions are in the chooser.' }
-    ];
+    const SLIDES = {
+        hvac: [
+            { type: 'title', kicker: 'CASE STUDY', title: 'Turning Traffic Into Intent', sub: 'HVAC.com · Senior PM, full digital funnel',
+              note: 'The deck is the trailer. The full written study is one click from the last slide.' },
+            { type: 'statement', kicker: 'THE PROBLEM', title: '2M visitors.\n0.1% converted.',
+              body: 'The gap between "I\'m researching HVAC" and "I\'m ready for a quote" had nothing in it. No middle-funnel tools, no reason to stay.',
+              note: 'Every funnel chart I inherited looked like a cliff.' },
+            { type: 'statement', kicker: 'THE INSIGHT', title: 'Value first.\nCommitment second.',
+              body: 'Homeowners were asking three questions: repair or replace? what size system? how much would I save? Answer those for free, and the next step asks itself.',
+              note: 'SEO handed us the roadmap. The search queries literally were the calculator list.' },
+            { type: 'bullets', kicker: 'WHAT SHIPPED', title: 'Four new surfaces in one season', items: [
+                'Three interactive calculators: Repair/Replace, HVAC Load, SEER Savings',
+                'A Repair funnel, launched from scratch',
+                'An LLM assistant answering homeowner questions, routing into the funnels',
+                'A redesigned blog feeding the tools instead of dead-ending'],
+              note: 'Every calculator started life as an ugly Excel prototype. The ugly version saved us a quarter.' },
+            { type: 'statement', kicker: 'KEY DECISION', title: 'The funnel became the variable.',
+              body: 'Both funnels went behind Split.io flags I controlled. Remove a step, reorder, rewrite. Same day, no deploy. Test velocity went from deploy-limited to idea-limited.',
+              note: 'Ship the control surface alongside the feature. The flags are why dozens of tests fit in one season.' },
+            { type: 'statement', kicker: 'KEY DECISION', title: 'Race the season.',
+              body: 'Summer is peak replacement season. A homeowner with broken AC in July doesn\'t wait. Aggressive timelines, ruthless prioritization, launch before the window closed.',
+              note: 'Mid-project, Trane acquired us. We kept shipping through the integration.' },
+            { type: 'stats', kicker: 'OUTCOMES', title: 'From 0.1% to…', stats: [
+                ['7.3%', 'calculator conversion at peak, a 50x lift, settling to ~5%'],
+                ['6%', 'QuoteScore, capturing homeowners ready to validate a quote'],
+                ['2.3%', 'optimized landing pages, 23x the baseline'],
+                ['3.4%', 'video-driven pages, education paired with clear CTAs']],
+              note: 'Peaked at 7.3, settled around 5. Both numbers are true; the second one is the honest one.' },
+            { type: 'statement', kicker: 'BEYOND THE SITE', title: 'Small team, enterprise roadmap.',
+              body: 'HVAC.com insights informed Trane\'s System Recommender pilot in Florida, later expanded to NC, SC, GA, TX and AZ, and shaped 2025 planning.',
+              note: 'Translating scrappy-site learnings into enterprise context was its own product job.' },
+            { type: 'end', kicker: 'LESSONS', title: 'Test everything.\nValue first.\nBuild controls, not just features.',
+              cta: 'Read the full study →',
+              note: 'Thanks for flipping through. The other decks are in the chooser.' }
+        ],
+        sendoso: [
+            { type: 'title', kicker: 'CASE STUDY', title: 'eGift Platform Expansion', sub: 'Sendoso · eGift platform, partnerships, internal tools',
+              note: 'Early 2021. Fresh $100M Series C, zero-interest-rate era, and a market window that was open but closing.' },
+            { type: 'statement', kicker: 'THE PROBLEM', title: 'Half the platform\'s sends.\nNot enough catalog.',
+              body: 'eGifts were the most popular send option on the platform, over half of total sends. But coverage gaps limited personalization, especially for international recipients and small business targeting.',
+              note: 'The mission in one line: scale the eGift platform while the window was open.' },
+            { type: 'statement', kicker: 'THE INSIGHT', title: 'A platform and partnership problem.',
+              body: 'Scaling the catalog meant building vendor relationships, negotiating directly with eGift providers, and landing partnerships that unlocked new markets and use cases.',
+              note: 'The vendor list: Tango, XOXODAY, Gyft, NGC, TOPPS. Each with its own API, terms, and timeline.' },
+            { type: 'bullets', kicker: 'WHAT SHIPPED', title: 'Catalog, partnerships, and plumbing', items: [
+                'Active eGift coverage doubled from 800 to 1,600 across 47 countries',
+                'Square integration via WeGift: personalized local gifting in the U.S., Canada, Australia and U.K.',
+                'Two-factor auth and AI fraud detection protecting transactions',
+                'Three parallel redemption flows consolidated into one'],
+              note: 'Square was the partnership worth chasing because it came with a network of small local businesses, not just more inventory.' },
+            { type: 'statement', kicker: 'KEY DECISION', title: 'Negotiate direct,\nnot through aggregators.',
+              body: 'Direct vendor relationships gave us better terms, faster onboarding for new brands, and real control over catalog quality and coverage gaps.',
+              note: 'Aggregators are convenient right up until you need something they don\'t stock.' },
+            { type: 'statement', kicker: 'KEY DECISION', title: 'Consolidate before you scale.',
+              body: 'Three redemption flows had grown up in parallel. Collapsing them into one went first, not last, because it was the prerequisite for everything else on the marketplace roadmap.',
+              note: 'Not glamorous. Foundational. Technical debt from parallel systems compounds.' },
+            { type: 'stats', kicker: 'OUTCOMES', title: 'The window, used', stats: [
+                ['2x', 'active catalog, from 800 to 1,600 eGifts'],
+                ['47', 'countries covered, with 12 new markets added in 2021'],
+                ['1,764', 'total eGifts in the final catalog, 1,420 international'],
+                ['4', 'markets with Square-powered local small business gifting']],
+              note: 'Internal tooling for deactivation, refunds and swaps freed engineering from support tickets. That is also product work.' },
+            { type: 'end', kicker: 'LESSONS', title: 'Move fast while the window is open.\nPartnerships need direct engagement.\nOps efficiency is product work.',
+              cta: 'Read the full study →',
+              note: 'By late 2021 rates were rising and budgets were tightening. The catalog we built in that window held.' }
+        ],
+        lever: [
+            { type: 'title', kicker: 'CASE STUDY', title: 'Moving Upmarket', sub: 'Lever · HRIS Sync and enterprise readiness',
+              note: 'Enterprise buyers don\'t ask if your product is good. They ask if it behaves like the rest of their stack.' },
+            { type: 'statement', kicker: 'THE PROBLEM', title: 'Enterprise deals were\nstalling on plumbing.',
+              body: 'Candidate migration meant emailing files to Support and waiting 3 to 4 days. Provisioning was manual, 50+ users a month. Approvals broke whenever a manager was out of office.',
+              note: 'Errors in the files stretched "3 to 4 days" into weeks. IT admins noticed.' },
+            { type: 'statement', kicker: 'THE STRATEGY', title: 'Prove ops first.\nThen prove the platform.',
+              body: 'Phase one killed the implementation bottleneck with self-serve migration. Phase two made Lever behave like enterprise infrastructure with HRIS Sync.',
+              note: 'Self-serve first delivered fast value and bought time for the deeper platform work.' },
+            { type: 'bullets', kicker: 'WHAT SHIPPED', title: 'The enterprise building blocks', items: [
+                'Self-serve bulk importer: drag-and-drop CSV with real-time validation',
+                'HRIS user provisioning: connect once, users sync automatically',
+                'Enriched profiles: title, manager, department, location from the HRIS',
+                'Proxy Approval: approvals route up the org chart when someone is out'],
+              note: 'The importer was built by the Top of Funnel team, not mine. Influence without authority is a real skill and a real tax.' },
+            { type: 'statement', kicker: 'KEY DECISION', title: 'Anchor on SCIM.',
+              body: 'We evaluated Merge.dev and chose SCIM instead. It was the standard enterprise IT already ran everywhere else, customers could self-implement, and we kept full control.',
+              note: 'Pick the standard, not the shortcut. Small orgs can use SCIM too, so it never punished SMB.' },
+            { type: 'statement', kicker: 'EXECUTION', title: 'Built the team\nwhile doing discovery.',
+              body: 'HRIS Sync started with zero dedicated resources. I ran discovery with 12+ CAB customers while hiring the Orion platform team, seven people by Fall 2022.',
+              note: 'Discovery and hiring competed for the same hours. Neither could wait for the other.' },
+            { type: 'stats', kicker: 'OUTCOMES', title: 'Days became minutes', stats: [
+                ['min', 'candidate migration time, down from 3 to 4 days'],
+                ['37%', 'of eligible customers engaged with HRIS Sync in the first quarter'],
+                ['12+', 'CAB customers shaping the product through development'],
+                ['7', 'people on the Orion team, built from zero']],
+              note: 'Proxy Approval hit the metrics recruiters actually watch: Time to Hire and Time to Fill.' },
+            { type: 'end', kicker: 'LESSONS', title: 'Sequence for early value.\nPick the standard, not the shortcut.\nEnterprise features can\'t tax SMB.',
+              cta: 'Read the full study →',
+              note: 'HRIS Sync became the foundation for headcount planning and internal mobility. Reliable org data compounds.' }
+        ],
+        covea: [
+            { type: 'title', kicker: 'CASE STUDY', title: 'Co-Branded Partner Sites', sub: 'Rocket Lawyer · first enterprise partner launch in Europe',
+              note: 'Covéa: a French insurer with 11.5M customers and the first real test of partner-led distribution.' },
+            { type: 'statement', kicker: 'THE PROBLEM', title: '11.5M customers.\nOne shot at the model.',
+              body: 'Rocket Lawyer was expanding beyond direct-to-consumer. What we built for this launch would determine whether legal services could scale through partners at all.',
+              note: 'A one-off integration would have technically worked and strategically failed.' },
+            { type: 'statement', kicker: 'THE STRATEGY', title: 'Build for the tenth partner\nwhile shipping the first.',
+              body: 'Every decision optimized for durability over convenience: standard identity, runtime configuration, co-branding that keeps the product recognizably itself underneath.',
+              note: 'Future deals were already in the pipeline. The architecture had to assume them.' },
+            { type: 'bullets', kicker: 'WHAT SHIPPED', title: 'The partner platform', items: [
+                'Partner authentication on OpenID Connect, identity stays with the partner',
+                'A custom connector isolating Covéa\'s edge cases from the platform',
+                'Partner Config API: branding, pricing, features and content at runtime',
+                'Partner-exclusive documents alongside the core legal catalog',
+                'Partner-aware reporting powering billing and expansion conversations'],
+              note: 'The connector is the honest part: Covéa wasn\'t OIDC-native, so the mess got isolated where it couldn\'t spread.' },
+            { type: 'statement', kicker: 'KEY DECISION', title: 'Config is a runtime concern,\nnot a deploy concern.',
+              body: 'Tying a partner\'s launch date to our release train would have made every integration after Covéa slower than the one before it. The Config API removed the release cycle from partner onboarding.',
+              note: 'This is the decision I\'d defend hardest. Platform speed is set by your slowest coupling.' },
+            { type: 'statement', kicker: 'EXECUTION', title: 'Work ahead of the partner.',
+              body: 'I front-loaded decisions and closed open questions before Covéa\'s August vacation, keeping engineering unblocked while partner teams were offline. We even landed a long-delayed Angular upgrade on the way.',
+              note: 'Ahead-of-time compilation meaningfully cut load times for customers in France. Performance shipped as a side quest.' },
+            { type: 'stats', kicker: 'OUTCOMES', title: 'The model, validated', stats: [
+                ['16%', 'of EU traffic came from partner channels shortly after launch'],
+                ['1', 'net-new enterprise revenue stream for Europe'],
+                ['↓', 'cost and time to onboard each next partner, via the reusable pattern'],
+                ['11.5M', 'insurance customers with a path to affordable legal help']],
+              note: 'The blueprint de-risked the deals behind it. That was the actual deliverable.' },
+            { type: 'end', kicker: 'LESSONS', title: 'Durability over convenience.\nIsolate the edge cases.\nUnblock engineering before they\'re blocked.',
+              cta: 'Read the full study →',
+              note: 'The mission line mattered here: affordable legal help, extended to people who never had digital access to it.' }
+        ],
+        rlmobile: [
+            { type: 'title', kicker: 'CASE STUDY', title: 'Mobile Conversion', sub: 'Rocket Lawyer · Legal Documents, 90% of U.S. revenue',
+              note: 'When the funnel is 90% of revenue, a single point of conversion is worth real money.' },
+            { type: 'statement', kicker: 'THE PROBLEM', title: 'Where do you push when\nthe funnel IS the business?',
+              body: 'The document creation flow was the primary conversion funnel. Conversion had room to grow, but desktop or mobile? UX or performance? We needed a system for finding out, not a hunch.',
+              note: 'NDAs, leases, wills. People arrive with a job to finish, and every extra step loses some of them.' },
+            { type: 'statement', kicker: 'THE METHOD', title: 'Test, learn, pivot, win.',
+              body: 'Before running anything we agreed how an experiment gets proposed, judged and shipped: ideation, pitch, brief, experiment, launch.',
+              note: 'The point was that a good idea from anyone could reach production, and a weak one could die before it cost a sprint.' },
+            { type: 'statement', kicker: 'THE LOSS', title: 'The experiment that lost\ntaught the most.',
+              body: 'We hypothesized that hiding the document preview on shorter documents would lift conversion. Control won by 10%. The preview builds trust and shows value before checkout.',
+              note: 'Negative results are still results. This one shaped product decisions for years.' },
+            { type: 'statement', kicker: 'THE PIVOT', title: 'Mobile is not\na smaller desktop.',
+              body: 'The site was responsive but not truly mobile. We designed a frictionless interview instead: distractions removed, steps cut, built for the platform rather than shrunk to it.',
+              note: 'Responsive is a layout property. Optimized is a product decision.' },
+            { type: 'bullets', kicker: 'WHAT SHIPPED', title: 'The optimization machine', items: [
+                'Custom analytics mapping site speed against GCR, registration and checkout',
+                'The frictionless mobile interview, productionized as the mobile default',
+                'A structured experiment-brief system for impact, journeys and designs'],
+              note: 'Linking speed to conversion made performance a product lever instead of an engineering chore. That reframing got it prioritized.' },
+            { type: 'stats', kicker: 'OUTCOMES', title: 'Found the win', stats: [
+                ['5%', 'mobile gross conversion lift on the 90%-of-revenue product line'],
+                ['2.34%', 'checkout rate, the highest recorded, driven by performance work'],
+                ['10%', 'margin by which control beat our desktop hypothesis. The lesson.'],
+                ['∞', 'reuse: the testing methodology outlived every individual experiment']],
+              note: 'The framework was the durable asset. The wins were the receipts.' },
+            { type: 'end', kicker: 'LESSONS', title: 'Negative results are results.\nResponsive is not optimized.\nPerformance is a conversion lever.',
+              cta: 'Read the full study →',
+              note: 'Process sounds boring until it\'s the reason you find wins consistently.' }
+        ],
+        oracle: [
+            { type: 'title', kicker: 'CASE STUDY', title: 'Scaling Social', sub: 'Oracle Social Cloud · Engage modernization',
+              note: 'Promoted into this one: two agile teams and three designers across Austin, Atlanta and India.' },
+            { type: 'statement', kicker: 'THE PROBLEM', title: 'Grown organically.\nHitting limits.',
+              body: 'Customers wanted networks we didn\'t support. Language coverage was too narrow for the EMEA and APAC markets we were entering. The UX was aging out of competitiveness.',
+              note: 'Enterprise social teams live in this tool all day. Every extra click is multiplied by thousands.' },
+            { type: 'statement', kicker: 'THE STRATEGY', title: 'Four pillars,\none motion.',
+              body: 'Network expansion, product overhaul, internationalization, and go-to-market coordination, run as one modernization rather than four projects.',
+              note: 'A feature Support could not explain and Sales could not sell was not finished. Rollout planning started at the brief.' },
+            { type: 'bullets', kicker: 'WHAT SHIPPED', title: 'Twelve months of modernization', items: [
+                'LinkedIn, Instagram, Sina Weibo and Tumblr integrations',
+                'Engage v2: from an inbox to columns, denser and faster for high-volume teams',
+                '30+ languages with RTL support and locale-aware formatting'],
+              note: 'A network only counted if it worked across Admin, Publish, Engage and Analyze. That constraint set the pace, not the integrations.' },
+            { type: 'statement', kicker: 'KEY DECISION', title: 'i18n is product work,\nnot a translation pass.',
+              body: 'Localization teams sat inside the build, so UX patterns changed where a market needed them to. RTL, formatting, cultural context, all treated as product decisions.',
+              note: 'Sina Weibo for APAC was the reminder: some markets aren\'t reachable by translating your way in.' },
+            { type: 'statement', kicker: 'EXECUTION', title: 'The war room.',
+              body: 'Teams in Austin, Atlanta and India meant limited overlapping hours. Async-first docs carried the quarter, and a one-week war room flattened communication enough to demo five epics in a single week.',
+              note: 'Over-communication beats under-communication across time zones. Every time.' },
+            { type: 'stats', kicker: 'OUTCOMES', title: 'The platform, doubled', stats: [
+                ['4→8', 'supported social networks, the top customer request answered'],
+                ['36', 'features shipped in 12 months, beta-tested throughout'],
+                ['30+', 'languages, accelerating adoption in EMEA and APAC'],
+                ['5', 'epics demoed in the single war-room week']],
+              note: 'Beta customers became champions. They felt ownership no survey could produce.' },
+            { type: 'end', kicker: 'LESSONS', title: 'i18n is product work.\nBetas build champions.\nGTM multiplies impact.',
+              cta: 'Read the full study →',
+              note: 'The launch playbook outlived the launches. Repeatable beats heroic.' }
+        ]
+    };
 
     // ---------- chooser ----------
     chooser.innerHTML = `
@@ -7975,23 +8132,14 @@ document.addEventListener('click', (e) => {
         <div class="kn-grid">
         ${DECKS.map(d => `
             <button type="button" class="kn-card" data-deck="${d.id}">
-                <span class="kn-thumb${d.deck ? '' : ' kn-thumb-doc'}">
-                    <span class="kn-thumb-kicker">${d.deck ? 'CASE STUDY' : 'WRITTEN STUDY'}</span>
+                <span class="kn-thumb">
+                    <span class="kn-thumb-kicker">CASE STUDY</span>
                     <span class="kn-thumb-title">${d.title}</span>
                 </span>
                 <span class="kn-card-name">${d.sub}</span>
-                <span class="kn-card-meta">${d.deck ? d.title.length ? 'Keynote deck' : '' : 'Opens on middleton.io'}</span>
+                <span class="kn-card-meta">${d.file}</span>
             </button>`).join('')}
         </div>`;
-
-    chooser.addEventListener('click', (e) => {
-        const card = e.target.closest('.kn-card');
-        if (!card) return;
-        const deck = DECKS.find(d => d.id === card.dataset.deck);
-        if (!deck) return;
-        if (deck.href) { window.open(deck.href, '_blank', 'noopener'); return; }
-        openDeck();
-    });
 
     // ---------- player ----------
     const canvas = document.getElementById('knCanvas');
@@ -7999,17 +8147,8 @@ document.addEventListener('click', (e) => {
     const notes = document.getElementById('knNotes');
     const notesBtn = document.getElementById('knNotesBtn');
     const countEl = document.getElementById('knCount');
-    let idx = 0, notesOn = false;
-
-    function slideHtml(s) {
-        const kicker = `<div class="kn-kicker">${s.kicker || ''}</div>`;
-        const title = `<div class="kn-title">${(s.title || '').replace(/\n/g, '<br>')}</div>`;
-        if (s.type === 'title') return `<div class="kn-slide kn-s-title">${kicker}${title}<div class="kn-sub">${s.sub || ''}</div></div>`;
-        if (s.type === 'bullets') return `<div class="kn-slide">${kicker}${title}<ul class="kn-list">${s.items.map(i => `<li>${i}</li>`).join('')}</ul></div>`;
-        if (s.type === 'stats') return `<div class="kn-slide">${kicker}${title}<div class="kn-stats">${s.stats.map(([n, l]) => `<div class="kn-stat"><span class="kn-stat-n">${n}</span><span class="kn-stat-l">${l}</span></div>`).join('')}</div></div>`;
-        if (s.type === 'end') return `<div class="kn-slide kn-s-title">${kicker}${title}<a class="kn-cta" href="${s.cta.href}" target="_blank" rel="noopener">${s.cta.label}</a></div>`;
-        return `<div class="kn-slide">${kicker}${title}<p class="kn-body">${s.body || ''}</p></div>`;
-    }
+    const titleEl = document.getElementById('knDeckTitle');
+    let deck = DECKS[0], slides = SLIDES.hvac, idx = 0, notesOn = false;
 
     function fitSlide() {
         const wrap = canvas.querySelector('.kn-scale');
@@ -8020,29 +8159,52 @@ document.addEventListener('click', (e) => {
     }
     new ResizeObserver(fitSlide).observe(canvas);
 
+    function slideHtml(s) {
+        const kicker = `<div class="kn-kicker">${s.kicker || ''}</div>`;
+        const title = `<div class="kn-title">${(s.title || '').replace(/\n/g, '<br>')}</div>`;
+        if (s.type === 'title') return `<div class="kn-slide kn-s-title">${kicker}${title}<div class="kn-sub">${s.sub || ''}</div></div>`;
+        if (s.type === 'bullets') return `<div class="kn-slide">${kicker}${title}<ul class="kn-list">${s.items.map(i => `<li>${i}</li>`).join('')}</ul></div>`;
+        if (s.type === 'stats') return `<div class="kn-slide">${kicker}${title}<div class="kn-stats">${s.stats.map(([n, l]) => `<div class="kn-stat"><span class="kn-stat-n">${n}</span><span class="kn-stat-l">${l}</span></div>`).join('')}</div></div>`;
+        if (s.type === 'end') return `<div class="kn-slide kn-s-title">${kicker}${title}<a class="kn-cta" href="${deck.study}" target="_blank" rel="noopener">${s.cta}</a></div>`;
+        return `<div class="kn-slide">${kicker}${title}<p class="kn-body">${s.body || ''}</p></div>`;
+    }
+
     function show(i) {
-        idx = Math.max(0, Math.min(HVAC.length - 1, i));
-        canvas.innerHTML = '<div class="kn-scale">' + slideHtml(HVAC[idx]) + '</div>';
+        idx = Math.max(0, Math.min(slides.length - 1, i));
+        canvas.innerHTML = '<div class="kn-scale">' + slideHtml(slides[idx]) + '</div>';
         fitSlide();
-        countEl.textContent = `${idx + 1} / ${HVAC.length}`;
-        notes.textContent = HVAC[idx].note || '';
+        countEl.textContent = `${idx + 1} / ${slides.length}`;
+        notes.textContent = slides[idx].note || '';
         rail.querySelectorAll('.kn-mini').forEach((m, j) => m.classList.toggle('active', j === idx));
         rail.querySelector('.kn-mini.active')?.scrollIntoView({ block: 'nearest' });
     }
 
-    function openDeck() {
-        chooser.hidden = true;
-        player.hidden = false;
-        rail.innerHTML = HVAC.map((s, j) =>
-            `<button type="button" class="kn-mini" data-i="${j}"><span class="kn-mini-n">${j + 1}</span><span class="kn-mini-t">${(s.kicker || '')}</span></button>`
+    function openDeck(d) {
+        deck = d;
+        slides = SLIDES[d.id];
+        titleEl.textContent = d.file;
+        rail.innerHTML = slides.map((sl, j) =>
+            `<button type="button" class="kn-mini" data-i="${j}"><span class="kn-mini-n">${j + 1}</span><span class="kn-mini-t">${sl.kicker || ''}</span></button>`
         ).join('');
         show(0);
+        openWindow('keynoteDeck');
+        // cascade off the chooser like a real document window
+        const ch = document.getElementById('keynote');
+        if (ch.classList.contains('window-open')) {
+            const l = parseFloat(getComputedStyle(ch).left) + 56;
+            const t = parseFloat(getComputedStyle(ch).top) + 40;
+            deckWin.style.left = Math.min(l, window.innerWidth - deckWin.offsetWidth - 16) + 'px';
+            deckWin.style.top = Math.min(t, window.innerHeight - 200) + 'px';
+        }
     }
 
-    document.getElementById('knBack').addEventListener('click', () => {
-        player.hidden = true;
-        chooser.hidden = false;
+    chooser.addEventListener('click', (e) => {
+        const card = e.target.closest('.kn-card');
+        if (!card) return;
+        const d = DECKS.find(x => x.id === card.dataset.deck);
+        if (d) openDeck(d);
     });
+
     document.getElementById('knPrev').addEventListener('click', () => show(idx - 1));
     document.getElementById('knNext').addEventListener('click', () => show(idx + 1));
     canvas.addEventListener('click', (e) => { if (!e.target.closest('a')) show(idx + 1); });
@@ -8056,9 +8218,7 @@ document.addEventListener('click', (e) => {
         notesBtn.setAttribute('aria-pressed', String(notesOn));
     });
     document.addEventListener('keydown', (e) => {
-        const win = document.getElementById('keynote');
-        if (!win.classList.contains('window-open') || !win.classList.contains('window-focused')) return;
-        if (player.hidden) return;
+        if (!deckWin.classList.contains('window-open') || !deckWin.classList.contains('window-focused')) return;
         if (e.target.closest('input, textarea')) return;
         if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(idx + 1); }
         if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }

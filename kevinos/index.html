@@ -36,7 +36,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="kevinos.css?v=1e4a7384">
+    <link rel="stylesheet" href="kevinos.css?v=e7130447">
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -1974,16 +1974,30 @@
                 </header>
                 <div class="window-content kn-content">
                     <div class="kn-chooser" id="knChooser"></div>
-                    <div class="kn-player" id="knPlayer" hidden>
+                </div>
+            </section>
+
+            <section class="window" role="dialog" aria-label="Keynote presentation" id="keynoteDeck"
+                data-window="keynoteDeck">
+                <header class="window-header">
+                    <div class="window-dots">
+                        <button class="window-dot red" data-action="close" aria-label="Close window"></button>
+                        <button class="window-dot yellow" data-action="minimize" aria-label="Minimize window"></button>
+                        <button class="window-dot green" data-action="maximize" aria-label="Maximize window"></button>
+                    </div>
+                    <div class="window-title" id="knDeckTitle">deck.key</div>
+                    <span class="window-path">~/kevin/decks/</span>
+                </header>
+                <div class="window-content kn-content">
+                    <div class="kn-player" id="knPlayer">
                         <div class="kn-rail" id="knRail"></div>
                         <div class="kn-stage">
                             <div class="kn-canvas" id="knCanvas"></div>
                             <div class="kn-notes" id="knNotes" hidden></div>
                             <div class="kn-bar">
-                                <button type="button" class="kn-btn" id="knBack" title="All decks">&#8249; Decks</button>
+                                <span class="kn-count" id="knCount">1 / 9</span>
                                 <div class="kn-nav">
                                     <button type="button" class="kn-btn" id="knPrev" aria-label="Previous slide">&#8592;</button>
-                                    <span class="kn-count" id="knCount">1 / 9</span>
                                     <button type="button" class="kn-btn" id="knNext" aria-label="Next slide">&#8594;</button>
                                 </div>
                                 <button type="button" class="kn-btn" id="knNotesBtn" aria-pressed="false">Presenter Notes</button>
@@ -2471,7 +2485,7 @@
         <button type="button" class="kos-rotate-skip" id="kosRotateSkip">Continue anyway</button>
     </div>
 
-    <script src="kevinos.js?v=d249928e"></script>
+    <script src="kevinos.js?v=148ffad7"></script>
 </body>
 
 </html>

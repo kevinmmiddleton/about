@@ -11859,6 +11859,10 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-keynote"]
 html:not(.kos-mobile) #keynote {
     width: min(880px, 100% - 40px);
 }
+html:not(.kos-mobile) #keynoteDeck {
+    width: min(880px, 100% - 40px);
+}
+html.kos-mobile #keynoteDeck { display: none; }
 html:not(.kos-mobile) #keynote .kn-content {
     padding: 0;
     background: #2b2b2e;
@@ -11894,13 +11898,11 @@ html.kos-mobile #keynote { display: none; }
     transition: border-color 0.15s, transform 0.15s;
 }
 .kn-card:hover .kn-thumb { border-color: #0E6EE8; transform: translateY(-2px); }
-.kn-thumb-doc { background: #f4f3ee; }
 .kn-thumb-kicker {
     font: 700 8px/1 -apple-system, sans-serif;
     letter-spacing: 0.14em;
     color: #0E6EE8;
 }
-.kn-thumb-doc .kn-thumb-kicker { color: #8a8983; }
 .kn-thumb-title {
     font: 800 13px/1.25 -apple-system, BlinkMacSystemFont, sans-serif;
     color: #1a1a1c;
