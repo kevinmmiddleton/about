@@ -8107,7 +8107,7 @@ document.addEventListener('click', (e) => {
         oracle: [
             { type: 'title', kicker: 'CASE STUDY', title: 'Scaling Social', sub: 'Oracle Social Cloud · Engage modernization',
               note: 'Promoted into this one: two agile teams and three designers across Austin, Atlanta and India.' },
-            { type: 'statement', kicker: 'THE PROBLEM', title: 'Grown organically.\nHitting limits.',
+            { type: 'statement', kicker: 'THE PROBLEM', title: 'Customers were\noutgrowing the platform.',
               body: 'Customers wanted networks we didn\'t support. Language coverage was too narrow for the EMEA and APAC markets we were entering. The UX was aging out of competitiveness.',
               note: 'Enterprise social teams live in this tool all day. Every extra click is multiplied by thousands.' },
             { type: 'statement', kicker: 'THE STRATEGY', title: 'Four pillars,\none motion.',
