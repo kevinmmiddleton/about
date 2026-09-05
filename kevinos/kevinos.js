@@ -6784,26 +6784,9 @@ document.addEventListener('keydown', (e) => {
 // which is the signature motion of the desktop this is imitating. Sets
 // transform-origin from the launcher's position, so the window appears to grow
 // out of it; the keyframes themselves stay in CSS.
-document.addEventListener('click', (e) => {
-    const launcher = e.target.closest?.('.dock-item[data-window], .desktop-icon[data-window], ' +
-                                        '.folder-item[data-window], .launchpad-item[data-window]');
-    if (!launcher || isMobile()) return;
-    const id = launcher.dataset.window;
-    const win = document.querySelector(`.window[data-window="${id}"]`);
-    if (!win) return;
-    const l = launcher.getBoundingClientRect();
-    requestAnimationFrame(() => {
-        const w = win.getBoundingClientRect();
-        if (!w.width) return;
-        const ox = ((l.left + l.width / 2) - w.left) / w.width * 100;
-        const oy = ((l.top + l.height / 2) - w.top) / w.height * 100;
-        win.style.setProperty('--genie-x', ox.toFixed(1) + '%');
-        win.style.setProperty('--genie-y', oy.toFixed(1) + '%');
-        win.classList.remove('window-genie');
-        void win.offsetWidth;               // restart the animation
-        win.classList.add('window-genie');
-    });
-});
+// (removed) the genie restart here replayed a second open animation on top
+// of kosOpenFrom — every launch visibly opened twice. kosOpenFrom, applied
+// by the fly-in handler, is the single open animation now.
 
 // ===================
 // SOUND
@@ -8212,6 +8195,17 @@ document.addEventListener('click', (e) => {
             const t = parseFloat(getComputedStyle(ch).top) + 40;
             deckWin.style.left = Math.min(l, window.innerWidth - deckWin.offsetWidth - 16) + 'px';
             deckWin.style.top = Math.min(t, window.innerHeight - 200) + 'px';
+        }
+        // no dock icon to fly from, so the deck flies out of the chooser
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const cr = ch.getBoundingClientRect();
+            const wr = deckWin.getBoundingClientRect();
+            deckWin.style.setProperty('--kos-from-x', (cr.left + cr.width / 2 - wr.left - wr.width / 2) + 'px');
+            deckWin.style.setProperty('--kos-from-y', (cr.top + cr.height / 2 - wr.top - wr.height / 2) + 'px');
+            deckWin.classList.remove('kos-open-from');
+            void deckWin.offsetWidth;
+            deckWin.classList.add('kos-open-from');
+            deckWin.addEventListener('animationend', () => deckWin.classList.remove('kos-open-from'), { once: true });
         }
     }
 

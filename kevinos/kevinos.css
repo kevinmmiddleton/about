@@ -818,6 +818,13 @@ body {
     animation: windowOpen 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Desktop windows open with the dock fly-in (kosOpenFrom) alone; the
+   base pop here would replay when the fly-in class is removed, which
+   read as every window opening twice */
+html:not(.kos-mobile) .window.window-open {
+    animation: none;
+}
+
 .window.window-minimized {
     display: none !important;
 }
