@@ -11257,3 +11257,36 @@ html.kos-mobile body:has(.mobile-window-overlay.active) .mobile-contact-bar {
     opacity: 0;
     pointer-events: none;
 }
+
+/* iPhone recipes wears Pinterest (Kevin-supplied); the desktop
+   keeps the recipe box */
+html.kos-mobile .folder-mini-grid span:has(use[href="#ico-recipes"]) {
+    background: url('images/tahoe/pinterest.png') center / 82% no-repeat;
+}
+html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-recipes"]) {
+    background: url('images/tahoe/pinterest.png') center / 82% no-repeat !important;
+    box-shadow: none !important;
+}
+html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-recipes"]) > svg {
+    visibility: hidden;
+}
+
+/* Apps folder contents wear their real tiles (games keep their own
+   glyph art - they are KevinOS originals) */
+html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-games"]) {
+    background: url('images/tahoe/games-app.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+}
+html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-music"]) {
+    background: url('images/tahoe/music.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+}
+html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-tetris"]) {
+    background: url('images/tahoe/tetris.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+}
+html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-games"]) > svg,
+html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-music"]) > svg,
+html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-tetris"]) > svg {
+    visibility: hidden;
+}
