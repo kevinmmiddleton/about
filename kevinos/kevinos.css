@@ -12027,8 +12027,20 @@ html:not(.kos-mobile) .dock::after {
     pointer-events: none;
     z-index: 10;
 }
-html:not(.kos-mobile) .dock::before { top: 8px; }
-html:not(.kos-mobile) .dock::after { bottom: 8px; }
+/* Anchored to the leftmost icon's visible pixels: padding 8 + emoji
+   inset 2 + art top 0.094*50px = 14.7; art bottom 0.879*50 = 53.95.
+   Every icon's art should kiss both lines. */
+html:not(.kos-mobile) .dock { --dock-pad: 8px; }
+@media (max-width: 1180px) {
+    html:not(.kos-mobile) .dock { --dock-pad: 6px; }
+}
+html:not(.kos-mobile) .dock::before {
+    top: calc(var(--dock-pad) + 2px + (var(--dock-i) - 4px) * 0.094);
+}
+html:not(.kos-mobile) .dock::after {
+    top: calc(var(--dock-pad) + 2px + (var(--dock-i) - 4px) * 0.879);
+    bottom: auto;
+}
 
 /* display:flex above must not defeat the hidden attribute */
 .kn-player[hidden], .kn-chooser[hidden], .kn-notes[hidden] { display: none !important; }
