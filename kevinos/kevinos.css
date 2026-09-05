@@ -9732,3 +9732,20 @@ html:not(.kos-mobile) .desktop.wp-sunset {
             #4E4A66 40%, #3B3D55 54%, #21707A 66%, #2FB3AB 80%,
             #49D6C9 92%, #5FE3D6 100%);
 }
+
+/* ---- the real frosted trash (NuoveXT, GPL — credited in About).
+   Empty by default; the drop swaps in the stuffed basket. ---- */
+html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-recycle"]) {
+    background: url('images/trash-empty.png') center / contain no-repeat;
+    box-shadow: none;
+}
+html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-recycle"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji:has(use[href="#ico-recycle"]) {
+    background-image: url('images/trash-full.png');
+}
+/* the stuffed basket says it all; retire the badge dot */
+html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji::after {
+    display: none;
+}

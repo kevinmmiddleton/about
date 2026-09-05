@@ -6904,7 +6904,7 @@ const kosSound = (function () {
                   <div class="kos-about-row"><b>Graphics</b><span>Marigold on ink, integrated</span></div>
                   <div class="kos-about-row"><b>Uptime</b><span data-uptime>0s</span></div>
                   <div class="kos-about-row"><b>Serial</b><span>KM-NYC-NOT-A-REAL-COMPUTER</span></div>
-                  <div class="kos-about-row"><b>Lineage</b><span>Inspired by <a href="https://github.com/DustinBrett/daedalOS" target="_blank" rel="noopener noreferrer">daedalOS</a> and <a href="https://github.com/puruvj/macos-web" target="_blank" rel="noopener noreferrer">macos-web</a></span></div>
+                  <div class="kos-about-row"><b>Lineage</b><span>Inspired by <a href="https://github.com/DustinBrett/daedalOS" target="_blank" rel="noopener noreferrer">daedalOS</a> and <a href="https://github.com/puruvj/macos-web" target="_blank" rel="noopener noreferrer">macos-web</a> &middot; trash icons from <a href="https://icon-icons.com/pack/nuovext-icons/47" target="_blank" rel="noopener noreferrer">NuoveXT</a> by Saki (GPL)</span></div>
                 </div>
               </div>`;
             document.body.appendChild(aboutEl);
@@ -7104,6 +7104,33 @@ const kosSound = (function () {
         if (saved > 0 && saved < WALLPAPERS.length) { wpIndex = saved; applyWallpaper(); }
     } catch (e) {}
     document.addEventListener('contextmenu', (e) => {
+        // the trash gets its own menu
+        const binHit = e.target.closest('.desktop-icon')?.querySelector('use[href="#ico-recycle"]');
+        if (binHit) {
+            e.preventDefault();
+            const bin = e.target.closest('.desktop-icon');
+            closeAnyMenu();
+            const menu = document.createElement('div');
+            menu.className = 'kos-menu kos-context';
+            const row = document.createElement('div');
+            row.className = 'kos-menu-item' + (bin.classList.contains('kos-bin-full') ? '' : ' disabled');
+            row.innerHTML = '<span>Empty Trash…</span>';
+            if (bin.classList.contains('kos-bin-full')) {
+                row.addEventListener('mousedown', (ev) => {
+                    ev.preventDefault(); ev.stopPropagation();
+                    closeAnyMenu();
+                    bin.classList.remove('kos-bin-full');
+                    toast('The trash has been taken out. Everything respawns on reload anyway.');
+                });
+            }
+            menu.appendChild(row);
+            document.body.appendChild(menu);
+            menu.style.left = Math.min(e.clientX, window.innerWidth - menu.offsetWidth - 8) + 'px';
+            menu.style.top = Math.min(e.clientY, window.innerHeight - menu.offsetHeight - 8) + 'px';
+            openMenuEl = menu;
+            openTrigger = null;
+            return;
+        }
         const onDesktop = e.target.closest('.desktop') &&
             !e.target.closest('.window') && !e.target.closest('.desktop-icon') &&
             !e.target.closest('.dock') && !e.target.closest('.identity-card, .widget');
