@@ -10521,6 +10521,8 @@ html:not(.kos-mobile) .window-path { display: none; }
 }
 .kos-hero-txt { flex: 1; min-width: 0; }
 .kos-hero-shot {
+    /* hug the banner's right edge instead of floating mid-field */
+    margin-left: auto;
     width: 96px;
     border-radius: 10px 0 0 10px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
@@ -12156,7 +12158,7 @@ html.kos-mobile .mobile-folder-item .icon-label {
     flex: none;
     width: min(300px, 100%);
 }
-@container (max-width: 470px) {
+@container (max-width: 540px) {
     .kos-hero-shot { display: none; }
     .kos-store-hero { padding-right: 16px; }
 }
