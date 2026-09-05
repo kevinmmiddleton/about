@@ -10664,13 +10664,12 @@ html:not(.kos-mobile) #aim .aim-log {
     justify-content: flex-end;
 }
 html:not(.kos-mobile) #aim .aim-log::before {
-    content: '✳';
+    content: '';
     display: block;
-    text-align: center;
-    font-size: 34px;
-    color: #D97757;
-    margin: auto auto 6px;
-    padding-top: 24px;
+    width: 42px;
+    height: 42px;
+    background: url('images/claude-burst.svg') center / contain no-repeat;
+    margin: auto auto 10px;
 }
 html:not(.kos-mobile) #aim .aim-log::after {
     content: 'Curious about Kevin? Ask away.';
