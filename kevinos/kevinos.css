@@ -10121,3 +10121,37 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji, .folder-icon):has(use[href="
 html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji, .folder-icon):has(use[href="#ico-tetris"]) > svg {
     visibility: hidden;
 }
+
+/* ---- Contacts field rows (pattern from Kevin's snippet, retold
+   in house tokens). Desktop only; mobile hides them below. ---- */
+html:not(.kos-mobile) .vcf-fields {
+    border-top: 1px solid var(--border);
+    margin-top: 14px;
+    padding-top: 6px;
+}
+html:not(.kos-mobile) .vcf-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 7px 2px;
+    font-size: 12.5px;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+}
+html:not(.kos-mobile) .vcf-row:last-child { border-bottom: none; }
+html:not(.kos-mobile) .vcf-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+html:not(.kos-mobile) .vcf-value {
+    color: var(--text);
+    text-decoration: none;
+    text-align: right;
+}
+html:not(.kos-mobile) a.vcf-value { color: #2C82FE; }
+html:not(.kos-mobile) a.vcf-value:hover { text-decoration: underline; }
+html.kos-mobile .vcf-fields { display: none !important; }
