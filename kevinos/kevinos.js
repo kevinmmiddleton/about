@@ -8181,7 +8181,7 @@ document.addEventListener('click', (e) => {
         if (s.type === 'shot') return `<div class="kn-slide kn-s-shot">${kicker}<div class="kn-shot-frame"><img src="${s.img}" alt="${s.caption}" loading="lazy"></div><div class="kn-shot-caption">${s.caption}</div></div>`;
         if (s.type === 'bullets') return `<div class="kn-slide">${kicker}${title}<ul class="kn-list">${s.items.map(i => `<li>${i}</li>`).join('')}</ul></div>`;
         if (s.type === 'stats') return `<div class="kn-slide">${kicker}${title}<div class="kn-stats">${s.stats.map(([n, l]) => `<div class="kn-stat"><span class="kn-stat-n">${n}</span><span class="kn-stat-l">${l}</span></div>`).join('')}</div></div>`;
-        if (s.type === 'end') return `<div class="kn-slide kn-s-title">${kicker}${title}<a class="kn-cta" href="${deck.study}" target="_blank" rel="noopener">${s.cta}</a></div>`;
+        if (s.type === 'end') return `<div class="kn-slide kn-s-title kn-s-end">${kicker}${title}<a class="kn-cta" href="${deck.study}" target="_blank" rel="noopener">${s.cta}</a></div>`;
         return `<div class="kn-slide">${kicker}${title}<p class="kn-body">${s.body || ''}</p></div>`;
     }
 
