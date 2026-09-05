@@ -2783,14 +2783,21 @@ body {
            (~46px) — the folder square must match that, not the box.
            iOS previews a folder as a 3x3 grid with the apps filling the
            top row, not a 2x2 with a hole. */
-        width: 46px;
-        height: 46px;
+        /* 2x2 preview (Kevin's call): third mini wraps to row two.
+           Square spans the neighbors' visible art: top 5.4px of the
+           58 frame, 45.5px tall, so it kisses the same lines. */
+        width: 45.5px;
+        height: 45.5px;
         font-size: 16px;
         border-radius: 11px;
-        padding: 5px;
-        gap: 3px;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(3, 1fr);
+        padding: 6px;
+        gap: 4px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+    .mobile-grid-icon .apps-folder-icon {
+        align-items: flex-start;
+        padding-top: 5.4px;
     }
 
     /* Spacer to separate main apps from fun apps */

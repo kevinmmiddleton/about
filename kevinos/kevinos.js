@@ -8091,15 +8091,18 @@ document.addEventListener('click', (e) => {
             d.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:${w}px;height:${h}px;background:#FF2D55;z-index:4000;pointer-events:none;`;
             document.body.appendChild(d);
         }
+        // Anchored to visible art (pack tile spans 9.4%..87.9% vertically,
+        // 10.5%..89.1% horizontally of each icon box), Kevin's method: the
+        // line sits on the first icon's art and everything else must touch.
         Object.values(rows).forEach(rs => {
-            const top = Math.min(...rs.map(r => r.top)), bot = Math.max(...rs.map(r => r.bottom));
-            line(gr.left, top, gr.width, 1);
-            line(gr.left, bot, gr.width, 1);
+            const r = rs[0];
+            line(gr.left, r.top + 0.094 * r.height, gr.width, 1);
+            line(gr.left, r.top + 0.879 * r.height, gr.width, 1);
         });
         Object.values(cols).forEach(cs => {
-            const l = Math.min(...cs.map(r => r.left)), rt = Math.max(...cs.map(r => r.right));
-            line(l, gr.top, 1, window.innerHeight - gr.top);
-            line(rt, gr.top, 1, window.innerHeight - gr.top);
+            const r = cs[0];
+            line(r.left + 0.105 * r.width, gr.top, 1, window.innerHeight - gr.top);
+            line(r.left + 0.891 * r.width, gr.top, 1, window.innerHeight - gr.top);
         });
     }
     setTimeout(drawGuides, 800);
