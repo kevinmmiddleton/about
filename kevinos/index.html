@@ -333,11 +333,6 @@
                 <span class="icon-label">Recycle Bin</span>
             </button>
 
-            <!-- Escape hatch back to the regular site -->
-            <a class="desktop-icon plausible-event-name=Website+Mode plausible-event-location=desktop" href="https://middleton.io/?from=kevinos">
-                <span class="icon-emoji"><svg><use href="#ico-website"></use></svg></span>
-                <span class="icon-label icon-label-nowrap">middleton.io</span>
-            </a>
         </nav>
 
         <!-- Windows Container -->
@@ -2166,6 +2161,11 @@
             <span class="dock-emoji kos-lp-icon" aria-hidden="true"></span>
         </button>
         <div class="dock-divider desktop-only"></div>
+        <a class="dock-item desktop-only plausible-event-name=Website+Mode plausible-event-location=kevinos-dock"
+            aria-label="middleton.io" data-tooltip="Safari" href="https://middleton.io/?from=kevinos" target="_blank"
+            rel="noopener noreferrer">
+            <span class="dock-emoji"><svg><use href="#ico-website"></use></svg></span>
+        </a>
         <button class="dock-item" aria-label="About" data-window="about" data-tooltip="Social">
             <span class="dock-emoji"><svg><use href="#ico-profile"></use></svg></span>
         </button>
