@@ -7697,7 +7697,7 @@ const kosSound = (function () {
         runner: 'Runner',
         snake: 'Snake',
         standup: 'Standup',
-        interview: 'The Interview',
+        interview: 'Interview',
         recipesdb: 'Recipes'
     };
     for (const [id, name] of Object.entries(NAMES)) {
