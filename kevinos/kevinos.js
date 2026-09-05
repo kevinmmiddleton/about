@@ -7312,12 +7312,24 @@ const kosSound = (function () {
     });
 
     // ---------- all-edge window resizing ----------
-    const EDGE = 7, MIN_W = 320, MIN_H = 220;
+    const EDGE = 6, MIN_W = 320, MIN_H = 220;
     let rz = null;
-    function edgeZones(win, x, y) {
+    function edgeZones(win, x, y, target) {
         const r = win.getBoundingClientRect();
         const z = { n: y - r.top < EDGE, s: r.bottom - y < EDGE, w: x - r.left < EDGE, e: r.right - x < EDGE };
-        return (z.n || z.s || z.w || z.e) ? z : null;
+        if (!(z.n || z.s || z.w || z.e)) return null;
+        // The title bar's job is dragging: only the topmost sliver resizes,
+        // and only straight north (corners there still read as header).
+        if (target?.closest?.('.window-header')) {
+            return (y - r.top < 4) ? { n: true, s: false, w: false, e: false } : null;
+        }
+        // Inside scrollable content, single edges collide with scrollbars -
+        // only true corners resize from there.
+        if (target?.closest?.('.window-content')) {
+            const corner = (z.n || z.s) && (z.w || z.e);
+            return corner ? z : null;
+        }
+        return z;
     }
     function zoneCursor(z) {
         if ((z.n && z.w) || (z.s && z.e)) return 'nwse-resize';
@@ -7329,20 +7341,25 @@ const kosSound = (function () {
         if (rz || document.body.classList.contains('kos-marqueeing')) return;
         const win = e.target.closest?.('.window.window-open');
         if (!win) return;
-        const z = edgeZones(win, e.clientX, e.clientY);
+        const z = edgeZones(win, e.clientX, e.clientY, e.target);
         win.style.cursor = z ? zoneCursor(z) : '';
     });
     document.addEventListener('mousedown', (e) => {
         if (e.button !== 0) return;
         const win = e.target.closest?.('.window.window-open');
         if (!win) return;
-        const z = edgeZones(win, e.clientX, e.clientY);
+        const z = edgeZones(win, e.clientX, e.clientY, e.target);
         if (!z) return;
         const r = win.getBoundingClientRect();
         rz = { win, z, x: e.clientX, y: e.clientY, r };
         win.style.maxHeight = 'none';
         win.classList.add('window-resizing');
         document.body.classList.add('kos-resizing');
+        // stopPropagation keeps the header-drag handler out of it, but it also
+        // silences the window's own raise-and-focus mousedown - do that part
+        // ourselves, or edge-grabs neither raise nor focus the window.
+        kosSetZ(win, kosNextZ());
+        if (typeof setWindowFocus === 'function') setWindowFocus(win);
         e.preventDefault();
         e.stopPropagation(); // beats the header-drag and corner-grip handlers
     }, true);
