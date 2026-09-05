@@ -6919,7 +6919,7 @@ const kosSound = (function () {
                   <p>Version 2.0 &middot; New York</p>
                 </div>
                 <div class="kos-about-rows">
-                  <div class="kos-about-row"><b>Chip</b><span>Kevin M1 Pro (caffeinated)</span></div>
+                  <div class="kos-about-row"><b>Chip</b><span>Kevin M1 Pro (tea-powered)</span></div>
                   <div class="kos-about-row"><b>Memory</b><span>Mostly NYC trivia and old product specs</span></div>
                   <div class="kos-about-row"><b>Storage</b><span>Three cats &middot; almost full</span></div>
                   <div class="kos-about-row"><b>Graphics</b><span>Your imagination</span></div>
@@ -7810,7 +7810,7 @@ const kosSound = (function () {
         () => `🔋 Social battery ${battPct()}% · recharges overnight`,
         () => '🎧 Now playing: the hum of the refrigerator',
         () => '🐈 3 cats detected nearby',
-        () => '☕ Focus: until the coffee runs out'
+        () => '🍵 Focus: until the tea runs out'
     ];
     let islandIdx = 0;
     island.addEventListener('click', () => {
