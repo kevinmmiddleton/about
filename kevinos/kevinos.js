@@ -5178,6 +5178,10 @@ function openMobileOverlay(windowId) {
         return;
     }
 
+    // Keynote is desktop-only for now — its content is built by JS that
+    // does not run on mobile, so the clone would be an empty sheet
+    if (windowId === 'keynote') return;
+
     // Close any existing overlay
     if (activeMobileOverlay) {
         closeMobileOverlay();
@@ -5665,6 +5669,7 @@ const searchableItems = [
     { type: 'window', id: 'experience', ico: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
     { type: 'window', id: 'building', ico: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
     { type: 'window', id: 'writing', ico: 'writing', icon: '✍️', title: 'Writing', subtitle: 'writing/' },
+    { type: 'window', id: 'keynote', ico: 'keynote', icon: '📊', title: 'Case Studies', subtitle: 'keynote decks' },
     { type: 'window', id: 'strengths', ico: 'strengths', icon: '🏅', title: 'Strengths', subtitle: 'strengths/' },
     { type: 'window', id: 'recommendations', ico: 'reviews', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
     // Fun/personality
@@ -5912,6 +5917,7 @@ const launchpadApps = [
     // Fun/personality
     { id: 'games', ico: 'games', icon: '🎮', label: 'Games' },
     { id: 'recipesdb', ico: 'recipes', icon: '🗃️', label: 'Recipes' },
+    { id: 'keynote', ico: 'keynote', icon: '📊', label: 'Keynote' },
     { id: 'party', ico: 'party', icon: '🪩', label: 'Party', action: true },
     { id: 'videos', ico: 'videos', icon: '📺', label: 'Videos', action: true },
     // Action
@@ -7908,3 +7914,143 @@ document.addEventListener('click', (e) => {
         try { openLightbox(img.dataset.lightboxSrc, img.dataset.lightboxTitle); } catch (err) {}
     }
 });
+
+// ============================================================
+// KEYNOTE — case studies as decks (desktop). One deck ships
+// distilled from the written study; the rest open the written
+// versions until their decks exist.
+// ============================================================
+(function () {
+    const chooser = document.getElementById('knChooser');
+    const player = document.getElementById('knPlayer');
+    if (!chooser || KOS_MOBILE) return;
+
+    const DECKS = [
+        { id: 'hvac', title: 'Turning Traffic Into Intent', sub: 'HVAC.com · Calculators & Conversion', deck: true },
+        { id: 'sendoso', title: 'eGift Platform Expansion', sub: 'Sendoso', href: 'https://middleton.io/casestudies/case-study-sendoso.html' },
+        { id: 'lever', title: 'Moving Upmarket', sub: 'Lever', href: 'https://middleton.io/casestudies/case-study-lever.html' },
+        { id: 'rl-covea', title: 'Co-Branded Partner Sites', sub: 'Rocket Lawyer', href: 'https://middleton.io/casestudies/case-study-rocketlawyer-covea.html' },
+        { id: 'rl-mobile', title: 'Mobile Conversion', sub: 'Rocket Lawyer', href: 'https://middleton.io/casestudies/case-study-rocketlawyer-mobile.html' },
+        { id: 'oracle', title: 'Scaling Social', sub: 'Oracle', href: 'https://middleton.io/casestudies/case-study-oracle.html' }
+    ];
+
+    const HVAC = [
+        { type: 'title', kicker: 'CASE STUDY', title: 'Turning Traffic Into Intent', sub: 'HVAC.com · Senior PM, full digital funnel',
+          note: 'The deck is the trailer. The full written study is one click from the last slide.' },
+        { type: 'statement', kicker: 'THE PROBLEM', title: '2M visitors.\n0.1% converted.',
+          body: 'The gap between "I\'m researching HVAC" and "I\'m ready for a quote" had nothing in it — no middle-funnel tools, no reason to stay.',
+          note: 'Every funnel chart I inherited looked like a cliff.' },
+        { type: 'statement', kicker: 'THE INSIGHT', title: 'Value first.\nCommitment second.',
+          body: 'Homeowners were asking three questions: repair or replace? what size system? how much would I save? Answer those for free, and the next step asks itself.',
+          note: 'SEO handed us the roadmap — the search queries literally were the calculator list.' },
+        { type: 'bullets', kicker: 'WHAT SHIPPED', title: 'Four new surfaces in one season', items: [
+            'Three interactive calculators — Repair/Replace, HVAC Load, SEER Savings',
+            'A Repair funnel, launched from scratch',
+            'An LLM assistant answering homeowner questions, routing into the funnels',
+            'A redesigned blog feeding the tools instead of dead-ending'],
+          note: 'Every calculator started life as an ugly Excel prototype. The ugly version saved us a quarter.' },
+        { type: 'statement', kicker: 'KEY DECISION', title: 'The funnel became the variable.',
+          body: 'Both funnels went behind Split.io flags I controlled. Remove a step, reorder, rewrite — same-day, no deploy. Test velocity went from deploy-limited to idea-limited.',
+          note: 'Ship the control surface alongside the feature. The flags are why dozens of tests fit in one season.' },
+        { type: 'statement', kicker: 'KEY DECISION', title: 'Race the season.',
+          body: 'Summer is peak replacement season — a homeowner with broken AC in July doesn\'t wait. Aggressive timelines, ruthless prioritization, launch before the window closed.',
+          note: 'Mid-project, Trane acquired us. We kept shipping through the integration.' },
+        { type: 'stats', kicker: 'OUTCOMES', title: 'From 0.1% to…', stats: [
+            ['7.3%', 'calculator conversion at peak — a 50x lift, settling to ~5%'],
+            ['6%', 'QuoteScore, capturing homeowners ready to validate a quote'],
+            ['2.3%', 'optimized landing pages — 23x the baseline'],
+            ['3.4%', 'video-driven pages, education paired with clear CTAs']],
+          note: 'Peaked at 7.3, settled around 5. Both numbers are true; the second one is the honest one.' },
+        { type: 'statement', kicker: 'BEYOND THE SITE', title: 'Small team, enterprise roadmap.',
+          body: 'HVAC.com insights informed Trane\'s System Recommender pilot in Florida — later expanded to NC, SC, GA, TX and AZ, and shaped 2025 planning.',
+          note: 'Translating scrappy-site learnings into enterprise context was its own product job.' },
+        { type: 'end', kicker: 'LESSONS', title: 'Test everything.\nValue first.\nBuild controls, not just features.',
+          cta: { label: 'Read the full study →', href: 'https://middleton.io/casestudies/case-study-hvac.html' },
+          note: 'Thanks for flipping through. The other five decks are being distilled — their written versions are in the chooser.' }
+    ];
+
+    // ---------- chooser ----------
+    chooser.innerHTML = `
+        <div class="kn-chooser-head">Case Studies</div>
+        <div class="kn-grid">
+        ${DECKS.map(d => `
+            <button type="button" class="kn-card" data-deck="${d.id}">
+                <span class="kn-thumb${d.deck ? '' : ' kn-thumb-doc'}">
+                    <span class="kn-thumb-kicker">${d.deck ? 'CASE STUDY' : 'WRITTEN STUDY'}</span>
+                    <span class="kn-thumb-title">${d.title}</span>
+                </span>
+                <span class="kn-card-name">${d.sub}</span>
+                <span class="kn-card-meta">${d.deck ? d.title.length ? 'Keynote deck' : '' : 'Opens on middleton.io'}</span>
+            </button>`).join('')}
+        </div>`;
+
+    chooser.addEventListener('click', (e) => {
+        const card = e.target.closest('.kn-card');
+        if (!card) return;
+        const deck = DECKS.find(d => d.id === card.dataset.deck);
+        if (!deck) return;
+        if (deck.href) { window.open(deck.href, '_blank', 'noopener'); return; }
+        openDeck();
+    });
+
+    // ---------- player ----------
+    const canvas = document.getElementById('knCanvas');
+    const rail = document.getElementById('knRail');
+    const notes = document.getElementById('knNotes');
+    const notesBtn = document.getElementById('knNotesBtn');
+    const countEl = document.getElementById('knCount');
+    let idx = 0, notesOn = false;
+
+    function slideHtml(s) {
+        const kicker = `<div class="kn-kicker">${s.kicker || ''}</div>`;
+        const title = `<div class="kn-title">${(s.title || '').replace(/\n/g, '<br>')}</div>`;
+        if (s.type === 'title') return `<div class="kn-slide kn-s-title">${kicker}${title}<div class="kn-sub">${s.sub || ''}</div></div>`;
+        if (s.type === 'bullets') return `<div class="kn-slide">${kicker}${title}<ul class="kn-list">${s.items.map(i => `<li>${i}</li>`).join('')}</ul></div>`;
+        if (s.type === 'stats') return `<div class="kn-slide">${kicker}${title}<div class="kn-stats">${s.stats.map(([n, l]) => `<div class="kn-stat"><span class="kn-stat-n">${n}</span><span class="kn-stat-l">${l}</span></div>`).join('')}</div></div>`;
+        if (s.type === 'end') return `<div class="kn-slide kn-s-title">${kicker}${title}<a class="kn-cta" href="${s.cta.href}" target="_blank" rel="noopener">${s.cta.label}</a></div>`;
+        return `<div class="kn-slide">${kicker}${title}<p class="kn-body">${s.body || ''}</p></div>`;
+    }
+
+    function show(i) {
+        idx = Math.max(0, Math.min(HVAC.length - 1, i));
+        canvas.innerHTML = slideHtml(HVAC[idx]);
+        countEl.textContent = `${idx + 1} / ${HVAC.length}`;
+        notes.textContent = HVAC[idx].note || '';
+        rail.querySelectorAll('.kn-mini').forEach((m, j) => m.classList.toggle('active', j === idx));
+        rail.querySelector('.kn-mini.active')?.scrollIntoView({ block: 'nearest' });
+    }
+
+    function openDeck() {
+        chooser.hidden = true;
+        player.hidden = false;
+        rail.innerHTML = HVAC.map((s, j) =>
+            `<button type="button" class="kn-mini" data-i="${j}"><span class="kn-mini-n">${j + 1}</span><span class="kn-mini-t">${(s.kicker || '')}</span></button>`
+        ).join('');
+        show(0);
+    }
+
+    document.getElementById('knBack').addEventListener('click', () => {
+        player.hidden = true;
+        chooser.hidden = false;
+    });
+    document.getElementById('knPrev').addEventListener('click', () => show(idx - 1));
+    document.getElementById('knNext').addEventListener('click', () => show(idx + 1));
+    canvas.addEventListener('click', (e) => { if (!e.target.closest('a')) show(idx + 1); });
+    rail.addEventListener('click', (e) => {
+        const m = e.target.closest('.kn-mini');
+        if (m) show(+m.dataset.i);
+    });
+    notesBtn.addEventListener('click', () => {
+        notesOn = !notesOn;
+        notes.hidden = !notesOn;
+        notesBtn.setAttribute('aria-pressed', String(notesOn));
+    });
+    document.addEventListener('keydown', (e) => {
+        const win = document.getElementById('keynote');
+        if (!win.classList.contains('window-open') || !win.classList.contains('window-focused')) return;
+        if (player.hidden) return;
+        if (e.target.closest('input, textarea')) return;
+        if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(idx + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
+    });
+})();
