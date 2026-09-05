@@ -7526,3 +7526,83 @@ const kosSound = (function () {
     hero.innerHTML = '<em>APP OF THE DAY</em><b>QuietFeed</b><span>An RSS reader that respects your attention. No algorithm, no ads, no infinite scroll.</span>';
     main.querySelector('.kos-store')?.before(hero);
 })();
+
+// ============================================================
+// KEVIN.VCF AS A THREADS PROFILE (desktop only). The about
+// window's content is rebuilt as a profile + feed; the original
+// markup stays in the DOM for mobile.
+// ============================================================
+(function () {
+    if (KOS_MOBILE) return;
+    const content = document.querySelector('#about .window-content');
+    if (!content || content.querySelector('.kos-threads')) return;
+    const AVATAR = 'https://middleton.io/images/profile-picture.jpg';
+    const POSTS = [
+        {
+            time: '2h',
+            text: "In my experience, teams usually know what's wrong. They just need someone willing to name it and make it safe to act on. That's usually where I start.",
+            likes: 42, replies: 6
+        },
+        {
+            time: '1d',
+            text: "“Full Stack PM” means I work across people, process, and product. Hands-on at every level: running meetings, cleaning up details, digging into data, or building a quick prototype. I use AI where it removes friction.",
+            likes: 87, replies: 12
+        },
+        {
+            time: '3d',
+            text: "Most of my best work happens between teams that don't usually talk to each other. Engineering and support. Product and marketing. I broker the agreements, bring the context, and make sure nobody's working in the dark.",
+            likes: 63, replies: 9
+        },
+        {
+            time: '1w',
+            text: 'Outside of work: cooking, three cats, and a frankly unreasonable amount of pop culture trivia.',
+            imgs: [
+                ['https://middleton.io/images/cat-illustration.jpg', 'Cat + Dad'],
+                ['https://middleton.io/images/carne-asada-fries-homemade.jpg', 'Homemade carne asada fries'],
+                ['https://middleton.io/images/cats-photo.jpg', 'Blue, Scarlet & Luna']
+            ],
+            likes: 128, replies: 24
+        }
+    ];
+    const root = document.createElement('div');
+    root.className = 'kos-threads';
+    const posts = POSTS.map(p => `
+        <article class="kos-th-post">
+            <div class="kos-th-rail"><img src="${AVATAR}" alt="" loading="lazy"><div class="kos-th-line"></div></div>
+            <div class="kos-th-body">
+                <div class="kos-th-top"><b>kevinmiddleton</b><time>${p.time}</time></div>
+                <p class="kos-th-text">${p.text}</p>
+                ${p.imgs ? `<div class="kos-th-imgs">${p.imgs.map(([s, a]) =>
+                    `<img src="${s}" alt="${a}" loading="lazy" data-lightbox-src="${s}" data-lightbox-title="${a}">`).join('')}</div>` : ''}
+                <div class="kos-th-acts">
+                    <span><i>♡</i><em>${p.likes}</em></span>
+                    <span><i>\u{1F4AC}</i><em>${p.replies}</em></span>
+                    <span><i>↻</i></span>
+                    <span><i>↗</i></span>
+                </div>
+            </div>
+        </article>`).join('');
+    root.innerHTML = `
+        <div class="kos-th-head">
+            <div>
+                <h3>Kevin Middleton</h3>
+                <div class="kos-th-handle"><b>kevinmiddleton</b><span class="kos-th-net">middleton.io</span></div>
+                <p class="kos-th-bio">Full Stack Product Manager. I make complex work feel simple.</p>
+                <p class="kos-th-meta">New York, NY &middot; 3 followers (all cats)</p>
+            </div>
+            <img class="kos-th-avatar" src="${AVATAR}" alt="Kevin Middleton" data-lightbox-src="${AVATAR}" data-lightbox-title="Kevin Middleton">
+        </div>
+        <button type="button" class="kos-th-follow">Follow</button>
+        <div class="kos-th-tabs"><span>Threads</span><span>Replies</span><span>Reposts</span></div>
+        ${posts}`;
+    content.appendChild(root);
+    root.querySelector('.kos-th-follow').addEventListener('click', () => {
+        openWindow('connect');
+        if (typeof window.kosToast === 'function') window.kosToast('Following is just emailing with extra steps. Compose away.');
+    });
+    root.querySelectorAll('[data-lightbox-src]').forEach(img => {
+        img.addEventListener('click', () => {
+            try { openLightbox(img.dataset.lightboxSrc, img.dataset.lightboxTitle); } catch (e) {}
+        });
+    });
+})();

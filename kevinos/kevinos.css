@@ -10409,3 +10409,148 @@ html:not(.kos-mobile)[data-theme="dark"] #about :is(.vcf-head b, .vcf-row .vcf-v
 html:not(.kos-mobile)[data-theme="dark"] #about :is(.vcf-head span, .vcf-label, .profile-text::before) { color: #B8B8C2; }
 html:not(.kos-mobile)[data-theme="dark"] #about a.vcf-value { color: #7FB3FF; }
 html:not(.kos-mobile)[data-theme="dark"] #about .vcf-row { border-bottom-color: rgba(255, 255, 255, 0.1); }
+
+/* ============================================================
+   KEVIN.VCF AS A THREADS PROFILE — anatomy per Ahmad Shadeed's
+   threads-app-css teardowns. JS builds the DOM; the vcf/glass
+   layout below it retires on desktop. Desktop only.
+   ============================================================ */
+html:not(.kos-mobile) #about .window-content {
+    background: var(--surface);
+}
+html:not(.kos-mobile) #about :is(.vcf-head, .profile-grid, .profile-connect-btn) {
+    display: none;
+}
+.kos-threads { max-width: 480px; margin: 0 auto; }
+.kos-th-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 6px 0 2px;
+}
+.kos-th-head h3 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 2px;
+    color: var(--text);
+}
+.kos-th-handle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--text);
+}
+.kos-th-net {
+    background: var(--surface-2);
+    color: var(--text-muted);
+    font-size: 10.5px;
+    border-radius: 99px;
+    padding: 3px 8px;
+}
+.kos-th-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    cursor: zoom-in;
+}
+.kos-th-bio { font-size: 13.5px; color: var(--text); margin: 8px 0 4px; }
+.kos-th-meta { font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px; }
+.kos-th-follow {
+    display: block;
+    width: 100%;
+    padding: 8px 0;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--os-invert);
+    color: var(--os-on-invert);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 6px;
+}
+.kos-th-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2px;
+}
+.kos-th-tabs span {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    padding: 10px 0;
+    color: var(--text-muted);
+}
+.kos-th-tabs span:first-child {
+    color: var(--text);
+    font-weight: 700;
+    border-bottom: 2px solid var(--text);
+}
+.kos-th-post {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 10px;
+    padding: 12px 0 4px;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+.kos-th-post:last-child { border-bottom: none; }
+.kos-th-rail { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.kos-th-rail img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.kos-th-line {
+    width: 2px;
+    flex: 1;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--text) 15%, transparent);
+    min-height: 14px;
+}
+.kos-th-body { min-width: 0; padding-bottom: 8px; }
+.kos-th-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+.kos-th-top b { color: var(--text); font-weight: 600; }
+.kos-th-top time { color: var(--text-muted); font-size: 12.5px; }
+.kos-th-text { font-size: 13.5px; line-height: 1.5; color: var(--text); margin: 0 0 8px; }
+.kos-th-imgs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin: 2px 0 10px;
+    scrollbar-width: none;
+}
+.kos-th-imgs img {
+    height: 150px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    cursor: zoom-in;
+    border: 1px solid var(--border);
+}
+.kos-th-acts {
+    display: flex;
+    gap: 18px;
+    font-size: 13px;
+    color: var(--text);
+    align-items: center;
+}
+.kos-th-acts span { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+.kos-th-acts i { font-style: normal; font-size: 15px; line-height: 1; }
+.kos-th-acts em { font-style: normal; font-size: 12px; color: var(--text-muted); }
+.kos-th-acts span:hover { opacity: 0.65; }
+
+/* Tahoe squircles carry baked-in transparent padding; the AIM tile
+   fills its whole box. Shrink its box so the visible tiles match. */
+html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) {
+    width: 44px;
+    height: 44px;
+}
