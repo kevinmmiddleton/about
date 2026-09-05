@@ -5432,6 +5432,10 @@ function openGameOverlay(gameId) {
     gameWindow.style.display = 'flex';
     gameWindow.style.position = 'fixed';
     gameWindow.style.inset = '0';
+    gameWindow.classList.remove('window-genie');
+    if (gameWindow._kosGenieT) { clearTimeout(gameWindow._kosGenieT); gameWindow._kosGenieT = null; }
+    gameWindow.style.transform = '';
+    gameWindow.style.opacity = '';
     gameWindow.style.setProperty('z-index', '1005', 'important');
     gameWindow.style.maxHeight = '100vh';
     gameWindow.style.borderRadius = '0';

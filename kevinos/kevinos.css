@@ -11326,3 +11326,8 @@ html.kos-mobile :is(.kos-gi-linkedin, .kos-gi-resume, .kos-gi-talk) {
     width: 58px;
     height: 58px;
 }
+
+
+/* A stranded genie class must never make a live window click-through.
+   An open, focused, non-minimized window always takes pointer events. */
+.window.window-open.window-focused:not(.window-minimized) { pointer-events: auto !important; }
