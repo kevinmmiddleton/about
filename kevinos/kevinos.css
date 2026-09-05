@@ -2780,13 +2780,17 @@ body {
     }
     .mobile-grid-icon .apps-folder-icon .folder-mini-grid {
         /* the pack icons draw their visible tile at 79% of the 58px box
-           (~46px) — the folder square must match that, not the box */
+           (~46px) — the folder square must match that, not the box.
+           iOS previews a folder as a 3x3 grid with the apps filling the
+           top row, not a 2x2 with a hole. */
         width: 46px;
         height: 46px;
         font-size: 16px;
         border-radius: 11px;
-        padding: 7px;
-        gap: 4px;
+        padding: 5px;
+        gap: 3px;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
     }
 
     /* Spacer to separate main apps from fun apps */
@@ -12038,4 +12042,36 @@ html.kos-mobile .mobile-contact-btn .mobile-btn-icon {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+/* ---- Opened Apps folder: iOS shows full-size icons on the frosted
+   panel, no button chrome — not 30px minis in gray pills ---- */
+html.kos-mobile .mobile-folder-item {
+    background: none !important;
+    padding: 0;
+    gap: 6px;
+    border-radius: 0;
+}
+html.kos-mobile .mobile-folder-item:active {
+    transform: scale(0.92);
+}
+html.kos-mobile .mobile-folder-item .icon-emoji {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+html.kos-mobile .mobile-folder-item .icon-emoji > svg {
+    width: 58px;
+    height: 58px;
+}
+html.kos-mobile .mobile-folder-grid {
+    gap: 16px 10px;
+    padding: 2px 4px 6px;
+}
+
+/* Folder labels stay on one line like iOS (Bug Squash was wrapping) */
+html.kos-mobile .mobile-folder-item .icon-label {
+    white-space: nowrap;
 }
