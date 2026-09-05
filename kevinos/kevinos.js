@@ -7768,3 +7768,124 @@ const kosSound = (function () {
         if (typeof window.kosToast === 'function') window.kosToast('This value cannot be disabled.');
     });
 })();
+
+// ============================================================
+// SPRINGBOARD PHASE 2 (mobile only): status bar, Dynamic
+// Island, lock screen, jiggle mode.
+// ============================================================
+(function () {
+    if (!KOS_MOBILE) return;
+    const header = document.querySelector('.mobile-header');
+    if (!header) return;
+
+    function battPct() {
+        const h = new Date().getHours() + new Date().getMinutes() / 60;
+        let pct = h < 8 ? Math.min(90, Math.round(20 + h * 9)) : Math.max(14, Math.round(100 - (h - 8) * 6.5));
+        if (h >= 19 && h < 21) pct = Math.min(pct + 22, 88);
+        return pct;
+    }
+
+    // ---------- status bar right cluster ----------
+    const status = document.createElement('span');
+    status.className = 'kos-mstatus';
+    status.innerHTML = `<i class="kos-msignal"><b></b><b></b><b></b><b></b></i><i class="kos-mwifi"></i><span class="kos-mbatt"><span class="kos-mbatt-fill"></span></span>`;
+    header.insertBefore(status, header.querySelector('.mobile-theme-toggle'));
+    function battTick() {
+        const p = battPct();
+        const f = status.querySelector('.kos-mbatt-fill');
+        f.style.width = p + '%';
+        f.style.background = p <= 25 ? '#FF3B30' : '';
+        status.title = `Social battery: ${p}%`;
+    }
+    battTick(); setInterval(battTick, 60000);
+
+    // ---------- Dynamic Island ----------
+    const island = document.createElement('button');
+    island.type = 'button';
+    island.className = 'kos-island';
+    island.setAttribute('aria-label', 'Dynamic Island');
+    island.innerHTML = `<span class="kos-island-dot"></span><span class="kos-island-body"></span>`;
+    document.querySelector('.desktop')?.appendChild(island);
+    const islandBody = island.querySelector('.kos-island-body');
+    let islandOpen = false;
+    const ISLAND_LINES = [
+        () => `🔋 Social battery ${battPct()}% · recharges overnight`,
+        () => '🎧 Now playing: the hum of the refrigerator',
+        () => '🐈 3 cats detected nearby',
+        () => '☕ Focus: until the coffee runs out'
+    ];
+    let islandIdx = 0;
+    island.addEventListener('click', () => {
+        islandOpen = !islandOpen;
+        if (islandOpen) {
+            islandBody.textContent = ISLAND_LINES[islandIdx % ISLAND_LINES.length]();
+            islandIdx++;
+        }
+        island.classList.toggle('open', islandOpen);
+    });
+
+    // ---------- lock screen (once per session) ----------
+    let locked = false;
+    try { locked = !sessionStorage.getItem('kos-unlocked'); } catch (e) { locked = true; }
+    if (locked) {
+        const lock = document.createElement('div');
+        lock.className = 'kos-lock';
+        const now = new Date();
+        lock.innerHTML = `
+            <div class="kos-lock-date">${now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}</div>
+            <div class="kos-lock-clock">${now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).replace(/ ?[AP]M/i, '')}</div>
+            <button type="button" class="kos-lock-notif">
+                <span class="kos-lock-notif-ico"></span>
+                <span class="kos-lock-notif-txt"><b>Claude</b>Curious about Kevin? Ask away.</span>
+            </button>
+            <div class="kos-lock-hint">Tap to unlock</div>
+            <div class="kos-lock-bar"></div>`;
+        document.body.appendChild(lock);
+        function unlock(openAim) {
+            try { sessionStorage.setItem('kos-unlocked', '1'); } catch (e) {}
+            lock.classList.add('kos-unlocking');
+            setTimeout(() => {
+                lock.remove();
+                if (openAim) document.querySelector('.mobile-grid-icon[data-mobile-open="aim"]')?.click();
+            }, 380);
+        }
+        lock.querySelector('.kos-lock-notif').addEventListener('click', (e) => { e.stopPropagation(); unlock(true); });
+        lock.addEventListener('click', () => unlock(false));
+        let ty = null;
+        lock.addEventListener('touchstart', (e) => { ty = e.touches[0].clientY; }, { passive: true });
+        lock.addEventListener('touchend', (e) => {
+            if (ty !== null && ty - e.changedTouches[0].clientY > 40) unlock(false);
+            ty = null;
+        }, { passive: true });
+    }
+
+    // ---------- jiggle mode ----------
+    const grid = document.querySelector('.mobile-icon-grid');
+    if (!grid) return;
+    let pressT = null, jiggling = false;
+    const done = document.createElement('button');
+    done.type = 'button';
+    done.className = 'kos-jiggle-done';
+    done.textContent = 'Done';
+    done.addEventListener('click', () => setJiggle(false));
+    document.querySelector('.desktop')?.appendChild(done);
+    function setJiggle(on) {
+        jiggling = on;
+        grid.classList.toggle('kos-jiggling', on);
+        done.classList.toggle('show', on);
+    }
+    grid.querySelectorAll('.mobile-grid-icon').forEach(icon => {
+        icon.addEventListener('pointerdown', () => {
+            clearTimeout(pressT);
+            pressT = setTimeout(() => setJiggle(true), 550);
+        });
+        ['pointerup', 'pointerleave', 'pointermove'].forEach(ev =>
+            icon.addEventListener(ev, () => clearTimeout(pressT)));
+        icon.addEventListener('click', (e) => {
+            if (!jiggling) return;
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof window.kosToast === 'function') window.kosToast("Apps can't be deleted. Kevin needs them.");
+        }, true);
+    });
+})();
