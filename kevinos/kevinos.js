@@ -8229,9 +8229,11 @@ document.addEventListener('click', (e) => {
         const m = e.target.closest('.kn-mini');
         if (m) show(+m.dataset.i);
     });
+    notes.hidden = false;
+    notes.classList.add('kn-notes-off'); // space reserved, text hidden
     notesBtn.addEventListener('click', () => {
         notesOn = !notesOn;
-        notes.hidden = !notesOn;
+        notes.classList.toggle('kn-notes-off', !notesOn);
         notesBtn.setAttribute('aria-pressed', String(notesOn));
     });
     document.addEventListener('keydown', (e) => {

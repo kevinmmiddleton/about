@@ -12121,3 +12121,9 @@ html.kos-mobile .mobile-folder-item .icon-label {
     line-height: 1.4;
     color: #6b6b74;
 }
+
+/* Notes strip always occupies its 46px so toggling never moves the
+   slide; off just hides the ink */
+.kn-notes.kn-notes-off {
+    visibility: hidden;
+}
