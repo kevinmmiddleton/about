@@ -7927,12 +7927,12 @@ document.addEventListener('click', (e) => {
 
     const CS = 'https://middleton.io/casestudies/';
     const DECKS = [
-        { id: 'hvac', file: 'hvac.key', title: 'Turning Traffic Into Intent', sub: 'HVAC.com', logo: 'https://middleton.io/images/hvac-com-logo-color.png', study: CS + 'case-study-hvac.html' },
-        { id: 'sendoso', file: 'sendoso.key', title: 'eGift Platform Expansion', sub: 'Sendoso', logo: 'https://middleton.io/images/sendoso-logo.png', study: CS + 'case-study-sendoso.html' },
-        { id: 'lever', file: 'lever.key', title: 'Moving Upmarket', sub: 'Lever', logo: 'https://middleton.io/images/lever-logo-transparent.png', study: CS + 'case-study-lever.html' },
-        { id: 'covea', file: 'covea.key', title: 'Co-Branded Partner Sites', sub: 'Rocket Lawyer', logo: 'https://middleton.io/images/rocket-lawyer-logo-transparent-1.png', study: CS + 'case-study-rocketlawyer-covea.html' },
-        { id: 'rlmobile', file: 'mobile.key', title: 'Mobile Conversion', sub: 'Rocket Lawyer', logo: 'https://middleton.io/images/rocket-lawyer-logo-transparent-1.png', study: CS + 'case-study-rocketlawyer-mobile.html' },
-        { id: 'oracle', file: 'oracle.key', title: 'Scaling Social', sub: 'Oracle', logo: 'https://middleton.io/images/oracle-logo-transparent.png', study: CS + 'case-study-oracle.html' }
+        { id: 'hvac', file: 'hvac.key', title: 'Turning Traffic Into Intent', hue: '#2563eb', sub: 'HVAC.com', logo: 'https://middleton.io/images/hvac-com-logo-color.png', study: CS + 'case-study-hvac.html' },
+        { id: 'sendoso', file: 'sendoso.key', title: 'eGift Platform Expansion', hue: '#059669', sub: 'Sendoso', logo: 'https://middleton.io/images/sendoso-logo.png', study: CS + 'case-study-sendoso.html' },
+        { id: 'lever', file: 'lever.key', title: 'Moving Upmarket', hue: '#7c3aed', sub: 'Lever', logo: 'https://middleton.io/images/lever-logo-transparent.png', study: CS + 'case-study-lever.html' },
+        { id: 'covea', file: 'covea.key', title: 'Co-Branded Partner Sites', hue: '#ea580c', sub: 'Rocket Lawyer', logo: 'https://middleton.io/images/rocket-lawyer-logo-transparent-1.png', study: CS + 'case-study-rocketlawyer-covea.html' },
+        { id: 'rlmobile', file: 'mobile.key', title: 'Mobile Conversion', hue: '#db2777', sub: 'Rocket Lawyer', logo: 'https://middleton.io/images/rocket-lawyer-logo-transparent-1.png', study: CS + 'case-study-rocketlawyer-mobile.html' },
+        { id: 'oracle', file: 'oracle.key', title: 'Scaling Social', hue: '#d97706', sub: 'Oracle', logo: 'https://middleton.io/images/oracle-logo-transparent.png', study: CS + 'case-study-oracle.html' }
     ];
 
     const SLIDES = {
@@ -8144,7 +8144,7 @@ document.addEventListener('click', (e) => {
         <div class="kn-grid">
         ${DECKS.map(d => `
             <button type="button" class="kn-card" data-deck="${d.id}">
-                <span class="kn-thumb">
+                <span class="kn-thumb" style="--kn-hue:${d.hue}">
                     <span class="kn-thumb-kicker">CASE STUDY</span>
                     <span class="kn-thumb-title">${d.title}</span>
                 </span>
@@ -8198,6 +8198,7 @@ document.addEventListener('click', (e) => {
     function openDeck(d) {
         deck = d;
         slides = SLIDES[d.id];
+        deckWin.style.setProperty('--kn-hue', d.hue);
         titleEl.textContent = d.file;
         rail.innerHTML = slides.map((sl, j) =>
             `<button type="button" class="kn-mini" data-i="${j}"><span class="kn-mini-n">${j + 1}</span><span class="kn-mini-t">${sl.kicker || ''}</span></button>`

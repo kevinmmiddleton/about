@@ -11890,22 +11890,22 @@ html.kos-mobile #keynote { display: none; }
     justify-content: center;
     gap: 6px;
     aspect-ratio: 16 / 9;
-    background: #fff;
+    background: var(--kn-hue, #fff);
     border-radius: 6px;
     padding: 12px 14px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
     border: 2px solid transparent;
     transition: border-color 0.15s, transform 0.15s;
 }
-.kn-card:hover .kn-thumb { border-color: #0E6EE8; transform: translateY(-2px); }
+.kn-card:hover .kn-thumb { border-color: #fff; transform: translateY(-2px); }
 .kn-thumb-kicker {
     font: 700 8px/1 -apple-system, sans-serif;
     letter-spacing: 0.14em;
-    color: #0E6EE8;
+    color: rgba(255, 255, 255, 0.8);
 }
 .kn-thumb-title {
     font: 800 13px/1.25 -apple-system, BlinkMacSystemFont, sans-serif;
-    color: #1a1a1c;
+    color: #fff;
     letter-spacing: -0.01em;
 }
 .kn-card-name {
@@ -11944,7 +11944,7 @@ html.kos-mobile #keynote { display: none; }
     cursor: pointer;
     overflow: hidden;
 }
-.kn-mini.active { border-color: #0E6EE8; }
+.kn-mini.active { border-color: var(--kn-hue, #0E6EE8); }
 .kn-mini-n { font: 700 9px -apple-system, sans-serif; color: #9a9aa2; }
 .kn-mini-t { font: 700 7.5px -apple-system, sans-serif; letter-spacing: 0.08em; color: #1a1a1c; }
 .kn-stage { flex: 1; display: flex; flex-direction: column; min-width: 0; }
@@ -11975,26 +11975,26 @@ html.kos-mobile #keynote { display: none; }
     color: #1a1a1c;
     overflow: hidden;
 }
-.kn-kicker { font: 700 11px/1 sans-serif; letter-spacing: 0.16em; color: #0E6EE8; }
+.kn-kicker { font: 700 11px/1 sans-serif; letter-spacing: 0.16em; color: var(--kn-hue, #0E6EE8); }
 .kn-title { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; }
 .kn-s-title .kn-title { font-size: 38px; }
 .kn-sub { font-size: 14px; color: #6b6b74; }
 .kn-body { font-size: 15px; line-height: 1.55; color: #3c3c42; max-width: 52ch; margin: 0; }
 .kn-list { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 1.45; color: #3c3c42; }
 .kn-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 22px; }
-.kn-stat-n { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; color: #0E6EE8; display: block; }
+.kn-stat-n { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; color: var(--kn-hue, #0E6EE8); display: block; }
 .kn-stat-l { font-size: 11.5px; line-height: 1.4; color: #6b6b74; }
 .kn-cta {
     align-self: flex-start;
     margin-top: 6px;
     font: 700 14px -apple-system, sans-serif;
     color: #fff;
-    background: #0E6EE8;
+    background: var(--kn-hue, #0E6EE8);
     padding: 9px 16px;
     border-radius: 8px;
     text-decoration: none;
 }
-.kn-cta:hover { background: #0a5bc4; }
+.kn-cta:hover { filter: brightness(0.88); }
 .kn-notes {
     background: #FDF6DB;
     border-top: 1px solid #E4D9A8;
@@ -12021,7 +12021,7 @@ html.kos-mobile #keynote { display: none; }
     cursor: pointer;
 }
 .kn-btn:hover { background: #4a4a4f; }
-.kn-btn[aria-pressed="true"] { background: #0E6EE8; }
+.kn-btn[aria-pressed="true"] { background: var(--kn-hue, #0E6EE8); }
 
 
 /* Anchored to the leftmost icon's visible pixels: padding 8 + emoji
