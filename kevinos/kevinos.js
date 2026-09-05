@@ -125,12 +125,12 @@ function kosOpenWindowIds() {
 // Public URL names follow the app metaphor (?open=claude, not ?open=aim).
 // Internal data-window ids stay stable; old slugs keep parsing forever.
 const KOS_SLUGS = {
-    about: 'threads', values: 'settings', experience: 'time-machine',
+    about: 'social', values: 'settings', experience: 'time-machine',
     building: 'app-store', writing: 'notes', strengths: 'shortcuts',
     recommendations: 'messages', connect: 'mail', aim: 'claude', resume: 'preview'
 };
 const KOS_UNSLUG = Object.fromEntries(Object.entries(KOS_SLUGS).map(([k, v]) => [v, k]));
-KOS_UNSLUG.contacts = 'about'; // the window was briefly Contacts; those links live on
+KOS_UNSLUG.contacts = 'about'; KOS_UNSLUG.threads = 'about'; // earlier names for the Social window; links live on
 function kosToSlug(id) { return KOS_SLUGS[id] || id; }
 function kosFromSlug(slug) { return KOS_UNSLUG[slug] || slug; }
 
@@ -7619,10 +7619,10 @@ const kosSound = (function () {
                 ${p.imgs ? `<div class="kos-th-imgs">${p.imgs.map(([s, a]) =>
                     `<img src="${s}" alt="${a}" loading="lazy" data-lightbox-src="${s}" data-lightbox-title="${a}">`).join('')}</div>` : ''}
                 <div class="kos-th-acts">
-                    <span><i>♡</i><em>${p.likes}</em></span>
-                    <span><i>\u{1F4AC}</i><em>${p.replies}</em></span>
-                    <span><i>↻</i></span>
-                    <span><i>↗</i></span>
+                    <span class="tha tha-like"><i></i><em>${p.likes}</em></span>
+                    <span class="tha tha-reply"><i></i><em>${p.replies}</em></span>
+                    <span class="tha tha-repost"><i></i></span>
+                    <span class="tha tha-share"><i></i></span>
                 </div>
             </div>
         </article>`).join('');
@@ -7658,7 +7658,7 @@ const kosSound = (function () {
 (function () {
     if (KOS_MOBILE) return;
     const NAMES = {
-        about: 'Threads',
+        about: 'Social',
         values: 'Settings',
         experience: 'Time Machine',
         building: 'App Store',
