@@ -7119,7 +7119,7 @@ const kosSound = (function () {
         d.classList.remove('wp-graph', 'wp-plain', 'wp-sunset');
         if (WALLPAPERS[wpIndex]) d.classList.add(WALLPAPERS[wpIndex]);
     }
-    let wpAuto = true; // follows the clock until someone picks by hand
+    let wpAuto = false; // sun-following is opt-in; default follows the theme
     function cycleWallpaper() {
         wpAuto = false;
         wpIndex = (wpIndex + 1) % WALLPAPERS.length;
@@ -7148,7 +7148,6 @@ const kosSound = (function () {
         const saved = parseInt(localStorage.getItem('kos-wallpaper'), 10);
         if (!isNaN(saved) && saved >= 0 && saved < WALLPAPERS.length) { wpIndex = saved; wpAuto = false; applyWallpaper(); }
     } catch (e) {}
-    autoWallpaper(false);
     setInterval(() => autoWallpaper(true), 300000);
     document.addEventListener('contextmenu', (e) => {
         // the trash gets its own menu

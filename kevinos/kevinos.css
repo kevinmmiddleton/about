@@ -11005,3 +11005,15 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-recipes"]
 html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-recipes"]) > svg {
     visibility: hidden;
 }
+
+/* ---- default wallpaper follows the theme: the drafting dot grid
+   by day-mode, the homepage's dusk skyline in dark mode. Manual
+   picks and Follows the Sun still override via wp-* classes. ---- */
+html:not(.kos-mobile)[data-theme="dark"] .desktop:not(.wp-graph):not(.wp-plain):not(.wp-sunset) {
+    background: url('/images/hero-skyline-dark.jpg') center / cover no-repeat;
+}
+@media (prefers-color-scheme: dark) {
+    html:not(.kos-mobile):not([data-theme="light"]) .desktop:not(.wp-graph):not(.wp-plain):not(.wp-sunset) {
+        background: url('/images/hero-skyline-dark.jpg') center / cover no-repeat;
+    }
+}
