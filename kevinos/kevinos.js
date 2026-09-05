@@ -6475,7 +6475,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
         if (!log) return;
         const p = document.createElement('p');
         p.className = 'aim-line ' + (who === 'KevBot' ? 'them' : 'you');
-        p.innerHTML = '<b>' + who + ':</b> ' + fmt(text);
+        p.innerHTML = fmt(text); // claude.ai style: the layout says who is talking
         log.appendChild(p);
         log.scrollTop = log.scrollHeight;
     }
@@ -6509,7 +6509,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
 
         const typing = document.createElement('p');
         typing.className = 'aim-typing';
-        typing.textContent = 'KevBot is typing…';
+        typing.setAttribute('aria-label', 'Claude is thinking');
         if (log) { log.appendChild(typing); log.scrollTop = log.scrollHeight; }
 
         try {

@@ -11403,3 +11403,65 @@ html.kos-mobile .mobile-overlay-header {
     vertical-align: -2px;
     margin-left: 2px;
 }
+
+/* ============================================================
+   CLAUDE-NATIVE CHAT — no sender labels, user messages as soft
+   right-aligned cards, Claude replies as plain text, a pulsing
+   burst while thinking. Both surfaces.
+   ============================================================ */
+:is(#aim, #mobile-overlay-aim) .aim-line {
+    max-width: 100%;
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 0 14px;
+}
+:is(#aim, #mobile-overlay-aim) .aim-line.you {
+    align-self: flex-end;
+    max-width: 82%;
+    background: #EAE8E0;
+    color: #1F1E1D;
+    border-radius: 16px;
+    border-bottom-right-radius: 6px;
+    padding: 9px 13px;
+    margin-left: auto;
+    width: fit-content;
+}
+:is(#aim, #mobile-overlay-aim) .aim-line.them {
+    color: #1F1E1D;
+    background: none;
+    padding: 0 2px;
+}
+html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-line.you { background: #3A3936; color: #F2F2F4; }
+html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-line.them { color: #F2F2F4; }
+:is(#aim, #mobile-overlay-aim) .aim-log {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px;
+}
+:is(#aim, #mobile-overlay-aim) .aim-typing {
+    width: 22px;
+    height: 22px;
+    background: url('images/claude-burst.svg') center / contain no-repeat;
+    animation: kosThink 1.1s ease-in-out infinite;
+    margin: 2px 0 14px;
+}
+@keyframes kosThink {
+    0%, 100% { opacity: 0.35; transform: scale(0.92); }
+    50% { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+    :is(#aim, #mobile-overlay-aim) .aim-typing { animation: none; }
+}
+
+/* the greeting is a header, not a sandwich: flex order pins both
+   pseudo halves above the conversation */
+:is(#aim, #mobile-overlay-aim) .aim-log::before {
+    order: -2;
+    margin: 14px auto 8px;
+}
+:is(#aim, #mobile-overlay-aim) .aim-log::after {
+    order: -1;
+    margin: 0 auto 22px;
+}
+:is(#aim, #mobile-overlay-aim) .aim-log .aim-line,
+:is(#aim, #mobile-overlay-aim) .aim-log .aim-typing { order: 0; }
