@@ -11366,3 +11366,27 @@ html.kos-mobile .mobile-overlay-header {
     background: transparent;
     border-bottom: none;
 }
+
+/* dock items: buttons and anchors share one exact box - native
+   button font metrics were sinking two icons by 3px */
+html.kos-mobile .mobile-contact-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    margin: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    line-height: 1.2;
+    appearance: none;
+    -webkit-appearance: none;
+}
+html.kos-mobile .mobile-btn-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    line-height: 0;
+}
