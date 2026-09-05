@@ -7696,7 +7696,7 @@ const kosSound = (function () {
         bugsquash: 'Bug Squash',
         runner: 'Runner',
         snake: 'Snake',
-        standup: 'Open Mic',
+        standup: 'Standup',
         interview: 'The Interview',
         recipesdb: 'Recipes'
     };
