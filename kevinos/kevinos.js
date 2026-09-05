@@ -7189,6 +7189,7 @@ const kosSound = (function () {
             { label: 'Wallpaper Follows the Sun', fn: autoWallpaperReset },
             { label: 'Toggle Dark Mode', fn: themeClick },
             { label: 'Tidy Windows', fn: () => { try { applyHomeLayout(); } catch (err) {} } },
+            { label: 'Tidy Icons', fn: () => window.kosTidyIcons() },
             '-',
             { label: 'About This Kev…', fn: showAbout }
         ];
@@ -7457,6 +7458,29 @@ const kosSound = (function () {
     const binIcon = [...document.querySelectorAll('.desktop-icon')].find(i =>
         i.querySelector('use[href="#ico-recycle"]'));
     let drag = null;
+    // Freely placed icons persist by label. Tidy Icons clears the lot.
+    function kosIconKey(icon) { return icon.querySelector('.icon-label')?.textContent.trim() || ''; }
+    function kosSaveIconSpot(icon) {
+        const m = /translate\((-?[\d.]+)px, (-?[\d.]+)px\)/.exec(icon.style.transform || '');
+        if (!m) return;
+        try {
+            const spots = JSON.parse(localStorage.getItem('kos-icon-spots') || '{}');
+            spots[kosIconKey(icon)] = [Math.round(+m[1]), Math.round(+m[2])];
+            localStorage.setItem('kos-icon-spots', JSON.stringify(spots));
+        } catch (e) {}
+    }
+    window.kosTidyIcons = function () {
+        try { localStorage.removeItem('kos-icon-spots'); } catch (e) {}
+        document.querySelectorAll('.desktop-icon').forEach(i => { i.style.transform = ''; i.classList.remove('kos-dragging'); });
+        if (typeof window.kosToast === 'function') window.kosToast('Icons returned to their rails.');
+    };
+    try {
+        const spots = JSON.parse(localStorage.getItem('kos-icon-spots') || '{}');
+        document.querySelectorAll('.desktop-icon').forEach(i => {
+            const p = spots[kosIconKey(i)];
+            if (p) { i.style.transform = `translate(${p[0]}px, ${p[1]}px)`; i.classList.add('kos-placed'); }
+        });
+    } catch (e) {}
     document.addEventListener('mousedown', (e) => {
         if (e.button !== 0) return;
         const icon = e.target.closest?.('.desktop-icon');
@@ -7498,13 +7522,9 @@ const kosSound = (function () {
                 setTimeout(() => { icon.style.display = 'none'; }, 260);
                 if (typeof window.kosToast === 'function') window.kosToast(`${name} moved to Trash. It respawns on reload — nothing here is truly disposable.`);
             } else {
-                // spring back home: the rails keep the desk tidy
-                icon.style.transition = 'transform .25s cubic-bezier(.3,1.4,.5,1)';
-                icon.style.transform = '';
-                setTimeout(() => {
-                    icon.classList.remove('kos-dragging');
-                    icon.style.transition = '';
-                }, 260);
+                // the icon stays where it was dropped, and remembers
+                icon.classList.remove('kos-dragging');
+                kosSaveIconSpot(icon);
             }
         }
         drag = null;

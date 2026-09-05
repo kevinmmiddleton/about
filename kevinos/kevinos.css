@@ -11017,3 +11017,6 @@ html:not(.kos-mobile)[data-theme="dark"] .desktop:not(.wp-graph):not(.wp-plain):
         background: url('/images/hero-skyline-dark.jpg') center / cover no-repeat;
     }
 }
+
+/* a freely placed icon keeps its spot and stays clickable above the rail flow */
+html:not(.kos-mobile) .desktop-icon.kos-placed { z-index: 5; position: relative; }
