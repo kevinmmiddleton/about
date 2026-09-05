@@ -6917,7 +6917,7 @@ const kosSound = (function () {
                 <div class="kos-about-head">
                   <button class="kos-about-close" aria-label="Close">×</button>
                   <h2>KEVIN<span class="mari">OS</span></h2>
-                  <p>Version 2.0 &middot; Editorial &middot; New York</p>
+                  <p>Version 2.0 &middot; New York</p>
                 </div>
                 <div class="kos-about-rows">
                   <div class="kos-about-row"><b>Chip</b><span>Kevin M1 Pro (caffeinated)</span></div>
