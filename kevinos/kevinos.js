@@ -1481,10 +1481,13 @@ document.querySelectorAll('.mobile-folder-item[data-game]').forEach(item => {
 
 function updateTime() {
     const now = new Date();
-    // Menu bar time - uses system locale for 12/24 hour format
+    // Menu bar time - uses system locale for 12/24 hour format. Desktop gets
+    // the full macOS-style "Thu Sep 4 6:12 PM"; mobile stays time-only.
     const menubarTime = document.getElementById('menubarTime');
     if (menubarTime) {
-        menubarTime.textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        const time = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        menubarTime.textContent = KOS_MOBILE ? time :
+            now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }) + '  ' + time;
     }
 }
 updateTime();
@@ -6865,6 +6868,7 @@ const kosSound = (function () {
         clearTimeout(toastT);
         toastT = setTimeout(() => toastEl.classList.remove('show'), 2600);
     }
+    window.kosToast = toast;
 
     // ---------- helpers ----------
     const bootAt = Date.now();
@@ -6900,6 +6904,7 @@ const kosSound = (function () {
                   <div class="kos-about-row"><b>Graphics</b><span>Marigold on ink, integrated</span></div>
                   <div class="kos-about-row"><b>Uptime</b><span data-uptime>0s</span></div>
                   <div class="kos-about-row"><b>Serial</b><span>KM-NYC-NOT-A-REAL-COMPUTER</span></div>
+                  <div class="kos-about-row"><b>Lineage</b><span>Inspired by <a href="https://github.com/DustinBrett/daedalOS" target="_blank" rel="noopener noreferrer">daedalOS</a> and <a href="https://github.com/puruvj/macos-web" target="_blank" rel="noopener noreferrer">macos-web</a></span></div>
                 </div>
               </div>`;
             document.body.appendChild(aboutEl);
@@ -7029,6 +7034,7 @@ const kosSound = (function () {
         Help: () => [
             { label: 'KevinOS Help', keys: '⌘?', fn: () => openWindow('aim') },
             '-',
+            { label: 'Acknowledgements…', fn: showAbout },
             { label: 'There is no other help.', disabled: true }
         ]
     };
@@ -7213,4 +7219,178 @@ const kosSound = (function () {
         battTick();
         setInterval(battTick, 60000);
     }
+})();
+
+// ============================================================
+// REALISM PASS 2 (desktop only): windows open from their dock
+// icon, marquee selection, all-edge window resizing, draggable
+// desktop icons with a working trash.
+// ============================================================
+(function () {
+    if (KOS_MOBILE) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ---------- windows fly open from their dock icon ----------
+    const _open = openWindow;
+    openWindow = function (id) {
+        const win = document.querySelector(`.window[data-window="${id}"]`);
+        const wasOpen = win && win.classList.contains('window-open') && !win.classList.contains('window-minimized');
+        _open(id);
+        if (!win || wasOpen || reduceMotion) return;
+        const icon = document.querySelector(`.dock-item[data-window="${id}"]`) ||
+            document.querySelector(`.desktop-icon[data-window="${id}"]`);
+        if (!icon) return;
+        const ir = icon.getBoundingClientRect();
+        const wr = win.getBoundingClientRect();
+        win.style.setProperty('--kos-from-x', (ir.left + ir.width / 2 - wr.left - wr.width / 2) + 'px');
+        win.style.setProperty('--kos-from-y', (ir.top + ir.height / 2 - wr.top - wr.height / 2) + 'px');
+        win.classList.remove('kos-open-from');
+        void win.offsetWidth;
+        win.classList.add('kos-open-from');
+        win.addEventListener('animationend', () => win.classList.remove('kos-open-from'), { once: true });
+    };
+
+    // ---------- marquee selection on empty desktop ----------
+    let marquee = null, mx = 0, my = 0;
+    document.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        const desk = e.target.closest('.desktop');
+        if (!desk || e.target.closest('.window, .desktop-icon, .dock, .menubar, .kos-menu, button, a')) return;
+        mx = e.clientX; my = e.clientY;
+        marquee = document.createElement('div');
+        marquee.className = 'kos-marquee';
+        document.body.appendChild(marquee);
+        document.body.classList.add('kos-marqueeing');
+    });
+    document.addEventListener('mousemove', (e) => {
+        if (!marquee) return;
+        const x = Math.min(mx, e.clientX), y = Math.min(my, e.clientY);
+        marquee.style.left = x + 'px';
+        marquee.style.top = y + 'px';
+        marquee.style.width = Math.abs(e.clientX - mx) + 'px';
+        marquee.style.height = Math.abs(e.clientY - my) + 'px';
+    });
+    document.addEventListener('mouseup', () => {
+        marquee?.remove();
+        marquee = null;
+        document.body.classList.remove('kos-marqueeing');
+    });
+
+    // ---------- all-edge window resizing ----------
+    const EDGE = 7, MIN_W = 320, MIN_H = 220;
+    let rz = null;
+    function edgeZones(win, x, y) {
+        const r = win.getBoundingClientRect();
+        const z = { n: y - r.top < EDGE, s: r.bottom - y < EDGE, w: x - r.left < EDGE, e: r.right - x < EDGE };
+        return (z.n || z.s || z.w || z.e) ? z : null;
+    }
+    function zoneCursor(z) {
+        if ((z.n && z.w) || (z.s && z.e)) return 'nwse-resize';
+        if ((z.n && z.e) || (z.s && z.w)) return 'nesw-resize';
+        if (z.n || z.s) return 'ns-resize';
+        return 'ew-resize';
+    }
+    document.addEventListener('mousemove', (e) => {
+        if (rz || document.body.classList.contains('kos-marqueeing')) return;
+        const win = e.target.closest?.('.window.window-open');
+        if (!win) return;
+        const z = edgeZones(win, e.clientX, e.clientY);
+        win.style.cursor = z ? zoneCursor(z) : '';
+    });
+    document.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        const win = e.target.closest?.('.window.window-open');
+        if (!win) return;
+        const z = edgeZones(win, e.clientX, e.clientY);
+        if (!z) return;
+        const r = win.getBoundingClientRect();
+        rz = { win, z, x: e.clientX, y: e.clientY, r };
+        win.style.maxHeight = 'none';
+        win.classList.add('window-resizing');
+        document.body.classList.add('kos-resizing');
+        e.preventDefault();
+        e.stopPropagation(); // beats the header-drag and corner-grip handlers
+    }, true);
+    document.addEventListener('mousemove', (e) => {
+        if (!rz) return;
+        const { win, z, x, y, r } = rz;
+        const dx = e.clientX - x, dy = e.clientY - y;
+        if (z.e) win.style.width = Math.max(MIN_W, Math.min(window.innerWidth - r.left - 12, r.width + dx)) + 'px';
+        if (z.s) win.style.height = Math.max(MIN_H, Math.min(window.innerHeight - r.top - 12, r.height + dy)) + 'px';
+        if (z.w) {
+            const w = Math.max(MIN_W, r.width - dx);
+            win.style.width = w + 'px';
+            win.style.left = (r.right - w) + 'px';
+        }
+        if (z.n) {
+            const minTop = 30; // stay below the menu bar
+            const top = Math.max(minTop, Math.min(r.top + dy, r.bottom - MIN_H));
+            win.style.height = (r.bottom - top) + 'px';
+            win.style.top = top + 'px';
+        }
+    });
+    document.addEventListener('mouseup', () => {
+        if (!rz) return;
+        rz.win.classList.remove('window-resizing');
+        rz.win.style.cursor = '';
+        document.body.classList.remove('kos-resizing');
+        if (typeof rememberWindowPlace === 'function') rememberWindowPlace(rz.win);
+        rz = null;
+    });
+
+    // ---------- draggable desktop icons + a trash that works ----------
+    const binIcon = [...document.querySelectorAll('.desktop-icon')].find(i =>
+        i.querySelector('use[href="#ico-recycle"]'));
+    let drag = null;
+    document.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        const icon = e.target.closest?.('.desktop-icon');
+        if (!icon || icon === binIcon) return;
+        drag = { icon, x: e.clientX, y: e.clientY, moved: false };
+    });
+    document.addEventListener('mousemove', (e) => {
+        if (!drag) return;
+        const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+        if (!drag.moved && Math.abs(dx) + Math.abs(dy) < 6) return;
+        drag.moved = true;
+        drag.icon.classList.add('kos-dragging');
+        drag.icon.style.transform = `translate(${dx}px, ${dy}px)`;
+        if (binIcon) {
+            const br = binIcon.getBoundingClientRect();
+            const over = e.clientX > br.left - 8 && e.clientX < br.right + 8 &&
+                e.clientY > br.top - 8 && e.clientY < br.bottom + 8;
+            binIcon.style.outline = over ? '2px solid var(--marigold)' : '';
+            binIcon.style.outlineOffset = '2px';
+            drag.overBin = over;
+        }
+    });
+    document.addEventListener('mouseup', () => {
+        if (!drag) return;
+        const { icon, moved, overBin } = drag;
+        if (binIcon) binIcon.style.outline = '';
+        if (moved) {
+            // swallow the click this drag would otherwise fire
+            icon.addEventListener('click', function swallow(ev) {
+                ev.stopPropagation(); ev.preventDefault();
+                icon.removeEventListener('click', swallow, true);
+            }, true);
+            if (overBin) {
+                icon.classList.remove('kos-dragging');
+                icon.classList.add('kos-trashed');
+                binIcon.classList.add('kos-bin-full');
+                const name = icon.querySelector('.icon-label')?.textContent || 'That';
+                setTimeout(() => { icon.style.display = 'none'; }, 260);
+                if (typeof window.kosToast === 'function') window.kosToast(`${name} moved to Trash. It respawns on reload — nothing here is truly disposable.`);
+            } else {
+                // spring back home: the rails keep the desk tidy
+                icon.style.transition = 'transform .25s cubic-bezier(.3,1.4,.5,1)';
+                icon.style.transform = '';
+                setTimeout(() => {
+                    icon.classList.remove('kos-dragging');
+                    icon.style.transition = '';
+                }, 260);
+            }
+        }
+        drag = null;
+    });
 })();

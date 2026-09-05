@@ -9616,3 +9616,107 @@ html:not(.kos-mobile) .desktop.wp-plain {
     .window.window-genie { transition: opacity .2s ease !important; }
     .kos-saver.on { animation: none; }
 }
+
+/* ============================================================
+   REALISM PASS 2 — focus-dimmed traffic lights, marquee
+   selection, edge-resize cursors, icon dragging + trash,
+   deeper app tiles. Desktop only.
+   ============================================================ */
+
+/* ---- traffic lights desaturate when the window loses focus,
+   and colorize back when the pointer visits the cluster ---- */
+html:not(.kos-mobile) .window.window-inactive .window-dot {
+    filter: saturate(0) opacity(0.45);
+}
+html:not(.kos-mobile) .window.window-inactive .window-dots:hover .window-dot {
+    filter: none;
+}
+
+/* ---- marquee selection rectangle ---- */
+.kos-marquee {
+    position: fixed;
+    border: 1px solid var(--marigold);
+    background: color-mix(in srgb, var(--marigold) 12%, transparent);
+    border-radius: 2px;
+    z-index: 5;
+    pointer-events: none;
+}
+html:not(.kos-mobile) body.kos-marqueeing {
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+}
+
+/* ---- deeper app tiles: same hues, real-icon light model —
+   top highlight, hairline inner ring, weighted base ---- */
+html:not(.kos-mobile) .dock-item .dock-emoji:has(> svg):not(.dock-term-icon):not(.dock-folder-icon),
+html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(> svg) {
+    background:
+        linear-gradient(180deg, transparent 58%, rgba(0, 0, 0, 0.16)),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0.04)),
+        var(--ico-tile, var(--ico-hue, var(--text-dim)));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.32),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+        0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+/* ---- desktop cursor discipline ---- */
+html:not(.kos-mobile) .desktop { cursor: default; }
+
+/* ---- windows mid-resize should not transition their box ---- */
+html:not(.kos-mobile) .window.window-resizing { transition: none; }
+
+/* ---- icon being dragged ---- */
+html:not(.kos-mobile) .desktop-icon.kos-dragging {
+    opacity: 0.85;
+    z-index: 600;
+    position: relative;
+    transition: none;
+    cursor: grabbing;
+}
+html:not(.kos-mobile) .desktop-icon.kos-trashed {
+    transition: transform 0.25s ease-in, opacity 0.25s ease-in;
+    transform: scale(0.05);
+    opacity: 0;
+    pointer-events: none;
+}
+/* the bin wears a marigold badge while it holds something */
+html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji::after {
+    content: '';
+    position: absolute;
+    top: -3px; right: -3px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--marigold);
+    border: 2px solid var(--bg);
+}
+html:not(.kos-mobile) .desktop-icon .icon-emoji { position: relative; }
+
+/* ---- window opening flies in from its dock icon ---- */
+html:not(.kos-mobile) .window.kos-open-from {
+    animation: kosOpenFrom 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.05) !important;
+}
+@keyframes kosOpenFrom {
+    from {
+        opacity: 0;
+        transform: translate(var(--kos-from-x, 0), var(--kos-from-y, 40vh)) scale(0.06);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---- links inside About This Kev ---- */
+.kos-about-row span a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--marigold);
+    text-underline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html:not(.kos-mobile) .window.kos-open-from { animation: none !important; }
+    html:not(.kos-mobile) .desktop-icon.kos-trashed { transition: opacity 0.2s ease; transform: none; }
+}
