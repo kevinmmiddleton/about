@@ -10655,7 +10655,7 @@ html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-prompt {
     flex-direction: column;
     justify-content: flex-end;
 }
-:is(#aim, #mobile-overlay-aim) .aim-log::before {
+#aim .aim-log:not(:has(.aim-line))::before, #mobile-overlay-aim .aim-log:not(:has(.aim-line))::before {
     content: '';
     display: block;
     width: 42px;
@@ -10663,7 +10663,7 @@ html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-prompt {
     background: url('images/claude-burst.svg') center / contain no-repeat;
     margin: auto auto 10px;
 }
-:is(#aim, #mobile-overlay-aim) .aim-log::after {
+#aim .aim-log:not(:has(.aim-line))::after, #mobile-overlay-aim .aim-log:not(:has(.aim-line))::after {
     content: 'Curious about Kevin? Ask away.';
     display: block;
     text-align: center;
@@ -10673,7 +10673,7 @@ html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-prompt {
     color: #1F1E1D;
     margin: 0 auto auto;
 }
-html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-log::after { color: #F2F2F4; }
+html[data-theme="dark"] #aim .aim-log:not(:has(.aim-line))::after, #mobile-overlay-aim .aim-log:not(:has(.aim-line))::after { color: #F2F2F4; }
 :is(#aim, #mobile-overlay-aim) .aim-log .aim-sys { text-align: center; }
 :is(#aim, #mobile-overlay-aim) .aim-prompts {
     display: flex;
@@ -11455,11 +11455,11 @@ html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-line.them { color: #
 
 /* the greeting is a header, not a sandwich: flex order pins both
    pseudo halves above the conversation */
-:is(#aim, #mobile-overlay-aim) .aim-log::before {
+#aim .aim-log:not(:has(.aim-line))::before, #mobile-overlay-aim .aim-log:not(:has(.aim-line))::before {
     order: -2;
     margin: 14px auto 8px;
 }
-:is(#aim, #mobile-overlay-aim) .aim-log::after {
+#aim .aim-log:not(:has(.aim-line))::after, #mobile-overlay-aim .aim-log:not(:has(.aim-line))::after {
     order: -1;
     margin: 0 auto 22px;
 }
