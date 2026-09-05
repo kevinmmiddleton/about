@@ -11795,3 +11795,28 @@ html.kos-mobile body:has(.mobile-active-game) .music-player,
 html.kos-mobile body:has(.mobile-window-overlay.active) .music-player {
     display: none !important;
 }
+
+/* Smaller mobile transport pill so it stays clear of the track title */
+html.kos-mobile .music-player .player-controls {
+    gap: 2px;
+    padding: 4px 8px;
+    border-radius: 16px;
+    bottom: 12px;
+    right: 12px;
+}
+html.kos-mobile .music-player .player-btn {
+    width: 24px;
+    height: 24px;
+}
+html.kos-mobile .music-player .player-btn .pc-glyph {
+    width: 13px;
+    height: 13px;
+}
+html.kos-mobile .music-player .play-btn .pc-glyph {
+    width: 16px;
+    height: 16px;
+}
+/* and let the text column reserve the pill's corner */
+html.kos-mobile .music-player .player-info {
+    padding-right: 96px;
+}
