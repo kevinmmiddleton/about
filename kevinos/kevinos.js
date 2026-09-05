@@ -8105,8 +8105,9 @@ document.addEventListener('click', (e) => {
             line(r.left + 0.891 * r.width, gr.top, 1, window.innerHeight - gr.top);
         });
     }
-    setTimeout(drawGuides, 800);
-    window.addEventListener('resize', () => setTimeout(drawGuides, 300));
+    // guides off — QA passed; re-enable by uncommenting
+    // setTimeout(drawGuides, 800);
+    // window.addEventListener('resize', () => setTimeout(drawGuides, 300));
 })();
 
 // ============================================================
@@ -8135,4 +8136,76 @@ document.addEventListener('click', (e) => {
     }
     setTimeout(drawDockGuides, 900);
     window.addEventListener('resize', () => setTimeout(drawDockGuides, 300));
+})();
+
+
+// ============================================================
+// TEMPORARY opened-folder guides (mobile) — remove after tuning.
+// Lines on the popup icons' visible art, per row and per column.
+// ============================================================
+(function () {
+    if (!KOS_MOBILE) return;
+    function clear() { document.querySelectorAll('.kos-pop-guide').forEach(g => g.remove()); }
+    function draw(popup) {
+        clear();
+        const pr = popup.getBoundingClientRect();
+        const icons = [...popup.querySelectorAll('.mobile-folder-item .icon-emoji')];
+        if (!icons.length) return;
+        function line(x, y, w, h) {
+            const d = document.createElement('div');
+            d.className = 'kos-pop-guide';
+            d.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:${w}px;height:${h}px;background:#FF2D55;z-index:5000;pointer-events:none;`;
+            document.body.appendChild(d);
+        }
+        const rows = {};
+        icons.forEach(i => {
+            const r = i.getBoundingClientRect();
+            const k = Math.round(r.top / 20);
+            (rows[k] = rows[k] || []).push(r);
+        });
+        Object.values(rows).forEach(rs => {
+            const r = rs[0];
+            line(pr.left, r.top + 0.094 * r.height, pr.width, 1);
+            line(pr.left, r.top + 0.879 * r.height, pr.width, 1);
+        });
+        icons.forEach(i => {
+            const r = i.getBoundingClientRect();
+            line(r.left + 0.105 * r.width, pr.top, 1, pr.height);
+            line(r.left + 0.891 * r.width, pr.top, 1, pr.height);
+        });
+    }
+    ['mobileAppsFolder', 'mobileGamesFolder'].forEach(id => {
+        const popup = document.getElementById(id);
+        if (!popup) return;
+        new MutationObserver(() => {
+            const open = popup.classList.contains('active') || getComputedStyle(popup).display !== 'none';
+            if (open) setTimeout(() => draw(popup), 450); else clear();
+        }).observe(popup, { attributes: true });
+    });
+})();
+
+
+// ============================================================
+// TEMPORARY mobile dock guides — top/bottom lines on the contact
+// bar icons' visible art. Remove after tuning.
+// ============================================================
+(function () {
+    if (!KOS_MOBILE) return;
+    function draw() {
+        document.querySelectorAll('.kos-mdock-guide').forEach(g => g.remove());
+        const bar = document.querySelector('.mobile-contact-bar');
+        const first = bar?.querySelector('.mobile-btn-icon');
+        if (!first) return;
+        const br = bar.getBoundingClientRect();
+        const r = first.getBoundingClientRect();
+        [0.094, 0.879].forEach(f => {
+            const d = document.createElement('div');
+            d.className = 'kos-mdock-guide';
+            d.style.cssText = `position:fixed;left:${br.left}px;width:${br.width}px;` +
+                `top:${r.top + f * r.height}px;height:1px;background:#FF2D55;z-index:5000;pointer-events:none;`;
+            document.body.appendChild(d);
+        });
+    }
+    setTimeout(draw, 1000);
+    window.addEventListener('resize', () => setTimeout(draw, 300));
 })();

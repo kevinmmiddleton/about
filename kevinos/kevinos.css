@@ -3992,13 +3992,14 @@ body {
 
     .mobile-folder-header {
         text-align: center;
-        padding: 4px 8px 16px;
+        padding: 4px 8px 10px;
     }
 
     .mobile-folder-title {
-        font-family: var(--font-mono);
-        font-size: 15px;
-        font-weight: 600;
+        /* iOS folder titles are system sans, not mono */
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
         color: var(--text);
     }
 
