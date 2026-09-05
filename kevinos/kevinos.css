@@ -11297,10 +11297,10 @@ html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-tetris"]) > s
    outline language. Shared by desktop and iOS.
    ============================================================ */
 :is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-invaders"]) { background: url('images/games/invaders.png') center / 82% no-repeat !important; box-shadow: none !important; }
-:is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-bugsquash"]) { background: url('images/games/bugsquash.svg') center / 82% no-repeat !important; box-shadow: none !important; }
+:is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-bugsquash"]) { background: url('images/games/bugsquash.png') center / 82% no-repeat !important; box-shadow: none !important; }
 :is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-runner"]) { background: url('images/games/runner.svg') center / 82% no-repeat !important; box-shadow: none !important; }
 :is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-snake"]) { background: url('images/games/snake.png') center / 82% no-repeat !important; box-shadow: none !important; }
-:is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-standup"]) { background: url('images/games/standup.svg') center / 82% no-repeat !important; box-shadow: none !important; }
+:is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-standup"]) { background: url('images/games/standup.png') center / 82% no-repeat !important; box-shadow: none !important; }
 :is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-interview"]) { background: url('images/games/interview.png') center / 82% no-repeat !important; box-shadow: none !important; }
 :is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-tetris"]) { background: url('images/tahoe/tetris.png') center / 82% no-repeat !important; box-shadow: none !important; }
 :is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-invaders"]) > svg,
