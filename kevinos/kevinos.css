@@ -11331,3 +11331,15 @@ html.kos-mobile :is(.kos-gi-linkedin, .kos-gi-resume, .kos-gi-talk) {
 /* A stranded genie class must never make a live window click-through.
    An open, focused, non-minimized window always takes pointer events. */
 .window.window-open.window-focused:not(.window-minimized) { pointer-events: auto !important; }
+
+/* folder labels join the system sans the springboard uses - the
+   mono webfont goes soft at 11px and read as fuzz */
+.folder-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--font-sans), sans-serif;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--text);
+    text-shadow: none;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+}
