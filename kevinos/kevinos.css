@@ -11999,8 +11999,13 @@ html.kos-mobile #keynote { display: none; }
     background: #FDF6DB;
     border-top: 1px solid #E4D9A8;
     color: #4a4433;
-    font: 400 13px/1.5 -apple-system, sans-serif;
-    padding: 10px 18px;
+    font: 400 11px/1.45 -apple-system, sans-serif;
+    padding: 7px 18px;
+    /* fixed two-line height so toggling or wrapping never reflows the canvas */
+    height: 46px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    flex-shrink: 0;
 }
 .kn-bar {
     display: flex;
