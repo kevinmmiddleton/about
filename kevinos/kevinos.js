@@ -5121,7 +5121,7 @@ const mobileWindowConfig = {
     readme: { title: 'README' },
     about: { title: 'Social' },
     values: { title: 'Settings' },
-    experience: { title: 'Time Machine' },
+    experience: { title: 'Journal' },
     projects: { title: 'Projects' },
     building: { title: 'App Store' },
     writing: { title: 'Notes' },
