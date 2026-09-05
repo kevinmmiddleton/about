@@ -10994,3 +10994,14 @@ html:not(.kos-mobile) .notification-center:not(.active) {
 .kos-set-card p { font-size: 13.5px; }
 .kos-set-toggle-row { padding-top: 14px; }
 .kos-settings { min-height: 320px; }
+
+/* recipes.db wears its recipe-box tile (Kevin-supplied); the art is
+   full-bleed, so it renders at 82% to match the Tahoe margins */
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-recipes"]) {
+    background: url('images/tahoe/recipes.png') center / 82% no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-recipes"]) > svg {
+    visibility: hidden;
+}
