@@ -9911,24 +9911,23 @@ html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-
 html:not(.kos-mobile) #connect .terminal { display: none; }
 html.kos-mobile .mail-fields,
 html.kos-mobile .mail-body,
-html.kos-mobile .chat-outgoing,
 html.kos-mobile .vcf-head { display: none !important; }
 
 /* ---- reviews.chat as Messages ---- */
-html:not(.kos-mobile) .chat-content {
+.chat-content {
     background: var(--surface);
     display: flex;
     flex-direction: column;
     gap: 2px;
     padding: 14px 16px;
 }
-html:not(.kos-mobile) .chat-message { max-width: 86%; margin: 0 0 10px; }
-html:not(.kos-mobile) .chat-sender {
+.chat-message { max-width: 86%; margin: 0 0 10px; }
+.chat-sender {
     font-size: 11px;
     color: var(--text-muted);
     margin: 0 0 3px 14px;
 }
-html:not(.kos-mobile) .chat-bubble {
+.chat-bubble {
     background: var(--surface-2);
     color: var(--text);
     border-radius: 18px;
@@ -9939,11 +9938,11 @@ html:not(.kos-mobile) .chat-bubble {
     box-shadow: none;
     border: none;
 }
-html:not(.kos-mobile) .chat-message.chat-outgoing {
+.chat-message.chat-outgoing {
     align-self: flex-end;
     text-align: right;
 }
-html:not(.kos-mobile) .chat-outgoing .chat-bubble {
+.chat-outgoing .chat-bubble {
     background: #2C82FE;
     color: #fff;
     border-radius: 18px;
@@ -9951,7 +9950,7 @@ html:not(.kos-mobile) .chat-outgoing .chat-bubble {
     display: inline-block;
     text-align: left;
 }
-html:not(.kos-mobile) .chat-delivered {
+.chat-delivered {
     font-size: 10.5px;
     color: var(--text-muted);
     margin: 3px 6px 0 0;
