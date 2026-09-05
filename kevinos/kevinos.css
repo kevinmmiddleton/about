@@ -10720,3 +10720,12 @@ html:not(.kos-mobile) #aim .aim-send::before {
     font-weight: 800;
     line-height: 1;
 }
+
+/* the send circle sits IN the compose row, not half off the sill */
+html:not(.kos-mobile) #aim .aim-compose {
+    display: flex;
+}
+html:not(.kos-mobile) #aim .aim-input {
+    flex: 1;
+    min-width: 0;
+}

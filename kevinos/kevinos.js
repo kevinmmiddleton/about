@@ -7636,13 +7636,13 @@ const kosSound = (function () {
 (function () {
     if (KOS_MOBILE) return;
     const NAMES = {
-        about: 'Kevin Middleton',
-        values: 'Values',
-        experience: 'Experience',
+        about: 'Contacts',
+        values: 'Settings',
+        experience: 'Time Machine',
         building: 'App Store',
-        writing: 'Writing',
-        strengths: 'Strengths',
-        recommendations: 'Recommendations',
+        writing: 'Notes',
+        strengths: 'Shortcuts',
+        recommendations: 'Messages',
         connect: 'New Message',
         terminal: 'Terminal',
         aim: 'Claude',
