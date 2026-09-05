@@ -9287,11 +9287,15 @@ html:not(.kos-mobile)[data-theme="light"] .dock-item::before {
     border-radius: 6px;
 }
 
-/* ---- desktop icon labels: filesystem mono */
+/* ---- desktop icon labels: filesystem mono. Sentence case, except
+   DO NOT CLICK which shouts on purpose */
 html:not(.kos-mobile) .icon-label {
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.05em;
+    text-transform: none;
+}
+html:not(.kos-mobile) .desktop-icon.virus-icon .icon-label {
     text-transform: uppercase;
 }
 html:not(.kos-mobile) .desktop-icon.selected .icon-label {
