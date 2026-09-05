@@ -7093,16 +7093,37 @@ const kosSound = (function () {
         d.classList.remove('wp-graph', 'wp-plain', 'wp-sunset');
         if (WALLPAPERS[wpIndex]) d.classList.add(WALLPAPERS[wpIndex]);
     }
+    let wpAuto = true; // follows the clock until someone picks by hand
     function cycleWallpaper() {
+        wpAuto = false;
         wpIndex = (wpIndex + 1) % WALLPAPERS.length;
         applyWallpaper();
         try { localStorage.setItem('kos-wallpaper', String(wpIndex)); } catch (e) {}
         toast('WALLPAPER: ' + WALLPAPER_NAMES[wpIndex]);
     }
+    function autoWallpaperReset() {
+        wpAuto = true;
+        try { localStorage.removeItem('kos-wallpaper'); } catch (e) {}
+        autoWallpaper(false);
+        toast('WALLPAPER: FOLLOWING THE SUN');
+    }
+    // day/night desktop (idea from RedEdge967/MacOS-CSS): the drafting
+    // grid by day, the sunset pool after 6pm
+    function eveningNow() { const h = new Date().getHours(); return h >= 18 || h < 6; }
+    function autoWallpaper(announce) {
+        if (!wpAuto) return;
+        const want = eveningNow() ? WALLPAPERS.indexOf('wp-sunset') : 0;
+        if (want === wpIndex) return;
+        wpIndex = want;
+        applyWallpaper();
+        if (announce) toast(eveningNow() ? 'GOOD EVENING · WALLPAPER: SUNSET POOL' : 'GOOD MORNING · WALLPAPER: DOT GRID');
+    }
     try {
         const saved = parseInt(localStorage.getItem('kos-wallpaper'), 10);
-        if (saved > 0 && saved < WALLPAPERS.length) { wpIndex = saved; applyWallpaper(); }
+        if (!isNaN(saved) && saved >= 0 && saved < WALLPAPERS.length) { wpIndex = saved; wpAuto = false; applyWallpaper(); }
     } catch (e) {}
+    autoWallpaper(false);
+    setInterval(() => autoWallpaper(true), 300000);
     document.addEventListener('contextmenu', (e) => {
         // the trash gets its own menu
         const binHit = e.target.closest('.desktop-icon')?.querySelector('use[href="#ico-recycle"]');
@@ -7140,6 +7161,7 @@ const kosSound = (function () {
             { label: 'New Folder', fn: newFolder },
             '-',
             { label: 'Change Wallpaper', fn: cycleWallpaper },
+            { label: 'Wallpaper Follows the Sun', fn: autoWallpaperReset },
             { label: 'Toggle Dark Mode', fn: themeClick },
             { label: 'Tidy Windows', fn: () => { try { applyHomeLayout(); } catch (err) {} } },
             '-',
