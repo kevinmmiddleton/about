@@ -8094,20 +8094,16 @@ document.addEventListener('click', (e) => {
         // Anchored to visible art (pack tile spans 9.4%..87.9% vertically,
         // 10.5%..89.1% horizontally of each icon box), Kevin's method: the
         // line sits on the first icon's art and everything else must touch.
-        Object.values(rows).forEach(rs => {
-            const r = rs[0];
-            line(gr.left, r.top + 0.094 * r.height, gr.width, 1);
-            line(gr.left, r.top + 0.879 * r.height, gr.width, 1);
-        });
+        // rows retired after QA; columns run the full height so the
+        // springboard and dock alignment can be checked together
         Object.values(cols).forEach(cs => {
             const r = cs[0];
             line(r.left + 0.105 * r.width, gr.top, 1, window.innerHeight - gr.top);
             line(r.left + 0.891 * r.width, gr.top, 1, window.innerHeight - gr.top);
         });
     }
-    // guides off — QA passed; re-enable by uncommenting
-    // setTimeout(drawGuides, 800);
-    // window.addEventListener('resize', () => setTimeout(drawGuides, 300));
+    setTimeout(drawGuides, 800);
+    window.addEventListener('resize', () => setTimeout(drawGuides, 300));
 })();
 
 // ============================================================
