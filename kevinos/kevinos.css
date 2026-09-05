@@ -9886,3 +9886,26 @@ html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[hre
 html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji:has(use[href="#ico-recycle"]) {
     background-image: url('images/tahoe/trash-full.png'), url('images/trash-full.png');
 }
+
+/* Terminal's glyph is an inline svg (no <use>), so the mapping above
+   missed it; target its own class. */
+html:not(.kos-mobile) .dock-emoji.dock-term-icon {
+    background: url('images/tahoe/terminal.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) .dock-emoji.dock-term-icon > svg {
+    visibility: hidden;
+}
+
+/* The AIM runner stands alone on the desktop dock — no tile, full
+   amber, sized up for presence. */
+html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) > svg {
+    color: var(--aim-ink);
+    width: 38px;
+    height: 38px;
+}
