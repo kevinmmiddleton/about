@@ -2421,7 +2421,6 @@ body {
     width: 0%;
     background: linear-gradient(90deg, var(--blue), var(--purple));
     border-radius: 2px;
-    transition: width 0.1s linear;
 }
 
 .player-controls {
@@ -11774,4 +11773,25 @@ html[data-theme="dark"] .party-mode .desktop::after {
    not a document */
 html:not(.kos-mobile) #values {
     width: min(448px, 100% - 40px);
+}
+
+/* ---- Music transport controls as solid SF-style glyphs (the unicode
+   ⏮▶⏭ turned into emoji on iPhones) ---- */
+.player-btn .pc-glyph {
+    width: 18px;
+    height: 18px;
+    display: block;
+    pointer-events: none;
+}
+.play-btn .pc-glyph { width: 22px; height: 22px; }
+.play-btn .pc-pause { display: none; }
+.play-btn.playing .pc-pause { display: block; }
+.play-btn.playing .pc-play { display: none; }
+.player-btn { display: inline-flex; align-items: center; justify-content: center; }
+
+/* iOS wouldn't float the now-playing widget over an open app: hide it
+   while a game runs or a sheet is up on mobile */
+html.kos-mobile body:has(.mobile-active-game) .music-player,
+html.kos-mobile body:has(.mobile-window-overlay.active) .music-player {
+    display: none !important;
 }

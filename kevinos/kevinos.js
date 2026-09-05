@@ -653,10 +653,10 @@ function loadTrack(index) {
 function togglePlay() {
     if (isPlaying) {
         audio.pause();
-        playBtn.textContent = '▶';
+        playBtn.classList.remove('playing');
     } else {
         audio.play();
-        playBtn.textContent = '⏸';
+        playBtn.classList.add('playing');
     }
     isPlaying = !isPlaying;
 }
@@ -739,7 +739,7 @@ document.getElementById('closePlayer').addEventListener('click', (e) => {
     musicPlayer.style.display = 'none';
     audio.pause();
     isPlaying = false;
-    playBtn.textContent = '▶';
+    playBtn.classList.remove('playing');
     document.getElementById('musicIcon').classList.remove('active');
 });
 
@@ -749,7 +749,7 @@ document.getElementById('minimizePlayer').addEventListener('click', (e) => {
     musicPlayer.style.display = 'none';
     audio.pause();
     isPlaying = false;
-    playBtn.textContent = '▶';
+    playBtn.classList.remove('playing');
     document.getElementById('musicIcon').classList.remove('active');
 });
 
@@ -761,7 +761,7 @@ if (mobileClosePlayer) {
         musicPlayer.style.display = 'none';
         audio.pause();
         isPlaying = false;
-        playBtn.textContent = '▶';
+        playBtn.classList.remove('playing');
     });
 }
 
@@ -776,7 +776,7 @@ document.getElementById('musicIcon').addEventListener('click', () => {
         player.style.display = 'none';
         audio.pause();
         isPlaying = false;
-        playBtn.textContent = '▶';
+        playBtn.classList.remove('playing');
         icon.classList.remove('active');
     }
 });
