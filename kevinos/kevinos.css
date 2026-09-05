@@ -12013,20 +12013,8 @@ html.kos-mobile #keynote { display: none; }
 .kn-btn:hover { background: #4a4a4f; }
 .kn-btn[aria-pressed="true"] { background: #0E6EE8; }
 
-/* ============================================================
-   TEMPORARY dock alignment guides — remove after tuning
-   ============================================================ */
-html:not(.kos-mobile) .dock::before,
-html:not(.kos-mobile) .dock::after {
-    content: '';
-    position: absolute;
-    left: -30px;
-    right: -30px;
-    height: 1px;
-    background: #FF2D55;
-    pointer-events: none;
-    z-index: 10;
-}
+/* (dock guides are drawn by JS now — see TEMPORARY block in kevinos.js) */
+
 /* Anchored to the leftmost icon's visible pixels: padding 8 + emoji
    inset 2 + art top 0.094*50px = 14.7; art bottom 0.879*50 = 53.95.
    Every icon's art should kiss both lines. */

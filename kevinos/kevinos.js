@@ -8105,3 +8105,31 @@ document.addEventListener('click', (e) => {
     setTimeout(drawGuides, 800);
     window.addEventListener('resize', () => setTimeout(drawGuides, 300));
 })();
+
+// ============================================================
+// TEMPORARY dock alignment guides (desktop) — remove after tuning.
+// Anchored to the leftmost icon's VISIBLE art: the pack draws its
+// solid tile from 9.4% to 87.9% of the image, so the lines sit at
+// those fractions of the first dock emoji's box. Every icon's art
+// should touch both lines.
+// ============================================================
+(function () {
+    if (KOS_MOBILE) return;
+    function drawDockGuides() {
+        document.querySelectorAll('.kos-dock-guide').forEach(g => g.remove());
+        const dock = document.querySelector('.dock');
+        const first = dock?.querySelector('.dock-item .dock-emoji');
+        if (!first) return;
+        const dr = dock.getBoundingClientRect();
+        const er = first.getBoundingClientRect();
+        [0.094, 0.879].forEach(f => {
+            const d = document.createElement('div');
+            d.className = 'kos-dock-guide';
+            d.style.cssText = `position:fixed;left:${dr.left - 30}px;width:${dr.width + 60}px;` +
+                `top:${er.top + f * er.height}px;height:1px;background:#FF2D55;z-index:4000;pointer-events:none;`;
+            document.body.appendChild(d);
+        });
+    }
+    setTimeout(drawDockGuides, 900);
+    window.addEventListener('resize', () => setTimeout(drawDockGuides, 300));
+})();
