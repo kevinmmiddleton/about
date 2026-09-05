@@ -7927,12 +7927,12 @@ document.addEventListener('click', (e) => {
 
     const CS = 'https://middleton.io/casestudies/';
     const DECKS = [
-        { id: 'hvac', file: 'hvac.key', title: 'Turning Traffic Into Intent', sub: 'HVAC.com', study: CS + 'case-study-hvac.html' },
-        { id: 'sendoso', file: 'sendoso.key', title: 'eGift Platform Expansion', sub: 'Sendoso', study: CS + 'case-study-sendoso.html' },
-        { id: 'lever', file: 'lever.key', title: 'Moving Upmarket', sub: 'Lever', study: CS + 'case-study-lever.html' },
-        { id: 'covea', file: 'covea.key', title: 'Co-Branded Partner Sites', sub: 'Rocket Lawyer', study: CS + 'case-study-rocketlawyer-covea.html' },
-        { id: 'rlmobile', file: 'mobile.key', title: 'Mobile Conversion', sub: 'Rocket Lawyer', study: CS + 'case-study-rocketlawyer-mobile.html' },
-        { id: 'oracle', file: 'oracle.key', title: 'Scaling Social', sub: 'Oracle', study: CS + 'case-study-oracle.html' }
+        { id: 'hvac', file: 'hvac.key', title: 'Turning Traffic Into Intent', sub: 'HVAC.com', logo: 'https://middleton.io/images/hvac-com-logo-color.png', study: CS + 'case-study-hvac.html' },
+        { id: 'sendoso', file: 'sendoso.key', title: 'eGift Platform Expansion', sub: 'Sendoso', logo: 'https://middleton.io/images/sendoso-logo.png', study: CS + 'case-study-sendoso.html' },
+        { id: 'lever', file: 'lever.key', title: 'Moving Upmarket', sub: 'Lever', logo: 'https://middleton.io/images/lever-logo-transparent.png', study: CS + 'case-study-lever.html' },
+        { id: 'covea', file: 'covea.key', title: 'Co-Branded Partner Sites', sub: 'Rocket Lawyer', logo: 'https://middleton.io/images/rocket-lawyer-logo-transparent-1.png', study: CS + 'case-study-rocketlawyer-covea.html' },
+        { id: 'rlmobile', file: 'mobile.key', title: 'Mobile Conversion', sub: 'Rocket Lawyer', logo: 'https://middleton.io/images/rocket-lawyer-logo-transparent-1.png', study: CS + 'case-study-rocketlawyer-mobile.html' },
+        { id: 'oracle', file: 'oracle.key', title: 'Scaling Social', sub: 'Oracle', logo: 'https://middleton.io/images/oracle-logo-transparent.png', study: CS + 'case-study-oracle.html' }
     ];
 
     const SLIDES = {
@@ -7951,6 +7951,8 @@ document.addEventListener('click', (e) => {
                 'An LLM assistant answering homeowner questions, routing into the funnels',
                 'A redesigned blog feeding the tools instead of dead-ending'],
               note: 'Every calculator started life as an ugly Excel prototype. The ugly version saved us a quarter.' },
+            { type: 'shot', kicker: 'THE PRODUCT', img: 'https://middleton.io/images/hvac-calculators.png', caption: 'The calculator hub. Every tool ends with a path into the funnel.',
+              note: 'This page is where informational traffic became intent.' },
             { type: 'statement', kicker: 'KEY DECISION', title: 'The funnel became the variable.',
               body: 'Both funnels went behind Split.io flags I controlled. Remove a step, reorder, rewrite. Same day, no deploy. Test velocity went from deploy-limited to idea-limited.',
               note: 'Ship the control surface alongside the feature. The flags are why dozens of tests fit in one season.' },
@@ -7985,6 +7987,8 @@ document.addEventListener('click', (e) => {
                 'Two-factor auth and AI fraud detection protecting transactions',
                 'Three parallel redemption flows consolidated into one'],
               note: 'Square was the partnership worth chasing because it came with a network of small local businesses, not just more inventory.' },
+            { type: 'shot', kicker: 'THE PRODUCT', img: 'https://middleton.io/casestudies/images/sendoso-egift-expansion-country-coverage.png', caption: '47 countries of eGift coverage, 12 markets added in one year.',
+              note: 'The map was the sales slide. Coverage is a feature you can see.' },
             { type: 'statement', kicker: 'KEY DECISION', title: 'Negotiate direct,\nnot through aggregators.',
               body: 'Direct vendor relationships gave us better terms, faster onboarding for new brands, and real control over catalog quality and coverage gaps.',
               note: 'Aggregators are convenient right up until you need something they don\'t stock.' },
@@ -8016,6 +8020,8 @@ document.addEventListener('click', (e) => {
                 'Enriched profiles: title, manager, department, location from the HRIS',
                 'Proxy Approval: approvals route up the org chart when someone is out'],
               note: 'The importer was built by the Top of Funnel team, not mine. Influence without authority is a real skill and a real tax.' },
+            { type: 'shot', kicker: 'THE PRODUCT', img: 'https://middleton.io/images/lever-bulk-candidate-importer.png', caption: 'The self-serve importer that replaced 3 to 4 days of waiting.',
+              note: 'Real-time validation with specific error messages. The support queue never saw these files again.' },
             { type: 'statement', kicker: 'KEY DECISION', title: 'Anchor on SCIM.',
               body: 'We evaluated Merge.dev and chose SCIM instead. It was the standard enterprise IT already ran everywhere else, customers could self-implement, and we kept full control.',
               note: 'Pick the standard, not the shortcut. Small orgs can use SCIM too, so it never punished SMB.' },
@@ -8048,6 +8054,8 @@ document.addEventListener('click', (e) => {
                 'Partner-exclusive documents alongside the core legal catalog',
                 'Partner-aware reporting powering billing and expansion conversations'],
               note: 'The connector is the honest part: Covéa wasn\'t OIDC-native, so the mess got isolated where it couldn\'t spread.' },
+            { type: 'shot', kicker: 'THE PRODUCT', img: 'https://middleton.io/casestudies/images/covea-onboarding-process.png', caption: 'Co-branded onboarding: the partner leads, the product stays itself.',
+              note: 'The balance in one screen. Their brand and pricing, our legal engine underneath.' },
             { type: 'statement', kicker: 'KEY DECISION', title: 'Config is a runtime concern,\nnot a deploy concern.',
               body: 'Tying a partner\'s launch date to our release train would have made every integration after Covéa slower than the one before it. The Config API removed the release cycle from partner onboarding.',
               note: 'This is the decision I\'d defend hardest. Platform speed is set by your slowest coupling.' },
@@ -8084,6 +8092,8 @@ document.addEventListener('click', (e) => {
                 'The frictionless mobile interview, productionized as the mobile default',
                 'A structured experiment-brief system for impact, journeys and designs'],
               note: 'Linking speed to conversion made performance a product lever instead of an engineering chore. That reframing got it prioritized.' },
+            { type: 'shot', kicker: 'THE PRODUCT', img: 'https://middleton.io/casestudies/images/rocket-lawyer-mobile-document-interview.png', caption: 'The frictionless mobile interview. Fewer steps, nothing to copy, nothing in the way.',
+              note: 'Compare it to desktop and the bet is obvious in hindsight. It usually is.' },
             { type: 'stats', kicker: 'OUTCOMES', title: 'Found the win', stats: [
                 ['5%', 'mobile gross conversion lift on the 90%-of-revenue product line'],
                 ['2.34%', 'checkout rate, the highest recorded, driven by performance work'],
@@ -8108,6 +8118,8 @@ document.addEventListener('click', (e) => {
                 'Engage v2: from an inbox to columns, denser and faster for high-volume teams',
                 '30+ languages with RTL support and locale-aware formatting'],
               note: 'A network only counted if it worked across Admin, Publish, Engage and Analyze. That constraint set the pace, not the integrations.' },
+            { type: 'shot', kicker: 'THE PRODUCT', img: 'https://middleton.io/images/oracle-engage-v2.png', caption: 'Engage v2: from an inbox to columns, built for high-volume teams.',
+              note: 'The v1 inbox was what customers were working around. This is what they asked for.' },
             { type: 'statement', kicker: 'KEY DECISION', title: 'i18n is product work,\nnot a translation pass.',
               body: 'Localization teams sat inside the build, so UX patterns changed where a market needed them to. RTL, formatting, cultural context, all treated as product decisions.',
               note: 'Sina Weibo for APAC was the reminder: some markets aren\'t reachable by translating your way in.' },
@@ -8162,7 +8174,11 @@ document.addEventListener('click', (e) => {
     function slideHtml(s) {
         const kicker = `<div class="kn-kicker">${s.kicker || ''}</div>`;
         const title = `<div class="kn-title">${(s.title || '').replace(/\n/g, '<br>')}</div>`;
-        if (s.type === 'title') return `<div class="kn-slide kn-s-title">${kicker}${title}<div class="kn-sub">${s.sub || ''}</div></div>`;
+        if (s.type === 'title') {
+            const logo = deck.logo ? `<img class="kn-logo" src="${deck.logo}" alt="${deck.sub} logo">` : '';
+            return `<div class="kn-slide kn-s-title">${logo}${kicker}${title}<div class="kn-sub">${s.sub || ''}</div></div>`;
+        }
+        if (s.type === 'shot') return `<div class="kn-slide kn-s-shot">${kicker}<div class="kn-shot-frame"><img src="${s.img}" alt="${s.caption}" loading="lazy"></div><div class="kn-shot-caption">${s.caption}</div></div>`;
         if (s.type === 'bullets') return `<div class="kn-slide">${kicker}${title}<ul class="kn-list">${s.items.map(i => `<li>${i}</li>`).join('')}</ul></div>`;
         if (s.type === 'stats') return `<div class="kn-slide">${kicker}${title}<div class="kn-stats">${s.stats.map(([n, l]) => `<div class="kn-stat"><span class="kn-stat-n">${n}</span><span class="kn-stat-l">${l}</span></div>`).join('')}</div></div>`;
         if (s.type === 'end') return `<div class="kn-slide kn-s-title">${kicker}${title}<a class="kn-cta" href="${deck.study}" target="_blank" rel="noopener">${s.cta}</a></div>`;
