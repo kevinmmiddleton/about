@@ -9791,9 +9791,7 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-building"
     visibility: hidden;
 }
 html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-writing"]) {
-    /* writing/ opens a QuietFeed-style reader, so it wears Kevin's own app */
-    background: url('images/quietfeed-logo.svg') center / contain no-repeat !important;
-    border-radius: 22.5% !important;
+    background: url('images/tahoe/notes.png') center / contain no-repeat !important;
     box-shadow: none !important;
     border-radius: 0 !important;
 }
