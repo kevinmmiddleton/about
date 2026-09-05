@@ -10714,8 +10714,12 @@ html:not(.kos-mobile) #aim .aim-send {
     place-items: center;
     padding: 0;
 }
+html:not(.kos-mobile) #aim .aim-send { position: relative; line-height: 0; }
 html:not(.kos-mobile) #aim .aim-send::before {
     content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
     width: 17px;
     height: 17px;
     background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M12 20V5M5 12l7-7 7 7'/></svg>") center / contain no-repeat;
@@ -10831,3 +10835,11 @@ html:not(.kos-mobile) .kos-menu-item:hover:not(.disabled) {
 }
 html:not(.kos-mobile) .kos-menu-item:hover:not(.disabled) .keys { color: rgba(255, 255, 255, 0.75); }
 html:not(.kos-mobile) .kos-menu-item .keys { font-family: var(--font-sans); }
+
+
+/* the about window is a social profile now, so its app is Threads
+   (glyph via simple-icons). Contacts was a good costume; this is
+   the truth. */
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-profile"]) {
+    background: url('images/threads-icon.svg') center / contain no-repeat !important;
+}

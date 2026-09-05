@@ -125,11 +125,12 @@ function kosOpenWindowIds() {
 // Public URL names follow the app metaphor (?open=claude, not ?open=aim).
 // Internal data-window ids stay stable; old slugs keep parsing forever.
 const KOS_SLUGS = {
-    about: 'contacts', values: 'settings', experience: 'time-machine',
+    about: 'threads', values: 'settings', experience: 'time-machine',
     building: 'app-store', writing: 'notes', strengths: 'shortcuts',
     recommendations: 'messages', connect: 'mail', aim: 'claude', resume: 'preview'
 };
 const KOS_UNSLUG = Object.fromEntries(Object.entries(KOS_SLUGS).map(([k, v]) => [v, k]));
+KOS_UNSLUG.contacts = 'about'; // the window was briefly Contacts; those links live on
 function kosToSlug(id) { return KOS_SLUGS[id] || id; }
 function kosFromSlug(slug) { return KOS_UNSLUG[slug] || slug; }
 
@@ -482,6 +483,14 @@ windows.forEach(win => {
         if (e.target.classList.contains('window-dot')) return;
         e.preventDefault();
         isDragging = true;
+        // Grabbing a snapped window unsnaps it (macOS behavior); otherwise the
+        // snap geometry sticks and every drag springs the window back - which
+        // reads as the window being frozen.
+        if (win.classList.contains('snapped-left') || win.classList.contains('snapped-right') || win.classList.contains('snapped-top')) {
+            win.classList.remove('snapped-left', 'snapped-right', 'snapped-top');
+            win.style.width = '';
+            win.style.height = '';
+        }
         startX = e.clientX;
         startY = e.clientY;
         const rect = win.getBoundingClientRect();
@@ -7649,7 +7658,7 @@ const kosSound = (function () {
 (function () {
     if (KOS_MOBILE) return;
     const NAMES = {
-        about: 'Contacts',
+        about: 'Threads',
         values: 'Settings',
         experience: 'Time Machine',
         building: 'App Store',
