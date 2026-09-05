@@ -6475,10 +6475,12 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
         if (greeted.has(root)) return;
         greeted.add(root);
         // A clone carries over whatever the desktop copy already said, so only
-        // greet when this instance has no conversation in it yet.
-        if (root.querySelector('.aim-line')) return;
-        line(root, 'KevBot', "Hey! I'm KevBot \u{1F916} Ask me anything about Kevin: " +
-                             "his experience, skills, projects, or how to get in touch!");
+        // greet when this instance has no conversation in it yet. On desktop
+        // the Claude intro screen IS the greeting, so KevBot stays quiet.
+        if (KOS_MOBILE && !root.querySelector('.aim-line')) {
+            line(root, 'KevBot', "Hey! I'm KevBot \u{1F916} Ask me anything about Kevin: " +
+                                 "his experience, skills, projects, or how to get in touch!");
+        }
     }
 
     async function ask(root, text) {

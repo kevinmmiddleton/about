@@ -10747,3 +10747,6 @@ html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[hre
 html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji:has(use[href="#ico-recycle"]) {
     background-image: url('images/tahoe/trash-full.png');
 }
+
+/* the Claude intro speaks for itself: no bot greeting, no signon line */
+html:not(.kos-mobile) #aim .aim-sys { display: none; }
