@@ -5119,14 +5119,16 @@ window.addEventListener('resize', () => {
 // Window title configuration for mobile overlays (iOS-style clean titles)
 const mobileWindowConfig = {
     readme: { title: 'README' },
-    about: { title: 'Profile' },
-    values: { title: 'Values' },
-    experience: { title: 'Experience' },
+    about: { title: 'Social' },
+    values: { title: 'Settings' },
+    experience: { title: 'Time Machine' },
     projects: { title: 'Projects' },
-    building: { title: 'Building' },
-    writing: { title: 'Writing' },
+    building: { title: 'App Store' },
+    writing: { title: 'Notes' },
     skills: { title: 'Skills' },
-    recommendations: { title: 'Reviews' },
+    strengths: { title: 'Shortcuts' },
+    recommendations: { title: 'Messages' },
+    aim: { title: 'Claude' },
     games: { title: 'Games' }
 };
 
@@ -6486,10 +6488,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
         // A clone carries over whatever the desktop copy already said, so only
         // greet when this instance has no conversation in it yet. On desktop
         // the Claude intro screen IS the greeting, so KevBot stays quiet.
-        if (KOS_MOBILE && !root.querySelector('.aim-line')) {
-            line(root, 'KevBot', "Hey! I'm KevBot \u{1F916} Ask me anything about Kevin: " +
-                                 "his experience, skills, projects, or how to get in touch!");
-        }
+        // The Claude intro screen is the greeting on every surface now.
     }
 
     async function ask(root, text) {
@@ -7597,7 +7596,6 @@ const kosSound = (function () {
 // markup stays in the DOM for mobile.
 // ============================================================
 (function () {
-    if (KOS_MOBILE) return;
     const content = document.querySelector('#about .window-content');
     if (!content || content.querySelector('.kos-threads')) return;
     const AVATAR = 'https://middleton.io/images/profile-picture.jpg';
@@ -7827,6 +7825,7 @@ const kosSound = (function () {
     // ---------- lock screen (once per session) ----------
     let locked = false;
     try { locked = !sessionStorage.getItem('kos-unlocked'); } catch (e) { locked = true; }
+    if (new URLSearchParams(location.search).has('nolock')) locked = false;
     if (locked) {
         const lock = document.createElement('div');
         lock.className = 'kos-lock';
@@ -7889,3 +7888,17 @@ const kosSound = (function () {
         }, true);
     });
 })();
+
+
+// Threads-profile clones in mobile overlays lose their listeners; delegate.
+document.addEventListener('click', (e) => {
+    const follow = e.target.closest?.('.kos-th-follow');
+    if (follow && follow.closest('[id^="mobile-overlay-"]')) {
+        window.location.href = 'mailto:kevin@middleton.io';
+        return;
+    }
+    const img = e.target.closest?.('[data-lightbox-src]');
+    if (img && img.closest('[id^="mobile-overlay-"]')) {
+        try { openLightbox(img.dataset.lightboxSrc, img.dataset.lightboxTitle); } catch (err) {}
+    }
+});

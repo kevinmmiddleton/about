@@ -10413,10 +10413,11 @@ html:not(.kos-mobile)[data-theme="dark"] #about .vcf-row { border-bottom-color: 
    threads-app-css teardowns. JS builds the DOM; the vcf/glass
    layout below it retires on desktop. Desktop only.
    ============================================================ */
-html:not(.kos-mobile) #about .window-content {
+:is(#about, #mobile-overlay-about) .window-content,
+#mobile-overlay-about .mobile-overlay-content {
     background: var(--surface);
 }
-html:not(.kos-mobile) #about :is(.vcf-head, .profile-grid, .profile-connect-btn) {
+:is(#about, #mobile-overlay-about) :is(.vcf-head, .profile-grid, .profile-connect-btn) {
     display: none;
 }
 .kos-threads { max-width: 480px; margin: 0 auto; }
@@ -10464,8 +10465,8 @@ html:not(.kos-mobile) #about :is(.vcf-head, .profile-grid, .profile-connect-btn)
     padding: 8px 0;
     border-radius: 10px;
     border: 1px solid var(--border);
-    background: var(--os-invert);
-    color: var(--os-on-invert);
+    background: var(--os-invert, #111113);
+    color: var(--os-on-invert, #F2F2F4);
     font-size: 13.5px;
     font-weight: 700;
     cursor: pointer;
@@ -10583,64 +10584,64 @@ html:not(.kos-mobile) .window-path { display: none; }
    on the Claude API. Ivory ground, coral accents, the official
    starburst on the dock. Desktop only; mobile keeps 2003.
    ============================================================ */
-html:not(.kos-mobile) #aim { --aim-you: #6B6B74; --aim-them: #C15F3C; --aim-ink: #C15F3C; }
-html:not(.kos-mobile) #aim .window-content,
-html:not(.kos-mobile) #aim .aim-content { background: #F4F3EE; }
-html:not(.kos-mobile) #aim .aim-log { background: #F4F3EE; border: none; }
-html:not(.kos-mobile) #aim .aim-bar {
+:is(#aim, #mobile-overlay-aim) { --aim-you: #6B6B74; --aim-them: #C15F3C; --aim-ink: #C15F3C; }
+:is(#aim, #mobile-overlay-aim) .window-content,
+:is(#aim, #mobile-overlay-aim) .aim-content { background: #F4F3EE; }
+:is(#aim, #mobile-overlay-aim) .aim-log { background: #F4F3EE; border: none; }
+:is(#aim, #mobile-overlay-aim) .aim-bar {
     background: #F4F3EE;
     border-bottom: 1px solid #E3E1D8;
     color: #1F1E1D;
 }
-html:not(.kos-mobile) #aim .aim-format { display: none; }
-html:not(.kos-mobile) #aim .aim-sys { color: #8A8983; }
-html:not(.kos-mobile) #aim .aim-input {
+:is(#aim, #mobile-overlay-aim) .aim-format { display: none; }
+:is(#aim, #mobile-overlay-aim) .aim-sys { color: #8A8983; }
+:is(#aim, #mobile-overlay-aim) .aim-input {
     background: #FFFFFF;
     border: 1px solid #E3E1D8;
     border-radius: 12px;
     color: #1F1E1D;
     padding: 9px 12px;
 }
-html:not(.kos-mobile) #aim .aim-input:focus {
+:is(#aim, #mobile-overlay-aim) .aim-input:focus {
     outline: none;
     border-color: #D97757;
     box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.18);
 }
-html:not(.kos-mobile) #aim .aim-send {
+:is(#aim, #mobile-overlay-aim) .aim-send {
     background: #D97757;
     color: #fff;
     border: none;
     border-radius: 10px;
     font-weight: 700;
 }
-html:not(.kos-mobile) #aim .aim-send:hover { background: #C15F3C; }
-html:not(.kos-mobile) #aim .aim-compose {
+:is(#aim, #mobile-overlay-aim) .aim-send:hover { background: #C15F3C; }
+:is(#aim, #mobile-overlay-aim) .aim-compose {
     background: #F4F3EE;
     border-top: 1px solid #E3E1D8;
 }
-html:not(.kos-mobile) #aim .aim-prompt {
+:is(#aim, #mobile-overlay-aim) .aim-prompt {
     background: #FFFFFF;
     border: 1px solid #E3E1D8;
     border-radius: 99px;
     color: #1F1E1D;
 }
-html:not(.kos-mobile) #aim .aim-prompt:hover {
+:is(#aim, #mobile-overlay-aim) .aim-prompt:hover {
     border-color: #D97757;
     color: #C15F3C;
 }
 /* dark theme: Claude's charcoal */
-html:not(.kos-mobile)[data-theme="dark"] #aim { --aim-you: #A2A2AC; --aim-them: #E08D6D; --aim-ink: #E08D6D; }
-html:not(.kos-mobile)[data-theme="dark"] #aim :is(.window-content, .aim-content, .aim-log, .aim-bar, .aim-compose) {
+html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) { --aim-you: #A2A2AC; --aim-them: #E08D6D; --aim-ink: #E08D6D; }
+html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) :is(.window-content, .aim-content, .aim-log, .aim-bar, .aim-compose) {
     background: #262624;
     border-color: #3A3936;
     color: #F2F2F4;
 }
-html:not(.kos-mobile)[data-theme="dark"] #aim .aim-input {
+html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-input {
     background: #30302E;
     border-color: #3A3936;
     color: #F2F2F4;
 }
-html:not(.kos-mobile)[data-theme="dark"] #aim .aim-prompt {
+html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-prompt {
     background: #30302E;
     border-color: #3A3936;
     color: #F2F2F4;
@@ -10649,13 +10650,13 @@ html:not(.kos-mobile)[data-theme="dark"] #aim .aim-prompt {
 /* ---- claude.ai/new, the KevinOS cut: serif greeting with the
    starburst until the first message, one soft compose card, a
    coral circle send. Desktop only. ---- */
-html:not(.kos-mobile) #aim .aim-warn { display: none; }
-html:not(.kos-mobile) #aim .aim-log {
+:is(#aim, #mobile-overlay-aim) .aim-warn { display: none; }
+:is(#aim, #mobile-overlay-aim) .aim-log {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 }
-html:not(.kos-mobile) #aim .aim-log::before {
+:is(#aim, #mobile-overlay-aim) .aim-log::before {
     content: '';
     display: block;
     width: 42px;
@@ -10663,7 +10664,7 @@ html:not(.kos-mobile) #aim .aim-log::before {
     background: url('images/claude-burst.svg') center / contain no-repeat;
     margin: auto auto 10px;
 }
-html:not(.kos-mobile) #aim .aim-log::after {
+:is(#aim, #mobile-overlay-aim) .aim-log::after {
     content: 'Curious about Kevin? Ask away.';
     display: block;
     text-align: center;
@@ -10673,9 +10674,9 @@ html:not(.kos-mobile) #aim .aim-log::after {
     color: #1F1E1D;
     margin: 0 auto auto;
 }
-html:not(.kos-mobile)[data-theme="dark"] #aim .aim-log::after { color: #F2F2F4; }
-html:not(.kos-mobile) #aim .aim-log .aim-sys { text-align: center; }
-html:not(.kos-mobile) #aim .aim-prompts {
+html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-log::after { color: #F2F2F4; }
+:is(#aim, #mobile-overlay-aim) .aim-log .aim-sys { text-align: center; }
+:is(#aim, #mobile-overlay-aim) .aim-prompts {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -10683,20 +10684,20 @@ html:not(.kos-mobile) #aim .aim-prompts {
     padding: 10px 12px;
     background: #F4F3EE;
 }
-html:not(.kos-mobile)[data-theme="dark"] #aim .aim-prompts { background: #262624; }
-html:not(.kos-mobile) #aim .aim-compose {
+html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-prompts { background: #262624; }
+:is(#aim, #mobile-overlay-aim) .aim-compose {
     padding: 10px 14px 14px;
     gap: 10px;
     align-items: center;
     border-top: none;
 }
-html:not(.kos-mobile) #aim .aim-input {
+:is(#aim, #mobile-overlay-aim) .aim-input {
     border-radius: 16px;
     padding: 12px 16px;
     font-size: 13.5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
-html:not(.kos-mobile) #aim .aim-send {
+:is(#aim, #mobile-overlay-aim) .aim-send {
     width: 36px;
     height: 36px;
     border-radius: 10px;
@@ -10706,8 +10707,8 @@ html:not(.kos-mobile) #aim .aim-send {
     place-items: center;
     padding: 0;
 }
-html:not(.kos-mobile) #aim .aim-send { position: relative; line-height: 0; }
-html:not(.kos-mobile) #aim .aim-send::before {
+:is(#aim, #mobile-overlay-aim) .aim-send { position: relative; line-height: 0; }
+:is(#aim, #mobile-overlay-aim) .aim-send::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -10718,10 +10719,10 @@ html:not(.kos-mobile) #aim .aim-send::before {
 }
 
 /* the send circle sits IN the compose row, not half off the sill */
-html:not(.kos-mobile) #aim .aim-compose {
+:is(#aim, #mobile-overlay-aim) .aim-compose {
     display: flex;
 }
-html:not(.kos-mobile) #aim .aim-input {
+:is(#aim, #mobile-overlay-aim) .aim-input {
     flex: 1;
     min-width: 0;
 }
@@ -10746,10 +10747,10 @@ html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji:has(use[href="#ico-
 }
 
 /* the Claude intro speaks for itself: no bot greeting, no signon line */
-html:not(.kos-mobile) #aim .aim-sys { display: none; }
+:is(#aim, #mobile-overlay-aim) .aim-sys { display: none; }
 
 /* the buddy row goes too - the window is simply Claude now */
-html:not(.kos-mobile) #aim .aim-bar { display: none; }
+:is(#aim, #mobile-overlay-aim) .aim-bar { display: none; }
 
 /* ============================================================
    MENU BAR, THE MACOS-WEB CUT (github.com/puruvj/macos-web):
