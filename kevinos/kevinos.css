@@ -9783,7 +9783,7 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-experienc
     visibility: hidden;
 }
 html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-building"]) {
-    background: url('images/tahoe/developer-folder.png') center / contain no-repeat !important;
+    background: url('images/tahoe/appstore.png') center / contain no-repeat !important;
     box-shadow: none !important;
     border-radius: 0 !important;
 }
@@ -9817,7 +9817,7 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-reviews"]
     visibility: hidden;
 }
 html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-games"]) {
-    background: url('images/tahoe/games-folder.png') center / contain no-repeat !important;
+    background: url('images/tahoe/games-app.png') center / contain no-repeat !important;
     box-shadow: none !important;
     border-radius: 0 !important;
 }
