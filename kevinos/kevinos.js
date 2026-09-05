@@ -4800,7 +4800,7 @@ function applyHomeLayout() {
         const margin = Math.max(30, Math.round((vw - 1460) / 2));
         const gap = 14;
         const span = vw - margin * 2;
-        const buildingW = 320;
+        const buildingW = 460; // wider since the App Store sidebar moved in
         // Clear the right-hand desktop-icon rail (90px + breathing room), so
         // Recycle Bin and middleton.io stay visible under the opening layout.
         const buildingLeft = vw - Math.max(margin, 104) - buildingW;
@@ -7467,4 +7467,53 @@ const kosSound = (function () {
         }
         drag = null;
     });
+})();
+
+// ============================================================
+// DOCK LAUNCHPAD + APP STORE SIDEBAR (desktop only)
+// ============================================================
+(function () {
+    if (KOS_MOBILE) return;
+
+    // Launchpad lives in the dock now, like the reference clone
+    document.getElementById('dockLaunchpad')?.addEventListener('click', () => {
+        try { openLaunchpad(); } catch (e) {}
+    });
+
+    // building/ gets its App Store sidebar: JS-injected so the mobile
+    // markup never changes
+    const content = document.querySelector('#building .window-content');
+    if (!content || content.querySelector('.kos-store-side')) return;
+    const rows = [...content.querySelectorAll('.kos-store-row')];
+    if (!rows.length) return;
+    const cats = [...new Set(rows.map(r => r.querySelector('.kos-store-cat')?.textContent.trim()).filter(Boolean))];
+
+    const main = document.createElement('div');
+    main.className = 'kos-store-main';
+    while (content.firstChild) main.appendChild(content.firstChild);
+
+    const side = document.createElement('nav');
+    side.className = 'kos-store-side';
+    side.setAttribute('aria-label', 'App categories');
+    const ICONS = { 'Web App': '🧭', 'Claude Plugin': '🔌', 'Coaching': '🎓', 'Portfolio': '🗂' };
+    function makeBtn(label, cat) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.innerHTML = `<span class="side-ico">${cat ? (ICONS[cat] || '📦') : '✦'}</span>${label}`;
+        b.addEventListener('click', () => {
+            side.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            rows.forEach(r => {
+                const c = r.querySelector('.kos-store-cat')?.textContent.trim();
+                r.style.display = (!cat || c === cat) ? '' : 'none';
+            });
+        });
+        return b;
+    }
+    const all = makeBtn('Discover', null);
+    all.classList.add('active');
+    side.appendChild(all);
+    cats.forEach(c => side.appendChild(makeBtn(c.replace(' App', ' Apps').replace('Claude Plugin', 'Plugins'), c)));
+    content.appendChild(side);
+    content.appendChild(main);
 })();

@@ -10147,3 +10147,93 @@ html:not(.kos-mobile) .vcf-value {
 html:not(.kos-mobile) a.vcf-value { color: #2C82FE; }
 html:not(.kos-mobile) a.vcf-value:hover { text-decoration: underline; }
 html.kos-mobile .vcf-fields { display: none !important; }
+
+/* ============================================================
+   DOCK, THE VERCEL CUT — real glass, bigger icons, Launchpad.
+   (macos.vercel.app is the reference.) Desktop only.
+   ============================================================ */
+html:not(.kos-mobile) .dock,
+html:not(.kos-mobile)[data-theme="light"] .dock {
+    background: color-mix(in srgb, var(--surface) 52%, transparent);
+    backdrop-filter: blur(26px) saturate(170%);
+    -webkit-backdrop-filter: blur(26px) saturate(170%);
+    border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+    border-radius: 20px;
+    padding: 9px 12px;
+    gap: 6px;
+}
+html:not(.kos-mobile) .dock-item {
+    width: 54px;
+    height: 54px;
+}
+html:not(.kos-mobile) .dock-item .dock-emoji:has(> svg),
+html:not(.kos-mobile) .dock-emoji.kos-lp-icon {
+    width: 50px;
+    height: 50px;
+}
+html:not(.kos-mobile) .dock-item .dock-emoji > svg {
+    width: 27px;
+    height: 27px;
+}
+html:not(.kos-mobile) .dock-divider {
+    height: 44px;
+    width: 1px;
+    background: color-mix(in srgb, var(--text) 16%, transparent);
+    margin: 0 3px;
+    align-self: center;
+}
+html:not(.kos-mobile) .dock-emoji.kos-lp-icon {
+    display: block;
+    background: url('images/tahoe/launchpad.png') center / contain no-repeat;
+}
+
+/* ---- App Store sidebar in building/ (JS-injected, desktop only;
+   sidebar-as-window-furniture idea via RedEdge967/macOS-web) ---- */
+html:not(.kos-mobile) #building .window-content:has(.kos-store-side) {
+    display: flex;
+    gap: 0;
+    padding: 0;
+}
+.kos-store-side {
+    flex: 0 0 118px;
+    border-right: 1px solid var(--border);
+    background: color-mix(in srgb, var(--surface-2) 60%, transparent);
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.kos-store-side button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 12px;
+    padding: 6px 9px;
+    border-radius: 7px;
+    cursor: pointer;
+    text-align: left;
+}
+.kos-store-side button .side-ico { font-size: 13px; }
+.kos-store-side button:hover { background: color-mix(in srgb, var(--text) 7%, transparent); }
+.kos-store-side button.active { background: #2C82FE; color: #fff; }
+.kos-store-main { flex: 1; min-width: 0; padding: 16px 16px 12px; overflow-y: auto; }
+
+/* ---- window headers, the macOS cut: no glyphs, no extension
+   badges, centered titles. The path keeps the right edge. ---- */
+html:not(.kos-mobile) .window-header { position: relative; }
+html:not(.kos-mobile) .window-title .window-icon { display: none; }
+html:not(.kos-mobile) .window-title .file-badge { display: none; }
+html:not(.kos-mobile) .window-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 55%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* the new QuietFeed mark is a square tile; round it like an app icon */
+html:not(.kos-mobile) .kos-logo-tile img { border-radius: 24%; }
