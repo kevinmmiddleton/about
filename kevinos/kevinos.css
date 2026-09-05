@@ -11396,3 +11396,11 @@ html.kos-mobile .mobile-btn-icon {
 html.kos-mobile .mobile-overlay-header {
     position: static;
 }
+
+/* the open-in-browser arrow, drawn instead of typed */
+.kos-feed-open .kos-arrow {
+    width: 13px;
+    height: 13px;
+    vertical-align: -2px;
+    margin-left: 2px;
+}
