@@ -811,7 +811,7 @@ document.getElementById('recycleBin').addEventListener('click', () => {
             </div>
         `;
         document.body.style.filter = '';
-        alert('🗑️ System restored! Files recovered from Recycle Bin. 🎉');
+        alert('🗑️ System restored! Files recovered from Trash. 🎉');
     } else {
         kosSetZ(recycleWindow, getNextZIndex());
         recycleWindow.style.display = 'block';
