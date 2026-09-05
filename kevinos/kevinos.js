@@ -8020,7 +8020,7 @@ document.addEventListener('click', (e) => {
                 'Enriched profiles: title, manager, department, location from the HRIS',
                 'Proxy Approval: approvals route up the org chart when someone is out'],
               note: 'The importer was built by the Top of Funnel team, not mine. Influence without authority is a real skill and a real tax.' },
-            { type: 'shot', kicker: 'THE PRODUCT', img: 'https://middleton.io/images/lever-bulk-candidate-importer.png', caption: 'The self-serve importer that replaced 3 to 4 days of waiting.',
+            { type: 'shot', kicker: 'THE PRODUCT', img: 'https://middleton.io/images/lever-bulk-candidate-importer.png', caption: 'The self-serve importer that saved weeks of back and forth.',
               note: 'Real-time validation with specific error messages. The support queue never saw these files again.' },
             { type: 'statement', kicker: 'KEY DECISION', title: 'Anchor on SCIM.',
               body: 'We evaluated Merge.dev and chose SCIM instead. It was the standard enterprise IT already ran everywhere else, customers could self-implement, and we kept full control.',
