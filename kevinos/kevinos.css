@@ -10323,3 +10323,89 @@ html:not(.kos-mobile) .kos-store-row:hover .kos-pill {
     background: #2C82FE;
     color: #fff;
 }
+
+/* ============================================================
+   LIQUID GLASS CONTACT CARD — kevin.vcf gets the iOS 26 look:
+   translucent panels, soft blur, specular top edge, floating on
+   a dusk gradient from the sunset-pool palette. Desktop only.
+   ============================================================ */
+html:not(.kos-mobile) #about .window-content {
+    background:
+        radial-gradient(120% 90% at 15% 0%, rgba(240, 158, 104, 0.55) 0%, transparent 55%),
+        radial-gradient(130% 100% at 90% 15%, rgba(110, 74, 168, 0.5) 0%, transparent 60%),
+        radial-gradient(120% 110% at 50% 110%, rgba(53, 184, 176, 0.55) 0%, transparent 60%),
+        linear-gradient(170deg, #8A6280 0%, #4E4A66 55%, #21707A 100%);
+}
+html:not(.kos-mobile) #about .vcf-head,
+html:not(.kos-mobile) #about .vcf-fields,
+html:not(.kos-mobile) #about .profile-text,
+html:not(.kos-mobile) #about .profile-connect-btn {
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        0 8px 24px rgba(0, 0, 0, 0.18);
+    border-radius: 16px;
+}
+html:not(.kos-mobile) #about .vcf-head {
+    padding: 14px 16px 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+}
+html:not(.kos-mobile) #about .vcf-head b { color: #1d1d1f; }
+html:not(.kos-mobile) #about .vcf-head span { color: #4a4a52; }
+html:not(.kos-mobile) #about .vcf-fields {
+    border-top: none;
+    padding: 8px 14px;
+}
+html:not(.kos-mobile) #about .vcf-row { border-bottom-color: rgba(0, 0, 0, 0.08); }
+html:not(.kos-mobile) #about .vcf-label { color: #5a5a62; }
+html:not(.kos-mobile) #about .vcf-row .vcf-value { color: #1d1d1f; }
+html:not(.kos-mobile) #about a.vcf-value { color: #0A62C9; }
+html:not(.kos-mobile) #about .profile-text {
+    padding: 32px 16px 14px;
+    color: #1d1d1f;
+}
+html:not(.kos-mobile) #about .profile-text p { color: #2a2a30; }
+html:not(.kos-mobile) #about .profile-text::before { color: #5a5a62; }
+html:not(.kos-mobile) #about .profile-callout {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 12px;
+}
+html:not(.kos-mobile) #about .profile-callout h4,
+html:not(.kos-mobile) #about .profile-callout p { color: #1d1d1f; }
+html:not(.kos-mobile) #about .profile-img {
+    box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.55),
+        0 10px 28px rgba(0, 0, 0, 0.3);
+}
+html:not(.kos-mobile) #about .profile-thumb {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+html:not(.kos-mobile) #about .profile-connect-btn {
+    color: #1d1d1f;
+    font-weight: 700;
+}
+html:not(.kos-mobile) #about .profile-connect-btn:hover {
+    background: rgba(255, 255, 255, 0.78);
+}
+/* dark theme: the glass goes smoked, text goes cream */
+html:not(.kos-mobile)[data-theme="dark"] #about .vcf-head,
+html:not(.kos-mobile)[data-theme="dark"] #about .vcf-fields,
+html:not(.kos-mobile)[data-theme="dark"] #about .profile-text,
+html:not(.kos-mobile)[data-theme="dark"] #about .profile-connect-btn,
+html:not(.kos-mobile)[data-theme="dark"] #about .profile-callout {
+    background: rgba(16, 14, 24, 0.55);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        0 8px 24px rgba(0, 0, 0, 0.35);
+}
+html:not(.kos-mobile)[data-theme="dark"] #about :is(.vcf-head b, .vcf-row .vcf-value, .profile-text, .profile-text p, .profile-callout h4, .profile-callout p, .profile-connect-btn) { color: #F2F2F4; }
+html:not(.kos-mobile)[data-theme="dark"] #about :is(.vcf-head span, .vcf-label, .profile-text::before) { color: #B8B8C2; }
+html:not(.kos-mobile)[data-theme="dark"] #about a.vcf-value { color: #7FB3FF; }
+html:not(.kos-mobile)[data-theme="dark"] #about .vcf-row { border-bottom-color: rgba(255, 255, 255, 0.1); }
