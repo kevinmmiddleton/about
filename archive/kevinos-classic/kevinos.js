@@ -1,0 +1,6823 @@
+// ===================
+// MOBILE MODE (sticky)
+// ===================
+// Decided at load (a head script tags <html> with .kos-mobile), then latched
+// for touch devices only. Rotating a phone to landscape pushes innerWidth past
+// 768, which used to flip the whole OS to desktop mid-session and break open
+// games/overlays, so coarse pointers keep the load-time answer for good.
+//
+// Fine pointers (a mouse) deliberately do NOT latch. A desktop browser that
+// happens to load narrow — a restored small window, a split pane, devtools
+// docked wide — would otherwise stay stuck behind the "works best in portrait"
+// wall forever, even maximised at 1280+. Crossing the threshold re-inits, and
+// because open windows carry URL state the current view is restored.
+const KOS_COARSE = window.matchMedia('(pointer: coarse)').matches;
+const KOS_MOBILE = document.documentElement.classList.contains('kos-mobile');
+
+if (!KOS_COARSE) {
+    let t;
+    window.addEventListener('resize', () => {
+        clearTimeout(t);
+        t = setTimeout(() => {
+            // A zero width means the viewport is not laid out (minimised, an
+            // offscreen/background tab, some embeds). Never re-decide on that:
+            // 0 <= 768 reads as "mobile" and would reload a perfectly fine desktop.
+            if (!window.innerWidth) return;
+            if ((window.innerWidth <= 768) !== KOS_MOBILE) location.reload();
+        }, 250);
+    });
+}
+
+// ===================
+// BOOT LOADER
+// ===================
+window.addEventListener('load', () => {
+    const bootLoader = document.getElementById('bootLoader');
+    if (!bootLoader) return;
+
+    // Only the wallpaper for the theme actually in use is worth waiting for:
+    // it is the one image the first screen cannot do without. Everything else
+    // was blocking first paint on ~2.9MB, of which 1.9MB is three photos that
+    // render at 100x82 in the profile window. Those now warm the cache in the
+    // background and the boot screen no longer waits on them.
+    const dark = !matchMedia('(prefers-color-scheme: light)').matches
+        || document.documentElement.dataset.theme === 'dark';
+    const blocking = ['https://middleton.io/images/' +
+        (dark ? 'darkmode-bg.jpg' : 'lightmode-bg.jpg')];
+
+    const background = [
+        'https://middleton.io/images/profile-picture.jpg',
+        'https://middleton.io/images/cat-illustration.jpg',
+        'https://middleton.io/images/cats-photo.jpg',
+        'https://middleton.io/images/carne-asada-fries-homemade.jpg',
+        'https://middleton.io/images/gridstrong-logo.png',
+        'https://middleton.io/images/hvac-com-logo-stacked-white.png',
+        'https://middleton.io/images/hurd-ai-logo.png',
+        'https://middleton.io/images/lever-logo.webp',
+        'https://middleton.io/images/sendoso-logo.png',
+        'https://middleton.io/images/rocket-lawyer-logo.png',
+        'https://middleton.io/images/oracle-logo.png',
+    ];
+
+    const warm = src => { const img = new Image(); img.src = src; };
+    const preload = src => new Promise(resolve => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = resolve; // never let a failed image hold the boot screen
+        img.src = src;
+    });
+
+    const minBootTime = new Promise(resolve => setTimeout(resolve, 1500));
+
+    Promise.all([minBootTime, ...blocking.map(preload)]).then(() => {
+        bootLoader.classList.add('hidden');
+        // Fetch the rest once the desktop is on screen, so it costs nobody a
+        // blank screen on a slow connection.
+        background.forEach(warm);
+    });
+});
+
+let zIndex = 500;
+let currentlyDraggingWindow = null; // Track window being dragged for snap detection
+const windows = document.querySelectorAll('.window');
+const icons = document.querySelectorAll('.desktop-icon[data-window]');
+const dockItems = document.querySelectorAll('.dock-item[data-window]');
+const allNavItems = document.querySelectorAll('.desktop-icon[data-window], .dock-item[data-window]');
+
+
+// ===================
+// LIVE URL STATE
+// ===================
+// The URL mirrors the open windows (?open=a,b,c — last one focused), so any
+// view of KevinOS is shareable and the back button closes the latest window.
+let kosUrlReady = false;            // suppress sync while the boot sequence opens defaults
+let kosSyncingFromHistory = false;  // suppress sync while popstate reconciles
+
+function kosOpenWindowIds() {
+    return [...document.querySelectorAll('.window.window-open[data-window]')]
+        .filter(w => !w.classList.contains('window-minimized'))
+        .sort((a, b) => (parseInt(a.style.zIndex, 10) || 0) - (parseInt(b.style.zIndex, 10) || 0))
+        .map(w => w.dataset.window);
+}
+
+function kosBuildUrl(ids) {
+    const params = new URLSearchParams(window.location.search);
+    params.delete('open');
+    params.delete('game');
+    if (ids.length) params.set('open', ids.join(','));
+    const qs = params.toString().replace(/%2C/gi, ','); // commas are legal in queries; keep the URL readable
+    return window.location.pathname + (qs ? '?' + qs : '');
+}
+
+function kosSyncUrl(push) {
+    if (!kosUrlReady || kosSyncingFromHistory || isMobile()) return;
+    const ids = kosOpenWindowIds();
+    const url = kosBuildUrl(ids);
+    if (url === window.location.pathname + window.location.search) return;
+    const state = { kosWindows: ids };
+    if (push) history.pushState(state, '', url);
+    else history.replaceState(state, '', url);
+}
+
+// The three boot windows get their spots from applyHomeLayout; everything else
+// cascades so two open windows are never perfectly stacked.
+const BOOT_TRIO = ['experience', 'about', 'building'];
+let kosCascade = 0;
+
+function rememberWindowPlace(win) {
+    if (!win) return;
+    const r = win.getBoundingClientRect();
+    win.dataset.kosLeft = Math.round(r.left) + 'px';
+    win.dataset.kosTop = Math.round(r.top) + 'px';
+    win.dataset.kosPlaced = '1';
+}
+
+function openWindow(id) {
+    const win = document.querySelector(`.window[data-window="${id}"]`);
+    if (!win) return;
+    const wasOpen = win.classList.contains('window-open');
+    zIndex++;
+    win.style.zIndex = zIndex;
+
+    win.classList.add('window-open');
+    // 12. Every non-boot window shares one CSS position, so opening a second one
+    // buried the first under an identically sized rectangle. Cascade each new
+    // window off the last, and remember where it ended up so reopening it (or a
+    // user drag) is never overridden.
+    if (!wasOpen && !isMobile() && !BOOT_TRIO.includes(id)) {
+        if (win.dataset.kosPlaced) {
+            win.style.left = win.dataset.kosLeft;
+            win.style.top = win.dataset.kosTop;
+        } else {
+            const step = 28;
+            const n = kosCascade++ % 8;
+            const base = win.getBoundingClientRect();
+            win.style.left = Math.round(base.left + n * step) + 'px';
+            win.style.top = Math.round(Math.max(40, base.top + n * step)) + 'px';
+            win.dataset.kosPlaced = '1';
+        }
+    }
+    // First open only: keep the window inside the viewport (CSS default
+    // positions assume a wide screen; don't fight the user's own drags)
+    if (!wasOpen && !isMobile()) {
+        const vw = window.innerWidth;
+        if (win.offsetWidth > vw - 24) win.style.width = (vw - 24) + 'px';
+        if (win.offsetLeft + win.offsetWidth > vw - 12) {
+            win.style.left = Math.max(12, vw - 12 - win.offsetWidth) + 'px';
+        }
+        if (win.offsetLeft < 12) win.style.left = '12px';
+    }
+    win.classList.remove('window-minimized');
+    // Mark this window's dock/icon as active (don't remove others)
+    allNavItems.forEach(i => {
+        if (i.dataset.window === id) {
+            i.classList.add('active');
+        }
+    });
+    // Set focus on the opened window
+    if (typeof setWindowFocus === 'function') {
+        setWindowFocus(win);
+    }
+    // On a genuine user-initiated open (not the boot sequence restoring defaults),
+    // move keyboard focus into the window for screen-reader / keyboard users, and
+    // log the open. kosUrlReady is false until boot finishes opening defaults.
+    if (!wasOpen && kosUrlReady && !isMobile()) {
+        try { win.focus({ preventScroll: true }); } catch (e) { win.focus(); }
+        if (window.plausible) {
+            plausible('Window Open', { props: { window: id } });
+        }
+    }
+    kosSyncUrl(true);
+}
+
+function closeWindow(id) {
+    // drop the genie hook so a closed window is not left carrying it
+    const gw = document.querySelector(`.window[data-window="${id}"]`);
+    if (gw) gw.classList.remove('window-genie');
+
+    const win = document.querySelector(`.window[data-window="${id}"]`);
+    if (!win) return;
+    win.classList.remove('window-open');
+
+    // Also clean up mobile state if this was a mobile-active game
+    if (win.classList.contains('mobile-active-game')) {
+        win.classList.remove('mobile-active-game');
+        win.style.display = '';
+
+        // Show games folder again
+        const gamesWin = document.getElementById('games');
+        if (gamesWin) {
+            gamesWin.classList.remove('mobile-hidden');
+        }
+    }
+
+    // Clean up mobile recipes state if closing recipes on mobile
+    if (id === 'recipesdb' && isMobile()) {
+        const windowsArea = document.querySelector('.windows-area');
+        if (windowsArea && windowsArea.classList.contains('mobile-recipes-open')) {
+            windowsArea.style.removeProperty('display');
+            windowsArea.style.removeProperty('position');
+            windowsArea.style.removeProperty('inset');
+            windowsArea.style.removeProperty('z-index');
+            windowsArea.style.removeProperty('background');
+            windowsArea.classList.remove('mobile-recipes-open');
+            // Restore other windows' display
+            windowsArea.querySelectorAll('.window').forEach(w => {
+                w.style.removeProperty('display');
+            });
+            win.style.removeProperty('position');
+            win.style.removeProperty('inset');
+            win.style.removeProperty('width');
+            win.style.removeProperty('height');
+            win.style.removeProperty('max-height');
+            win.style.removeProperty('border-radius');
+            win.style.removeProperty('z-index');
+        }
+    }
+
+    // Clear mobileActiveGame if it matches
+    if (typeof mobileActiveGame !== 'undefined' && mobileActiveGame === id) {
+        mobileActiveGame = null;
+    }
+
+    allNavItems.forEach(i => {
+        if (i.dataset.window === id) i.classList.remove('active');
+    });
+    kosSyncUrl(false);
+}
+
+function minimizeWindow(id) {
+    const win = document.querySelector(`.window[data-window="${id}"]`);
+    if (!win) return;
+    win.classList.add('window-minimized');
+    allNavItems.forEach(i => {
+        if (i.dataset.window === id) i.classList.remove('active');
+    });
+    kosSyncUrl(false);
+}
+
+// Click handlers for both icons and dock items
+allNavItems.forEach(item => item.addEventListener('click', () => openWindow(item.dataset.window)));
+
+// Profile "Let's Connect" button handler
+const profileConnectBtn = document.getElementById('profileConnectBtn');
+const shareSheet = document.getElementById('shareSheet');
+const shareSheetBackdrop = document.getElementById('shareSheetBackdrop');
+const shareSheetCancel = document.getElementById('shareSheetCancel');
+
+function openShareSheet() {
+    shareSheetBackdrop.classList.add('active');
+    // Small delay to allow display:block to take effect before transform
+    requestAnimationFrame(() => {
+        shareSheet.classList.add('active');
+    });
+}
+
+function closeShareSheet() {
+    shareSheet.classList.remove('active');
+    setTimeout(() => {
+        shareSheetBackdrop.classList.remove('active');
+    }, 350);
+}
+
+// Use event delegation for profile connect button (works with cloned mobile overlay content)
+document.addEventListener('click', (e) => {
+    if (e.target.closest('.profile-connect-btn')) {
+        if (isMobile()) {
+            openShareSheet();
+        } else {
+            closeWindow('about');
+            openWindow('connect');
+        }
+    }
+});
+
+if (shareSheetBackdrop) {
+    shareSheetBackdrop.addEventListener('click', closeShareSheet);
+}
+
+if (shareSheetCancel) {
+    shareSheetCancel.addEventListener('click', closeShareSheet);
+}
+
+// Close share sheet when clicking an option (after a small delay for feedback)
+document.querySelectorAll('.share-sheet-option').forEach(option => {
+    option.addEventListener('click', () => {
+        setTimeout(closeShareSheet, 150);
+    });
+});
+
+// Focus management for windows
+function setWindowFocus(focusedWin) {
+    windows.forEach(w => {
+        if (w === focusedWin) {
+            w.classList.add('window-focused');
+            w.classList.remove('window-inactive');
+        } else if (w.classList.contains('window-open')) {
+            w.classList.remove('window-focused');
+            w.classList.add('window-inactive');
+        }
+    });
+}
+
+// Escape closes the focused desktop window (keyboard a11y). Guarded so it never
+// fires while typing, while a lightbox is open, or on mobile (its overlay handles
+// its own back/Escape). Games don't listen for Escape, so there's no conflict.
+// Also guarded against every full-screen overlay that binds Escape for itself:
+// without this, one keypress dismisses the overlay AND closes the window behind it.
+const ESC_OVERLAYS = ['lightboxOverlay', 'spotlightOverlay', 'launchpadOverlay',
+                      'missionControl', 'notificationCenter'];
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || isMobile()) return;
+    const t = e.target;
+    if (t && t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return;
+    if (ESC_OVERLAYS.some(id => document.getElementById(id)?.classList.contains('active'))) return;
+    const focused = document.querySelector('.window.window-open.window-focused');
+    if (!focused) return;
+    const id = focused.dataset.window;
+    closeWindow(id);
+    // Return focus to the launcher (dock/desktop icon) that opened the window.
+    const opener = document.querySelector(`.dock-item[data-window="${id}"], .desktop-icon[data-window="${id}"]`);
+    if (opener) opener.focus();
+    e.preventDefault();
+});
+
+// strengths/ is an ARIA tab set: six specialties, one evidence panel each.
+// Delegated like the experience rows, because the mobile sheet clones these
+// nodes. Arrow keys move between tabs, per the tablist pattern.
+function selectStrengthTab(tab) {
+    const list = tab.closest('.str-tabs');
+    const stage = list.parentElement.querySelector('.str-stage');
+    list.querySelectorAll('.str-tab').forEach(t => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+    });
+    stage.querySelectorAll('.str-panel').forEach(p => {
+        p.hidden = p.id !== tab.getAttribute('aria-controls');
+    });
+}
+document.addEventListener('click', (e) => {
+    const tab = e.target.closest?.('.str-tab');
+    if (tab) selectStrengthTab(tab);
+});
+document.addEventListener('keydown', (e) => {
+    const tab = e.target.closest?.('.str-tab');
+    if (!tab) return;
+    const keys = {ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1};
+    if (!(e.key in keys)) return;
+    const tabs = [...tab.closest('.str-tabs').querySelectorAll('.str-tab')];
+    const next = tabs[(tabs.indexOf(tab) + keys[e.key] + tabs.length) % tabs.length];
+    e.preventDefault();
+    selectStrengthTab(next);
+    next.focus();
+});
+
+// Experience rows are disclosures. Delegated rather than per-row inline handlers,
+// because the desktop window and the mobile sheet reuse the same DOM nodes, so one
+// listener covers both. Keyboard support is the point: these rows were mouse-only.
+function toggleExpItem(item) {
+    const open = item.classList.toggle('open');
+    item.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+document.addEventListener('click', (e) => {
+    const item = e.target.closest?.('.exp-item');
+    if (!item) return;
+    if (e.target.closest('a')) return;            // the company link handles itself
+    if (e.target.closest('.exp-detail')) return;  // reading the body must not close it
+    // A click that ends a text selection is a read, not a tap.
+    if (String(getSelection?.() || '').length > 0) return;
+    toggleExpItem(item);
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const item = e.target.closest?.('.exp-item');
+    if (!item || item !== e.target) return;  // only when the row itself holds focus
+    e.preventDefault();                      // Space would otherwise scroll the pane
+    toggleExpItem(item);
+});
+
+windows.forEach(win => {
+    // Focusable as a programmatic target (a11y: focus lands here when a window
+    // opens) but kept out of the Tab sequence.
+    win.setAttribute('tabindex', '-1');
+    win.addEventListener('mousedown', () => {
+        zIndex = Math.min(zIndex + 1, 549);
+        win.style.setProperty('z-index', zIndex, 'important');
+
+        // Always push recycle/notepad to back when any window is clicked
+        const recycleWin = document.getElementById('recycleWindow');
+        const notepadWin = document.getElementById('notepadWindow');
+        if (recycleWin) recycleWin.style.setProperty('z-index', '1', 'important');
+        if (notepadWin) notepadWin.style.setProperty('z-index', '1', 'important');
+
+        // Only add active class to this window's nav items (don't remove from others - they stay active while open)
+        allNavItems.forEach(i => {
+            if (i.dataset.window === win.dataset.window) i.classList.add('active');
+        });
+        setWindowFocus(win);
+        kosSyncUrl(false);
+    });
+    win.querySelectorAll('.window-dot').forEach(dot => {
+        dot.addEventListener('click', e => {
+            e.stopPropagation();
+            if (dot.dataset.action === 'close') closeWindow(win.dataset.window);
+            if (dot.dataset.action === 'minimize') minimizeWindow(win.dataset.window);
+            if (dot.dataset.action === 'maximize') {
+                // Toggle between maximized and normal size
+                if (win.classList.contains('snapped-top')) {
+                    win.classList.remove('snapped-top');
+                    win.style.top = '';
+                    win.style.left = '';
+                    win.style.width = '';
+                    win.style.height = '';
+                } else {
+                    win.classList.remove('snapped-left', 'snapped-right');
+                    win.classList.add('snapped-top');
+                    // Set initial position for maximized window
+                    win.style.top = '28px';
+                    win.style.left = '0px';
+                }
+            }
+        });
+    });
+
+    // Dragging
+    const header = win.querySelector('.window-header');
+    let isDragging = false;
+    let startX, startY, startLeft, startTop;
+
+    header.addEventListener('mousedown', e => {
+        if (e.target.classList.contains('window-dot')) return;
+        e.preventDefault();
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        const rect = win.getBoundingClientRect();
+        startLeft = rect.left;
+        startTop = rect.top;
+        win.style.transition = 'none';
+        // Track this window for snap detection
+        currentlyDraggingWindow = win;
+    });
+
+    document.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        win.style.left = (startLeft + dx) + 'px';
+        win.style.top = (startTop + dy) + 'px';
+        win.style.transform = 'none';
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            rememberWindowPlace(win);
+            win.style.transition = '';
+        }
+    });
+});
+
+// ===================
+// DOCK MAGNIFICATION
+// ===================
+const dock = document.getElementById('dock');
+const dockItemsAll = dock.querySelectorAll('.dock-item');
+
+dock.addEventListener('mousemove', (e) => {
+    const dockRect = dock.getBoundingClientRect();
+    const mouseX = e.clientX;
+    
+    dockItemsAll.forEach(item => {
+        const itemRect = item.getBoundingClientRect();
+        const itemCenterX = itemRect.left + itemRect.width / 2;
+        const distance = Math.abs(mouseX - itemCenterX);
+        const maxDistance = 100;
+        
+        if (distance < maxDistance) {
+            const scale = 1 + (1 - distance / maxDistance) * 0.5; // Max 1.5x scale
+            const translateY = (1 - distance / maxDistance) * -12; // Max -12px lift
+            item.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+        } else {
+            item.style.transform = '';
+        }
+    });
+});
+
+dock.addEventListener('mouseleave', () => {
+    dockItemsAll.forEach(item => {
+        item.style.transform = '';
+    });
+});
+
+// Dock bounce animation on click
+dockItemsAll.forEach(item => {
+    item.addEventListener('click', () => {
+        item.classList.add('bouncing');
+        setTimeout(() => item.classList.remove('bouncing'), 500);
+    });
+});
+
+// ===================
+// DESKTOP ICON SELECTION
+// ===================
+let selectedIcon = null;
+
+icons.forEach(icon => {
+    // Single click to select
+    icon.addEventListener('click', (e) => {
+        // Remove selection from all icons
+        icons.forEach(i => i.classList.remove('selected'));
+        // Select this icon
+        icon.classList.add('selected');
+        selectedIcon = icon;
+    });
+
+    // Double click to open (in addition to existing behavior)
+    icon.addEventListener('dblclick', () => {
+        if (icon.dataset.window) {
+            openWindow(icon.dataset.window);
+        }
+    });
+});
+
+// Click on desktop to deselect icons
+document.querySelector('.desktop').addEventListener('click', (e) => {
+    if (e.target.classList.contains('desktop') || e.target.closest('.windows-area')) {
+        icons.forEach(i => i.classList.remove('selected'));
+        selectedIcon = null;
+    }
+});
+
+// Handle data-open buttons - open window on desktop, open overlay on mobile
+document.querySelectorAll('[data-open]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const windowId = btn.dataset.open;
+        if (isMobile()) {
+            // On mobile, open the overlay
+            openMobileOverlay(windowId);
+        } else {
+            // On desktop, open the window
+            openWindow(windowId);
+        }
+    });
+});
+
+// ===================
+// MUSIC PLAYER
+// ===================
+const playlist = [
+    { file: 'Abracadabra - Lady Gaga.mp3', title: 'Abracadabra', artist: 'Lady Gaga' },
+    { file: 'Toxic - Britney Spears.mp3', title: 'Toxic', artist: 'Britney Spears' },
+    { file: 'Telephone - Lady Gaga + Beyonce.mp3', title: 'Telephone', artist: 'Lady Gaga + Beyoncé' },
+    { file: 'Baby One More Time - Britney Spears.mp3', title: 'Baby One More Time', artist: 'Britney Spears' },
+    { file: 'Paparazzi - Lady Gaga.mp3', title: 'Paparazzi', artist: 'Lady Gaga' },
+    { file: 'Shadow of a Man - Lady Gaga.mp3', title: 'Shadow of a Man', artist: 'Lady Gaga' },
+    { file: 'Venus - Lady Gaga.mp3', title: 'Venus', artist: 'Lady Gaga' }
+];
+
+const musicBase = 'https://middleton.io/music/';
+let currentTrack = 0;
+let isPlaying = false;
+const audio = new Audio();
+audio.preload = 'none'; // don't download a ~4-5MB track on load; fetch on first play
+
+const playerTitle = document.querySelector('.player-title');
+const playerArtist = document.querySelector('.player-artist');
+const playBtn = document.getElementById('playBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const progressBar = document.getElementById('progressBar');
+const currentTime = document.querySelector('.player-time.current');
+const remainingTime = document.querySelector('.player-time.remaining');
+
+function formatTime(seconds) {
+    if (isNaN(seconds)) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return mins + ':' + (secs < 10 ? '0' : '') + secs;
+}
+
+function loadTrack(index) {
+    const track = playlist[index];
+    playerTitle.textContent = track.title;
+    playerArtist.textContent = track.artist;
+    audio.src = musicBase + encodeURIComponent(track.file);
+    progressBar.style.width = '0%';
+    currentTime.textContent = '0:00';
+    remainingTime.textContent = '-0:00';
+}
+
+function togglePlay() {
+    if (isPlaying) {
+        audio.pause();
+        playBtn.textContent = '▶';
+    } else {
+        audio.play();
+        playBtn.textContent = '⏸';
+    }
+    isPlaying = !isPlaying;
+}
+
+function nextTrack() {
+    currentTrack = (currentTrack + 1) % playlist.length;
+    loadTrack(currentTrack);
+    if (isPlaying) audio.play();
+}
+
+function prevTrack() {
+    currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+    loadTrack(currentTrack);
+    if (isPlaying) audio.play();
+}
+
+playBtn.addEventListener('click', togglePlay);
+nextBtn.addEventListener('click', nextTrack);
+prevBtn.addEventListener('click', prevTrack);
+
+audio.addEventListener('timeupdate', () => {
+    if (audio.duration) {
+        progressBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+        currentTime.textContent = formatTime(audio.currentTime);
+        remainingTime.textContent = '-' + formatTime(audio.duration - audio.currentTime);
+    }
+});
+
+audio.addEventListener('ended', nextTrack);
+
+// Load first track
+loadTrack(0);
+
+// Debug: log what we're trying to load
+audio.addEventListener('error', (e) => {
+    console.error('Audio error:', audio.error);
+    console.log('Attempted URL:', audio.src);
+});
+
+audio.addEventListener('canplay', () => {
+    console.log('Audio ready to play:', audio.src);
+});
+
+// Player dragging
+const musicPlayer = document.getElementById('musicPlayer');
+const playerHeader = document.querySelector('.player-header');
+let playerDragging = false;
+let playerStartX, playerStartY, playerStartLeft, playerStartTop;
+
+playerHeader.addEventListener('mousedown', e => {
+    playerDragging = true;
+    playerStartX = e.clientX;
+    playerStartY = e.clientY;
+    const rect = musicPlayer.getBoundingClientRect();
+    playerStartLeft = rect.left;
+    playerStartTop = rect.top;
+    musicPlayer.style.transition = 'none';
+});
+
+document.addEventListener('mousemove', e => {
+    if (!playerDragging) return;
+    const dx = e.clientX - playerStartX;
+    const dy = e.clientY - playerStartY;
+    musicPlayer.style.right = 'auto';
+    musicPlayer.style.bottom = 'auto';
+    musicPlayer.style.left = (playerStartLeft + dx) + 'px';
+    musicPlayer.style.top = (playerStartTop + dy) + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+    if (playerDragging) {
+        playerDragging = false;
+        musicPlayer.style.transition = '';
+    }
+});
+
+// Close player button (desktop)
+document.getElementById('closePlayer').addEventListener('click', (e) => {
+    e.stopPropagation();
+    musicPlayer.style.display = 'none';
+    audio.pause();
+    isPlaying = false;
+    playBtn.textContent = '▶';
+    document.getElementById('musicIcon').classList.remove('active');
+});
+
+// Minimize player button (desktop) - also closes
+document.getElementById('minimizePlayer').addEventListener('click', (e) => {
+    e.stopPropagation();
+    musicPlayer.style.display = 'none';
+    audio.pause();
+    isPlaying = false;
+    playBtn.textContent = '▶';
+    document.getElementById('musicIcon').classList.remove('active');
+});
+
+// Mobile dismiss button
+const mobileClosePlayer = document.getElementById('mobileClosePlayer');
+if (mobileClosePlayer) {
+    mobileClosePlayer.addEventListener('click', (e) => {
+        e.stopPropagation();
+        musicPlayer.style.display = 'none';
+        audio.pause();
+        isPlaying = false;
+        playBtn.textContent = '▶';
+    });
+}
+
+// Music icon toggle
+document.getElementById('musicIcon').addEventListener('click', () => {
+    const player = document.getElementById('musicPlayer');
+    const icon = document.getElementById('musicIcon');
+    if (player.style.display === 'none') {
+        player.style.display = 'block';
+        icon.classList.add('active');
+    } else {
+        player.style.display = 'none';
+        audio.pause();
+        isPlaying = false;
+        playBtn.textContent = '▶';
+        icon.classList.remove('active');
+    }
+});
+
+// ===================
+// RECYCLE BIN
+// ===================
+const recycleWindow = document.getElementById('recycleWindow');
+const notepadWindow = document.getElementById('notepadWindow');
+const recycleNote = document.getElementById('recycleNote');
+
+// Helper to get next z-index (capped below mission control/launchpad at 550)
+function getNextZIndex() {
+    zIndex = Math.min(zIndex + 1, 549);
+    return zIndex;
+}
+
+// Bring a window to front (works for any window element)
+function bringToFront(winElement) {
+    winElement.style.zIndex = getNextZIndex();
+}
+
+document.getElementById('recycleBin').addEventListener('click', () => {
+    const virusOverlay = document.getElementById('virusOverlay');
+    if (virusOverlay.classList.contains('active')) {
+        virusOverlay.classList.remove('active');
+        virusOverlay.innerHTML = `
+            <div class="virus-screen">
+                <div class="virus-text">
+                    <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
+                    <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
+                </div>
+            </div>
+        `;
+        document.body.style.filter = '';
+        alert('🗑️ System restored! Files recovered from Recycle Bin. 🎉');
+    } else {
+        recycleWindow.style.zIndex = getNextZIndex();
+        recycleWindow.style.display = 'block';
+    }
+});
+
+if (recycleNote) {
+    recycleNote.addEventListener('click', () => {
+        notepadWindow.style.zIndex = getNextZIndex();
+        notepadWindow.style.display = 'block';
+    });
+}
+
+document.getElementById('closeRecycle').addEventListener('click', () => {
+    recycleWindow.style.display = 'none';
+});
+
+document.getElementById('closeNotepad').addEventListener('click', () => {
+    notepadWindow.style.display = 'none';
+});
+
+const recycleHeader = document.querySelector('.recycle-header');
+let recycleDragging = false;
+let recycleStartX, recycleStartY, recycleStartLeft, recycleStartTop;
+
+recycleHeader.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('window-dot')) return;
+    e.preventDefault();
+    recycleWindow.style.zIndex = getNextZIndex();
+    recycleDragging = true;
+    recycleStartX = e.clientX;
+    recycleStartY = e.clientY;
+    const rect = recycleWindow.getBoundingClientRect();
+    recycleStartLeft = rect.left;
+    recycleStartTop = rect.top;
+    recycleWindow.style.transition = 'none';
+});
+
+document.addEventListener('mousemove', e => {
+    if (!recycleDragging) return;
+    recycleWindow.style.left = (recycleStartLeft + e.clientX - recycleStartX) + 'px';
+    recycleWindow.style.top = (recycleStartTop + e.clientY - recycleStartY) + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+    if (recycleDragging) {
+        recycleDragging = false;
+        recycleWindow.style.transition = '';
+    }
+});
+
+const notepadHeader = document.querySelector('.notepad-header');
+let notepadDragging = false;
+let notepadStartX, notepadStartY, notepadStartLeft, notepadStartTop;
+
+notepadHeader.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('window-dot')) return;
+    e.preventDefault();
+    notepadWindow.style.zIndex = getNextZIndex();
+    notepadDragging = true;
+    notepadStartX = e.clientX;
+    notepadStartY = e.clientY;
+    const rect = notepadWindow.getBoundingClientRect();
+    notepadStartLeft = rect.left;
+    notepadStartTop = rect.top;
+    notepadWindow.style.transition = 'none';
+});
+
+document.addEventListener('mousemove', e => {
+    if (!notepadDragging) return;
+    notepadWindow.style.left = (notepadStartLeft + e.clientX - notepadStartX) + 'px';
+    notepadWindow.style.top = (notepadStartTop + e.clientY - notepadStartY) + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+    if (notepadDragging) {
+        notepadDragging = false;
+        notepadWindow.style.transition = '';
+    }
+});
+
+
+// ===================
+// VIRUS EASTER EGG
+// ===================
+document.getElementById('virusBtn').addEventListener('click', () => {
+    const overlay = document.getElementById('virusOverlay');
+    overlay.classList.add('active');
+
+    let countdown = 5;
+    const countdownEl = document.getElementById('virusCountdown');
+
+    const interval = setInterval(() => {
+        countdown--;
+        if (countdownEl) countdownEl.textContent = countdown;
+
+        // Glitch effect intensifies
+        document.body.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+
+        if (countdown <= 0) {
+            clearInterval(interval);
+            // "Delete" effect - screen goes crazy then shows recovery
+            setTimeout(() => {
+                document.body.style.filter = 'invert(1)';
+                setTimeout(() => {
+                    document.body.style.filter = '';  // Clear all filters
+                    setTimeout(() => {
+                        // Show recovery options
+                        const recoveryDiv = document.createElement('div');
+                        recoveryDiv.className = 'recovery-hint';
+                        recoveryDiv.innerHTML = `
+                            <div class="recovery-title">👾 uh oh.</div>
+                            <div class="recovery-subtitle">Unusual activity detected.</div>
+                            <div class="recovery-buttons">
+                                <button class="recovery-btn" id="wipeBtn">💾 Wipe</button>
+                                <button class="recovery-btn" id="antivirusBtn">🛡️ Antivirus</button>
+                                <button class="recovery-btn" id="ignoreBtn">🙈 Ignore</button>
+                            </div>
+                        `;
+                        overlay.appendChild(recoveryDiv);
+
+                        // Wipe - full page reload
+                        document.getElementById('wipeBtn').addEventListener('click', () => {
+                            location.reload();
+                        });
+
+                        // Antivirus - clean recovery
+                        document.getElementById('antivirusBtn').addEventListener('click', () => {
+                            overlay.classList.remove('active');
+                            overlay.innerHTML = `
+                                <div class="virus-screen">
+                                    <div class="virus-text">
+                                        <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
+                                        <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
+                                    </div>
+                                </div>
+                            `;
+                            document.body.style.filter = '';
+                            recoveryDiv.remove();
+                        });
+
+                        // Ignore - make it worse, then auto-recover
+                        document.getElementById('ignoreBtn').addEventListener('click', () => {
+                            recoveryDiv.remove();
+                            let chaos = 0;
+                            const chaosInterval = setInterval(() => {
+                                chaos++;
+                                document.body.style.filter = `hue-rotate(${Math.random() * 360}deg) blur(${Math.random() * 3}px)`;
+                                document.body.style.transform = `rotate(${(Math.random() - 0.5) * 10}deg) scale(${1 + Math.random() * 0.1})`;
+                                if (chaos > 15) {
+                                    clearInterval(chaosInterval);
+                                    document.body.style.filter = '';
+                                    document.body.style.transform = '';
+                                    overlay.classList.remove('active');
+                                    overlay.innerHTML = `
+                                        <div class="virus-screen">
+                                            <div class="virus-text">
+                                                <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
+                                                <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
+                                               <p class="virus-warning"><span id="virusCountdown">5</span>...</p>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                            }, 100);
+                        });
+                    }, 500);
+                }, 300);
+            }, 500);
+        }
+    }, 1000);
+});
+
+// ===================
+// VIDEO EASTER EGG (Rickroll)
+// ===================
+const videosBtn = document.getElementById('videosBtn');
+const videoWindow = document.getElementById('videoWindow');
+const closeVideo = document.getElementById('closeVideo');
+const mobileVideoTab = document.getElementById('mobileVideoTab');
+const mobileVideoPlayer = document.getElementById('mobileVideoPlayer');
+
+// Desktop - open video window
+if (videosBtn && videoWindow) {
+    videosBtn.addEventListener('click', () => {
+        videoWindow.style.display = 'block';
+        videoWindow.style.zIndex = getNextZIndex();
+    });
+}
+
+// Desktop - close video window
+if (closeVideo && videoWindow) {
+    closeVideo.addEventListener('click', () => {
+        videoWindow.style.display = 'none';
+    });
+}
+
+// Mobile - open video player from tab
+if (mobileVideoTab && mobileVideoPlayer) {
+    mobileVideoTab.addEventListener('click', () => {
+        mobileVideoTab.style.display = 'none';
+        mobileVideoPlayer.classList.add('active');
+    });
+}
+
+// Mobile - close video player by tapping
+if (mobileVideoPlayer) {
+    mobileVideoPlayer.addEventListener('click', () => {
+        mobileVideoPlayer.classList.remove('active');
+        mobileVideoTab.style.display = 'block';
+    });
+}
+
+// Desktop - video window dragging
+const videoHeader = document.querySelector('.video-header');
+let videoDragging = false;
+let videoStartX, videoStartY, videoStartLeft, videoStartTop;
+
+if (videoHeader && videoWindow) {
+    videoHeader.addEventListener('mousedown', e => {
+        if (e.target.classList.contains('window-dot')) return;
+        e.preventDefault();
+        videoWindow.style.zIndex = getNextZIndex();
+        videoDragging = true;
+        videoStartX = e.clientX;
+        videoStartY = e.clientY;
+        const rect = videoWindow.getBoundingClientRect();
+        videoStartLeft = rect.left;
+        videoStartTop = rect.top;
+        videoWindow.style.transition = 'none';
+    });
+
+    document.addEventListener('mousemove', e => {
+        if (!videoDragging) return;
+        videoWindow.style.left = (videoStartLeft + e.clientX - videoStartX) + 'px';
+        videoWindow.style.top = (videoStartTop + e.clientY - videoStartY) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (videoDragging) {
+            videoDragging = false;
+            videoWindow.style.transition = '';
+        }
+    });
+}
+
+// ===================
+// PARTY MODE
+// ===================
+let partyMode = false;
+document.getElementById('partyBtn').addEventListener('click', () => {
+    const overlay = document.getElementById('partyOverlay');
+    const container = document.getElementById('confettiContainer');
+
+    if (partyMode) {
+        overlay.classList.remove('active');
+        container.innerHTML = '';
+        document.body.classList.remove('party-mode');
+        partyMode = false;
+        return;
+    }
+
+    partyMode = true;
+    overlay.classList.add('active');
+    document.body.classList.add('party-mode');
+
+    // Create confetti
+    const colors = ['#ff6eb4', '#5c8aff', '#4ae0a0', '#ffc048', '#a078ff', '#ff9f6a'];
+
+    function createConfetti() {
+        if (!partyMode) return;
+
+        for (let i = 0; i < 5; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 98 + '%';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+            container.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 4000);
+        }
+
+        setTimeout(createConfetti, 200);
+    }
+
+    createConfetti();
+
+    // Auto-stop after 10 seconds
+    setTimeout(() => {
+        if (partyMode) {
+            overlay.classList.remove('active');
+            container.innerHTML = '';
+            document.body.classList.remove('party-mode');
+            partyMode = false;
+        }
+    }, 10000);
+});
+
+// ===================
+// PHOTO VIEWER
+// ===================
+let photoZIndex = 100;
+
+document.querySelectorAll('[data-photo]').forEach(img => {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', () => {
+        const src = img.dataset.photoSrc;
+        const title = img.dataset.photoTitle;
+        const id = 'photo-' + img.dataset.photo;
+
+        // Check if already open
+        if (document.getElementById(id)) {
+            const existing = document.getElementById(id);
+            photoZIndex++;
+            existing.style.zIndex = photoZIndex;
+            return;
+        }
+
+        // Create photo window
+        const photoWin = document.createElement('div');
+        photoWin.className = 'photo-window';
+        photoWin.id = id;
+        photoZIndex++;
+        photoWin.style.zIndex = photoZIndex;
+
+        photoWin.innerHTML = `
+            <div class="photo-header">
+                <div class="window-dots">
+                    <button class="window-dot red photo-close"></button>
+                    <span class="window-dot yellow"></span>
+                    <span class="window-dot green"></span>
+                </div>
+                <span class="photo-title">${title}</span>
+            </div>
+            <div class="photo-body">
+                <img src="${src}" alt="${title}">
+            </div>
+        `;
+
+        document.getElementById('photoWindows').appendChild(photoWin);
+
+        // Position randomly but visible
+        const maxX = window.innerWidth - 350;
+        const maxY = window.innerHeight - 350;
+        photoWin.style.left = (100 + Math.random() * Math.max(0, maxX - 200)) + 'px';
+        photoWin.style.top = (80 + Math.random() * Math.max(0, maxY - 200)) + 'px';
+
+        // Close button
+        photoWin.querySelector('.photo-close').addEventListener('click', () => {
+            photoWin.remove();
+        });
+
+        // Bring to front on click
+        photoWin.addEventListener('mousedown', () => {
+            photoZIndex++;
+            photoWin.style.zIndex = photoZIndex;
+        });
+
+        // Dragging
+        const header = photoWin.querySelector('.photo-header');
+        let isDragging = false;
+        let startX, startY, startLeft, startTop;
+
+        header.addEventListener('mousedown', e => {
+            if (e.target.classList.contains('photo-close')) return;
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            const rect = photoWin.getBoundingClientRect();
+            startLeft = rect.left;
+            startTop = rect.top;
+        });
+
+        document.addEventListener('mousemove', e => {
+            if (!isDragging) return;
+            photoWin.style.left = (startLeft + e.clientX - startX) + 'px';
+            photoWin.style.top = (startTop + e.clientY - startY) + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    });
+});
+
+// ===================
+// EXPERIENCE IMAGE LIGHTBOX
+// ===================
+function openLightbox(src, alt) {
+    const overlay = document.getElementById('lightboxOverlay');
+    const img = document.getElementById('lightboxImage');
+    const title = document.getElementById('lightboxTitle');
+
+    img.src = src;
+    img.alt = alt;
+    title.textContent = alt;
+    overlay.classList.add('active');
+
+    // Close on escape key
+    document.addEventListener('keydown', closeLightboxOnEscape);
+}
+
+function closeLightbox() {
+    const overlay = document.getElementById('lightboxOverlay');
+    overlay.classList.remove('active');
+    document.removeEventListener('keydown', closeLightboxOnEscape);
+}
+
+function closeLightboxOnEscape(e) {
+    if (e.key === 'Escape') closeLightbox();
+}
+
+// ===================
+// THEME TOGGLE
+// ===================
+const root = document.documentElement;
+
+// Check system preference
+function getSystemTheme() {
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+
+// Apply theme
+function applyTheme(theme) {
+    root.dataset.theme = theme;
+    const icon = theme === 'light' ? '🌙' : '☀️';
+    // Update mobile theme icon
+    const mobileThemeIcon = document.getElementById('mobileThemeIcon');
+    if (mobileThemeIcon) {
+        mobileThemeIcon.textContent = icon;
+    }
+    // Update menubar theme icon
+    const menubarThemeToggle = document.getElementById('menubarThemeToggle');
+    if (menubarThemeToggle) {
+        menubarThemeToggle.textContent = icon;
+    }
+}
+
+// On load: always start with system preference
+applyTheme(getSystemTheme());
+
+// Listen for system preference changes - always follow system
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+    applyTheme(e.matches ? 'light' : 'dark');
+});
+
+// Mobile theme toggle
+const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+if (mobileThemeToggle) {
+    mobileThemeToggle.addEventListener('click', () => {
+        const current = root.dataset.theme;
+        applyTheme(current === 'light' ? 'dark' : 'light');
+    });
+}
+
+// Menubar theme toggle
+const menubarThemeToggle = document.getElementById('menubarThemeToggle');
+if (menubarThemeToggle) {
+    menubarThemeToggle.addEventListener('click', () => {
+        const current = root.dataset.theme;
+        applyTheme(current === 'light' ? 'dark' : 'light');
+    });
+}
+
+// Mobile party button
+const mobilePartyBtn = document.getElementById('mobilePartyBtn');
+if (mobilePartyBtn) {
+    mobilePartyBtn.addEventListener('click', () => {
+        // Trigger the same party mode as desktop
+        document.getElementById('partyBtn').click();
+        // Close the folder after triggering party
+        closeMobileSecretFolder();
+    });
+}
+
+// Mobile secret folder toggle
+const mobileSecretBtn = document.getElementById('mobileSecretBtn');
+const mobileHiddenFolder = document.getElementById('mobileHiddenFolder');
+const mobileHiddenBackdrop = document.getElementById('mobileHiddenBackdrop');
+
+function openMobileSecretFolder() {
+    if (mobileHiddenFolder && mobileHiddenBackdrop) {
+        mobileHiddenBackdrop.classList.add('active');
+        mobileHiddenFolder.classList.add('open');
+    }
+}
+
+function closeMobileSecretFolder() {
+    if (mobileHiddenFolder && mobileHiddenBackdrop) {
+        mobileHiddenBackdrop.classList.remove('active');
+        mobileHiddenFolder.classList.remove('open');
+    }
+}
+
+if (mobileSecretBtn) {
+    mobileSecretBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (mobileHiddenFolder && mobileHiddenFolder.classList.contains('open')) {
+            closeMobileSecretFolder();
+        } else {
+            openMobileSecretFolder();
+        }
+    });
+}
+
+if (mobileHiddenBackdrop) {
+    mobileHiddenBackdrop.addEventListener('click', closeMobileSecretFolder);
+}
+
+// Close folder after theme toggle too
+if (mobileThemeToggle) {
+    mobileThemeToggle.addEventListener('click', () => {
+        closeMobileSecretFolder();
+    });
+}
+
+// Mobile Apps folder (iPhone-style popup)
+const dockAppsFolder = document.getElementById('dockAppsFolder');
+const mobileAppsFolder = document.getElementById('mobileAppsFolder');
+const mobileAppsBackdrop = document.getElementById('mobileAppsBackdrop');
+
+// Mobile Games sub-folder
+const mobileGamesBtn = document.getElementById('mobileGamesBtn');
+const mobileMusicBtn = document.getElementById('mobileMusicBtn');
+const mobileGamesFolder = document.getElementById('mobileGamesFolder');
+const mobileGamesBackdrop = document.getElementById('mobileGamesBackdrop');
+
+function openMobileAppsFolder() {
+    if (mobileAppsFolder && mobileAppsBackdrop) {
+        mobileAppsBackdrop.classList.add('active');
+        mobileAppsFolder.classList.add('open');
+    }
+}
+
+function closeMobileAppsFolder() {
+    if (mobileAppsFolder && mobileAppsBackdrop) {
+        mobileAppsBackdrop.classList.remove('active');
+        mobileAppsFolder.classList.remove('open');
+    }
+}
+
+function openMobileGamesFolder() {
+    // Close apps folder first
+    closeMobileAppsFolder();
+    if (mobileGamesFolder && mobileGamesBackdrop) {
+        setTimeout(() => {
+            mobileGamesBackdrop.classList.add('active');
+            mobileGamesFolder.classList.add('open');
+        }, 100);
+    }
+}
+
+function closeMobileGamesFolder() {
+    if (mobileGamesFolder && mobileGamesBackdrop) {
+        mobileGamesBackdrop.classList.remove('active');
+        mobileGamesFolder.classList.remove('open');
+    }
+}
+
+// Dock Apps folder trigger (desktop dock - unused on mobile)
+if (dockAppsFolder) {
+    dockAppsFolder.addEventListener('click', (e) => {
+        e.preventDefault();
+        openMobileAppsFolder();
+    });
+}
+
+// Mobile contact bar Apps folder trigger
+const mobileAppsFolderBtn = document.getElementById('mobileAppsFolderBtn');
+if (mobileAppsFolderBtn) {
+    mobileAppsFolderBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openMobileAppsFolder();
+    });
+}
+
+// Springboard Apps folder trigger
+const springboardAppsFolder = document.getElementById('springboardAppsFolder');
+if (springboardAppsFolder) {
+    springboardAppsFolder.addEventListener('click', (e) => {
+        e.preventDefault();
+        openMobileAppsFolder();
+    });
+}
+
+// Apps folder backdrop closes it
+if (mobileAppsBackdrop) {
+    mobileAppsBackdrop.addEventListener('click', closeMobileAppsFolder);
+}
+
+// Games button opens games sub-folder
+if (mobileGamesBtn) {
+    mobileGamesBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openMobileGamesFolder();
+    });
+}
+
+// Music button opens music player
+if (mobileMusicBtn) {
+    mobileMusicBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeMobileAppsFolder();
+        setTimeout(() => {
+            if (musicPlayer) {
+                musicPlayer.style.display = 'block';
+            }
+        }, 100);
+    });
+}
+
+// Games folder backdrop closes it
+if (mobileGamesBackdrop) {
+    mobileGamesBackdrop.addEventListener('click', closeMobileGamesFolder);
+}
+
+// Open recipes on mobile with proper fullscreen handling
+function openMobileRecipes() {
+    const recipesWindow = document.getElementById('recipesdb');
+    const windowsArea = document.querySelector('.windows-area');
+
+    if (isMobile()) {
+        // First, prepare everything while hidden
+        if (recipesWindow) {
+            // Add class for mobile state before showing
+            recipesWindow.classList.add('mobile-fullscreen-ready');
+            recipesWindow.style.setProperty('opacity', '0', 'important');
+        }
+
+        if (windowsArea) {
+            windowsArea.style.setProperty('display', 'block', 'important');
+            windowsArea.style.setProperty('position', 'fixed', 'important');
+            windowsArea.style.setProperty('inset', '0', 'important');
+            windowsArea.style.setProperty('z-index', '1000', 'important');
+            windowsArea.style.setProperty('background', 'var(--bg)', 'important');
+            windowsArea.classList.add('mobile-recipes-open');
+
+            // Hide all other windows
+            windowsArea.querySelectorAll('.window').forEach(win => {
+                if (win.id !== 'recipesdb') {
+                    win.style.setProperty('display', 'none', 'important');
+                }
+            });
+        }
+
+        if (recipesWindow) {
+            recipesWindow.style.setProperty('display', 'flex', 'important');
+            recipesWindow.style.setProperty('position', 'fixed', 'important');
+            recipesWindow.style.setProperty('inset', '0', 'important');
+            recipesWindow.style.setProperty('width', '100%', 'important');
+            recipesWindow.style.setProperty('height', '100%', 'important');
+            recipesWindow.style.setProperty('max-height', '100%', 'important');
+            recipesWindow.style.setProperty('border-radius', '0', 'important');
+            recipesWindow.style.setProperty('z-index', '1001', 'important');
+            recipesWindow.classList.add('window-open');
+
+            // Now reveal after everything is set up
+            requestAnimationFrame(() => {
+                recipesWindow.style.setProperty('opacity', '1', 'important');
+                recipesWindow.classList.remove('mobile-fullscreen-ready');
+            });
+        }
+    } else {
+        openWindow('recipesdb');
+    }
+}
+
+// Handle Recipes click in Apps folder
+document.querySelectorAll('#mobileAppsFolder .mobile-folder-item[data-window="recipesdb"]').forEach(item => {
+    item.addEventListener('click', () => {
+        closeMobileAppsFolder();
+        setTimeout(() => openMobileRecipes(), 100);
+    });
+});
+
+// Handle game item clicks in the folder
+document.querySelectorAll('.mobile-folder-item[data-game]').forEach(item => {
+    item.addEventListener('click', () => {
+        const gameId = item.dataset.game;
+        closeMobileGamesFolder();
+        // Small delay for folder close animation, then open game
+        setTimeout(() => openGameOverlay(gameId), 150);
+    });
+});
+
+function updateTime() {
+    const now = new Date();
+    // Menu bar time - uses system locale for 12/24 hour format
+    const menubarTime = document.getElementById('menubarTime');
+    if (menubarTime) {
+        menubarTime.textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    }
+}
+updateTime();
+setInterval(updateTime, 60000);
+
+// ===================
+// FOLDER ITEM CLICKS
+// ===================
+
+// Mobile game embedding state
+let mobileActiveGame = null;
+const gamesFolderGrid = document.getElementById('gamesFolderGrid');
+const gamesEmbed = document.getElementById('gamesEmbed');
+const gamesWindow = document.getElementById('games');
+
+// Game info for header updates
+const gameInfo = {
+    invaders: { icon: '👾', title: 'invaders.app' },
+    tetris: { icon: '🧱', title: 'tetris.app' },
+    bugsquash: { icon: '🐛', title: 'bugsquash.app' },
+    runner: { icon: '🏃', title: 'runner.app' },
+    snake: { icon: '🐍', title: 'snake.app' },
+    standup: { icon: '⌨️', title: 'standup.app' },
+    interview: { icon: '💼', title: 'interview.app' }
+};
+
+function showMobileGame(gameId) {
+    const gameWindow = document.getElementById(gameId);
+    if (!gameWindow || !gamesWindow) return;
+    
+    // Hide games folder
+    gamesWindow.classList.add('mobile-hidden');
+    
+    // Show the game window (override the mobile display:none)
+    gameWindow.style.display = 'block';
+    gameWindow.classList.add('mobile-active-game');
+    
+    mobileActiveGame = gameId;
+    
+    // Scroll to the game
+    gameWindow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function returnToGamesFolder() {
+    if (!mobileActiveGame) return;
+    
+    const gameWindow = document.getElementById(mobileActiveGame);
+    if (gameWindow) {
+        gameWindow.style.display = '';
+        gameWindow.classList.remove('mobile-active-game');
+    }
+    
+    // Show games folder
+    if (gamesWindow) {
+        gamesWindow.classList.remove('mobile-hidden');
+        gamesWindow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    mobileActiveGame = null;
+}
+
+document.querySelectorAll('.folder-item[data-window]').forEach(item => {
+    item.addEventListener('click', () => {
+        const targetWindow = item.dataset.window;
+        
+        // On mobile, show game window directly if it's a game
+        if (isMobile() && gameInfo[targetWindow]) {
+            showMobileGame(targetWindow);
+        } else {
+            openWindow(targetWindow);
+        }
+    });
+});
+
+// See All Games click handler
+document.querySelectorAll('.see-all-games').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (isMobile()) {
+            // Close the current game and return to games folder popup
+            const gameWindow = btn.closest('.game-window');
+            if (gameWindow) {
+                closeGameOverlay(gameWindow.id);
+            }
+        } else {
+            // On desktop, close current game and open games folder
+            const gameWindow = btn.closest('.game-window');
+            if (gameWindow) {
+                closeWindow(gameWindow.id);
+            }
+            openWindow('games');
+        }
+    });
+});
+
+// ===================
+// SCOPE CREEP GAME
+// ===================
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const gameContainer = document.getElementById('gameContainer');
+const gameStart = document.getElementById('gameStart');
+const gameOver = document.getElementById('gameOver');
+const gameHud = document.getElementById('gameHud');
+const startGameBtn = document.getElementById('startGameBtn');
+const playAgainBtn = document.getElementById('playAgainBtn');
+const whoAmIBtn = document.getElementById('whoAmIBtn');
+
+// Game state
+let gameRunning = false;
+let score = 0;
+let wave = 1;
+let lives = 3;
+let player, enemies, bullets, enemyBullets, explosions, powerups;
+let enemyDirection = 1;
+let enemyMoveTimer = 0;
+let enemyMoveInterval = 60;
+let enemyDropAmount = 20;
+let playerInvincible = 0;
+let rapidFireTimer = 0;
+let shieldActive = false;
+let lastShotTime = 0;
+let powerupSpawned = false;
+
+const PLAYER_SPEED = 6;
+const BULLET_SPEED = 8;
+const ENEMY_BULLET_SPEED = 4;
+const SHOT_COOLDOWN = 250;
+const RAPID_FIRE_COOLDOWN = 100;
+
+// Wave formations
+const FORMATIONS = {
+    grid: (wave) => {
+        const enemies = [];
+        const rows = 3;
+        const cols = 5;
+        const enemyTypes = ['👾', '👽', '👻'];
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const hasShield = wave > 2 && Math.random() < 0.2 + (wave * 0.05);
+                enemies.push({
+                    x: 60 + col * 70,
+                    y: 40 + row * 50,
+                    width: 36,
+                    height: 36,
+                    emoji: enemyTypes[row % 3],
+                    alive: true,
+                    hp: hasShield ? 2 : 1,
+                    maxHp: hasShield ? 2 : 1
+                });
+            }
+        }
+        return enemies;
+    },
+    vShape: (wave) => {
+        const enemies = [];
+        const enemyTypes = ['👾', '👽', '👻'];
+        const positions = [
+            [2], 
+            [1, 3], 
+            [0, 4], 
+            [0, 4],
+            [1, 3]
+        ];
+        positions.forEach((cols, row) => {
+            cols.forEach(col => {
+                const hasShield = wave > 2 && Math.random() < 0.2 + (wave * 0.05);
+                enemies.push({
+                    x: 100 + col * 70,
+                    y: 30 + row * 45,
+                    width: 36,
+                    height: 36,
+                    emoji: enemyTypes[row % 3],
+                    alive: true,
+                    hp: hasShield ? 2 : 1,
+                    maxHp: hasShield ? 2 : 1
+                });
+            });
+        });
+        return enemies;
+    },
+    diamond: (wave) => {
+        const enemies = [];
+        const enemyTypes = ['👾', '👽', '👻'];
+        const positions = [
+            [2],
+            [1, 2, 3],
+            [0, 1, 2, 3, 4],
+            [1, 2, 3],
+            [2]
+        ];
+        positions.forEach((cols, row) => {
+            cols.forEach(col => {
+                const hasShield = wave > 2 && Math.random() < 0.2 + (wave * 0.05);
+                enemies.push({
+                    x: 80 + col * 65,
+                    y: 25 + row * 42,
+                    width: 36,
+                    height: 36,
+                    emoji: enemyTypes[row % 3],
+                    alive: true,
+                    hp: hasShield ? 2 : 1,
+                    maxHp: hasShield ? 2 : 1
+                });
+            });
+        });
+        return enemies;
+    },
+    scattered: (wave) => {
+        const enemies = [];
+        const enemyTypes = ['👾', '👽', '👻'];
+        const count = 10 + Math.floor(wave / 2);
+        for (let i = 0; i < count; i++) {
+            const hasShield = wave > 2 && Math.random() < 0.2 + (wave * 0.05);
+            enemies.push({
+                x: 40 + Math.random() * (canvas.width - 120),
+                y: 30 + Math.random() * 150,
+                width: 36,
+                height: 36,
+                emoji: enemyTypes[Math.floor(Math.random() * 3)],
+                alive: true,
+                hp: hasShield ? 2 : 1,
+                maxHp: hasShield ? 2 : 1
+            });
+        }
+        return enemies;
+    },
+    boss: (wave) => {
+        const bossHp = 10 + (Math.floor(wave / 5) * 5);
+        return [{
+            x: canvas.width / 2 - 40,
+            y: 60,
+            width: 80,
+            height: 80,
+            emoji: '👾',
+            alive: true,
+            hp: bossHp,
+            maxHp: bossHp,
+            isBoss: true
+        }];
+    }
+};
+
+function initGame() {
+    score = 0;
+    wave = 1;
+    lives = 3;
+    shieldActive = false;
+    rapidFireTimer = 0;
+    updateHud();
+    initWave();
+}
+
+function initWave() {
+    player = {
+        x: canvas.width / 2 - 20,
+        y: canvas.height - 50,
+        width: 40,
+        height: 30
+    };
+    
+    bullets = [];
+    enemyBullets = [];
+    explosions = [];
+    powerups = [];
+    enemyDirection = 1;
+    enemyMoveTimer = 0;
+    enemyMoveInterval = Math.max(15, 60 - (wave - 1) * 5);
+    powerupSpawned = false;
+
+    // Choose formation based on wave
+    if (wave % 5 === 0) {
+        // Boss wave
+        enemies = FORMATIONS.boss(wave);
+    } else {
+        const formations = ['grid', 'vShape', 'diamond', 'scattered'];
+        const formationType = formations[(wave - 1) % 4];
+        enemies = FORMATIONS[formationType](wave);
+    }
+}
+
+function updateHud() {
+    document.getElementById('gameScore').textContent = score;
+    document.getElementById('gameWave').textContent = wave;
+    let livesDisplay = '🚀'.repeat(Math.max(0, lives));
+    if (shieldActive) livesDisplay += '🛡️';
+    if (rapidFireTimer > 0) livesDisplay += '⚡';
+    document.getElementById('gameLives').textContent = livesDisplay;
+}
+
+function shoot() {
+    const now = Date.now();
+    const cooldown = rapidFireTimer > 0 ? RAPID_FIRE_COOLDOWN : SHOT_COOLDOWN;
+    if (now - lastShotTime < cooldown) return;
+    lastShotTime = now;
+    
+    bullets.push({
+        x: player.x + player.width / 2 - 3,
+        y: player.y,
+        width: 6,
+        height: 15
+    });
+}
+
+function enemyShoot() {
+    const aliveEnemies = enemies.filter(e => e.alive && !e.isBoss);
+    const boss = enemies.find(e => e.alive && e.isBoss);
+    
+    // Regular enemies shoot
+    if (aliveEnemies.length > 0 && Math.random() < 0.02 + wave * 0.005) {
+        const shooter = aliveEnemies[Math.floor(Math.random() * aliveEnemies.length)];
+        enemyBullets.push({
+            x: shooter.x + shooter.width / 2 - 3,
+            y: shooter.y + shooter.height,
+            width: 6,
+            height: 15
+        });
+    }
+    
+    // Boss shoots more frequently and multiple bullets
+    if (boss && Math.random() < 0.08) {
+        for (let i = -1; i <= 1; i++) {
+            enemyBullets.push({
+                x: boss.x + boss.width / 2 - 3 + (i * 30),
+                y: boss.y + boss.height,
+                width: 8,
+                height: 18
+            });
+        }
+    }
+}
+
+function spawnExplosion(x, y, size = 1) {
+    explosions.push({
+        x: x,
+        y: y,
+        frame: 0,
+        maxFrames: 15,
+        size: size
+    });
+}
+
+function spawnPowerup(x, y) {
+    if (powerupSpawned) return;
+    if (Math.random() > 0.15) return; // 15% chance
+    
+    powerupSpawned = true;
+    const types = ['rapidfire', 'shield', 'life'];
+    const type = types[Math.floor(Math.random() * types.length)];
+    const emojis = { rapidfire: '⚡', shield: '🛡️', life: '❤️' };
+    
+    powerups.push({
+        x: x,
+        y: y,
+        width: 24,
+        height: 24,
+        type: type,
+        emoji: emojis[type]
+    });
+}
+
+function collectPowerup(powerup) {
+    switch (powerup.type) {
+        case 'rapidfire':
+            rapidFireTimer = 600; // 10 seconds at 60fps
+            break;
+        case 'shield':
+            shieldActive = true;
+            break;
+        case 'life':
+            lives = Math.min(lives + 1, 5);
+            break;
+    }
+    spawnExplosion(powerup.x + 12, powerup.y + 12, 0.5);
+    updateHud();
+}
+
+function update() {
+    if (!gameRunning) return;
+
+    // Update timers
+    if (playerInvincible > 0) playerInvincible--;
+    if (rapidFireTimer > 0) rapidFireTimer--;
+
+    // Move bullets
+    bullets.forEach(b => b.y -= BULLET_SPEED);
+    bullets = bullets.filter(b => b.y > -20);
+
+    // Move enemy bullets
+    enemyBullets.forEach(b => b.y += ENEMY_BULLET_SPEED);
+    enemyBullets = enemyBullets.filter(b => b.y < canvas.height + 20);
+
+    // Move powerups
+    powerups.forEach(p => p.y += 2);
+    powerups = powerups.filter(p => p.y < canvas.height + 20);
+
+    // Update explosions
+    explosions.forEach(e => e.frame++);
+    explosions = explosions.filter(e => e.frame < e.maxFrames);
+
+    // Move enemies
+    enemyMoveTimer++;
+    if (enemyMoveTimer >= enemyMoveInterval) {
+        enemyMoveTimer = 0;
+        
+        let hitEdge = false;
+        enemies.forEach(e => {
+            if (e.alive) {
+                if ((e.x + e.width > canvas.width - 20 && enemyDirection > 0) ||
+                    (e.x < 20 && enemyDirection < 0)) {
+                    hitEdge = true;
+                }
+            }
+        });
+
+        if (hitEdge) {
+            enemyDirection *= -1;
+            enemies.forEach(e => {
+                if (e.alive && !e.isBoss) e.y += enemyDropAmount;
+            });
+        } else {
+            const moveAmount = enemies.some(e => e.isBoss) ? 20 : 15;
+            enemies.forEach(e => {
+                if (e.alive) e.x += enemyDirection * moveAmount;
+            });
+        }
+    }
+
+    // Enemy shooting
+    enemyShoot();
+
+    // Collision detection - bullets hitting enemies
+    bullets.forEach(bullet => {
+        enemies.forEach(enemy => {
+            if (enemy.alive && 
+                bullet.x < enemy.x + enemy.width &&
+                bullet.x + bullet.width > enemy.x &&
+                bullet.y < enemy.y + enemy.height &&
+                bullet.y + bullet.height > enemy.y) {
+                bullet.y = -100; // Remove bullet
+                enemy.hp--;
+                
+                if (enemy.hp <= 0) {
+                    enemy.alive = false;
+                    const points = enemy.isBoss ? 100 * wave : 10 * wave;
+                    score += points;
+                    spawnExplosion(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, enemy.isBoss ? 2 : 1);
+                    spawnPowerup(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2);
+                }
+                updateHud();
+            }
+        });
+    });
+
+    // Collision detection - player collecting powerups
+    powerups.forEach((powerup, index) => {
+        if (powerup.x < player.x + player.width &&
+            powerup.x + powerup.width > player.x &&
+            powerup.y < player.y + player.height &&
+            powerup.y + powerup.height > player.y) {
+            collectPowerup(powerup);
+            powerups.splice(index, 1);
+        }
+    });
+
+    // Collision detection - enemy bullets hitting player
+    if (playerInvincible <= 0) {
+        enemyBullets.forEach(bullet => {
+            if (bullet.x < player.x + player.width &&
+                bullet.x + bullet.width > player.x &&
+                bullet.y < player.y + player.height &&
+                bullet.y + bullet.height > player.y) {
+                bullet.y = canvas.height + 100;
+                
+                if (shieldActive) {
+                    shieldActive = false;
+                    spawnExplosion(player.x + player.width / 2, player.y, 0.5);
+                } else {
+                    lives--;
+                    playerInvincible = 120; // 2 seconds invincibility
+                    spawnExplosion(player.x + player.width / 2, player.y + player.height / 2, 0.8);
+                }
+                updateHud();
+                if (lives <= 0) {
+                    endGame();
+                }
+            }
+        });
+    }
+
+    // Check if enemies reached bottom
+    enemies.forEach(e => {
+        if (e.alive && !e.isBoss && e.y + e.height > player.y) {
+            endGame();
+        }
+    });
+
+    // Check if wave cleared
+    if (enemies.every(e => !e.alive)) {
+        wave++;
+        updateHud();
+        initWave();
+    }
+}
+
+function draw() {
+    // Clear canvas
+    ctx.fillStyle = '#0a0a0f';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw stars background
+    ctx.fillStyle = '#333';
+    for (let i = 0; i < 50; i++) {
+        const x = (i * 97) % canvas.width;
+        const y = (i * 53) % canvas.height;
+        ctx.fillRect(x, y, 2, 2);
+    }
+
+    // Draw explosions
+    explosions.forEach(exp => {
+        const progress = exp.frame / exp.maxFrames;
+        const alpha = 1 - progress;
+        const size = 20 + progress * 30 * exp.size;
+        
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.font = `${Math.floor(size)}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('💥', exp.x, exp.y);
+        ctx.restore();
+    });
+
+    // Draw powerups
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'center';
+    powerups.forEach(p => {
+        ctx.fillText(p.emoji, p.x + p.width / 2, p.y + p.height);
+    });
+
+    // Draw player (rotated rocket pointing up)
+    ctx.save();
+    ctx.translate(player.x + player.width / 2, player.y + player.height / 2);
+    ctx.rotate(-Math.PI / 4); // Rotate 45 degrees counter-clockwise
+    
+    // Flash when invincible
+    if (playerInvincible > 0 && Math.floor(playerInvincible / 8) % 2 === 0) {
+        ctx.globalAlpha = 0.3;
+    }
+    
+    ctx.font = '32px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🚀', 0, 0);
+    
+    // Draw shield if active
+    if (shieldActive) {
+        ctx.globalAlpha = 0.5;
+        ctx.beginPath();
+        ctx.arc(0, 0, 25, 0, Math.PI * 2);
+        ctx.strokeStyle = '#5c8aff';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    }
+    
+    ctx.restore();
+
+    // Draw enemies
+    enemies.forEach(e => {
+        if (e.alive) {
+            const fontSize = e.isBoss ? 64 : 32;
+            ctx.font = `${fontSize}px Arial`;
+            ctx.textAlign = 'center';
+            
+            // Draw shield glow for enemies with hp > 1
+            if (e.hp > 1 && e.maxHp > 1) {
+                ctx.save();
+                ctx.shadowColor = '#5c8aff';
+                ctx.shadowBlur = 15;
+                ctx.fillText(e.emoji, e.x + e.width / 2, e.y + e.height);
+                ctx.restore();
+                
+                // Draw shield indicator
+                ctx.save();
+                ctx.globalAlpha = 0.6;
+                ctx.beginPath();
+                ctx.arc(e.x + e.width / 2, e.y + e.height / 2 + 5, e.isBoss ? 50 : 22, 0, Math.PI * 2);
+                ctx.strokeStyle = '#5c8aff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.restore();
+            } else {
+                ctx.fillText(e.emoji, e.x + e.width / 2, e.y + e.height);
+            }
+            
+            // Draw boss health bar
+            if (e.isBoss) {
+                const barWidth = 70;
+                const barHeight = 6;
+                const barX = e.x + e.width / 2 - barWidth / 2;
+                const barY = e.y - 10;
+                const healthPercent = e.hp / e.maxHp;
+                
+                ctx.fillStyle = '#333';
+                ctx.fillRect(barX, barY, barWidth, barHeight);
+                ctx.fillStyle = healthPercent > 0.3 ? '#4ae0a0' : '#ff6eb4';
+                ctx.fillRect(barX, barY, barWidth * healthPercent, barHeight);
+            }
+        }
+    });
+
+    // Draw bullets
+    ctx.fillStyle = '#4ae0a0';
+    bullets.forEach(b => {
+        ctx.fillRect(b.x, b.y, b.width, b.height);
+    });
+
+    // Draw enemy bullets
+    ctx.fillStyle = '#ff6eb4';
+    enemyBullets.forEach(b => {
+        ctx.fillRect(b.x, b.y, b.width, b.height);
+    });
+}
+
+function gameLoop() {
+    if (gameRunning) {
+        update();
+        draw();
+        requestAnimationFrame(gameLoop);
+    }
+}
+
+function isMobile() {
+    return KOS_MOBILE;
+}
+
+function startGame() {
+    gameStart.style.display = 'none';
+    gameOver.style.display = 'none';
+    canvas.style.display = 'block';
+    gameHud.style.display = 'flex';
+    
+    // Show touch controls on mobile
+    const touchControls = document.getElementById('touchControls');
+    if (isMobile() && touchControls) {
+        touchControls.classList.add('visible');
+    }
+    
+    gameRunning = true;
+    initGame();
+    gameLoop();
+    
+    // Start autofire on mobile
+    if (isMobile()) {
+        startAutofire();
+    }
+}
+
+// Autofire for mobile
+let autofireInterval = null;
+
+function startAutofire() {
+    if (autofireInterval) clearInterval(autofireInterval);
+    autofireInterval = setInterval(() => {
+        if (gameRunning && isMobile()) {
+            shoot();
+        }
+    }, rapidFireTimer > 0 ? RAPID_FIRE_COOLDOWN : SHOT_COOLDOWN);
+}
+
+function stopAutofire() {
+    if (autofireInterval) {
+        clearInterval(autofireInterval);
+        autofireInterval = null;
+    }
+}
+
+function getGameOverMessage(score, wave) {
+    // Check if died on a boss wave
+    const diedOnBoss = wave % 5 === 0;
+    
+    if (diedOnBoss && wave >= 5) {
+        return "Even the exec's pet feature couldn't stop you... wait, it did.";
+    }
+    
+    if (wave >= 10 || score >= 2000) {
+        return "Senior PM energy. The scope fears you.";
+    }
+    
+    if (wave >= 5 || score >= 800) {
+        return "You held the line... briefly.";
+    }
+    
+    if (wave >= 3 || score >= 300) {
+        return "The scope crept. It always does.";
+    }
+    
+    return "The backlog won this round.";
+}
+
+function endGame() {
+    gameRunning = false;
+    canvas.style.display = 'none';
+    gameHud.style.display = 'none';
+    
+    // Hide touch controls
+    const touchControls = document.getElementById('touchControls');
+    if (touchControls) {
+        touchControls.classList.remove('visible');
+    }
+    
+    stopAutofire();
+    
+    gameOver.style.display = 'flex';
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('finalWave').textContent = wave;
+    document.getElementById('gameMessage').textContent = getGameOverMessage(score, wave);
+}
+
+// Game controls
+const keysPressed = {};
+
+document.addEventListener('keydown', (e) => {
+    keysPressed[e.key] = true;
+    
+    // Only handle game controls if game window is active
+    const invadersWindow = document.getElementById('invaders');
+    if (!invadersWindow.classList.contains('window-open') && !invadersWindow.classList.contains('mobile-active-game')) return;
+    
+    if (e.key === ' ' && gameRunning) {
+        e.preventDefault();
+        shoot();
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    keysPressed[e.key] = false;
+});
+
+// Continuous movement
+setInterval(() => {
+    if (!gameRunning) return;
+    if ((keysPressed['ArrowLeft'] || touchLeft) && player.x > 10) {
+        player.x -= PLAYER_SPEED;
+    }
+    if ((keysPressed['ArrowRight'] || touchRight) && player.x < canvas.width - player.width - 10) {
+        player.x += PLAYER_SPEED;
+    }
+}, 16);
+
+// Button handlers
+startGameBtn.addEventListener('click', startGame);
+playAgainBtn.addEventListener('click', startGame);
+whoAmIBtn.addEventListener('click', () => {
+    // Close the game, games folder, and open the about window
+    if (isMobile()) {
+        closeGameOverlay('invaders', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('invaders');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
+
+// Touch controls
+let touchLeft = false;
+let touchRight = false;
+
+const touchLeftBtn = document.getElementById('touchLeft');
+const touchRightBtn = document.getElementById('touchRight');
+
+if (touchLeftBtn) {
+    touchLeftBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        touchLeft = true;
+    });
+    touchLeftBtn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        touchLeft = false;
+    });
+    touchLeftBtn.addEventListener('mousedown', () => touchLeft = true);
+    touchLeftBtn.addEventListener('mouseup', () => touchLeft = false);
+    touchLeftBtn.addEventListener('mouseleave', () => touchLeft = false);
+}
+
+if (touchRightBtn) {
+    touchRightBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        touchRight = true;
+    });
+    touchRightBtn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        touchRight = false;
+    });
+    touchRightBtn.addEventListener('mousedown', () => touchRight = true);
+    touchRightBtn.addEventListener('mouseup', () => touchRight = false);
+    touchRightBtn.addEventListener('mouseleave', () => touchRight = false);
+}
+
+// ===================
+// BACKLOG TETRIS GAME
+// ===================
+const tetrisCanvas = document.getElementById('tetrisCanvas');
+const tetrisCtx = tetrisCanvas ? tetrisCanvas.getContext('2d') : null;
+const tetrisStart = document.getElementById('tetrisStart');
+const tetrisOver = document.getElementById('tetrisOver');
+const tetrisHud = document.getElementById('tetrisHud');
+const startTetrisBtn = document.getElementById('startTetrisBtn');
+const tetrisPlayAgainBtn = document.getElementById('tetrisPlayAgainBtn');
+const tetrisWhoAmIBtn = document.getElementById('tetrisWhoAmIBtn');
+
+// Tetris constants
+const TETRIS_COLS = 10;
+const TETRIS_ROWS = 20;
+const TETRIS_BLOCK_SIZE = 24;
+const TETRIS_COLORS = [
+    null,
+    '#4ae0a0', // I - mint
+    '#5c8aff', // O - blue
+    '#ff6eb4', // T - pink
+    '#ffd93d', // S - yellow
+    '#ff8c42', // Z - orange
+    '#a855f7', // J - purple
+    '#06b6d4', // L - cyan
+];
+
+// Story size labels for pieces
+const STORY_SIZES = [null, 'XL', 'M', 'L', 'S', 'S', 'M', 'M'];
+
+// Tetris pieces (tetrominos)
+const TETRIS_PIECES = [
+    null,
+    [[0,0,0,0], [1,1,1,1], [0,0,0,0], [0,0,0,0]], // I
+    [[2,2], [2,2]], // O
+    [[0,3,0], [3,3,3], [0,0,0]], // T
+    [[0,4,4], [4,4,0], [0,0,0]], // S
+    [[5,5,0], [0,5,5], [0,0,0]], // Z
+    [[6,0,0], [6,6,6], [0,0,0]], // J
+    [[0,0,7], [7,7,7], [0,0,0]], // L
+];
+
+// Tetris game state
+let tetrisRunning = false;
+let tetrisBoard = [];
+let tetrisScore = 0;
+let tetrisSprint = 1;
+let tetrisRowsCleared = 0;
+let tetrisCurrentPiece = null;
+let tetrisCurrentX = 0;
+let tetrisCurrentY = 0;
+let tetrisDropCounter = 0;
+let tetrisDropInterval = 1000;
+let tetrisLastTime = 0;
+
+function createTetrisBoard() {
+    return Array.from({ length: TETRIS_ROWS }, () => Array(TETRIS_COLS).fill(0));
+}
+
+function getRandomPiece() {
+    const pieceIndex = Math.floor(Math.random() * 7) + 1;
+    return {
+        shape: TETRIS_PIECES[pieceIndex].map(row => [...row]),
+        color: pieceIndex
+    };
+}
+
+function rotatePiece(piece) {
+    const rotated = piece.shape[0].map((_, i) => 
+        piece.shape.map(row => row[i]).reverse()
+    );
+    return { ...piece, shape: rotated };
+}
+
+function collides(board, piece, offsetX, offsetY) {
+    for (let y = 0; y < piece.shape.length; y++) {
+        for (let x = 0; x < piece.shape[y].length; x++) {
+            if (piece.shape[y][x] !== 0) {
+                const newX = x + offsetX;
+                const newY = y + offsetY;
+                if (newX < 0 || newX >= TETRIS_COLS || newY >= TETRIS_ROWS) {
+                    return true;
+                }
+                if (newY >= 0 && board[newY][newX] !== 0) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function mergePiece(board, piece, offsetX, offsetY) {
+    for (let y = 0; y < piece.shape.length; y++) {
+        for (let x = 0; x < piece.shape[y].length; x++) {
+            if (piece.shape[y][x] !== 0) {
+                const boardY = y + offsetY;
+                const boardX = x + offsetX;
+                if (boardY >= 0) {
+                    board[boardY][boardX] = piece.color;
+                }
+            }
+        }
+    }
+}
+
+function clearRows(board) {
+    let rowsCleared = 0;
+    for (let y = TETRIS_ROWS - 1; y >= 0; y--) {
+        if (board[y].every(cell => cell !== 0)) {
+            board.splice(y, 1);
+            board.unshift(Array(TETRIS_COLS).fill(0));
+            rowsCleared++;
+            y++; // Check the same row again
+        }
+    }
+    return rowsCleared;
+}
+
+function spawnPiece() {
+    tetrisCurrentPiece = getRandomPiece();
+    tetrisCurrentX = Math.floor((TETRIS_COLS - tetrisCurrentPiece.shape[0].length) / 2);
+    tetrisCurrentY = -1;
+    
+    // Game over if piece collides immediately
+    if (collides(tetrisBoard, tetrisCurrentPiece, tetrisCurrentX, tetrisCurrentY + 1)) {
+        endTetris();
+    }
+}
+
+function dropPiece() {
+    tetrisCurrentY++;
+    if (collides(tetrisBoard, tetrisCurrentPiece, tetrisCurrentX, tetrisCurrentY)) {
+        tetrisCurrentY--;
+        mergePiece(tetrisBoard, tetrisCurrentPiece, tetrisCurrentX, tetrisCurrentY);
+        
+        const cleared = clearRows(tetrisBoard);
+        if (cleared > 0) {
+            tetrisRowsCleared += cleared;
+            // Scoring: 100, 300, 500, 800 for 1, 2, 3, 4 rows
+            const points = [0, 100, 300, 500, 800][cleared] * tetrisSprint;
+            tetrisScore += points;
+            
+            // Speed up every 10 rows (new sprint)
+            const newSprint = Math.floor(tetrisRowsCleared / 10) + 1;
+            if (newSprint > tetrisSprint) {
+                tetrisSprint = newSprint;
+                tetrisDropInterval = Math.max(100, 1000 - (tetrisSprint - 1) * 100);
+            }
+            
+            updateTetrisHud();
+        }
+        
+        spawnPiece();
+    }
+    tetrisDropCounter = 0;
+}
+
+function hardDrop() {
+    while (!collides(tetrisBoard, tetrisCurrentPiece, tetrisCurrentX, tetrisCurrentY + 1)) {
+        tetrisCurrentY++;
+        tetrisScore += 2;
+    }
+    dropPiece();
+    updateTetrisHud();
+}
+
+function movePiece(dir) {
+    tetrisCurrentX += dir;
+    if (collides(tetrisBoard, tetrisCurrentPiece, tetrisCurrentX, tetrisCurrentY)) {
+        tetrisCurrentX -= dir;
+    }
+}
+
+function rotateCurrent() {
+    const rotated = rotatePiece(tetrisCurrentPiece);
+    const oldX = tetrisCurrentX;
+    
+    // Wall kick: try to fit the rotated piece
+    let offset = 0;
+    if (collides(tetrisBoard, rotated, tetrisCurrentX, tetrisCurrentY)) {
+        offset = tetrisCurrentX > TETRIS_COLS / 2 ? -1 : 1;
+        if (collides(tetrisBoard, rotated, tetrisCurrentX + offset, tetrisCurrentY)) {
+            offset *= 2;
+            if (collides(tetrisBoard, rotated, tetrisCurrentX + offset, tetrisCurrentY)) {
+                return; // Can't rotate
+            }
+        }
+    }
+    
+    tetrisCurrentPiece = rotated;
+    tetrisCurrentX += offset;
+}
+
+function updateTetrisHud() {
+    const scoreEl = document.getElementById('tetrisScore');
+    const sprintEl = document.getElementById('tetrisSprint');
+    const rowsEl = document.getElementById('tetrisRows');
+    if (scoreEl) scoreEl.textContent = tetrisScore;
+    if (sprintEl) sprintEl.textContent = tetrisSprint;
+    if (rowsEl) rowsEl.textContent = tetrisRowsCleared;
+}
+
+function drawTetrisBlock(x, y, colorIndex, ghost = false) {
+    const color = TETRIS_COLORS[colorIndex];
+    const blockX = x * TETRIS_BLOCK_SIZE;
+    const blockY = y * TETRIS_BLOCK_SIZE;
+    
+    if (ghost) {
+        tetrisCtx.strokeStyle = color;
+        tetrisCtx.lineWidth = 2;
+        tetrisCtx.strokeRect(blockX + 2, blockY + 2, TETRIS_BLOCK_SIZE - 4, TETRIS_BLOCK_SIZE - 4);
+    } else {
+        // Block background
+        tetrisCtx.fillStyle = color;
+        tetrisCtx.fillRect(blockX, blockY, TETRIS_BLOCK_SIZE, TETRIS_BLOCK_SIZE);
+        
+        // Highlight (top-left)
+        tetrisCtx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        tetrisCtx.fillRect(blockX, blockY, TETRIS_BLOCK_SIZE, 3);
+        tetrisCtx.fillRect(blockX, blockY, 3, TETRIS_BLOCK_SIZE);
+        
+        // Shadow (bottom-right)
+        tetrisCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        tetrisCtx.fillRect(blockX, blockY + TETRIS_BLOCK_SIZE - 3, TETRIS_BLOCK_SIZE, 3);
+        tetrisCtx.fillRect(blockX + TETRIS_BLOCK_SIZE - 3, blockY, 3, TETRIS_BLOCK_SIZE);
+        
+        // Border
+        tetrisCtx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+        tetrisCtx.lineWidth = 1;
+        tetrisCtx.strokeRect(blockX, blockY, TETRIS_BLOCK_SIZE, TETRIS_BLOCK_SIZE);
+    }
+}
+
+function drawTetris() {
+    if (!tetrisCtx) return;
+    
+    // Clear canvas
+    tetrisCtx.fillStyle = '#0a0a0f';
+    tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+    
+    // Draw grid lines
+    tetrisCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    tetrisCtx.lineWidth = 1;
+    for (let x = 0; x <= TETRIS_COLS; x++) {
+        tetrisCtx.beginPath();
+        tetrisCtx.moveTo(x * TETRIS_BLOCK_SIZE, 0);
+        tetrisCtx.lineTo(x * TETRIS_BLOCK_SIZE, tetrisCanvas.height);
+        tetrisCtx.stroke();
+    }
+    for (let y = 0; y <= TETRIS_ROWS; y++) {
+        tetrisCtx.beginPath();
+        tetrisCtx.moveTo(0, y * TETRIS_BLOCK_SIZE);
+        tetrisCtx.lineTo(tetrisCanvas.width, y * TETRIS_BLOCK_SIZE);
+        tetrisCtx.stroke();
+    }
+    
+    // Draw board
+    for (let y = 0; y < TETRIS_ROWS; y++) {
+        for (let x = 0; x < TETRIS_COLS; x++) {
+            if (tetrisBoard[y][x] !== 0) {
+                drawTetrisBlock(x, y, tetrisBoard[y][x]);
+            }
+        }
+    }
+    
+    // Draw ghost piece
+    if (tetrisCurrentPiece) {
+        let ghostY = tetrisCurrentY;
+        while (!collides(tetrisBoard, tetrisCurrentPiece, tetrisCurrentX, ghostY + 1)) {
+            ghostY++;
+        }
+        for (let y = 0; y < tetrisCurrentPiece.shape.length; y++) {
+            for (let x = 0; x < tetrisCurrentPiece.shape[y].length; x++) {
+                if (tetrisCurrentPiece.shape[y][x] !== 0 && ghostY + y >= 0) {
+                    drawTetrisBlock(tetrisCurrentX + x, ghostY + y, tetrisCurrentPiece.color, true);
+                }
+            }
+        }
+    }
+    
+    // Draw current piece
+    if (tetrisCurrentPiece) {
+        for (let y = 0; y < tetrisCurrentPiece.shape.length; y++) {
+            for (let x = 0; x < tetrisCurrentPiece.shape[y].length; x++) {
+                if (tetrisCurrentPiece.shape[y][x] !== 0 && tetrisCurrentY + y >= 0) {
+                    drawTetrisBlock(tetrisCurrentX + x, tetrisCurrentY + y, tetrisCurrentPiece.color);
+                }
+            }
+        }
+    }
+}
+
+function tetrisGameLoop(time = 0) {
+    if (!tetrisRunning) return;
+    
+    const deltaTime = time - tetrisLastTime;
+    tetrisLastTime = time;
+    
+    tetrisDropCounter += deltaTime;
+    if (tetrisDropCounter > tetrisDropInterval) {
+        dropPiece();
+    }
+    
+    drawTetris();
+    requestAnimationFrame(tetrisGameLoop);
+}
+
+function initTetris() {
+    tetrisBoard = createTetrisBoard();
+    tetrisScore = 0;
+    tetrisSprint = 1;
+    tetrisRowsCleared = 0;
+    tetrisDropInterval = 1000;
+    tetrisDropCounter = 0;
+    tetrisLastTime = 0;
+    updateTetrisHud();
+    spawnPiece();
+}
+
+function startTetris() {
+    if (tetrisStart) tetrisStart.style.display = 'none';
+    if (tetrisOver) tetrisOver.style.display = 'none';
+    if (tetrisCanvas) tetrisCanvas.style.display = 'block';
+    if (tetrisHud) tetrisHud.style.display = 'flex';
+    
+    // Show touch controls on mobile
+    const touchControls = document.getElementById('tetrisTouchControls');
+    if (isMobile() && touchControls) {
+        touchControls.classList.add('visible');
+    }
+    
+    tetrisRunning = true;
+    initTetris();
+    tetrisGameLoop();
+}
+
+function getTetrisMessage(score, rows) {
+    if (rows >= 40) return "Principal PM energy. The backlog trembles.";
+    if (rows >= 20) return "Senior shipping skills. Impressive velocity.";
+    if (rows >= 10) return "You cleared a few sprints. Not bad.";
+    if (rows >= 5) return "The backlog won. It always does.";
+    return "Sprint planning needed.";
+}
+
+function endTetris() {
+    tetrisRunning = false;
+    if (tetrisCanvas) tetrisCanvas.style.display = 'none';
+    if (tetrisHud) tetrisHud.style.display = 'none';
+    if (tetrisOver) tetrisOver.style.display = 'flex';
+    
+    // Hide touch controls
+    const touchControls = document.getElementById('tetrisTouchControls');
+    if (touchControls) touchControls.classList.remove('visible');
+    
+    const finalScore = document.getElementById('tetrisFinalScore');
+    const finalRows = document.getElementById('tetrisFinalRows');
+    const message = document.getElementById('tetrisMessage');
+    
+    if (finalScore) finalScore.textContent = tetrisScore;
+    if (finalRows) finalRows.textContent = tetrisRowsCleared;
+    if (message) message.textContent = getTetrisMessage(tetrisScore, tetrisRowsCleared);
+}
+
+// Tetris keyboard controls
+document.addEventListener('keydown', (e) => {
+    const tetrisWindow = document.getElementById('tetris');
+    if (!tetrisWindow || (!tetrisWindow.classList.contains('window-open') && !tetrisWindow.classList.contains('mobile-active-game'))) return;
+    if (!tetrisRunning) return;
+    
+    switch (e.key) {
+        case 'ArrowLeft':
+            e.preventDefault();
+            movePiece(-1);
+            break;
+        case 'ArrowRight':
+            e.preventDefault();
+            movePiece(1);
+            break;
+        case 'ArrowUp':
+            e.preventDefault();
+            rotateCurrent();
+            break;
+        case 'ArrowDown':
+            e.preventDefault();
+            dropPiece();
+            tetrisScore += 1;
+            updateTetrisHud();
+            break;
+        case ' ':
+            e.preventDefault();
+            hardDrop();
+            break;
+    }
+});
+
+// Tetris button handlers
+if (startTetrisBtn) startTetrisBtn.addEventListener('click', startTetris);
+if (tetrisPlayAgainBtn) tetrisPlayAgainBtn.addEventListener('click', startTetris);
+if (tetrisWhoAmIBtn) tetrisWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('tetris', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('tetris');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
+
+// Tetris touch controls
+const tetrisTouchLeft = document.getElementById('tetrisTouchLeft');
+const tetrisTouchRight = document.getElementById('tetrisTouchRight');
+const tetrisTouchRotate = document.getElementById('tetrisTouchRotate');
+const tetrisTouchDrop = document.getElementById('tetrisTouchDrop');
+
+let tetrisTouchLeftInterval = null;
+let tetrisTouchRightInterval = null;
+
+if (tetrisTouchLeft) {
+    tetrisTouchLeft.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        movePiece(-1);
+        tetrisTouchLeftInterval = setInterval(() => movePiece(-1), 100);
+    });
+    tetrisTouchLeft.addEventListener('touchend', () => clearInterval(tetrisTouchLeftInterval));
+    tetrisTouchLeft.addEventListener('click', () => movePiece(-1));
+}
+
+if (tetrisTouchRight) {
+    tetrisTouchRight.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        movePiece(1);
+        tetrisTouchRightInterval = setInterval(() => movePiece(1), 100);
+    });
+    tetrisTouchRight.addEventListener('touchend', () => clearInterval(tetrisTouchRightInterval));
+    tetrisTouchRight.addEventListener('click', () => movePiece(1));
+}
+
+if (tetrisTouchRotate) {
+    tetrisTouchRotate.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        rotateCurrent();
+    });
+    tetrisTouchRotate.addEventListener('click', rotateCurrent);
+}
+
+if (tetrisTouchDrop) {
+    tetrisTouchDrop.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        hardDrop();
+    });
+    tetrisTouchDrop.addEventListener('click', hardDrop);
+}
+
+// ===================
+// BUG SQUASH GAME
+// ===================
+const bugGrid = document.getElementById('bugGrid');
+const bugSquashStart = document.getElementById('bugSquashStart');
+const bugSquashOver = document.getElementById('bugSquashOver');
+const bugSquashHud = document.getElementById('bugSquashHud');
+const startBugSquashBtn = document.getElementById('startBugSquashBtn');
+const bugPlayAgainBtn = document.getElementById('bugPlayAgainBtn');
+const bugWhoAmIBtn = document.getElementById('bugWhoAmIBtn');
+
+// Bug Squash state
+let bugSquashRunning = false;
+let bugsSquashed = 0;
+let bugsEscaped = 0;
+let activeBugs = [];
+let bugSpawnInterval = null;
+let bugSpawnRate = 1500;
+let slowModeTimer = 0;
+let slowModeInterval = null;
+
+const BUG_EMOJIS = ['🐛', '🐜', '🐞', '🦗', '🕷️'];
+const FEATURE_EMOJIS = ['✨', '🚀', '⭐', '📦', '🎯'];
+const MAX_ESCAPED = 10;
+
+function getRandomBugEmoji() {
+    return BUG_EMOJIS[Math.floor(Math.random() * BUG_EMOJIS.length)];
+}
+
+function getRandomFeatureEmoji() {
+    return FEATURE_EMOJIS[Math.floor(Math.random() * FEATURE_EMOJIS.length)];
+}
+
+function updateBugHud() {
+    const scoreEl = document.getElementById('bugScore');
+    const escapedEl = document.getElementById('bugEscaped');
+    const activeEl = document.getElementById('bugActive');
+    if (scoreEl) scoreEl.textContent = bugsSquashed;
+    if (escapedEl) escapedEl.textContent = bugsEscaped;
+    if (activeEl) activeEl.textContent = activeBugs.length;
+}
+
+function getEmptySpots() {
+    const spots = document.querySelectorAll('.bug-spot');
+    const empty = [];
+    spots.forEach((spot, index) => {
+        if (!spot.classList.contains('has-bug') && !spot.classList.contains('has-powerup') && !spot.classList.contains('has-feature')) {
+            empty.push(index);
+        }
+    });
+    return empty;
+}
+
+function spawnBug(count = 1) {
+    if (!bugSquashRunning) return;
+    
+    for (let i = 0; i < count; i++) {
+        const emptySpots = getEmptySpots();
+        if (emptySpots.length === 0) continue;
+        
+        const spotIndex = emptySpots[Math.floor(Math.random() * emptySpots.length)];
+        const spot = document.querySelector(`.bug-spot[data-spot="${spotIndex}"]`);
+        if (!spot) continue;
+        
+        // Determine what to spawn: 70% bug, 20% feature, 10% powerup
+        const roll = Math.random();
+        
+        if (roll < 0.10) {
+            // Spawn powerup
+            const powerupType = Math.random() < 0.5 ? 'hotfix' : 'coverage';
+            spot.classList.add('has-powerup');
+            spot.dataset.powerup = powerupType;
+            spot.innerHTML = `<span class="bug-emoji">${powerupType === 'hotfix' ? '🔥' : '🧪'}</span>`;
+            
+            // Powerups disappear after 3 seconds
+            setTimeout(() => {
+                if (spot.classList.contains('has-powerup')) {
+                    spot.classList.remove('has-powerup');
+                    spot.innerHTML = '';
+                    delete spot.dataset.powerup;
+                }
+            }, 3000);
+        } else if (roll < 0.30) {
+            // Spawn feature (don't click!)
+            const featureEmoji = getRandomFeatureEmoji();
+            spot.classList.add('has-feature');
+            spot.innerHTML = `<span class="bug-emoji">${featureEmoji}</span>`;
+            
+            // Features disappear after 2.5 seconds (no penalty)
+            setTimeout(() => {
+                if (spot.classList.contains('has-feature')) {
+                    spot.classList.remove('has-feature');
+                    spot.innerHTML = '';
+                }
+            }, 2500);
+        } else {
+            // Spawn bug
+            const bugId = Date.now() + Math.random();
+            const bugEmoji = getRandomBugEmoji();
+            
+            spot.classList.add('has-bug');
+            spot.dataset.bugId = bugId;
+            spot.innerHTML = `<span class="bug-emoji">${bugEmoji}</span>`;
+            
+            // Bug escapes after 2-4 seconds based on difficulty
+            const escapeTime = Math.max(1500, 3000 - (bugsSquashed * 20));
+            const bugTimeout = setTimeout(() => {
+                if (spot.dataset.bugId == bugId && spot.classList.contains('has-bug')) {
+                    escapeBug(spot);
+                }
+            }, escapeTime);
+            
+            activeBugs.push({ id: bugId, spot: spotIndex, timeout: bugTimeout });
+        }
+    }
+    updateBugHud();
+}
+
+function escapeBug(spot) {
+    if (!bugSquashRunning) return;
+    
+    const bugId = spot.dataset.bugId;
+    spot.classList.remove('has-bug');
+    spot.innerHTML = '';
+    delete spot.dataset.bugId;
+    
+    // Remove from active bugs
+    activeBugs = activeBugs.filter(b => b.id != bugId);
+    
+    bugsEscaped++;
+    updateBugHud();
+    
+    // Spawn 2 more bugs when one escapes
+    setTimeout(() => spawnBug(2), 300);
+    
+    // Check game over
+    if (bugsEscaped >= MAX_ESCAPED) {
+        endBugSquash();
+    }
+}
+
+function squashBug(spot) {
+    if (!bugSquashRunning) return;
+    
+    // Clicked a FEATURE - penalty!
+    if (spot.classList.contains('has-feature')) {
+        spot.classList.remove('has-feature');
+        spot.classList.add('squashed');
+        spot.innerHTML = '❌';
+        
+        setTimeout(() => {
+            spot.classList.remove('squashed');
+            spot.innerHTML = '';
+        }, 300);
+        
+        // Penalty: spawn 2 bugs
+        setTimeout(() => spawnBug(2), 300);
+        return;
+    }
+    
+    // Clicked a powerup
+    if (spot.classList.contains('has-powerup')) {
+        const powerupType = spot.dataset.powerup;
+        spot.classList.remove('has-powerup');
+        spot.innerHTML = '';
+        delete spot.dataset.powerup;
+        
+        if (powerupType === 'hotfix') {
+            // Clear all bugs
+            document.querySelectorAll('.bug-spot.has-bug').forEach(bugSpot => {
+                const bugId = bugSpot.dataset.bugId;
+                activeBugs = activeBugs.filter(b => {
+                    if (b.id == bugId) {
+                        clearTimeout(b.timeout);
+                        return false;
+                    }
+                    return true;
+                });
+                bugSpot.classList.remove('has-bug');
+                bugSpot.classList.add('squashed');
+                setTimeout(() => bugSpot.classList.remove('squashed'), 200);
+                bugSpot.innerHTML = '💥';
+                setTimeout(() => { bugSpot.innerHTML = ''; }, 200);
+                bugsSquashed++;
+            });
+        } else if (powerupType === 'coverage') {
+            // Slow spawn rate for 5 seconds
+            slowModeTimer = 5000;
+            if (slowModeInterval) clearInterval(slowModeInterval);
+            clearInterval(bugSpawnInterval);
+            bugSpawnInterval = setInterval(() => spawnBug(1), bugSpawnRate * 2);
+            slowModeInterval = setTimeout(() => {
+                clearInterval(bugSpawnInterval);
+                bugSpawnInterval = setInterval(() => spawnBug(1), bugSpawnRate);
+            }, 5000);
+        }
+        updateBugHud();
+        return;
+    }
+    
+    if (!spot.classList.contains('has-bug')) return;
+    
+    const bugId = spot.dataset.bugId;
+    
+    // Clear the escape timeout
+    activeBugs = activeBugs.filter(b => {
+        if (b.id == bugId) {
+            clearTimeout(b.timeout);
+            return false;
+        }
+        return true;
+    });
+    
+    spot.classList.remove('has-bug');
+    spot.classList.add('squashed');
+    spot.innerHTML = '💥';
+    
+    setTimeout(() => {
+        spot.classList.remove('squashed');
+        spot.innerHTML = '';
+    }, 200);
+    
+    delete spot.dataset.bugId;
+    bugsSquashed++;
+    
+    // Speed up spawns as game progresses
+    if (bugsSquashed % 5 === 0 && bugSpawnRate > 500) {
+        bugSpawnRate -= 100;
+        clearInterval(bugSpawnInterval);
+        bugSpawnInterval = setInterval(() => spawnBug(1), bugSpawnRate);
+    }
+    
+    updateBugHud();
+}
+
+function initBugSquash() {
+    bugsSquashed = 0;
+    bugsEscaped = 0;
+    activeBugs = [];
+    bugSpawnRate = 1500;
+    
+    // Clear all spots
+    document.querySelectorAll('.bug-spot').forEach(spot => {
+        spot.classList.remove('has-bug', 'has-powerup', 'has-feature', 'squashed');
+        spot.innerHTML = '';
+        delete spot.dataset.bugId;
+        delete spot.dataset.powerup;
+    });
+    
+    updateBugHud();
+}
+
+function startBugSquash() {
+    if (bugSquashStart) bugSquashStart.style.display = 'none';
+    if (bugSquashOver) bugSquashOver.style.display = 'none';
+    if (bugGrid) bugGrid.style.display = 'grid';
+    if (bugSquashHud) bugSquashHud.style.display = 'flex';
+    
+    bugSquashRunning = true;
+    initBugSquash();
+    
+    // Start spawning bugs
+    spawnBug(1);
+    bugSpawnInterval = setInterval(() => spawnBug(1), bugSpawnRate);
+}
+
+function getBugMessage(squashed) {
+    if (squashed >= 50) return "Senior debugger energy. The codebase fears you.";
+    if (squashed >= 30) return "Solid QA skills. Ship it!";
+    if (squashed >= 15) return "You squashed a few. Could be worse.";
+    if (squashed >= 5) return "Too many bugs escaped. QA is not happy.";
+    return "Did you even try? The bugs won.";
+}
+
+function endBugSquash() {
+    bugSquashRunning = false;
+    
+    // Clear intervals
+    if (bugSpawnInterval) clearInterval(bugSpawnInterval);
+    if (slowModeInterval) clearTimeout(slowModeInterval);
+    
+    // Clear all bug timeouts
+    activeBugs.forEach(b => clearTimeout(b.timeout));
+    activeBugs = [];
+    
+    if (bugGrid) bugGrid.style.display = 'none';
+    if (bugSquashHud) bugSquashHud.style.display = 'none';
+    if (bugSquashOver) bugSquashOver.style.display = 'flex';
+    
+    const finalScore = document.getElementById('bugFinalScore');
+    const message = document.getElementById('bugMessage');
+    
+    if (finalScore) finalScore.textContent = bugsSquashed;
+    if (message) message.textContent = getBugMessage(bugsSquashed);
+}
+
+// Bug spot click handlers
+document.querySelectorAll('.bug-spot').forEach(spot => {
+    spot.addEventListener('click', () => squashBug(spot));
+    spot.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        squashBug(spot);
+    });
+});
+
+// Button handlers
+if (startBugSquashBtn) startBugSquashBtn.addEventListener('click', startBugSquash);
+if (bugPlayAgainBtn) bugPlayAgainBtn.addEventListener('click', startBugSquash);
+if (bugWhoAmIBtn) bugWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('bugsquash', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('bugsquash');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
+
+// ===================
+// ROADMAP RUNNER GAME
+// ===================
+const runnerCanvas = document.getElementById('runnerCanvas');
+const runnerCtx = runnerCanvas ? runnerCanvas.getContext('2d') : null;
+const runnerStart = document.getElementById('runnerStart');
+const runnerOver = document.getElementById('runnerOver');
+const runnerHud = document.getElementById('runnerHud');
+const startRunnerBtn = document.getElementById('startRunnerBtn');
+const runnerPlayAgainBtn = document.getElementById('runnerPlayAgainBtn');
+const runnerWhoAmIBtn = document.getElementById('runnerWhoAmIBtn');
+
+// Runner constants
+const RUNNER_GROUND = 160;
+const RUNNER_GRAVITY = 0.8;
+const RUNNER_JUMP_FORCE = -14;
+const RUNNER_SLIDE_HEIGHT = 20;
+const RUNNER_NORMAL_HEIGHT = 40;
+
+// Runner state
+let runnerRunning = false;
+let runnerScore = 0;
+let runnerDistance = 0;
+let runnerSpeed = 5;
+let runnerPlayer = null;
+let runnerObstacles = [];
+let runnerCollectibles = [];
+let runnerLastTime = 0;
+let runnerSpawnTimer = 0;
+
+// Obstacle types
+const OBSTACLES = [
+    { emoji: '🚧', width: 30, height: 35, type: 'jump' },      // Blocker - jump over
+    { emoji: '📋', width: 25, height: 40, type: 'jump' },      // Scope creep - jump over
+    { emoji: '🔴', width: 40, height: 20, type: 'slide', y: RUNNER_GROUND - 70 }, // Red tape - slide under (higher up)
+    { emoji: '💀', width: 30, height: 35, type: 'jump' },      // Tech debt - jump over
+];
+
+// Collectible types
+const COLLECTIBLES = [
+    { emoji: '✅', points: 10 },   // Shipped feature
+    { emoji: '⭐', points: 25 },   // Customer love
+];
+
+function initRunner() {
+    runnerScore = 0;
+    runnerDistance = 0;
+    runnerSpeed = 5;
+    runnerObstacles = [];
+    runnerCollectibles = [];
+    runnerSpawnTimer = 0;
+    
+    runnerPlayer = {
+        x: 60,
+        y: RUNNER_GROUND - RUNNER_NORMAL_HEIGHT,
+        width: 30,
+        height: RUNNER_NORMAL_HEIGHT,
+        vy: 0,
+        isJumping: false,
+        isSliding: false,
+        slideTimer: 0
+    };
+    
+    updateRunnerHud();
+}
+
+function updateRunnerHud() {
+    const scoreEl = document.getElementById('runnerScore');
+    const distEl = document.getElementById('runnerDistance');
+    if (scoreEl) scoreEl.textContent = runnerScore;
+    if (distEl) distEl.textContent = Math.floor(runnerDistance);
+}
+
+function runnerJump() {
+    if (!runnerPlayer.isJumping && !runnerPlayer.isSliding) {
+        runnerPlayer.vy = RUNNER_JUMP_FORCE;
+        runnerPlayer.isJumping = true;
+    }
+}
+
+function runnerSlide() {
+    if (!runnerPlayer.isJumping && !runnerPlayer.isSliding) {
+        runnerPlayer.isSliding = true;
+        runnerPlayer.slideTimer = 30; // Slide for 30 frames
+        runnerPlayer.height = RUNNER_SLIDE_HEIGHT;
+        runnerPlayer.y = RUNNER_GROUND - RUNNER_SLIDE_HEIGHT;
+    }
+}
+
+function spawnObstacle() {
+    // 70% obstacle, 30% collectible
+    if (Math.random() < 0.7) {
+        const obs = OBSTACLES[Math.floor(Math.random() * OBSTACLES.length)];
+        runnerObstacles.push({
+            x: runnerCanvas.width + 50,
+            y: obs.y !== undefined ? obs.y : RUNNER_GROUND - obs.height,
+            width: obs.width,
+            height: obs.height,
+            emoji: obs.emoji,
+            type: obs.type
+        });
+    } else {
+        const col = COLLECTIBLES[Math.floor(Math.random() * COLLECTIBLES.length)];
+        const yPos = Math.random() < 0.5 ? RUNNER_GROUND - 30 : RUNNER_GROUND - 70;
+        runnerCollectibles.push({
+            x: runnerCanvas.width + 50,
+            y: yPos,
+            width: 25,
+            height: 25,
+            emoji: col.emoji,
+            points: col.points
+        });
+    }
+}
+
+function updateRunner(deltaTime) {
+    if (!runnerRunning) return;
+    
+    // Update distance and speed
+    runnerDistance += runnerSpeed * 0.1;
+    runnerSpeed = 5 + Math.floor(runnerDistance / 100) * 0.5;
+    runnerSpeed = Math.min(runnerSpeed, 15); // Max speed
+    
+    // Update player
+    if (runnerPlayer.isJumping) {
+        runnerPlayer.vy += RUNNER_GRAVITY;
+        runnerPlayer.y += runnerPlayer.vy;
+        
+        if (runnerPlayer.y >= RUNNER_GROUND - runnerPlayer.height) {
+            runnerPlayer.y = RUNNER_GROUND - runnerPlayer.height;
+            runnerPlayer.isJumping = false;
+            runnerPlayer.vy = 0;
+        }
+    }
+    
+    // Update slide
+    if (runnerPlayer.isSliding) {
+        runnerPlayer.slideTimer--;
+        if (runnerPlayer.slideTimer <= 0) {
+            runnerPlayer.isSliding = false;
+            runnerPlayer.height = RUNNER_NORMAL_HEIGHT;
+            runnerPlayer.y = RUNNER_GROUND - RUNNER_NORMAL_HEIGHT;
+        }
+    }
+    
+    // Spawn obstacles
+    runnerSpawnTimer++;
+    const spawnInterval = Math.max(40, 80 - Math.floor(runnerDistance / 50));
+    if (runnerSpawnTimer >= spawnInterval) {
+        runnerSpawnTimer = 0;
+        spawnObstacle();
+    }
+    
+    // Update obstacles
+    runnerObstacles.forEach(obs => {
+        obs.x -= runnerSpeed;
+    });
+    runnerObstacles = runnerObstacles.filter(obs => obs.x > -50);
+    
+    // Update collectibles
+    runnerCollectibles.forEach(col => {
+        col.x -= runnerSpeed;
+    });
+    runnerCollectibles = runnerCollectibles.filter(col => col.x > -50);
+    
+    // Collision with obstacles
+    for (const obs of runnerObstacles) {
+        // Skip slide obstacles entirely when player is sliding
+        if (obs.type === 'slide' && runnerPlayer.isSliding) {
+            continue;
+        }
+        
+        if (checkCollision(runnerPlayer, obs)) {
+            // Check if player correctly avoided by jumping
+            if (obs.type === 'jump' && runnerPlayer.isJumping && runnerPlayer.y + runnerPlayer.height < obs.y + 10) {
+                continue; // Jumping over obstacle
+            }
+            endRunner();
+            return;
+        }
+    }
+    
+    // Collision with collectibles
+    runnerCollectibles = runnerCollectibles.filter(col => {
+        if (checkCollision(runnerPlayer, col)) {
+            runnerScore += col.points;
+            return false;
+        }
+        return true;
+    });
+    
+    updateRunnerHud();
+}
+
+function checkCollision(a, b) {
+    return a.x < b.x + b.width &&
+           a.x + a.width > b.x &&
+           a.y < b.y + b.height &&
+           a.y + a.height > b.y;
+}
+
+function drawRunner() {
+    if (!runnerCtx) return;
+    
+    // Draw gradient sky (darker at top, lighter toward horizon)
+    const skyGradient = runnerCtx.createLinearGradient(0, 0, 0, RUNNER_GROUND);
+    skyGradient.addColorStop(0, '#0a0a12');    // Dark at top
+    skyGradient.addColorStop(0.6, '#12121f');  // Mid
+    skyGradient.addColorStop(1, '#1a1a2e');    // Lighter at horizon
+    runnerCtx.fillStyle = skyGradient;
+    runnerCtx.fillRect(0, 0, runnerCanvas.width, RUNNER_GROUND);
+    
+    // Draw road (gray asphalt)
+    runnerCtx.fillStyle = '#2a2a35';
+    runnerCtx.fillRect(0, RUNNER_GROUND, runnerCanvas.width, 40);
+    
+    // Draw road top edge (darker border)
+    runnerCtx.fillStyle = '#1a1a22';
+    runnerCtx.fillRect(0, RUNNER_GROUND, runnerCanvas.width, 3);
+    
+    // Draw road bottom edge (darker border)
+    runnerCtx.fillStyle = '#1a1a22';
+    runnerCtx.fillRect(0, RUNNER_GROUND + 37, runnerCanvas.width, 3);
+    
+    // Draw teal accent line on road surface
+    runnerCtx.strokeStyle = '#4ae0a0';
+    runnerCtx.lineWidth = 2;
+    runnerCtx.beginPath();
+    runnerCtx.moveTo(0, RUNNER_GROUND + 2);
+    runnerCtx.lineTo(runnerCanvas.width, RUNNER_GROUND + 2);
+    runnerCtx.stroke();
+    
+    // Draw moving road dashes (center line)
+    runnerCtx.fillStyle = '#4a4a55';
+    const markerOffset = (runnerDistance * 5) % 40;
+    for (let x = -markerOffset; x < runnerCanvas.width; x += 40) {
+        runnerCtx.fillRect(x, RUNNER_GROUND + 18, 20, 4);
+    }
+    
+    // Draw obstacles
+    runnerCtx.font = '28px Arial';
+    runnerCtx.textAlign = 'center';
+    runnerCtx.textBaseline = 'bottom';
+    runnerObstacles.forEach(obs => {
+        runnerCtx.fillText(obs.emoji, obs.x + obs.width / 2, obs.y + obs.height);
+    });
+    
+    // Draw collectibles
+    runnerCtx.font = '22px Arial';
+    runnerCollectibles.forEach(col => {
+        runnerCtx.fillText(col.emoji, col.x + col.width / 2, col.y + col.height);
+    });
+    
+    // Draw player
+    runnerCtx.font = runnerPlayer.isSliding ? '24px Arial' : '32px Arial';
+    const playerEmoji = '🏃';
+    runnerCtx.save();
+    runnerCtx.translate(runnerPlayer.x + runnerPlayer.width / 2, runnerPlayer.y + runnerPlayer.height / 2);
+    runnerCtx.scale(-1, 1); // Flip horizontally to face right
+    if (runnerPlayer.isSliding) {
+        runnerCtx.rotate(-Math.PI / 4);
+        runnerCtx.fillText(playerEmoji, 0, 10);
+    } else {
+        runnerCtx.fillText(playerEmoji, 0, runnerPlayer.height / 2);
+    }
+    runnerCtx.restore();
+}
+
+function runnerGameLoop(time = 0) {
+    if (!runnerRunning) return;
+    
+    const deltaTime = time - runnerLastTime;
+    runnerLastTime = time;
+    
+    updateRunner(deltaTime);
+    drawRunner();
+    
+    requestAnimationFrame(runnerGameLoop);
+}
+
+function startRunner() {
+    if (runnerStart) runnerStart.style.display = 'none';
+    if (runnerOver) runnerOver.style.display = 'none';
+    if (runnerCanvas) runnerCanvas.style.display = 'block';
+    if (runnerHud) runnerHud.style.display = 'flex';
+    
+    // Show touch controls on mobile
+    const touchControls = document.getElementById('runnerTouchControls');
+    if (isMobile() && touchControls) {
+        touchControls.classList.add('visible');
+    }
+    
+    runnerRunning = true;
+    initRunner();
+    runnerGameLoop();
+}
+
+function getRunnerMessage(distance, score) {
+    if (distance >= 1000) return "Principal PM energy. Nothing stops you.";
+    if (distance >= 500) return "Solid roadmap execution. Ship it!";
+    if (distance >= 200) return "You stayed on track for a while.";
+    if (distance >= 100) return "The roadmap had other plans.";
+    return "Blockers won this sprint.";
+}
+
+function endRunner() {
+    runnerRunning = false;
+    
+    if (runnerCanvas) runnerCanvas.style.display = 'none';
+    if (runnerHud) runnerHud.style.display = 'none';
+    if (runnerOver) runnerOver.style.display = 'flex';
+    
+    // Hide touch controls
+    const touchControls = document.getElementById('runnerTouchControls');
+    if (touchControls) touchControls.classList.remove('visible');
+    
+    const finalScore = document.getElementById('runnerFinalScore');
+    const finalDist = document.getElementById('runnerFinalDistance');
+    const message = document.getElementById('runnerMessage');
+    
+    if (finalScore) finalScore.textContent = runnerScore;
+    if (finalDist) finalDist.textContent = Math.floor(runnerDistance);
+    if (message) message.textContent = getRunnerMessage(runnerDistance, runnerScore);
+}
+
+// Runner keyboard controls
+document.addEventListener('keydown', (e) => {
+    const runnerWindow = document.getElementById('runner');
+    if (!runnerWindow || (!runnerWindow.classList.contains('window-open') && !runnerWindow.classList.contains('mobile-active-game'))) return;
+    if (!runnerRunning) return;
+    
+    if (e.key === ' ' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        runnerJump();
+    }
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        runnerSlide();
+    }
+});
+
+// Button handlers
+if (startRunnerBtn) startRunnerBtn.addEventListener('click', startRunner);
+if (runnerPlayAgainBtn) runnerPlayAgainBtn.addEventListener('click', startRunner);
+if (runnerWhoAmIBtn) runnerWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('runner', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('runner');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
+
+// Runner touch controls
+const runnerTouchJump = document.getElementById('runnerTouchJump');
+const runnerTouchSlide = document.getElementById('runnerTouchSlide');
+
+if (runnerTouchJump) {
+    runnerTouchJump.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        runnerJump();
+    });
+    runnerTouchJump.addEventListener('click', runnerJump);
+}
+
+if (runnerTouchSlide) {
+    runnerTouchSlide.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        runnerSlide();
+    });
+    runnerTouchSlide.addEventListener('click', runnerSlide);
+}
+
+// ===================
+// STAKEHOLDER SNAKE GAME
+// ===================
+const snakeCanvas = document.getElementById('snakeCanvas');
+const snakeCtx = snakeCanvas ? snakeCanvas.getContext('2d') : null;
+const snakeStart = document.getElementById('snakeStart');
+const snakeOver = document.getElementById('snakeOver');
+const snakeHud = document.getElementById('snakeHud');
+const startSnakeBtn = document.getElementById('startSnakeBtn');
+const snakePlayAgainBtn = document.getElementById('snakePlayAgainBtn');
+const snakeWhoAmIBtn = document.getElementById('snakeWhoAmIBtn');
+
+// Snake constants
+const SNAKE_GRID_SIZE = 20;
+const SNAKE_TILE_COUNT = 16;
+
+// Snake state
+let snakeRunning = false;
+let snakeScore = 0;
+let snake = [];
+let snakeDirection = { x: 1, y: 0 };
+let snakeNextDirection = { x: 1, y: 0 };
+let snakeFood = null;
+let snakeGameInterval = null;
+let snakeSpeed = 200;
+
+const FOOD_EMOJIS = ['💡', '🎯', '⭐', '📧', '📊'];
+
+function getRandomFoodEmoji() {
+    return FOOD_EMOJIS[Math.floor(Math.random() * FOOD_EMOJIS.length)];
+}
+
+function initSnake() {
+    snakeScore = 0;
+    snakeSpeed = 200;
+    snakeDirection = { x: 1, y: 0 };
+    snakeNextDirection = { x: 1, y: 0 };
+    
+    // Start with 3 segments in the middle
+    snake = [
+        { x: 8, y: 8 },
+        { x: 7, y: 8 },
+        { x: 6, y: 8 }
+    ];
+    
+    spawnSnakeFood();
+    updateSnakeHud();
+}
+
+function spawnSnakeFood() {
+    let valid = false;
+    while (!valid) {
+        snakeFood = {
+            x: Math.floor(Math.random() * SNAKE_TILE_COUNT),
+            y: Math.floor(Math.random() * SNAKE_TILE_COUNT),
+            emoji: getRandomFoodEmoji()
+        };
+        // Make sure food doesn't spawn on snake
+        valid = !snake.some(seg => seg.x === snakeFood.x && seg.y === snakeFood.y);
+    }
+}
+
+function updateSnakeHud() {
+    const scoreEl = document.getElementById('snakeScore');
+    const lengthEl = document.getElementById('snakeLength');
+    if (scoreEl) scoreEl.textContent = snakeScore;
+    if (lengthEl) lengthEl.textContent = snake.length;
+}
+
+function moveSnake() {
+    if (!snakeRunning) return;
+    
+    // Apply the queued direction
+    snakeDirection = { ...snakeNextDirection };
+    
+    // Calculate new head position
+    const head = { 
+        x: snake[0].x + snakeDirection.x, 
+        y: snake[0].y + snakeDirection.y 
+    };
+    
+    // Check wall collision
+    if (head.x < 0 || head.x >= SNAKE_TILE_COUNT || head.y < 0 || head.y >= SNAKE_TILE_COUNT) {
+        endSnake();
+        return;
+    }
+    
+    // Check self collision
+    if (snake.some(seg => seg.x === head.x && seg.y === head.y)) {
+        endSnake();
+        return;
+    }
+    
+    // Add new head
+    snake.unshift(head);
+    
+    // Check food collision
+    if (head.x === snakeFood.x && head.y === snakeFood.y) {
+        snakeScore += 10;
+        spawnSnakeFood();
+        
+        // Speed up every 5 foods
+        if (snake.length % 5 === 0 && snakeSpeed > 120) {
+            snakeSpeed -= 10;
+            clearInterval(snakeGameInterval);
+            snakeGameInterval = setInterval(moveSnake, snakeSpeed);
+        }
+    } else {
+        // Remove tail if no food eaten
+        snake.pop();
+    }
+    
+    updateSnakeHud();
+    drawSnake();
+}
+
+function drawSnake() {
+    if (!snakeCtx) return;
+    
+    // Clear canvas
+    snakeCtx.fillStyle = '#0a0a0f';
+    snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+    
+    // Draw grid
+    snakeCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    snakeCtx.lineWidth = 1;
+    for (let i = 0; i <= SNAKE_TILE_COUNT; i++) {
+        snakeCtx.beginPath();
+        snakeCtx.moveTo(i * SNAKE_GRID_SIZE, 0);
+        snakeCtx.lineTo(i * SNAKE_GRID_SIZE, snakeCanvas.height);
+        snakeCtx.stroke();
+        snakeCtx.beginPath();
+        snakeCtx.moveTo(0, i * SNAKE_GRID_SIZE);
+        snakeCtx.lineTo(snakeCanvas.width, i * SNAKE_GRID_SIZE);
+        snakeCtx.stroke();
+    }
+    
+    // Draw snake body
+    snakeCtx.font = '16px Arial';
+    snakeCtx.textAlign = 'center';
+    snakeCtx.textBaseline = 'middle';
+    
+    snake.forEach((seg, index) => {
+        const centerX = seg.x * SNAKE_GRID_SIZE + SNAKE_GRID_SIZE / 2;
+        const centerY = seg.y * SNAKE_GRID_SIZE + SNAKE_GRID_SIZE / 2;
+        
+        if (index === 0) {
+            // Head - PM/developer
+            snakeCtx.font = '18px Arial';
+            snakeCtx.fillText('👨🏻‍💻', centerX, centerY);
+        } else {
+            // Body - requirements
+            snakeCtx.font = '14px Arial';
+            snakeCtx.fillText('📝', centerX, centerY);
+        }
+    });
+    
+    // Draw food
+    if (snakeFood) {
+        const foodX = snakeFood.x * SNAKE_GRID_SIZE + SNAKE_GRID_SIZE / 2;
+        const foodY = snakeFood.y * SNAKE_GRID_SIZE + SNAKE_GRID_SIZE / 2;
+        snakeCtx.font = '16px Arial';
+        snakeCtx.fillText(snakeFood.emoji, foodX, foodY);
+    }
+}
+
+function setSnakeDirection(x, y) {
+    // Prevent reversing direction
+    if (snakeDirection.x === -x && snakeDirection.y === -y) return;
+    if (x !== 0 && snakeDirection.x !== 0) return;
+    if (y !== 0 && snakeDirection.y !== 0) return;
+    
+    snakeNextDirection = { x, y };
+}
+
+function startSnake() {
+    if (snakeStart) snakeStart.style.display = 'none';
+    if (snakeOver) snakeOver.style.display = 'none';
+    if (snakeCanvas) snakeCanvas.style.display = 'block';
+    if (snakeHud) snakeHud.style.display = 'flex';
+    
+    // Show touch controls on mobile
+    const touchControls = document.getElementById('snakeTouchControls');
+    if (isMobile() && touchControls) {
+        touchControls.classList.add('visible');
+    }
+    
+    snakeRunning = true;
+    initSnake();
+    drawSnake();
+    
+    snakeGameInterval = setInterval(moveSnake, snakeSpeed);
+}
+
+function getSnakeMessage(score, length) {
+    if (length >= 30) return "Principal PM energy. Scope management master.";
+    if (length >= 20) return "Senior backlog wrangler. Impressive.";
+    if (length >= 15) return "You managed the chaos for a while.";
+    if (length >= 10) return "The backlog consumed itself.";
+    return "Scope collapse. It happens.";
+}
+
+function endSnake() {
+    snakeRunning = false;
+    
+    if (snakeGameInterval) {
+        clearInterval(snakeGameInterval);
+        snakeGameInterval = null;
+    }
+    
+    if (snakeCanvas) snakeCanvas.style.display = 'none';
+    if (snakeHud) snakeHud.style.display = 'none';
+    if (snakeOver) snakeOver.style.display = 'flex';
+    
+    // Hide touch controls
+    const touchControls = document.getElementById('snakeTouchControls');
+    if (touchControls) touchControls.classList.remove('visible');
+    
+    const finalScore = document.getElementById('snakeFinalScore');
+    const finalLength = document.getElementById('snakeFinalLength');
+    const message = document.getElementById('snakeMessage');
+    
+    if (finalScore) finalScore.textContent = snakeScore;
+    if (finalLength) finalLength.textContent = snake.length;
+    if (message) message.textContent = getSnakeMessage(snakeScore, snake.length);
+}
+
+// Snake keyboard controls
+document.addEventListener('keydown', (e) => {
+    const snakeWindow = document.getElementById('snake');
+    if (!snakeWindow || (!snakeWindow.classList.contains('window-open') && !snakeWindow.classList.contains('mobile-active-game'))) return;
+    if (!snakeRunning) return;
+    
+    switch (e.key) {
+        case 'ArrowUp':
+            e.preventDefault();
+            setSnakeDirection(0, -1);
+            break;
+        case 'ArrowDown':
+            e.preventDefault();
+            setSnakeDirection(0, 1);
+            break;
+        case 'ArrowLeft':
+            e.preventDefault();
+            setSnakeDirection(-1, 0);
+            break;
+        case 'ArrowRight':
+            e.preventDefault();
+            setSnakeDirection(1, 0);
+            break;
+    }
+});
+
+// Button handlers
+if (startSnakeBtn) startSnakeBtn.addEventListener('click', startSnake);
+if (snakePlayAgainBtn) snakePlayAgainBtn.addEventListener('click', startSnake);
+if (snakeWhoAmIBtn) snakeWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('snake', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('snake');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
+
+// Snake touch controls
+const snakeTouchUp = document.getElementById('snakeTouchUp');
+const snakeTouchDown = document.getElementById('snakeTouchDown');
+const snakeTouchLeft = document.getElementById('snakeTouchLeft');
+const snakeTouchRight = document.getElementById('snakeTouchRight');
+
+if (snakeTouchUp) {
+    snakeTouchUp.addEventListener('touchstart', (e) => { e.preventDefault(); setSnakeDirection(0, -1); });
+    snakeTouchUp.addEventListener('click', () => setSnakeDirection(0, -1));
+}
+if (snakeTouchDown) {
+    snakeTouchDown.addEventListener('touchstart', (e) => { e.preventDefault(); setSnakeDirection(0, 1); });
+    snakeTouchDown.addEventListener('click', () => setSnakeDirection(0, 1));
+}
+if (snakeTouchLeft) {
+    snakeTouchLeft.addEventListener('touchstart', (e) => { e.preventDefault(); setSnakeDirection(-1, 0); });
+    snakeTouchLeft.addEventListener('click', () => setSnakeDirection(-1, 0));
+}
+if (snakeTouchRight) {
+    snakeTouchRight.addEventListener('touchstart', (e) => { e.preventDefault(); setSnakeDirection(1, 0); });
+    snakeTouchRight.addEventListener('click', () => setSnakeDirection(1, 0));
+}
+
+// Snake swipe controls for mobile
+let snakeTouchStartX = 0;
+let snakeTouchStartY = 0;
+
+if (snakeCanvas) {
+    snakeCanvas.addEventListener('touchstart', (e) => {
+        snakeTouchStartX = e.touches[0].clientX;
+        snakeTouchStartY = e.touches[0].clientY;
+    });
+    
+    snakeCanvas.addEventListener('touchend', (e) => {
+        if (!snakeRunning) return;
+        
+        const deltaX = e.changedTouches[0].clientX - snakeTouchStartX;
+        const deltaY = e.changedTouches[0].clientY - snakeTouchStartY;
+        
+        const minSwipe = 30;
+        
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX > minSwipe) setSnakeDirection(1, 0);
+            else if (deltaX < -minSwipe) setSnakeDirection(-1, 0);
+        } else {
+            if (deltaY > minSwipe) setSnakeDirection(0, 1);
+            else if (deltaY < -minSwipe) setSnakeDirection(0, -1);
+        }
+    });
+}
+
+// ===================
+// STANDUP SPEEDRUN GAME
+// ===================
+const standupStart = document.getElementById('standupStart');
+const standupGame = document.getElementById('standupGame');
+const standupOver = document.getElementById('standupOver');
+const standupInput = document.getElementById('standupInput');
+const standupPrompt = document.getElementById('standupPrompt');
+const standupTimer = document.getElementById('standupTimer');
+const startStandupBtn = document.getElementById('startStandupBtn');
+const standupPlayAgainBtn = document.getElementById('standupPlayAgainBtn');
+const standupWhoAmIBtn = document.getElementById('standupWhoAmIBtn');
+
+// Standup prompts - real PM/dev status updates
+const STANDUP_PROMPTS = [
+    // Yesterday updates
+    "Shipped the login fix",
+    "Reviewed the PRD",
+    "Fixed the payment bug",
+    "Pushed to staging",
+    "Merged the feature branch",
+    "Updated the docs",
+    "Closed 5 tickets",
+    "Deployed to prod",
+    "Finished code review",
+    "Synced with design",
+    "Wrote unit tests",
+    "Refactored the API",
+    "Fixed the flaky test",
+    "Updated dependencies",
+    "Cleared the backlog",
+    
+    // Today updates
+    "Starting sprint planning",
+    "Working on the dashboard",
+    "Writing the spec",
+    "Pairing with Sarah",
+    "Investigating the bug",
+    "Setting up CI/CD",
+    "Building the prototype",
+    "Reviewing pull requests",
+    "Updating the roadmap",
+    "Finishing the migration",
+    
+    // Blockers
+    "Blocked by legal review",
+    "Waiting on API docs",
+    "Need design approval",
+    "Blocked by DevOps",
+    "Waiting for QA signoff",
+    "Need stakeholder input",
+    "Blocked by infra team",
+    "Waiting on vendor",
+    
+    // Fun ones
+    "Surviving meetings",
+    "Drinking more coffee",
+    "Fighting scope creep",
+    "Herding cats as usual",
+    "Same as yesterday lol",
+    "Putting out fires",
+    "Moving tickets around",
+    "Updating Jira forever"
+];
+
+// Standup state
+let standupRunning = false;
+let standupScore = 0;
+let standupStreak = 0;
+let standupCount = 0;
+let standupLives = 3;
+let standupTimeLeft = 0;
+let standupTimerInterval = null;
+let currentPrompt = '';
+let usedPrompts = [];
+
+// Word scramble state (mobile)
+let scrambleWords = [];
+let scrambleBuilt = [];
+let scrambleTargetWords = [];
+
+function getRandomPrompt() {
+    // Reset if we've used most prompts
+    if (usedPrompts.length >= STANDUP_PROMPTS.length - 5) {
+        usedPrompts = [];
+    }
+    
+    let prompt;
+    do {
+        prompt = STANDUP_PROMPTS[Math.floor(Math.random() * STANDUP_PROMPTS.length)];
+    } while (usedPrompts.includes(prompt));
+    
+    usedPrompts.push(prompt);
+    return prompt;
+}
+
+function updateStandupHud() {
+    const scoreEl = document.getElementById('standupScore');
+    const streakEl = document.getElementById('standupStreak');
+    const countEl = document.getElementById('standupCount');
+    const livesEl = document.getElementById('standupLives');
+    if (scoreEl) scoreEl.textContent = standupScore;
+    if (streakEl) streakEl.textContent = standupStreak;
+    if (countEl) countEl.textContent = standupCount;
+    if (livesEl) livesEl.textContent = '❤️'.repeat(standupLives) + '🖤'.repeat(3 - standupLives);
+}
+
+function setNewPrompt() {
+    currentPrompt = getRandomPrompt();
+    if (standupPrompt) standupPrompt.textContent = currentPrompt;
+    if (standupInput) {
+        standupInput.value = '';
+        standupInput.classList.remove('correct', 'incorrect');
+    }
+    
+    // Set up word scramble for mobile
+    if (isMobile()) {
+        setupScramble(currentPrompt);
+    }
+    
+    // Time decreases as you progress
+    // Mobile: starts at 8s, min 3s (tapping is easier)
+    // Desktop: starts at 15s, min 5s (typing is harder)
+    if (isMobile()) {
+        standupTimeLeft = Math.max(3, 8 - Math.floor(standupCount / 3));
+    } else {
+        standupTimeLeft = Math.max(5, 15 - Math.floor(standupCount / 3));
+    }
+    updateTimerDisplay();
+}
+
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+function setupScramble(prompt) {
+    scrambleTargetWords = prompt.split(' ');
+    scrambleWords = shuffleArray(scrambleTargetWords);
+    scrambleBuilt = [];
+    
+    renderScramble();
+}
+
+function renderScramble() {
+    const wordsContainer = document.getElementById('scrambleWords');
+    const builtContainer = document.getElementById('scrambleBuilt');
+    
+    if (wordsContainer) {
+        wordsContainer.innerHTML = scrambleWords.map((word, index) => {
+            const isUsed = scrambleBuilt.includes(index);
+            return `<button class="scramble-word ${isUsed ? 'used' : ''}" data-index="${index}" ${isUsed ? 'disabled' : ''}>${word}</button>`;
+        }).join('');
+        
+        // Add click handlers
+        wordsContainer.querySelectorAll('.scramble-word:not(.used)').forEach(btn => {
+            btn.addEventListener('click', () => handleWordTap(parseInt(btn.dataset.index)));
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                handleWordTap(parseInt(btn.dataset.index));
+            });
+        });
+    }
+    
+    if (builtContainer) {
+        builtContainer.innerHTML = scrambleBuilt.map(index => 
+            `<span class="built-word">${scrambleWords[index]}</span>`
+        ).join('');
+    }
+}
+
+function handleWordTap(wordIndex) {
+    if (!standupRunning) return;
+    
+    const tappedWord = scrambleWords[wordIndex];
+    const expectedWord = scrambleTargetWords[scrambleBuilt.length];
+    
+    if (tappedWord === expectedWord) {
+        // Correct word!
+        scrambleBuilt.push(wordIndex);
+        
+        const btn = document.querySelector(`.scramble-word[data-index="${wordIndex}"]`);
+        if (btn) {
+            btn.classList.add('correct');
+            setTimeout(() => {
+                renderScramble();
+                
+                // Check if complete
+                if (scrambleBuilt.length === scrambleTargetWords.length) {
+                    handlePromptComplete();
+                }
+            }, 150);
+        }
+    } else {
+        // Wrong word!
+        const btn = document.querySelector(`.scramble-word[data-index="${wordIndex}"]`);
+        if (btn) {
+            btn.classList.add('wrong');
+            setTimeout(() => btn.classList.remove('wrong'), 300);
+        }
+    }
+}
+
+function handlePromptComplete() {
+    const timeBonus = Math.floor(standupTimeLeft * 10);
+    const streakBonus = standupStreak * 5;
+    const points = 100 + timeBonus + streakBonus;
+    
+    standupScore += points;
+    standupStreak++;
+    standupCount++;
+    
+    addSlackMessage(currentPrompt, true, true);
+    addSlackMessage(`+${points} points! ${standupStreak > 1 ? '🔥 ' + standupStreak + ' streak!' : ''}`, false, true);
+    
+    updateStandupHud();
+    setNewPrompt();
+}
+
+function updateTimerDisplay() {
+    if (standupTimer) {
+        standupTimer.textContent = standupTimeLeft.toFixed(1) + 's';
+        standupTimer.classList.toggle('urgent', standupTimeLeft <= 3);
+    }
+}
+
+function addSlackMessage(text, isUser = false, isSuccess = null) {
+    const messagesEl = document.getElementById('slackMessages');
+    if (!messagesEl) return;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'slack-message';
+    
+    let textClass = 'slack-text';
+    if (isUser) textClass += ' user-message';
+    if (isSuccess === true) textClass += ' success';
+    if (isSuccess === false) textClass += ' error';
+    
+    messageDiv.innerHTML = `
+        <span class="slack-avatar">${isUser ? '👨🏻‍💻' : '🤖'}</span>
+        <div class="slack-content">
+            <span class="slack-username">${isUser ? 'Kevin' : 'StandupBot'}</span>
+            <span class="${textClass}">${text}</span>
+        </div>
+    `;
+    
+    messagesEl.appendChild(messageDiv);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function checkInput() {
+    if (!standupInput || !standupRunning || isMobile()) return;
+    
+    const typed = standupInput.value;
+    const target = currentPrompt;
+    
+    // Check if matches so far
+    if (target.toLowerCase().startsWith(typed.toLowerCase())) {
+        standupInput.classList.remove('incorrect');
+        standupInput.classList.toggle('correct', typed.length > 0);
+        
+        // Complete match!
+        if (typed.toLowerCase() === target.toLowerCase()) {
+            handlePromptComplete();
+        }
+    } else {
+        standupInput.classList.add('incorrect');
+        standupInput.classList.remove('correct');
+    }
+}
+
+function standupTick() {
+    standupTimeLeft -= 0.1;
+    updateTimerDisplay();
+    
+    if (standupTimeLeft <= 0) {
+        // Time's up - lose a life
+        standupLives--;
+        standupStreak = 0;
+        addSlackMessage(currentPrompt, true, false);
+        
+        if (standupLives <= 0) {
+            addSlackMessage("You've been muted. Meeting over. 🔇", false, false);
+            setTimeout(endStandup, 1000);
+            return;
+        }
+        
+        addSlackMessage(`Too slow! ${standupLives} ${standupLives === 1 ? 'chance' : 'chances'} left. ⏰`, false, false);
+        updateStandupHud();
+        setNewPrompt();
+    }
+}
+
+function initStandup() {
+    standupScore = 0;
+    standupStreak = 0;
+    standupCount = 0;
+    standupLives = 3;
+    usedPrompts = [];
+    
+    // Clear messages except the first bot message
+    const messagesEl = document.getElementById('slackMessages');
+    if (messagesEl) {
+        messagesEl.innerHTML = `
+            <div class="slack-message">
+                <span class="slack-avatar">🤖</span>
+                <div class="slack-content">
+                    <span class="slack-username">StandupBot</span>
+                    <span class="slack-text">What's your status update?</span>
+                </div>
+            </div>
+        `;
+    }
+    
+    updateStandupHud();
+    setNewPrompt();
+}
+
+function startStandup() {
+    if (standupStart) standupStart.style.display = 'none';
+    if (standupOver) standupOver.style.display = 'none';
+    if (standupGame) standupGame.style.display = 'flex';
+    
+    standupRunning = true;
+    initStandup();
+    
+    // Focus input only on desktop
+    if (!isMobile() && standupInput) {
+        standupInput.focus();
+    }
+    
+    standupTimerInterval = setInterval(standupTick, 100);
+}
+
+function getStandupMessage(score, count) {
+    if (count >= 20) return "Principal communicator. Meetings bow to you.";
+    if (count >= 15) return "Senior standup energy. Fast fingers.";
+    if (count >= 10) return "Solid update velocity.";
+    if (count >= 5) return "Meeting adjourned. Not bad.";
+    return "Need more coffee next time.";
+}
+
+function endStandup() {
+    standupRunning = false;
+    
+    if (standupTimerInterval) {
+        clearInterval(standupTimerInterval);
+        standupTimerInterval = null;
+    }
+    
+    if (standupGame) standupGame.style.display = 'none';
+    if (standupOver) standupOver.style.display = 'flex';
+    
+    const finalScore = document.getElementById('standupFinalScore');
+    const finalCount = document.getElementById('standupFinalCount');
+    const message = document.getElementById('standupMessage');
+    
+    if (finalScore) finalScore.textContent = standupScore;
+    if (finalCount) finalCount.textContent = standupCount;
+    if (message) message.textContent = getStandupMessage(standupScore, standupCount);
+}
+
+// Standup input handler
+if (standupInput) {
+    standupInput.addEventListener('input', checkInput);
+    
+    // Prevent form submission on enter
+    standupInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+        }
+        // ESC to quit
+        if (e.key === 'Escape' && standupRunning) {
+            endStandup();
+        }
+    });
+}
+
+// Button handlers
+if (startStandupBtn) startStandupBtn.addEventListener('click', startStandup);
+if (standupPlayAgainBtn) standupPlayAgainBtn.addEventListener('click', startStandup);
+if (standupWhoAmIBtn) standupWhoAmIBtn.addEventListener('click', () => {
+    if (isMobile()) {
+        closeGameOverlay('standup', true);
+        setTimeout(() => openMobileOverlay('about'), 150);
+    } else {
+        closeWindow('standup');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
+
+/* ==========================================
+   INTERVIEW SURVIVAL - Choose Your Own Adventure
+   ========================================== */
+
+const interviewStart = document.getElementById('interviewStart');
+const interviewGame = document.getElementById('interviewGame');
+const interviewOver = document.getElementById('interviewOver');
+const interviewPlayAgainBtn = document.getElementById('interviewPlayAgainBtn');
+const interviewWhoAmIBtn = document.getElementById('interviewWhoAmIBtn');
+const startInterviewBtn = document.getElementById('startInterviewBtn');
+
+let ivSanity = 100;
+let ivConfidence = 100;
+let ivAmmo = 5;
+let ivRound = 0;
+
+const ivFaces = ['😎', '🙂', '😐', '😟', '😰', '😫', '💀'];
+
+function ivGetFace() {
+    if (ivSanity <= 0) return '💀';
+    if (ivSanity <= 15) return '😫';
+    if (ivSanity <= 30) return '😰';
+    if (ivSanity <= 50) return '😟';
+    if (ivSanity <= 70) return '😐';
+    if (ivSanity <= 85) return '🙂';
+    return '😎';
+}
+
+function ivGetPortrait() {
+    if (ivSanity <= 15) return 'images/interview-broken.jpg';
+    if (ivSanity <= 40) return 'images/interview-desperate.jpg';
+    if (ivSanity <= 75) return 'images/interview-stressed.jpg';
+    return 'images/interview-confident.jpg';
+}
+
+function ivUpdatePortrait() {
+    var portrait = document.getElementById('interviewPortrait');
+    if (portrait) {
+        var newSrc = ivGetPortrait();
+        if (portrait.src.indexOf(newSrc) === -1) {
+            portrait.style.opacity = '0';
+            setTimeout(function() {
+                portrait.src = newSrc;
+                portrait.style.opacity = '1';
+            }, 150);
+        }
+    }
+}
+
+function ivUpdateHud() {
+    const sanityBar = document.getElementById('sanityBar');
+    const sanityValue = document.getElementById('sanityValue');
+    const confidenceBar = document.getElementById('confidenceBar');
+    const confidenceValue = document.getElementById('confidenceValue');
+    const ammoValue = document.getElementById('ammoValue');
+    const doomFace = document.getElementById('doomFace');
+
+    if (sanityBar) sanityBar.style.width = Math.max(0, ivSanity) + '%';
+    if (sanityValue) sanityValue.textContent = Math.max(0, ivSanity) + '%';
+    if (confidenceBar) confidenceBar.style.width = Math.max(0, ivConfidence) + '%';
+    if (confidenceValue) confidenceValue.textContent = Math.max(0, ivConfidence) + '%';
+    if (ammoValue) ammoValue.textContent = ivAmmo;
+    if (doomFace) doomFace.textContent = ivGetFace();
+    ivUpdatePortrait();
+}
+
+function ivFlashDamage() {
+    const terminal = document.querySelector('.interview-terminal');
+    if (terminal) {
+        terminal.classList.add('iv-damage-flash');
+        setTimeout(() => terminal.classList.remove('iv-damage-flash'), 400);
+    }
+}
+
+function ivApplyStats(sanity, confidence, ammo) {
+    if (sanity < 0) ivFlashDamage();
+    ivSanity = Math.max(0, Math.min(100, ivSanity + sanity));
+    ivConfidence = Math.max(0, Math.min(100, ivConfidence + confidence));
+    ivAmmo = Math.max(0, ivAmmo + ammo);
+    ivUpdateHud();
+}
+
+// The 8 rounds
+const ivRounds = [
+    // Round 1: The Search
+    {
+        title: 'ROUND 1: THE SEARCH',
+        scenario: 'You open LinkedIn. 847 notifications. 12 recruiters. 3 are real. Your feed is a mix of hustle-porn and "I\'m humbled to announce" posts. Time to apply.\n\nYou find a role that matches your experience. The posting is 4 weeks old.',
+        choices: [
+            {
+                text: 'Apply normally through the portal',
+                result: 'Your application enters a queue behind 2,400 others. The ATS strips your formatting. Your 12 years of experience become "applicant_847.pdf". But you\'re in.',
+                sanity: -10, confidence: -5, ammo: 0, next: true
+            },
+            {
+                text: 'Pay $500 for "ATS optimization" from a LinkedIn guru',
+                result: 'You pay. They run your resume through ChatGPT and add "synergy" 14 times. The guru\'s testimonials were written by the same guy. Your credit card gets charged twice.',
+                sanity: -40, confidence: -30, ammo: -2, gameOver: true,
+                overMsg: 'Scammed before you even got an interview. The LinkedIn guru posts about their "successful client transformation."'
+            },
+            {
+                text: 'Ask a friend who works there for a referral',
+                result: 'Your friend submits a referral. It bumps you to the top of the pile. They\'ll get a $2,000 bonus if you\'re hired, so now there\'s a weird power dynamic. But you\'re in, and with momentum.',
+                sanity: -5, confidence: 10, ammo: 1, next: true
+            }
+        ]
+    },
+    // Round 2: The Recruiter Call
+    {
+        title: 'ROUND 2: THE RECRUITER CALL',
+        scenario: 'A recruiter reaches out. 15-minute "quick chat." They ask about your background, then drop it:\n\n"So what are you making right now?"\n\nThey need a number. You need this to move forward. The salary range wasn\'t in the posting.',
+        choices: [
+            {
+                text: '"I\'m targeting $X based on market data for this role"',
+                result: 'Deflected like a pro. The recruiter pauses, then shares the range: it\'s $15K below your number. "But there\'s equity and unlimited PTO." They schedule the hiring manager screen.',
+                sanity: -5, confidence: 5, ammo: 0, next: true
+            },
+            {
+                text: 'Give your real number honestly',
+                result: 'They go quiet. "That\'s a bit above our range." They say they\'ll "see what they can do" — translation: they\'re anchoring you to the bottom of their band from now on. But they move you forward.',
+                sanity: -15, confidence: -15, ammo: 0, next: true
+            },
+            {
+                text: '"Can you share the budgeted range first?"',
+                result: '"We don\'t share that at this stage." You push back politely. They share a range so wide it\'s meaningless ($120K-$200K). Classic. At least you didn\'t blink first.',
+                sanity: -10, confidence: 0, ammo: 1, next: true
+            }
+        ]
+    },
+    // Round 3: The HM Screen
+    {
+        title: 'ROUND 3: THE HIRING MANAGER SCREEN',
+        scenario: 'Thirty minutes in, you realize the role described in the posting and the role being described to you are two different jobs. The HM says:\n\n"We\'re building the plane while flying it. The last PM left after 4 months. We need someone who can hit the ground running and also define what the ground is."\n\nThe tech stack is \'evolving.\' The roadmap is \'fluid.\' The team is \'lean.\'',
+        choices: [
+            {
+                text: '"That sounds like an exciting challenge"',
+                result: 'You play along. The HM lights up. They love "self-starters." You\'re moved to the onsite. You now have a vague understanding of a role that doesn\'t fully exist yet. This is fine.',
+                sanity: -15, confidence: -5, ammo: -1, next: true
+            },
+            {
+                text: '"Can you clarify the scope? The posting mentioned X but you\'re describing Y"',
+                result: 'The HM says "the role has evolved." Translation: three people quit and the req got Frankensteined. They appreciate your directness but you sense a chill. Moved to onsite anyway.',
+                sanity: -10, confidence: 5, ammo: 0, next: true
+            },
+            {
+                text: '"I appreciate the transparency. I think I\'ll pass."',
+                result: 'You dodge a bullet. But that was your best lead this month. Back to LinkedIn. The feed hasn\'t changed. Nothing has changed.',
+                sanity: -25, confidence: -20, ammo: -1, gameOver: true,
+                overMsg: 'You showed self-respect. The market punished you for it. Back to square one.'
+            }
+        ]
+    },
+    // Round 4: The Onsite
+    {
+        title: 'ROUND 4: THE ONSITE',
+        scenario: 'Five back-to-back interviews. No breaks between them. Each interviewer asks you to "tell me about yourself" like the last 4 didn\'t just hear it.\n\nInterview 3 is a whiteboard session where you\'re asked to "design a system" for something they\'ve been building for 2 years. You have 45 minutes.\n\nInterview 4 is with someone who clearly doesn\'t want to be here and opens with "So what do you actually DO as a PM?"\n\nLunch is with the team. "Don\'t worry, it doesn\'t count." It counts.',
+        choices: [
+            {
+                text: 'Power through all five. Energy drinks. Smile. Perform.',
+                result: 'You crushed the whiteboard. You won over the hostile interviewer with a well-placed self-deprecating joke. At lunch you said "I love collaboration" without flinching. But you can feel your soul leaving your body.',
+                sanity: -25, confidence: 5, ammo: -2, next: true
+            },
+            {
+                text: 'Ask for a 5-minute break between sessions',
+                result: '"Of course!" They give you one break. The coordinator forgot to tell Interview 4 about the schedule change. They\'re annoyed. You spend 40 of your 45 minutes apologizing for the delay. But your brain still works.',
+                sanity: -15, confidence: -10, ammo: -1, next: true
+            }
+        ]
+    },
+    // Round 5: The Take-Home
+    {
+        title: 'ROUND 5: THE TAKE-HOME',
+        scenario: 'They loved you! As a "final step" they send a take-home project. The email says "should take 2-3 hours."\n\nYou open it. It\'s a full product strategy with market analysis, competitive landscape, mock PRD, and a presentation deck. This is not a 2-3 hour project. This is a free consulting engagement.\n\nYou\'re already 3 weeks deep in this process.',
+        choices: [
+            {
+                text: 'Do it properly. Spend the full 15 hours.',
+                result: 'You deliver a masterpiece. Custom research. Polished deck. They\'re impressed. The hiring manager says "This is better than what our current team produces." That\'s not the compliment they think it is. But you advance.',
+                sanity: -30, confidence: 5, ammo: 1, next: true
+            },
+            {
+                text: 'Do a solid 3-hour version and note the scope',
+                result: '"We were hoping for something more comprehensive." You explain the time constraint. They say they understand. The debrief feedback says "lacked depth." You\'re moved forward but you can feel the asterisk.',
+                sanity: -15, confidence: -10, ammo: 0, next: true
+            },
+            {
+                text: 'Push back: "Happy to do a 1-hour live session instead"',
+                result: '"That\'s not our process." You suggest it shows the same skills more efficiently. They say they\'ll "discuss internally" and ghost you for 9 days before declining.',
+                sanity: -20, confidence: -15, ammo: -1, gameOver: true,
+                overMsg: 'You valued your time. They valued compliance. The process demands sacrifice, not boundaries.'
+            }
+        ]
+    },
+    // Round 6: Come Back Onsite AGAIN
+    {
+        title: 'ROUND 6: COME BACK. AGAIN.',
+        scenario: '"Great news! The team loved your take-home. We just need you to come back to meet a few more people."\n\nAnother PTO day burned. When you arrive, the role has subtly changed. There\'s now a "dotted line" to a VP you haven\'t met. One interviewer asks you the same questions from Round 4. Someone calls you the wrong name twice.\n\nYou\'ve been interviewing here for 5 weeks.',
+        choices: [
+            {
+                text: 'Smile. Adapt. Close the deal.',
+                result: 'You nail it again. The VP likes you. The wrong-name interviewer writes positive feedback anyway. You overhear someone say "they\'re the frontrunner." Five weeks of your life, but the finish line is close.',
+                sanity: -20, confidence: 5, ammo: -1, next: true
+            },
+            {
+                text: '"I\'m happy to do a video call instead of another onsite"',
+                result: '"We really value in-person collaboration." Translation: they need to justify their office lease. You go in. Everything goes fine. But you\'re running on fumes and everyone can see it.',
+                sanity: -25, confidence: -10, ammo: -1, next: true
+            }
+        ]
+    },
+    // Round 7: The Offer
+    {
+        title: 'ROUND 7: THE OFFER',
+        scenario: 'Your phone rings. It\'s the recruiter. "I have great news!"\n\nThe offer is 15% below the range discussed in Round 2. The equity vesting has a 1-year cliff. The "unlimited PTO" comes with a culture where nobody takes more than 5 days. Start date is "flexible" which means "we need you yesterday."\n\nOh, and the hiring manager who championed you? They put in their notice last week.',
+        choices: [
+            {
+                text: 'Negotiate: push for the originally discussed range',
+                result: '"Let me take this back to the team." Three days of silence. They come back with $5K more and a $10K signing bonus. The HM is still leaving. You accept because you\'ve been doing this for 6 weeks and you can\'t go back to LinkedIn.',
+                sanity: -15, confidence: -5, ammo: -1, next: true
+            },
+            {
+                text: 'Accept as-is. You\'re exhausted.',
+                result: 'You sign. The relief washes over you. Then the dread. You accepted below your number. The HM who hired you is gone. But it\'s done. It\'s finally done. Right?',
+                sanity: -10, confidence: -20, ammo: 0, next: true
+            },
+            {
+                text: 'Walk away. You know your worth.',
+                result: 'You decline. Gracefully. The recruiter is stunned. "No one has ever..." You feel powerful for exactly 48 hours. Then the job board loads again.',
+                sanity: -30, confidence: 10, ammo: 0, gameOver: true,
+                overMsg: 'Principled. Unemployed. The market doesn\'t reward integrity — it rewards endurance.'
+            }
+        ]
+    },
+    // Round 8: You Got The Job
+    {
+        title: 'ROUND 8: YOU GOT THE JOB!',
+        scenario: 'Day 1. Your laptop isn\'t ready. You spend the morning watching compliance videos from 2019. Your "onboarding buddy" is on PTO.\n\nDay 14. You discover the product roadmap is a Google Doc that hasn\'t been updated in 8 months. Your new manager is the VP you met once. They have 11 direct reports.\n\nDay 45. You\'ve shipped one feature. Reorged once. Your skip-level doesn\'t know your name.\n\nDay 89. A company-wide Zoom. The CEO looks tired. "Difficult macro environment... strategic realignment... incredibly hard decision..."\n\nDay 90.',
+        choices: [
+            {
+                text: '[Continue]',
+                result: 'Your access is revoked at 10:47 AM. You get the severance email before your manager calls. 2 weeks per year of service — that\'s 0.038 years, so basically nothing.\n\nThe recruiter who hired you messages on LinkedIn: "So sorry to see the news. Let me know if I can help!" They cannot help.\n\nYou update your LinkedIn headline. You change your banner to #OpenToWork.\n\nA recruiter messages you within the hour.\n\n"Hi! I came across your profile and I think you\'d be a great fit for a role..."',
+                sanity: -100, confidence: -100, ammo: -99, next: false, finalEnd: true
+            }
+        ]
+    }
+];
+
+function ivShowRound(roundIndex) {
+    ivRound = roundIndex;
+    const round = ivRounds[roundIndex];
+    const roundEl = document.getElementById('interviewRound');
+    const scenarioEl = document.getElementById('interviewScenario');
+    const choicesEl = document.getElementById('interviewChoices');
+
+    if (roundEl) roundEl.textContent = round.title;
+    if (scenarioEl) scenarioEl.innerHTML = round.scenario.replace(/\n/g, '<br>');
+
+    // Show victory portrait briefly on round 8 before the laid off twist
+    if (roundIndex === 7) {
+        var portrait = document.getElementById('interviewPortrait');
+        if (portrait) portrait.src = 'images/interview-victory.jpg';
+    }
+
+    if (choicesEl) {
+        choicesEl.innerHTML = '';
+        round.choices.forEach(function(choice, i) {
+            var btn = document.createElement('button');
+            btn.className = 'iv-choice-btn';
+            btn.textContent = choice.text;
+            btn.addEventListener('click', function() { ivMakeChoice(roundIndex, i); });
+            choicesEl.appendChild(btn);
+        });
+    }
+}
+
+function ivShowResult(roundIndex, choiceIndex) {
+    var round = ivRounds[roundIndex];
+    var choice = round.choices[choiceIndex];
+    var scenarioEl = document.getElementById('interviewScenario');
+    var choicesEl = document.getElementById('interviewChoices');
+
+    ivApplyStats(choice.sanity, choice.confidence, choice.ammo);
+
+    if (scenarioEl) scenarioEl.innerHTML = choice.result.replace(/\n/g, '<br>');
+
+    if (choicesEl) {
+        choicesEl.innerHTML = '';
+
+        if (choice.gameOver) {
+            var btn = document.createElement('button');
+            btn.className = 'iv-choice-btn iv-choice-bad';
+            btn.textContent = 'Accept your fate';
+            btn.addEventListener('click', function() { ivEndGame(choice.overMsg); });
+            choicesEl.appendChild(btn);
+        } else if (choice.finalEnd) {
+            var btn = document.createElement('button');
+            btn.className = 'iv-choice-btn iv-choice-restart';
+            btn.textContent = '💼 Open LinkedIn';
+            btn.addEventListener('click', function() { startInterview(); });
+            choicesEl.appendChild(btn);
+
+            // Also show game over after a pause
+            setTimeout(function() { ivEndGame('You survived the entire process. You got the job. You lost the job. Nobody wins. The loop continues.'); }, 200);
+        } else if (choice.next && roundIndex < ivRounds.length - 1) {
+            var btn = document.createElement('button');
+            btn.className = 'iv-choice-btn';
+            btn.textContent = 'Continue →';
+            btn.addEventListener('click', function() { ivShowRound(roundIndex + 1); });
+            choicesEl.appendChild(btn);
+        }
+    }
+}
+
+function ivMakeChoice(roundIndex, choiceIndex) {
+    ivShowResult(roundIndex, choiceIndex);
+}
+
+function ivEndGame(message) {
+    if (interviewGame) interviewGame.style.display = 'none';
+    if (interviewOver) interviewOver.style.display = 'flex';
+
+    var titleEl = document.getElementById('interviewOverTitle');
+    var roundEl = document.getElementById('interviewFinalRound');
+    var msgEl = document.getElementById('interviewOverMessage');
+    var endPortrait = document.getElementById('interviewEndPortrait');
+
+    var isVictory = ivRound >= 7;
+    if (titleEl) titleEl.textContent = isVictory ? 'LAID OFF' : 'GAME OVER';
+    if (roundEl) roundEl.textContent = ivRound + 1;
+    if (msgEl) msgEl.textContent = message;
+    if (endPortrait) endPortrait.src = isVictory ? 'images/interview-laidoff.jpg' : 'images/interview-gameover.jpg';
+}
+
+function startInterview() {
+    ivSanity = 100;
+    ivConfidence = 100;
+    ivAmmo = 5;
+    ivRound = 0;
+
+    if (interviewStart) interviewStart.style.display = 'none';
+    if (interviewOver) interviewOver.style.display = 'none';
+    if (interviewGame) interviewGame.style.display = 'flex';
+
+    var portrait = document.getElementById('interviewPortrait');
+    if (portrait) portrait.src = 'images/interview-confident.jpg';
+
+    ivUpdateHud();
+    ivShowRound(0);
+}
+
+if (startInterviewBtn) startInterviewBtn.addEventListener('click', startInterview);
+if (interviewPlayAgainBtn) interviewPlayAgainBtn.addEventListener('click', startInterview);
+if (interviewWhoAmIBtn) interviewWhoAmIBtn.addEventListener('click', function() {
+    if (isMobile()) {
+        closeGameOverlay('interview', true);
+        setTimeout(function() { openMobileOverlay('about'); }, 150);
+    } else {
+        closeWindow('interview');
+        closeWindow('games');
+        openWindow('about');
+    }
+});
+
+/* ==========================================
+   RECIPES - Shared Data & Parsing
+   ========================================== */
+
+const RECIPES_MD_URL = 'https://middleton.io/recipes/recipes.md';
+let kevinRecipes = [];
+
+async function loadKevinRecipes() {
+    try {
+        let response;
+        for (let attempt = 0; ; attempt++) {
+            try {
+                response = await fetch(RECIPES_MD_URL);
+                if (response.ok) break;
+                throw new Error('HTTP ' + response.status);
+            } catch (err) {
+                if (attempt >= 2) throw err;
+                await new Promise(r => setTimeout(r, 500 * (attempt + 1)));
+            }
+        }
+        const md = await response.text();
+        kevinRecipes = parseKevinRecipes(md);
+        
+        // Initialize DB view
+        renderDbView();
+    } catch (error) {
+        console.error('Failed to load recipes:', error);
+        const dbRows = document.getElementById('dbRecipeRows');
+        if (dbRows) dbRows.innerHTML = '<tr><td colspan="5" class="db-loading">Failed to load recipes</td></tr>';
+    }
+}
+
+function parseKevinRecipes(md) {
+    const blocks = md.split(/^# /m).filter(b => b.trim());
+    return blocks.map((block, index) => {
+        const lines = block.split('\n');
+        const title = lines[0].trim();
+
+        const fmStart = lines.findIndex(l => l.trim() === '---');
+        const fmEnd = lines.findIndex((l, i) => i > fmStart && l.trim() === '---');
+
+        let tags = [];
+        let servings = '';
+        let source = '';
+        let photo = '';
+        let notes = '';
+
+        if (fmStart !== -1 && fmEnd !== -1) {
+            const fm = lines.slice(fmStart + 1, fmEnd);
+            fm.forEach(line => {
+                const [key, ...rest] = line.split(':');
+                const val = rest.join(':').trim();
+                if (key.trim() === 'tags') {
+                    tags = val.replace(/[\[\]]/g, '').split(',').map(t => t.trim()).filter(Boolean);
+                } else if (key.trim() === 'servings') {
+                    servings = val;
+                } else if (key.trim() === 'source') {
+                    source = val;
+                } else if (key.trim() === 'photo') {
+                    photo = val;
+                } else if (key.trim() === 'notes') {
+                    notes = val;
+                }
+            });
+        }
+
+        const contentStart = fmEnd !== -1 ? fmEnd + 1 : 1;
+        const content = lines.slice(contentStart).join('\n').trim();
+
+        const firstHeading = content.search(/^## /m);
+        const intro = firstHeading > 0 ? content.slice(0, firstHeading).trim() : '';
+
+        const ingredientsMatch = content.match(/## Ingredients\n([\s\S]*?)(?=\n## |$)/);
+        const ingredientsRaw = ingredientsMatch ? ingredientsMatch[1].trim() : '';
+
+        const instructionsMatch = content.match(/## Instructions\n([\s\S]*?)(?=\n## |$)/);
+        const instructionsRaw = instructionsMatch ? instructionsMatch[1].trim() : '';
+
+        return {
+            id: index + 1,
+            title,
+            tags,
+            servings,
+            source,
+            photo,
+            notes,
+            intro,
+            ingredientsRaw,
+            instructionsRaw
+        };
+    });
+}
+
+function parseRecipeIngredients(raw) {
+    const lines = raw.split('\n');
+    let html = '';
+    let inList = false;
+
+    lines.forEach(line => {
+        if (line.startsWith('### ')) {
+            if (inList) html += '</ul>';
+            html += `<h4>${line.slice(4)}</h4>`;
+            inList = false;
+        } else if (line.startsWith('- ')) {
+            if (!inList) {
+                html += '<ul>';
+                inList = true;
+            }
+            html += `<li>${line.slice(2)}</li>`;
+        }
+    });
+
+    if (inList) html += '</ul>';
+    return html;
+}
+
+function parseRecipeInstructions(raw) {
+    const lines = raw.split('\n').filter(l => l.match(/^\d+\./));
+    return '<ol>' + lines.map(l => `<li>${l.replace(/^\d+\.\s*/, '')}</li>`).join('') + '</ol>';
+}
+
+
+/* ==========================================
+   RECIPES.DB - Database View
+   ========================================== */
+
+function renderDbView() {
+    const tbody = document.getElementById('dbRecipeRows');
+    const countEl = document.getElementById('dbRecipeCount');
+    const photoGrid = document.getElementById('recipesPhotoGrid');
+
+    if (!tbody) return;
+
+    // Sort by title ASC
+    const sortedRecipes = [...kevinRecipes].sort((a, b) => a.title.localeCompare(b.title));
+
+    countEl.textContent = `${sortedRecipes.length} rows`;
+
+    // Store sorted recipes globally for detail view lookup
+    window.sortedRecipesList = sortedRecipes;
+
+    // Desktop table view
+    tbody.innerHTML = sortedRecipes.map((recipe, index) => `
+        <tr data-row-num="${index + 1}">
+            <td class="db-col-id">${index + 1}</td>
+            <td class="db-col-title">${recipe.title}</td>
+            <td class="db-col-tags">${recipe.tags.map(t => `<span class="db-tag">${t}</span>`).join('')}</td>
+            <td class="db-col-servings">${recipe.servings || '—'}</td>
+            <td class="db-col-action"><span class="db-view-btn">→</span></td>
+        </tr>
+    `).join('');
+
+    // Add click handlers for table
+    tbody.querySelectorAll('tr').forEach(row => {
+        row.addEventListener('click', () => {
+            const rowNum = parseInt(row.dataset.rowNum);
+            showDbDetail(rowNum);
+        });
+    });
+
+    // Mobile photo grid view - Pinterest style
+    if (photoGrid) {
+        photoGrid.innerHTML = sortedRecipes.map((recipe, index) => `
+            <div class="recipe-photo-item" data-row-num="${index + 1}">
+                ${recipe.photo
+                    ? `<img src="${recipe.photo}" alt="${recipe.title}" loading="lazy">`
+                    : `<div class="recipe-photo-placeholder">🍽️</div>`
+                }
+                <div class="recipe-photo-title">${recipe.title}</div>
+            </div>
+        `).join('');
+
+        // Add click handlers for photo grid
+        photoGrid.querySelectorAll('.recipe-photo-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const rowNum = parseInt(item.dataset.rowNum);
+                showDbDetail(rowNum);
+            });
+        });
+    }
+}
+
+function showDbDetail(rowNum) {
+    const recipe = window.sortedRecipesList[rowNum - 1];
+    if (!recipe) return;
+
+    const tableWrapper = document.querySelector('#recipesdb .db-table-wrapper');
+    const toolbar = document.querySelector('#recipesdb .db-toolbar');
+    const photoGrid = document.getElementById('recipesPhotoGrid');
+    const mobileHeader = document.querySelector('#recipesdb .recipes-mobile-header');
+    const detail = document.getElementById('dbRecipeDetail');
+    const detailId = document.getElementById('dbDetailId');
+    const content = document.getElementById('dbDetailContent');
+
+    // Hide table/grid, show detail
+    tableWrapper.style.display = 'none';
+    toolbar.style.display = 'none';
+    if (photoGrid) photoGrid.style.display = 'none';
+    if (mobileHeader) mobileHeader.style.display = 'none';
+    detail.style.display = 'block';
+    detailId.textContent = rowNum;
+    
+    const ingredientsHtml = parseRecipeIngredients(recipe.ingredientsRaw);
+    const instructionsHtml = parseRecipeInstructions(recipe.instructionsRaw);
+    
+    // Build meta line only if there's content
+    const metaParts = [];
+    if (recipe.servings) metaParts.push(`Serves ${recipe.servings}`);
+    if (recipe.source) metaParts.push(`<a href="${recipe.source}" target="_blank">Source</a>`);
+    const metaHtml = metaParts.length ? `<div class="db-detail-meta">${metaParts.join(' · ')}</div>` : '';
+
+    content.innerHTML = `
+        <div class="db-detail-header-row">
+            ${recipe.photo ? `<img class="db-detail-img" src="${recipe.photo}" alt="${recipe.title}">` : ''}
+            <div class="db-detail-header-info">
+                <h2 class="db-detail-title">${recipe.title}</h2>
+                ${metaHtml}
+            </div>
+        </div>
+        ${recipe.intro ? `<p class="db-detail-intro">${recipe.intro}</p>` : ''}
+        <h3>Ingredients</h3>
+        ${ingredientsHtml}
+        <h3>Instructions</h3>
+        ${instructionsHtml}
+        ${recipe.notes ? `<div class="db-detail-notes">${recipe.notes}</div>` : ''}
+    `;
+}
+
+// DB Back button handler
+const dbBackBtn = document.getElementById('dbBackBtn');
+if (dbBackBtn) {
+    dbBackBtn.addEventListener('click', () => {
+        const tableWrapper = document.querySelector('#recipesdb .db-table-wrapper');
+        const toolbar = document.querySelector('#recipesdb .db-toolbar');
+        const photoGrid = document.getElementById('recipesPhotoGrid');
+        const mobileHeader = document.querySelector('#recipesdb .recipes-mobile-header');
+        const detail = document.getElementById('dbRecipeDetail');
+
+        // Show table (desktop) or photo grid (mobile)
+        tableWrapper.style.display = '';
+        toolbar.style.display = '';
+        if (photoGrid) photoGrid.style.display = '';
+        if (mobileHeader) mobileHeader.style.display = '';
+        detail.style.display = 'none';
+    });
+}
+
+
+// Load recipes on page load
+loadKevinRecipes();
+
+// Position the home trio (about / building / writing) for the current
+// viewport: three columns when they fit, a cascade when they don't. The
+// cluster is centered on very wide screens instead of hugging the edges.
+// Windows must not bury the identity card. It is the only thing on the desktop
+// that says who this is, and a recruiter's first screen was nine company logos
+// with no name attached. Returns a top offset that clears the card.
+function clearOfWidget(preferred) {
+    const card = document.querySelector('.desktop-widget');
+    if (!card) return preferred;
+    const b = card.getBoundingClientRect();
+    if (!b.height) return preferred;
+    return Math.max(preferred, Math.round(b.bottom) + 14);
+}
+
+// The desktop's opening arrangement. Experience is the anchor: it is the
+// evidence a recruiter came for, so it gets the widest column and sits at the
+// top of the screen rather than below the fold. About and Building flank it.
+function applyHomeLayout() {
+    const experienceWin = document.querySelector('[data-window="experience"]');
+    const aboutWin = document.querySelector('[data-window="about"]');
+    const buildingWin = document.querySelector('[data-window="building"]');
+    const vw = window.innerWidth;
+
+    // .window caps at calc(100vh - 120px), which assumes a window sitting near
+    // the top. Experience starts lower, to clear the identity card, so that cap
+    // let it run off the bottom of the screen - and the desktop does not scroll,
+    // so anything past the fold was simply unreachable. Cap each window to the
+    // room actually below it, leaving space for the dock.
+    const fit = (win, top) => {
+        if (!win) return;
+        win.style.maxHeight = Math.max(260, window.innerHeight - top - 110) + 'px';
+    };
+
+    if (vw >= 1180) {
+        const margin = Math.max(30, Math.round((vw - 1460) / 2));
+        const gap = 14;
+        const span = vw - margin * 2;
+        const buildingW = 320;
+        const buildingLeft = vw - margin - buildingW;
+        const aboutW = Math.min(400, Math.max(330, Math.round(span * 0.27)));
+        const aboutLeft = buildingLeft - gap - aboutW;
+        const experienceW = Math.min(680, aboutLeft - gap - margin);
+        // The identity card (name, title, New York, Open to Work) lives at the
+        // top left. Only this column overlaps it, so only this column clears it.
+        // Measured rather than hardcoded because the card grows with its content.
+        if (experienceWin) {
+            experienceWin.style.left = margin + 'px';
+            const expTop = clearOfWidget(40);
+            experienceWin.style.top = expTop + 'px';
+            experienceWin.style.width = experienceW + 'px';
+            fit(experienceWin, expTop);
+        }
+        if (aboutWin) {
+            aboutWin.style.left = aboutLeft + 'px';
+            aboutWin.style.top = '40px';
+            aboutWin.style.width = aboutW + 'px';
+            fit(aboutWin, 40);
+        }
+        if (buildingWin) {
+            buildingWin.style.left = buildingLeft + 'px';
+            buildingWin.style.top = '40px';
+            buildingWin.style.width = buildingW + 'px';
+            fit(buildingWin, 40);
+        }
+    } else {
+        // Narrower desktops can't fit three columns; cascade instead of
+        // squeezing windows into slivers. Experience leads the stack.
+        const w = Math.min(560, vw - 120);
+        const top0 = clearOfWidget(56);
+        [experienceWin, aboutWin, buildingWin].forEach((win, i) => {
+            if (!win) return;
+            win.style.left = (40 + i * 56) + 'px';
+            win.style.top = (top0 + i * 46) + 'px';
+            win.style.width = w + 'px';
+            fit(win, top0 + i * 46);
+        });
+    }
+}
+
+// Handle URL parameters to open specific windows/games
+(function handleUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    // projects/ and skills.config were cut: everything in them lives in
+    // strengths/, which organises the same evidence by capability instead of
+    // repeating it. Old links land there rather than opening nothing.
+    const RETIRED = { projects: 'strengths', skills: 'strengths' };
+    const windowToOpen = (params.get('open') || '')
+        .split(',')
+        .map(id => RETIRED[id] || id)
+        .filter(Boolean)
+        .join(',') || null;
+    const gameToOpen = params.get('game');
+    const validGames = ['invaders', 'tetris', 'bugsquash', 'runner', 'snake', 'standup', 'interview'];
+
+    // Handle ?game= parameter (e.g., ?game=invaders)
+    if (gameToOpen && validGames.includes(gameToOpen)) {
+        if (isMobile()) {
+            setTimeout(() => openGameOverlay(gameToOpen), 100);
+        } else {
+            setTimeout(() => {
+                openWindow(gameToOpen);
+                const gameWin = document.getElementById(gameToOpen);
+                if (gameWin) {
+                    gameWin.style.top = '60px';
+                    gameWin.style.left = '50%';
+                    gameWin.style.transform = 'translateX(-50%)';
+                }
+            }, 100);
+        }
+        return;
+    }
+
+    // Handle recipes
+    if (windowToOpen === 'recipes' || windowToOpen === 'recipesdb') {
+        if (isMobile()) {
+            setTimeout(() => openMobileOverlay('recipesdb'), 100);
+        } else {
+            setTimeout(() => openMobileRecipes(), 100);
+        }
+        return;
+    }
+
+    // Handle games folder
+    if (windowToOpen === 'games') {
+        if (isMobile()) {
+            setTimeout(() => openMobileGamesFolder(), 100);
+        } else {
+            setTimeout(() => openWindow('games'), 100);
+        }
+        return;
+    }
+
+    // Handle specific game by name via ?open= param
+    if (validGames.includes(windowToOpen)) {
+        if (isMobile()) {
+            setTimeout(() => openGameOverlay(windowToOpen), 100);
+        } else {
+            setTimeout(() => {
+                openWindow(windowToOpen);
+                const gameWin = document.getElementById(windowToOpen);
+                if (gameWin) {
+                    gameWin.style.top = '60px';
+                    gameWin.style.left = '50%';
+                    gameWin.style.transform = 'translateX(-50%)';
+                }
+            }, 100);
+        }
+        return;
+    }
+
+    // Handle other windows normally (e.g., ?open=about, ?open=about,building)
+    if (windowToOpen) {
+        const ids = windowToOpen.split(',').filter(Boolean);
+        if (isMobile()) {
+            setTimeout(() => openMobileOverlay(ids[0]), 100); // one overlay at a time on mobile
+        } else {
+            setTimeout(() => {
+                // Deep links / reloads skip the boot layout, so windows would
+                // open at raw CSS defaults (centered, stacked). Give the home
+                // trio their designed spots first.
+                if (ids.some(id => ['experience', 'about', 'building'].includes(id))) {
+                    applyHomeLayout();
+                }
+                ids.forEach(id => openWindow(id));
+            }, 100);
+        }
+        return;
+    }
+
+    // No URL param - open default windows on desktop only
+    if (!isMobile()) {
+        setTimeout(() => {
+            applyHomeLayout();
+            // Order matters: the last one opened takes focus. Building and About
+            // set the scene, Experience lands on top because it is the reason
+            // most visitors are here.
+            openWindow('building');
+            openWindow('about');
+            openWindow('experience');
+        }, 150);
+    }
+})();
+
+// ===================
+// FEED + STORE GARNISH
+// ===================
+// Delegated handlers: mobile overlays clone window content, so listeners
+// bound to the original nodes would be lost in the clones.
+document.addEventListener('click', (e) => {
+    const refresh = e.target.closest('.kos-feed-refresh');
+    if (refresh) {
+        // Feedback lives in the button itself (spin, then a brief check) so
+        // the header text never changes and the rows never shift
+        if (refresh.dataset.busy) return;
+        refresh.dataset.busy = '1';
+        refresh.classList.add('spinning');
+        setTimeout(() => {
+            refresh.classList.remove('spinning');
+            refresh.classList.add('done');
+            setTimeout(() => {
+                refresh.classList.remove('done');
+                delete refresh.dataset.busy;
+            }, 1000);
+        }, 900);
+        return;
+    }
+    // Reading a post clears its unread dot, like a real reader
+    const row = e.target.closest('.kos-feed-row.unread');
+    if (row) row.classList.remove('unread');
+});
+
+document.addEventListener('input', (e) => {
+    if (!e.target.matches('.kos-store-search input')) return;
+    const scope = e.target.closest('.window-content, .mobile-overlay-content') || document;
+    const q = e.target.value.trim().toLowerCase();
+    let shown = 0;
+    scope.querySelectorAll('.kos-store-row').forEach(row => {
+        const hit = !q || row.textContent.toLowerCase().includes(q);
+        row.style.display = hit ? '' : 'none';
+        if (hit) shown++;
+    });
+    const empty = scope.querySelector('.kos-store-empty');
+    if (empty) empty.hidden = !q || shown > 0;
+});
+
+// Once the boot sequence has opened its windows, start mirroring state to the
+// URL. For a mobile overlay deep-link, layer its entry over a clean baseline so
+// the back button closes the overlay instead of leaving the site.
+setTimeout(() => {
+    kosUrlReady = true;
+    if (isMobile()) {
+        if (activeMobileOverlay) {
+            const id = activeMobileOverlay.id.replace('mobile-overlay-', '');
+            history.replaceState({}, '', kosBuildUrl([]));
+            const params = new URLSearchParams(window.location.search);
+            params.set('open', id);
+            history.pushState({ kosOverlay: id }, '', window.location.pathname + '?' + params.toString());
+        }
+        return;
+    }
+    kosSyncUrl(false);
+}, 700);
+
+// Reset experience and values windows when reopened after close
+(function() {
+    // Watch for experience window being reopened
+    const expWin = document.querySelector('[data-window="experience"]');
+    const valuesWin = document.querySelector('[data-window="values"]');
+
+    if (expWin) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    const isOpen = expWin.classList.contains('window-open');
+                    // If reopening after initial load was cleared
+                    if (isOpen && expWin.dataset.initialLoad === 'false') {
+                        // Reset to default sizing; CSS max-height handles the constraint
+                        expWin.style.width = '';
+                        expWin.style.height = '';
+                    }
+                    // When closed, clear and mark initial load done
+                    if (!isOpen) {
+                        expWin.style.height = '';
+                        if (expWin.dataset.initialLoad === 'true') {
+                            expWin.dataset.initialLoad = 'false';
+                        }
+                    }
+                }
+            });
+        });
+        observer.observe(expWin, { attributes: true });
+    }
+
+    if (valuesWin) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    const isOpen = valuesWin.classList.contains('window-open');
+                    // If reopening after initial load was cleared
+                    if (isOpen && valuesWin.dataset.initialLoad === 'false') {
+                        // Reset to default width and remove stacked class
+                        valuesWin.style.width = '';
+                        const valuesGrid = valuesWin.querySelector('.values-grid');
+                        if (valuesGrid) valuesGrid.classList.remove('stacked');
+                    }
+                    // Mark initial load as done when closed
+                    if (!isOpen && valuesWin.dataset.initialLoad === 'true') {
+                        valuesWin.dataset.initialLoad = 'false';
+                    }
+                }
+            });
+        });
+        observer.observe(valuesWin, { attributes: true });
+    }
+})();
+
+// Clear recipes inline style when resizing to desktop (so close button works)
+window.addEventListener('resize', () => {
+    if (isMobile()) return; // sticky mobile: rotating to landscape must not strip mobile styles
+    if (window.innerWidth > 768) {
+        const recipesWindow = document.getElementById('recipesdb');
+        const windowsArea = document.querySelector('.windows-area');
+        if (recipesWindow) {
+            recipesWindow.style.removeProperty('display');
+            recipesWindow.style.removeProperty('position');
+            recipesWindow.style.removeProperty('inset');
+            recipesWindow.style.removeProperty('width');
+            recipesWindow.style.removeProperty('height');
+            recipesWindow.style.removeProperty('max-height');
+            recipesWindow.style.removeProperty('border-radius');
+            recipesWindow.style.removeProperty('z-index');
+        }
+        if (windowsArea) {
+            windowsArea.style.removeProperty('display');
+            windowsArea.style.removeProperty('position');
+            windowsArea.style.removeProperty('inset');
+            windowsArea.style.removeProperty('z-index');
+            windowsArea.style.removeProperty('background');
+            windowsArea.classList.remove('mobile-recipes-open');
+            // Restore other windows
+            windowsArea.querySelectorAll('.window').forEach(win => {
+                win.style.removeProperty('display');
+            });
+        }
+    }
+});
+
+// ===================
+// MOBILE ICON GRID OVERLAY SYSTEM
+// ===================
+
+// Window title configuration for mobile overlays (iOS-style clean titles)
+const mobileWindowConfig = {
+    readme: { title: 'README' },
+    about: { title: 'Profile' },
+    values: { title: 'Values' },
+    experience: { title: 'Experience' },
+    projects: { title: 'Projects' },
+    building: { title: 'Building' },
+    writing: { title: 'Writing' },
+    skills: { title: 'Skills' },
+    recommendations: { title: 'Reviews' },
+    games: { title: 'Games' }
+};
+
+let activeMobileOverlay = null;
+
+function createMobileOverlay(windowId) {
+    const sourceWindow = document.getElementById(windowId);
+    if (!sourceWindow) return null;
+
+    const config = mobileWindowConfig[windowId] || { title: windowId };
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'mobile-window-overlay';
+    overlay.id = `mobile-overlay-${windowId}`;
+
+    // Create header
+    const header = document.createElement('div');
+    header.className = 'mobile-overlay-header';
+
+    const title = document.createElement('div');
+    title.className = 'mobile-overlay-title';
+    title.textContent = config.title;
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'mobile-close-btn';
+    closeBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+    closeBtn.addEventListener('click', closeMobileOverlay);
+
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+
+    // Create content container
+    const contentContainer = document.createElement('div');
+    contentContainer.className = 'mobile-overlay-content';
+
+    // Clone the window content
+    const windowContent = sourceWindow.querySelector('.window-content');
+    if (windowContent) {
+        const clonedContent = windowContent.cloneNode(true);
+        contentContainer.appendChild(clonedContent);
+    }
+
+    overlay.appendChild(header);
+    overlay.appendChild(contentContainer);
+
+    return overlay;
+}
+
+function openMobileOverlay(windowId) {
+    // Special handling for games - open as overlay with the games folder content
+    if (windowId === 'games') {
+        openGamesOverlay();
+        return;
+    }
+
+    // Close any existing overlay
+    if (activeMobileOverlay) {
+        closeMobileOverlay();
+    }
+
+    // Check if overlay already exists
+    let overlay = document.getElementById(`mobile-overlay-${windowId}`);
+
+    if (!overlay) {
+        overlay = createMobileOverlay(windowId);
+        if (!overlay) return;
+        document.body.appendChild(overlay);
+        setupSwipeToDismiss(overlay);
+    }
+
+    // Trigger animation on next frame
+    requestAnimationFrame(() => {
+        overlay.classList.add('active');
+    });
+
+    activeMobileOverlay = overlay;
+    document.body.style.overflow = 'hidden';
+
+    // Back button should close the overlay, not leave the site
+    if (kosUrlReady) {
+        const params = new URLSearchParams(window.location.search);
+        params.set('open', windowId);
+        params.delete('game');
+        history.pushState({ kosOverlay: windowId }, '', window.location.pathname + '?' + params.toString());
+    }
+
+    // Track with Plausible if available
+    if (window.plausible) {
+        plausible('Mobile Overlay Open', { props: { window: windowId } });
+    }
+}
+
+function closeMobileOverlay(fromPop) {
+    if (!activeMobileOverlay) return;
+
+    const overlayToClose = activeMobileOverlay;
+    activeMobileOverlay = null;
+
+    // Reset any inline transform/transition from dragging, let CSS handle the close animation
+    overlayToClose.style.transition = '';
+    overlayToClose.style.transform = '';
+
+    // Remove active class - CSS will animate it down
+    overlayToClose.classList.remove('active');
+    document.body.style.overflow = '';
+
+    // X-button/handle close: pop our history entry so the URL stays accurate
+    if (fromPop !== true && history.state && history.state.kosOverlay) {
+        history.back();
+    }
+}
+
+// Swipe-to-dismiss for mobile overlays (Safari only - other browsers trigger pull-to-refresh)
+let touchStartY = 0;
+let touchCurrentY = 0;
+let isDraggingOverlay = false;
+
+// Detect Safari (but not Chrome on iOS which also has Safari in UA)
+function isSafariBrowser() {
+    const ua = navigator.userAgent;
+    const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua) && !/CriOS/.test(ua) && !/FxiOS/.test(ua);
+    return isSafari;
+}
+
+function setupSwipeToDismiss(overlay) {
+    const header = overlay.querySelector('.mobile-overlay-header');
+    if (!header) return;
+
+    // Only enable swipe-to-dismiss on Safari to avoid pull-to-refresh conflicts
+    if (isSafariBrowser()) {
+        let startedOnHeader = false;
+
+        overlay.addEventListener('touchstart', (e) => {
+            const headerRect = header.getBoundingClientRect();
+            const touchY = e.touches[0].clientY;
+            startedOnHeader = touchY <= headerRect.bottom + 50;
+
+            if (overlay.scrollTop <= 0 && startedOnHeader) {
+                touchStartY = e.touches[0].clientY;
+                touchCurrentY = touchStartY;
+                isDraggingOverlay = true;
+                overlay.style.transition = 'none';
+            }
+        }, { passive: true });
+
+        overlay.addEventListener('touchmove', (e) => {
+            if (!isDraggingOverlay) return;
+
+            touchCurrentY = e.touches[0].clientY;
+            const deltaY = touchCurrentY - touchStartY;
+
+            if (deltaY > 0) {
+                const resistance = 0.7;
+                overlay.style.transform = `translateY(${deltaY * resistance}px)`;
+            }
+        }, { passive: true });
+
+        overlay.addEventListener('touchend', () => {
+            if (!isDraggingOverlay) return;
+            isDraggingOverlay = false;
+
+            const deltaY = touchCurrentY - touchStartY;
+
+            if (deltaY > 60) {
+                overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+                overlay.style.transform = 'translateY(100%)';
+
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    overlay.style.transform = '';
+                    overlay.style.transition = '';
+                    document.body.style.overflow = '';
+                    if (activeMobileOverlay === overlay) {
+                        activeMobileOverlay = null;
+                    }
+                }, 300);
+                activeMobileOverlay = null;
+                if (history.state && history.state.kosOverlay) {
+                    history.back();
+                }
+            } else {
+                overlay.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+                overlay.style.transform = 'translateY(0)';
+
+                setTimeout(() => {
+                    overlay.style.transition = '';
+                }, 300);
+            }
+
+            touchStartY = 0;
+            touchCurrentY = 0;
+            startedOnHeader = false;
+        });
+    }
+
+    // Tapping the drag handle area closes the overlay (works on all browsers)
+    header.addEventListener('click', (e) => {
+        // If clicked on the drag handle area (top part of header), close
+        const headerRect = header.getBoundingClientRect();
+        const clickY = e.clientY - headerRect.top;
+        if (clickY < 30) { // Top 30px is the drag handle area
+            closeMobileOverlay();
+        }
+    });
+}
+
+// Games overlay handling - use simpler approach
+// Games folder shows as overlay, individual games use the existing mobile-active-game system
+
+function openGamesOverlay() {
+    // Close any existing overlay
+    if (activeMobileOverlay) {
+        closeMobileOverlay();
+    }
+
+    // Create games overlay
+    let overlay = document.getElementById('mobile-overlay-games');
+
+    if (!overlay) {
+        const gamesWindow = document.getElementById('games');
+        if (!gamesWindow) return;
+
+        overlay = document.createElement('div');
+        overlay.className = 'mobile-window-overlay';
+        overlay.id = 'mobile-overlay-games';
+
+        // Create header
+        const header = document.createElement('div');
+        header.className = 'mobile-overlay-header';
+
+        const title = document.createElement('div');
+        title.className = 'mobile-overlay-title';
+        title.textContent = 'Games';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'mobile-close-btn';
+        closeBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+        closeBtn.addEventListener('click', closeMobileOverlay);
+
+        header.appendChild(title);
+        header.appendChild(closeBtn);
+
+        // Create content container with game grid
+        const contentContainer = document.createElement('div');
+        contentContainer.className = 'mobile-overlay-content';
+
+        // Clone the games folder content
+        const windowContent = gamesWindow.querySelector('.window-content');
+        if (windowContent) {
+            const clonedContent = windowContent.cloneNode(true);
+            contentContainer.appendChild(clonedContent);
+
+            // Re-attach click handlers for game items in the clone
+            clonedContent.querySelectorAll('.folder-item[data-window]').forEach(item => {
+                item.addEventListener('click', () => {
+                    const gameId = item.dataset.window;
+                    if (gameInfo[gameId]) {
+                        // Close games overlay and open individual game overlay
+                        closeMobileOverlay();
+                        setTimeout(() => openGameOverlay(gameId), 100);
+                    }
+                });
+            });
+        }
+
+        overlay.appendChild(header);
+        overlay.appendChild(contentContainer);
+        document.body.appendChild(overlay);
+        setupSwipeToDismiss(overlay);
+    }
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+        overlay.classList.add('active');
+    });
+
+    activeMobileOverlay = overlay;
+    document.body.style.overflow = 'hidden';
+}
+
+// Store original parent for game windows
+const gameWindowParents = {};
+
+function openGameOverlay(gameId) {
+    const gameWindow = document.getElementById(gameId);
+    if (!gameWindow) return;
+
+    const config = gameInfo[gameId] || { icon: '🎮', title: gameId };
+
+    // Store original parent so we can restore later
+    if (!gameWindowParents[gameId]) {
+        gameWindowParents[gameId] = gameWindow.parentElement;
+    }
+
+    // Move to body to escape hidden .windows-area parent
+    document.body.appendChild(gameWindow);
+
+    // Use the existing game window but show it as a full-screen overlay
+    gameWindow.classList.add('mobile-active-game');
+    gameWindow.style.display = 'flex';
+    gameWindow.style.position = 'fixed';
+    gameWindow.style.inset = '0';
+    gameWindow.style.zIndex = '1005';
+    gameWindow.style.maxHeight = '100vh';
+    gameWindow.style.borderRadius = '0';
+
+    // Add close button to game window header if not present
+    let backBtn = gameWindow.querySelector('.mobile-game-back-btn');
+    if (!backBtn) {
+        const header = gameWindow.querySelector('.window-header');
+        if (header) {
+            backBtn = document.createElement('button');
+            backBtn.className = 'mobile-game-back-btn mobile-close-btn';
+            backBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+            backBtn.addEventListener('click', () => closeGameOverlay(gameId));
+            header.style.position = 'relative';
+            header.appendChild(backBtn);
+        }
+    } else {
+        backBtn.style.display = 'block';
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    // Track with Plausible
+    if (window.plausible) {
+        plausible('Mobile Game Open', { props: { game: gameId } });
+    }
+}
+
+function closeGameOverlay(gameId, skipGamesFolder = false) {
+    const gameWindow = document.getElementById(gameId);
+    if (!gameWindow) return;
+
+    // Reset game window styles
+    gameWindow.classList.remove('mobile-active-game');
+    gameWindow.style.display = '';
+    gameWindow.style.position = '';
+    gameWindow.style.inset = '';
+    gameWindow.style.zIndex = '';
+    gameWindow.style.maxHeight = '';
+    gameWindow.style.borderRadius = '';
+
+    // Hide back button
+    const backBtn = gameWindow.querySelector('.mobile-game-back-btn');
+    if (backBtn) {
+        backBtn.style.display = 'none';
+    }
+
+    // Restore to original parent
+    if (gameWindowParents[gameId]) {
+        gameWindowParents[gameId].appendChild(gameWindow);
+    }
+
+    document.body.style.overflow = '';
+
+    // Return to games folder popup (unless skipped)
+    if (!skipGamesFolder) {
+        setTimeout(() => openMobileGamesFolder(), 100);
+    }
+}
+
+// Initialize mobile icon grid handlers
+function initMobileIconGrid() {
+    const mobileGridIcons = document.querySelectorAll('.mobile-grid-icon[data-mobile-open]');
+
+    mobileGridIcons.forEach(icon => {
+        icon.addEventListener('click', (e) => {
+            e.preventDefault();
+            const windowId = icon.dataset.mobileOpen;
+            openMobileOverlay(windowId);
+        });
+    });
+
+    // Widget click handler
+    const widget = document.querySelector('.mobile-widget[data-mobile-open]');
+    if (widget) {
+        widget.addEventListener('click', () => {
+            const windowId = widget.dataset.mobileOpen;
+            openMobileOverlay(windowId);
+        });
+    }
+
+    // Update mobile time - uses system locale for 12/24 hour format
+    function updateMobileTime() {
+        const timeEl = document.getElementById('mobileTime');
+        if (timeEl) {
+            const now = new Date();
+            timeEl.textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        }
+    }
+    updateMobileTime();
+    setInterval(updateMobileTime, 60000);
+}
+
+// Handle back button: mobile closes the open overlay, desktop restores the
+// window set recorded in the history entry (back = undo the last open).
+window.addEventListener('popstate', (e) => {
+    if (isMobile()) {
+        if (activeMobileOverlay) closeMobileOverlay(true);
+        return;
+    }
+    const ids = (e.state && e.state.kosWindows) ||
+        (new URLSearchParams(window.location.search).get('open') || '').split(',').filter(Boolean);
+    kosSyncingFromHistory = true;
+    document.querySelectorAll('.window.window-open[data-window]').forEach(w => {
+        if (!ids.includes(w.dataset.window)) closeWindow(w.dataset.window);
+    });
+    ids.forEach(id => openWindow(id)); // in z-order; last regains focus
+    kosSyncingFromHistory = false;
+});
+
+// Initialize on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileIconGrid);
+} else {
+    initMobileIconGrid();
+}
+
+// ===================
+// WEATHER WIDGET
+// ===================
+async function fetchWeather() {
+    const weatherIcon = document.getElementById('weatherIcon');
+    const weatherTemp = document.getElementById('weatherTemp');
+    const desktopWeatherIcon = document.getElementById('desktopWeatherIcon');
+    const desktopWeatherTemp = document.getElementById('desktopWeatherTemp');
+
+    // Need at least one set of elements
+    if (!weatherIcon && !desktopWeatherIcon) return;
+
+    const lat = 40.7128;   // NYC
+    const lon = -74.0060;
+
+    // Fetch with an abort timeout so an unreachable provider fails fast.
+    async function timedFetch(url, ms) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), ms);
+        try { return await fetch(url, { signal: ctrl.signal }); }
+        finally { clearTimeout(timer); }
+    }
+
+    // Open-Meteo WMO weather codes -> emoji
+    const wmoEmoji = {
+        0: '☀️',      // Clear sky
+        1: '🌤️',     // Mainly clear
+        2: '⛅',      // Partly cloudy
+        3: '☁️',      // Overcast
+        45: '🌫️', 48: '🌫️',                 // Fog
+        51: '🌧️', 53: '🌧️', 55: '🌧️',       // Drizzle
+        61: '🌧️', 63: '🌧️', 65: '🌧️',       // Rain
+        71: '🌨️', 73: '🌨️', 75: '❄️', 77: '🌨️', // Snow
+        80: '🌦️', 81: '🌦️', 82: '🌧️',       // Rain showers
+        85: '🌨️', 86: '🌨️',                 // Snow showers
+        95: '⛈️', 96: '⛈️', 99: '⛈️',        // Thunderstorm
+    };
+
+    // wttr.in reports a text description -> emoji (keyword match)
+    function descToEmoji(desc) {
+        const d = (desc || '').toLowerCase();
+        if (d.includes('thunder')) return '⛈️';
+        if (d.includes('snow') || d.includes('blizzard') || d.includes('ice')) return '❄️';
+        if (d.includes('sleet')) return '🌨️';
+        if (d.includes('rain') || d.includes('drizzle') || d.includes('shower')) return '🌧️';
+        if (d.includes('fog') || d.includes('mist')) return '🌫️';
+        if (d.includes('overcast')) return '☁️';
+        if (d.includes('cloud')) return '⛅';
+        if (d.includes('sunny') || d.includes('clear')) return '☀️';
+        return '🌡️';
+    }
+
+    // Two keyless, CORS-enabled providers, raced so the fastest healthy one wins
+    // and an outage of either (e.g. open-meteo going dark) never blanks the widget.
+    async function fromOpenMeteo() {
+        const r = await timedFetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`, 6000);
+        if (!r.ok) throw new Error('open-meteo ' + r.status);
+        const d = await r.json();
+        return { temp: Math.round(d.current.temperature_2m), emoji: wmoEmoji[d.current.weather_code] || '🌡️' };
+    }
+    async function fromWttr() {
+        const r = await timedFetch(`https://wttr.in/${lat},${lon}?format=j1`, 6000);
+        if (!r.ok) throw new Error('wttr ' + r.status);
+        const d = await r.json();
+        const c = d.current_condition[0];
+        return { temp: Math.round(Number(c.temp_F)), emoji: descToEmoji(c.weatherDesc && c.weatherDesc[0] && c.weatherDesc[0].value) };
+    }
+
+    let w;
+    try {
+        w = await Promise.any([fromOpenMeteo(), fromWttr()]);
+    } catch (error) {
+        console.log('Weather unavailable (all providers failed):', error);
+        return;  // leave the default "--"
+    }
+
+    const tempStr = `${w.temp}°F`;
+    if (weatherIcon) weatherIcon.textContent = w.emoji;
+    if (weatherTemp) weatherTemp.textContent = tempStr;
+    if (desktopWeatherIcon) desktopWeatherIcon.textContent = w.emoji;
+    if (desktopWeatherTemp) desktopWeatherTemp.textContent = tempStr;
+}
+
+// Fetch weather on load
+fetchWeather();
+// Refresh every 30 minutes
+setInterval(fetchWeather, 30 * 60 * 1000);
+
+// ===================
+// CLICK RIPPLE EFFECT
+// ===================
+const clickRipple = document.getElementById('clickRipple');
+
+document.addEventListener('click', (e) => {
+    if (!clickRipple) return;
+    clickRipple.style.left = e.clientX + 'px';
+    clickRipple.style.top = e.clientY + 'px';
+    clickRipple.classList.remove('active');
+    void clickRipple.offsetWidth; // Force reflow
+    clickRipple.classList.add('active');
+});
+
+// ===================
+// SPOTLIGHT SEARCH
+// ===================
+const spotlightOverlay = document.getElementById('spotlightOverlay');
+const spotlightInput = document.getElementById('spotlightInput');
+const spotlightResults = document.getElementById('spotlightResults');
+const spotlightBtn = document.getElementById('spotlightBtn');
+
+// Searchable items
+const searchableItems = [
+    // Identity
+    { type: 'window', id: 'about', ico: 'profile', icon: '👤', title: 'Profile', subtitle: 'profile.yaml' },
+    { type: 'window', id: 'values', ico: 'values', icon: '🧭', title: 'Values', subtitle: '.values' },
+    // Proof of work
+    { type: 'window', id: 'experience', ico: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
+    { type: 'window', id: 'building', ico: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
+    { type: 'window', id: 'writing', ico: 'writing', icon: '✍️', title: 'Writing', subtitle: 'writing/' },
+    { type: 'window', id: 'strengths', ico: 'strengths', icon: '🏅', title: 'Strengths', subtitle: 'strengths/' },
+    { type: 'window', id: 'recommendations', ico: 'reviews', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
+    // Fun/personality
+    { type: 'window', id: 'games', ico: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
+    { type: 'window', id: 'recipesdb', ico: 'recipes', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },
+    // Action
+    { type: 'window', id: 'terminal', ico: 'terminal', icon: '⌨️', title: 'Terminal', subtitle: 'terminal.app' },
+    { type: 'window', id: 'aim', ico: 'aim', icon: '💬', title: 'KevBot', subtitle: 'kevbot.aim · instant message' },
+    { type: 'window', id: 'connect', ico: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
+    // System actions
+    { type: 'action', id: 'theme', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
+    { type: 'action', id: 'launchpad', icon: '⊞', title: 'Launchpad', subtitle: 'View all apps' },
+    { type: 'action', id: 'mission', icon: '☰', title: 'Mission Control', subtitle: 'View all windows' },
+    // External links
+    { type: 'link', id: 'email', icon: '📧', title: 'Email Kevin', subtitle: 'kevin@middleton.io', url: 'mailto:kevin@middleton.io' },
+    { type: 'link', id: 'linkedin', icon: '💼', title: 'LinkedIn', subtitle: 'linkedin.com/in/kevinmiddleton', url: 'https://linkedin.com/in/kevinmiddleton' },
+    { type: 'link', id: 'calendly', icon: '📅', title: 'Schedule a Call', subtitle: 'calendly.com', url: 'https://calendly.com/kevin-middleton/let-s-talk' },
+];
+
+let selectedIndex = 0;
+
+function openSpotlight() {
+    // Close other overlays first
+    closeLaunchpad();
+    closeMissionControl();
+
+    spotlightOverlay.classList.add('active');
+    spotlightInput.value = '';
+    spotlightInput.focus();
+    renderSpotlightResults('');
+}
+
+function closeSpotlight() {
+    spotlightOverlay.classList.remove('active');
+}
+
+// Spotlight and Launchpad predate the drawn icon set, so their registries still
+// carry an emoji. Where a sprite symbol exists, use it; the emoji stays as the
+// fallback for entries that have no glyph (theme toggle, and the like).
+const icoMarkup = it => it.ico ? `<svg><use href="#ico-${it.ico}"></use></svg>` : it.icon;
+
+function renderSpotlightResults(query) {
+    const filtered = query.trim() === ''
+        ? searchableItems.slice(0, 8)
+        : searchableItems.filter(item =>
+            item.title.toLowerCase().includes(query.toLowerCase()) ||
+            item.subtitle.toLowerCase().includes(query.toLowerCase())
+        );
+
+    selectedIndex = 0;
+
+    if (filtered.length === 0) {
+        spotlightResults.innerHTML = '<div class="spotlight-empty">No results found</div>';
+        return;
+    }
+
+    const grouped = {
+        window: filtered.filter(i => i.type === 'window'),
+        action: filtered.filter(i => i.type === 'action'),
+        link: filtered.filter(i => i.type === 'link'),
+    };
+
+    let html = '';
+
+    if (grouped.window.length > 0) {
+        html += '<div class="spotlight-section"><div class="spotlight-section-title">Windows</div>';
+        grouped.window.forEach((item, i) => {
+            html += `<div class="spotlight-item${i === 0 ? ' selected' : ''}" data-type="${item.type}" data-id="${item.id}">
+                <span class="spotlight-item-icon">${icoMarkup(item)}</span>
+                <div class="spotlight-item-info">
+                    <div class="spotlight-item-title">${item.title}</div>
+                    <div class="spotlight-item-subtitle">${item.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (grouped.action.length > 0) {
+        html += '<div class="spotlight-section"><div class="spotlight-section-title">Actions</div>';
+        grouped.action.forEach(item => {
+            html += `<div class="spotlight-item" data-type="${item.type}" data-id="${item.id}">
+                <span class="spotlight-item-icon">${icoMarkup(item)}</span>
+                <div class="spotlight-item-info">
+                    <div class="spotlight-item-title">${item.title}</div>
+                    <div class="spotlight-item-subtitle">${item.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    if (grouped.link.length > 0) {
+        html += '<div class="spotlight-section"><div class="spotlight-section-title">Links</div>';
+        grouped.link.forEach(item => {
+            html += `<div class="spotlight-item" data-type="${item.type}" data-id="${item.id}" data-url="${item.url}">
+                <span class="spotlight-item-icon">${icoMarkup(item)}</span>
+                <div class="spotlight-item-info">
+                    <div class="spotlight-item-title">${item.title}</div>
+                    <div class="spotlight-item-subtitle">${item.subtitle}</div>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+    }
+
+    spotlightResults.innerHTML = html;
+
+    // Add click handlers
+    spotlightResults.querySelectorAll('.spotlight-item').forEach(item => {
+        item.addEventListener('click', () => executeSpotlightItem(item));
+    });
+}
+
+function executeSpotlightItem(item) {
+    const type = item.dataset.type;
+    const id = item.dataset.id;
+
+    closeSpotlight();
+
+    if (type === 'window') {
+        // Delay to let overlay fade out, then bring window to top
+        setTimeout(() => openWindow(id), 200);
+    } else if (type === 'action') {
+        if (id === 'theme') {
+            applyTheme(root.dataset.theme === 'light' ? 'dark' : 'light');
+        } else if (id === 'launchpad') {
+            openLaunchpad();
+        } else if (id === 'mission') {
+            openMissionControl();
+        }
+    } else if (type === 'link') {
+        window.open(item.dataset.url, '_blank');
+    }
+}
+
+// Keyboard navigation
+spotlightInput?.addEventListener('input', (e) => {
+    renderSpotlightResults(e.target.value);
+});
+
+spotlightInput?.addEventListener('keydown', (e) => {
+    const items = spotlightResults.querySelectorAll('.spotlight-item');
+
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+        updateSpotlightSelection(items);
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = Math.max(selectedIndex - 1, 0);
+        updateSpotlightSelection(items);
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (items[selectedIndex]) {
+            executeSpotlightItem(items[selectedIndex]);
+        }
+    }
+});
+
+function updateSpotlightSelection(items) {
+    items.forEach((item, i) => {
+        item.classList.toggle('selected', i === selectedIndex);
+    });
+}
+
+// Open/close handlers
+spotlightBtn?.addEventListener('click', openSpotlight);
+spotlightOverlay?.addEventListener('click', (e) => {
+    if (e.target === spotlightOverlay) closeSpotlight();
+});
+
+// Keyboard shortcut (Cmd+K or Ctrl+K)
+document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        if (spotlightOverlay.classList.contains('active')) {
+            closeSpotlight();
+        } else {
+            openSpotlight();
+        }
+    }
+    if (e.key === 'Escape') {
+        if (spotlightOverlay?.classList.contains('active')) closeSpotlight();
+        if (launchpadOverlay?.classList.contains('active')) closeLaunchpad();
+        if (missionControl?.classList.contains('active')) closeMissionControl();
+        if (notificationCenter?.classList.contains('active')) closeNotificationCenter();
+    }
+});
+
+// ===================
+// NOTIFICATION CENTER
+// ===================
+const notificationCenter = document.getElementById('notificationCenter');
+const ncBackdrop = document.getElementById('ncBackdrop');
+const ncClose = document.getElementById('ncClose');
+const menubarTime = document.getElementById('menubarTime');
+
+function openNotificationCenter() {
+    notificationCenter.classList.add('active');
+    ncBackdrop.classList.add('active');
+
+    // Update weather in NC
+    const ncWeatherIcon = document.getElementById('ncWeatherIcon');
+    const ncWeatherTemp = document.getElementById('ncWeatherTemp');
+    const desktopIcon = document.getElementById('desktopWeatherIcon');
+    const desktopTemp = document.getElementById('desktopWeatherTemp');
+
+    if (ncWeatherIcon && desktopIcon) ncWeatherIcon.textContent = desktopIcon.textContent;
+    if (ncWeatherTemp && desktopTemp) ncWeatherTemp.textContent = desktopTemp.textContent;
+}
+
+function closeNotificationCenter() {
+    notificationCenter.classList.remove('active');
+    ncBackdrop.classList.remove('active');
+}
+
+menubarTime?.addEventListener('click', () => {
+    if (notificationCenter.classList.contains('active')) {
+        closeNotificationCenter();
+    } else {
+        openNotificationCenter();
+    }
+});
+
+ncClose?.addEventListener('click', closeNotificationCenter);
+ncBackdrop?.addEventListener('click', closeNotificationCenter);
+
+// ===================
+// LAUNCHPAD
+// ===================
+const launchpadOverlay = document.getElementById('launchpadOverlay');
+const launchpadGrid = document.getElementById('launchpadGrid');
+const launchpadInput = document.getElementById('launchpadInput');
+const launchpadBtn = document.getElementById('launchpadBtn');
+
+const launchpadApps = [
+    // Identity
+    { id: 'about', ico: 'profile', icon: '👤', label: 'Profile' },
+    { id: 'values', ico: 'values', icon: '🧭', label: 'Values' },
+    // Proof of work
+    { id: 'experience', ico: 'experience', icon: '📁', label: 'Experience' },
+    { id: 'strengths', ico: 'strengths', icon: '🏅', label: 'Strengths' },
+    { id: 'recommendations', ico: 'reviews', icon: '💬', label: 'Reviews' },
+    // Fun/personality
+    { id: 'games', ico: 'games', icon: '🎮', label: 'Games' },
+    { id: 'recipesdb', ico: 'recipes', icon: '🗃️', label: 'Recipes' },
+    { id: 'party', ico: 'party', icon: '🪩', label: 'Party', action: true },
+    { id: 'videos', ico: 'videos', icon: '📺', label: 'Videos', action: true },
+    // Action
+    { id: 'terminal', ico: 'terminal', icon: '⌨️', label: 'Terminal' },
+    { id: 'aim', ico: 'aim', icon: '💬', label: 'KevBot' },
+    { id: 'connect', ico: 'connect', icon: '📟', label: 'Connect' },
+];
+
+function openLaunchpad() {
+    // Close other overlays first
+    closeSpotlight();
+    closeMissionControl();
+
+    renderLaunchpadGrid('');
+    launchpadOverlay.classList.add('active');
+    launchpadInput.value = '';
+    launchpadInput.focus();
+}
+
+function closeLaunchpad() {
+    launchpadOverlay.classList.remove('active');
+}
+
+function renderLaunchpadGrid(filter) {
+    const filtered = filter.trim() === ''
+        ? launchpadApps
+        : launchpadApps.filter(app => app.label.toLowerCase().includes(filter.toLowerCase()));
+
+    launchpadGrid.innerHTML = filtered.map(app => `
+        <div class="launchpad-item" data-window="${app.id}" data-action="${app.action || false}">
+            <div class="launchpad-icon">${icoMarkup(app)}</div>
+            <div class="launchpad-label">${app.label}</div>
+        </div>
+    `).join('');
+
+    launchpadGrid.querySelectorAll('.launchpad-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const windowId = item.dataset.window;
+            const isAction = item.dataset.action === 'true';
+            closeLaunchpad();
+            // Delay to let overlay fade out
+            setTimeout(() => {
+                if (isAction) {
+                    // Handle action-type items
+                    if (windowId === 'party') {
+                        document.getElementById('partyBtn')?.click();
+                    } else if (windowId === 'videos') {
+                        document.getElementById('videosBtn')?.click();
+                    }
+                } else {
+                    openWindow(windowId);
+                }
+            }, 300);
+        });
+    });
+}
+
+launchpadBtn?.addEventListener('click', openLaunchpad);
+launchpadInput?.addEventListener('input', (e) => renderLaunchpadGrid(e.target.value));
+launchpadOverlay?.addEventListener('click', (e) => {
+    if (e.target === launchpadOverlay) closeLaunchpad();
+});
+
+// ===================
+// MISSION CONTROL
+// ===================
+const missionControl = document.getElementById('missionControl');
+const mcWindows = document.getElementById('mcWindows');
+const missionControlBtn = document.getElementById('missionControlBtn');
+
+function openMissionControl() {
+    // Close other overlays first
+    closeSpotlight();
+    closeLaunchpad();
+
+    // Get all open windows
+    const openWindows = document.querySelectorAll('.window.window-open');
+
+    mcWindows.innerHTML = '';
+
+    openWindows.forEach(win => {
+        // innerHTML, not textContent: window icons are <svg><use> now, whose
+        // textContent is empty, so every card fell through to the fallback and
+        // Mission Control became a wall of identical page emoji.
+        const icon = win.querySelector('.window-icon')?.innerHTML?.trim() || '📄';
+        // Get title text without the icon or badge - clone and remove them to get clean text
+        const titleEl = win.querySelector('.window-title');
+        let title = win.dataset.window;
+        if (titleEl) {
+            const clone = titleEl.cloneNode(true);
+            const iconEl = clone.querySelector('.window-icon');
+            const badgeEl = clone.querySelector('.file-badge');
+            if (iconEl) iconEl.remove();
+            if (badgeEl) badgeEl.remove();
+            title = clone.textContent?.trim() || win.dataset.window;
+        }
+
+        const mcWin = document.createElement('div');
+        mcWin.className = 'mc-window';
+        mcWin.dataset.window = win.dataset.window;
+        mcWin.innerHTML = `
+            <div class="mc-window-header">
+                <span class="mc-window-icon">${icon}</span>
+                <span class="mc-window-title">${title}</span>
+            </div>
+            <div class="mc-window-preview">${icon}</div>
+        `;
+        mcWin.addEventListener('click', () => {
+            const windowId = win.dataset.window;
+            closeMissionControl();
+            // Delay to let overlay fade out, then bring window to top
+            setTimeout(() => openWindow(windowId), 300);
+        });
+        mcWindows.appendChild(mcWin);
+    });
+
+    if (openWindows.length === 0) {
+        mcWindows.innerHTML = '<div style="color: rgba(255,255,255,0.5); text-align: center; padding: 40px;">No windows open</div>';
+    }
+
+    missionControl.classList.add('active');
+}
+
+function closeMissionControl() {
+    missionControl.classList.remove('active');
+}
+
+missionControlBtn?.addEventListener('click', openMissionControl);
+missionControl?.addEventListener('click', (e) => {
+    if (e.target === missionControl) closeMissionControl();
+});
+
+// ===================
+// WINDOW SNAPPING
+// ===================
+let snapPreview = null;
+
+function createSnapPreview() {
+    if (snapPreview) return;
+    snapPreview = document.createElement('div');
+    snapPreview.className = 'window-snap-preview';
+    document.body.appendChild(snapPreview);
+}
+
+function showSnapPreview(zone) {
+    if (!snapPreview) createSnapPreview();
+
+    const menubarHeight = 28;
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight - menubarHeight;
+
+    if (zone === 'left') {
+        snapPreview.style.top = menubarHeight + 'px';
+        snapPreview.style.left = '0';
+        snapPreview.style.width = '50%';
+        snapPreview.style.height = screenHeight + 'px';
+    } else if (zone === 'right') {
+        snapPreview.style.top = menubarHeight + 'px';
+        snapPreview.style.left = '50%';
+        snapPreview.style.width = '50%';
+        snapPreview.style.height = screenHeight + 'px';
+    } else if (zone === 'top') {
+        snapPreview.style.top = menubarHeight + 'px';
+        snapPreview.style.left = '0';
+        snapPreview.style.width = '100%';
+        snapPreview.style.height = screenHeight + 'px';
+    }
+
+    snapPreview.classList.add('active');
+}
+
+function hideSnapPreview() {
+    if (snapPreview) {
+        snapPreview.classList.remove('active');
+    }
+}
+
+function getSnapZone(x, y) {
+    const threshold = 20;
+    const screenWidth = window.innerWidth;
+
+    if (x <= threshold) return 'left';
+    if (x >= screenWidth - threshold) return 'right';
+    if (y <= 28 + threshold) return 'top';
+    return null;
+}
+
+// Enhance window dragging with snap detection
+// (This hooks into the existing drag code - needs to be integrated)
+document.addEventListener('mousemove', (e) => {
+    // Only show snap preview when dragging a window
+    const draggedWindow = document.querySelector('.window-header:active')?.closest('.window');
+    if (!draggedWindow) {
+        hideSnapPreview();
+        return;
+    }
+
+    const zone = getSnapZone(e.clientX, e.clientY);
+    if (zone) {
+        showSnapPreview(zone);
+    } else {
+        hideSnapPreview();
+    }
+});
+
+document.addEventListener('mouseup', (e) => {
+    const zone = getSnapZone(e.clientX, e.clientY);
+
+    // Snap the window that was being dragged
+    if (currentlyDraggingWindow && zone) {
+        const win = currentlyDraggingWindow;
+        win.classList.remove('snapped-left', 'snapped-right', 'snapped-top');
+        win.classList.add('snapped-' + zone);
+
+        // Set position based on snap zone
+        if (zone === 'left') {
+            win.style.top = '28px';
+            win.style.left = '0px';
+        } else if (zone === 'right') {
+            win.style.top = '28px';
+            win.style.left = '50%';
+        } else if (zone === 'top') {
+            win.style.top = '28px';
+            win.style.left = '0px';
+        }
+    }
+
+    currentlyDraggingWindow = null;
+    hideSnapPreview();
+});
+
+// Double-click title bar to maximize/restore
+windows.forEach(win => {
+    const header = win.querySelector('.window-header');
+    header?.addEventListener('dblclick', (e) => {
+        if (e.target.classList.contains('window-dot')) return;
+
+        if (win.classList.contains('snapped-top')) {
+            win.classList.remove('snapped-top');
+            win.style.top = '';
+            win.style.left = '';
+            win.style.width = '';
+            win.style.height = '';
+        } else {
+            win.classList.remove('snapped-left', 'snapped-right');
+            win.classList.add('snapped-top');
+            // Set initial position for maximized window
+            win.style.top = '28px';
+            win.style.left = '0px';
+        }
+    });
+});
+
+// ===================
+// LOADING STATES
+// ===================
+const originalOpenWindow = openWindow;
+window.openWindow = function(id) {
+    const win = document.querySelector(`.window[data-window="${id}"]`);
+    if (win && !win.classList.contains('window-open')) {
+        win.classList.add('loading');
+        setTimeout(() => {
+            win.classList.remove('loading');
+        }, 300);
+    }
+    originalOpenWindow(id);
+};
+
+// Stop music if the user leaves the page
+window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} });
+
+// ===================
+// TERMINAL.APP
+// Self-contained. Boots the first time the window opens, not on page load.
+// ===================
+(function () {
+    const scr = document.getElementById('termScr');
+    const frm = document.getElementById('termFrm');
+    const input = document.getElementById('termIn');
+    const ps1 = document.getElementById('termPs1');
+    if (!scr || !frm || !input) return;
+
+    let history = [];
+    let hIdx = -1;
+    let booted = false;
+    let cwd = '~';
+
+    const FS = {
+        '~': { dirs: ['work', 'writing', 'about'], files: ['resume.pdf', 'values.txt', 'contact.md'] },
+        '~/work': { dirs: [], files: ['quietfeed', 'visionbort', 'officehours', 'kevinos', 'job-search-agent', 'build-with-claude'] },
+        '~/writing': { dirs: [], files: ['its-almost-always-the-resume', 'curiosity-makes-or-breaks', 'applying-for-jobs-is-like-stand-up-comedy', 'everyone-can-build-now'] },
+        '~/about': { dirs: [], files: ['experience', 'strengths', 'skills', 'outcomes', 'recommendations'] }
+    };
+
+    const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const cols = (arr, cls) => arr.map(x => `<span class="${cls || 'a'}">${x}</span>`).join('   ');
+
+    function line(html) {
+        const d = document.createElement('div');
+        d.className = 't-line';
+        d.innerHTML = html;
+        scr.appendChild(d);
+        scr.scrollTop = scr.scrollHeight;
+    }
+
+    const experience = () =>
+        '2024–25  <span class="a">Director of Product Management</span>  GridStrong\n' +
+        '2022–24  <span class="a">Senior Product Manager</span>          HVAC.com\n' +
+        '2021–22  <span class="a">Product Manager</span>                 Lever\n' +
+        '2019–21  <span class="a">Product Manager</span>                 Sendoso\n' +
+        '2016–19  <span class="a">Product Manager</span>                 Rocket Lawyer\n' +
+        '2014–16  <span class="a">Product Analyst</span>                 Oracle';
+
+    const skills = () =>
+        'product      <span class="d">discovery · roadmapping · prioritisation · experimentation</span>\n' +
+        'platform     <span class="d">integrations · APIs · SCIM/HRIS · migrations</span>\n' +
+        'building     <span class="d">HTML/CSS/JS · SQL · Supabase · Claude plugins</span>\n' +
+        'working      <span class="d">cross-functional facilitation · writing · UAT</span>';
+
+    const outcomes = () =>
+        '<span class="a">2.34%</span>   checkout lift        Rocket Lawyer   <a href="/casestudies/case-study-rocketlawyer-mobile.html">case study</a>\n' +
+        '<span class="a">1,600</span>   eGift SKUs           Sendoso         <a href="/casestudies/case-study-sendoso.html">case study</a>\n' +
+        '<span class="a">~50×</span>    content throughput   HVAC.com        <a href="/casestudies/case-study-hvac.html">case study</a>\n' +
+        '<span class="a">$1.4M</span>   DOE grant            GridStrong      <span class="d">see: experience</span>';
+
+    const CMD = {
+        help: () =>
+            'Commands\n' +
+            '  <span class="c">whoami</span>    who I am, in four lines\n' +
+            '  <span class="c">writing</span>   essays — most PMs don\'t write\n' +
+            '  <span class="c">outcomes</span>  the numbers, and where to verify them\n' +
+            '  <span class="c">ls</span> / <span class="c">cd</span>   walk the tree — work/ writing/ about/\n' +
+            '  <span class="c">cat</span>       read a file: <span class="d">cat resume.pdf</span>\n' +
+            '  <span class="c">why</span>       the argument this site is making\n' +
+            '  <span class="c">skills</span>    what I actually do\n' +
+            '  <span class="c">stack</span>     what this is built with\n' +
+            '  <span class="c">contact</span>   email and office hours\n' +
+            '  <span class="c">uptime</span>    career, as a load average\n' +
+            '  <span class="c">open</span>      <span class="d">open writing</span> — launches a KevinOS window\n' +
+            '  <span class="c">clear</span>     wipe the screen\n' +
+            '<span class="d">Tab completes. ↑ recalls history.</span>',
+        whoami: () =>
+            '<span class="a">Kevin Middleton</span>\nFull Stack Product Manager · New York\n' +
+            '12+ years across consumer, enterprise, and platform SaaS.\n' +
+            'I work across people, process, and product — hands-on at every level.',
+        ls: () => {
+            const n = FS[cwd];
+            if (!n) return '<span class="w">no such directory</span>';
+            let o = '';
+            if (n.dirs.length) o += cols(n.dirs.map(d => d + '/'), 'a') + '\n';
+            if (n.files.length) o += cols(n.files, 'm');
+            return o || '<span class="d">empty</span>';
+        },
+        cd: a => {
+            if (!a || a === '~' || a === '..' || a === '/') { cwd = '~'; return ''; }
+            const t = '~/' + a.replace(/^\/|\/$/g, '');
+            if (FS[t]) { cwd = t; return ''; }
+            return `<span class="w">cd: no such directory: ${esc(a)}</span>`;
+        },
+        pwd: () => cwd,
+        cat: a => {
+            if (!a) return '<span class="w">usage: cat &lt;file&gt;</span>';
+            const k = a.replace(/\.(pdf|txt|md)$/, '');
+            const docs = {
+                resume: '<span class="a">Kevin Middleton — Senior Product Manager.pdf</span>  <span class="d">[143 KB]</span>\n<a href="/Kevin%20Middleton%20-%20Senior%20Product%20Manager.pdf" download>download →</a>',
+                values: 'start with understanding · give grace, get grace\ncollaboration wins · keep it human\nstructure without rigidity · make it simple',
+                contact: '<a href="mailto:kevin@middleton.io">kevin@middleton.io</a>\n<a href="https://linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener">linkedin.com/in/kevinmiddleton</a>\n<a href="https://github.com/kevinmmiddleton" target="_blank" rel="noopener">github.com/kevinmmiddleton</a>',
+                quietfeed: '<span class="a">QuietFeed</span> — RSS reader that respects your attention.\n<a href="https://quietfeed.com" target="_blank" rel="noopener">quietfeed.com →</a>',
+                visionbort: '<span class="a">Visionbort</span> — vision boards with intentions.\n<a href="/visionbort/">open →</a>',
+                officehours: '<span class="a">Office Hours</span> — free product coaching, all week.\n<a href="/officehours/">book →</a>',
+                kevinos: '<span class="a">KevinOS</span> — this portfolio, as a retro operating system.\n<span class="d">You are, in a sense, already inside it.</span>',
+                experience: experience(),
+                strengths: '<span class="d">Six specialties, each with the receipts. Full evidence in </span><span class="a">strengths/</span>\n\n' +
+                    '<span class="a">AI Workflows</span>     shipped in production, and built on the weekend\n' +
+                    '<span class="a">Internal Tools</span>   tools that make teams faster, and happier\n' +
+                    '<span class="a">Platforms</span>        the layer other teams build on top of\n' +
+                    '<span class="a">Integrations</span>     APIs \u00b7 SCIM \u00b7 OAuth \u00b7 OIDC\n' +
+                    '<span class="a">Growth</span>           CRO + A/B testing\n' +
+                    '<span class="a">Public Sector</span>    federal agencies + grid',
+                skills: skills(),
+                outcomes: outcomes()
+            };
+            return docs[k] || `<span class="w">cat: ${esc(a)}: no such file</span>`;
+        },
+        writing: () =>
+            '<span class="d">Essays · middleton.io/blog</span>\n\n' +
+            '<span class="w">Jul 1</span>   <a href="/blog/its-almost-always-the-resume/">It\'s almost always the resume</a>\n' +
+            '<span class="w">Jun 29</span>  <a href="/blog/curiosity-makes-or-breaks/">Curiosity makes or breaks</a>\n' +
+            '<span class="w">Jun 23</span>  <a href="/blog/applying-for-jobs-is-like-stand-up-comedy/">Applying for jobs is like stand-up comedy</a>\n' +
+            '<span class="w">Jun 23</span>  <a href="/blog/everyone-can-build-now/">Everyone can build now</a>\n\n' +
+            '<span class="d">Most PMs don\'t write.</span> <a href="/blog/">read them all →</a>',
+        outcomes: outcomes,
+        experience: experience,
+        skills: skills,
+        why: () =>
+            'AI relocated the work. It didn\'t erase it.\nThe fundamentals got <span class="a">more</span> valuable, not less.\n\n' +
+            'Most teams already know what\'s wrong. They need someone\nwilling to name it and make it safe to act on.',
+        stack: () =>
+            'This site       <span class="d">static HTML/CSS/JS · no framework · no build step</span>\n' +
+            'Hosting         <span class="d">GitHub Pages</span>\n' +
+            'Blog            <span class="d">markdown → Sveltia CMS → node generator</span>\n' +
+            'Data            <span class="d">Supabase · pg_cron</span>\n' +
+            'Analytics       <span class="d">Plausible</span>',
+        contact: () =>
+            'Email         <a href="mailto:kevin@middleton.io">kevin@middleton.io</a>\n' +
+            'Office hours  <a href="https://middleton.io/officehours/" target="_blank" rel="noopener noreferrer">middleton.io/officehours</a>\n' +
+            'LinkedIn      <a href="https://linkedin.com/in/kevinmiddleton" target="_blank" rel="noopener noreferrer">linkedin.com/in/kevinmiddleton</a>',
+        // `hire` was the original verb, back when the output was a wishlist of
+        // roles. Kept as an undocumented alias so anyone who remembers it still
+        // lands somewhere, rather than getting "command not found".
+        hire: () => CMD.contact(),
+        uptime: () => {
+            const y = new Date().getFullYear() - 2014;
+            return `up <span class="a">${y} years</span>, 6 companies, 1 cat-heavy household\n` +
+                'load average: <span class="m">0.42</span> <span class="m">0.31</span> <span class="m">0.27</span>  <span class="d">(sustainable)</span>';
+        },
+        open: a => {
+            if (!a) return '<span class="w">usage: open &lt;window&gt;</span>';
+            const id = a.replace(/\/$/, '').toLowerCase();
+            if (document.querySelector(`.window[data-window="${id}"]`)) {
+                if (typeof openWindow === 'function') openWindow(id);
+                return `opening <span class="a">${esc(id)}</span>…`;
+            }
+            return `<span class="w">open: no window named ${esc(id)}</span>`;
+        },
+        sudo: () => '<span class="w">kevin is not in the sudoers file. This incident will be reported.</span>',
+        exit: () => { if (typeof closeWindow === 'function') closeWindow('terminal'); return ''; }
+    };
+
+    function prompt() { ps1.textContent = cwd + ' $'; }
+
+    function run(raw) {
+        const t = raw.trim();
+        line(`<span class="p">${cwd} $</span> ${esc(raw)}`);
+        if (!t) return;
+        history.push(raw);
+        hIdx = history.length;
+        const parts = t.split(/\s+/);
+        const c = parts[0].toLowerCase();
+        const arg = parts.slice(1).join(' ');
+        if (c === 'clear') { scr.innerHTML = ''; return; }
+        const fn = CMD[c];
+        if (fn) { const out = fn(arg); if (out) line(out); prompt(); return; }
+        line(`command not found: ${esc(c)}\n<span class="d">type <span class="c">help</span></span>`);
+    }
+
+    function complete() {
+        const v = input.value;
+        const parts = v.split(/\s+/);
+        const pool = parts.length <= 1
+            ? Object.keys(CMD)
+            : (FS[cwd] ? FS[cwd].dirs.concat(FS[cwd].files) : []);
+        const frag = parts[parts.length - 1] || '';
+        const hits = pool.filter(x => x.indexOf(frag) === 0);
+        if (hits.length === 1) {
+            parts[parts.length - 1] = hits[0];
+            input.value = parts.join(' ');
+        } else if (hits.length > 1) {
+            line(`<span class="p">${cwd} $</span> ${esc(v)}`);
+            line(cols(hits, 'a'));
+        }
+    }
+
+    function boot() {
+        if (booted) return;
+        booted = true;
+        const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const seq = [
+            ['<span class="m">  _  __         _        ___  ____</span>', 18],
+            ['<span class="m"> | |/ /_____ _(_)__    / _ \\/ __/</span>', 18],
+            ['<span class="m"> |   / -_) V / / _ \\  / // /\\ \\  </span>', 18],
+            ['<span class="m"> |_|\\_\\__|\\_/_/_//_/  \\___/___/ </span>', 18],
+            ['', 120],
+            ['<span class="d">terminal.app — KevinOS — no framework, no build step</span>', 240],
+            ['<span class="d">mounting ~/kevin …  ok</span>', 280],
+            ['', 100],
+            ['<span class="a">Kevin Middleton</span> · Full Stack Product Manager · New York', 200],
+            ['<span class="d">Type <span class="c">help</span> to begin. Tab completes.</span>', 180]
+        ];
+        if (reduce) { seq.forEach(s => { if (s[0]) line(s[0]); }); prompt(); return; }
+        let t = 0;
+        seq.forEach(s => { t += s[1]; setTimeout(() => line(s[0] || '&nbsp;'), t); });
+        setTimeout(prompt, t);
+    }
+
+    frm.addEventListener('submit', e => { e.preventDefault(); run(input.value); input.value = ''; });
+
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Tab') { e.preventDefault(); complete(); }
+        if (e.key === 'ArrowUp') { if (hIdx > 0) { hIdx--; input.value = history[hIdx]; } e.preventDefault(); }
+        if (e.key === 'ArrowDown') {
+            if (hIdx < history.length - 1) { hIdx++; input.value = history[hIdx]; }
+            else { hIdx = history.length; input.value = ''; }
+            e.preventDefault();
+        }
+        // Escape closes the window (KevinOS convention) rather than being swallowed here
+        if (e.key === 'Escape') { input.blur(); }
+    });
+
+    // clicking anywhere on the screen focuses the prompt
+    document.querySelector('#terminal .term-wrap').addEventListener('click', e => {
+        if (window.getSelection && String(window.getSelection())) return; // don't steal a text selection
+        if (e.target.tagName !== 'A') input.focus();
+    });
+
+    // Boot on first open. The window is display:none until then, so we watch the class.
+    const win = document.getElementById('terminal');
+    const mo = new MutationObserver(() => {
+        if (win.classList.contains('window-open')) {
+            boot();
+            if (!isMobile()) setTimeout(() => input.focus(), 60);
+        }
+    });
+    mo.observe(win, { attributes: true, attributeFilter: ['class'] });
+    if (win.classList.contains('window-open')) boot();
+})();
+
+// ===================
+// KEVBOT.AIM
+// ===================
+// An AIM instant-message window in front of KevBot, the same assistant that
+// runs on middleton.io, talking to the same Cloudflare worker. Only the chrome
+// is new: the contract is { message, history } -> { reply }, and replies are
+// escaped then given the same limited markdown the main widget uses, so both
+// surfaces render a reply identically.
+//
+// Everything is delegated and scoped to the nearest .aim-content. The mobile
+// sheet is built with cloneNode(true), which copies markup but NOT listeners,
+// so anything bound directly to a node is dead in the clone — and KevBot is
+// more prominent on mobile than on desktop. For the same reason the markup uses
+// classes, not ids: two copies of the window exist once a sheet is open.
+(function () {
+    const KEVBOT_URL = 'https://kevbot.kevin-middleton.workers.dev';
+    // Shared across instances on purpose: it is one conversation, wherever the
+    // visitor happens to be typing.
+    let history = [];
+    const busy = new WeakSet();
+    const greeted = new WeakSet();
+
+    // Same escaping and markdown subset as kevbot.js formatMessage().
+    function fmt(text) {
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+                     '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+            .replace(/\n/g, '<br>');
+    }
+
+    function line(root, who, text) {
+        const log = root.querySelector('.aim-log');
+        if (!log) return;
+        const p = document.createElement('p');
+        p.className = 'aim-line ' + (who === 'KevBot' ? 'them' : 'you');
+        p.innerHTML = '<b>' + who + ':</b> ' + fmt(text);
+        log.appendChild(p);
+        log.scrollTop = log.scrollHeight;
+    }
+
+    function prepare(root) {
+        const stamp = root.querySelector('.aim-signon');
+        if (stamp && !stamp.dataset.set) {
+            stamp.textContent = new Date().toLocaleTimeString([],
+                { hour: 'numeric', minute: '2-digit' });
+            stamp.dataset.set = '1';
+        }
+        if (greeted.has(root)) return;
+        greeted.add(root);
+        // A clone carries over whatever the desktop copy already said, so only
+        // greet when this instance has no conversation in it yet.
+        if (root.querySelector('.aim-line')) return;
+        line(root, 'KevBot', "Hey! I'm KevBot \u{1F916} Ask me anything about Kevin: " +
+                             "his experience, skills, projects, or how to get in touch!");
+    }
+
+    async function ask(root, text) {
+        if (!root || busy.has(root) || !text || !text.trim()) return;
+        busy.add(root);
+        const send = root.querySelector('.aim-send');
+        const input = root.querySelector('.aim-input');
+        const prompts = root.querySelector('.aim-prompts');
+        const log = root.querySelector('.aim-log');
+        if (send) send.disabled = true;
+        if (prompts) prompts.style.display = 'none';
+        line(root, 'You', text);
+        if (input) input.value = '';
+
+        const typing = document.createElement('p');
+        typing.className = 'aim-typing';
+        typing.textContent = 'KevBot is typing…';
+        if (log) { log.appendChild(typing); log.scrollTop = log.scrollHeight; }
+
+        try {
+            const res = await fetch(KEVBOT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text, history })
+            });
+            const data = await res.json();
+            typing.remove();
+            if (data.error || !data.reply) {
+                line(root, 'KevBot', 'Oops, something went wrong. Try again?');
+                if (window.plausible) window.plausible('KevBot Error');
+            } else {
+                line(root, 'KevBot', data.reply);
+                kosSound.play('message');
+                history.push({ role: 'user', content: text });
+                history.push({ role: 'assistant', content: data.reply });
+                if (history.length > 20) history = history.slice(-20);
+                if (window.plausible) window.plausible('KevBot Message',
+                    { props: { surface: 'kevinos-aim' } });
+            }
+        } catch (e) {
+            typing.remove();
+            line(root, 'KevBot', "Couldn't connect. Check your internet and try again!");
+            if (window.plausible) window.plausible('KevBot Error');
+        }
+
+        busy.delete(root);
+        if (send) send.disabled = false;
+        if (input) input.focus();
+    }
+
+    document.addEventListener('submit', (e) => {
+        const root = e.target.closest?.('.aim-content');
+        if (!root) return;
+        e.preventDefault();  // without this the form does a native GET and reloads
+        ask(root, root.querySelector('.aim-input')?.value);
+    });
+
+    // Enter sends, Shift+Enter makes a new line. This is a textarea so that
+    // Shift+Enter has something to do.
+    document.addEventListener('keydown', (e) => {
+        const input = e.target.closest?.('.aim-input');
+        if (!input || e.key !== 'Enter' || e.shiftKey) return;
+        e.preventDefault();
+        ask(input.closest('.aim-content'), input.value);
+    });
+
+    document.addEventListener('click', (e) => {
+        const chip = e.target.closest?.('.aim-prompt');
+        if (chip) { ask(chip.closest('.aim-content'), chip.textContent.trim()); return; }
+        // Greet whichever copy just became visible: desktop window or mobile sheet.
+        if (e.target.closest?.('[data-window="aim"], [data-mobile-open="aim"]')) {
+            setTimeout(() => {
+                document.querySelectorAll('.aim-content').forEach(root => {
+                    if (root.offsetParent !== null) prepare(root);
+                });
+            }, 300);
+        }
+    });
+
+    if (new URLSearchParams(location.search).get('open') === 'aim') {
+        setTimeout(() => {
+            document.querySelectorAll('.aim-content').forEach(root => {
+                if (root.offsetParent !== null) prepare(root);
+            });
+        }, 500);
+    }
+})();
+
+// Rotate-lock bypass. The landscape nudge is now scoped to phone-height
+// screens, but a nudge with no way past it is still a dead end, so this lets
+// anyone dismiss it for the tab. Delegated: the lock is outside every overlay.
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('#kosRotateSkip')) return;
+    document.documentElement.classList.add('kos-rotate-ok');
+    try { sessionStorage.setItem('kosRotateOk', '1'); } catch (err) { /* private mode */ }
+});
+try {
+    if (sessionStorage.getItem('kosRotateOk')) {
+        document.documentElement.classList.add('kos-rotate-ok');
+    }
+} catch (err) { /* private mode */ }
+
+// ===================
+// WINDOW RESIZE
+// ===================
+// .window::after draws a 16px corner grip with cursor:se-resize, but nothing
+// was ever wired to it: the windows have never been resizable. A pseudo-element
+// cannot take a listener, so the grab is hit-tested against the bottom-right
+// corner of the window itself.
+(function () {
+    const GRIP = 18;
+    const MIN_W = 320;
+    const MIN_H = 220;
+    let resizing = null;
+
+    document.addEventListener('mousedown', (e) => {
+        const win = e.target.closest?.('.window.window-open');
+        if (!win || isMobile()) return;
+        const r = win.getBoundingClientRect();
+        if (e.clientX < r.right - GRIP || e.clientY < r.bottom - GRIP) return;
+        resizing = { win, x: e.clientX, y: e.clientY, w: r.width, h: r.height };
+        // applyHomeLayout sets an inline max-height to keep boot windows on
+        // screen. That is right until someone grabs the corner, at which point
+        // it silently caps the drag, so hand control over.
+        win.style.maxHeight = 'none';
+        win.classList.add('window-resizing');
+        document.body.classList.add('kos-resizing');
+        e.preventDefault();  // otherwise the drag turns into a text selection
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!resizing) return;
+        const { win, x, y, w, h } = resizing;
+        const r = win.getBoundingClientRect();
+        // never let a window be dragged wider or taller than the space it has
+        const maxW = window.innerWidth - r.left - 12;
+        const maxH = window.innerHeight - r.top - 12;
+        win.style.width = Math.max(MIN_W, Math.min(maxW, w + e.clientX - x)) + 'px';
+        win.style.height = Math.max(MIN_H, Math.min(maxH, h + e.clientY - y)) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (!resizing) return;
+        resizing.win.classList.remove('window-resizing');
+        document.body.classList.remove('kos-resizing');
+        rememberWindowPlace(resizing.win);
+        resizing = null;
+    });
+})();
+
+// ===================
+// MENUBAR KEYBOARD ACCESS
+// ===================
+// The five menubar controls were bare spans: no tab stop, no role, no name.
+// They now carry role="button" + tabindex, so they need Enter/Space too.
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const btn = e.target.closest?.('.menubar-icon[role="button"], .menubar-time[role="button"]');
+    if (!btn || btn !== e.target) return;
+    e.preventDefault();
+    btn.click();
+});
+
+// ===================
+// LIGHTBOX FOCUS
+// ===================
+// The photo lightbox is a modal, so it must behave like one: announce itself,
+// take focus, keep Tab inside, and hand focus back to the photo that opened it.
+(function () {
+    const lb = document.getElementById('lightboxOverlay');
+    if (!lb) return;
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-modal', 'true');
+    lb.setAttribute('aria-label', 'Photo viewer');
+    let opener = null;
+
+    // Two different things open two different viewers, and the first pass wired
+    // the keyboard to the wrong one: img[data-photo] builds a draggable
+    // .photo-window, while the lightbox is only ever opened by .exp-img. Both
+    // need a key path, and the opener has to be recorded from whichever fired.
+    const OPENERS = 'img[data-photo], img.exp-img';
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const img = e.target.closest?.(OPENERS);
+        if (!img) return;
+        e.preventDefault();
+        img.click();
+    });
+
+    document.addEventListener('click', (e) => {
+        const img = e.target.closest?.(OPENERS);
+        if (img) opener = img;
+    }, true);
+
+    new MutationObserver(() => {
+        if (lb.classList.contains('active')) {
+            if (!lb.hasAttribute('tabindex')) lb.setAttribute('tabindex', '-1');
+            lb.focus();
+        } else if (opener) {
+            opener.focus();
+            opener = null;
+        }
+    }).observe(lb, { attributes: true, attributeFilter: ['class'] });
+
+    // The [data-photo] path does not use the lightbox at all - it builds a
+    // draggable .photo-window, which had no role, took no focus and returned
+    // none. Same dialog treatment, applied as it is created and torn down.
+    new MutationObserver((muts) => {
+        for (const m of muts) {
+            m.addedNodes.forEach((n) => {
+                if (n.nodeType !== 1 || !n.classList?.contains('photo-window')) return;
+                n.setAttribute('role', 'dialog');
+                /* NOT aria-modal. This is a draggable window that leaves the
+                   rest of the desktop live behind it, exactly like every other
+                   KevinOS window, and it has no scrim and no focus trap.
+                   Claiming modality to a screen reader while the page stays
+                   interactive is worse than claiming nothing: it tells the user
+                   the rest of the page is inert when it is not. */
+                n.setAttribute('aria-label',
+                    (n.querySelector('.photo-title')?.textContent || 'Photo').trim());
+                n.setAttribute('tabindex', '-1');
+                n.focus();
+            });
+            m.removedNodes.forEach((n) => {
+                if (n.nodeType !== 1 || !n.classList?.contains('photo-window')) return;
+                if (opener) { opener.focus(); opener = null; }
+            });
+        }
+    // Photo windows are appended to #photoWindows, not to body. Watching body
+    // non-recursively saw nothing; the teardown branch only looked correct
+    // because focus had never moved off the opener in the first place.
+    }).observe(document.getElementById('photoWindows') || document.body,
+               { childList: true, subtree: true });
+
+    // Tab must not escape the dialog while it is up.
+    lb.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab') return;
+        const f = [...lb.querySelectorAll('button,[href],[tabindex]:not([tabindex="-1"])')]
+            .filter(el => el.offsetParent !== null);
+        if (!f.length) { e.preventDefault(); return; }
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+})();
+
+// ===================
+// SPOTLIGHT ARIA
+// ===================
+// Results are rendered as plain divs, so a screen reader was told nothing about
+// how many there are or which is selected. Also keeps the active row in view:
+// .spotlight-results scrolls at 400px, so arrow-keying could walk off screen.
+(function () {
+    const input = document.getElementById('spotlightInput');
+    const results = document.getElementById('spotlightResults');
+    if (!input || !results) return;
+
+    const sync = () => {
+        const items = [...results.querySelectorAll('.spotlight-item')];
+        items.forEach((el, i) => {
+            el.setAttribute('role', 'option');
+            if (!el.id) el.id = 'spotlight-opt-' + i;
+            const on = el.classList.contains('selected');
+            el.setAttribute('aria-selected', on ? 'true' : 'false');
+            if (on) {
+                input.setAttribute('aria-activedescendant', el.id);
+                el.scrollIntoView({ block: 'nearest' });
+            }
+        });
+        input.setAttribute('aria-expanded', items.length ? 'true' : 'false');
+        if (!items.length) input.removeAttribute('aria-activedescendant');
+    };
+    new MutationObserver(sync).observe(results, {
+        childList: true, subtree: true, attributes: true, attributeFilter: ['class']
+    });
+})();
+
+// ===================
+// GENIE OPEN
+// ===================
+// 15. Windows faded in from nowhere while the dock icon that summoned them
+// bounced somewhere else. macOS scales the window out of the thing you clicked,
+// which is the signature motion of the desktop this is imitating. Sets
+// transform-origin from the launcher's position, so the window appears to grow
+// out of it; the keyframes themselves stay in CSS.
+document.addEventListener('click', (e) => {
+    const launcher = e.target.closest?.('.dock-item[data-window], .desktop-icon[data-window], ' +
+                                        '.folder-item[data-window], .launchpad-item[data-window]');
+    if (!launcher || isMobile()) return;
+    const id = launcher.dataset.window;
+    const win = document.querySelector(`.window[data-window="${id}"]`);
+    if (!win) return;
+    const l = launcher.getBoundingClientRect();
+    requestAnimationFrame(() => {
+        const w = win.getBoundingClientRect();
+        if (!w.width) return;
+        const ox = ((l.left + l.width / 2) - w.left) / w.width * 100;
+        const oy = ((l.top + l.height / 2) - w.top) / w.height * 100;
+        win.style.setProperty('--genie-x', ox.toFixed(1) + '%');
+        win.style.setProperty('--genie-y', oy.toFixed(1) + '%');
+        win.classList.remove('window-genie');
+        void win.offsetWidth;               // restart the animation
+        win.classList.add('window-genie');
+    });
+});
+
+// ===================
+// SOUND
+// ===================
+// 13. There was no audio anywhere in a retro OS, including no door sound on the
+// one window built for it. Everything here is synthesised with Web Audio, so it
+// costs no assets and no requests. Off by default and remembered: autoplay
+// policy aside, a recruiter opening this in a quiet office should not be
+// ambushed. The AudioContext is created on the first deliberate toggle, which
+// is also the user gesture browsers require.
+const kosSound = (function () {
+    let ctx = null;
+    let on = false;
+    try { on = localStorage.getItem('kosSound') === '1'; } catch (e) { /* private mode */ }
+
+    const blip = (freq, start, dur, type, peak) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = type || 'sine';
+        o.frequency.setValueAtTime(freq, ctx.currentTime + start);
+        g.gain.setValueAtTime(0.0001, ctx.currentTime + start);
+        g.gain.exponentialRampToValueAtTime(peak || 0.12, ctx.currentTime + start + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
+        o.connect(g).connect(ctx.destination);
+        o.start(ctx.currentTime + start);
+        o.stop(ctx.currentTime + start + dur + 0.02);
+    };
+
+    const voices = {
+        // the door swinging open: two rising notes, a beat apart
+        door:    () => { blip(392, 0, 0.16, 'triangle', 0.14); blip(587, 0.09, 0.22, 'triangle', 0.11); },
+        // a buddy typing back at you
+        message: () => { blip(880, 0, 0.09, 'sine', 0.09); blip(1175, 0.07, 0.12, 'sine', 0.07); },
+        // the sound of the toggle itself, so enabling it demonstrates itself
+        toggle:  () => { blip(660, 0, 0.10, 'sine', 0.10); },
+    };
+
+    return {
+        get on() { return on; },
+        set(v) {
+            on = !!v;
+            try { localStorage.setItem('kosSound', on ? '1' : '0'); } catch (e) { /* private mode */ }
+            if (on) this.play('toggle');
+        },
+        play(name) {
+            if (!on || !voices[name]) return;
+            try {
+                if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+                if (ctx.state === 'suspended') ctx.resume();
+                voices[name]();
+            } catch (e) { /* no audio available; never let it break a click */ }
+        }
+    };
+})();
+
+(function () {
+    const btn = document.getElementById('menubarSound');
+    if (!btn) return;
+    const paint = () => {
+        btn.textContent = kosSound.on ? '\u{1F50A}' : '\u{1F507}';
+        btn.setAttribute('aria-pressed', kosSound.on ? 'true' : 'false');
+        btn.setAttribute('aria-label', kosSound.on ? 'Sound on' : 'Sound off');
+    };
+    paint();
+    btn.addEventListener('click', () => { kosSound.set(!kosSound.on); paint(); });
+
+    // the door belongs to AIM, so it fires wherever AIM is opened from
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('[data-window="aim"], [data-mobile-open="aim"]')) kosSound.play('door');
+    });
+})();
