@@ -11343,3 +11343,15 @@ html.kos-mobile :is(.kos-gi-linkedin, .kos-gi-resume, .kos-gi-talk) {
     letter-spacing: 0;
     -webkit-font-smoothing: antialiased;
 }
+
+/* the Apps folder popup labels get the same system sans */
+.mobile-folder-item .icon-label,
+.hidden-folder-item .icon-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--font-sans), sans-serif !important;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--text);
+    text-shadow: none;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+}
