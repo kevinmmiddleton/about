@@ -7293,8 +7293,9 @@ const kosSound = (function () {
         const pctEl = batt.querySelector('.kos-batt-pct');
         function battTick() {
             const h = new Date().getHours() + new Date().getMinutes() / 60;
-            // full at 8am, drains through the day, dinner tops it back up a bit
-            let pct = h < 8 ? 90 : Math.max(14, Math.round(100 - (h - 8) * 6.5));
+            // drains through the day, dinner tops it up, sleep recharges it:
+            // low past midnight, climbing toward a 90% morning
+            let pct = h < 8 ? Math.min(90, Math.round(20 + h * 9)) : Math.max(14, Math.round(100 - (h - 8) * 6.5));
             if (h >= 19 && h < 21) pct = Math.min(pct + 22, 88);
             fill.style.width = pct + '%';
             pctEl.textContent = pct + '%';
@@ -7687,7 +7688,15 @@ const kosSound = (function () {
         connect: 'New Message',
         terminal: 'Terminal',
         aim: 'Claude',
-        games: 'Games'
+        games: 'Games',
+        invaders: 'Space Invaders',
+        tetris: 'Tetris',
+        bugsquash: 'Bug Squash',
+        runner: 'Runner',
+        snake: 'Snake',
+        standup: 'Open Mic',
+        interview: 'The Interview',
+        recipesdb: 'Recipes'
     };
     for (const [id, name] of Object.entries(NAMES)) {
         const t = document.querySelector(`.window[data-window="${id}"] .window-title`);
