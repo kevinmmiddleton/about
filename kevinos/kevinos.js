@@ -78,6 +78,28 @@ window.addEventListener('load', () => {
 });
 
 let zIndex = 500;
+// Every z write goes through here with 'important' priority: a plain z-index
+// can never override one set with priority, and mixing the two is how focus
+// silently broke (a clicked window kept an important 549 forever, masking all
+// later plain bring-to-front writes).
+function kosSetZ(win, v) {
+    win.style.setProperty('z-index', String(v), 'important');
+}
+// The counter caps below 550 (system overlays live above). Instead of letting
+// every window pile up AT the cap - ties resolve by DOM order, so clicking a
+// window stops raising it - compact the whole stack and keep its order.
+function kosRenormalizeZ() {
+    const stacked = [...document.querySelectorAll('.window')]
+        .filter(w => w.style.zIndex !== '')
+        .sort((a, b) => (parseInt(a.style.zIndex, 10) || 0) - (parseInt(b.style.zIndex, 10) || 0));
+    zIndex = 500;
+    stacked.forEach(w => kosSetZ(w, ++zIndex));
+}
+function kosNextZ() {
+    if (zIndex >= 548) kosRenormalizeZ();
+    zIndex++;
+    return zIndex;
+}
 let currentlyDraggingWindow = null; // Track window being dragged for snap detection
 const windows = document.querySelectorAll('.window');
 const icons = document.querySelectorAll('.desktop-icon[data-window]');
@@ -136,8 +158,7 @@ function openWindow(id) {
     const win = document.querySelector(`.window[data-window="${id}"]`);
     if (!win) return;
     const wasOpen = win.classList.contains('window-open');
-    zIndex++;
-    win.style.zIndex = zIndex;
+    kosSetZ(win, kosNextZ());
 
     win.classList.add('window-open');
     // 12. Every non-boot window shares one CSS position, so opening a second one
@@ -402,8 +423,7 @@ windows.forEach(win => {
     // opens) but kept out of the Tab sequence.
     win.setAttribute('tabindex', '-1');
     win.addEventListener('mousedown', () => {
-        zIndex = Math.min(zIndex + 1, 549);
-        win.style.setProperty('z-index', zIndex, 'important');
+        kosSetZ(win, kosNextZ());
 
         // Always push recycle/notepad to back when any window is clicked
         const recycleWin = document.getElementById('recycleWindow');
@@ -750,13 +770,12 @@ const recycleNote = document.getElementById('recycleNote');
 
 // Helper to get next z-index (capped below mission control/launchpad at 550)
 function getNextZIndex() {
-    zIndex = Math.min(zIndex + 1, 549);
-    return zIndex;
+    return kosNextZ();
 }
 
 // Bring a window to front (works for any window element)
 function bringToFront(winElement) {
-    winElement.style.zIndex = getNextZIndex();
+    kosSetZ(winElement, getNextZIndex());
 }
 
 document.getElementById('recycleBin').addEventListener('click', () => {
@@ -774,14 +793,14 @@ document.getElementById('recycleBin').addEventListener('click', () => {
         document.body.style.filter = '';
         alert('🗑️ System restored! Files recovered from Recycle Bin. 🎉');
     } else {
-        recycleWindow.style.zIndex = getNextZIndex();
+        kosSetZ(recycleWindow, getNextZIndex());
         recycleWindow.style.display = 'block';
     }
 });
 
 if (recycleNote) {
     recycleNote.addEventListener('click', () => {
-        notepadWindow.style.zIndex = getNextZIndex();
+        kosSetZ(notepadWindow, getNextZIndex());
         notepadWindow.style.display = 'block';
     });
 }
@@ -801,7 +820,7 @@ let recycleStartX, recycleStartY, recycleStartLeft, recycleStartTop;
 recycleHeader.addEventListener('mousedown', e => {
     if (e.target.classList.contains('window-dot')) return;
     e.preventDefault();
-    recycleWindow.style.zIndex = getNextZIndex();
+    kosSetZ(recycleWindow, getNextZIndex());
     recycleDragging = true;
     recycleStartX = e.clientX;
     recycleStartY = e.clientY;
@@ -831,7 +850,7 @@ let notepadStartX, notepadStartY, notepadStartLeft, notepadStartTop;
 notepadHeader.addEventListener('mousedown', e => {
     if (e.target.classList.contains('window-dot')) return;
     e.preventDefault();
-    notepadWindow.style.zIndex = getNextZIndex();
+    kosSetZ(notepadWindow, getNextZIndex());
     notepadDragging = true;
     notepadStartX = e.clientX;
     notepadStartY = e.clientY;
@@ -959,7 +978,7 @@ const mobileVideoPlayer = document.getElementById('mobileVideoPlayer');
 if (videosBtn && videoWindow) {
     videosBtn.addEventListener('click', () => {
         videoWindow.style.display = 'block';
-        videoWindow.style.zIndex = getNextZIndex();
+        kosSetZ(videoWindow, getNextZIndex());
     });
 }
 
@@ -995,7 +1014,7 @@ if (videoHeader && videoWindow) {
     videoHeader.addEventListener('mousedown', e => {
         if (e.target.classList.contains('window-dot')) return;
         e.preventDefault();
-        videoWindow.style.zIndex = getNextZIndex();
+        kosSetZ(videoWindow, getNextZIndex());
         videoDragging = true;
         videoStartX = e.clientX;
         videoStartY = e.clientY;
@@ -5388,7 +5407,7 @@ function openGameOverlay(gameId) {
     gameWindow.style.display = 'flex';
     gameWindow.style.position = 'fixed';
     gameWindow.style.inset = '0';
-    gameWindow.style.zIndex = '1005';
+    gameWindow.style.setProperty('z-index', '1005', 'important');
     gameWindow.style.maxHeight = '100vh';
     gameWindow.style.borderRadius = '0';
 
@@ -5425,7 +5444,7 @@ function closeGameOverlay(gameId, skipGamesFolder = false) {
     gameWindow.style.display = '';
     gameWindow.style.position = '';
     gameWindow.style.inset = '';
-    gameWindow.style.zIndex = '';
+    gameWindow.style.removeProperty('z-index');
     gameWindow.style.maxHeight = '';
     gameWindow.style.borderRadius = '';
 
