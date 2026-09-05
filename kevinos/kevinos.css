@@ -10102,3 +10102,22 @@ html:not(.kos-mobile) #experience .exp-date {
     font-size: 10.5px;
     letter-spacing: 0.06em;
 }
+
+/* ---- Kevin-supplied art: the disco ball hangs free (no tile),
+   and Tetris gets its blocks ---- */
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-party"]) {
+    background: url('images/tahoe/party.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-party"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji, .folder-icon):has(use[href="#ico-tetris"]) {
+    background: url('images/tahoe/tetris.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji, .folder-icon):has(use[href="#ico-tetris"]) > svg {
+    visibility: hidden;
+}
