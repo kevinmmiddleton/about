@@ -895,95 +895,88 @@ document.addEventListener('mouseup', () => {
 
 
 // ===================
-// VIRUS EASTER EGG
+// VIRUS EASTER EGG — the Jurassic Park lockout. Nedry wags his finger,
+// the audio says the line, and the screen fills with the magic words.
 // ===================
-document.getElementById('virusBtn').addEventListener('click', () => {
+(function () {
     const overlay = document.getElementById('virusOverlay');
-    overlay.classList.add('active');
+    const jpLines = document.getElementById('jpLines');
+    let jpAudio = null, lineTimer = null, running = false;
 
-    let countdown = 5;
-    const countdownEl = document.getElementById('virusCountdown');
+    function stopJp() {
+        running = false;
+        clearInterval(lineTimer);
+        if (jpAudio) { jpAudio.pause(); jpAudio.currentTime = 0; }
+        overlay.querySelector('.jp-dialog')?.remove();
+        overlay.classList.remove('active');
+        if (jpLines) jpLines.textContent = '';
+        document.body.style.filter = '';
+        document.body.style.transform = '';
+    }
 
-    const interval = setInterval(() => {
-        countdown--;
-        if (countdownEl) countdownEl.textContent = countdown;
+    document.getElementById('virusBtn').addEventListener('click', () => {
+        if (running) return;
+        running = true;
+        overlay.classList.add('active');
 
-        // Glitch effect intensifies
-        document.body.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+        try {
+            jpAudio = jpAudio || new Audio('images/magic-word.m4a');
+            jpAudio.currentTime = 0;
+            jpAudio.play().catch(() => {});
+        } catch (e) { /* no audio, the screen still lands the joke */ }
 
-        if (countdown <= 0) {
-            clearInterval(interval);
-            // "Delete" effect - screen goes crazy then shows recovery
-            setTimeout(() => {
-                document.body.style.filter = 'invert(1)';
-                setTimeout(() => {
-                    document.body.style.filter = '';  // Clear all filters
-                    setTimeout(() => {
-                        // Show recovery options
-                        const recoveryDiv = document.createElement('div');
-                        recoveryDiv.className = 'recovery-hint';
-                        recoveryDiv.innerHTML = `
-                            <div class="recovery-title">👾 uh oh.</div>
-                            <div class="recovery-subtitle">Unusual activity detected.</div>
-                            <div class="recovery-buttons">
-                                <button class="recovery-btn" id="wipeBtn">💾 Wipe</button>
-                                <button class="recovery-btn" id="antivirusBtn">🛡️ Antivirus</button>
-                                <button class="recovery-btn" id="ignoreBtn">🙈 Ignore</button>
-                            </div>
-                        `;
-                        overlay.appendChild(recoveryDiv);
+        // The movie fills the terminal one line at a time
+        if (jpLines) jpLines.textContent = '';
+        lineTimer = setInterval(() => {
+            if (!jpLines) return;
+            jpLines.textContent += "YOU DIDN'T SAY THE MAGIC WORD!\n";
+            jpLines.scrollTop = jpLines.scrollHeight;
+            // keep the buffer sane on long stares
+            if (jpLines.textContent.length > 40000) {
+                jpLines.textContent = jpLines.textContent.slice(-20000);
+            }
+        }, 140);
 
-                        // Wipe - full page reload
-                        document.getElementById('wipeBtn').addEventListener('click', () => {
-                            location.reload();
-                        });
+        // After Nedry has his moment, offer the way out — Windows-style
+        setTimeout(() => {
+            if (!running || overlay.querySelector('.jp-dialog')) return;
+            const dlg = document.createElement('div');
+            dlg.className = 'win95 jp-dialog';
+            dlg.innerHTML = `
+                <div class="win95-titlebar">
+                    <span class="win95-title">System Alert</span>
+                    <span class="win95-controls"><span class="win95-cbtn" id="jpDlgX">✕</span></span>
+                </div>
+                <div class="win95-dialog-body">
+                    <p>Unusual activity detected.<br>do_not_click.exe is holding the system hostage.</p>
+                    <div class="win95-btn-row">
+                        <button class="win95-btn" id="wipeBtn">Wipe</button>
+                        <button class="win95-btn" id="antivirusBtn">Antivirus</button>
+                        <button class="win95-btn" id="ignoreBtn">Ignore</button>
+                    </div>
+                </div>
+            `;
+            overlay.appendChild(dlg);
 
-                        // Antivirus - clean recovery
-                        document.getElementById('antivirusBtn').addEventListener('click', () => {
-                            overlay.classList.remove('active');
-                            overlay.innerHTML = `
-                                <div class="virus-screen">
-                                    <div class="virus-text">
-                                        <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
-                                        <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
-                                    </div>
-                                </div>
-                            `;
-                            document.body.style.filter = '';
-                            recoveryDiv.remove();
-                        });
-
-                        // Ignore - make it worse, then auto-recover
-                        document.getElementById('ignoreBtn').addEventListener('click', () => {
-                            recoveryDiv.remove();
-                            let chaos = 0;
-                            const chaosInterval = setInterval(() => {
-                                chaos++;
-                                document.body.style.filter = `hue-rotate(${Math.random() * 360}deg) blur(${Math.random() * 3}px)`;
-                                document.body.style.transform = `rotate(${(Math.random() - 0.5) * 10}deg) scale(${1 + Math.random() * 0.1})`;
-                                if (chaos > 15) {
-                                    clearInterval(chaosInterval);
-                                    document.body.style.filter = '';
-                                    document.body.style.transform = '';
-                                    overlay.classList.remove('active');
-                                    overlay.innerHTML = `
-                                        <div class="virus-screen">
-                                            <div class="virus-text">
-                                                <div class="glitch" data-text="SYSTEM CORRUPTED">SYSTEM CORRUPTED</div>
-                                                <p>☠️ FATAL ERROR: do_not_click.exe has corrupted your system ☠️</p>
-                                               <p class="virus-warning"><span id="virusCountdown">5</span>...</p>
-                                            </div>
-                                        </div>
-                                    `;
-                                }
-                            }, 100);
-                        });
-                    }, 500);
-                }, 300);
-            }, 500);
-        }
-    }, 1000);
-});
+            document.getElementById('wipeBtn').addEventListener('click', () => location.reload());
+            document.getElementById('antivirusBtn').addEventListener('click', stopJp);
+            document.getElementById('jpDlgX').addEventListener('click', stopJp);
+            document.getElementById('ignoreBtn').addEventListener('click', () => {
+                dlg.remove();
+                let chaos = 0;
+                const chaosInterval = setInterval(() => {
+                    chaos++;
+                    document.body.style.filter = `hue-rotate(${Math.random() * 360}deg) blur(${Math.random() * 3}px)`;
+                    document.body.style.transform = `rotate(${(Math.random() - 0.5) * 10}deg) scale(${1 + Math.random() * 0.1})`;
+                    if (chaos > 15) {
+                        clearInterval(chaosInterval);
+                        stopJp();
+                    }
+                }, 100);
+            });
+        }, 6500);
+    });
+})();
 
 // ===================
 // VIDEO EASTER EGG (Rickroll)
@@ -5682,13 +5675,13 @@ const searchableItems = [
     { type: 'window', id: 'aim', ico: 'aim', icon: '💬', title: 'KevBot', subtitle: 'kevbot.aim · instant message' },
     { type: 'window', id: 'connect', ico: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
     // System actions
-    { type: 'action', id: 'theme', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
-    { type: 'action', id: 'launchpad', icon: '⊞', title: 'Launchpad', subtitle: 'View all apps' },
-    { type: 'action', id: 'mission', icon: '☰', title: 'Mission Control', subtitle: 'View all windows' },
+    { type: 'action', id: 'theme', ico: 'halfmoon', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
+    { type: 'action', id: 'launchpad', ico: 'grid', icon: '⊞', title: 'Launchpad', subtitle: 'View all apps' },
+    { type: 'action', id: 'mission', ico: 'rows', icon: '☰', title: 'Mission Control', subtitle: 'View all windows' },
     // External links
-    { type: 'link', id: 'email', icon: '📧', title: 'Email Kevin', subtitle: 'kevin@middleton.io', url: 'mailto:kevin@middleton.io' },
-    { type: 'link', id: 'linkedin', icon: '💼', title: 'LinkedIn', subtitle: 'linkedin.com/in/kevinmiddleton', url: 'https://linkedin.com/in/kevinmiddleton' },
-    { type: 'link', id: 'calendly', icon: '📅', title: 'Schedule a Call', subtitle: 'calendly.com', url: 'https://calendly.com/kevin-middleton/let-s-talk' },
+    { type: 'link', id: 'email', ico: 'email', icon: '📧', title: 'Email Kevin', subtitle: 'kevin@middleton.io', url: 'mailto:kevin@middleton.io' },
+    { type: 'link', id: 'linkedin', ico: 'linkedin', icon: '💼', title: 'LinkedIn', subtitle: 'linkedin.com/in/kevinmiddleton', url: 'https://linkedin.com/in/kevinmiddleton' },
+    { type: 'link', id: 'calendly', ico: 'calendar', icon: '📅', title: 'Schedule a Call', subtitle: 'calendly.com', url: 'https://calendly.com/kevin-middleton/let-s-talk' },
 ];
 
 let selectedIndex = 0;
@@ -7567,11 +7560,12 @@ const kosSound = (function () {
     const side = document.createElement('nav');
     side.className = 'kos-store-side';
     side.setAttribute('aria-label', 'App categories');
-    const ICONS = { 'Web App': '🧭', 'Claude Plugin': '🔌', 'Coaching': '🎓', 'Portfolio': '🗂' };
+    const ICONS = { 'Web App': 'website', 'Claude Plugin': 'plug', 'Coaching': 'gradcap', 'Portfolio': 'projects' };
     function makeBtn(label, cat) {
         const b = document.createElement('button');
         b.type = 'button';
-        b.innerHTML = `<span class="side-ico">${cat ? (ICONS[cat] || '📦') : '✦'}</span>${label}`;
+        const g = cat ? (ICONS[cat] || 'box') : 'star';
+        b.innerHTML = `<span class="side-ico"><svg class="sf-glyph"><use href="#ico-${g}"></use></svg></span>${label}`;
         b.addEventListener('click', () => {
             side.querySelectorAll('button').forEach(x => x.classList.remove('active'));
             b.classList.add('active');
@@ -7730,12 +7724,14 @@ const kosSound = (function () {
         'Structure Without Rigidity': 'Structure',
         'Make It Simple': 'Simplicity'
     };
+    const GLYPHS = { '🔍': 'search', '💜': 'heart', '🤝': 'people', '🧡': 'person', '🏗️': 'columns', '✨': 'sparkles', '💡': 'lightbulb' };
     const panes = cards.map(c => {
         const h = c.querySelector('h4')?.textContent.trim() || '';
         const emoji = [...h][0] || '⚙️';
+        const glyph = GLYPHS[[...h].slice(0, 2).join('').trim()] || GLYPHS[emoji] || 'values';
         const title = h.replace(/^\S+\s*/, '');
         return {
-            emoji, title,
+            emoji, glyph, title,
             short: SHORT[title] || title.split(' ')[0],
             desc: c.querySelector('p')?.textContent.trim() || '',
             hue: [...c.classList].find(k => k !== 'value-card') || 'blue'
@@ -7747,7 +7743,7 @@ const kosSound = (function () {
         <nav class="kos-set-side" aria-label="Values">
             ${panes.map((p, i) => `
             <button type="button" class="kos-set-row${i === 0 ? ' active' : ''}" data-i="${i}">
-                <span class="kos-set-ico hue-${p.hue}">${p.emoji}</span>${p.short}
+                <span class="kos-set-ico hue-${p.hue}"><svg class="sf-glyph"><use href="#ico-${p.glyph}"></use></svg></span>${p.short}
             </button>`).join('')}
         </nav>
         <div class="kos-set-pane">

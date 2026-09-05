@@ -11609,3 +11609,163 @@ html[data-theme="dark"] .party-mode .desktop::after {
 @media (prefers-reduced-motion: reduce) {
     .party-mode .desktop::after { animation: none; }
 }
+
+/* ============================================================
+   DO NOT CLICK — the Jurassic Park lockout. Movie-blue field,
+   the magic words filling the left column, Nedry wagging his
+   finger in a Windows 95 window, and a Win95 dialog for the
+   way out.
+   ============================================================ */
+.virus-overlay .jp-screen {
+    position: absolute;
+    inset: 0;
+    background: #0b00e6;
+    display: flex;
+    align-items: center;
+    gap: 4vw;
+    overflow: hidden;
+}
+.jp-lines {
+    flex: 1 1 55%;
+    height: 100%;
+    margin: 0;
+    padding: 18px 0 18px 22px;
+    overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: clamp(13px, 1.7vw, 22px);
+    font-weight: 700;
+    line-height: 1.35;
+    color: #fff;
+    white-space: pre;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.45);
+}
+.jp-nedry-win {
+    flex: 0 0 auto;
+    margin-right: 4vw;
+    max-width: min(360px, 38vw);
+}
+.jp-nedry-win .win95-body img {
+    display: block;
+    width: 100%;
+    background: #fff;
+}
+
+/* ---- Windows 95 chrome ---- */
+.win95 {
+    background: #c0c0c0;
+    border: 1px solid #0a0a0a;
+    box-shadow:
+        inset 1px 1px 0 #fff,
+        inset -1px -1px 0 #808080,
+        inset 2px 2px 0 #dfdfdf,
+        2px 2px 0 rgba(0, 0, 0, 0.35);
+    padding: 3px;
+    font-family: Tahoma, 'MS Sans Serif', Geneva, sans-serif;
+    color: #000;
+}
+.win95-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 4px 3px 7px;
+    user-select: none;
+}
+.win95-controls { display: flex; gap: 2px; }
+.win95-cbtn {
+    width: 17px;
+    height: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #c0c0c0;
+    color: #000;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+    cursor: pointer;
+}
+.win95-cbtn:active { box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #808080; }
+.win95-body { background: #fff; margin-top: 3px; }
+
+/* The recovery dialog, Windows-style */
+.jp-dialog {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(360px, 86vw);
+    z-index: 5;
+}
+.win95-dialog-body {
+    padding: 16px 14px 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    background: #c0c0c0;
+}
+.win95-dialog-body p { margin: 0 0 14px; }
+.win95-btn-row { display: flex; gap: 8px; justify-content: center; }
+.win95-btn {
+    min-width: 78px;
+    padding: 5px 12px;
+    background: #c0c0c0;
+    border: 1px solid #0a0a0a;
+    box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+    font-family: inherit;
+    font-size: 12px;
+    color: #000;
+    cursor: pointer;
+}
+.win95-btn:active { box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #808080; }
+
+/* Phones: stack Nedry above the scroll, keep everything on screen */
+@media (max-width: 700px) {
+    .virus-overlay .jp-screen { flex-direction: column-reverse; gap: 10px; padding-top: 14px; }
+    .jp-nedry-win { margin: 0 auto; max-width: 64vw; }
+    .jp-lines { flex: 1 1 auto; width: 100%; padding: 8px 0 8px 12px; }
+}
+
+/* ---- SF-style glyphs replacing UI emojis (Settings tiles, App Store
+   rows and sidebar, Spotlight, notification-center links) ---- */
+.sf-glyph {
+    width: 1em;
+    height: 1em;
+    stroke-width: 2;
+    vertical-align: -0.12em;
+}
+.kos-set-ico .sf-glyph {
+    width: 15px;
+    height: 15px;
+    color: #fff;
+    stroke-width: 2.2;
+}
+.kos-store-icon > svg {
+    width: 26px;
+    height: 26px;
+    color: #fff;
+    stroke-width: 2;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.side-ico .sf-glyph {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2;
+}
+.spotlight-icon .sf-glyph {
+    width: 15px;
+    height: 15px;
+    stroke-width: 2.1;
+}
+.nc-link .sf-glyph {
+    width: 14px;
+    height: 14px;
+    margin-right: 2px;
+    stroke-width: 2;
+}
