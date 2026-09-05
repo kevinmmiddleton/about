@@ -2771,15 +2771,22 @@ body {
         justify-content: center;
     }
 
+    .mobile-grid-icon .apps-folder-icon {
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .mobile-grid-icon .apps-folder-icon .folder-mini-grid {
-        width: 52px;
-        height: 52px;
-        font-size: 18px;
-        border-radius: 12px;
-        /* iOS folders inset their minis far more than the desktop 3px:
-           8px padding + 5px gap ≈ 30% minis, matching a real folder */
-        padding: 8px;
-        gap: 5px;
+        /* the pack icons draw their visible tile at 79% of the 58px box
+           (~46px) — the folder square must match that, not the box */
+        width: 46px;
+        height: 46px;
+        font-size: 16px;
+        border-radius: 11px;
+        padding: 7px;
+        gap: 4px;
     }
 
     /* Spacer to separate main apps from fun apps */
@@ -3745,10 +3752,13 @@ body {
         backdrop-filter: blur(40px) saturate(180%);
         -webkit-backdrop-filter: blur(40px) saturate(180%);
         border-radius: 24px;
-        padding: 12px 8px;
-        padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+        /* horizontal geometry mirrors .mobile-icon-grid: the bar spans the
+           same 351px, items are (100% - 12px)/4 wide with 4px gaps, so the
+           four dock icons sit dead on the four springboard columns */
+        padding: 10px 0;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
         gap: 4px;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: center;
         z-index: 1001;
         box-shadow:
@@ -3770,8 +3780,9 @@ body {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 2px;
-        padding: 8px 16px;
+        gap: 6px;
+        flex: 0 0 calc((100% - 12px) / 4);
+        padding: 0;
         background: transparent;
         border: none;
         border-radius: 12px;
@@ -12017,3 +12028,14 @@ html:not(.kos-mobile) .dock::after { bottom: 8px; }
 
 /* display:flex above must not defeat the hidden attribute */
 .kn-player[hidden], .kn-chooser[hidden], .kn-notes[hidden] { display: none !important; }
+
+/* Mobile dock icons: same 58px box as springboard tiles (the pack art
+   draws its visible tile at 79%, so matching boxes match visually) */
+html.kos-mobile .mobile-contact-btn .mobile-btn-icon {
+    width: 58px;
+    height: 58px;
+    font-size: 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}

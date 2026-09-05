@@ -8064,3 +8064,44 @@ document.addEventListener('click', (e) => {
         if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
     });
 })();
+
+// ============================================================
+// TEMPORARY springboard alignment guides — remove after tuning.
+// Red lines at every icon row's top/bottom and column's left/right.
+// ============================================================
+(function () {
+    if (!KOS_MOBILE) return;
+    function drawGuides() {
+        document.querySelectorAll('.kos-sb-guide').forEach(g => g.remove());
+        const grid = document.querySelector('.mobile-icon-grid');
+        if (!grid) return;
+        const tiles = [...grid.querySelectorAll('.mobile-grid-icon .icon-emoji')];
+        if (!tiles.length) return;
+        const gr = grid.getBoundingClientRect();
+        const rows = {}, cols = {};
+        tiles.forEach(t => {
+            const r = t.getBoundingClientRect();
+            const ry = Math.round(r.top / 20), cx = Math.round(r.left / 20);
+            (rows[ry] = rows[ry] || []).push(r);
+            (cols[cx] = cols[cx] || []).push(r);
+        });
+        function line(x, y, w, h) {
+            const d = document.createElement('div');
+            d.className = 'kos-sb-guide';
+            d.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:${w}px;height:${h}px;background:#FF2D55;z-index:4000;pointer-events:none;`;
+            document.body.appendChild(d);
+        }
+        Object.values(rows).forEach(rs => {
+            const top = Math.min(...rs.map(r => r.top)), bot = Math.max(...rs.map(r => r.bottom));
+            line(gr.left, top, gr.width, 1);
+            line(gr.left, bot, gr.width, 1);
+        });
+        Object.values(cols).forEach(cs => {
+            const l = Math.min(...cs.map(r => r.left)), rt = Math.max(...cs.map(r => r.right));
+            line(l, gr.top, 1, window.innerHeight - gr.top);
+            line(rt, gr.top, 1, window.innerHeight - gr.top);
+        });
+    }
+    setTimeout(drawGuides, 800);
+    window.addEventListener('resize', () => setTimeout(drawGuides, 300));
+})();
