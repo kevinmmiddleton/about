@@ -10663,7 +10663,7 @@ html:not(.kos-mobile) #aim .aim-log {
     flex-direction: column;
     justify-content: flex-end;
 }
-html:not(.kos-mobile) #aim .aim-log:not(:has(.aim-line))::before {
+html:not(.kos-mobile) #aim .aim-log::before {
     content: '✳';
     display: block;
     text-align: center;
@@ -10672,7 +10672,7 @@ html:not(.kos-mobile) #aim .aim-log:not(:has(.aim-line))::before {
     margin: auto auto 6px;
     padding-top: 24px;
 }
-html:not(.kos-mobile) #aim .aim-log:not(:has(.aim-line))::after {
+html:not(.kos-mobile) #aim .aim-log::after {
     content: 'Curious about Kevin? Ask away.';
     display: block;
     text-align: center;
@@ -10682,7 +10682,7 @@ html:not(.kos-mobile) #aim .aim-log:not(:has(.aim-line))::after {
     color: #1F1E1D;
     margin: 0 auto auto;
 }
-html:not(.kos-mobile)[data-theme="dark"] #aim .aim-log:not(:has(.aim-line))::after { color: #F2F2F4; }
+html:not(.kos-mobile)[data-theme="dark"] #aim .aim-log::after { color: #F2F2F4; }
 html:not(.kos-mobile) #aim .aim-log .aim-sys { text-align: center; }
 html:not(.kos-mobile) #aim .aim-prompts {
     display: flex;
@@ -10728,4 +10728,23 @@ html:not(.kos-mobile) #aim .aim-compose {
 html:not(.kos-mobile) #aim .aim-input {
     flex: 1;
     min-width: 0;
+}
+
+/* DO_NOT_CLICK.EXE wears a CRT mid-bluescreen (Kevin-supplied). */
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-virus"]) {
+    background: url('images/tahoe/bsod.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-virus"]) > svg {
+    visibility: hidden;
+}
+
+/* the Apple trashcan, trash included - like every real Mac, it is
+   simply never empty */
+html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-recycle"]) {
+    background: url('images/tahoe/trash-full.png') center / contain no-repeat;
+}
+html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji:has(use[href="#ico-recycle"]) {
+    background-image: url('images/tahoe/trash-full.png');
 }
