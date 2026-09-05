@@ -11773,5 +11773,5 @@ html[data-theme="dark"] .party-mode .desktop::after {
 /* Settings opens at half the standard window width — a settings panel,
    not a document */
 html:not(.kos-mobile) #values {
-    width: min(420px, 100% - 40px);
+    width: min(448px, 100% - 40px);
 }
