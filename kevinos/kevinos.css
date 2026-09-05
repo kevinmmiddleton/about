@@ -12146,3 +12146,17 @@ html.kos-mobile .mobile-folder-item .icon-label {
     font-size: 23px;
     line-height: 1.35;
 }
+
+/* ---- App Store hero: locked composition. The text column keeps a
+   fixed measure so its line breaks never reflow into one-word lines,
+   and the screenshot keeps its size; when the window gets too narrow
+   the screenshot yields entirely instead of crushing the text ---- */
+.kos-store-main { container-type: inline-size; flex: 1; min-width: 0; }
+.kos-hero-txt {
+    flex: none;
+    width: min(300px, 100%);
+}
+@container (max-width: 470px) {
+    .kos-hero-shot { display: none; }
+    .kos-store-hero { padding-right: 16px; }
+}
