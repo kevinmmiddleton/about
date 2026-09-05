@@ -11930,11 +11930,14 @@ html.kos-mobile #keynote { display: none; }
     justify-content: center;
     padding: 22px;
     cursor: pointer;
+    overflow: hidden;
 }
+.kn-scale { transform-origin: center center; flex: none; }
 .kn-slide {
-    width: 100%;
-    max-width: 640px;
-    aspect-ratio: 16 / 9;
+    /* fixed design size, transform-scaled to the stage like real Keynote */
+    width: 640px;
+    height: 360px;
+    flex: none;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
@@ -11948,8 +11951,8 @@ html.kos-mobile #keynote { display: none; }
     overflow: hidden;
 }
 .kn-kicker { font: 700 11px/1 sans-serif; letter-spacing: 0.16em; color: #0E6EE8; }
-.kn-title { font-size: clamp(20px, 3.2vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; }
-.kn-s-title .kn-title { font-size: clamp(24px, 3.8vw, 40px); }
+.kn-title { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; }
+.kn-s-title .kn-title { font-size: 38px; }
 .kn-sub { font-size: 14px; color: #6b6b74; }
 .kn-body { font-size: 15px; line-height: 1.55; color: #3c3c42; max-width: 52ch; margin: 0; }
 .kn-list { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 1.45; color: #3c3c42; }

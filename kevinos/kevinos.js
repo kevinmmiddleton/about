@@ -8011,9 +8011,19 @@ document.addEventListener('click', (e) => {
         return `<div class="kn-slide">${kicker}${title}<p class="kn-body">${s.body || ''}</p></div>`;
     }
 
+    function fitSlide() {
+        const wrap = canvas.querySelector('.kn-scale');
+        if (!wrap) return;
+        const pad = 44;
+        const scale = Math.min((canvas.clientWidth - pad) / 640, (canvas.clientHeight - pad) / 360);
+        wrap.style.transform = `scale(${Math.max(0.4, scale)})`;
+    }
+    new ResizeObserver(fitSlide).observe(canvas);
+
     function show(i) {
         idx = Math.max(0, Math.min(HVAC.length - 1, i));
-        canvas.innerHTML = slideHtml(HVAC[idx]);
+        canvas.innerHTML = '<div class="kn-scale">' + slideHtml(HVAC[idx]) + '</div>';
+        fitSlide();
         countEl.textContent = `${idx + 1} / ${HVAC.length}`;
         notes.textContent = HVAC[idx].note || '';
         rail.querySelectorAll('.kn-mini').forEach((m, j) => m.classList.toggle('active', j === idx));
