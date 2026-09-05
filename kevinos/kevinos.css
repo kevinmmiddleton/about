@@ -9749,3 +9749,140 @@ html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji:has(use[href="#ico-
 html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji::after {
     display: none;
 }
+
+
+/* ============================================================
+   TAHOE ICON SET — Apple's macOS Tahoe app icons, adapted by
+   the MacRumors community (thread 2459293), used on this
+   non-commercial personal site. TAKEDOWN NOTE: delete this
+   block and images/tahoe/ and everything falls back to the
+   original editorial glyph tiles. Credited in About This Kev.
+   ============================================================ */
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-profile"]) {
+    background: url('images/tahoe/contacts.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-profile"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-values"]) {
+    background: url('images/tahoe/settings.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-values"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-experience"]) {
+    background: url('images/tahoe/timemachine.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-experience"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-building"]) {
+    background: url('images/tahoe/developer-folder.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-building"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-writing"]) {
+    background: url('images/tahoe/textedit.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-writing"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-strengths"]) {
+    background: url('images/tahoe/chess.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-strengths"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-reviews"]) {
+    background: url('images/tahoe/messages.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-reviews"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-games"]) {
+    background: url('images/tahoe/games-folder.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-games"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-connect"]) {
+    background: url('images/tahoe/mail.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-connect"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-terminal"]) {
+    background: url('images/tahoe/terminal.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-terminal"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-resume"]) {
+    background: url('images/tahoe/preview.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-resume"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-music"]) {
+    background: url('images/tahoe/music.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-music"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-videos"]) {
+    background: url('images/tahoe/tv.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-videos"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-website"]) {
+    background: url('images/tahoe/safari.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-website"]) > svg {
+    visibility: hidden;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-projects"]) {
+    background: url('images/tahoe/folder.png') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-projects"]) > svg {
+    visibility: hidden;
+}
+/* trash: Tahoe first, frosted NuoveXT paints if tahoe/ is ever removed */
+html:not(.kos-mobile) .desktop-icons-right .desktop-icon .icon-emoji:has(use[href="#ico-recycle"]) {
+    background: url('images/tahoe/trash-empty.png') center / contain no-repeat,
+                url('images/trash-empty.png') center / contain no-repeat;
+}
+html:not(.kos-mobile) .desktop-icon.kos-bin-full .icon-emoji:has(use[href="#ico-recycle"]) {
+    background-image: url('images/tahoe/trash-full.png'), url('images/trash-full.png');
+}

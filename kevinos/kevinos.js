@@ -6904,7 +6904,7 @@ const kosSound = (function () {
                   <div class="kos-about-row"><b>Graphics</b><span>Marigold on ink, integrated</span></div>
                   <div class="kos-about-row"><b>Uptime</b><span data-uptime>0s</span></div>
                   <div class="kos-about-row"><b>Serial</b><span>KM-NYC-NOT-A-REAL-COMPUTER</span></div>
-                  <div class="kos-about-row"><b>Lineage</b><span>Inspired by <a href="https://github.com/DustinBrett/daedalOS" target="_blank" rel="noopener noreferrer">daedalOS</a> and <a href="https://github.com/puruvj/macos-web" target="_blank" rel="noopener noreferrer">macos-web</a> &middot; trash icons from <a href="https://icon-icons.com/pack/nuovext-icons/47" target="_blank" rel="noopener noreferrer">NuoveXT</a> by Saki (GPL)</span></div>
+                  <div class="kos-about-row"><b>Lineage</b><span>Inspired by <a href="https://github.com/DustinBrett/daedalOS" target="_blank" rel="noopener noreferrer">daedalOS</a> and <a href="https://github.com/puruvj/macos-web" target="_blank" rel="noopener noreferrer">macos-web</a> &middot; app icons adapted from Apple&rsquo;s macOS Tahoe by the <a href="https://forums.macrumors.com/threads/macos-26-tahoe-all-icons-for-macos-sequoia.2459293/" target="_blank" rel="noopener noreferrer">MacRumors community</a> (non-commercial; removed on request) &middot; fallback trash from <a href="https://icon-icons.com/pack/nuovext-icons/47" target="_blank" rel="noopener noreferrer">NuoveXT</a> by Saki (GPL)</span></div>
                 </div>
               </div>`;
             document.body.appendChild(aboutEl);
