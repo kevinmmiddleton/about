@@ -11383,3 +11383,9 @@ html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-line.them { color: #
 /* Social is one sheet of paper: the overlay shell matches the
    content, no gray band below the feed */
 html.kos-mobile #mobile-overlay-about { background: var(--surface); }
+
+/* Right icon rail: end one icon-row above the dock so the Recycle Bin
+   group never sits under it (96px icon + 2px gap) */
+html:not(.kos-mobile) .desktop-icons-right {
+    padding-bottom: 98px;
+}
