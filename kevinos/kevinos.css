@@ -9791,7 +9791,9 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-building"
     visibility: hidden;
 }
 html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-writing"]) {
-    background: url('images/tahoe/textedit.png') center / contain no-repeat !important;
+    /* writing/ opens a QuietFeed-style reader, so it wears Kevin's own app */
+    background: url('images/quietfeed-logo.svg') center / contain no-repeat !important;
+    border-radius: 22.5% !important;
     box-shadow: none !important;
     border-radius: 0 !important;
 }
@@ -9908,4 +9910,195 @@ html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-
 }
 html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) > svg {
     visibility: hidden;
+}
+
+/* ============================================================
+   COMPLETED METAPHORS — each window honors the app its dock
+   icon promises. Desktop only; mobile keeps the originals.
+   ============================================================ */
+
+/* ---- viewport switching for shared markup ---- */
+html:not(.kos-mobile) #connect .terminal { display: none; }
+html.kos-mobile .mail-fields,
+html.kos-mobile .mail-body,
+html.kos-mobile .chat-outgoing,
+html.kos-mobile .vcf-head { display: none !important; }
+
+/* ---- reviews.chat as Messages ---- */
+html:not(.kos-mobile) .chat-content {
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 14px 16px;
+}
+html:not(.kos-mobile) .chat-message { max-width: 86%; margin: 0 0 10px; }
+html:not(.kos-mobile) .chat-sender {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin: 0 0 3px 14px;
+}
+html:not(.kos-mobile) .chat-bubble {
+    background: var(--surface-2);
+    color: var(--text);
+    border-radius: 18px;
+    border-bottom-left-radius: 5px;
+    padding: 9px 13px;
+    font-size: 13px;
+    line-height: 1.45;
+    box-shadow: none;
+    border: none;
+}
+html:not(.kos-mobile) .chat-message.chat-outgoing {
+    align-self: flex-end;
+    text-align: right;
+}
+html:not(.kos-mobile) .chat-outgoing .chat-bubble {
+    background: #2C82FE;
+    color: #fff;
+    border-radius: 18px;
+    border-bottom-right-radius: 5px;
+    display: inline-block;
+    text-align: left;
+}
+html:not(.kos-mobile) .chat-delivered {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin: 3px 6px 0 0;
+}
+
+/* ---- kevin.vcf as Contacts ---- */
+html:not(.kos-mobile) .vcf-head {
+    text-align: center;
+    padding: 4px 0 14px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+}
+html:not(.kos-mobile) .vcf-head b {
+    display: block;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+}
+html:not(.kos-mobile) .vcf-head span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+html:not(.kos-mobile) #about .profile-img {
+    border-radius: 50%;
+    width: 128px;
+    height: 128px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+html:not(.kos-mobile) #about .profile-photos-row { justify-content: center; }
+html:not(.kos-mobile) #about .profile-text {
+    position: relative;
+    background: var(--surface-2);
+    border-radius: 10px;
+    padding: 30px 14px 12px;
+    margin-top: 12px;
+}
+html:not(.kos-mobile) #about .profile-text::before {
+    content: 'NOTES';
+    position: absolute;
+    top: 10px;
+    left: 14px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+}
+
+/* ---- connect.sh as a Mail compose ---- */
+html:not(.kos-mobile) .mail-fields {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+}
+html:not(.kos-mobile) .mail-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 2px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+html:not(.kos-mobile) .mail-row:last-child { border-bottom: none; }
+html:not(.kos-mobile) .mail-row b {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 12.5px;
+    min-width: 54px;
+}
+html:not(.kos-mobile) .mail-chip {
+    background: #2C82FE;
+    color: #fff;
+    border-radius: 99px;
+    padding: 2px 10px;
+    font-size: 12px;
+}
+html:not(.kos-mobile) .mail-from { color: var(--text-muted); font-style: italic; }
+html:not(.kos-mobile) .mail-body {
+    font-size: 14px;
+    min-height: 60px;
+    padding: 2px;
+    margin-bottom: 8px;
+}
+
+/* ---- strengths/ as Shortcuts tiles ---- */
+html:not(.kos-mobile) .str-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+html:not(.kos-mobile) .str-tab {
+    border: none;
+    border-radius: 14px;
+    padding: 14px 12px 12px;
+    text-align: left;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+}
+html:not(.kos-mobile) .str-tab b { display: block; font-size: 13px; margin-bottom: 3px; color: #fff; }
+html:not(.kos-mobile) .str-tab span { font-size: 10.5px; color: rgba(255, 255, 255, 0.82); }
+html:not(.kos-mobile) .str-tab:hover { transform: translateY(-2px); }
+html:not(.kos-mobile) .str-tab[aria-selected="true"] {
+    box-shadow: 0 0 0 2.5px var(--surface), 0 0 0 5px #2C82FE, 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+/* the Shortcuts gradient palette, one hue per specialty */
+html:not(.kos-mobile) .str-tab:nth-child(1) { background: linear-gradient(160deg, #4E8CEF, #2A5ED9); }
+html:not(.kos-mobile) .str-tab:nth-child(2) { background: linear-gradient(160deg, #9A6BEE, #6E3FD4); }
+html:not(.kos-mobile) .str-tab:nth-child(3) { background: linear-gradient(160deg, #F1795E, #D9503C); }
+html:not(.kos-mobile) .str-tab:nth-child(4) { background: linear-gradient(160deg, #35B8B0, #1E8C86); }
+html:not(.kos-mobile) .str-tab:nth-child(5) { background: linear-gradient(160deg, #F0A83B, #DB7E12); }
+html:not(.kos-mobile) .str-tab:nth-child(6) { background: linear-gradient(160deg, #6B7DA1, #47587A); }
+
+/* ---- experience/ as Time Machine: the career floats in the
+   star field, each era a sheet stacked on the ones behind it ---- */
+html:not(.kos-mobile) #experience .window-content {
+    background:
+        radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.5), transparent 100%),
+        radial-gradient(1px 1px at 34% 62%, rgba(255, 255, 255, 0.35), transparent 100%),
+        radial-gradient(1.5px 1.5px at 58% 30%, rgba(255, 255, 255, 0.45), transparent 100%),
+        radial-gradient(1px 1px at 76% 74%, rgba(255, 255, 255, 0.4), transparent 100%),
+        radial-gradient(1px 1px at 90% 12%, rgba(255, 255, 255, 0.3), transparent 100%),
+        radial-gradient(1.5px 1.5px at 22% 88%, rgba(255, 255, 255, 0.35), transparent 100%),
+        linear-gradient(180deg, #1A1633 0%, #241C4A 55%, #2C2158 100%);
+}
+html:not(.kos-mobile) #experience .exp-item {
+    background: var(--surface);
+    border-radius: 10px;
+    box-shadow:
+        0 -7px 0 -3px color-mix(in srgb, var(--surface) 72%, transparent),
+        0 -13px 0 -6px color-mix(in srgb, var(--surface) 45%, transparent),
+        0 6px 16px rgba(0, 0, 0, 0.35);
+    margin-bottom: 18px;
+}
+html:not(.kos-mobile) #experience .exp-date {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
 }
