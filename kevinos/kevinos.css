@@ -9898,14 +9898,14 @@ html:not(.kos-mobile) .dock-emoji.dock-term-icon > svg {
     visibility: hidden;
 }
 
-/* The AIM runner stands alone on the desktop dock — no tile, full
-   amber, sized up for presence. */
+/* AIM wears its classic blue tile (Kevin-supplied art), CSS-rounded
+   to sit beside the baked-squircle Tahoe icons. */
 html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) {
-    background: transparent !important;
-    box-shadow: none !important;
+    background: url('images/tahoe/aim.png') center / cover no-repeat !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+    border-radius: 22.5% !important;
+    overflow: hidden;
 }
 html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) > svg {
-    color: var(--aim-ink);
-    width: 38px;
-    height: 38px;
+    visibility: hidden;
 }
