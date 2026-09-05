@@ -10591,7 +10591,7 @@ html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-prompt {
     color: #1F1E1D;
     margin: 0 auto auto;
 }
-html[data-theme="dark"] #aim .aim-log:not(:has(.aim-line))::after, #mobile-overlay-aim .aim-log:not(:has(.aim-line))::after { color: #F2F2F4; }
+html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-log:not(:has(.aim-line))::after { color: #F2F2F4; }
 :is(#aim, #mobile-overlay-aim) .aim-log .aim-sys { text-align: center; }
 :is(#aim, #mobile-overlay-aim) .aim-prompts {
     display: flex;
@@ -11392,4 +11392,66 @@ html.kos-mobile #mobile-overlay-about { background: var(--surface); }
    group never sits under it (96px icon + 2px gap) */
 html:not(.kos-mobile) .desktop-icons-right {
     padding-bottom: 98px;
+}
+
+/* ============================================================
+   CLAUDE SHEET, MOBILE: the sheet itself never scrolls — the
+   conversation log is the only scroller, with the buddy bar
+   pinned above it and the compose bar pinned below.
+   ============================================================ */
+html.kos-mobile #mobile-overlay-aim {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    overscroll-behavior: contain;
+}
+html.kos-mobile #mobile-overlay-aim .mobile-overlay-header {
+    flex-shrink: 0;
+}
+html.kos-mobile #mobile-overlay-aim .mobile-overlay-content {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+html.kos-mobile #mobile-overlay-aim .aim-content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+html.kos-mobile #mobile-overlay-aim .aim-log {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+html.kos-mobile #mobile-overlay-aim :is(.aim-bar, .aim-prompts, .aim-compose) {
+    flex-shrink: 0;
+}
+
+/* The chat fills the sheet edge to edge — the 132px bottom pad exists
+   for scrolling sheets that must clear the dock; the chat pins its own
+   compose bar instead */
+html.kos-mobile #mobile-overlay-aim .mobile-overlay-content {
+    padding: 0;
+}
+html.kos-mobile #mobile-overlay-aim .aim-compose {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Calendar + LinkedIn dock items (bare spans, sized like the Launchpad icon) */
+html:not(.kos-mobile) .dock-emoji.kos-dock-cal,
+html:not(.kos-mobile) .dock-emoji.kos-dock-li {
+    display: block;
+    width: 50px;
+    height: 50px;
+}
+html:not(.kos-mobile) .dock-emoji.kos-dock-cal {
+    background: url('images/tahoe/calendar.png') center / contain no-repeat;
+}
+html:not(.kos-mobile) .dock-emoji.kos-dock-li {
+    background: url('images/tahoe/linkedin.png') center / contain no-repeat;
 }

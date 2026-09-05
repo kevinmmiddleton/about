@@ -6467,6 +6467,12 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
                      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+            .replace(/(^|[^"'>\]])(https?:\/\/[^\s<]+[^\s<.,)!?])/g,
+                     '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>')
+            // The worker often hands out Kevin's links without a scheme
+            // ("calendly.com/..."); linkify just those known domains
+            .replace(/(^|[\s(])((?:www\.)?(?:middleton\.io|calendly\.com|linkedin\.com|github\.com|quietfeed\.com)(?:\/[^\s<]*[^\s<.,)!?])?)/g,
+                     '$1<a href="https://$2" target="_blank" rel="noopener noreferrer">$2</a>')
             .replace(/\n/g, '<br>');
     }
 
