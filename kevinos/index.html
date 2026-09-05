@@ -154,6 +154,23 @@
             // sent to the portrait wall.
             var mob = w ? (w <= 768 || (coarse && Math.min(w, h) <= 500)) : coarse;
             if (mob) document.documentElement.classList.add('kos-mobile');
+
+            // The whole app latches this decision at load (KOS_MOBILE in
+            // kevinos.js), so a resize across the boundary would strand a
+            // desktop layout wearing mobile-scoped icon skins. Reload once
+            // the crossing settles — a soft keyboard only changes height,
+            // so it never trips this.
+            var t;
+            window.addEventListener('resize', function () {
+                clearTimeout(t);
+                t = setTimeout(function () {
+                    var w2 = window.innerWidth, h2 = window.innerHeight;
+                    var mob2 = w2 ? (w2 <= 768 || (coarse && Math.min(w2, h2) <= 500)) : coarse;
+                    if (mob2 !== document.documentElement.classList.contains('kos-mobile')) {
+                        location.reload();
+                    }
+                }, 450);
+            });
         })();
     </script>
 </head>
