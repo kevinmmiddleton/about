@@ -5494,7 +5494,7 @@ function closeGameOverlay(gameId, skipGamesFolder = false) {
 
 // Initialize mobile icon grid handlers
 function initMobileIconGrid() {
-    const mobileGridIcons = document.querySelectorAll('.mobile-grid-icon[data-mobile-open]');
+    const mobileGridIcons = document.querySelectorAll('.mobile-grid-icon[data-mobile-open], .mobile-contact-btn[data-mobile-open]');
 
     mobileGridIcons.forEach(icon => {
         icon.addEventListener('click', (e) => {

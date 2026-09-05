@@ -11310,3 +11310,19 @@ html.kos-mobile .mobile-folder-item .icon-emoji:has(use[href="#ico-tetris"]) > s
 :is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-standup"]) > svg,
 :is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-interview"]) > svg,
 :is(.folder-icon, .icon-emoji, .dock-emoji):has(use[href="#ico-tetris"]) > svg { visibility: hidden; }
+
+/* dock and grid newcomers wear their tiles */
+html.kos-mobile .kos-dock-social { background: url('images/threads-icon.svg') center / contain no-repeat; }
+html.kos-mobile .kos-dock-messages { background: url('images/tahoe/messages.png') center / contain no-repeat; }
+html.kos-mobile .mobile-contact-btn .mobile-btn-icon:has(use[href="#ico-website"]) { background: url('images/tahoe/safari.png') center / contain no-repeat; }
+html.kos-mobile .kos-gi-linkedin { background: url('images/tahoe/linkedin.png') center / 78% no-repeat; border-radius: 12px; }
+html.kos-mobile .kos-gi-resume { background: url('images/tahoe/resume.png') center / 82% no-repeat; }
+html.kos-mobile .kos-gi-talk { background: url('images/tahoe/calendar.png') center / 82% no-repeat; }
+
+/* the promoted trio's tiles need the grid emoji box (no svg child,
+   so the :has sizing rule skips them) */
+html.kos-mobile :is(.kos-gi-linkedin, .kos-gi-resume, .kos-gi-talk) {
+    display: block;
+    width: 58px;
+    height: 58px;
+}
