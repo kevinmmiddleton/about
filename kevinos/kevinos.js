@@ -7675,3 +7675,68 @@ const kosSound = (function () {
         if (t) t.textContent = name;
     }
 })();
+
+// ============================================================
+// VALUES AS SYSTEM SETTINGS (desktop only): sidebar of panes,
+// detail card, and toggles that cannot be turned off.
+// ============================================================
+(function () {
+    if (KOS_MOBILE) return;
+    const content = document.querySelector('#values .window-content');
+    if (!content || content.querySelector('.kos-settings')) return;
+    const cards = [...content.querySelectorAll('.value-card')];
+    if (!cards.length) return;
+    const SHORT = {
+        'Start With Understanding': 'Understanding',
+        'Give Grace, Get Grace': 'Grace',
+        'Collaboration Wins': 'Collaboration',
+        'Keep It Human': 'Human',
+        'Structure Without Rigidity': 'Structure',
+        'Make It Simple': 'Simplicity'
+    };
+    const panes = cards.map(c => {
+        const h = c.querySelector('h4')?.textContent.trim() || '';
+        const emoji = [...h][0] || '⚙️';
+        const title = h.replace(/^\S+\s*/, '');
+        return {
+            emoji, title,
+            short: SHORT[title] || title.split(' ')[0],
+            desc: c.querySelector('p')?.textContent.trim() || '',
+            hue: [...c.classList].find(k => k !== 'value-card') || 'blue'
+        };
+    });
+    const root = document.createElement('div');
+    root.className = 'kos-settings';
+    root.innerHTML = `
+        <nav class="kos-set-side" aria-label="Values">
+            ${panes.map((p, i) => `
+            <button type="button" class="kos-set-row${i === 0 ? ' active' : ''}" data-i="${i}">
+                <span class="kos-set-ico hue-${p.hue}">${p.emoji}</span>${p.short}
+            </button>`).join('')}
+        </nav>
+        <div class="kos-set-pane">
+            <div class="kos-set-card">
+                <h4 data-set-title></h4>
+                <p data-set-desc></p>
+                <div class="kos-set-toggle-row">
+                    <span>Enabled</span>
+                    <button type="button" class="kos-toggle on" role="switch" aria-checked="true" aria-label="Enabled"><i></i></button>
+                </div>
+            </div>
+            <p class="kos-set-foot">These settings shipped enabled and locked.</p>
+        </div>`;
+    content.appendChild(root);
+    const titleEl = root.querySelector('[data-set-title]');
+    const descEl = root.querySelector('[data-set-desc]');
+    function show(i) {
+        root.querySelectorAll('.kos-set-row').forEach((r, n) => r.classList.toggle('active', n === i));
+        titleEl.textContent = panes[i].title;
+        descEl.textContent = panes[i].desc;
+    }
+    root.querySelectorAll('.kos-set-row').forEach(r =>
+        r.addEventListener('click', () => show(+r.dataset.i)));
+    show(0);
+    root.querySelector('.kos-toggle').addEventListener('click', () => {
+        if (typeof window.kosToast === 'function') window.kosToast('This value cannot be disabled.');
+    });
+})();

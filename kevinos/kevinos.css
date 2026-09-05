@@ -10862,3 +10862,135 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-profile"]
 .kos-th-acts .tha { display: inline-flex; align-items: center; gap: 5px; }
 .kos-th-acts .tha:hover i { background: var(--text-muted); }
 .kos-th-acts em { font-size: 12px; color: var(--text-muted); }
+
+/* ============================================================
+   VALUES AS SYSTEM SETTINGS — sidebar panes, grouped detail
+   card, and a toggle with no off position. Desktop only.
+   ============================================================ */
+html:not(.kos-mobile) #values .values-grid { display: none; }
+html:not(.kos-mobile) #values .window-content { padding: 0; }
+.kos-settings { display: flex; min-height: 300px; }
+.kos-set-side {
+    flex: 0 0 168px;
+    background: color-mix(in srgb, var(--surface-2) 60%, transparent);
+    border-right: 1px solid var(--border);
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.kos-set-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 13px;
+    padding: 5px 8px;
+    border-radius: 7px;
+    cursor: pointer;
+    text-align: left;
+}
+.kos-set-row:hover { background: color-mix(in srgb, var(--text) 7%, transparent); }
+.kos-set-row.active { background: #2C82FE; color: #fff; }
+.kos-set-ico {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.12);
+}
+.kos-set-ico.hue-blue { background: var(--blue); }
+.kos-set-ico.hue-purple { background: var(--purple); }
+.kos-set-ico.hue-pink { background: var(--pink); }
+.kos-set-ico.hue-peach { background: var(--peach); }
+.kos-set-ico.hue-mint { background: var(--mint); }
+.kos-set-ico.hue-yellow { background: var(--yellow); }
+.kos-set-pane { flex: 1; min-width: 0; padding: 18px 18px 14px; }
+.kos-set-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.kos-set-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); }
+.kos-set-card p { margin: 0 0 14px; font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+.kos-set-toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    font-size: 13px;
+    color: var(--text);
+}
+.kos-toggle {
+    width: 40px;
+    height: 24px;
+    border-radius: 99px;
+    border: none;
+    background: #34C759;
+    position: relative;
+    cursor: pointer;
+}
+.kos-toggle i {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.kos-set-foot {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin: 10px 4px 0;
+}
+
+/* ============================================================
+   FREEZE KILLER: an overlay that is not active must never eat
+   clicks, mid-fade or otherwise. This is the invisible-wall bug.
+   ============================================================ */
+html:not(.kos-mobile) .launchpad-overlay:not(.active),
+html:not(.kos-mobile) .mission-control:not(.active),
+html:not(.kos-mobile) .spotlight-overlay:not(.active),
+html:not(.kos-mobile) .notification-center:not(.active) {
+    pointer-events: none !important;
+}
+
+/* ---- Settings, elevated: frosted sidebar, toned pane, roomier
+   grouped card - System Settings proper ---- */
+.kos-set-side {
+    background: color-mix(in srgb, var(--surface-2) 55%, transparent);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+}
+.kos-set-pane {
+    background: color-mix(in srgb, var(--surface-2) 35%, var(--surface));
+    padding: 20px 20px 16px;
+}
+.kos-set-pane::before {
+    content: 'My Values';
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 2px 10px;
+}
+.kos-set-card {
+    padding: 18px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+.kos-set-card h4 { font-size: 16px; letter-spacing: -0.01em; }
+.kos-set-card p { font-size: 13.5px; }
+.kos-set-toggle-row { padding-top: 14px; }
+.kos-settings { min-height: 320px; }
