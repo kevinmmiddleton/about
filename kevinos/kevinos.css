@@ -11955,7 +11955,8 @@ html.kos-mobile #keynote { display: none; }
     justify-content: center;
     padding: 22px;
     cursor: pointer;
-    overflow: hidden;
+    /* no overflow clip: it was cutting the slide's shadow at the hidden
+       notes strip; the strip paints over the bleed when notes are on */
 }
 .kn-scale { transform-origin: center center; flex: none; }
 .kn-slide {
