@@ -9894,10 +9894,9 @@ html:not(.kos-mobile) .dock-emoji.dock-term-icon > svg {
 /* AIM wears its classic blue tile (Kevin-supplied art), CSS-rounded
    to sit beside the baked-squircle Tahoe icons. */
 html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) {
-    background: url('images/claude-icon.svg') center / cover no-repeat !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
-    border-radius: 22.5% !important;
-    overflow: hidden;
+    background: url('images/claude-icon.svg') center / contain no-repeat !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
 }
 html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) > svg {
     visibility: hidden;
@@ -10547,13 +10546,7 @@ html:not(.kos-mobile) #about :is(.vcf-head, .profile-grid, .profile-connect-btn)
 .kos-th-acts em { font-style: normal; font-size: 12px; color: var(--text-muted); }
 .kos-th-acts span:hover { opacity: 0.65; }
 
-/* Tahoe squircles carry baked-in transparent padding; the AIM tile
-   fills its whole box. Shrink its box so the visible tiles match. */
-html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px !important;
-}
+
 
 /* ---- unified macOS titles: proper case, system sans, and the
    ~/kevin/ path retires ---- */
@@ -11019,3 +11012,50 @@ html:not(.kos-mobile)[data-theme="dark"] .desktop:not(.wp-graph):not(.wp-plain):
 
 /* a freely placed icon keeps its spot and stays clickable above the rail flow */
 html:not(.kos-mobile) .desktop-icon.kos-placed { z-index: 5; position: relative; }
+
+/* ============================================================
+   SPRINGBOARD PHASE 1 — the desktop identity, ported to mobile:
+   real app icons on the grid, theme wallpapers, matched folder
+   minis. The iOS structure stays; the pastel era ends.
+   ============================================================ */
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-profile"]) { background: url('images/threads-icon.svg') center / contain no-repeat !important; box-shadow: none !important; }
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-values"]) { background: url('images/tahoe/settings.png') center / contain no-repeat !important; box-shadow: none !important; }
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-experience"]) { background: url('images/tahoe/timemachine.png') center / contain no-repeat !important; box-shadow: none !important; }
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-strengths"]) { background: url('images/tahoe/shortcuts.png') center / contain no-repeat !important; box-shadow: none !important; }
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-building"]) { background: url('images/tahoe/appstore.png') center / contain no-repeat !important; box-shadow: none !important; }
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-writing"]) { background: url('images/tahoe/notes.png') center / contain no-repeat !important; box-shadow: none !important; }
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-reviews"]) { background: url('images/tahoe/messages.png') center / contain no-repeat !important; box-shadow: none !important; }
+html.kos-mobile .mobile-grid-icon .icon-emoji.aim-icon:has(use[href="#ico-aim"]) { background: url('images/claude-icon.svg') center / contain no-repeat !important; box-shadow: none !important; }
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-website"]) { background: url('images/tahoe/safari.png') center / contain no-repeat !important; box-shadow: none !important; }
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-profile"]) > svg,
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-values"]) > svg,
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-experience"]) > svg,
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-strengths"]) > svg,
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-building"]) > svg,
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-writing"]) > svg,
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-reviews"]) > svg,
+html.kos-mobile .mobile-grid-icon .icon-emoji.aim-icon:has(use[href="#ico-aim"]) > svg,
+html.kos-mobile .mobile-grid-icon .icon-emoji:has(use[href="#ico-website"]) > svg { visibility: hidden; }
+
+/* the Apps folder minis wear the real tiles too */
+html.kos-mobile .folder-mini-grid span:has(use[href="#ico-games"]) { background: url('images/tahoe/games-app.png') center / contain no-repeat; }
+html.kos-mobile .folder-mini-grid span:has(use[href="#ico-music"]) { background: url('images/tahoe/music.png') center / contain no-repeat; }
+html.kos-mobile .folder-mini-grid span:has(use[href="#ico-recipes"]) { background: url('images/tahoe/recipes.png') center / contain no-repeat; }
+html.kos-mobile .folder-mini-grid span:has(use[href="#ico-games"]) svg,
+html.kos-mobile .folder-mini-grid span:has(use[href="#ico-music"]) svg,
+html.kos-mobile .folder-mini-grid span:has(use[href="#ico-recipes"]) svg { visibility: hidden; }
+
+/* wallpaper: the drafting grid by day, the skyline at night */
+html.kos-mobile .desktop {
+    background:
+        radial-gradient(circle at 1px 1px, rgba(17, 17, 19, 0.10) 1px, transparent 1.5px) 0 0 / 24px 24px,
+        linear-gradient(180deg, #F4F4F5 0%, #ECECEE 100%);
+}
+html.kos-mobile[data-theme="dark"] .desktop {
+    background: url('/images/hero-skyline-dark.jpg') center / cover no-repeat;
+}
+@media (prefers-color-scheme: dark) {
+    html.kos-mobile:not([data-theme="light"]) .desktop {
+        background: url('/images/hero-skyline-dark.jpg') center / cover no-repeat;
+    }
+}
