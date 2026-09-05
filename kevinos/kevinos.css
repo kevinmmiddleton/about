@@ -11465,3 +11465,7 @@ html[data-theme="dark"] :is(#aim, #mobile-overlay-aim) .aim-line.them { color: #
 }
 :is(#aim, #mobile-overlay-aim) .aim-log .aim-line,
 :is(#aim, #mobile-overlay-aim) .aim-log .aim-typing { order: 0; }
+
+/* Social is one sheet of paper: the overlay shell matches the
+   content, no gray band below the feed */
+html.kos-mobile #mobile-overlay-about { background: var(--surface); }
