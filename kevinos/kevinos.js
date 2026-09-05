@@ -122,11 +122,22 @@ function kosOpenWindowIds() {
         .map(w => w.dataset.window);
 }
 
+// Public URL names follow the app metaphor (?open=claude, not ?open=aim).
+// Internal data-window ids stay stable; old slugs keep parsing forever.
+const KOS_SLUGS = {
+    about: 'contacts', values: 'settings', experience: 'time-machine',
+    building: 'app-store', writing: 'notes', strengths: 'shortcuts',
+    recommendations: 'messages', connect: 'mail', aim: 'claude', resume: 'preview'
+};
+const KOS_UNSLUG = Object.fromEntries(Object.entries(KOS_SLUGS).map(([k, v]) => [v, k]));
+function kosToSlug(id) { return KOS_SLUGS[id] || id; }
+function kosFromSlug(slug) { return KOS_UNSLUG[slug] || slug; }
+
 function kosBuildUrl(ids) {
     const params = new URLSearchParams(window.location.search);
     params.delete('open');
     params.delete('game');
-    if (ids.length) params.set('open', ids.join(','));
+    if (ids.length) params.set('open', ids.map(kosToSlug).join(','));
     const qs = params.toString().replace(/%2C/gi, ','); // commas are legal in queries; keep the URL readable
     return window.location.pathname + (qs ? '?' + qs : '');
 }
@@ -4853,7 +4864,7 @@ function applyHomeLayout() {
     const RETIRED = { projects: 'strengths', skills: 'strengths' };
     const windowToOpen = (params.get('open') || '')
         .split(',')
-        .map(id => RETIRED[id] || id)
+        .map(id => { id = kosFromSlug(id); return RETIRED[id] || id; })
         .filter(Boolean)
         .join(',') || null;
     const gameToOpen = params.get('game');
@@ -5511,7 +5522,7 @@ window.addEventListener('popstate', (e) => {
         return;
     }
     const ids = (e.state && e.state.kosWindows) ||
-        (new URLSearchParams(window.location.search).get('open') || '').split(',').filter(Boolean);
+        (new URLSearchParams(window.location.search).get('open') || '').split(',').filter(Boolean).map(kosFromSlug);
     kosSyncingFromHistory = true;
     document.querySelectorAll('.window.window-open[data-window]').forEach(w => {
         if (!ids.includes(w.dataset.window)) closeWindow(w.dataset.window);
