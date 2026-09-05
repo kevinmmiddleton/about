@@ -2777,6 +2777,10 @@ body {
         height: 52px;
         font-size: 18px;
         border-radius: 12px;
+        /* iOS folders inset their minis far more than the desktop 3px:
+           8px padding + 5px gap ≈ 30% minis, matching a real folder */
+        padding: 8px;
+        gap: 5px;
     }
 
     /* Spacer to separate main apps from fun apps */
