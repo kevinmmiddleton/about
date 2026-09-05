@@ -12021,7 +12021,6 @@ html.kos-mobile #keynote { display: none; }
 .kn-btn:hover { background: #4a4a4f; }
 .kn-btn[aria-pressed="true"] { background: #0E6EE8; }
 
-/* (dock guides are drawn by JS now — see TEMPORARY block in kevinos.js) */
 
 /* Anchored to the leftmost icon's visible pixels: padding 8 + emoji
    inset 2 + art top 0.094*50px = 14.7; art bottom 0.879*50 = 53.95.
