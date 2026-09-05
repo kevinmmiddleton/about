@@ -9720,3 +9720,15 @@ html:not(.kos-mobile) .window.kos-open-from {
     html:not(.kos-mobile) .window.kos-open-from { animation: none !important; }
     html:not(.kos-mobile) .desktop-icon.kos-trashed { transition: opacity 0.2s ease; transform: none; }
 }
+
+/* ---- wallpaper: SUNSET POOL. The url layer paints only when the
+   photo exists at kevinos/images/wallpaper-sunset.jpg; until then
+   the gradient recreation of the scene shows through. ---- */
+html:not(.kos-mobile) .desktop.wp-sunset {
+    background:
+        url('images/wallpaper-sunset.jpg') center / cover no-repeat,
+        linear-gradient(180deg,
+            #F09E68 0%, #E8845E 10%, #D97E76 18%, #8A6280 28%,
+            #4E4A66 40%, #3B3D55 54%, #21707A 66%, #2FB3AB 80%,
+            #49D6C9 92%, #5FE3D6 100%);
+}

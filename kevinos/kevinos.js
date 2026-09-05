@@ -7084,17 +7084,25 @@ const kosSound = (function () {
         rail.appendChild(btn);
         toast('Folder created. It will never be organized.');
     }
-    const WALLPAPERS = ['', 'wp-graph', 'wp-plain'];
-    const WALLPAPER_NAMES = ['DOT GRID', 'GRAPH PAPER', 'PLAIN'];
+    const WALLPAPERS = ['', 'wp-graph', 'wp-plain', 'wp-sunset'];
+    const WALLPAPER_NAMES = ['DOT GRID', 'GRAPH PAPER', 'PLAIN', 'SUNSET POOL'];
     let wpIndex = 0;
-    function cycleWallpaper() {
+    function applyWallpaper() {
         const d = document.querySelector('.desktop');
         if (!d) return;
-        d.classList.remove('wp-graph', 'wp-plain');
-        wpIndex = (wpIndex + 1) % WALLPAPERS.length;
+        d.classList.remove('wp-graph', 'wp-plain', 'wp-sunset');
         if (WALLPAPERS[wpIndex]) d.classList.add(WALLPAPERS[wpIndex]);
+    }
+    function cycleWallpaper() {
+        wpIndex = (wpIndex + 1) % WALLPAPERS.length;
+        applyWallpaper();
+        try { localStorage.setItem('kos-wallpaper', String(wpIndex)); } catch (e) {}
         toast('WALLPAPER: ' + WALLPAPER_NAMES[wpIndex]);
     }
+    try {
+        const saved = parseInt(localStorage.getItem('kos-wallpaper'), 10);
+        if (saved > 0 && saved < WALLPAPERS.length) { wpIndex = saved; applyWallpaper(); }
+    } catch (e) {}
     document.addEventListener('contextmenu', (e) => {
         const onDesktop = e.target.closest('.desktop') &&
             !e.target.closest('.window') && !e.target.closest('.desktop-icon') &&
