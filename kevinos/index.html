@@ -2161,6 +2161,7 @@
 
     <!-- macOS-style Dock (outside desktop for party mode) -->
     <nav class="dock" id="dock">
+
         <button class="dock-item desktop-only" id="dockLaunchpad" aria-label="Launchpad" data-tooltip="Launchpad">
             <span class="dock-emoji kos-lp-icon" aria-hidden="true"></span>
         </button>
@@ -2168,14 +2169,17 @@
         <button class="dock-item" aria-label="About" data-window="about" data-tooltip="Social">
             <span class="dock-emoji"><svg><use href="#ico-profile"></use></svg></span>
         </button>
-        <button class="dock-item" aria-label="Values" data-window="values" data-tooltip="Settings">
-            <span class="dock-emoji"><svg><use href="#ico-values"></use></svg></span>
+        <button class="dock-item" aria-label="Recommendations" data-window="recommendations" data-tooltip="Messages">
+            <span class="dock-emoji"><svg><use href="#ico-reviews"></use></svg></span>
         </button>
-        <button class="dock-item" aria-label="Experience" data-window="experience" data-tooltip="Time Machine">
-            <span class="dock-emoji"><svg><use href="#ico-experience"></use></svg></span>
+        <button class="dock-item" aria-label="Connect" data-window="connect" data-tooltip="Mail">
+            <span class="dock-emoji"><svg><use href="#ico-connect"></use></svg></span>
         </button>
         
-        <div class="dock-divider"></div>
+        <button class="dock-item" aria-label="Instant Message KevBot" data-window="aim" data-tooltip="Claude">
+            <span class="dock-emoji aim-icon" aria-hidden="true"><svg><use href="#ico-aim"></use></svg></span>
+        </button>
+        <div class="dock-divider desktop-only"></div>
         <button class="dock-item" aria-label="Building" data-window="building" data-tooltip="App Store">
             <span class="dock-emoji"><svg><use href="#ico-building"></use></svg></span>
         </button>
@@ -2185,31 +2189,15 @@
         <button class="dock-item" aria-label="Strengths" data-window="strengths" data-tooltip="Shortcuts">
             <span class="dock-emoji"><svg><use href="#ico-strengths"></use></svg></span>
         </button>
-        <button class="dock-item" aria-label="Recommendations" data-window="recommendations" data-tooltip="Messages">
-            <span class="dock-emoji"><svg><use href="#ico-reviews"></use></svg></span>
-        </button>
         <button class="dock-item desktop-only" aria-label="Games" data-window="games" data-tooltip="Games">
             <span class="dock-emoji"><svg><use href="#ico-games"></use></svg></span>
         </button>
-        <!-- Mobile Apps folder trigger -->
-        <button class="dock-item mobile-only" id="dockAppsFolder" aria-label="Apps folder" data-tooltip="Apps">
-            <span class="dock-emoji dock-folder-icon">
-                <span class="folder-mini-grid">
-                    <span><svg><use href="#ico-games"></use></svg></span>
-                    <span><svg><use href="#ico-music"></use></svg></span>
-                    <span><svg><use href="#ico-recipes"></use></svg></span>
-                    <span></span>
-                </span>
-            </span>
+        <button class="dock-item" aria-label="Experience" data-window="experience" data-tooltip="Time Machine">
+            <span class="dock-emoji"><svg><use href="#ico-experience"></use></svg></span>
         </button>
-
-        <div class="dock-divider"></div>
-        
-        <button class="dock-item" aria-label="Instant Message KevBot" data-window="aim" data-tooltip="Claude">
-            <span class="dock-emoji aim-icon" aria-hidden="true"><svg><use href="#ico-aim"></use></svg></span>
-        </button>
-        <button class="dock-item" aria-label="Connect" data-window="connect" data-tooltip="Mail">
-            <span class="dock-emoji"><svg><use href="#ico-connect"></use></svg></span>
+        <div class="dock-divider desktop-only"></div>
+        <button class="dock-item" aria-label="Values" data-window="values" data-tooltip="Settings">
+            <span class="dock-emoji"><svg><use href="#ico-values"></use></svg></span>
         </button>
         <button class="dock-item" aria-label="Terminal" data-window="terminal" data-tooltip="Terminal">
             <!-- icon: MynaUI Icons (MIT) © Praveen Juge — github.com/praveenjuge/mynaui-icons -->
@@ -2220,6 +2208,16 @@
             download>
             <span class="dock-emoji"><svg><use href="#ico-resume"></use></svg></span>
         </a>
+        <button class="dock-item mobile-only" id="dockAppsFolder" aria-label="Apps folder" data-tooltip="Apps">
+            <span class="dock-emoji dock-folder-icon">
+                <span class="folder-mini-grid">
+                    <span><svg><use href="#ico-games"></use></svg></span>
+                    <span><svg><use href="#ico-music"></use></svg></span>
+                    <span><svg><use href="#ico-recipes"></use></svg></span>
+                    <span></span>
+                </span>
+            </span>
+        </button>
     </nav>
 
     <!-- Mobile Contact Share Sheet -->
