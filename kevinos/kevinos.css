@@ -12162,3 +12162,24 @@ html.kos-mobile .mobile-folder-item .icon-label {
     .kos-hero-shot { display: none; }
     .kos-store-hero { padding-right: 16px; }
 }
+
+/* ---- Experience rows: below ~520px of window width the two-column
+   row can't hold both texts, so role + dates drop to a second line
+   under the company instead of fragment-wrapping in place ---- */
+html:not(.kos-mobile) #experience .window-content {
+    container-type: inline-size;
+}
+@container (max-width: 520px) {
+    .exp-item {
+        grid-template-columns: 40px 1fr;
+    }
+    .exp-right {
+        grid-column: 2;
+        text-align: left;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: -4px;
+    }
+}
