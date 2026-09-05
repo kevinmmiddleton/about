@@ -10554,3 +10554,14 @@ html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-
     width: 44px;
     height: 44px;
 }
+
+/* ---- unified macOS titles: proper case, system sans, and the
+   ~/kevin/ path retires ---- */
+html:not(.kos-mobile) .window-title {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+}
+html:not(.kos-mobile) .window-path { display: none; }

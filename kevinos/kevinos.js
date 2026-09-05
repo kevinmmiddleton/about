@@ -7606,3 +7606,28 @@ const kosSound = (function () {
         });
     });
 })();
+
+// ============================================================
+// UNIFIED MACOS TITLES (desktop only): windows are named like
+// the apps they are, not like files. Mobile keeps the filenames.
+// ============================================================
+(function () {
+    if (KOS_MOBILE) return;
+    const NAMES = {
+        about: 'Kevin Middleton',
+        values: 'Values',
+        experience: 'Experience',
+        building: 'App Store',
+        writing: 'Writing',
+        strengths: 'Strengths',
+        recommendations: 'Recommendations',
+        connect: 'New Message',
+        terminal: 'Terminal',
+        aim: 'KevBot',
+        games: 'Games'
+    };
+    for (const [id, name] of Object.entries(NAMES)) {
+        const t = document.querySelector(`.window[data-window="${id}"] .window-title`);
+        if (t) t.textContent = name;
+    }
+})();
