@@ -10754,3 +10754,80 @@ html:not(.kos-mobile) #aim .aim-sys { display: none; }
 
 /* the buddy row goes too - the window is simply Claude now */
 html:not(.kos-mobile) #aim .aim-bar { display: none; }
+
+/* ============================================================
+   MENU BAR, THE MACOS-WEB CUT (github.com/puruvj/macos-web):
+   system sans, proper case, bold app name, translucent hover
+   pills, blue-highlight dropdown menus. Desktop only.
+   ============================================================ */
+html:not(.kos-mobile) .menubar {
+    font-size: 13px;
+    background: color-mix(in srgb, var(--surface) 65%, transparent);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+html:not(.kos-mobile) .menubar-app {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0;
+    text-transform: none;
+    padding: 2px 9px;
+}
+html:not(.kos-mobile) .menubar-menu {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text);
+    border-bottom: none;
+    padding: 2px 9px;
+    border-radius: 5px;
+}
+html:not(.kos-mobile) .menubar-menu:hover {
+    background: color-mix(in srgb, var(--text) 10%, transparent);
+    color: var(--text);
+}
+html:not(.kos-mobile) .menubar-menu.open,
+html:not(.kos-mobile) .menubar-app.open {
+    background: color-mix(in srgb, var(--text) 14%, transparent);
+    color: var(--text);
+}
+html:not(.kos-mobile) .menubar-back,
+html:not(.kos-mobile) .menubar-back-label {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    letter-spacing: 0;
+    text-transform: none;
+}
+html:not(.kos-mobile) .menubar-right,
+html:not(.kos-mobile) .menubar-clock,
+html:not(.kos-mobile) .menubar-time {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    letter-spacing: 0;
+}
+html:not(.kos-mobile) .kos-batt { font-family: var(--font-sans); font-size: 11px; }
+
+/* dropdowns follow: sans, proper case, macOS blue hover */
+html:not(.kos-mobile) .kos-menu {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 0;
+    border-radius: 10px;
+    padding: 5px;
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+}
+html:not(.kos-mobile) .kos-menu-item {
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+html:not(.kos-mobile) .kos-menu-item:hover:not(.disabled) {
+    background: #2C82FE;
+    color: #fff;
+}
+html:not(.kos-mobile) .kos-menu-item:hover:not(.disabled) .keys { color: rgba(255, 255, 255, 0.75); }
+html:not(.kos-mobile) .kos-menu-item .keys { font-family: var(--font-sans); }

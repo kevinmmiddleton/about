@@ -7021,8 +7021,8 @@ const kosSound = (function () {
         ],
         File: () => [
             { label: 'New Window', keys: '⌘N', fn: () => openWindow('about') },
-            { label: 'Open building/', fn: () => openWindow('building') },
-            { label: 'Open experience/', fn: () => openWindow('experience') },
+            { label: 'Open App Store', fn: () => openWindow('building') },
+            { label: 'Open Time Machine', fn: () => openWindow('experience') },
             '-',
             { label: 'Close Window', keys: '⌘W', fn: () => { const w = focusedWin(); if (w) closeWindow(w.dataset.window); } }
         ],
