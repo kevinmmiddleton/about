@@ -9895,7 +9895,7 @@ html:not(.kos-mobile) .dock-emoji.dock-term-icon > svg {
 /* AIM wears its classic blue tile (Kevin-supplied art), CSS-rounded
    to sit beside the baked-squircle Tahoe icons. */
 html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) {
-    background: url('images/tahoe/aim.png') center / cover no-repeat !important;
+    background: url('images/claude-icon.svg') center / cover no-repeat !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
     border-radius: 22.5% !important;
     overflow: hidden;
@@ -10551,8 +10551,9 @@ html:not(.kos-mobile) #about :is(.vcf-head, .profile-grid, .profile-connect-btn)
 /* Tahoe squircles carry baked-in transparent padding; the AIM tile
    fills its whole box. Shrink its box so the visible tiles match. */
 html:not(.kos-mobile) .dock-item .dock-emoji.aim-icon:has(> svg):not(.dock-term-icon) {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px !important;
 }
 
 /* ---- unified macOS titles: proper case, system sans, and the
@@ -10565,3 +10566,90 @@ html:not(.kos-mobile) .window-title {
     text-transform: none;
 }
 html:not(.kos-mobile) .window-path { display: none; }
+
+/* ---- hero grows the product shot on the right ---- */
+.kos-store-hero {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow: hidden;
+    padding: 14px 0 14px 16px;
+}
+.kos-hero-txt { flex: 1; min-width: 0; }
+.kos-hero-shot {
+    width: 96px;
+    border-radius: 10px 0 0 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    transform: rotate(2.5deg) translateY(12px);
+    flex-shrink: 0;
+    align-self: flex-end;
+    margin-right: -6px;
+}
+
+/* ============================================================
+   THE AIM APP, STYLED AS CLAUDE — because KevBot literally runs
+   on the Claude API. Ivory ground, coral accents, the official
+   starburst on the dock. Desktop only; mobile keeps 2003.
+   ============================================================ */
+html:not(.kos-mobile) #aim { --aim-you: #6B6B74; --aim-them: #C15F3C; --aim-ink: #C15F3C; }
+html:not(.kos-mobile) #aim .window-content,
+html:not(.kos-mobile) #aim .aim-content { background: #F4F3EE; }
+html:not(.kos-mobile) #aim .aim-log { background: #F4F3EE; border: none; }
+html:not(.kos-mobile) #aim .aim-bar {
+    background: #F4F3EE;
+    border-bottom: 1px solid #E3E1D8;
+    color: #1F1E1D;
+}
+html:not(.kos-mobile) #aim .aim-format { display: none; }
+html:not(.kos-mobile) #aim .aim-sys { color: #8A8983; }
+html:not(.kos-mobile) #aim .aim-input {
+    background: #FFFFFF;
+    border: 1px solid #E3E1D8;
+    border-radius: 12px;
+    color: #1F1E1D;
+    padding: 9px 12px;
+}
+html:not(.kos-mobile) #aim .aim-input:focus {
+    outline: none;
+    border-color: #D97757;
+    box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.18);
+}
+html:not(.kos-mobile) #aim .aim-send {
+    background: #D97757;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+}
+html:not(.kos-mobile) #aim .aim-send:hover { background: #C15F3C; }
+html:not(.kos-mobile) #aim .aim-compose {
+    background: #F4F3EE;
+    border-top: 1px solid #E3E1D8;
+}
+html:not(.kos-mobile) #aim .aim-prompt {
+    background: #FFFFFF;
+    border: 1px solid #E3E1D8;
+    border-radius: 99px;
+    color: #1F1E1D;
+}
+html:not(.kos-mobile) #aim .aim-prompt:hover {
+    border-color: #D97757;
+    color: #C15F3C;
+}
+/* dark theme: Claude's charcoal */
+html:not(.kos-mobile)[data-theme="dark"] #aim { --aim-you: #A2A2AC; --aim-them: #E08D6D; --aim-ink: #E08D6D; }
+html:not(.kos-mobile)[data-theme="dark"] #aim :is(.window-content, .aim-content, .aim-log, .aim-bar, .aim-compose) {
+    background: #262624;
+    border-color: #3A3936;
+    color: #F2F2F4;
+}
+html:not(.kos-mobile)[data-theme="dark"] #aim .aim-input {
+    background: #30302E;
+    border-color: #3A3936;
+    color: #F2F2F4;
+}
+html:not(.kos-mobile)[data-theme="dark"] #aim .aim-prompt {
+    background: #30302E;
+    border-color: #3A3936;
+    color: #F2F2F4;
+}

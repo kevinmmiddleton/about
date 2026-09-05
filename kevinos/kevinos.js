@@ -7067,7 +7067,11 @@ const kosSound = (function () {
         if (openMenuEl && !e.target.closest('.kos-menu') && !e.target.closest('.menubar')) closeAnyMenu();
     });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') { closeAnyMenu(); hideAbout(); }
+        if (e.key !== 'Escape') return;
+        closeAnyMenu(); hideAbout();
+        for (const fn of ['closeLaunchpad', 'closeMissionControl', 'closeSpotlight', 'closeNotificationCenter']) {
+            try { if (typeof window[fn] === 'function') window[fn](); } catch (err) {}
+        }
     });
 
     // ---------- desktop context menu ----------
@@ -7199,7 +7203,11 @@ const kosSound = (function () {
         win.classList.add('window-genie');
         win.style.transform = `translate(${dx}px, ${dy}px) scale(0.06)`;
         win.style.opacity = '0';
-        setTimeout(() => {
+        // reopening within the animation must cancel this, or the pending
+        // minimize fires on the freshly opened window and it plays dead
+        clearTimeout(win._kosGenieT);
+        win._kosGenieT = setTimeout(() => {
+            win._kosGenieT = null;
             win.classList.remove('window-genie');
             win.style.transform = '';
             win.style.opacity = '';
@@ -7291,6 +7299,14 @@ const kosSound = (function () {
     const _open = openWindow;
     openWindow = function (id) {
         const win = document.querySelector(`.window[data-window="${id}"]`);
+        if (win && win._kosGenieT) {
+            // opened mid-genie: abort the pending minimize and undo its styling
+            clearTimeout(win._kosGenieT);
+            win._kosGenieT = null;
+            win.classList.remove('window-genie');
+            win.style.transform = '';
+            win.style.opacity = '';
+        }
         const wasOpen = win && win.classList.contains('window-open') && !win.classList.contains('window-minimized');
         _open(id);
         if (!win || wasOpen || reduceMotion) return;
@@ -7321,6 +7337,7 @@ const kosSound = (function () {
     });
     document.addEventListener('mousemove', (e) => {
         if (!marquee) return;
+        if (e.buttons === 0) { marquee.remove(); marquee = null; document.body.classList.remove('kos-marqueeing'); return; }
         const x = Math.min(mx, e.clientX), y = Math.min(my, e.clientY);
         marquee.style.left = x + 'px';
         marquee.style.top = y + 'px';
@@ -7387,6 +7404,7 @@ const kosSound = (function () {
     }, true);
     document.addEventListener('mousemove', (e) => {
         if (!rz) return;
+        if (e.buttons === 0) { endResize(); return; } // released outside the window
         const { win, z, x, y, r } = rz;
         const dx = e.clientX - x, dy = e.clientY - y;
         if (z.e) win.style.width = Math.max(MIN_W, Math.min(window.innerWidth - r.left - 12, r.width + dx)) + 'px';
@@ -7403,14 +7421,16 @@ const kosSound = (function () {
             win.style.top = top + 'px';
         }
     });
-    document.addEventListener('mouseup', () => {
+    function endResize() {
         if (!rz) return;
         rz.win.classList.remove('window-resizing');
         rz.win.style.cursor = '';
         document.body.classList.remove('kos-resizing');
         if (typeof rememberWindowPlace === 'function') rememberWindowPlace(rz.win);
         rz = null;
-    });
+    }
+    document.addEventListener('mouseup', endResize);
+    window.addEventListener('blur', endResize);
 
     // ---------- draggable desktop icons + a trash that works ----------
     const binIcon = [...document.querySelectorAll('.desktop-icon')].find(i =>
@@ -7424,6 +7444,7 @@ const kosSound = (function () {
     });
     document.addEventListener('mousemove', (e) => {
         if (!drag) return;
+        if (e.buttons === 0) { drag = null; return; }
         const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
         if (!drag.moved && Math.abs(dx) + Math.abs(dy) < 6) return;
         drag.moved = true;
@@ -7523,7 +7544,8 @@ const kosSound = (function () {
     hero.href = 'https://quietfeed.com?from=kevinos';
     hero.target = '_blank';
     hero.rel = 'noopener noreferrer';
-    hero.innerHTML = '<em>APP OF THE DAY</em><b>QuietFeed</b><span>An RSS reader that respects your attention. No algorithm, no ads, no infinite scroll.</span>';
+    hero.innerHTML = '<div class="kos-hero-txt"><em>APP OF THE DAY</em><b>QuietFeed</b><span>An RSS reader that respects your attention. No algorithm, no ads, no infinite scroll.</span></div>' +
+        '<img class="kos-hero-shot" src="/images/building/quietfeed-card.jpg" alt="QuietFeed screenshot" loading="lazy">';
     main.querySelector('.kos-store')?.before(hero);
 })();
 
@@ -7623,7 +7645,7 @@ const kosSound = (function () {
         recommendations: 'Recommendations',
         connect: 'New Message',
         terminal: 'Terminal',
-        aim: 'KevBot',
+        aim: 'Claude',
         games: 'Games'
     };
     for (const [id, name] of Object.entries(NAMES)) {
