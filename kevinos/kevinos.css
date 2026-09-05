@@ -10653,3 +10653,70 @@ html:not(.kos-mobile)[data-theme="dark"] #aim .aim-prompt {
     border-color: #3A3936;
     color: #F2F2F4;
 }
+
+/* ---- claude.ai/new, the KevinOS cut: serif greeting with the
+   starburst until the first message, one soft compose card, a
+   coral circle send. Desktop only. ---- */
+html:not(.kos-mobile) #aim .aim-warn { display: none; }
+html:not(.kos-mobile) #aim .aim-log {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+html:not(.kos-mobile) #aim .aim-log:not(:has(.aim-line))::before {
+    content: '✳';
+    display: block;
+    text-align: center;
+    font-size: 34px;
+    color: #D97757;
+    margin: auto auto 6px;
+    padding-top: 24px;
+}
+html:not(.kos-mobile) #aim .aim-log:not(:has(.aim-line))::after {
+    content: 'Curious about Kevin? Ask away.';
+    display: block;
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 21px;
+    letter-spacing: -0.01em;
+    color: #1F1E1D;
+    margin: 0 auto auto;
+}
+html:not(.kos-mobile)[data-theme="dark"] #aim .aim-log:not(:has(.aim-line))::after { color: #F2F2F4; }
+html:not(.kos-mobile) #aim .aim-log .aim-sys { text-align: center; }
+html:not(.kos-mobile) #aim .aim-prompts {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #F4F3EE;
+}
+html:not(.kos-mobile)[data-theme="dark"] #aim .aim-prompts { background: #262624; }
+html:not(.kos-mobile) #aim .aim-compose {
+    padding: 10px 14px 14px;
+    gap: 10px;
+    align-items: center;
+    border-top: none;
+}
+html:not(.kos-mobile) #aim .aim-input {
+    border-radius: 16px;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+html:not(.kos-mobile) #aim .aim-send {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 0;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+}
+html:not(.kos-mobile) #aim .aim-send::before {
+    content: '↑';
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1;
+}
