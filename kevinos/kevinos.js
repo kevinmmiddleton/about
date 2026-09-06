@@ -1671,6 +1671,7 @@ let enemyDropAmount = 20;
 let playerInvincible = 0;
 let rapidFireTimer = 0;
 let shieldActive = false;
+let wingmanActive = false;
 let lastShotTime = 0;
 let powerupSpawned = false;
 
@@ -1799,6 +1800,7 @@ function initGame() {
     lives = 3;
     shieldActive = false;
     rapidFireTimer = 0;
+    wingmanActive = false;
     updateHud();
     initWave();
 }
@@ -1847,12 +1849,9 @@ function shoot() {
     if (now - lastShotTime < cooldown) return;
     lastShotTime = now;
     
-    bullets.push({
-        x: player.x + player.width / 2 - 3,
-        y: player.y,
-        width: 6,
-        height: 15
-    });
+    const fire = (cx) => bullets.push({ x: cx - 3, y: player.y, width: 6, height: 15 });
+    fire(player.x + player.width / 2);
+    if (wingmanActive) fire(player.x + player.width + 6 + player.width / 2);
 }
 
 function enemyShoot() {
@@ -1898,9 +1897,9 @@ function spawnPowerup(x, y) {
     if (Math.random() > 0.15) return; // 15% chance
     
     powerupSpawned = true;
-    const types = ['rapidfire', 'shield', 'life'];
+    const types = ['rapidfire', 'shield', 'life', 'wingman'];
     const type = types[Math.floor(Math.random() * types.length)];
-    const emojis = { rapidfire: '⚡', shield: '🛡️', life: '❤️' };
+    const emojis = { rapidfire: '⚡', shield: '🛡️', life: '❤️', wingman: '🛸' };
     
     powerups.push({
         x: x,
@@ -1922,6 +1921,9 @@ function collectPowerup(powerup) {
             break;
         case 'life':
             lives = Math.min(lives + 1, 5);
+            break;
+        case 'wingman':
+            wingmanActive = true;
             break;
     }
     spawnExplosion(powerup.x + 12, powerup.y + 12, 0.5);
@@ -2032,6 +2034,12 @@ function update() {
                 if (shieldActive) {
                     shieldActive = false;
                     spawnExplosion(player.x + player.width / 2, player.y, 0.5);
+                } else if (wingmanActive) {
+                    // lose the wingman before a life, Galaga-style
+                    wingmanActive = false;
+                    invadersJuice.shake(9);
+                    playerInvincible = 60;
+                    spawnExplosion(player.x + player.width + 6 + player.width / 2, player.y + player.height / 2, 0.8);
                 } else {
                     lives--;
                     invadersJuice.shake(10);
@@ -2096,36 +2104,33 @@ function draw() {
         ctx.fillText(p.emoji, p.x + p.width / 2, p.y + p.height);
     });
 
-    // Draw player (the invaders app icon)
-    ctx.save();
-    ctx.translate(player.x + player.width / 2, player.y + player.height / 2);
-    
-    // Flash when invincible
-    if (playerInvincible > 0 && Math.floor(playerInvincible / 8) % 2 === 0) {
-        ctx.globalAlpha = 0.3;
-    }
-    
-    const shipSize = 34;
-    if (invaderShipImg.complete && invaderShipImg.naturalWidth) {
-        ctx.drawImage(invaderShipImg, -shipSize / 2, -shipSize / 2, shipSize, shipSize);
-    } else {
-        ctx.font = '32px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('🚀', 0, 0);
-    }
-    
-    // Draw shield if active
-    if (shieldActive) {
-        ctx.globalAlpha = 0.5;
-        ctx.beginPath();
-        ctx.arc(0, 0, 25, 0, Math.PI * 2);
-        ctx.strokeStyle = '#5c8aff';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-    }
-    
-    ctx.restore();
+    // Draw player + optional wingman (the invaders app icon)
+    const shipSize = 42;
+    const flashing = playerInvincible > 0 && Math.floor(playerInvincible / 8) % 2 === 0;
+    const drawShip = (cx, cy) => {
+        ctx.save();
+        ctx.translate(cx, cy);
+        if (flashing) ctx.globalAlpha = 0.3;
+        if (invaderShipImg.complete && invaderShipImg.naturalWidth) {
+            ctx.drawImage(invaderShipImg, -shipSize / 2, -shipSize / 2, shipSize, shipSize);
+        } else {
+            ctx.font = '38px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🚀', 0, 0);
+        }
+        if (shieldActive) {
+            ctx.globalAlpha = 0.5;
+            ctx.beginPath();
+            ctx.arc(0, 0, shipSize * 0.72, 0, Math.PI * 2);
+            ctx.strokeStyle = '#5c8aff';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+        ctx.restore();
+    };
+    drawShip(player.x + player.width / 2, player.y + player.height / 2);
+    if (wingmanActive) drawShip(player.x + player.width + 6 + player.width / 2, player.y + player.height / 2);
 
     // Draw enemies
     enemies.forEach(e => {
