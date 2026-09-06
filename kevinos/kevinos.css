@@ -10747,19 +10747,41 @@ html:not(.kos-mobile) .menubar-time {
 html:not(.kos-mobile) .kos-batt { font-family: var(--font-sans); font-size: 11px; }
 
 /* dropdowns follow: sans, proper case, macOS blue hover */
+/* menu panels per puruvj/macos-web's Menu.svelte: a 30% translucent
+   panel under a plain 25px blur, 8px radius, soft 11px shadow (dark
+   theme adds the double hairline), tight 14px/400 items */
 html:not(.kos-mobile) .kos-menu {
     font-family: var(--font-sans);
-    font-size: 13px;
-    letter-spacing: 0;
-    border-radius: 10px;
-    padding: 5px;
-    background: color-mix(in srgb, var(--surface) 88%, transparent);
-    backdrop-filter: blur(28px) saturate(180%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+    min-width: 256px;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    background: color-mix(in srgb, var(--surface) 30%, transparent);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    box-shadow: 0 0 11px rgba(0, 0, 0, 0.3);
+}
+html[data-theme="dark"]:not(.kos-mobile) .kos-menu {
+    box-shadow:
+        0 0 11px rgba(0, 0, 0, 0.3),
+        inset 0 0 0 0.9px rgba(0, 0, 0, 0.3),
+        0 0 0 1.2px rgba(255, 255, 255, 0.3);
 }
 html:not(.kos-mobile) .kos-menu-item {
-    padding: 5px 10px;
-    border-radius: 6px;
+    padding: 3px 7px;
+    margin: 1.5px 0;
+    border-radius: 5px;
+}
+html:not(.kos-mobile) .kos-menu-item:hover:not(.disabled) {
+    font-weight: 500;
+}
+html:not(.kos-mobile) .kos-menu-sep {
+    height: 1px;
+    margin: 2px 0;
+    background: color-mix(in srgb, var(--text) 30%, transparent);
 }
 html:not(.kos-mobile) .kos-menu-item:hover:not(.disabled) {
     background: #2C82FE;
