@@ -1648,6 +1648,8 @@ function makeJuice(canvasEl) {
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const invadersJuice = makeJuice(canvas);
+const invaderShipImg = new Image();
+invaderShipImg.src = 'images/games/invaders.png';
 const gameContainer = document.getElementById('gameContainer');
 const gameStart = document.getElementById('gameStart');
 const gameOver = document.getElementById('gameOver');
@@ -2094,20 +2096,24 @@ function draw() {
         ctx.fillText(p.emoji, p.x + p.width / 2, p.y + p.height);
     });
 
-    // Draw player (rotated rocket pointing up)
+    // Draw player (the invaders app icon)
     ctx.save();
     ctx.translate(player.x + player.width / 2, player.y + player.height / 2);
-    ctx.rotate(-Math.PI / 4); // Rotate 45 degrees counter-clockwise
     
     // Flash when invincible
     if (playerInvincible > 0 && Math.floor(playerInvincible / 8) % 2 === 0) {
         ctx.globalAlpha = 0.3;
     }
     
-    ctx.font = '32px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🚀', 0, 0);
+    const shipSize = 34;
+    if (invaderShipImg.complete && invaderShipImg.naturalWidth) {
+        ctx.drawImage(invaderShipImg, -shipSize / 2, -shipSize / 2, shipSize, shipSize);
+    } else {
+        ctx.font = '32px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🚀', 0, 0);
+    }
     
     // Draw shield if active
     if (shieldActive) {
