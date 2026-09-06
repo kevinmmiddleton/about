@@ -5148,6 +5148,7 @@ function createMobileOverlay(windowId) {
 
     const closeBtn = document.createElement('button');
     closeBtn.className = 'mobile-close-btn';
+    closeBtn.setAttribute('aria-label', 'Close');
     closeBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
     closeBtn.addEventListener('click', closeMobileOverlay);
 
@@ -5260,6 +5261,14 @@ function setupSwipeToDismiss(overlay) {
         let startedOnHeader = false;
 
         overlay.addEventListener('touchstart', (e) => {
+            // A tap on the close button (or any control in the header) must
+            // stay a tap. Arming the drag here sets transition:none and the
+            // micro-movement of a real finger tap makes iOS cancel the click,
+            // so the X became unclickable on device.
+            if (e.target.closest('button, a, input, textarea, [role="button"]')) {
+                startedOnHeader = false;
+                return;
+            }
             const headerRect = header.getBoundingClientRect();
             const touchY = e.touches[0].clientY;
             startedOnHeader = touchY <= headerRect.bottom + 50;
@@ -5363,6 +5372,7 @@ function openGamesOverlay() {
 
         const closeBtn = document.createElement('button');
         closeBtn.className = 'mobile-close-btn';
+    closeBtn.setAttribute('aria-label', 'Close');
         closeBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
         closeBtn.addEventListener('click', closeMobileOverlay);
 
