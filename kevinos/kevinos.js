@@ -6930,13 +6930,24 @@ const kosSound = (function () {
 (function () {
     const btn = document.getElementById('menubarSound');
     if (!btn) return;
+    // The menubar speaker is the real macOS one: it reflects whatever is
+    // actually audible. UI blips stay opt-in (no quiet-office ambush), but the
+    // moment music plays the speaker lights up, and clicking it mutes whatever
+    // you can hear — the music if it's playing, otherwise the UI sounds.
+    const musicAudible = () => !audio.paused && !audio.muted;
     const paint = () => {
-        btn.textContent = kosSound.on ? '\u{1F50A}' : '\u{1F507}';
-        btn.setAttribute('aria-pressed', kosSound.on ? 'true' : 'false');
-        btn.setAttribute('aria-label', kosSound.on ? 'Sound on' : 'Sound off');
+        const on = musicAudible() || kosSound.on;
+        btn.textContent = on ? '\u{1F50A}' : '\u{1F507}';
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.setAttribute('aria-label', on ? 'Mute' : 'Sound off');
     };
     paint();
-    btn.addEventListener('click', () => { kosSound.set(!kosSound.on); paint(); });
+    ['play', 'pause', 'ended', 'volumechange'].forEach(ev => audio.addEventListener(ev, paint));
+    btn.addEventListener('click', () => {
+        if (!audio.paused) { audio.muted = !audio.muted; }  // music is the audible thing
+        else { kosSound.set(!kosSound.on); }                // nothing playing: toggle UI blips
+        paint();
+    });
 
     // the door belongs to AIM, so it fires wherever AIM is opened from
     document.addEventListener('click', (e) => {
