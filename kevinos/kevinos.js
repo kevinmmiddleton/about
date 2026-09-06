@@ -1598,8 +1598,56 @@ document.querySelectorAll('.see-all-games').forEach(btn => {
 // ===================
 // SCOPE CREEP GAME
 // ===================
+// ============================================================
+// GAME JUICE — shared feel toolkit for the canvas arcade games:
+// a decaying screen-shake (jiggles the canvas element), particle
+// bursts, and floating score pops. One instance per game.
+// ============================================================
+function makeJuice(canvasEl) {
+    let shakeMag = 0;
+    const parts = [], pops = [];
+    return {
+        shake(m) { shakeMag = Math.min(22, Math.max(shakeMag, m)); },
+        burst(x, y, color, n) {
+            for (let i = 0; i < (n || 8); i++) {
+                const a = Math.random() * 6.283, sp = 1 + Math.random() * 3.2;
+                parts.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 0.6,
+                    life: 1, color, r: 1.5 + Math.random() * 2 });
+            }
+        },
+        pop(x, y, text, color) { pops.push({ x, y, text, color, life: 1 }); },
+        drawFx(c) {
+            if (shakeMag > 0.4) {
+                const dx = (Math.random() - 0.5) * shakeMag, dy = (Math.random() - 0.5) * shakeMag;
+                if (canvasEl) canvasEl.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+                shakeMag *= 0.86;
+            } else if (canvasEl && canvasEl.style.transform) {
+                shakeMag = 0; canvasEl.style.transform = '';
+            }
+            for (let i = parts.length - 1; i >= 0; i--) {
+                const p = parts[i];
+                p.x += p.vx; p.y += p.vy; p.vy += 0.13; p.vx *= 0.96; p.life -= 0.045;
+                if (p.life <= 0) { parts.splice(i, 1); continue; }
+                c.globalAlpha = Math.max(0, p.life); c.fillStyle = p.color;
+                c.fillRect(p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
+            }
+            c.textAlign = 'center'; c.font = 'bold 13px "JetBrains Mono", monospace';
+            for (let i = pops.length - 1; i >= 0; i--) {
+                const q = pops[i];
+                q.y -= 0.8; q.life -= 0.025;
+                if (q.life <= 0) { pops.splice(i, 1); continue; }
+                c.globalAlpha = Math.max(0, q.life); c.fillStyle = q.color;
+                c.fillText(q.text, q.x, q.y);
+            }
+            c.globalAlpha = 1;
+        },
+        reset() { parts.length = 0; pops.length = 0; shakeMag = 0; if (canvasEl) canvasEl.style.transform = ''; }
+    };
+}
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+const invadersJuice = makeJuice(canvas);
 const gameContainer = document.getElementById('gameContainer');
 const gameStart = document.getElementById('gameStart');
 const gameOver = document.getElementById('gameOver');
@@ -1764,6 +1812,7 @@ function initWave() {
     bullets = [];
     enemyBullets = [];
     explosions = [];
+    invadersJuice.reset();
     powerups = [];
     enemyDirection = 1;
     enemyMoveTimer = 0;
@@ -1948,6 +1997,10 @@ function update() {
                     score += points;
                     spawnExplosion(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, enemy.isBoss ? 2 : 1);
                     spawnPowerup(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2);
+                    const kx = enemy.x + enemy.width / 2, ky = enemy.y + enemy.height / 2;
+                    invadersJuice.shake(enemy.isBoss ? 13 : 5);
+                    invadersJuice.burst(kx, ky, enemy.isBoss ? '#ffcc44' : '#ff7a4a', enemy.isBoss ? 16 : 8);
+                    invadersJuice.pop(kx, ky, '+' + points, '#ffd24a');
                 }
                 updateHud();
             }
@@ -1979,6 +2032,7 @@ function update() {
                     spawnExplosion(player.x + player.width / 2, player.y, 0.5);
                 } else {
                     lives--;
+                    invadersJuice.shake(10);
                     playerInvincible = 120; // 2 seconds invincibility
                     spawnExplosion(player.x + player.width / 2, player.y + player.height / 2, 0.8);
                 }
@@ -2122,6 +2176,7 @@ function draw() {
     enemyBullets.forEach(b => {
         ctx.fillRect(b.x, b.y, b.width, b.height);
     });
+    invadersJuice.drawFx(ctx);
 }
 
 function gameLoop() {
@@ -3079,6 +3134,7 @@ if (bugWhoAmIBtn) bugWhoAmIBtn.addEventListener('click', () => {
 // ===================
 const runnerCanvas = document.getElementById('runnerCanvas');
 const runnerCtx = runnerCanvas ? runnerCanvas.getContext('2d') : null;
+const runnerJuice = makeJuice(runnerCanvas);
 const runnerStart = document.getElementById('runnerStart');
 const runnerOver = document.getElementById('runnerOver');
 const runnerHud = document.getElementById('runnerHud');
@@ -3260,6 +3316,10 @@ function updateRunner(deltaTime) {
     runnerCollectibles = runnerCollectibles.filter(col => {
         if (checkCollision(runnerPlayer, col)) {
             runnerScore += col.points;
+            const cx = col.x + col.width / 2, cy = col.y + col.height / 2;
+            runnerJuice.shake(2);
+            runnerJuice.burst(cx, cy, '#6be675', 7);
+            runnerJuice.pop(cx, cy, '+' + col.points, '#ffd24a');
             return false;
         }
         return true;
@@ -3340,6 +3400,7 @@ function drawRunner() {
         runnerCtx.fillText(playerEmoji, 0, runnerPlayer.height / 2);
     }
     runnerCtx.restore();
+    runnerJuice.drawFx(runnerCtx);
 }
 
 function runnerGameLoop(time = 0) {
@@ -3355,6 +3416,7 @@ function runnerGameLoop(time = 0) {
 }
 
 function startRunner() {
+    runnerJuice.reset();
     if (runnerStart) runnerStart.style.display = 'none';
     if (runnerOver) runnerOver.style.display = 'none';
     if (runnerCanvas) runnerCanvas.style.display = 'block';
@@ -3454,6 +3516,7 @@ if (runnerTouchSlide) {
 // ===================
 const snakeCanvas = document.getElementById('snakeCanvas');
 const snakeCtx = snakeCanvas ? snakeCanvas.getContext('2d') : null;
+const snakeJuice = makeJuice(snakeCanvas);
 const snakeStart = document.getElementById('snakeStart');
 const snakeOver = document.getElementById('snakeOver');
 const snakeHud = document.getElementById('snakeHud');
@@ -3482,6 +3545,7 @@ function getRandomFoodEmoji() {
 }
 
 function initSnake() {
+    snakeJuice.reset();
     snakeScore = 0;
     snakeSpeed = 200;
     snakeDirection = { x: 1, y: 0 };
@@ -3548,6 +3612,11 @@ function moveSnake() {
     // Check food collision
     if (head.x === snakeFood.x && head.y === snakeFood.y) {
         snakeScore += 10;
+        const fx = snakeFood.x * SNAKE_GRID_SIZE + SNAKE_GRID_SIZE / 2;
+        const fy = snakeFood.y * SNAKE_GRID_SIZE + SNAKE_GRID_SIZE / 2;
+        snakeJuice.shake(4);
+        snakeJuice.burst(fx, fy, '#5ce0a0', 11);
+        snakeJuice.pop(fx, fy, '+10', '#5ce0a0');
         spawnSnakeFood();
         
         // Speed up every 5 foods
@@ -3613,6 +3682,7 @@ function drawSnake() {
         snakeCtx.font = '16px Arial';
         snakeCtx.fillText(snakeFood.emoji, foodX, foodY);
     }
+    snakeJuice.drawFx(snakeCtx);
 }
 
 function setSnakeDirection(x, y) {
