@@ -7240,7 +7240,7 @@ const kosSound = (function () {
     document.body.appendChild(saver);
     const saverLogo = saver.querySelector('.kos-saver-logo');
     const saverClock = saver.querySelector('[data-saver-clock]');
-    let saverRAF = null, idleT = null;
+    let saverRAF = null, idleT = null, saverClockT = null;
     let sx = 80, sy = 80, svx = 1.4, svy = 1.1;
     function saverTick() {
         const lw = saverLogo.offsetWidth, lh = saverLogo.offsetHeight;
@@ -7255,7 +7255,11 @@ const kosSound = (function () {
         if (document.getElementById('bootLoader') && !document.getElementById('bootLoader').classList.contains('hidden')) return;
         closeAnyMenu();
         saver.classList.add('on');
-        saverClock.textContent = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        const tickClock = () => {
+            saverClock.textContent = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        };
+        tickClock();
+        saverClockT = setInterval(tickClock, 15000);
         if (reduceMotion) {
             saverLogo.style.transform = `translate(${(window.innerWidth - saverLogo.offsetWidth) / 2}px, ${(window.innerHeight - saverLogo.offsetHeight) / 2}px)`;
         } else {
@@ -7267,6 +7271,8 @@ const kosSound = (function () {
         saver.classList.remove('on');
         cancelAnimationFrame(saverRAF);
         saverRAF = null;
+        clearInterval(saverClockT);
+        saverClockT = null;
     }
     function resetIdle() {
         saverOff();
