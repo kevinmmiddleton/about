@@ -1837,9 +1837,9 @@ function initWave() {
 function updateHud() {
     document.getElementById('gameScore').textContent = score;
     document.getElementById('gameWave').textContent = wave;
-    let livesDisplay = '🚀'.repeat(Math.max(0, lives));
-    if (shieldActive) livesDisplay += '🛡️';
-    if (rapidFireTimer > 0) livesDisplay += '⚡';
+    let livesDisplay = String(Math.max(0, lives));
+    if (shieldActive) livesDisplay += ' 🛡️';
+    if (rapidFireTimer > 0) livesDisplay += ' ⚡';
     document.getElementById('gameLives').textContent = livesDisplay;
 }
 
