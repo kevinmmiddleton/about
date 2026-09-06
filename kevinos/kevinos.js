@@ -8238,3 +8238,23 @@ document.addEventListener('click', (e) => {
     });
 })();
 
+
+// ============================================================
+// EXTERNAL LINKS LEAVE IN A NEW TAB. KevinOS is a running app;
+// no link inside it should navigate the OS itself away. Anything
+// pointing outside /kevinos/ (middleton.io pages, blog, case
+// studies, Calendly, LinkedIn, GitHub, the other apps) opens a
+// new tab. mailto: and download links keep their native behavior.
+// ============================================================
+document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    let u;
+    try { u = new URL(a.href, location.href); } catch (err) { return; }
+    if (!u.protocol.startsWith('http')) return;
+    const leavesOS = u.origin !== location.origin || !u.pathname.startsWith('/kevinos');
+    if (leavesOS) {
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+    }
+}, true);
