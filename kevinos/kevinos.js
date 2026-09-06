@@ -7231,7 +7231,12 @@ const kosSound = (function () {
     // ---------- idle screensaver ----------
     const saver = document.createElement('div');
     saver.className = 'kos-saver';
-    saver.innerHTML = `<div class="kos-saver-logo"><b>KEVIN<span style="color:#F2F2F4">OS</span></b><span data-saver-clock></span></div>`;
+    saver.innerHTML = `<div class="kos-saver-logo"><pre class="kos-saver-ascii">██╗  ██╗███████╗██╗   ██╗██╗███╗   ██╗ ██████╗ ███████╗
+██║ ██╔╝██╔════╝██║   ██║██║████╗  ██║██╔═══██╗██╔════╝
+█████╔╝ █████╗  ██║   ██║██║██╔██╗ ██║██║   ██║███████╗
+██╔═██╗ ██╔══╝  ╚██╗ ██╔╝██║██║╚██╗██║██║   ██║╚════██║
+██║  ██╗███████╗ ╚████╔╝ ██║██║ ╚████║╚██████╔╝███████║
+╚═╝  ╚═╝╚══════╝  ╚═══╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝</pre><span data-saver-clock></span></div>`;
     document.body.appendChild(saver);
     const saverLogo = saver.querySelector('.kos-saver-logo');
     const saverClock = saver.querySelector('[data-saver-clock]');
