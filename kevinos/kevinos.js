@@ -5768,7 +5768,7 @@ const searchableItems = [
     { type: 'window', id: 'recipesdb', ico: 'recipes', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },
     // Action
     { type: 'window', id: 'terminal', ico: 'terminal', icon: '⌨️', title: 'Terminal', subtitle: 'terminal.app' },
-    { type: 'window', id: 'aim', ico: 'aim', icon: '💬', title: 'KevBot', subtitle: 'kevbot.aim · instant message' },
+    { type: 'window', id: 'aim', ico: 'aim', icon: '💬', title: 'Claude', subtitle: 'claude · chat' },
     { type: 'window', id: 'connect', ico: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
     // System actions
     { type: 'action', id: 'theme', ico: 'halfmoon', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
@@ -6013,7 +6013,7 @@ const launchpadApps = [
     { id: 'videos', ico: 'videos', icon: '📺', label: 'Videos', action: true },
     // Action
     { id: 'terminal', ico: 'terminal', icon: '⌨️', label: 'Terminal' },
-    { id: 'aim', ico: 'aim', icon: '💬', label: 'KevBot' },
+    { id: 'aim', ico: 'aim', icon: '💬', label: 'Claude' },
     { id: 'connect', ico: 'connect', icon: '📟', label: 'Connect' },
 ];
 
@@ -6577,12 +6577,6 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
     }
 
     function prepare(root) {
-        const stamp = root.querySelector('.aim-signon');
-        if (stamp && !stamp.dataset.set) {
-            stamp.textContent = new Date().toLocaleTimeString([],
-                { hour: 'numeric', minute: '2-digit' });
-            stamp.dataset.set = '1';
-        }
         if (greeted.has(root)) return;
         greeted.add(root);
         // A clone carries over whatever the desktop copy already said, so only
