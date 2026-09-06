@@ -7793,36 +7793,22 @@ html:not(.kos-mobile) .share-sheet-backdrop {
   font-weight: 700;
   letter-spacing: 0.05em;
   transition: background 0.15s, color 0.15s;
+  /* Apple's uniform GET/OPEN capsule: gray pill, App Store blue text */
+  background: color-mix(in srgb, var(--text) 9%, transparent);
+  color: #2C82FE;
 }
-.kos-store-row.blue .kos-pill   { background: rgba(92, 138, 255, 0.16); color: var(--blue); }
-.kos-store-row.purple .kos-pill { background: rgba(160, 120, 255, 0.16); color: var(--purple); }
-.kos-store-row.pink .kos-pill   { background: rgba(255, 110, 180, 0.16); color: var(--pink); }
-.kos-store-row.mint .kos-pill   { background: rgba(74, 224, 160, 0.16); color: var(--mint); }
-.kos-store-row.peach .kos-pill  { background: rgba(255, 159, 106, 0.18); color: var(--peach); }
-.kos-store-row.yellow .kos-pill { background: rgba(255, 192, 72, 0.18); color: var(--yellow); }
+.kos-store-row:hover .kos-pill,
+.kos-store-row:focus-visible .kos-pill {
+  background: #2C82FE;
+  color: #fff;
+}
 /* The pill label is 10px, so it needs 4.5:1. Three hues fail that in LIGHT mode
    when used as text on their own tint: mint 3.77, peach 3.56, yellow 3.19.
    Deepened text-only variants, the same trick fv.css uses with its --cN-text
    tokens. The tint, the hover fill and dark mode are all unchanged. */
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .kos-store-row.mint .kos-pill   { color: #047857; }
-  :root:not([data-theme="dark"]) .kos-store-row.peach .kos-pill  { color: #b8410b; }
-  :root:not([data-theme="dark"]) .kos-store-row.yellow .kos-pill { color: #9a5504; }
-  :root:not([data-theme="dark"]) .kos-store-row.pink .kos-pill   { color: #a8175a; }
-  :root:not([data-theme="dark"]) .kos-store-row.blue .kos-pill   { color: #1d4ed8; }
-}
-:root[data-theme="light"] .kos-store-row.mint .kos-pill   { color: #047857; }
-:root[data-theme="light"] .kos-store-row.peach .kos-pill  { color: #b8410b; }
-:root[data-theme="light"] .kos-store-row.yellow .kos-pill { color: #9a5504; }
-:root[data-theme="light"] .kos-store-row.pink .kos-pill   { color: #a8175a; }
-:root[data-theme="light"] .kos-store-row.blue .kos-pill   { color: #1d4ed8; }
-.kos-store-row.blue:hover .kos-pill,   .kos-store-row.blue:focus-visible .kos-pill   { background: var(--blue); color: #fff; }
-.kos-store-row.purple:hover .kos-pill, .kos-store-row.purple:focus-visible .kos-pill { background: var(--purple); color: #fff; }
-.kos-store-row.pink:hover .kos-pill,   .kos-store-row.pink:focus-visible .kos-pill   { background: var(--pink); color: #fff; }
-.kos-store-row.mint:hover .kos-pill,   .kos-store-row.mint:focus-visible .kos-pill   { background: var(--mint); color: #082818; }
-.kos-store-row.peach:hover .kos-pill,  .kos-store-row.peach:focus-visible .kos-pill  { background: var(--peach); color: #2c1408; }
-.kos-store-row.yellow:hover .kos-pill, .kos-store-row.yellow:focus-visible .kos-pill { background: var(--yellow); color: #2c2208; }
-
+  :root:not([data-theme="dark"])   :root:not([data-theme="dark"])   :root:not([data-theme="dark"])   :root:not([data-theme="dark"])   :root:not([data-theme="dark"]) }
+:root[data-theme="light"] :root[data-theme="light"] :root[data-theme="light"] :root[data-theme="light"] :root[data-theme="light"] 
 /* Visually hidden, available to screen readers */
 .sr-only {
   position: absolute;
