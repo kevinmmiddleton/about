@@ -296,10 +296,11 @@ body {
     font-size: 12px;
     letter-spacing: 0.01em;
 }
-@media (max-width: 768px) {
-    .menubar-back-label { display: none; }
-    .menubar-back { margin-right: 1px; gap: 0; }
-}
+/* [migrated from @media (max-width: 768px)... to class scoping] */
+:where(html.kos-mobile) .menubar-back-label { display: none; }
+
+:where(html.kos-mobile) .menubar-back { margin-right: 1px; gap: 0; }
+
 
 .menubar-back:hover {
     opacity: 1;
@@ -372,11 +373,11 @@ body {
 }
 
 /* Hide menubar on mobile */
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    .menubar {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+:where(html.kos-mobile) .menubar {
         display: none;
     }
-}
+
 
 /* ===================
    DESKTOP LAYOUT
@@ -509,11 +510,11 @@ body {
 }
 
 /* Hide desktop widget on mobile */
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    .desktop-widget {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+:where(html.kos-mobile) .desktop-widget {
         display: none;
     }
-}
+
 
 /* ===================
    macOS DOCK
@@ -2522,15 +2523,14 @@ html:not(.kos-mobile) .window.window-open {
 /* ===================
    MOBILE FALLBACK
    =================== */
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-
-    html,
-    body {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+html:where(.kos-mobile),
+:where(html.kos-mobile) body {
         height: 100%;
         overflow: hidden;
     }
 
-    .desktop {
+:where(html.kos-mobile) .desktop {
         position: fixed;
         inset: 0;
         display: block;
@@ -2538,23 +2538,25 @@ html:not(.kos-mobile) .window.window-open {
         padding: 0;
     }
 
-    .desktop-icons {
+:where(html.kos-mobile) .desktop-icons {
         display: none;
     }
 
-    .dock {
+:where(html.kos-mobile) .dock {
         display: none;
     }
 
-    /* Hide windows-area on mobile - use icon grid instead */
-    .windows-area {
+/* Hide windows-area on mobile - use icon grid instead */
+
+:where(html.kos-mobile) .windows-area {
         display: none;
     }
 
-    /* ===================
+/* ===================
        MOBILE HEADER (iOS Status Bar Style)
        =================== */
-    .mobile-header {
+
+:where(html.kos-mobile) .mobile-header {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -2562,14 +2564,14 @@ html:not(.kos-mobile) .window.window-open {
         position: relative;
     }
 
-    .mobile-time {
+:where(html.kos-mobile) .mobile-time {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 15px;
         font-weight: 600;
         color: var(--text);
     }
 
-    .mobile-theme-toggle {
+:where(html.kos-mobile) .mobile-theme-toggle {
         position: absolute;
         right: 16px;
         top: 50%;
@@ -2589,12 +2591,13 @@ html:not(.kos-mobile) .window.window-open {
         transition: background 0.3s ease;
     }
 
-    .mobile-theme-toggle:active {
+:where(html.kos-mobile) .mobile-theme-toggle:active {
         transform: translateY(-50%) scale(0.95);
     }
 
-    /* The sliding knob */
-    .mobile-theme-toggle .toggle-knob {
+/* The sliding knob */
+
+:where(html.kos-mobile) .mobile-theme-toggle .toggle-knob {
         width: 26px;
         height: 26px;
         background: white;
@@ -2607,28 +2610,30 @@ html:not(.kos-mobile) .window.window-open {
         transform: translateX(0);
     }
 
-    .mobile-theme-toggle .toggle-knob .theme-icon {
+:where(html.kos-mobile) .mobile-theme-toggle .toggle-knob .theme-icon {
         font-size: 14px;
         line-height: 1;
     }
 
-    /* Dark mode - knob slides right, background turns dark blue */
-    [data-theme="dark"] .mobile-theme-toggle {
+/* Dark mode - knob slides right, background turns dark blue */
+
+[data-theme="dark"]:where(html.kos-mobile) .mobile-theme-toggle {
         background: rgba(90, 130, 230, 0.5);
     }
 
-    [data-theme="dark"] .mobile-theme-toggle .toggle-knob {
+[data-theme="dark"]:where(html.kos-mobile) .mobile-theme-toggle .toggle-knob {
         transform: translateX(24px);
     }
 
-    .mobile-logo {
+:where(html.kos-mobile) .mobile-logo {
         display: none;
     }
 
-    /* ===================
+/* ===================
        MOBILE WIDGET (iOS Glassmorphic Style)
        =================== */
-    .mobile-widget {
+
+:where(html.kos-mobile) .mobile-widget {
         display: block;
         margin: 8px 16px 12px;
         padding: 16px;
@@ -2640,19 +2645,19 @@ html:not(.kos-mobile) .window.window-open {
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
-    [data-theme="light"] .mobile-widget {
+[data-theme="light"]:where(html.kos-mobile) .mobile-widget {
         background: rgba(255, 255, 255, 0.6);
         border-color: rgba(0, 0, 0, 0.1);
     }
 
-    .widget-status {
+:where(html.kos-mobile) .widget-status {
         display: flex;
         align-items: center;
         gap: 8px;
         margin-bottom: 10px;
     }
 
-    .widget-badge {
+:where(html.kos-mobile) .widget-badge {
         display: inline-block;
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 11px;
@@ -2665,14 +2670,14 @@ html:not(.kos-mobile) .window.window-open {
         letter-spacing: 0.3px;
     }
 
-    .widget-location {
+:where(html.kos-mobile) .widget-location {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 12px;
         color: var(--text);
         opacity: 0.75;
     }
 
-    .widget-name {
+:where(html.kos-mobile) .widget-name {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
         font-size: 22px;
         font-weight: 700;
@@ -2680,24 +2685,24 @@ html:not(.kos-mobile) .window.window-open {
         margin-bottom: 2px;
     }
 
-    .widget-title {
+:where(html.kos-mobile) .widget-title {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 14px;
         color: var(--text);
         opacity: 0.75;
     }
 
-    .widget-row {
+:where(html.kos-mobile) .widget-row {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
     }
 
-    .widget-left {
+:where(html.kos-mobile) .widget-left {
         flex: 1;
     }
 
-    .widget-weather {
+:where(html.kos-mobile) .widget-weather {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -2705,23 +2710,24 @@ html:not(.kos-mobile) .window.window-open {
         padding-left: 16px;
     }
 
-    .weather-icon {
+:where(html.kos-mobile) .weather-icon {
         font-size: 32px;
         line-height: 1;
         margin-bottom: 4px;
     }
 
-    .weather-temp {
+:where(html.kos-mobile) .weather-temp {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
         font-size: 18px;
         font-weight: 600;
         color: var(--text);
     }
 
-    /* ===================
+/* ===================
        MOBILE ICON GRID
        =================== */
-    .mobile-icon-grid {
+
+:where(html.kos-mobile) .mobile-icon-grid {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -2733,7 +2739,7 @@ html:not(.kos-mobile) .window.window-open {
         overflow: hidden;
     }
 
-    .mobile-icon-grid .mobile-grid-icon {
+:where(html.kos-mobile) .mobile-icon-grid .mobile-grid-icon {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -2751,17 +2757,17 @@ html:not(.kos-mobile) .window.window-open {
         transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .mobile-icon-grid .mobile-grid-icon:active {
+:where(html.kos-mobile) .mobile-icon-grid .mobile-grid-icon:active {
         transform: scale(0.85);
     }
 
-    .mobile-grid-icon .icon-emoji {
+:where(html.kos-mobile) .mobile-grid-icon .icon-emoji {
         font-size: 52px;
         line-height: 1;
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
-    .mobile-grid-icon .icon-label {
+:where(html.kos-mobile) .mobile-grid-icon .icon-label {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 11px;
         font-weight: 500;
@@ -2771,21 +2777,23 @@ html:not(.kos-mobile) .window.window-open {
         max-width: 72px;
     }
 
-    /* Apps folder icon in springboard */
-    .mobile-grid-icon .apps-folder-icon {
+/* Apps folder icon in springboard */
+
+:where(html.kos-mobile) .mobile-grid-icon .apps-folder-icon {
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .mobile-grid-icon .apps-folder-icon {
+:where(html.kos-mobile) .mobile-grid-icon .apps-folder-icon {
         width: 58px;
         height: 58px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .mobile-grid-icon .apps-folder-icon .folder-mini-grid {
+
+:where(html.kos-mobile) .mobile-grid-icon .apps-folder-icon .folder-mini-grid {
         /* the pack icons draw their visible tile at 79% of the 58px box
            (~46px) — the folder square must match that, not the box.
            iOS previews a folder as a 3x3 grid with the apps filling the
@@ -2802,38 +2810,42 @@ html:not(.kos-mobile) .window.window-open {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
     }
-    .mobile-grid-icon .apps-folder-icon {
+
+:where(html.kos-mobile) .mobile-grid-icon .apps-folder-icon {
         align-items: flex-start;
         padding-top: 5.4px;
     }
 
-    /* Spacer to separate main apps from fun apps */
-    .mobile-grid-spacer {
+/* Spacer to separate main apps from fun apps */
+
+:where(html.kos-mobile) .mobile-grid-spacer {
         width: 100%;
         height: 20px;
     }
 
-    /* ===================
+/* ===================
        MOBILE WINDOW OVERLAY (iOS Sheet Style)
        =================== */
-    #recipesdb.mobile-fullscreen-ready {
+
+:where(html.kos-mobile) #recipesdb.mobile-fullscreen-ready {
         border: none !important;
         box-shadow: none !important;
     }
 
-    /* Sheets are the scroller; hide the indicator so it doesn't flash a
+/* Sheets are the scroller; hide the indicator so it doesn't flash a
        line down the edge every time an overlay slides in */
-    .mobile-window-overlay {
+
+:where(html.kos-mobile) .mobile-window-overlay {
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
 
-    .mobile-window-overlay::-webkit-scrollbar {
+:where(html.kos-mobile) .mobile-window-overlay::-webkit-scrollbar {
         display: none;
         width: 0;
     }
 
-    .mobile-window-overlay {
+:where(html.kos-mobile) .mobile-window-overlay {
         display: block;
         position: fixed;
         top: 0;
@@ -2851,32 +2863,34 @@ html:not(.kos-mobile) .window.window-open {
         will-change: transform;
     }
 
-    .mobile-window-overlay.active {
+:where(html.kos-mobile) .mobile-window-overlay.active {
         transform: translateY(0);
     }
 
-    /* iOS-style tap feedback for cards */
-    .mobile-overlay-content .chat-message,
-    .mobile-overlay-content .value-card,
-    .mobile-overlay-content .exp-item,
-    .mobile-overlay-content .profile-callout {
+/* iOS-style tap feedback for cards */
+
+:where(html.kos-mobile) .mobile-overlay-content .chat-message,
+:where(html.kos-mobile) .mobile-overlay-content .value-card,
+:where(html.kos-mobile) .mobile-overlay-content .exp-item,
+:where(html.kos-mobile) .mobile-overlay-content .profile-callout {
         transition: transform 0.15s ease, opacity 0.15s ease;
     }
 
-    .mobile-overlay-content .chat-message:active,
-    .mobile-overlay-content .value-card:active,
-    .mobile-overlay-content .profile-callout:active {
+:where(html.kos-mobile) .mobile-overlay-content .chat-message:active,
+:where(html.kos-mobile) .mobile-overlay-content .value-card:active,
+:where(html.kos-mobile) .mobile-overlay-content .profile-callout:active {
         transform: scale(0.98);
         opacity: 0.9;
     }
 
-    .mobile-overlay-content .exp-item:active {
+:where(html.kos-mobile) .mobile-overlay-content .exp-item:active {
         transform: scale(0.98);
         opacity: 0.9;
     }
 
-    /* iOS-style drag indicator */
-    .mobile-overlay-header::before {
+/* iOS-style drag indicator */
+
+:where(html.kos-mobile) .mobile-overlay-header::before {
         content: '';
         position: absolute;
         top: 8px;
@@ -2889,7 +2903,7 @@ html:not(.kos-mobile) .window.window-open {
         border-radius: 3px;
     }
 
-    .mobile-overlay-header {
+:where(html.kos-mobile) .mobile-overlay-header {
         position: sticky;
         top: 0;
         display: flex;
@@ -2902,8 +2916,9 @@ html:not(.kos-mobile) .window.window-open {
         gap: 12px;
     }
 
-    /* iOS-style X close button (top right) */
-    .mobile-close-btn {
+/* iOS-style X close button (top right) */
+
+:where(html.kos-mobile) .mobile-close-btn {
         position: absolute;
         right: 16px;
         top: 16px;
@@ -2922,30 +2937,31 @@ html:not(.kos-mobile) .window.window-open {
         z-index: 100;
     }
 
-    .mobile-close-btn svg {
+:where(html.kos-mobile) .mobile-close-btn svg {
         width: 16px;
         height: 16px;
     }
 
-    .mobile-close-btn:active {
+:where(html.kos-mobile) .mobile-close-btn:active {
         background: var(--border);
     }
 
-    /* Lightbox mobile styling - iOS-style close button */
-    .lightbox-header .window-dots {
+/* Lightbox mobile styling - iOS-style close button */
+
+:where(html.kos-mobile) .lightbox-header .window-dots {
         display: none;
     }
 
-    .lightbox-header {
+:where(html.kos-mobile) .lightbox-header {
         justify-content: center;
         position: relative;
     }
 
-    .lightbox-title {
+:where(html.kos-mobile) .lightbox-title {
         text-align: center;
     }
 
-    .lightbox-mobile-close {
+:where(html.kos-mobile) .lightbox-mobile-close {
         display: flex;
         position: absolute;
         right: 12px;
@@ -2964,17 +2980,18 @@ html:not(.kos-mobile) .window.window-open {
         -webkit-tap-highlight-color: transparent;
     }
 
-    .lightbox-mobile-close svg {
+:where(html.kos-mobile) .lightbox-mobile-close svg {
         width: 14px;
         height: 14px;
     }
 
-    .lightbox-mobile-close:active {
+:where(html.kos-mobile) .lightbox-mobile-close:active {
         background: var(--border);
     }
 
-    /* Large iOS title (left side) */
-    .mobile-overlay-title {
+/* Large iOS title (left side) */
+
+:where(html.kos-mobile) .mobile-overlay-title {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
         font-size: 34px;
         font-weight: 700;
@@ -2983,39 +3000,43 @@ html:not(.kos-mobile) .window.window-open {
         padding-top: 8px;
     }
 
-    .mobile-overlay-content {
+:where(html.kos-mobile) .mobile-overlay-content {
         padding: 0 16px 32px;
     }
 
-    /* Hide paths like ~/kevin/experience in mobile overlays */
-    .mobile-overlay-content .window-path,
-    .mobile-overlay-content .window-header,
-    .mobile-overlay-content .folder-path {
+/* Hide paths like ~/kevin/experience in mobile overlays */
+
+:where(html.kos-mobile) .mobile-overlay-content .window-path,
+:where(html.kos-mobile) .mobile-overlay-content .window-header,
+:where(html.kos-mobile) .mobile-overlay-content .folder-path {
         display: none;
     }
 
-    /* Reuse window-content styles in overlay */
-    .mobile-overlay-content .window-content {
+/* Reuse window-content styles in overlay */
+
+:where(html.kos-mobile) .mobile-overlay-content .window-content {
         padding: 0;
         max-height: none;
         overflow: visible;
     }
 
-    /* ===================
+/* ===================
        iOS-STYLE README (WELCOME CARD) ON MOBILE
        =================== */
-    .mobile-overlay-content .hero-content {
+
+:where(html.kos-mobile) .mobile-overlay-content .hero-content {
         padding: 40px 24px 32px;
         text-align: center;
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
     }
 
-    /* Hide ASCII art on mobile */
-    .mobile-overlay-content .hero-ascii {
+/* Hide ASCII art on mobile */
+
+:where(html.kos-mobile) .mobile-overlay-content .hero-ascii {
         display: none;
     }
 
-    .mobile-overlay-content .hero-name {
+:where(html.kos-mobile) .mobile-overlay-content .hero-name {
         font-size: 34px;
         font-weight: 700;
         letter-spacing: -0.02em;
@@ -3025,7 +3046,7 @@ html:not(.kos-mobile) .window.window-open {
         margin-bottom: 8px;
     }
 
-    .mobile-overlay-content .hero-title {
+:where(html.kos-mobile) .mobile-overlay-content .hero-title {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 17px;
         color: var(--blue);
@@ -3033,7 +3054,7 @@ html:not(.kos-mobile) .window.window-open {
         margin-bottom: 16px;
     }
 
-    .mobile-overlay-content .hero-tagline {
+:where(html.kos-mobile) .mobile-overlay-content .hero-tagline {
         font-size: 20px;
         color: var(--text-dim);
         font-weight: 400;
@@ -3041,13 +3062,13 @@ html:not(.kos-mobile) .window.window-open {
         line-height: 1.4;
     }
 
-    .mobile-overlay-content .hero-btns {
+:where(html.kos-mobile) .mobile-overlay-content .hero-btns {
         display: flex;
         flex-direction: column;
         gap: 12px;
     }
 
-    .mobile-overlay-content .hero-btns .btn {
+:where(html.kos-mobile) .mobile-overlay-content .hero-btns .btn {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 17px;
         font-weight: 600;
@@ -3056,54 +3077,38 @@ html:not(.kos-mobile) .window.window-open {
         justify-content: center;
     }
 
-    .mobile-overlay-content .hero-btns .btn-primary {
+:where(html.kos-mobile) .mobile-overlay-content .hero-btns .btn-primary {
         background: var(--blue);
         color: #fff;
         box-shadow: 0 2px 8px rgba(92, 138, 255, 0.3);
     }
 
-    .mobile-overlay-content .hero-btns .btn-secondary {
+:where(html.kos-mobile) .mobile-overlay-content .hero-btns .btn-secondary {
         background: var(--surface);
         border: none;
         color: var(--blue);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
 
-    /* ===================
+/* ===================
        iOS-STYLE SEEKING ON MOBILE
        =================== */
-    .mobile-overlay-content .query-content {
+
+:where(html.kos-mobile) .mobile-overlay-content .query-content {
         padding: 24px;
         text-align: left;
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
     }
 
-    /* Hide desktop-only content on mobile */
-    .mobile-overlay-content .query-code,
-    .mobile-overlay-content .pills,
-    .mobile-overlay-content .query-note {
+/* Hide desktop-only content on mobile */
+
+:where(html.kos-mobile) .mobile-overlay-content .query-code,
+:where(html.kos-mobile) .mobile-overlay-content .pills,
+:where(html.kos-mobile) .mobile-overlay-content .query-note {
         display: none;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .mobile-overlay-content .query-note {
+:where(html.kos-mobile) .mobile-overlay-content .query-note {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 15px;
         color: var(--text-dim);
@@ -3112,21 +3117,22 @@ html:not(.kos-mobile) .window.window-open {
         margin: 0 auto;
     }
 
-    /* ===================
+/* ===================
        iOS-STYLE PROFILE (ABOUT) ON MOBILE
        =================== */
-    .mobile-overlay-content .profile-grid {
+
+:where(html.kos-mobile) .mobile-overlay-content .profile-grid {
         display: block;
     }
 
-    .mobile-overlay-content .profile-photos {
+:where(html.kos-mobile) .mobile-overlay-content .profile-photos {
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-bottom: 24px;
     }
 
-    .mobile-overlay-content .profile-img {
+:where(html.kos-mobile) .mobile-overlay-content .profile-img {
         width: 120px;
         height: 120px;
         border-radius: 50%;
@@ -3136,8 +3142,9 @@ html:not(.kos-mobile) .window.window-open {
         z-index: 11;
     }
 
-    /* Horizontal scrolling photo strip */
-    .mobile-overlay-content .profile-photos-row {
+/* Horizontal scrolling photo strip */
+
+:where(html.kos-mobile) .mobile-overlay-content .profile-photos-row {
         display: flex;
         width: calc(100% + 40px);
         margin-left: -20px;
@@ -3149,11 +3156,11 @@ html:not(.kos-mobile) .window.window-open {
         scrollbar-width: none;
     }
 
-    .mobile-overlay-content .profile-photos-row::-webkit-scrollbar {
+:where(html.kos-mobile) .mobile-overlay-content .profile-photos-row::-webkit-scrollbar {
         display: none;
     }
 
-    .mobile-overlay-content .profile-photos-row img {
+:where(html.kos-mobile) .mobile-overlay-content .profile-photos-row img {
         width: 100px;
         height: 100px;
         border-radius: 12px;
@@ -3165,23 +3172,23 @@ html:not(.kos-mobile) .window.window-open {
         pointer-events: none;
     }
 
-    .mobile-overlay-content .profile-img {
+:where(html.kos-mobile) .mobile-overlay-content .profile-img {
         cursor: default;
         pointer-events: none;
     }
 
-    .mobile-overlay-content .profile-text {
+:where(html.kos-mobile) .mobile-overlay-content .profile-text {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
     }
 
-    .mobile-overlay-content .profile-text p {
+:where(html.kos-mobile) .mobile-overlay-content .profile-text p {
         font-size: 15px;
         line-height: 1.6;
         color: var(--text-dim);
         margin-bottom: 16px;
     }
 
-    .mobile-overlay-content .profile-callout {
+:where(html.kos-mobile) .mobile-overlay-content .profile-callout {
         background: var(--surface);
         border: none;
         border-radius: 16px;
@@ -3190,7 +3197,7 @@ html:not(.kos-mobile) .window.window-open {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
 
-    .mobile-overlay-content .profile-callout h4 {
+:where(html.kos-mobile) .mobile-overlay-content .profile-callout h4 {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 15px;
         font-weight: 600;
@@ -3198,41 +3205,43 @@ html:not(.kos-mobile) .window.window-open {
         margin-bottom: 8px;
     }
 
-    .mobile-overlay-content .profile-callout p {
+:where(html.kos-mobile) .mobile-overlay-content .profile-callout p {
         font-size: 14px;
         color: var(--text-dim);
         margin-bottom: 0;
     }
 
-    /* ===================
+/* ===================
        iOS-STYLE REVIEWS ON MOBILE
        =================== */
-    .mobile-overlay-content .log-ts {
+
+:where(html.kos-mobile) .mobile-overlay-content .log-ts {
         display: none; /* Hide [INFO] recommendation_received */
     }
 
-    /* iMessage-style chat on mobile */
-    .mobile-overlay-content .chat-content {
+/* iMessage-style chat on mobile */
+
+:where(html.kos-mobile) .mobile-overlay-content .chat-content {
         background: var(--bg);
         padding: 16px !important;
     }
 
-    .mobile-overlay-content .chat-message {
+:where(html.kos-mobile) .mobile-overlay-content .chat-message {
         margin-bottom: 20px;
     }
 
-    .mobile-overlay-content .chat-sender {
+:where(html.kos-mobile) .mobile-overlay-content .chat-sender {
         font-size: 13px;
         margin-bottom: 6px;
         margin-left: 14px;
     }
 
-    .mobile-overlay-content .chat-badge {
+:where(html.kos-mobile) .mobile-overlay-content .chat-badge {
         font-size: 10px;
         padding: 2px 8px;
     }
 
-    .mobile-overlay-content .chat-bubble {
+:where(html.kos-mobile) .mobile-overlay-content .chat-bubble {
         font-size: 16px;
         padding: 12px 16px;
         max-width: 90%;
@@ -3240,13 +3249,13 @@ html:not(.kos-mobile) .window.window-open {
         border-bottom-left-radius: 6px;
     }
 
-    .mobile-overlay-content .chat-footer {
+:where(html.kos-mobile) .mobile-overlay-content .chat-footer {
         border-top: none;
         margin-top: 12px;
         padding-top: 0;
     }
 
-    .mobile-overlay-content .chat-footer a {
+:where(html.kos-mobile) .mobile-overlay-content .chat-footer a {
         display: inline-flex;
         align-items: center;
         padding: 14px 24px;
@@ -3259,10 +3268,11 @@ html:not(.kos-mobile) .window.window-open {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
     }
 
-    /* ===================
+/* ===================
        iOS-STYLE SKILLS ON MOBILE
        =================== */
-    .mobile-overlay-content .skills-section {
+
+:where(html.kos-mobile) .mobile-overlay-content .skills-section {
         background: var(--surface);
         border: none;
         border-radius: 16px;
@@ -3271,20 +3281,20 @@ html:not(.kos-mobile) .window.window-open {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
 
-    .mobile-overlay-content .skills-header {
+:where(html.kos-mobile) .mobile-overlay-content .skills-header {
         font-size: 15px;
         font-weight: 600;
         margin-bottom: 12px;
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
     }
 
-    .mobile-overlay-content .skills-list {
+:where(html.kos-mobile) .mobile-overlay-content .skills-list {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
     }
 
-    .mobile-overlay-content .skill {
+:where(html.kos-mobile) .mobile-overlay-content .skill {
         font-size: 12px;
         padding: 4px 10px;
         border-radius: 16px;
@@ -3292,7 +3302,7 @@ html:not(.kos-mobile) .window.window-open {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
     }
 
-    .mobile-overlay-content .tools-divider {
+:where(html.kos-mobile) .mobile-overlay-content .tools-divider {
         background: var(--surface);
         border: none;
         border-radius: 16px;
@@ -3301,7 +3311,7 @@ html:not(.kos-mobile) .window.window-open {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
 
-    .mobile-overlay-content .tools-divider h4 {
+:where(html.kos-mobile) .mobile-overlay-content .tools-divider h4 {
         font-size: 15px;
         font-weight: 600;
         margin-bottom: 12px;
@@ -3310,16 +3320,17 @@ html:not(.kos-mobile) .window.window-open {
         padding: 0;
     }
 
-    /* ===================
+/* ===================
        iOS-STYLE VALUES ON MOBILE
        =================== */
-    .mobile-overlay-content .values-grid {
+
+:where(html.kos-mobile) .mobile-overlay-content .values-grid {
         display: flex;
         flex-direction: column;
         gap: 12px;
     }
 
-    .mobile-overlay-content .value-card {
+:where(html.kos-mobile) .mobile-overlay-content .value-card {
         background: var(--surface);
         border: none;
         border-radius: 16px;
@@ -3328,30 +3339,31 @@ html:not(.kos-mobile) .window.window-open {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
 
-    .mobile-overlay-content .value-card h4 {
+:where(html.kos-mobile) .mobile-overlay-content .value-card h4 {
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 6px;
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
     }
 
-    .mobile-overlay-content .value-card p {
+:where(html.kos-mobile) .mobile-overlay-content .value-card p {
         font-size: 15px;
         line-height: 1.5;
         color: var(--text-muted);
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
     }
 
-    /* ===================
+/* ===================
        iOS-STYLE EXPERIENCE ON MOBILE
        =================== */
-    .mobile-overlay-content .exp-list {
+
+:where(html.kos-mobile) .mobile-overlay-content .exp-list {
         display: flex;
         flex-direction: column;
         gap: 12px;
     }
 
-    .mobile-overlay-content .exp-item {
+:where(html.kos-mobile) .mobile-overlay-content .exp-item {
         background: var(--surface);
         border: none;
         border-radius: 16px;
@@ -3365,7 +3377,7 @@ html:not(.kos-mobile) .window.window-open {
         position: relative;
     }
 
-    .mobile-overlay-content .exp-item::after {
+:where(html.kos-mobile) .mobile-overlay-content .exp-item::after {
         content: '›';
         font-size: 20px;
         color: var(--text-muted);
@@ -3375,97 +3387,99 @@ html:not(.kos-mobile) .window.window-open {
         transition: transform 0.2s ease;
     }
 
-    .mobile-overlay-content .exp-item.open::after {
+:where(html.kos-mobile) .mobile-overlay-content .exp-item.open::after {
         transform: rotate(90deg);
     }
 
-    .mobile-overlay-content .exp-icon {
+:where(html.kos-mobile) .mobile-overlay-content .exp-icon {
         width: 48px;
         height: 48px;
         border-radius: 12px;
         flex-shrink: 0;
     }
 
-    .mobile-overlay-content .exp-icon img {
+:where(html.kos-mobile) .mobile-overlay-content .exp-icon img {
         border-radius: 12px;
     }
 
-    /* Hurd AI needs black background for logo visibility */
-    .mobile-overlay-content .exp-icon img[alt="HURD AI"] {
+/* Hurd AI needs black background for logo visibility */
+
+:where(html.kos-mobile) .mobile-overlay-content .exp-icon img[alt="HURD AI"] {
         background: #000;
         padding: 4px;
     }
 
-    /* Rocket Lawyer uses square logo on mobile */
-    .mobile-overlay-content .exp-icon img[alt="Rocket Lawyer"] {
+/* Rocket Lawyer uses square logo on mobile */
+
+:where(html.kos-mobile) .mobile-overlay-content .exp-icon img[alt="Rocket Lawyer"] {
         content: url('https://raw.githubusercontent.com/kevinmmiddleton/about/main/images/rocket-lawyer-logo-sq.png');
     }
 
-    .mobile-overlay-content .exp-info {
+:where(html.kos-mobile) .mobile-overlay-content .exp-info {
         flex: 1;
         min-width: 120px;
     }
 
-    .mobile-overlay-content .exp-info h4 {
+:where(html.kos-mobile) .mobile-overlay-content .exp-info h4 {
         font-family: var(--font-sans);
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 2px;
     }
 
-    .mobile-overlay-content .exp-info h4 a {
+:where(html.kos-mobile) .mobile-overlay-content .exp-info h4 a {
         color: var(--text);
         text-decoration: none;
     }
 
-    .mobile-overlay-content .exp-meta {
+:where(html.kos-mobile) .mobile-overlay-content .exp-meta {
         font-size: 13px;
         color: var(--text-muted);
     }
 
-    .mobile-overlay-content .exp-right {
+:where(html.kos-mobile) .mobile-overlay-content .exp-right {
         width: 100%;
         display: flex;
         flex-direction: column;
         gap: 2px;
     }
 
-    .mobile-overlay-content .exp-role {
+:where(html.kos-mobile) .mobile-overlay-content .exp-role {
         font-size: 14px;
         font-weight: 500;
         color: var(--text);
     }
 
-    .mobile-overlay-content .exp-date {
+:where(html.kos-mobile) .mobile-overlay-content .exp-date {
         font-size: 13px;
         color: var(--text-muted);
     }
 
-    .mobile-overlay-content .exp-detail {
+:where(html.kos-mobile) .mobile-overlay-content .exp-detail {
         width: 100%;
         padding-top: 12px;
         border-top: 1px solid var(--border);
         margin-top: 4px;
     }
 
-    .mobile-overlay-content .exp-detail p {
+:where(html.kos-mobile) .mobile-overlay-content .exp-detail p {
         font-size: 15px;
         line-height: 1.6;
         color: var(--text);
         margin-bottom: 12px;
     }
 
-    .mobile-overlay-content .exp-highlights {
+:where(html.kos-mobile) .mobile-overlay-content .exp-highlights {
         font-size: 14px;
         line-height: 1.5;
         padding-left: 20px;
     }
 
-    .mobile-overlay-content .exp-highlights li {
+:where(html.kos-mobile) .mobile-overlay-content .exp-highlights li {
         margin-bottom: 8px;
     }
 
-    .mobile-overlay-content .exp-images {
+:where(html.kos-mobile) .mobile-overlay-content .exp-images {
         display: flex;
         gap: 8px;
         overflow-x: auto;
@@ -3473,29 +3487,30 @@ html:not(.kos-mobile) .window.window-open {
         -webkit-overflow-scrolling: touch;
     }
 
-    .mobile-overlay-content .exp-img {
+:where(html.kos-mobile) .mobile-overlay-content .exp-img {
         height: 120px;
         width: auto;
         border-radius: 8px;
         flex-shrink: 0;
     }
 
-    .mobile-overlay-content .tags {
+:where(html.kos-mobile) .mobile-overlay-content .tags {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
         margin-top: 12px;
     }
 
-    .mobile-overlay-content .tag {
+:where(html.kos-mobile) .mobile-overlay-content .tag {
         font-size: 12px;
         padding: 4px 10px;
         border-radius: 8px;
     }
 
-    /* Mobile game overlay styles - must override .window rules and escape hidden parent */
-    .window.mobile-active-game,
-    .game-window.mobile-active-game {
+/* Mobile game overlay styles - must override .window rules and escape hidden parent */
+
+:where(html.kos-mobile) .window.mobile-active-game,
+:where(html.kos-mobile) .game-window.mobile-active-game {
         position: fixed !important;
         inset: 0 !important;
         top: 0 !important;
@@ -3514,33 +3529,35 @@ html:not(.kos-mobile) .window.window-open {
         background: var(--game-bg) !important;
     }
 
-    .mobile-active-game .window-header {
+:where(html.kos-mobile) .mobile-active-game .window-header {
         position: relative;
         flex-shrink: 0;
         background: var(--game-bg);
         border-bottom: 1px solid var(--game-border);
     }
 
-    /* Hide title, dots, and path in mobile game header - only show close button */
-    .mobile-active-game .window-header .window-dots,
-    .mobile-active-game .window-header .window-title,
-    .mobile-active-game .window-header .window-path {
+/* Hide title, dots, and path in mobile game header - only show close button */
+
+:where(html.kos-mobile) .mobile-active-game .window-header .window-dots,
+:where(html.kos-mobile) .mobile-active-game .window-header .window-title,
+:where(html.kos-mobile) .mobile-active-game .window-header .window-path {
         display: none;
     }
 
-    /* Hide "See All Games" links since we have Close in header */
-    .mobile-active-game .see-all-games {
+/* Hide "See All Games" links since we have Close in header */
+
+:where(html.kos-mobile) .mobile-active-game .see-all-games {
         display: none !important;
     }
 
-    .mobile-active-game .window-content,
-    .mobile-active-game .game-container {
+:where(html.kos-mobile) .mobile-active-game .window-content,
+:where(html.kos-mobile) .mobile-active-game .game-container {
         flex: 1;
         overflow-y: auto;
         max-height: none !important;
     }
 
-    .mobile-game-back-btn {
+:where(html.kos-mobile) .mobile-game-back-btn {
         position: absolute;
         right: 16px;
         top: 50%;
@@ -3560,29 +3577,30 @@ html:not(.kos-mobile) .window.window-open {
         -webkit-tap-highlight-color: transparent;
     }
 
-    .mobile-game-back-btn svg {
+:where(html.kos-mobile) .mobile-game-back-btn svg {
         width: 16px;
         height: 16px;
     }
 
-    .mobile-game-back-btn:active {
+:where(html.kos-mobile) .mobile-game-back-btn:active {
         background: rgba(255, 255, 255, 0.25);
     }
 
-    #connect {
+:where(html.kos-mobile) #connect {
         display: none !important;
     }
 
-    #games {
+:where(html.kos-mobile) #games {
         order: 90;
     }
 
-    /* Game windows should be full width like other windows */
-    .game-window {
+/* Game windows should be full width like other windows */
+
+:where(html.kos-mobile) .game-window {
         width: 100%;
     }
 
-    .window {
+:where(html.kos-mobile) .window {
         position: relative !important;
         width: 100% !important;
         max-height: none !important;
@@ -3592,63 +3610,71 @@ html:not(.kos-mobile) .window.window-open {
         left: auto !important;
     }
 
-    /* Hide individual game windows from mobile scroll - they load inside games folder */
-    /* MUST come after .window display:flex rule to override it */
-    #invaders,
-    #tetris,
-    #bugsquash,
-    #runner,
-    #snake,
-    #standup {
+/* Hide individual game windows from mobile scroll - they load inside games folder */
+
+/* MUST come after .window display:flex rule to override it */
+
+:where(html.kos-mobile) #invaders,
+:where(html.kos-mobile) #tetris,
+:where(html.kos-mobile) #bugsquash,
+:where(html.kos-mobile) #runner,
+:where(html.kos-mobile) #snake,
+:where(html.kos-mobile) #standup {
         display: none !important;
     }
-    
-    /* When a game is active on mobile, show it as full-screen overlay */
-    #invaders.mobile-active-game,
-    #tetris.mobile-active-game,
-    #bugsquash.mobile-active-game,
-    #runner.mobile-active-game,
-    #snake.mobile-active-game,
-    #standup.mobile-active-game {
+
+/* When a game is active on mobile, show it as full-screen overlay */
+
+:where(html.kos-mobile) #invaders.mobile-active-game,
+:where(html.kos-mobile) #tetris.mobile-active-game,
+:where(html.kos-mobile) #bugsquash.mobile-active-game,
+:where(html.kos-mobile) #runner.mobile-active-game,
+:where(html.kos-mobile) #snake.mobile-active-game,
+:where(html.kos-mobile) #standup.mobile-active-game {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
         max-width: 100% !important;
     }
-    
-    /* Hide window dots on active mobile games */
-    .mobile-active-game .window-dots {
+
+/* Hide window dots on active mobile games */
+
+:where(html.kos-mobile) .mobile-active-game .window-dots {
         display: none !important;
     }
 
-    /* Hide games folder when a game is active */
-    .mobile-hidden {
+/* Hide games folder when a game is active */
+
+:where(html.kos-mobile) .mobile-hidden {
         display: none !important;
     }
 
-    /* Hide mobile dock and video tab when a game is fullscreen */
-    body:has(.mobile-active-game) .mobile-contact-bar,
-    body:has(.mobile-active-game) .mobile-video-tab {
+/* Hide mobile dock and video tab when a game is fullscreen */
+
+:where(html.kos-mobile) body:has(.mobile-active-game) .mobile-contact-bar,
+:where(html.kos-mobile) body:has(.mobile-active-game) .mobile-video-tab {
         display: none !important;
     }
-    
-    /* Reset games folder max-width on mobile */
-    #games {
+
+/* Reset games folder max-width on mobile */
+
+:where(html.kos-mobile) #games {
         max-width: 100% !important;
     }
 
-    /* Mobile game styling */
-    .game-window {
+/* Mobile game styling */
+
+:where(html.kos-mobile) .game-window {
         width: 100% !important;
         max-width: 100% !important;
     }
 
-    .game-container {
+:where(html.kos-mobile) .game-container {
         width: 100%;
         max-width: 100%;
     }
 
-    #gameCanvas {
+:where(html.kos-mobile) #gameCanvas {
         width: 100%;
         height: auto;
         max-width: 480px;
@@ -3656,7 +3682,7 @@ html:not(.kos-mobile) .window.window-open {
         display: block;
     }
 
-    #tetrisCanvas {
+:where(html.kos-mobile) #tetrisCanvas {
         width: 100%;
         height: auto;
         max-width: 240px;
@@ -3664,7 +3690,7 @@ html:not(.kos-mobile) .window.window-open {
         display: block;
     }
 
-    #runnerCanvas {
+:where(html.kos-mobile) #runnerCanvas {
         width: 100%;
         height: auto;
         max-width: 480px;
@@ -3672,7 +3698,7 @@ html:not(.kos-mobile) .window.window-open {
         display: block;
     }
 
-    #snakeCanvas {
+:where(html.kos-mobile) #snakeCanvas {
         width: 100%;
         height: auto;
         max-width: 320px;
@@ -3680,43 +3706,44 @@ html:not(.kos-mobile) .window.window-open {
         display: block;
     }
 
-    .runner-touch .touch-btn {
+:where(html.kos-mobile) .runner-touch .touch-btn {
         border-radius: 12px;
         height: 60px;
         font-size: 16px;
     }
 
-    .game-screen {
+:where(html.kos-mobile) .game-screen {
         padding: 30px 16px;
         min-height: 350px;
     }
 
-    .game-title {
+:where(html.kos-mobile) .game-title {
         font-size: 22px;
     }
 
-    .game-subtitle {
+:where(html.kos-mobile) .game-subtitle {
         font-size: 12px;
     }
 
-    .game-flavor {
+:where(html.kos-mobile) .game-flavor {
         font-size: 11px;
     }
 
-    .game-instructions {
+:where(html.kos-mobile) .game-instructions {
         font-size: 11px;
     }
 
-    .game-over-cta {
+:where(html.kos-mobile) .game-over-cta {
         padding: 16px 8px;
     }
 
-    .game-over-bio {
+:where(html.kos-mobile) .game-over-bio {
         font-size: 11px;
     }
 
-    /* Touch Controls */
-    .touch-controls {
+/* Touch Controls */
+
+:where(html.kos-mobile) .touch-controls {
         display: none;
         justify-content: space-between;
         align-items: center;
@@ -3725,11 +3752,11 @@ html:not(.kos-mobile) .window.window-open {
         border-top: 1px solid var(--game-border);
     }
 
-    .touch-controls.visible {
+:where(html.kos-mobile) .touch-controls.visible {
         display: flex !important;
     }
 
-    .touch-btn {
+:where(html.kos-mobile) .touch-btn {
         width: 70px;
         height: 70px;
         font-size: 28px;
@@ -3746,12 +3773,12 @@ html:not(.kos-mobile) .window.window-open {
         transition: background 0.1s, border-color 0.1s;
     }
 
-    .touch-btn:active {
+:where(html.kos-mobile) .touch-btn:active {
         background: var(--blue);
         border-color: var(--blue);
     }
 
-    .touch-autofire {
+:where(html.kos-mobile) .touch-autofire {
         font-family: var(--font-mono);
         font-size: 10px;
         color: var(--mint);
@@ -3759,8 +3786,9 @@ html:not(.kos-mobile) .window.window-open {
         letter-spacing: 1px;
     }
 
-    /* Mobile iPhone-style Dock */
-    .mobile-contact-bar {
+/* Mobile iPhone-style Dock */
+
+:where(html.kos-mobile) .mobile-contact-bar {
         display: flex;
         position: fixed;
         bottom: 12px;
@@ -3785,7 +3813,7 @@ html:not(.kos-mobile) .window.window-open {
             0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
-    [data-theme="dark"] .mobile-contact-bar {
+[data-theme="dark"]:where(html.kos-mobile) .mobile-contact-bar {
         background: rgba(30, 30, 35, 0.75);
         box-shadow:
             0 0 0 0.5px rgba(255, 255, 255, 0.1),
@@ -3793,7 +3821,7 @@ html:not(.kos-mobile) .window.window-open {
             0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
-    .mobile-contact-btn {
+:where(html.kos-mobile) .mobile-contact-btn {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -3808,17 +3836,17 @@ html:not(.kos-mobile) .window.window-open {
         transition: transform 0.1s;
     }
 
-    .mobile-contact-btn:active {
+:where(html.kos-mobile) .mobile-contact-btn:active {
         transform: scale(0.9);
     }
 
-    .mobile-btn-icon {
+:where(html.kos-mobile) .mobile-btn-icon {
         font-size: 52px;
         line-height: 1;
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
-    .mobile-btn-label {
+:where(html.kos-mobile) .mobile-btn-label {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 11px;
         font-weight: 500;
@@ -3826,34 +3854,36 @@ html:not(.kos-mobile) .window.window-open {
         opacity: 0.8;
     }
 
-    .mobile-contact-cta {
+:where(html.kos-mobile) .mobile-contact-cta {
         background: transparent;
     }
 
-    .mobile-contact-cta .mobile-btn-label {
+:where(html.kos-mobile) .mobile-contact-cta .mobile-btn-label {
         color: var(--blue);
         opacity: 1;
     }
 
-    /* Mobile folder icon in contact bar */
-    .mobile-btn-icon.mobile-folder-icon {
+/* Mobile folder icon in contact bar */
+
+:where(html.kos-mobile) .mobile-btn-icon.mobile-folder-icon {
         font-size: inherit;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .mobile-btn-icon .folder-mini-grid {
+:where(html.kos-mobile) .mobile-btn-icon .folder-mini-grid {
         width: 52px;
         height: 52px;
         font-size: 18px;
         border-radius: 12px;
     }
 
-    /* ===================
+/* ===================
        MOBILE HIDDEN FOLDER POPUP
        =================== */
-    .mobile-hidden-folder {
+
+:where(html.kos-mobile) .mobile-hidden-folder {
         display: none;
         position: fixed;
         bottom: 100px;
@@ -3872,25 +3902,25 @@ html:not(.kos-mobile) .window.window-open {
             0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
-    [data-theme="dark"] .mobile-hidden-folder {
+[data-theme="dark"]:where(html.kos-mobile) .mobile-hidden-folder {
         background: rgba(40, 40, 45, 0.9);
         box-shadow:
             0 0 0 0.5px rgba(255, 255, 255, 0.1),
             0 8px 32px rgba(0, 0, 0, 0.4);
     }
 
-    .mobile-hidden-folder.open {
+:where(html.kos-mobile) .mobile-hidden-folder.open {
         display: block;
         opacity: 1;
         transform: translateX(-50%) scale(1);
     }
 
-    .hidden-folder-header {
+:where(html.kos-mobile) .hidden-folder-header {
         text-align: center;
         padding: 4px 8px 12px;
     }
 
-    .hidden-folder-title {
+:where(html.kos-mobile) .hidden-folder-title {
         font-family: var(--font-mono);
         font-size: 13px;
         font-weight: 600;
@@ -3898,13 +3928,13 @@ html:not(.kos-mobile) .window.window-open {
         opacity: 0.7;
     }
 
-    .hidden-folder-grid {
+:where(html.kos-mobile) .hidden-folder-grid {
         display: flex;
         gap: 8px;
         justify-content: center;
     }
 
-    .hidden-folder-item {
+:where(html.kos-mobile) .hidden-folder-item {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -3918,25 +3948,26 @@ html:not(.kos-mobile) .window.window-open {
         transition: background 0.15s, transform 0.1s;
     }
 
-    .hidden-folder-item:active {
+:where(html.kos-mobile) .hidden-folder-item:active {
         transform: scale(0.95);
         background: rgba(128, 128, 128, 0.2);
     }
 
-    .hidden-folder-item .icon-emoji {
+:where(html.kos-mobile) .hidden-folder-item .icon-emoji {
         font-size: 32px;
         line-height: 1;
     }
 
-    .hidden-folder-item .icon-label {
+:where(html.kos-mobile) .hidden-folder-item .icon-label {
         font-family: var(--font-mono);
         font-size: 10px;
         color: var(--text);
         opacity: 0.8;
     }
 
-    /* Backdrop when folder is open */
-    .mobile-hidden-backdrop {
+/* Backdrop when folder is open */
+
+:where(html.kos-mobile) .mobile-hidden-backdrop {
         display: none;
         position: fixed;
         inset: 0;
@@ -3944,14 +3975,15 @@ html:not(.kos-mobile) .window.window-open {
         z-index: 999;
     }
 
-    .mobile-hidden-backdrop.active {
+:where(html.kos-mobile) .mobile-hidden-backdrop.active {
         display: block;
     }
 
-    /* ===================
+/* ===================
        MOBILE GAMES FOLDER POPUP (iPhone-style)
        =================== */
-    .mobile-folder-backdrop {
+
+:where(html.kos-mobile) .mobile-folder-backdrop {
         display: none;
         position: fixed;
         inset: 0;
@@ -3959,11 +3991,11 @@ html:not(.kos-mobile) .window.window-open {
         z-index: 1003;
     }
 
-    .mobile-folder-backdrop.active {
+:where(html.kos-mobile) .mobile-folder-backdrop.active {
         display: block;
     }
 
-    .mobile-folder-popup {
+:where(html.kos-mobile) .mobile-folder-popup {
         display: none;
         position: fixed;
         top: 50%;
@@ -3984,25 +4016,25 @@ html:not(.kos-mobile) .window.window-open {
             0 16px 48px rgba(0, 0, 0, 0.25);
     }
 
-    [data-theme="dark"] .mobile-folder-popup {
+[data-theme="dark"]:where(html.kos-mobile) .mobile-folder-popup {
         background: rgba(40, 40, 45, 0.95);
         box-shadow:
             0 0 0 0.5px rgba(255, 255, 255, 0.1),
             0 16px 48px rgba(0, 0, 0, 0.5);
     }
 
-    .mobile-folder-popup.open {
+:where(html.kos-mobile) .mobile-folder-popup.open {
         display: block;
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
     }
 
-    .mobile-folder-header {
+:where(html.kos-mobile) .mobile-folder-header {
         text-align: center;
         padding: 4px 8px 10px;
     }
 
-    .mobile-folder-title {
+:where(html.kos-mobile) .mobile-folder-title {
         /* iOS folder titles are system sans, not mono */
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 16px;
@@ -4010,13 +4042,13 @@ html:not(.kos-mobile) .window.window-open {
         color: var(--text);
     }
 
-    .mobile-folder-grid {
+:where(html.kos-mobile) .mobile-folder-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 12px;
     }
 
-    .mobile-folder-item {
+:where(html.kos-mobile) .mobile-folder-item {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -4030,17 +4062,17 @@ html:not(.kos-mobile) .window.window-open {
         transition: background 0.15s, transform 0.1s;
     }
 
-    .mobile-folder-item:active {
+:where(html.kos-mobile) .mobile-folder-item:active {
         transform: scale(0.92);
         background: rgba(128, 128, 128, 0.2);
     }
 
-    .mobile-folder-item .icon-emoji {
+:where(html.kos-mobile) .mobile-folder-item .icon-emoji {
         font-size: 36px;
         line-height: 1;
     }
 
-    .mobile-folder-item .icon-label {
+:where(html.kos-mobile) .mobile-folder-item .icon-label {
         font-family: var(--font-mono);
         font-size: 11px;
         color: var(--text);
@@ -4048,44 +4080,49 @@ html:not(.kos-mobile) .window.window-open {
         text-align: center;
     }
 
-    /* Adjust desktop padding for sticky bar */
-    .desktop {
+/* Adjust desktop padding for sticky bar */
+
+:where(html.kos-mobile) .desktop {
         padding-bottom: calc(var(--taskbar) + 90px) !important;
     }
 
-    /* Hide taskbar on mobile */
-    .taskbar {
+/* Hide taskbar on mobile */
+
+:where(html.kos-mobile) .taskbar {
         display: none;
     }
 
-    /* Show/hide based on device */
-    .mobile-only {
+/* Show/hide based on device */
+
+:where(html.kos-mobile) .mobile-only {
         display: block !important;
     }
 
-    .dock-item.mobile-only {
+:where(html.kos-mobile) .dock-item.mobile-only {
         display: flex !important;
     }
 
-    .desktop-only {
+:where(html.kos-mobile) .desktop-only {
         display: none !important;
     }
 
-    .hero-ascii {
+:where(html.kos-mobile) .hero-ascii {
         font-size: 5px;
     }
 
-    /* Hero links scroll to sections on mobile */
-    .hero-link {
+/* Hero links scroll to sections on mobile */
+
+:where(html.kos-mobile) .hero-link {
         scroll-behavior: smooth;
     }
 
-    /* Profile layout for mobile */
-    .profile-grid {
+/* Profile layout for mobile */
+
+:where(html.kos-mobile) .profile-grid {
         display: block;
     }
 
-    .profile-photos {
+:where(html.kos-mobile) .profile-photos {
         float: none;
         margin-right: 0;
         margin-bottom: 16px;
@@ -4096,69 +4133,70 @@ html:not(.kos-mobile) .window.window-open {
         margin-right: auto;
     }
 
-    .profile-img {
+:where(html.kos-mobile) .profile-img {
         width: 100%;
         height: auto;
         aspect-ratio: 1;
         max-width: 280px;
     }
 
-    .profile-photos-row {
+:where(html.kos-mobile) .profile-photos-row {
         gap: 6px;
     }
 
-    .profile-thumb {
+:where(html.kos-mobile) .profile-thumb {
         width: 65px;
         height: 55px;
     }
 
-    .profile-text {
+:where(html.kos-mobile) .profile-text {
         overflow: hidden;
     }
 
-    .profile-callout {
+:where(html.kos-mobile) .profile-callout {
         clear: both;
         width: 100%;
     }
 
-    .profile-text p {
+:where(html.kos-mobile) .profile-text p {
         width: 100%;
     }
 
-    #about .window-content {
+:where(html.kos-mobile) #about .window-content {
         padding: 20px 16px;
     }
 
-    .values-grid,
-    .projects-grid {
+:where(html.kos-mobile) .values-grid,
+:where(html.kos-mobile) .projects-grid {
         grid-template-columns: 1fr;
     }
 
-    .pills {
+:where(html.kos-mobile) .pills {
         grid-template-columns: repeat(2, auto);
     }
 
-    .exp-item {
+:where(html.kos-mobile) .exp-item {
         grid-template-columns: 36px 1fr;
     }
 
-    .exp-icon {
+:where(html.kos-mobile) .exp-icon {
         width: 36px;
         height: 36px;
     }
 
-    .exp-right {
+:where(html.kos-mobile) .exp-right {
         grid-column: 2;
         text-align: left;
         margin-top: -4px;
     }
 
-    .taskbar-center {
+:where(html.kos-mobile) .taskbar-center {
         display: none;
     }
 
-    /* iOS-style music widget above dock */
-    .music-player {
+/* iOS-style music widget above dock */
+
+:where(html.kos-mobile) .music-player {
         display: none;
         position: fixed;
         bottom: calc(130px + env(safe-area-inset-bottom, 0px));
@@ -4183,18 +4221,20 @@ html:not(.kos-mobile) .window.window-open {
         gap: 14px;
     }
 
-    .music-player[style*="display: block"] {
+:where(html.kos-mobile) .music-player[style*="display: block"] {
         display: flex !important;
     }
 
-    /* Hide macOS header and progress on mobile */
-    .music-player .player-header,
-    .music-player .player-progress-container {
+/* Hide macOS header and progress on mobile */
+
+:where(html.kos-mobile) .music-player .player-header,
+:where(html.kos-mobile) .music-player .player-progress-container {
         display: none;
     }
 
-    /* Album art placeholder - left side */
-    .music-player::before {
+/* Album art placeholder - left side */
+
+:where(html.kos-mobile) .music-player::before {
         content: '🎵';
         display: flex;
         align-items: center;
@@ -4208,8 +4248,9 @@ html:not(.kos-mobile) .window.window-open {
         flex-shrink: 0;
     }
 
-    /* Right side: info and controls together */
-    .music-player .player-info {
+/* Right side: info and controls together */
+
+:where(html.kos-mobile) .music-player .player-info {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -4220,8 +4261,9 @@ html:not(.kos-mobile) .window.window-open {
         margin: 0;
     }
 
-    /* NOW PLAYING label */
-    .music-player .player-now-playing {
+/* NOW PLAYING label */
+
+:where(html.kos-mobile) .music-player .player-now-playing {
         display: block;
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 10px;
@@ -4232,7 +4274,7 @@ html:not(.kos-mobile) .window.window-open {
         margin-bottom: 2px;
     }
 
-    .music-player .player-title {
+:where(html.kos-mobile) .music-player .player-title {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
         font-size: 16px;
         font-weight: 600;
@@ -4244,7 +4286,7 @@ html:not(.kos-mobile) .window.window-open {
         line-height: 1.2;
     }
 
-    .music-player .player-artist {
+:where(html.kos-mobile) .music-player .player-artist {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 14px;
         color: rgba(255, 255, 255, 0.7);
@@ -4255,8 +4297,9 @@ html:not(.kos-mobile) .window.window-open {
         line-height: 1.2;
     }
 
-    /* Controls positioned to the right, below music icon */
-    .music-player .player-controls {
+/* Controls positioned to the right, below music icon */
+
+:where(html.kos-mobile) .music-player .player-controls {
         position: absolute;
         right: 14px;
         bottom: 14px;
@@ -4274,7 +4317,7 @@ html:not(.kos-mobile) .window.window-open {
         margin: 0;
     }
 
-    .music-player .player-btn {
+:where(html.kos-mobile) .music-player .player-btn {
         width: 30px;
         height: 30px;
         font-size: 13px;
@@ -4288,26 +4331,27 @@ html:not(.kos-mobile) .window.window-open {
         padding: 0;
     }
 
-    .music-player .player-btn:hover {
+:where(html.kos-mobile) .music-player .player-btn:hover {
         background: transparent !important;
     }
 
-    .music-player .player-btn:active {
+:where(html.kos-mobile) .music-player .player-btn:active {
         opacity: 0.6;
         background: transparent !important;
     }
 
-    .music-player .player-btn.play-btn {
+:where(html.kos-mobile) .music-player .player-btn.play-btn {
         font-size: 15px;
         background: transparent !important;
     }
 
-    .music-player .player-btn.play-btn:hover {
+:where(html.kos-mobile) .music-player .player-btn.play-btn:hover {
         background: transparent !important;
     }
 
-    /* Music note icon top right */
-    .music-player::after {
+/* Music note icon top right */
+
+:where(html.kos-mobile) .music-player::after {
         content: '♫';
         display: block;
         position: absolute;
@@ -4317,8 +4361,9 @@ html:not(.kos-mobile) .window.window-open {
         color: rgba(255, 255, 255, 0.5);
     }
 
-    /* Dismiss button - glass style with minus */
-    .music-player .mobile-dismiss {
+/* Dismiss button - glass style with minus */
+
+:where(html.kos-mobile) .music-player .mobile-dismiss {
         display: flex;
         position: absolute;
         top: -10px;
@@ -4340,16 +4385,17 @@ html:not(.kos-mobile) .window.window-open {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
-    .music-player .mobile-dismiss:active {
+:where(html.kos-mobile) .music-player .mobile-dismiss:active {
         background: rgba(80, 80, 80, 0.9);
     }
 
-    .photo-window {
+:where(html.kos-mobile) .photo-window {
         display: none !important;
     }
 
-    /* Experience images 2x2 grid on mobile */
-    .exp-images {
+/* Experience images 2x2 grid on mobile */
+
+:where(html.kos-mobile) .exp-images {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
@@ -4358,12 +4404,12 @@ html:not(.kos-mobile) .window.window-open {
         margin: 0 auto 12px;
     }
 
-    .exp-img {
+:where(html.kos-mobile) .exp-img {
         width: 100%;
         max-width: 130px;
         height: 80px;
     }
-}
+
 
 /* ===================
    VIRUS ICON
@@ -4716,25 +4762,25 @@ html:not(.kos-mobile) .window.window-open {
     color: var(--text-dim);
 }
 
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    .folder-grid {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+:where(html.kos-mobile) .folder-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
         padding: 12px;
     }
-    
-    .folder-icon {
+
+:where(html.kos-mobile) .folder-icon {
         font-size: 32px;
     }
-    
-    .folder-label {
+
+:where(html.kos-mobile) .folder-label {
         font-size: 9px;
     }
-    
-    .folder-item {
+
+:where(html.kos-mobile) .folder-item {
         padding: 8px 4px;
     }
-}
+
 
 /* ===================
    GAME WINDOW
@@ -4986,26 +5032,26 @@ html:not(.kos-mobile) .window.window-open {
     max-height: 400px;
 }
 
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    .standup-game {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+:where(html.kos-mobile) .standup-game {
         height: auto;
         max-height: none;
         min-height: 400px;
     }
-    
-    .slack-messages {
+
+:where(html.kos-mobile) .slack-messages {
         max-height: 120px;
     }
-    
-    .slack-scramble {
+
+:where(html.kos-mobile) .slack-scramble {
         display: block !important;
         padding: 16px;
     }
-    
-    .scramble-words {
+
+:where(html.kos-mobile) .scramble-words {
         padding-bottom: 8px;
     }
-}
+
 
 .standup-slack {
     flex: 1;
@@ -5829,50 +5875,50 @@ html:not(.kos-mobile) .window.window-open {
 }
 
 /* Mobile responsive */
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    .interview-terminal {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+:where(html.kos-mobile) .interview-terminal {
         padding: 16px;
     }
 
-    .interview-scenario {
+:where(html.kos-mobile) .interview-scenario {
         font-size: 12px;
         line-height: 1.6;
     }
 
-    .iv-choice-btn {
+:where(html.kos-mobile) .iv-choice-btn {
         font-size: 12px;
         padding: 10px 14px;
     }
 
-    .interview-doom-hud {
+:where(html.kos-mobile) .interview-doom-hud {
         padding: 8px 10px;
         gap: 8px;
     }
 
-    .doom-face {
+:where(html.kos-mobile) .doom-face {
         font-size: 24px;
         min-width: 30px;
     }
 
-    .doom-label {
+:where(html.kos-mobile) .doom-label {
         font-size: 8px;
         min-width: 28px;
     }
 
-    .doom-bar {
+:where(html.kos-mobile) .doom-bar {
         min-width: 36px;
         height: 8px;
     }
 
-    .doom-value {
+:where(html.kos-mobile) .doom-value {
         font-size: 10px;
         min-width: 28px;
     }
 
-    .doom-ammo {
+:where(html.kos-mobile) .doom-ammo {
         font-size: 12px;
     }
-}
+
 
 /* ==========================================
    RECIPES.DB - Database Style
@@ -6180,35 +6226,40 @@ html:not(.kos-mobile) .window.window-open {
 }
 
 /* Mobile adjustments for recipes */
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    /* Hide desktop window chrome on mobile */
-    #recipesdb .window-header {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+/* Hide desktop window chrome on mobile */
+
+:where(html.kos-mobile) #recipesdb .window-header {
         display: none !important;
     }
 
-    /* Hide desktop table on mobile */
-    #recipesdb .db-table-wrapper {
+/* Hide desktop table on mobile */
+
+:where(html.kos-mobile) #recipesdb .db-table-wrapper {
         display: none !important;
     }
 
-    /* Disable window open animation on mobile for recipes */
-    #recipesdb.window-open {
+/* Disable window open animation on mobile for recipes */
+
+:where(html.kos-mobile) #recipesdb.window-open {
         animation: none !important;
         transform: none !important;
     }
 
-    #recipesdb.mobile-fullscreen-ready {
+:where(html.kos-mobile) #recipesdb.mobile-fullscreen-ready {
         opacity: 0 !important;
         transition: none !important;
     }
 
-    /* Hide desktop SQL toolbar */
-    #recipesdb .db-toolbar {
+/* Hide desktop SQL toolbar */
+
+:where(html.kos-mobile) #recipesdb .db-toolbar {
         display: none !important;
     }
 
-    /* Show and style iOS-like mobile header */
-    #recipesdb .recipes-mobile-header {
+/* Show and style iOS-like mobile header */
+
+:where(html.kos-mobile) #recipesdb .recipes-mobile-header {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -6220,7 +6271,7 @@ html:not(.kos-mobile) .window.window-open {
         position: relative;
     }
 
-    .recipes-mobile-close {
+:where(html.kos-mobile) .recipes-mobile-close {
         position: absolute;
         right: 16px;
         top: 50%;
@@ -6239,11 +6290,11 @@ html:not(.kos-mobile) .window.window-open {
         -webkit-tap-highlight-color: transparent;
     }
 
-    .recipes-mobile-close:active {
+:where(html.kos-mobile) .recipes-mobile-close:active {
         background: var(--border);
     }
 
-    .recipes-mobile-title {
+:where(html.kos-mobile) .recipes-mobile-title {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
         font-size: 17px;
         font-weight: 600;
@@ -6251,13 +6302,15 @@ html:not(.kos-mobile) .window.window-open {
         margin: 0;
     }
 
-    .recipes-mobile-spacer {
+:where(html.kos-mobile) .recipes-mobile-spacer {
         display: none;
     }
 
-    /* Show photo grid on mobile - Photos app style */
-    /* Pinterest-style masonry layout */
-    #recipesdb .recipes-photo-grid {
+/* Show photo grid on mobile - Photos app style */
+
+/* Pinterest-style masonry layout */
+
+:where(html.kos-mobile) #recipesdb .recipes-photo-grid {
         display: block;
         column-count: 2;
         column-gap: 8px;
@@ -6265,7 +6318,7 @@ html:not(.kos-mobile) .window.window-open {
         background: var(--bg);
     }
 
-    .recipe-photo-item {
+:where(html.kos-mobile) .recipe-photo-item {
         break-inside: avoid;
         margin-bottom: 8px;
         border-radius: 16px;
@@ -6276,12 +6329,12 @@ html:not(.kos-mobile) .window.window-open {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
-    .recipe-photo-item:active {
+:where(html.kos-mobile) .recipe-photo-item:active {
         opacity: 0.8;
         transform: scale(0.98);
     }
 
-    .recipe-photo-item img {
+:where(html.kos-mobile) .recipe-photo-item img {
         width: 100%;
         height: auto;
         display: block;
@@ -6296,7 +6349,7 @@ html:not(.kos-mobile) .window.window-open {
         object-fit: cover;
     }
 
-    .recipe-photo-item .recipe-photo-title {
+:where(html.kos-mobile) .recipe-photo-item .recipe-photo-title {
         padding: 10px 12px;
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 14px;
@@ -6305,7 +6358,7 @@ html:not(.kos-mobile) .window.window-open {
         line-height: 1.3;
     }
 
-    .recipe-photo-placeholder {
+:where(html.kos-mobile) .recipe-photo-placeholder {
         width: 100%;
         height: 120px;
         background: var(--surface-2);
@@ -6316,21 +6369,23 @@ html:not(.kos-mobile) .window.window-open {
         border-radius: 16px 16px 0 0;
     }
 
-    /* Window content - let it grow naturally */
-    #recipesdb .window-content {
+/* Window content - let it grow naturally */
+
+:where(html.kos-mobile) #recipesdb .window-content {
         flex: 1;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         background: var(--bg);
     }
 
-    /* Style the detail view for mobile - iOS recipe app style */
-    #recipesdb .db-detail {
+/* Style the detail view for mobile - iOS recipe app style */
+
+:where(html.kos-mobile) #recipesdb .db-detail {
         padding: 0 !important;
         background: var(--bg);
     }
 
-    #recipesdb .db-detail-header {
+:where(html.kos-mobile) #recipesdb .db-detail-header {
         display: flex;
         align-items: center;
         padding: 12px 16px;
@@ -6346,13 +6401,15 @@ html:not(.kos-mobile) .window.window-open {
         z-index: 100;
     }
 
-    /* Hide SQL query in detail view */
-    #recipesdb .db-detail-query {
+/* Hide SQL query in detail view */
+
+:where(html.kos-mobile) #recipesdb .db-detail-query {
         display: none !important;
     }
 
-    /* Style back button for iOS - like native nav */
-    #recipesdb .db-back-btn {
+/* Style back button for iOS - like native nav */
+
+:where(html.kos-mobile) #recipesdb .db-back-btn {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 17px;
         color: var(--blue);
@@ -6363,35 +6420,36 @@ html:not(.kos-mobile) .window.window-open {
         -webkit-tap-highlight-color: transparent;
     }
 
-    #recipesdb .db-back-btn:active {
+:where(html.kos-mobile) #recipesdb .db-back-btn:active {
         opacity: 0.5;
     }
 
-    #recipesdb .db-detail-content {
+:where(html.kos-mobile) #recipesdb .db-detail-content {
         padding: 0;
         padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
         max-height: none;
         overflow-y: visible;
     }
 
-    /* Recipe detail - hero image full width, no crop */
-    #recipesdb .db-detail-header-row {
+/* Recipe detail - hero image full width, no crop */
+
+:where(html.kos-mobile) #recipesdb .db-detail-header-row {
         display: flex;
         flex-direction: column;
         padding-top: calc(44px + env(safe-area-inset-top, 0px));
     }
 
-    #recipesdb .db-detail-img {
+:where(html.kos-mobile) #recipesdb .db-detail-img {
         width: 100%;
         height: auto;
         display: block;
     }
 
-    #recipesdb .db-detail-header-info {
+:where(html.kos-mobile) #recipesdb .db-detail-header-info {
         padding: 20px 16px 8px;
     }
 
-    #recipesdb .db-detail-title {
+:where(html.kos-mobile) #recipesdb .db-detail-title {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
         font-size: 28px;
         font-weight: 700;
@@ -6400,19 +6458,19 @@ html:not(.kos-mobile) .window.window-open {
         letter-spacing: -0.5px;
     }
 
-    #recipesdb .db-detail-meta {
+:where(html.kos-mobile) #recipesdb .db-detail-meta {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 15px;
         color: var(--text-muted);
         margin-top: 6px;
     }
 
-    #recipesdb .db-detail-meta a {
+:where(html.kos-mobile) #recipesdb .db-detail-meta a {
         color: var(--blue);
         text-decoration: none;
     }
 
-    #recipesdb .db-detail-intro {
+:where(html.kos-mobile) #recipesdb .db-detail-intro {
         margin: 24px 16px 0;
         padding: 14px 16px;
         background: var(--surface);
@@ -6424,8 +6482,9 @@ html:not(.kos-mobile) .window.window-open {
         line-height: 1.5;
     }
 
-    /* iOS grouped list style sections */
-    #recipesdb .db-detail-content h3 {
+/* iOS grouped list style sections */
+
+:where(html.kos-mobile) #recipesdb .db-detail-content h3 {
         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         font-size: 13px;
         font-weight: 600;
@@ -6438,8 +6497,8 @@ html:not(.kos-mobile) .window.window-open {
         border: none;
     }
 
-    #recipesdb .db-detail-content ul,
-    #recipesdb .db-detail-content ol {
+:where(html.kos-mobile) #recipesdb .db-detail-content ul,
+:where(html.kos-mobile) #recipesdb .db-detail-content ol {
         margin: 0 16px 0 16px;
         padding: 12px 16px;
         padding-left: 32px;
@@ -6452,24 +6511,24 @@ html:not(.kos-mobile) .window.window-open {
         list-style-position: outside;
     }
 
-    #recipesdb .db-detail-content ul {
+:where(html.kos-mobile) #recipesdb .db-detail-content ul {
         padding-left: 28px;
     }
 
-    #recipesdb .db-detail-content ol {
+:where(html.kos-mobile) #recipesdb .db-detail-content ol {
         padding-left: 32px;
     }
 
-    #recipesdb .db-detail-content li {
+:where(html.kos-mobile) #recipesdb .db-detail-content li {
         margin-bottom: 8px;
         padding-left: 4px;
     }
 
-    #recipesdb .db-detail-content li:last-child {
+:where(html.kos-mobile) #recipesdb .db-detail-content li:last-child {
         margin-bottom: 0;
     }
 
-    #recipesdb .db-detail-notes {
+:where(html.kos-mobile) #recipesdb .db-detail-notes {
         margin: 24px 16px 0;
         padding: 14px 16px;
         background: var(--surface);
@@ -6480,7 +6539,7 @@ html:not(.kos-mobile) .window.window-open {
         line-height: 1.5;
     }
 
-    #recipesdb .db-detail-notes strong {
+:where(html.kos-mobile) #recipesdb .db-detail-notes strong {
         color: var(--text);
         display: block;
         margin-bottom: 4px;
@@ -6490,12 +6549,13 @@ html:not(.kos-mobile) .window.window-open {
         font-weight: 600;
     }
 
-    /* Hide mobile contact bar when recipes is open */
-    .mobile-recipes-open ~ .mobile-contact-bar,
-    body:has(.mobile-recipes-open) .mobile-contact-bar {
+/* Hide mobile contact bar when recipes is open */
+
+:where(html.kos-mobile) .mobile-recipes-open ~ .mobile-contact-bar,
+:where(html.kos-mobile) body:has(.mobile-recipes-open) .mobile-contact-bar {
         display: none !important;
     }
-}
+
 
 /* ===================
    RECYCLE BIN WINDOW
@@ -6681,13 +6741,13 @@ html:not(.kos-mobile) .window.window-open {
 }
 
 /* Hide recycle/notepad/video on mobile */
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    .recycle-window,
-    .notepad-window,
-    .video-window {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+:where(html.kos-mobile) .recycle-window,
+:where(html.kos-mobile) .notepad-window,
+:where(html.kos-mobile) .video-window {
         display: none !important;
     }
-}
+
 
 /* ===================
    VIDEO WINDOW (Desktop)
@@ -6808,11 +6868,11 @@ html:not(.kos-mobile) .window.window-open {
     border-radius: 12px 0 0 12px;
 }
 
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    .mobile-video-tab {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+:where(html.kos-mobile) .mobile-video-tab {
         display: block;
     }
-}
+
 
 /* ===================
    MOBILE SHARE SHEET
@@ -7669,17 +7729,17 @@ html:not(.kos-mobile) .share-sheet-backdrop {
 }
 
 /* Hide macOS features on mobile */
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    .spotlight-overlay,
-    .notification-center,
-    .nc-backdrop,
-    .launchpad-overlay,
-    .mission-control,
-    .window-snap-preview,
-    .window-toolbar {
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+:where(html.kos-mobile) .spotlight-overlay,
+:where(html.kos-mobile) .notification-center,
+:where(html.kos-mobile) .nc-backdrop,
+:where(html.kos-mobile) .launchpad-overlay,
+:where(html.kos-mobile) .mission-control,
+:where(html.kos-mobile) .window-snap-preview,
+:where(html.kos-mobile) .window-toolbar {
         display: none !important;
     }
-}
+
 
 /* Respect reduced-motion preferences: collapse all animation/transition timing */
 @media (prefers-reduced-motion: reduce) {
@@ -8084,14 +8144,14 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
 /* The mobile contact bar and the Apps folder were sized for emoji at 52px and
    36px. A drawn glyph at that size is far too heavy, so they get their own
    sizes. The bar itself is frosted, so these need no tile of their own. */
-@media (max-width: 768px) {
-    .mobile-btn-icon:has(> svg) {
+/* [migrated from @media (max-width: 768px)... to class scoping] */
+:where(html.kos-mobile) .mobile-btn-icon:has(> svg) {
         display: grid;
         place-items: center;
         filter: none;
     }
 
-    .mobile-btn-icon > svg {
+:where(html.kos-mobile) .mobile-btn-icon > svg {
         width: 30px;
         height: 30px;
         display: block;
@@ -8099,20 +8159,21 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
         stroke-width: 1.9;
     }
 
-    .mobile-folder-item .icon-emoji > svg {
+:where(html.kos-mobile) .mobile-folder-item .icon-emoji > svg {
         width: 30px;
         height: 30px;
     }
 
-    /* The 3-up preview inside the Apps tile */
-    .folder-mini-grid > span > svg {
+/* The 3-up preview inside the Apps tile */
+
+:where(html.kos-mobile) .folder-mini-grid > span > svg {
         width: 14px;
         height: 14px;
         display: block;
         color: var(--ico-hue, var(--text));
         stroke-width: 2.2;
     }
-}
+
 
 /* Desktop icons sit straight on the wallpaper, which is the one surface in the
    OS with no backing of its own: the dock is frosted and the springboard is
@@ -8153,8 +8214,8 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
    The tile is --surface, so it is near-white in light and near-black in dark,
    which is the right way round: the light palette is deep, the dark palette is
    bright. Only drawn icons get a tile; the Apps folder already has its own. */
-@media (max-width: 768px) {
-    .mobile-grid-icon .icon-emoji:has(> svg) {
+/* [migrated from @media (max-width: 768px)... to class scoping] */
+:where(html.kos-mobile) .mobile-grid-icon .icon-emoji:has(> svg) {
         width: 58px;
         height: 58px;
         border-radius: 14px;
@@ -8165,11 +8226,11 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
         filter: none;
     }
 
-    .mobile-grid-icon .icon-emoji > svg {
+:where(html.kos-mobile) .mobile-grid-icon .icon-emoji > svg {
         width: 32px;
         height: 32px;
     }
-}
+
 
 /* ===================
    KEVBOT.AIM
@@ -8479,9 +8540,9 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
     color: var(--blue-hover);
 }
 
-@media (max-width: 768px) {
-    .str-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
+/* [migrated from @media (max-width: 768px)... to class scoping] */
+:where(html.kos-mobile) .str-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
 
 /* ===================
    TERMINAL.APP
@@ -8558,10 +8619,12 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
 /* the whole screen is a click target for the input */
 .term-wrap { cursor: text; }
 
-@media (max-width: 768px), (pointer: coarse) and (max-height: 500px) {
-    .term-scr { font-size: 12px; min-height: 12rem; }
-    .term-ps1, .term-in { font-size: 12px; }
-}
+/* [migrated from @media (max-width: 768px), (pointer: ... to class scoping] */
+:where(html.kos-mobile) .term-scr { font-size: 12px; min-height: 12rem; }
+
+:where(html.kos-mobile) .term-ps1,
+:where(html.kos-mobile) .term-in { font-size: 12px; }
+
 
 /* terminal.app dock icon.
    MynaUI Icons (MIT) (c) Praveen Juge - github.com/praveenjuge/mynaui-icons
@@ -8704,15 +8767,15 @@ html.kos-rotate-ok .kos-rotate-lock { display: none !important; }
    which is exactly when they have just finished reading the evidence. It now
    sits above the sheets, and the sheet content gets padding so the bar never
    covers the last line of what they were reading. */
-@media (max-width: 768px) {
-    .mobile-contact-bar {
+/* [migrated from @media (max-width: 768px)... to class scoping] */
+:where(html.kos-mobile) .mobile-contact-bar {
         z-index: 1005;
     }
 
-    .mobile-overlay-content {
+:where(html.kos-mobile) .mobile-overlay-content {
         padding-bottom: 132px;
     }
-}
+
 
 /* Games folder tiles use .folder-icon, a different hook from the springboard
    and dock, which is why the first sweep missed them. */
@@ -8810,8 +8873,8 @@ html.kos-rotate-ok .kos-rotate-lock { display: none !important; }
 
 /* Same on the mobile sheet: the clone needs the flex chain too, or the log
    falls back to content height inside a scrolling sheet. */
-@media (max-width: 768px) {
-    .mobile-overlay-content .aim-content {
+/* [migrated from @media (max-width: 768px)... to class scoping] */
+:where(html.kos-mobile) .mobile-overlay-content .aim-content {
         /* vh first as the fallback, then dvh: on a real phone 100vh includes the
            strip under Safari's collapsing toolbar, so a vh-only value overshoots
            and pushes the composer under the contact bar. */
@@ -8819,7 +8882,7 @@ html.kos-rotate-ok .kos-rotate-lock { display: none !important; }
         height: calc(100dvh - 260px);
         min-height: 20rem;
     }
-}
+
 
 /* .desktop-only is a show/hide utility, but its display:block clobbers the
    display:flex of whatever component it lands on, and at line 2358 it comes
@@ -12209,6 +12272,7 @@ html:not(.kos-mobile) #experience .window-content {
         background: var(--bg);
     }
 }
+
 @media (min-width: 769px) and (pointer: fine) {
     html.kos-mobile body > * {
         visibility: hidden !important;
