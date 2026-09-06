@@ -12191,3 +12191,29 @@ html:not(.kos-mobile) #experience .window-content {
         margin-top: -4px;
     }
 }
+
+/* ============================================================
+   VIEWPORT-CROSSING GUARD. Layout media queries flip instantly on
+   resize, but the surface class (kos-mobile) only updates via the
+   boundary reload — in that gap the old width-based styling renders
+   without its surface skin (the "ghost of old KevinOS"). When class
+   and viewport disagree, blank the frame; the reload repaints it in
+   the right mode. The conditions can't occur at load time: the head
+   script derives the class from the same formula.
+   ============================================================ */
+@media (max-width: 768px) {
+    html:not(.kos-mobile) body > * {
+        visibility: hidden !important;
+    }
+    html:not(.kos-mobile) body {
+        background: var(--bg);
+    }
+}
+@media (min-width: 769px) and (pointer: fine) {
+    html.kos-mobile body > * {
+        visibility: hidden !important;
+    }
+    html.kos-mobile body {
+        background: var(--bg);
+    }
+}
