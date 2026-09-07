@@ -5768,7 +5768,7 @@ const searchableItems = [
     { type: 'window', id: 'aim', glyph: 'claude.svg', ico: 'aim', icon: '💬', title: 'Claude', subtitle: 'claude · chat' },
     { type: 'window', id: 'connect', glyph: 'mail.png', ico: 'connect', icon: '📟', title: 'Mail', subtitle: 'Contact · connect' },
     // System actions
-    { type: 'action', id: 'theme', ico: 'halfmoon', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
+    { type: 'action', id: 'theme', glyph: 'darkmode.svg', ico: 'halfmoon', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
     // External links
     { type: 'link', id: 'email', glyph: 'mail.png', ico: 'email', icon: '📧', title: 'Email Kevin', subtitle: 'kevin@middleton.io', url: 'mailto:kevin@middleton.io' },
     { type: 'link', id: 'linkedin', ico: 'linkedin', icon: '💼', title: 'LinkedIn', subtitle: 'linkedin.com/in/kevinmiddleton', url: 'https://linkedin.com/in/kevinmiddleton' },
@@ -5987,7 +5987,9 @@ const controlCenter = document.getElementById('controlCenter');
 
 function refreshControlCenter() {
     if (!controlCenter) return;
-    document.getElementById('ccDarkBtn')?.classList.toggle('on', root.dataset.theme === 'dark');
+    const darkOn = root.dataset.theme === 'dark';
+    document.getElementById('ccDarkBtn')?.classList.toggle('on', darkOn);
+    document.getElementById('ccDarkGlyph')?.style.setProperty('--g', `url('images/glyphs/${darkOn ? 'darkmode' : 'lightmode'}.svg')`);
     document.getElementById('ccPartyBtn')?.classList.toggle('on', document.body.classList.contains('party-mode'));
     const t = playlist[currentTrack];
     if (t) {
