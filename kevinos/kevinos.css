@@ -2571,58 +2571,34 @@ html:where(.kos-mobile),
         color: var(--text);
     }
 
-:where(html.kos-mobile) .mobile-theme-toggle {
+/* Control Center opener — replaces the old dark/light pill; opens the same
+   Control Center panel as desktop (which owns Dark Mode now). */
+:where(html.kos-mobile) .mobile-cc-btn {
         position: absolute;
-        right: 16px;
+        right: 14px;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(120, 120, 140, 0.35);
-        border: none;
-        border-radius: 16px;
-        width: 56px;
+        width: 34px;
         height: 30px;
-        display: flex;
-        align-items: center;
-        padding: 2px;
+        display: grid;
+        place-items: center;
+        background: none;
+        border: none;
         cursor: pointer;
+        color: var(--text);
         -webkit-tap-highlight-color: transparent;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        transition: background 0.3s ease;
     }
 
-:where(html.kos-mobile) .mobile-theme-toggle:active {
-        transform: translateY(-50%) scale(0.95);
-    }
+:where(html.kos-mobile) .mobile-cc-btn:active { transform: translateY(-50%) scale(0.9); }
 
-/* The sliding knob */
+:where(html.kos-mobile) .mobile-cc-btn .mb-glyph { width: 23px; height: 23px; }
 
-:where(html.kos-mobile) .mobile-theme-toggle .toggle-knob {
-        width: 26px;
-        height: 26px;
-        background: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        transform: translateX(0);
-    }
-
-:where(html.kos-mobile) .mobile-theme-toggle .toggle-knob .theme-icon {
-        font-size: 14px;
-        line-height: 1;
-    }
-
-/* Dark mode - knob slides right, background turns dark blue */
-
-[data-theme="dark"]:where(html.kos-mobile) .mobile-theme-toggle {
-        background: rgba(90, 130, 230, 0.5);
-    }
-
-[data-theme="dark"]:where(html.kos-mobile) .mobile-theme-toggle .toggle-knob {
-        transform: translateX(24px);
+/* The Control Center panel drops from the top-right on mobile too */
+:where(html.kos-mobile) .control-center {
+        top: 46px;
+        right: 10px;
+        width: min(330px, calc(100vw - 20px));
+        z-index: 6000;
     }
 
 :where(html.kos-mobile) .mobile-logo {

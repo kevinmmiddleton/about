@@ -1231,12 +1231,6 @@ function getSystemTheme() {
 // Apply theme
 function applyTheme(theme) {
     root.dataset.theme = theme;
-    const icon = theme === 'light' ? '🌙' : '☀️';
-    // Update mobile theme icon
-    const mobileThemeIcon = document.getElementById('mobileThemeIcon');
-    if (mobileThemeIcon) {
-        mobileThemeIcon.textContent = icon;
-    }
 }
 
 // On load: always start with system preference
@@ -1247,12 +1241,14 @@ window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e
     applyTheme(e.matches ? 'light' : 'dark');
 });
 
-// Mobile theme toggle
-const mobileThemeToggle = document.getElementById('mobileThemeToggle');
-if (mobileThemeToggle) {
-    mobileThemeToggle.addEventListener('click', () => {
-        const current = root.dataset.theme;
-        applyTheme(current === 'light' ? 'dark' : 'light');
+// Mobile Control Center opener (replaces the old dark/light toggle — Dark Mode
+// now lives inside Control Center, same as desktop)
+const mobileControlCenterBtn = document.getElementById('mobileControlCenterBtn');
+if (mobileControlCenterBtn) {
+    mobileControlCenterBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (controlCenter?.classList.contains('active')) closeControlCenter();
+        else openControlCenter();
     });
 }
 
@@ -1301,12 +1297,6 @@ if (mobileHiddenBackdrop) {
     mobileHiddenBackdrop.addEventListener('click', closeMobileSecretFolder);
 }
 
-// Close folder after theme toggle too
-if (mobileThemeToggle) {
-    mobileThemeToggle.addEventListener('click', () => {
-        closeMobileSecretFolder();
-    });
-}
 
 // Mobile Apps folder (iPhone-style popup)
 const dockAppsFolder = document.getElementById('dockAppsFolder');
@@ -6032,7 +6022,7 @@ if (controlCenter) {
     // Light-dismiss: click outside the panel or its toggle
     document.addEventListener('click', (e) => {
         if (!controlCenter.classList.contains('active') || ccSuppressDismiss) return;
-        if (controlCenter.contains(e.target) || e.target.closest('#controlCenterBtn')) return;
+        if (controlCenter.contains(e.target) || e.target.closest('#controlCenterBtn, #mobileControlCenterBtn')) return;
         closeControlCenter();
     });
     document.addEventListener('keydown', (e) => {
