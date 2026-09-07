@@ -1042,7 +1042,7 @@ all.forEach(function(card){
       var p=st.get(card);
       p.x=bx+e.clientX-sx;p.y=by+e.clientY-sy;
       vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY;
-      if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>6)moved=true;
+      if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>6&&!moved){moved=true;try{card.setPointerCapture(e.pointerId);}catch(_){}}
       if(!raf)raf=requestAnimationFrame(function(){
         dapply(card," rotateZ("+Math.max(-8,Math.min(8,vx*.4))+"deg)");raf=null;});
       return;
@@ -1057,7 +1057,9 @@ all.forEach(function(card){
     var p=st.get(card);held=true;moved=false;
     sx=lx=e.clientX;sy=ly=e.clientY;bx=p.x;by=p.y;vx=vy=0;
     card.style.zIndex=++zTop;card.classList.add("held");
-    card.setPointerCapture(e.pointerId);
+    // capture is deferred to the first real drag move (pointermove) so a
+    // stationary click on a back-face CTA dispatches to the link, not the
+    // card — a captured pointer retargets the click to the capturing element.
   });
   function release(){
     if(!deskOn||!held)return;held=false;card.classList.remove("held");
