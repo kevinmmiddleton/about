@@ -358,8 +358,7 @@ function setWindowFocus(focusedWin) {
 // its own back/Escape). Games don't listen for Escape, so there's no conflict.
 // Also guarded against every full-screen overlay that binds Escape for itself:
 // without this, one keypress dismisses the overlay AND closes the window behind it.
-const ESC_OVERLAYS = ['lightboxOverlay', 'spotlightOverlay', 'launchpadOverlay',
-                      'missionControl', 'notificationCenter'];
+const ESC_OVERLAYS = ['lightboxOverlay', 'spotlightOverlay', 'notificationCenter'];
 document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape' || isMobile()) return;
     const t = e.target;
@@ -1238,11 +1237,6 @@ function applyTheme(theme) {
     if (mobileThemeIcon) {
         mobileThemeIcon.textContent = icon;
     }
-    // Update menubar theme icon
-    const menubarThemeToggle = document.getElementById('menubarThemeToggle');
-    if (menubarThemeToggle) {
-        menubarThemeToggle.textContent = icon;
-    }
 }
 
 // On load: always start with system preference
@@ -1257,15 +1251,6 @@ window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e
 const mobileThemeToggle = document.getElementById('mobileThemeToggle');
 if (mobileThemeToggle) {
     mobileThemeToggle.addEventListener('click', () => {
-        const current = root.dataset.theme;
-        applyTheme(current === 'light' ? 'dark' : 'light');
-    });
-}
-
-// Menubar theme toggle
-const menubarThemeToggle = document.getElementById('menubarThemeToggle');
-if (menubarThemeToggle) {
-    menubarThemeToggle.addEventListener('click', () => {
         const current = root.dataset.theme;
         applyTheme(current === 'light' ? 'dark' : 'light');
     });
@@ -5772,8 +5757,6 @@ const searchableItems = [
     { type: 'window', id: 'connect', ico: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
     // System actions
     { type: 'action', id: 'theme', ico: 'halfmoon', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
-    { type: 'action', id: 'launchpad', ico: 'grid', icon: '⊞', title: 'Launchpad', subtitle: 'View all apps' },
-    { type: 'action', id: 'mission', ico: 'rows', icon: '☰', title: 'Mission Control', subtitle: 'View all windows' },
     // External links
     { type: 'link', id: 'email', ico: 'email', icon: '📧', title: 'Email Kevin', subtitle: 'kevin@middleton.io', url: 'mailto:kevin@middleton.io' },
     { type: 'link', id: 'linkedin', ico: 'linkedin', icon: '💼', title: 'LinkedIn', subtitle: 'linkedin.com/in/kevinmiddleton', url: 'https://linkedin.com/in/kevinmiddleton' },
@@ -5783,10 +5766,6 @@ const searchableItems = [
 let selectedIndex = 0;
 
 function openSpotlight() {
-    // Close other overlays first
-    closeLaunchpad();
-    closeMissionControl();
-
     spotlightOverlay.classList.add('active');
     spotlightInput.value = '';
     spotlightInput.focus();
@@ -5887,10 +5866,6 @@ function executeSpotlightItem(item) {
     } else if (type === 'action') {
         if (id === 'theme') {
             applyTheme(root.dataset.theme === 'light' ? 'dark' : 'light');
-        } else if (id === 'launchpad') {
-            openLaunchpad();
-        } else if (id === 'mission') {
-            openMissionControl();
         }
     } else if (type === 'link') {
         window.open(item.dataset.url, '_blank');
@@ -5949,8 +5924,6 @@ document.addEventListener('keydown', (e) => {
     }
     if (e.key === 'Escape') {
         if (spotlightOverlay?.classList.contains('active')) closeSpotlight();
-        if (launchpadOverlay?.classList.contains('active')) closeLaunchpad();
-        if (missionControl?.classList.contains('active')) closeMissionControl();
         if (notificationCenter?.classList.contains('active')) closeNotificationCenter();
     }
 });
@@ -6008,6 +5981,7 @@ function refreshControlCenter() {
         document.getElementById('ccNpArtist').textContent = t.artist;
     }
     document.getElementById('ccPlay')?.classList.toggle('playing', !audio.paused);
+    if (typeof window.kosSoundPaint === 'function') window.kosSoundPaint();
 }
 
 function openControlCenter() {
@@ -6049,158 +6023,6 @@ if (controlCenter) {
         if (e.key === 'Escape' && controlCenter.classList.contains('active')) closeControlCenter();
     });
 }
-
-// ===================
-// LAUNCHPAD
-// ===================
-const launchpadOverlay = document.getElementById('launchpadOverlay');
-const launchpadGrid = document.getElementById('launchpadGrid');
-const launchpadInput = document.getElementById('launchpadInput');
-const launchpadBtn = document.getElementById('launchpadBtn');
-
-const launchpadApps = [
-    // Identity
-    { id: 'about', ico: 'profile', icon: '👤', label: 'Profile' },
-    { id: 'values', ico: 'values', icon: '🧭', label: 'Values' },
-    // Proof of work
-    { id: 'experience', ico: 'experience', icon: '📁', label: 'Experience' },
-    { id: 'strengths', ico: 'strengths', icon: '🏅', label: 'Strengths' },
-    { id: 'recommendations', ico: 'reviews', icon: '💬', label: 'Reviews' },
-    // Fun/personality
-    { id: 'games', ico: 'games', icon: '🎮', label: 'Games' },
-    { id: 'recipesdb', ico: 'recipes', icon: '🗃️', label: 'Recipes' },
-    { id: 'keynote', ico: 'keynote', icon: '📊', label: 'Keynote' },
-    { id: 'party', ico: 'party', icon: '🪩', label: 'Party', action: true },
-    { id: 'videos', ico: 'videos', icon: '📺', label: 'Videos', action: true },
-    // Action
-    { id: 'terminal', ico: 'terminal', icon: '⌨️', label: 'Terminal' },
-    { id: 'aim', ico: 'aim', icon: '💬', label: 'Claude' },
-    { id: 'connect', ico: 'connect', icon: '📟', label: 'Connect' },
-];
-
-function openLaunchpad() {
-    // Close other overlays first
-    closeSpotlight();
-    closeMissionControl();
-
-    renderLaunchpadGrid('');
-    launchpadOverlay.classList.add('active');
-    launchpadInput.value = '';
-    launchpadInput.focus();
-}
-
-function closeLaunchpad() {
-    launchpadOverlay.classList.remove('active');
-}
-
-function renderLaunchpadGrid(filter) {
-    const filtered = filter.trim() === ''
-        ? launchpadApps
-        : launchpadApps.filter(app => app.label.toLowerCase().includes(filter.toLowerCase()));
-
-    launchpadGrid.innerHTML = filtered.map(app => `
-        <div class="launchpad-item" data-window="${app.id}" data-action="${app.action || false}">
-            <div class="launchpad-icon">${icoMarkup(app)}</div>
-            <div class="launchpad-label">${app.label}</div>
-        </div>
-    `).join('');
-
-    launchpadGrid.querySelectorAll('.launchpad-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const windowId = item.dataset.window;
-            const isAction = item.dataset.action === 'true';
-            closeLaunchpad();
-            // Delay to let overlay fade out
-            setTimeout(() => {
-                if (isAction) {
-                    // Handle action-type items
-                    if (windowId === 'party') {
-                        document.getElementById('partyBtn')?.click();
-                    } else if (windowId === 'videos') {
-                        document.getElementById('videosBtn')?.click();
-                    }
-                } else {
-                    openWindow(windowId);
-                }
-            }, 300);
-        });
-    });
-}
-
-launchpadBtn?.addEventListener('click', openLaunchpad);
-launchpadInput?.addEventListener('input', (e) => renderLaunchpadGrid(e.target.value));
-launchpadOverlay?.addEventListener('click', (e) => {
-    if (e.target === launchpadOverlay) closeLaunchpad();
-});
-
-// ===================
-// MISSION CONTROL
-// ===================
-const missionControl = document.getElementById('missionControl');
-const mcWindows = document.getElementById('mcWindows');
-const missionControlBtn = document.getElementById('missionControlBtn');
-
-function openMissionControl() {
-    // Close other overlays first
-    closeSpotlight();
-    closeLaunchpad();
-
-    // Get all open windows
-    const openWindows = document.querySelectorAll('.window.window-open');
-
-    mcWindows.innerHTML = '';
-
-    openWindows.forEach(win => {
-        // innerHTML, not textContent: window icons are <svg><use> now, whose
-        // textContent is empty, so every card fell through to the fallback and
-        // Mission Control became a wall of identical page emoji.
-        const icon = win.querySelector('.window-icon')?.innerHTML?.trim() || '📄';
-        // Get title text without the icon or badge - clone and remove them to get clean text
-        const titleEl = win.querySelector('.window-title');
-        let title = win.dataset.window;
-        if (titleEl) {
-            const clone = titleEl.cloneNode(true);
-            const iconEl = clone.querySelector('.window-icon');
-            const badgeEl = clone.querySelector('.file-badge');
-            if (iconEl) iconEl.remove();
-            if (badgeEl) badgeEl.remove();
-            title = clone.textContent?.trim() || win.dataset.window;
-        }
-
-        const mcWin = document.createElement('div');
-        mcWin.className = 'mc-window';
-        mcWin.dataset.window = win.dataset.window;
-        mcWin.innerHTML = `
-            <div class="mc-window-header">
-                <span class="mc-window-icon">${icon}</span>
-                <span class="mc-window-title">${title}</span>
-            </div>
-            <div class="mc-window-preview">${icon}</div>
-        `;
-        mcWin.addEventListener('click', () => {
-            const windowId = win.dataset.window;
-            closeMissionControl();
-            // Delay to let overlay fade out, then bring window to top
-            setTimeout(() => openWindow(windowId), 300);
-        });
-        mcWindows.appendChild(mcWin);
-    });
-
-    if (openWindows.length === 0) {
-        mcWindows.innerHTML = '<div style="color: rgba(255,255,255,0.5); text-align: center; padding: 40px;">No windows open</div>';
-    }
-
-    missionControl.classList.add('active');
-}
-
-function closeMissionControl() {
-    missionControl.classList.remove('active');
-}
-
-missionControlBtn?.addEventListener('click', openMissionControl);
-missionControl?.addEventListener('click', (e) => {
-    if (e.target === missionControl) closeMissionControl();
-});
 
 // ===================
 // WINDOW SNAPPING
@@ -6990,25 +6812,37 @@ const kosSound = (function () {
 
 (function () {
     const btn = document.getElementById('menubarSound');
-    if (!btn) return;
     // The menubar speaker is the real macOS one: it reflects whatever is
     // actually audible. UI blips stay opt-in (no quiet-office ambush), but the
     // moment music plays the speaker lights up, and clicking it mutes whatever
-    // you can hear — the music if it's playing, otherwise the UI sounds.
+    // you can hear — the music if it's playing, otherwise the UI sounds. The
+    // Control Center Sound tile is the same control, kept in sync here.
     const musicAudible = () => !audio.paused && !audio.muted;
+    const isOn = () => musicAudible() || kosSound.on;
     const paint = () => {
-        const on = musicAudible() || kosSound.on;
-        btn.textContent = on ? '\u{1F50A}' : '\u{1F507}';
-        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-        btn.setAttribute('aria-label', on ? 'Mute' : 'Sound off');
+        const on = isOn();
+        if (btn) {
+            btn.textContent = on ? '\u{1F50A}' : '\u{1F507}';
+            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+            btn.setAttribute('aria-label', on ? 'Mute' : 'Sound off');
+        }
+        const ccSound = document.getElementById('ccSoundBtn');
+        if (ccSound) {
+            ccSound.classList.toggle('on', on);
+            const lbl = document.getElementById('ccSoundLabel');
+            if (lbl) lbl.textContent = on ? 'Sound' : 'Muted';
+        }
     };
-    paint();
-    ['play', 'pause', 'ended', 'volumechange'].forEach(ev => audio.addEventListener(ev, paint));
-    btn.addEventListener('click', () => {
+    const toggle = () => {
         if (!audio.paused) { audio.muted = !audio.muted; }  // music is the audible thing
         else { kosSound.set(!kosSound.on); }                // nothing playing: toggle UI blips
         paint();
-    });
+    };
+    window.kosSoundPaint = paint;
+    paint();
+    ['play', 'pause', 'ended', 'volumechange'].forEach(ev => audio.addEventListener(ev, paint));
+    btn?.addEventListener('click', toggle);
+    document.getElementById('ccSoundBtn')?.addEventListener('click', toggle);
 
     // the door belongs to AIM, so it fires wherever AIM is opened from
     document.addEventListener('click', (e) => {
@@ -7047,7 +6881,7 @@ const kosSound = (function () {
             [...document.querySelectorAll('.window.window-open')]
                 .sort((a, b) => (+b.style.zIndex || 0) - (+a.style.zIndex || 0))[0] || null;
     }
-    function themeClick() { document.getElementById('menubarThemeToggle')?.click(); }
+    function themeClick() { applyTheme(root.dataset.theme === 'light' ? 'dark' : 'light'); }
 
     // ---------- About This Kev ----------
     let aboutEl = null, uptimeT = null;
@@ -7195,8 +7029,6 @@ const kosSound = (function () {
         ],
         View: () => [
             { label: 'Toggle Dark Mode', fn: themeClick },
-            { label: 'Mission Control', fn: () => { try { openMissionControl(); } catch (e) {} } },
-            { label: 'Launchpad', fn: () => { try { openLaunchpad(); } catch (e) {} } },
             '-',
             { label: 'Start Screensaver', fn: () => saverOn(true) }
         ],
@@ -7239,7 +7071,7 @@ const kosSound = (function () {
     document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
         closeAnyMenu(); hideAbout();
-        for (const fn of ['closeLaunchpad', 'closeMissionControl', 'closeSpotlight', 'closeNotificationCenter']) {
+        for (const fn of ['closeSpotlight', 'closeNotificationCenter']) {
             try { if (typeof window[fn] === 'function') window[fn](); } catch (err) {}
         }
     });
@@ -7692,15 +7524,10 @@ const kosSound = (function () {
 })();
 
 // ============================================================
-// DOCK LAUNCHPAD + APP STORE SIDEBAR (desktop only)
+// APP STORE SIDEBAR (desktop only)
 // ============================================================
 (function () {
     if (KOS_MOBILE) return;
-
-    // Launchpad lives in the dock now, like the reference clone
-    document.getElementById('dockLaunchpad')?.addEventListener('click', () => {
-        try { openLaunchpad(); } catch (e) {}
-    });
 
     // building/ gets its App Store sidebar: JS-injected so the mobile
     // markup never changes
