@@ -9712,7 +9712,9 @@ html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-terminal"
     visibility: hidden;
 }
 html:not(.kos-mobile) :is(.dock-emoji, .icon-emoji):has(use[href="#ico-resume"]) {
-    background: url('images/tahoe/preview.png') center / contain no-repeat !important;
+    /* This icon is a full-bleed tile, so contain makes it read larger than the
+       neighbors; scale it down to sit at their visual size. */
+    background: url('images/tahoe/preview.png') center / 82% no-repeat !important;
     box-shadow: none !important;
     border-radius: 0 !important;
 }
