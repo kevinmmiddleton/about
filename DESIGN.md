@@ -199,7 +199,7 @@ chip contexts.
 
 - `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=scrollcraft1`
 - `blog` (/blog/index.html): `/fv.css?v=f46ecd05`, `/blog/blog.css?v=a5b1199e`, `inline`
-- `kevinos` (/kevinos/index.html): `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=7612c402`, `inline`
+- `kevinos` (/kevinos/index.html): `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=e8b5d813`, `inline`
 
 <details><summary><strong>blog</strong>: 106 tokens, 47 flip between modes</summary>
 
