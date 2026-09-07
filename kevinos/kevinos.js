@@ -1241,16 +1241,8 @@ window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e
     applyTheme(e.matches ? 'light' : 'dark');
 });
 
-// Mobile Control Center opener (replaces the old dark/light toggle — Dark Mode
-// now lives inside Control Center, same as desktop)
-const mobileControlCenterBtn = document.getElementById('mobileControlCenterBtn');
-if (mobileControlCenterBtn) {
-    mobileControlCenterBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (controlCenter?.classList.contains('active')) closeControlCenter();
-        else openControlCenter();
-    });
-}
+// Mobile Control Center opens by tapping the top-right status cluster
+// (wired where that cluster is built, in the springboard phase-2 block).
 
 // Mobile party button
 const mobilePartyBtn = document.getElementById('mobilePartyBtn');
@@ -6022,7 +6014,7 @@ if (controlCenter) {
     // Light-dismiss: click outside the panel or its toggle
     document.addEventListener('click', (e) => {
         if (!controlCenter.classList.contains('active') || ccSuppressDismiss) return;
-        if (controlCenter.contains(e.target) || e.target.closest('#controlCenterBtn, #mobileControlCenterBtn')) return;
+        if (controlCenter.contains(e.target) || e.target.closest('#controlCenterBtn, .kos-mstatus')) return;
         closeControlCenter();
     });
     document.addEventListener('keydown', (e) => {
@@ -7783,10 +7775,21 @@ const kosSound = (function () {
     }
 
     // ---------- status bar right cluster ----------
+    // Tapping the top-right cluster opens Control Center (like iOS); the
+    // underline under it is the affordance. Cell + wifi are Kevin's glyphs,
+    // battery keeps its live social-battery fill.
     const status = document.createElement('span');
     status.className = 'kos-mstatus';
-    status.innerHTML = `<i class="kos-msignal"><b></b><b></b><b></b><b></b></i><i class="kos-mwifi"></i><span class="kos-mbatt"><span class="kos-mbatt-fill"></span></span>`;
-    header.insertBefore(status, header.querySelector('.mobile-theme-toggle'));
+    status.setAttribute('role', 'button');
+    status.setAttribute('tabindex', '0');
+    status.setAttribute('aria-label', 'Control Center');
+    status.innerHTML = `<span class="kos-mstat-glyph kos-mstat-cell" style="--g:url('images/glyphs/cellsignal.png')"></span><span class="kos-mstat-glyph kos-mstat-wifi" style="--g:url('images/glyphs/wifi.png')"></span><span class="kos-mbatt"><span class="kos-mbatt-fill"></span></span>`;
+    header.appendChild(status);
+    status.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof controlCenter !== 'undefined' && controlCenter?.classList.contains('active')) closeControlCenter();
+        else openControlCenter();
+    });
     function battTick() {
         const p = battPct();
         const f = status.querySelector('.kos-mbatt-fill');
