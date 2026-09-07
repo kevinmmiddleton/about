@@ -7418,6 +7418,36 @@ html:not(.kos-mobile) .share-sheet-backdrop {
 .cc-np-btn.playing .cc-play { display: none; }
 .cc-np-btn.playing .cc-pause { display: block; }
 
+/* iOS-style utility row: round buttons that light up on tap */
+.cc-utils {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    padding: 2px 2px 0;
+}
+.cc-util {
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    border: none;
+    border-radius: 50%;
+    background: hsla(0, 0%, 100%, 0.5);
+    color: #1d1d1f;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+[data-theme="dark"] .cc-util { background: hsla(0, 0%, 100%, 0.12); color: #f5f5f7; }
+.cc-util.on { background: var(--cc-util-accent, #0a84ff); color: #fff; }
+.cc-util:active { transform: scale(0.92); }
+.cc-util-glyph {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    background-color: currentColor;
+    -webkit-mask: var(--g) center / contain no-repeat;
+    mask: var(--g) center / contain no-repeat;
+}
+
 .notification-center {
     position: fixed;
     top: 28px;

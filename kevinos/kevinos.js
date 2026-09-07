@@ -6006,6 +6006,19 @@ if (controlCenter) {
     document.getElementById('ccNext')?.addEventListener('click', () => { nextTrack(); setTimeout(refreshControlCenter, 60); });
     document.getElementById('ccPlay')?.addEventListener('click', () => { togglePlay(); setTimeout(refreshControlCenter, 60); });
 
+    // Utility row: decorative buttons just light up; Apple Intelligence opens
+    // the "ask" surface (Spotlight on desktop, the Claude chat on mobile).
+    controlCenter.querySelectorAll('.cc-util:not(.cc-util-ai)').forEach(b => {
+        b.addEventListener('click', () => b.classList.toggle('on'));
+    });
+    controlCenter.querySelector('.cc-util-ai')?.addEventListener('click', () => {
+        closeControlCenter();
+        setTimeout(() => {
+            if (typeof isMobile === 'function' && isMobile()) openMobileOverlay('aim');
+            else openSpotlight();
+        }, 180);
+    });
+
     // Keep the play/pause + title in sync while the panel is open
     ['play', 'pause', 'ended'].forEach(ev => audio.addEventListener(ev, () => {
         if (controlCenter.classList.contains('active')) refreshControlCenter();
