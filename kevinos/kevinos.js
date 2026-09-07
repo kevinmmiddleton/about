@@ -5680,7 +5680,7 @@ async function fetchWeather() {
         if (d.includes('overcast')) return 'wx-overcast';
         if (d.includes('cloud')) return 'wx-cloudy';
         if (d.includes('sunny') || d.includes('clear')) return 'wx-clear';
-        return 'wx-cloudy';
+        return 'wx-unknown';
     }
 
     // Two keyless, CORS-enabled providers, raced so the fastest healthy one wins
@@ -5689,7 +5689,7 @@ async function fetchWeather() {
         const r = await timedFetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`, 6000);
         if (!r.ok) throw new Error('open-meteo ' + r.status);
         const d = await r.json();
-        return { temp: Math.round(d.current.temperature_2m), glyph: wmoGlyph[d.current.weather_code] || 'wx-cloudy' };
+        return { temp: Math.round(d.current.temperature_2m), glyph: wmoGlyph[d.current.weather_code] || 'wx-unknown' };
     }
     async function fromWttr() {
         const r = await timedFetch(`https://wttr.in/${lat},${lon}?format=j1`, 6000);
