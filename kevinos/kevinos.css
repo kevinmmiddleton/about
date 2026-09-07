@@ -7399,6 +7399,10 @@ html:not(.kos-mobile) .share-sheet-backdrop {
 .cc-sound .cc-snd-off { display: none; }
 .cc-sound:not(.on) .cc-snd-on { display: none; }
 .cc-sound:not(.on) .cc-snd-off { display: block; }
+/* Sound tile carries no accent fill — the glyph alone shows state */
+.cc-sound.on .cc-ico { background: hsla(0, 0%, 50%, 0.28); }
+.cc-sound.on .cc-ico .cc-glyph { color: #1d1d1f; }
+[data-theme="dark"] .cc-sound.on .cc-ico .cc-glyph { color: #f5f5f7; }
 .cc-nowplaying {
     display: flex;
     align-items: center;
