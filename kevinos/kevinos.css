@@ -7304,6 +7304,13 @@ html:not(.kos-mobile) .share-sheet-backdrop {
     font-size: 24px;
     width: 32px;
     text-align: center;
+    /* Monochrome, single ink — no per-app color in the search list */
+    color: var(--text);
+}
+.spotlight-item-icon .sp-img {
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
 }
 
 .spotlight-item-info {
@@ -8599,7 +8606,7 @@ svg:has(use[href="#ico-recycle"]) { --ico-hue: var(--text-dim);  --ico-tile: var
 .spotlight-item-icon > svg {
     width: 20px;
     height: 20px;
-    color: var(--ico-hue, var(--text));
+    color: currentColor;
     stroke-width: 1.9;
 }
 
@@ -12064,7 +12071,7 @@ html:not(.kos-mobile) #experience .window-content {
 }
 /* Masked glyphs: Kevin's SF Symbol PNGs painted with currentColor so they
    recolor with the theme and stay crisp on Retina. --g is the image URL. */
-.mb-img, .cc-img {
+.mb-img, .cc-img, .sp-img {
     display: inline-block;
     background-color: currentColor;
     -webkit-mask: var(--g) center / contain no-repeat;
