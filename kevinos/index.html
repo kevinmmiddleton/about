@@ -35,7 +35,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="kevinos.css?v=7b4a502b">
+    <link rel="stylesheet" href="kevinos.css?v=e8412834">
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -166,7 +166,18 @@
                     var w2 = window.innerWidth, h2 = window.innerHeight;
                     var mob2 = w2 ? (w2 <= 768 || (coarse && Math.min(w2, h2) <= 500)) : coarse;
                     if (mob2 !== document.documentElement.classList.contains('kos-mobile')) {
-                        location.reload();
+                        // Crossing INTO mobile from a narrowed desktop window: drop any
+                        // open-window deep link first, so the reload lands on the home
+                        // screen instead of stranding the user inside an app overlay
+                        // (e.g. the Claude sheet) with only an X to escape.
+                        if (mob2 && /[?&](open|game)=/.test(location.search)) {
+                            var u = new URL(location.href);
+                            u.searchParams.delete('open');
+                            u.searchParams.delete('game');
+                            location.replace(u.pathname + (u.search || '') + u.hash);
+                        } else {
+                            location.reload();
+                        }
                     }
                 }, 220);
             });
