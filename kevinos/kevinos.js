@@ -5738,23 +5738,25 @@ const spotlightBtn = document.getElementById('spotlightBtn');
 
 // Searchable items
 const searchableItems = [
+    // Title = the app the window is dressed as; subtitle = what's inside
+    // (also what keeps the old keyword searchable).
     // Identity
-    { type: 'window', id: 'about', ico: 'profile', icon: '👤', title: 'Profile', subtitle: 'profile.yaml' },
-    { type: 'window', id: 'values', ico: 'values', icon: '🧭', title: 'Values', subtitle: '.values' },
+    { type: 'window', id: 'about', ico: 'profile', icon: '👤', title: 'Social', subtitle: 'About Kevin · profile' },
+    { type: 'window', id: 'values', ico: 'values', icon: '🧭', title: 'Settings', subtitle: 'Values' },
     // Proof of work
-    { type: 'window', id: 'experience', ico: 'experience', icon: '📁', title: 'Experience', subtitle: 'experience/' },
-    { type: 'window', id: 'building', ico: 'building', icon: '🛠️', title: 'Building', subtitle: 'building/' },
-    { type: 'window', id: 'writing', ico: 'writing', icon: '✍️', title: 'Writing', subtitle: 'writing/' },
-    { type: 'window', id: 'keynote', ico: 'keynote', icon: '📊', title: 'Case Studies', subtitle: 'keynote decks' },
-    { type: 'window', id: 'strengths', ico: 'strengths', icon: '🏅', title: 'Strengths', subtitle: 'strengths/' },
-    { type: 'window', id: 'recommendations', ico: 'reviews', icon: '💬', title: 'Reviews', subtitle: 'reviews.chat' },
+    { type: 'window', id: 'experience', ico: 'experience', icon: '📁', title: 'Time Machine', subtitle: 'Experience' },
+    { type: 'window', id: 'building', ico: 'building', icon: '🛠️', title: 'App Store', subtitle: 'Building' },
+    { type: 'window', id: 'writing', ico: 'writing', icon: '✍️', title: 'Notes', subtitle: 'Writing' },
+    { type: 'window', id: 'keynote', ico: 'keynote', icon: '📊', title: 'Keynote', subtitle: 'Case studies' },
+    { type: 'window', id: 'strengths', ico: 'strengths', icon: '🏅', title: 'Shortcuts', subtitle: 'Strengths' },
+    { type: 'window', id: 'recommendations', ico: 'reviews', icon: '💬', title: 'Messages', subtitle: 'Recommendations · reviews' },
     // Fun/personality
-    { type: 'window', id: 'games', ico: 'games', icon: '🎮', title: 'Games', subtitle: 'games/' },
-    { type: 'window', id: 'recipesdb', ico: 'recipes', icon: '🗃️', title: 'Recipes', subtitle: 'recipes.db' },
+    { type: 'window', id: 'games', ico: 'games', icon: '🎮', title: 'Games', subtitle: 'Arcade' },
+    { type: 'window', id: 'recipesdb', ico: 'recipes', icon: '🗃️', title: 'Recipes', subtitle: 'What I cook' },
     // Action
     { type: 'window', id: 'terminal', ico: 'terminal', icon: '⌨️', title: 'Terminal', subtitle: 'terminal.app' },
     { type: 'window', id: 'aim', ico: 'aim', icon: '💬', title: 'Claude', subtitle: 'claude · chat' },
-    { type: 'window', id: 'connect', ico: 'connect', icon: '📟', title: 'Connect', subtitle: 'connect.sh' },
+    { type: 'window', id: 'connect', ico: 'connect', icon: '📟', title: 'Mail', subtitle: 'Contact · connect' },
     // System actions
     { type: 'action', id: 'theme', ico: 'halfmoon', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
     // External links
