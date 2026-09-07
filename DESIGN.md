@@ -191,15 +191,15 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 203,477 | 163 / 631 | 6 | 12 |
-| `kevinos/kevinos.css` | 210,834 | 53 / 212 | 0 | 1 |
+| `fv.css` | 218,919 | 164 / 635 | 6 | 16 |
+| `kevinos/kevinos.css` | 329,569 | 61 / 293 | 0 | 7 |
 | `blog/blog.css` | 50,008 | 28 / 70 | 0 | 5 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=05423dc1`
-- `blog` (/blog/index.html): `/fv.css?v=05423dc1`, `/blog/blog.css?v=a5b1199e`, `inline`
-- `kevinos` (/kevinos/index.html): `inline`, `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=f6c6e715`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=scrollcraft1`
+- `blog` (/blog/index.html): `/fv.css?v=f46ecd05`, `/blog/blog.css?v=a5b1199e`, `inline`
+- `kevinos` (/kevinos/index.html): `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=5f99ed6a`, `inline`
 
 <details><summary><strong>blog</strong>: 106 tokens, 47 flip between modes</summary>
 
@@ -314,7 +314,7 @@ chip contexts.
 
 </details>
 
-<details><summary><strong>kevinos</strong>: 39 tokens, 23 flip between modes</summary>
+<details><summary><strong>kevinos</strong>: 44 tokens, 26 flip between modes</summary>
 
 | Token | Light | Dark |
 |---|---|---|
@@ -322,11 +322,11 @@ chip contexts.
 | `--aim-ink` | `#E8A700` | _same_ |
 | `--aim-them` | `#B3261E` | `#FF8A80` |
 | `--aim-you` | `#1A4FA0` | `#8AB4F8` |
-| `--bg` | `#f0f0f5` | `#0a0a0f` |
-| `--bg-rgb` | `240, 240, 245` | `10, 10, 15` |
+| `--bg` | `#F4F4F5` | `#0F0F12` |
+| `--bg-rgb` | `244, 244, 245` | `15, 15, 18` |
 | `--blue` | `#2563eb` | `#5c8aff` |
 | `--blue-hover` | `#3b82f6` | `#7aa3ff` |
-| `--border` | `rgba(140, 140, 180, 0.4)` | `#2a2a3a` |
+| `--border` | `#D8D8DD` | `#2C2C33` |
 | `--desktop-bg` | `url('https://middleton.io/images/lightmode-bg.jpg')` | `url('https://middleton.io/images/darkmode-bg.jpg')` |
 | `--font-mono` | `'JetBrains Mono', monospace` | _same_ |
 | `--font-sans` | `'Outfit', sans-serif` | _same_ |
@@ -342,20 +342,25 @@ chip contexts.
 | `--game-text-inverse` | `#0a0a0f` | _same_ |
 | `--game-text-muted` | `#888899` | _same_ |
 | `--label-shadow` | `0 1px 2px rgba(255, 255, 255, 0.75)` | `0 1px 2px rgba(0, 0, 0, 0.55)` |
+| `--marigold` | `#E8A317` | _same_ |
 | `--mint` | `#059669` | `#4ae0a0` |
 | `--mint-hover` | `#047857` | `#3cc890` |
+| `--on-mari` | `#241700` | _same_ |
+| `--os-dot` | `rgba(17, 17, 19, 0.10)` | `rgba(242, 242, 244, 0.07)` |
+| `--os-invert` | `#111113` | `#EDEDF0` |
+| `--os-on-invert` | `#F2F2F4` | `#111113` |
 | `--peach` | `#ea580c` | `#ff9f6a` |
 | `--pink` | `#db2777` | `#ff6eb4` |
 | `--purple` | `#7c3aed` | `#a078ff` |
-| `--radius` | `12px` | _same_ |
-| `--surface` | `#ffffff` | `#12121a` |
-| `--surface-2` | `#ffffff` | `#1a1a24` |
+| `--radius` | `10px` | _same_ |
+| `--surface` | `#FFFFFF` | `#17171B` |
+| `--surface-2` | `#ECECEE` | `#1E1E23` |
 | `--taskbar` | `0px` | _same_ |
-| `--text` | `#1a1a2e` | `#e8e8f0` |
-| `--text-dim` | `#3a3a55` | `#adadc6` |
-| `--text-muted` | `#5a5a75` | `#9595b4` |
-| `--text-primary` | `#1a1a2e` | `#e8e8f0` |
-| `--text-secondary` | `#3a3a55` | `#adadc6` |
+| `--text` | `#111113` | `#F2F2F4` |
+| `--text-dim` | `#5B5B62` | `#A2A2AC` |
+| `--text-muted` | `#6E6E76` | `#8B8B95` |
+| `--text-primary` | `#111113` | `#F2F2F4` |
+| `--text-secondary` | `#5B5B62` | `#A2A2AC` |
 | `--yellow` | `#d97706` | `#ffc048` |
 
 </details>
