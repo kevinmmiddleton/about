@@ -86,6 +86,17 @@ const GUARD = {
   // A source that has ever produced at least this many records may never
   // silently return zero.
   zeroFloor: 1,
+  // ...but only a source of this size may VETO the whole publish. A source
+  // whose best run ever was smaller than this is a rounding error against
+  // repertory.nyc's ~1,200, and letting it refuse hands one thin feed a kill
+  // switch over the entire site. That is not hypothetical: luma (high water 5)
+  // returned zero on 2026-08-22 and froze every listing for fifteen days while
+  // a second, unrelated bug went unnoticed behind it.
+  //
+  // Below this floor the zero is DEMOTED, not ignored. It prints as a warning,
+  // the run publishes, and the source is treated as down for carry-forward, so
+  // its screenings are held as stale rather than tombstoned to CANCELLED.
+  vetoFloor: 8,
   // A source whose previous good run produced at least this many records must
   // not drop below `collapseRatio` of it without a human saying so.
   collapseFloor: 8,
@@ -628,6 +639,8 @@ async function main() {
 
   // --- the zero guard, before anything is written ------------------------
   const violations = [];
+  const warnings = [];
+  const emptied = new Set();   // demoted zeroes: publish, but treat as down
   for (const r of results) {
     if (!r.ok) continue;
     const prior = state.sources[r.id] || {};
@@ -635,7 +648,15 @@ async function main() {
     const lastOk = prior.last_ok_count || 0;
     const high = prior.high_water || 0;
     const acked = args.acceptZero.includes(r.id);
-    if (n === 0 && high >= GUARD.zeroFloor && !acked) {
+    if (n === 0 && high >= GUARD.zeroFloor && high < GUARD.vetoFloor && !acked) {
+      emptied.add(r.id);
+      warnings.push(
+        `${r.id}: returned ZERO screenings (best ever ${high}, last good run ${lastOk}).\n` +
+        `    Under the veto floor of ${GUARD.vetoFloor}, so it cannot hold the whole site\n` +
+        '    hostage. Publishing without it; its screenings carry forward as stale\n' +
+        '    rather than tombstoning. Check the parser.'
+      );
+    } else if (n === 0 && high >= GUARD.zeroFloor && !acked) {
       violations.push(
         `${r.id}: returned ZERO screenings. It has previously returned as many as ${high} ` +
         `(last good run: ${lastOk}, ${prior.last_change_at || 'unknown'}).\n` +
@@ -652,6 +673,11 @@ async function main() {
         `    To publish anyway: --accept-zero ${r.id}.`
       );
     }
+  }
+
+  if (warnings.length) {
+    log('\n  zero guard, demoted to a warning');
+    for (const w of warnings) log(`    ${w}`);
   }
 
   if (violations.length) {
@@ -739,7 +765,8 @@ async function main() {
     if (date < carryFloor) { expired++; continue; }
 
     const src = stored.source || '';
-    const sourceDown = failedSourceIds.has(src) || notRun.includes(src) || !okSourceIds.has(src);
+    const sourceDown = failedSourceIds.has(src) || notRun.includes(src) ||
+      !okSourceIds.has(src) || emptied.has(src);
     // Minute granularity, not day. A screening that has already STARTED has not
     // disappeared, it has happened, and tombstoning it publishes CANCELLED to
     // every subscriber for a film that actually screened. Comparing dates alone
@@ -844,7 +871,21 @@ async function main() {
     const prior = state.sources[mod.id] || {};
     const r = results.find((x) => x.id === mod.id);
     if (!r) { nextState.sources[mod.id] = { ...prior, skipped_last_run: true }; continue; }
-    if (r.ok) {
+    if (r.ok && emptied.has(mod.id)) {
+      // Recorded like an outage on purpose: keep last_ok_count and high_water
+      // so a later collapse is still measured against the last REAL run, not
+      // against zero.
+      nextState.sources[mod.id] = {
+        label: mod.label,
+        status: 'empty',
+        stale: true,
+        last_change_at: prior.last_change_at || null,
+        last_ok_count: prior.last_ok_count || 0,
+        high_water: prior.high_water || 0,
+        consecutive_failures: (prior.consecutive_failures || 0) + 1,
+        last_error: 'returned zero screenings (below the veto floor)',
+      };
+    } else if (r.ok) {
       const n = r.screenings.length;
       // last_change_at, NOT "last run at". A per-run timestamp here would put a
       // diff in every scheduled commit even when nothing upstream moved, which
@@ -882,7 +923,10 @@ async function main() {
   for (const mod of SOURCES) {
     const r = results.find((x) => x.id === mod.id);
     const st = nextState.sources[mod.id];
-    const mark = !r ? 'not run' : r.ok ? `${r.screenings.length}` : `FAILED (stale, using last good data)`;
+    const mark = !r ? 'not run'
+      : emptied.has(mod.id) ? 'ZERO (stale, using last good data)'
+      : r.ok ? `${r.screenings.length}`
+      : 'FAILED (stale, using last good data)';
     log(`    ${mod.id.padEnd(16)} ${mark}`);
     if (st && st.stale && st.last_ok_at) {
       log(`      last good: ${st.last_ok_count} on ${st.last_change_at}`);

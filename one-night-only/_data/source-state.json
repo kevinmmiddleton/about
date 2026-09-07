@@ -5,9 +5,9 @@
       "label": "Elevent (goelevent.com)",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-08-22T05:46:43Z",
-      "last_ok_count": 25,
-      "high_water": 26,
+      "last_change_at": "2026-09-07T03:10:44Z",
+      "last_ok_count": 37,
+      "high_water": 37,
       "consecutive_failures": 0,
       "last_error": null
     },
@@ -15,9 +15,9 @@
       "label": "repertory.nyc",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-08-22T19:40:17Z",
-      "last_ok_count": 1219,
-      "high_water": 1334,
+      "last_change_at": "2026-09-07T03:10:44Z",
+      "last_ok_count": 1385,
+      "high_water": 1385,
       "consecutive_failures": 0,
       "last_error": null
     },
@@ -25,8 +25,8 @@
       "label": "NYC Parks (NYC Open Data w3wp-dpdi)",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-08-21T19:40:41Z",
-      "last_ok_count": 49,
+      "last_change_at": "2026-09-07T03:10:44Z",
+      "last_ok_count": 30,
       "high_water": 53,
       "consecutive_failures": 0,
       "last_error": null
@@ -43,13 +43,13 @@
     },
     "luma": {
       "label": "Luma calendars (programmer tier)",
-      "status": "ok",
-      "stale": false,
+      "status": "empty",
+      "stale": true,
       "last_change_at": "2026-08-22T19:40:17Z",
       "last_ok_count": 1,
       "high_water": 5,
-      "consecutive_failures": 0,
-      "last_error": null
+      "consecutive_failures": 1,
+      "last_error": "returned zero screenings (below the veto floor)"
     }
   }
 }

@@ -15,17 +15,24 @@
 //  * Seven sibling Parks datasets look more attractive and are abandoned
 //    archives, last refreshed in 2021. They are not used here.
 //
-// THE TRAP, and it fails silently:
+// THE TRAP, as it used to be, and why it is gone:
 //
-//    `starttime` carries the RIGHT TIME and the WRONG DATE. Its date component
-//    is pinned to the feed's generation date on every single row - 90.5% of
-//    rows disagree with `startdate`. A collector that parses `starttime` as a
-//    datetime stacks a fortnight of screenings onto today. It does not error,
-//    it does not return zero rows, and it looks fine.
+//    `starttime` used to carry the RIGHT TIME and the WRONG DATE, pinned to the
+//    feed's generation date on 90.5% of rows, so the date had to come from
+//    `startdate` and only the time of day from `starttime`.
 //
-//    So: the DATE comes from `startdate`, the TIME OF DAY comes from
-//    `starttime`, and assertDateSpread() refuses to publish a run in which
-//    everything collapsed onto one date.
+//    Open Data has since consolidated: `startdate` and `enddate` NO LONGER
+//    EXIST, and `starttime`/`endtime` are now full datetimes whose date is
+//    correct. Selecting or ordering by `startdate` returns HTTP 400, which is
+//    what silently froze this source (and, through the zero-guard, the whole
+//    site) from 2026-08-22 to 2026-09-06.
+//
+//    Verified before switching: across a 28-row film sample spanning 13
+//    distinct dates, `starttime`'s date matched the date embedded in each
+//    event's own nycgovparks.org URL on 28 of 28 rows. assertDateSpread() below
+//    still guards the original failure, so if the date ever collapses onto one
+//    day again the run refuses rather than publishing a fortnight of screenings
+//    stacked on today.
 //
 // The window is a hard rolling fifteen days, so this source alone can never see
 // further than a fortnight ahead. collect.mjs carries past screenings forward
@@ -48,7 +55,7 @@ export const credit = {
 const RESOURCE = 'https://data.cityofnewyork.us/resource/w3wp-dpdi.json';
 
 const SELECT = [
-  'guid', 'title', 'startdate', 'enddate', 'starttime', 'endtime',
+  'guid', 'title', 'starttime', 'endtime',
   'parknames', 'parkids', 'location', 'coordinates', 'categories',
   'description', 'link', 'image',
 ].join(',');
@@ -94,7 +101,7 @@ export async function collect(ctx) {
   const where = CATEGORIES.map((c) => `categories like '%${c}%'`).join(' OR ');
   const url = `${RESOURCE}?$select=${encodeURIComponent(SELECT)}` +
     `&$where=${encodeURIComponent(where)}` +
-    '&$order=startdate&$limit=1000';
+    '&$order=starttime&$limit=1000';
 
   const res = await fetchText(url, {
     cache: ctx.cache, expect: /application\/json/i, accept: 'application/json',
@@ -109,13 +116,13 @@ export async function collect(ctx) {
   let reviewFlags = 0;
 
   for (const row of rows) {
-    // DATE from startdate. TIME OF DAY from starttime. Never the other way.
-    const date = dateOnly(row.startdate);
+    // Date AND time both come from starttime now; see the note at the top.
+    const date = dateOnly(row.starttime);
     const t = timeOfDay(row.starttime);
     const start = date && t ? localStamp(date, t.hour, t.minute) : null;
     if (!start) { droppedNoTime++; continue; }
 
-    const endDate = dateOnly(row.enddate) || date;
+    const endDate = dateOnly(row.endtime) || date;
     const et = timeOfDay(row.endtime);
     let end = endDate && et ? localStamp(endDate, et.hour, et.minute) : null;
     if (end && end <= start) end = null;

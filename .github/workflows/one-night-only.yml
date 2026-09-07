@@ -31,6 +31,9 @@ on:
 
 permissions:
   contents: write
+  # notify-stale.mjs opens (and later closes) an issue when the collector has
+  # been refusing to publish for more than a day.
+  issues: write
 
 concurrency:
   group: publish-one-night-only
@@ -92,3 +95,26 @@ jobs:
           done
           echo "Could not push after 3 attempts."
           exit 1
+
+      # THE ALARM. A red run in the Actions tab is not a notification: the
+      # collector refused for fifteen days in August 2026 and nobody noticed
+      # until the site was visibly a fortnight stale. This opens an issue, but
+      # only after a streak of failures spanning more than a day, so a single
+      # transient upstream hiccup stays silent.
+      #
+      # Last in the job and if: failure(), so it covers every step above it
+      # (collect, build, lint, push) rather than only the ones before it. It
+      # never fails itself; the run is already red for the real reason.
+      - name: Say something if this has been failing for more than a day
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/one-night-only/notify-stale.mjs
+
+      # Clear the alarm. An alert that has to be closed by hand is an alert
+      # that stays open and stops meaning anything.
+      - name: Close the stale-collector issue if one is open
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/one-night-only/notify-stale.mjs --resolved

@@ -104,10 +104,24 @@ the split over as two structured fields.
    return `null` rather than a default, and every caller treats `null` as "drop
    this record and count it". `parseClock12` refuses a bare `7:00` with no
    meridiem outright.
-2. **Zero where there were many fails loudly.** `collect.mjs` compares each
-   source against its stored `high_water` and `last_ok_count`. A violation
-   prints, writes nothing, and exits 1. A genuinely empty source needs
-   `--accept-zero`, so it is a human decision on the record.
+2. **Zero where there were many fails loudly, but only a big source can veto.**
+   `collect.mjs` compares each source against its stored `high_water` and
+   `last_ok_count`. A violation prints, writes nothing, and exits 1. A genuinely
+   empty source needs `--accept-zero`, so it is a human decision on the record.
+
+   A source whose best run ever was under `GUARD.vetoFloor` (8) cannot refuse
+   the whole publish. Its zero is **demoted**: it prints as a warning, the run
+   publishes, and the source is treated as down for carry-forward so its
+   screenings are held stale rather than tombstoned to CANCELLED. This is not
+   theoretical. On 2026-08-22 luma (high water 5) returned zero and froze every
+   listing on the site for fifteen days, and an unrelated NYC Open Data schema
+   change sat undetected behind the refusal the whole time.
+
+   Which is also why `.github/workflows/one-night-only.yml` runs
+   `tools/one-night-only/notify-stale.mjs` on failure. A red run in the Actions
+   tab is not a notification. After three failures in a row (more than a day at
+   the twice-daily cadence) it opens an issue naming how stale the published
+   data is, and closes it on the next success.
 3. **Content-type, never status code alone.** `fetchText()` asserts the
    content-type and fails a 200 with the wrong body. Soft-404s are endemic here.
 4. **robots.txt, honest identification, conditional requests.** One robots.txt
