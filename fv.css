@@ -3571,7 +3571,7 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
   text-underline-offset:2px;white-space:nowrap;transition:color .16s,text-decoration-color .16s}.fv .lk:hover{color:var(--accent-text);text-decoration-color:var(--accent-text)}.fv .lk:focus-visible{outline:3px solid var(--marigold);outline-offset:2px;border-radius:3px}.fv .lk-case{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
 @media(max-width:620px){.fv .ev{grid-template-columns:1fr;gap:.25rem}.fv .spec[aria-selected="true"]::after{display:none}
 }
-@media(prefers-reduced-motion:reduce){.fv .spec{transition:none}}.fv .rec-lead{margin:0 0 1.1rem;font-size:clamp(1rem,1.8vw,1.22rem);line-height:1.5;
+@media(prefers-reduced-motion:reduce){.fv .spec{transition:none}.fv .sacc .spec::before{animation:none}}.fv .rec-lead{margin:0 0 1.1rem;font-size:clamp(1rem,1.8vw,1.22rem);line-height:1.5;
   max-width:56ch;color:var(--ink2)}
 
 /* ===== dark mode =====
@@ -4031,12 +4031,41 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
 }
 
 /* ---- Strengths accordion (phones). Chips stack full-width; the open
-   chip fills with its hue and its panel sits directly beneath it. ---- */
+   chip fills with its hue and its panel sits directly beneath it. A
+   disclosure chevron marks each row as expandable, and a point of light
+   orbits the border (a conic gradient masked to the 2px ring) so a closed
+   chip reads as tappable without a hover state to lean on. ---- */
+@property --spec-orbit{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes spec-orbit{to{--spec-orbit:360deg}}
 @media(max-width:560px){
   .fv .sacc .spec-row{display:block}
-  .fv .sacc .spec{width:100%;margin:0 0 .5rem}
+  .fv .sacc .spec{width:100%;margin:0 0 .5rem;padding-right:2.6rem}
   .fv .sacc .spec[aria-expanded="true"]{background:var(--c-fill);border-color:var(--c-line);color:var(--c-on)}
   .fv .sacc .spec[aria-expanded="true"] span{color:var(--c-on)}
+  /* disclosure chevron: points right when closed, rotates down when open */
+  .fv .sacc .spec::after{content:"";position:absolute;right:1rem;top:50%;
+    width:.5rem;height:.5rem;border-right:2px solid var(--c-line);
+    border-bottom:2px solid var(--c-line);
+    transform:translateY(-65%) rotate(-45deg);
+    transition:transform .22s ease,border-color .18s;pointer-events:none}
+  .fv .sacc .spec[aria-expanded="true"]::after{border-color:var(--c-on);
+    transform:translateY(-35%) rotate(45deg)}
+  /* orbiting glow: a bright point rides a rotating conic gradient, masked to
+     the border ring. Fades out once open — the tappable cue has done its job. */
+  .fv .sacc .spec::before{content:"";position:absolute;inset:-2px;
+    border-radius:calc(var(--r) + 2px);padding:2px;pointer-events:none;
+    background:conic-gradient(from var(--spec-orbit),
+      transparent 0 66%,
+      color-mix(in srgb,var(--c-line) 65%,white) 78%,
+      color-mix(in srgb,var(--c-line) 25%,white) 82%,
+      color-mix(in srgb,var(--c-line) 65%,white) 86%,
+      transparent 96% 100%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    mask-composite:exclude;
+    animation:spec-orbit 3.6s linear infinite;opacity:.9;transition:opacity .2s}
+  .fv .sacc .spec[aria-expanded="true"]::before{opacity:0}
   .fv .sacc .spec-panel{border:2px solid var(--ink);border-radius:var(--r);
     padding:.95rem .9rem;margin:-.15rem 0 .8rem}
 }

@@ -74,7 +74,7 @@ chip contexts.
      Values are COMPUTED, read from headless Chrome per surface and
      per colour scheme, so they reflect the real cascade. -->
 
-**Homepage (`.fv`): 93 tokens, 40 flip between modes, 53 are mode-stable.**
+**Homepage (`.fv`): 94 tokens, 40 flip between modes, 54 are mode-stable.**
 
 | Token | Light | Dark |
 |---|---|---|
@@ -171,6 +171,7 @@ chip contexts.
 | `--spacing-sm` | `.5rem` |
 | `--spacing-xl` | `1.8rem` |
 | `--spacing-xs` | `.25rem` |
+| `--spec-orbit` | `0deg` |
 | `--swap-3` | `#2C7A63` |
 | `--swap-4` | `#C3384B` |
 | `--transition-base` | `.2s ease` |
@@ -191,17 +192,17 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 218,919 | 164 / 635 | 6 | 16 |
+| `fv.css` | 220,739 | 165 / 636 | 6 | 16 |
 | `kevinos/kevinos.css` | 328,999 | 61 / 293 | 0 | 7 |
 | `blog/blog.css` | 50,008 | 28 / 70 | 0 | 5 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=scrollcraft1`
-- `blog` (/blog/index.html): `/fv.css?v=f46ecd05`, `/blog/blog.css?v=a5b1199e`, `inline`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=0e693b41`
+- `blog` (/blog/index.html): `/fv.css?v=0e693b41`, `/blog/blog.css?v=a5b1199e`, `inline`
 - `kevinos` (/kevinos/index.html): `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=814af6a3`, `inline`
 
-<details><summary><strong>blog</strong>: 106 tokens, 47 flip between modes</summary>
+<details><summary><strong>blog</strong>: 107 tokens, 47 flip between modes</summary>
 
 | Token | Light | Dark |
 |---|---|---|
@@ -298,6 +299,7 @@ chip contexts.
 | `--spacing-sm` | `1rem` | _same_ |
 | `--spacing-xl` | `3rem` | _same_ |
 | `--spacing-xs` | `0.5rem` | _same_ |
+| `--spec-orbit` | `0deg` | _same_ |
 | `--surface` | `#F5F4F0` | `#161b22` |
 | `--surface-alt` | `#ECEAE4` | `#1c2128` |
 | `--swap-1` | `#1F4B8F` | `#4B6FA5` |
