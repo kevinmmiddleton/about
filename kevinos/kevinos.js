@@ -5686,10 +5686,14 @@ async function fetchWeather() {
     // Two keyless, CORS-enabled providers, raced so the fastest healthy one wins
     // and an outage of either (e.g. open-meteo going dark) never blanks the widget.
     async function fromOpenMeteo() {
-        const r = await timedFetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`, 6000);
+        const r = await timedFetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&temperature_unit=fahrenheit`, 6000);
         if (!r.ok) throw new Error('open-meteo ' + r.status);
         const d = await r.json();
-        return { temp: Math.round(d.current.temperature_2m), glyph: wmoGlyph[d.current.weather_code] || 'wx-unknown' };
+        const code = d.current.weather_code;
+        // A clear/mainly-clear sky at night shows the moon, not the sun
+        const night = d.current.is_day === 0;
+        const glyph = (night && (code === 0 || code === 1)) ? 'wx-moon' : (wmoGlyph[code] || 'wx-unknown');
+        return { temp: Math.round(d.current.temperature_2m), glyph };
     }
     async function fromWttr() {
         const r = await timedFetch(`https://wttr.in/${lat},${lon}?format=j1`, 6000);
