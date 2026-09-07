@@ -35,7 +35,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="kevinos.css?v=75d9a71e">
+    <link rel="stylesheet" href="kevinos.css?v=1a9ccce0">
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -2004,6 +2004,7 @@
         <!-- Mobile Icon Grid (visible only on mobile) -->
         <header class="mobile-header">
             <span class="mobile-time" id="mobileTime">9:41</span>
+            <button class="mobile-ai-btn" id="mobileAiBtn" type="button" aria-label="Ask Kevin's AI"><span class="cc-util-glyph" style="--g:url('images/glyphs/appleintelligence.png')"></span></button>
         </header>
 
         <!-- iOS-style Widget -->
@@ -2400,39 +2401,29 @@
 
     <!-- Control Center (drops from the menu-bar toggle) -->
     <div class="control-center" id="controlCenter" role="dialog" aria-label="Control Center">
-        <div class="cc-row">
-            <button class="cc-tile cc-toggle" id="ccDarkBtn" type="button" style="--cc-accent:#0a84ff">
-                <span class="cc-ico"><span class="cc-glyph cc-img" id="ccDarkGlyph"></span></span>
-                <span class="cc-label">Dark Mode</span>
-            </button>
-            <button class="cc-tile cc-toggle" id="ccPartyBtn" type="button" style="--cc-accent:#ff2d95">
-                <span class="cc-ico"><svg class="cc-glyph"><use href="#ico-sparkles"></use></svg></span>
-                <span class="cc-label">Party Mode</span>
-            </button>
-        </div>
-        <button class="cc-tile cc-toggle cc-sound" id="ccSoundBtn" type="button" style="--cc-accent:#30d158">
-            <span class="cc-ico"><span class="cc-glyph cc-img cc-snd-on" style="--g:url('images/glyphs/speaker.png')"></span><span class="cc-glyph cc-img cc-snd-off" style="--g:url('images/glyphs/speaker-slash.png')"></span></span>
-            <span class="cc-label" id="ccSoundLabel">Sound</span>
-        </button>
-        <div class="cc-nowplaying" id="ccNowPlaying">
-            <span class="cc-np-art"><svg class="cc-glyph"><use href="#ico-music"></use></svg></span>
-            <div class="cc-np-meta">
-                <span class="cc-np-title" id="ccNpTitle">Not Playing</span>
-                <span class="cc-np-artist" id="ccNpArtist">KevinOS Music</span>
+        <div class="cc-grid">
+            <div class="cc-nowplaying" id="ccNowPlaying">
+                <span class="cc-np-art"><svg class="cc-glyph"><use href="#ico-music"></use></svg></span>
+                <div class="cc-np-meta">
+                    <span class="cc-np-title" id="ccNpTitle">Not Playing</span>
+                    <span class="cc-np-artist" id="ccNpArtist">KevinOS Music</span>
+                </div>
+                <div class="cc-np-controls">
+                    <button class="cc-np-btn" id="ccPrev" type="button" aria-label="Previous"><svg class="cc-glyph"><use href="#ico-prev"></use></svg></button>
+                    <button class="cc-np-btn" id="ccPlay" type="button" aria-label="Play or pause"><svg class="cc-glyph cc-play"><use href="#ico-play"></use></svg><svg class="cc-glyph cc-pause"><use href="#ico-pause"></use></svg></button>
+                    <button class="cc-np-btn" id="ccNext" type="button" aria-label="Next"><svg class="cc-glyph"><use href="#ico-next"></use></svg></button>
+                </div>
             </div>
-            <div class="cc-np-controls">
-                <button class="cc-np-btn" id="ccPrev" type="button" aria-label="Previous"><svg class="cc-glyph"><use href="#ico-prev"></use></svg></button>
-                <button class="cc-np-btn" id="ccPlay" type="button" aria-label="Play or pause"><svg class="cc-glyph cc-play"><use href="#ico-play"></use></svg><svg class="cc-glyph cc-pause"><use href="#ico-pause"></use></svg></button>
-                <button class="cc-np-btn" id="ccNext" type="button" aria-label="Next"><svg class="cc-glyph"><use href="#ico-next"></use></svg></button>
-            </div>
-        </div>
-        <div class="cc-utils">
-            <button class="cc-util" type="button" aria-label="Airplane Mode" style="--cc-util-accent:#ff9500"><span class="cc-util-glyph" style="--g:url('images/glyphs/airplane.png')"></span></button>
-            <button class="cc-util" type="button" aria-label="AirPlay" style="--cc-util-accent:#0a84ff"><span class="cc-util-glyph" style="--g:url('images/glyphs/airplay.png')"></span></button>
-            <button class="cc-util" type="button" aria-label="Screen Mirroring" style="--cc-util-accent:#0a84ff"><span class="cc-util-glyph" style="--g:url('images/glyphs/screenmirror.png')"></span></button>
-            <button class="cc-util" type="button" aria-label="Rotation Lock" style="--cc-util-accent:#ff453a"><span class="cc-util-glyph" style="--g:url('images/glyphs/screenlock.png')"></span></button>
-            <button class="cc-util" type="button" aria-label="Shazam" style="--cc-util-accent:#0a84ff"><span class="cc-util-glyph" style="--g:url('images/glyphs/shazam.png')"></span></button>
-            <button class="cc-util cc-util-ai" type="button" aria-label="Ask Kevin's AI"><span class="cc-util-glyph" style="--g:url('images/glyphs/appleintelligence.png')"></span></button>
+            <button class="cc-util cc-dark" id="ccDarkBtn" type="button" aria-label="Dark Mode"><span class="cc-util-glyph" id="ccDarkGlyph"></span></button>
+            <button class="cc-util cc-party" id="ccPartyBtn" type="button" style="--cc-util-accent:#ff2d95" aria-label="Party Mode"><svg class="cc-util-svg"><use href="#ico-sparkles"></use></svg></button>
+            <button class="cc-util cc-sound" id="ccSoundBtn" type="button" aria-label="Sound"><span class="cc-util-glyph cc-snd-on" style="--g:url('images/glyphs/speaker.png')"></span><span class="cc-util-glyph cc-snd-off" style="--g:url('images/glyphs/speaker-slash.png')"></span></button>
+            <button class="cc-util cc-deco" type="button" style="--cc-util-accent:#0a84ff" aria-label="Shazam"><span class="cc-util-glyph" style="--g:url('images/glyphs/shazam.png')"></span></button>
+            <button class="cc-util cc-deco" type="button" style="--cc-util-accent:#ff9500" aria-label="Airplane Mode"><span class="cc-util-glyph" style="--g:url('images/glyphs/airplane.png')"></span></button>
+            <button class="cc-util cc-deco" type="button" style="--cc-util-accent:#0a84ff" aria-label="AirPlay"><span class="cc-util-glyph" style="--g:url('images/glyphs/airplay.png')"></span></button>
+            <button class="cc-util cc-deco" type="button" style="--cc-util-accent:#0a84ff" aria-label="Screen Mirroring"><span class="cc-util-glyph" style="--g:url('images/glyphs/screenmirror.png')"></span></button>
+            <button class="cc-util cc-deco" type="button" style="--cc-util-accent:#ff453a" aria-label="Rotation Lock"><span class="cc-util-glyph" style="--g:url('images/glyphs/screenlock.png')"></span></button>
+            <button class="cc-util cc-deco" type="button" style="--cc-util-accent:#0a84ff" aria-label="Bluetooth"><span class="cc-util-glyph" style="--g:url('images/glyphs/bluetooth.svg')"></span></button>
+            <button class="cc-util cc-deco" type="button" style="--cc-util-accent:#34c759" aria-label="Personal Hotspot"><span class="cc-util-glyph" style="--g:url('images/glyphs/hotspot.png')"></span></button>
         </div>
     </div>
 
@@ -2486,7 +2477,7 @@
         <button type="button" class="kos-rotate-skip" id="kosRotateSkip">Continue anyway</button>
     </div>
 
-    <script src="kevinos.js?v=011f68a4"></script>
+    <script src="kevinos.js?v=c00e5fd3"></script>
 </body>
 
 </html>
