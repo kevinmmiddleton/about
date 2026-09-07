@@ -5929,6 +5929,9 @@ function updateSpotlightSelection(items) {
 
 // Open/close handlers
 spotlightBtn?.addEventListener('click', openSpotlight);
+document.getElementById('controlCenterBtn')?.addEventListener('click', () => {
+    if (notificationCenter?.classList.contains('active')) closeNotificationCenter(); else openNotificationCenter();
+});
 spotlightOverlay?.addEventListener('click', (e) => {
     if (e.target === spotlightOverlay) closeSpotlight();
 });

@@ -12199,3 +12199,20 @@ html:not(.kos-mobile) #experience .window-content {
         background: var(--bg);
     }
 }
+
+
+/* Menubar glyphs (spotlight circle, control center toggles) as real icons */
+.menubar-icon .mb-glyph {
+    width: 15px;
+    height: 15px;
+    vertical-align: -2px;
+    color: currentColor;
+}
+/* Search overlay: 'Search or Ask' with a mic on the right, no left icon */
+.spotlight-mic {
+    display: inline-flex;
+    align-items: center;
+    opacity: 0.5;
+    flex-shrink: 0;
+}
+.spotlight-mic .sf-glyph { width: 17px; height: 17px; }
