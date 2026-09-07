@@ -12078,11 +12078,6 @@ html:not(.kos-mobile) #experience .window-content {
     vertical-align: -2px;
     color: currentColor;
 }
-/* The Spotlight/Siri glyph reads a touch larger than the rest */
-#spotlightBtn .mb-glyph {
-    width: 18px;
-    height: 18px;
-}
 /* Masked glyphs: Kevin's SF Symbol PNGs painted with currentColor so they
    recolor with the theme and stay crisp on Retina. --g is the image URL. */
 .mb-img, .cc-img {
