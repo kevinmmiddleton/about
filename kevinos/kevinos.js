@@ -5929,8 +5929,9 @@ function updateSpotlightSelection(items) {
 
 // Open/close handlers
 spotlightBtn?.addEventListener('click', openSpotlight);
-document.getElementById('controlCenterBtn')?.addEventListener('click', () => {
-    if (notificationCenter?.classList.contains('active')) closeNotificationCenter(); else openNotificationCenter();
+document.getElementById('controlCenterBtn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (controlCenter?.classList.contains('active')) closeControlCenter(); else openControlCenter();
 });
 spotlightOverlay?.addEventListener('click', (e) => {
     if (e.target === spotlightOverlay) closeSpotlight();
@@ -5991,6 +5992,63 @@ menubarTime?.addEventListener('click', () => {
 
 ncClose?.addEventListener('click', closeNotificationCenter);
 ncBackdrop?.addEventListener('click', closeNotificationCenter);
+
+// ===================
+// CONTROL CENTER
+// ===================
+const controlCenter = document.getElementById('controlCenter');
+
+function refreshControlCenter() {
+    if (!controlCenter) return;
+    document.getElementById('ccDarkBtn')?.classList.toggle('on', root.dataset.theme === 'dark');
+    document.getElementById('ccPartyBtn')?.classList.toggle('on', document.body.classList.contains('party-mode'));
+    const t = playlist[currentTrack];
+    if (t) {
+        document.getElementById('ccNpTitle').textContent = t.title;
+        document.getElementById('ccNpArtist').textContent = t.artist;
+    }
+    document.getElementById('ccPlay')?.classList.toggle('playing', !audio.paused);
+}
+
+function openControlCenter() {
+    if (!controlCenter) return;
+    if (notificationCenter?.classList.contains('active')) closeNotificationCenter();
+    refreshControlCenter();
+    controlCenter.classList.add('active');
+}
+function closeControlCenter() { controlCenter?.classList.remove('active'); }
+let ccSuppressDismiss = false;
+
+if (controlCenter) {
+    document.getElementById('ccDarkBtn')?.addEventListener('click', () => {
+        applyTheme(root.dataset.theme === 'light' ? 'dark' : 'light');
+        refreshControlCenter();
+    });
+    document.getElementById('ccPartyBtn')?.addEventListener('click', () => {
+        ccSuppressDismiss = true;               // the synthetic click bubbles from outside the panel
+        document.getElementById('partyBtn')?.click();
+        ccSuppressDismiss = false;
+        refreshControlCenter();
+    });
+    document.getElementById('ccPrev')?.addEventListener('click', () => { prevTrack(); setTimeout(refreshControlCenter, 60); });
+    document.getElementById('ccNext')?.addEventListener('click', () => { nextTrack(); setTimeout(refreshControlCenter, 60); });
+    document.getElementById('ccPlay')?.addEventListener('click', () => { togglePlay(); setTimeout(refreshControlCenter, 60); });
+
+    // Keep the play/pause + title in sync while the panel is open
+    ['play', 'pause', 'ended'].forEach(ev => audio.addEventListener(ev, () => {
+        if (controlCenter.classList.contains('active')) refreshControlCenter();
+    }));
+
+    // Light-dismiss: click outside the panel or its toggle
+    document.addEventListener('click', (e) => {
+        if (!controlCenter.classList.contains('active') || ccSuppressDismiss) return;
+        if (controlCenter.contains(e.target) || e.target.closest('#controlCenterBtn')) return;
+        closeControlCenter();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && controlCenter.classList.contains('active')) closeControlCenter();
+    });
+}
 
 // ===================
 // LAUNCHPAD
