@@ -6822,7 +6822,8 @@ const kosSound = (function () {
     const paint = () => {
         const on = isOn();
         if (btn) {
-            btn.textContent = on ? '\u{1F50A}' : '\u{1F507}';
+            const g = document.getElementById('menubarSoundGlyph');
+            if (g) g.style.setProperty('--g', `url('images/glyphs/${on ? 'speaker' : 'speaker-slash'}.png')`);
             btn.setAttribute('aria-pressed', on ? 'true' : 'false');
             btn.setAttribute('aria-label', on ? 'Mute' : 'Sound off');
         }
@@ -7278,17 +7279,19 @@ const kosSound = (function () {
         const batt = document.createElement('span');
         batt.className = 'kos-batt';
         batt.setAttribute('role', 'img');
-        batt.innerHTML = `<span class="kos-batt-shell"><span class="kos-batt-fill"></span></span><span class="kos-batt-pct"></span>`;
+        batt.innerHTML = `<span class="kos-batt-glyph mb-img"></span><span class="kos-batt-pct"></span>`;
         right.insertBefore(batt, right.firstElementChild);
-        const fill = batt.querySelector('.kos-batt-fill');
+        const glyph = batt.querySelector('.kos-batt-glyph');
         const pctEl = batt.querySelector('.kos-batt-pct');
+        // Kevin's SF Symbol battery art, one file per quarter step
+        const battLevel = p => p < 13 ? 0 : p < 38 ? 25 : p < 63 ? 50 : p < 88 ? 75 : 100;
         function battTick() {
             const h = new Date().getHours() + new Date().getMinutes() / 60;
             // drains through the day, dinner tops it up, sleep recharges it:
             // low past midnight, climbing toward a 90% morning
             let pct = h < 8 ? Math.min(90, Math.round(20 + h * 9)) : Math.max(14, Math.round(100 - (h - 8) * 6.5));
             if (h >= 19 && h < 21) pct = Math.min(pct + 22, 88);
-            fill.style.width = pct + '%';
+            glyph.style.setProperty('--g', `url('images/glyphs/battery${battLevel(pct)}.png')`);
             pctEl.textContent = pct + '%';
             batt.classList.toggle('low', pct <= 25);
             batt.title = `Social battery: ${pct}%` + (pct <= 25 ? ' — recharges overnight' : '');

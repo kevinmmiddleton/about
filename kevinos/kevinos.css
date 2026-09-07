@@ -9453,28 +9453,12 @@ html:not(.kos-mobile) .menubar-app { position: relative; cursor: default; paddin
     letter-spacing: .05em;
     color: var(--text-dim);
 }
-.kos-batt-shell {
-    width: 22px; height: 11px;
-    border: 1px solid var(--text-dim);
-    border-radius: 3px;
-    position: relative;
-    padding: 1.5px;
+.kos-batt-glyph {
+    width: 25px;
+    height: 12px;
+    vertical-align: middle;
 }
-.kos-batt-shell::after {
-    content: '';
-    position: absolute;
-    right: -3.5px; top: 3px;
-    width: 2px; height: 5px;
-    background: var(--text-dim);
-    border-radius: 0 1.5px 1.5px 0;
-}
-.kos-batt-fill {
-    height: 100%;
-    background: var(--marigold);
-    border-radius: 1.5px;
-    min-width: 2px;
-}
-.kos-batt.low .kos-batt-fill { background: #C3384B; }
+.kos-batt.low .kos-batt-glyph { color: #C3384B; }
 
 /* ---- toast */
 .kos-toast {
