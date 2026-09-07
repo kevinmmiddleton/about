@@ -12058,6 +12058,8 @@ html:not(.kos-mobile) #experience .window-content {
     vertical-align: -2px;
     color: currentColor;
 }
+/* Wi-Fi is a wide glyph — match the others' height, let width follow */
+.menubar-wifi .mb-glyph { width: 19px; height: 15px; }
 /* Masked glyphs: Kevin's SF Symbol PNGs painted with currentColor so they
    recolor with the theme and stay crisp on Retina. --g is the image URL. */
 .mb-img, .cc-img, .sp-img, .wx-img {
