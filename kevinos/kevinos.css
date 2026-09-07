@@ -12071,11 +12071,17 @@ html:not(.kos-mobile) #experience .window-content {
 }
 /* Masked glyphs: Kevin's SF Symbol PNGs painted with currentColor so they
    recolor with the theme and stay crisp on Retina. --g is the image URL. */
-.mb-img, .cc-img, .sp-img {
+.mb-img, .cc-img, .sp-img, .wx-img {
     display: inline-block;
     background-color: currentColor;
     -webkit-mask: var(--g) center / contain no-repeat;
     mask: var(--g) center / contain no-repeat;
+}
+/* Weather glyph scales with its container's font-size (widget 24 / mobile 32 / NC 40) */
+.wx-img {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
 }
 /* Search overlay: 'Search or Ask' with a mic on the right, no left icon */
 .spotlight-mic {

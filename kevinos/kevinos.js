@@ -5649,33 +5649,38 @@ async function fetchWeather() {
         finally { clearTimeout(timer); }
     }
 
-    // Open-Meteo WMO weather codes -> emoji
-    const wmoEmoji = {
-        0: '☀️',      // Clear sky
-        1: '🌤️',     // Mainly clear
-        2: '⛅',      // Partly cloudy
-        3: '☁️',      // Overcast
-        45: '🌫️', 48: '🌫️',                 // Fog
-        51: '🌧️', 53: '🌧️', 55: '🌧️',       // Drizzle
-        61: '🌧️', 63: '🌧️', 65: '🌧️',       // Rain
-        71: '🌨️', 73: '🌨️', 75: '❄️', 77: '🌨️', // Snow
-        80: '🌦️', 81: '🌦️', 82: '🌧️',       // Rain showers
-        85: '🌨️', 86: '🌨️',                 // Snow showers
-        95: '⛈️', 96: '⛈️', 99: '⛈️',        // Thunderstorm
+    // Open-Meteo WMO weather codes -> Kevin's weather glyphs
+    const wmoGlyph = {
+        0: 'wx-clear',                                  // Clear sky
+        1: 'wx-partlycloudy', 2: 'wx-partlycloudy',     // Mainly / partly cloudy
+        3: 'wx-overcast',                               // Overcast
+        45: 'wx-fog', 48: 'wx-fog',                     // Fog
+        51: 'wx-rain', 53: 'wx-rain', 55: 'wx-rain',    // Drizzle
+        56: 'wx-rain', 57: 'wx-rain',                   // Freezing drizzle
+        61: 'wx-rain', 63: 'wx-rain', 65: 'wx-rain',    // Rain
+        66: 'wx-rain', 67: 'wx-rain',                   // Freezing rain
+        71: 'wx-snow', 73: 'wx-snow', 75: 'wx-heavysnow', 77: 'wx-snow', // Snow
+        80: 'wx-showers', 81: 'wx-showers', 82: 'wx-showers',            // Rain showers
+        85: 'wx-snow', 86: 'wx-snow',                   // Snow showers
+        95: 'wx-thunder', 96: 'wx-thunder', 99: 'wx-thunder',           // Thunderstorm
     };
 
-    // wttr.in reports a text description -> emoji (keyword match)
-    function descToEmoji(desc) {
+    // wttr.in reports a text description -> glyph (keyword match)
+    function descToGlyph(desc) {
         const d = (desc || '').toLowerCase();
-        if (d.includes('thunder')) return '⛈️';
-        if (d.includes('snow') || d.includes('blizzard') || d.includes('ice')) return '❄️';
-        if (d.includes('sleet')) return '🌨️';
-        if (d.includes('rain') || d.includes('drizzle') || d.includes('shower')) return '🌧️';
-        if (d.includes('fog') || d.includes('mist')) return '🌫️';
-        if (d.includes('overcast')) return '☁️';
-        if (d.includes('cloud')) return '⛅';
-        if (d.includes('sunny') || d.includes('clear')) return '☀️';
-        return '🌡️';
+        if (d.includes('tornado')) return 'wx-tornado';
+        if (d.includes('hurricane') || d.includes('cyclone')) return 'wx-hurricane';
+        if (d.includes('thunder')) return 'wx-thunder';
+        if (d.includes('blizzard')) return 'wx-heavysnow';
+        if (d.includes('snow') || d.includes('ice') || d.includes('sleet')) return 'wx-snow';
+        if (d.includes('rain') || d.includes('drizzle') || d.includes('shower'))
+            return (d.includes('sun') || d.includes('partly')) ? 'wx-showers' : 'wx-rain';
+        if (d.includes('fog') || d.includes('mist') || d.includes('haze')) return 'wx-fog';
+        if (d.includes('wind') || d.includes('gale') || d.includes('breez')) return 'wx-windy';
+        if (d.includes('overcast')) return 'wx-overcast';
+        if (d.includes('cloud')) return 'wx-cloudy';
+        if (d.includes('sunny') || d.includes('clear')) return 'wx-clear';
+        return 'wx-cloudy';
     }
 
     // Two keyless, CORS-enabled providers, raced so the fastest healthy one wins
@@ -5684,14 +5689,14 @@ async function fetchWeather() {
         const r = await timedFetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`, 6000);
         if (!r.ok) throw new Error('open-meteo ' + r.status);
         const d = await r.json();
-        return { temp: Math.round(d.current.temperature_2m), emoji: wmoEmoji[d.current.weather_code] || '🌡️' };
+        return { temp: Math.round(d.current.temperature_2m), glyph: wmoGlyph[d.current.weather_code] || 'wx-cloudy' };
     }
     async function fromWttr() {
         const r = await timedFetch(`https://wttr.in/${lat},${lon}?format=j1`, 6000);
         if (!r.ok) throw new Error('wttr ' + r.status);
         const d = await r.json();
         const c = d.current_condition[0];
-        return { temp: Math.round(Number(c.temp_F)), emoji: descToEmoji(c.weatherDesc && c.weatherDesc[0] && c.weatherDesc[0].value) };
+        return { temp: Math.round(Number(c.temp_F)), glyph: descToGlyph(c.weatherDesc && c.weatherDesc[0] && c.weatherDesc[0].value) };
     }
 
     let w;
@@ -5703,9 +5708,10 @@ async function fetchWeather() {
     }
 
     const tempStr = `${w.temp}°F`;
-    if (weatherIcon) weatherIcon.textContent = w.emoji;
+    const wxMarkup = `<span class="wx-img" style="--g:url('images/glyphs/${w.glyph}.png')"></span>`;
+    if (weatherIcon) weatherIcon.innerHTML = wxMarkup;
     if (weatherTemp) weatherTemp.textContent = tempStr;
-    if (desktopWeatherIcon) desktopWeatherIcon.textContent = w.emoji;
+    if (desktopWeatherIcon) desktopWeatherIcon.innerHTML = wxMarkup;
     if (desktopWeatherTemp) desktopWeatherTemp.textContent = tempStr;
 }
 
@@ -5950,7 +5956,7 @@ function openNotificationCenter() {
     const desktopIcon = document.getElementById('desktopWeatherIcon');
     const desktopTemp = document.getElementById('desktopWeatherTemp');
 
-    if (ncWeatherIcon && desktopIcon) ncWeatherIcon.textContent = desktopIcon.textContent;
+    if (ncWeatherIcon && desktopIcon) ncWeatherIcon.innerHTML = desktopIcon.innerHTML;
     if (ncWeatherTemp && desktopTemp) ncWeatherTemp.textContent = desktopTemp.textContent;
 }
 
