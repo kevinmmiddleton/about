@@ -5741,26 +5741,26 @@ const searchableItems = [
     // Title = the app the window is dressed as; subtitle = what's inside
     // (also what keeps the old keyword searchable).
     // Identity
-    { type: 'window', id: 'about', glyph: 'social', ico: 'profile', icon: '👤', title: 'Social', subtitle: 'About Kevin · profile' },
-    { type: 'window', id: 'values', glyph: 'settings', ico: 'values', icon: '🧭', title: 'Settings', subtitle: 'Values' },
+    { type: 'window', id: 'about', glyph: 'social.png', ico: 'profile', icon: '👤', title: 'Social', subtitle: 'About Kevin · profile' },
+    { type: 'window', id: 'values', glyph: 'settings.png', ico: 'values', icon: '🧭', title: 'Settings', subtitle: 'Values' },
     // Proof of work
-    { type: 'window', id: 'experience', glyph: 'timemachine', ico: 'experience', icon: '📁', title: 'Time Machine', subtitle: 'Experience' },
-    { type: 'window', id: 'building', glyph: 'appstore', ico: 'building', icon: '🛠️', title: 'App Store', subtitle: 'Building' },
-    { type: 'window', id: 'writing', glyph: 'notes', ico: 'writing', icon: '✍️', title: 'Notes', subtitle: 'Writing' },
+    { type: 'window', id: 'experience', glyph: 'timemachine.png', ico: 'experience', icon: '📁', title: 'Time Machine', subtitle: 'Experience' },
+    { type: 'window', id: 'building', glyph: 'appstore.png', ico: 'building', icon: '🛠️', title: 'App Store', subtitle: 'Building' },
+    { type: 'window', id: 'writing', glyph: 'notes.png', ico: 'writing', icon: '✍️', title: 'Notes', subtitle: 'Writing' },
     { type: 'window', id: 'keynote', ico: 'keynote', icon: '📊', title: 'Keynote', subtitle: 'Case studies' },
-    { type: 'window', id: 'strengths', glyph: 'shortcuts', ico: 'strengths', icon: '🏅', title: 'Shortcuts', subtitle: 'Strengths' },
-    { type: 'window', id: 'recommendations', glyph: 'messages', ico: 'reviews', icon: '💬', title: 'Messages', subtitle: 'Recommendations · reviews' },
+    { type: 'window', id: 'strengths', glyph: 'shortcuts.png', ico: 'strengths', icon: '🏅', title: 'Shortcuts', subtitle: 'Strengths' },
+    { type: 'window', id: 'recommendations', glyph: 'messages.png', ico: 'reviews', icon: '💬', title: 'Messages', subtitle: 'Recommendations · reviews' },
     // Fun/personality
-    { type: 'window', id: 'games', ico: 'games', icon: '🎮', title: 'Games', subtitle: 'Arcade' },
-    { type: 'window', id: 'recipesdb', ico: 'recipes', icon: '🗃️', title: 'Recipes', subtitle: 'What I cook' },
+    { type: 'window', id: 'games', glyph: 'games.png', ico: 'games', icon: '🎮', title: 'Games', subtitle: 'Arcade' },
+    { type: 'window', id: 'recipesdb', glyph: 'recipes.png', ico: 'recipes', icon: '🗃️', title: 'Recipes', subtitle: 'What I cook' },
     // Action
-    { type: 'window', id: 'terminal', ico: 'terminal', icon: '⌨️', title: 'Terminal', subtitle: 'terminal.app' },
-    { type: 'window', id: 'aim', ico: 'aim', icon: '💬', title: 'Claude', subtitle: 'claude · chat' },
-    { type: 'window', id: 'connect', glyph: 'mail', ico: 'connect', icon: '📟', title: 'Mail', subtitle: 'Contact · connect' },
+    { type: 'window', id: 'terminal', glyph: 'terminal.png', ico: 'terminal', icon: '⌨️', title: 'Terminal', subtitle: 'terminal.app' },
+    { type: 'window', id: 'aim', glyph: 'claude.svg', ico: 'aim', icon: '💬', title: 'Claude', subtitle: 'claude · chat' },
+    { type: 'window', id: 'connect', glyph: 'mail.png', ico: 'connect', icon: '📟', title: 'Mail', subtitle: 'Contact · connect' },
     // System actions
     { type: 'action', id: 'theme', ico: 'halfmoon', icon: '🌓', title: 'Toggle Dark Mode', subtitle: 'Switch theme' },
     // External links
-    { type: 'link', id: 'email', ico: 'email', icon: '📧', title: 'Email Kevin', subtitle: 'kevin@middleton.io', url: 'mailto:kevin@middleton.io' },
+    { type: 'link', id: 'email', glyph: 'mail.png', ico: 'email', icon: '📧', title: 'Email Kevin', subtitle: 'kevin@middleton.io', url: 'mailto:kevin@middleton.io' },
     { type: 'link', id: 'linkedin', ico: 'linkedin', icon: '💼', title: 'LinkedIn', subtitle: 'linkedin.com/in/kevinmiddleton', url: 'https://linkedin.com/in/kevinmiddleton' },
     { type: 'link', id: 'calendly', ico: 'calendar', icon: '📅', title: 'Schedule a Call', subtitle: 'calendly.com', url: 'https://calendly.com/kevin-middleton/let-s-talk' },
 ];
@@ -5782,7 +5782,7 @@ function closeSpotlight() {
 // carry an emoji. Where a sprite symbol exists, use it; the emoji stays as the
 // fallback for entries that have no glyph (theme toggle, and the like).
 const icoMarkup = it => it.glyph
-    ? `<span class="sp-img" style="--g:url('images/glyphs/${it.glyph}.png')"></span>`
+    ? `<span class="sp-img" style="--g:url('images/glyphs/${it.glyph}')"></span>`
     : it.ico ? `<svg><use href="#ico-${it.ico}"></use></svg>` : it.icon;
 
 function renderSpotlightResults(query) {
