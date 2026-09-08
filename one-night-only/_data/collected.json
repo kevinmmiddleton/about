@@ -20,6 +20,14 @@
       ],
       "neighborhood": "East Village"
     },
+    "arrochar-playground": {
+      "name": "Arrochar Playground",
+      "address": "Play Area",
+      "geo": [
+        40.597699406311,
+        -74.071126343877
+      ]
+    },
     "bailey-playground": {
       "name": "Bailey Playground",
       "address": "Playground Area",
@@ -621,6 +629,14 @@
       "url": "https://www.scandinaviahouse.org",
       "neighborhood": "Murray Hill"
     },
+    "seaside-wildlife-nature-park": {
+      "name": "Seaside Wildlife Nature Park",
+      "address": "Lawn Area",
+      "geo": [
+        40.540404961973,
+        -74.14280307293
+      ]
+    },
     "seth-low-playground-bealin-square": {
       "name": "Seth Low Playground/ Bealin Square",
       "address": "Seth Low Playground",
@@ -836,6 +852,14 @@
       "geo": [
         40.7297706604,
         -73.960708618164
+      ]
+    },
+    "wolfe-s-pond-park": {
+      "name": "Wolfe's Pond Park",
+      "address": "Entrance - Cornelia Avenue and Chester Avenue",
+      "geo": [
+        40.519500732422,
+        -74.187698364258
       ]
     }
   },
@@ -12793,8 +12817,9 @@
       "title": "2001: A SPACE ODYSSEY | Introduced by Matt Zoller Seitz",
       "start_local": "2026-08-23T17:45",
       "url": "https://www.paristheaternyc.com/special-engagements",
-      "note": "$26",
-      "source": "paris-theater"
+      "note": "$2d",
+      "source": "paris-theater",
+      "source_ref": "2001-big-loud-2026"
     },
     {
       "uid": "fa4bb260c5b2154d@screenings.middleton.io",
@@ -35137,8 +35162,7 @@
       "start_local": "2026-09-07T17:00",
       "end_local": "2026-09-07T22:30",
       "url": "https://www.nycgovparks.org/events/2026/09/07/bryant-park-movie-nights",
-      "source": "nyc-parks",
-      "source_ref": "2194976"
+      "source": "nyc-parks"
     },
     {
       "uid": "dcabcd4eec0e04ca@screenings.middleton.io",
@@ -42260,7 +42284,7 @@
       "title": "MARIE ANTOINETTE | Q&A with Sofia Coppola",
       "start_local": "2026-09-10T18:00",
       "url": "https://www.paristheaternyc.com/special-engagements",
-      "note": "$2a",
+      "note": "$30",
       "source": "paris-theater",
       "source_ref": "marie-antoinette-paris"
     },
@@ -43962,30 +43986,6 @@
       "source": "repertory-nyc"
     },
     {
-      "uid": "4e9efac2f5c42235@screenings.middleton.io",
-      "hash": "4e9efac2f5c42235",
-      "guid": "tag:middleton.io,2026:screening/4e9efac2f5c42235",
-      "id_tuple": "maysles-cinema|chasing-trane|20260911|1900",
-      "film_key": "chasing-trane",
-      "run_key": "maysles-cinema|chasing-trane|2026-09-11",
-      "run_guid": "tag:middleton.io,2026:run/3f6a7545c0134716",
-      "first_emitted_at": "2026-09-07T03:10:44Z",
-      "limited": true,
-      "dates_at_venue": 1,
-      "max_showtimes_per_date": 1,
-      "vintage": true,
-      "vintage_year": null,
-      "vintage_year_from": null,
-      "venue_slug": "maysles-cinema",
-      "programmer": "Maysles Documentary Center",
-      "title": "Chasing Trane",
-      "runtime_min": 99,
-      "start_local": "2026-09-11T19:00",
-      "end_local": "2026-09-11T20:39",
-      "url": "https://www.goelevent.com/maysles/e/ChasingTrane",
-      "source": "elevent"
-    },
-    {
       "uid": "5481517caecd801a@screenings.middleton.io",
       "hash": "5481517caecd801a",
       "guid": "tag:middleton.io,2026:screening/5481517caecd801a",
@@ -44034,6 +44034,30 @@
       "format": "35mm",
       "note": "Larry Clark, in person, following screening.",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "94f60a26a6dcdcec@screenings.middleton.io",
+      "hash": "94f60a26a6dcdcec",
+      "guid": "tag:middleton.io,2026:screening/94f60a26a6dcdcec",
+      "id_tuple": "maysles-cinema|bam-bam-the-sister-nancy-story-sept-11|20260911|1900",
+      "film_key": "bam-bam-the-sister-nancy-story-sept-11",
+      "run_key": "maysles-cinema|bam-bam-the-sister-nancy-story-sept-11|2026-09-11",
+      "run_guid": "tag:middleton.io,2026:run/57766f987e4b06bd",
+      "first_emitted_at": "2026-09-08T21:55:07Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "maysles-cinema",
+      "programmer": "Maysles Documentary Center",
+      "title": "BAM BAM: THE SISTER NANCY STORY-SEPT 11",
+      "runtime_min": 98,
+      "start_local": "2026-09-11T19:00",
+      "end_local": "2026-09-11T20:38",
+      "url": "https://www.goelevent.com/maysles/e/BAMBAMTHESISTERNANCYSTORY-SEPT11",
+      "source": "elevent"
     },
     {
       "uid": "ca0375d7de9ca3a6@screenings.middleton.io",
@@ -44181,6 +44205,31 @@
       "series": "Movies Under the Stars",
       "source": "nyc-parks",
       "source_ref": "2237454"
+    },
+    {
+      "uid": "fc23fb31235b49cc@screenings.middleton.io",
+      "hash": "fc23fb31235b49cc",
+      "guid": "tag:middleton.io,2026:screening/fc23fb31235b49cc",
+      "id_tuple": "wolfe-s-pond-park|miracle|20260911|1930",
+      "film_key": "miracle",
+      "run_key": "wolfe-s-pond-park|miracle|2026-09-11",
+      "run_guid": "tag:middleton.io,2026:run/8b3853d9a20d8628",
+      "first_emitted_at": "2026-09-08T21:55:07Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "wolfe-s-pond-park",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "Miracle",
+      "start_local": "2026-09-11T19:30",
+      "end_local": "2026-09-11T22:30",
+      "url": "https://www.nycgovparks.org/events/2026/09/11/movies-under-the-stars-miracle",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2241933"
     },
     {
       "uid": "1812abcb7f3d3d95@screenings.middleton.io",
@@ -45651,6 +45700,31 @@
       "start_local": "2026-09-12T19:30",
       "url": "https://ticketing.uswest.veezi.com/purchase/7839?siteToken=tt17e5ajy3v48kh5b2kremvnz4",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "a3c93dba86dbdf63@screenings.middleton.io",
+      "hash": "a3c93dba86dbdf63",
+      "guid": "tag:middleton.io,2026:screening/a3c93dba86dbdf63",
+      "id_tuple": "arrochar-playground|minecraft-movie|20260912|1930",
+      "film_key": "minecraft-movie",
+      "run_key": "arrochar-playground|minecraft-movie|2026-09-12",
+      "run_guid": "tag:middleton.io,2026:run/073a0c3e7cbe9aa1",
+      "first_emitted_at": "2026-09-08T21:55:07Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "arrochar-playground",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "A Minecraft Movie",
+      "start_local": "2026-09-12T19:30",
+      "end_local": "2026-09-12T21:30",
+      "url": "https://www.nycgovparks.org/events/2026/09/12/movies-under-the-stars-a-minecraft-movie",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2241923"
     },
     {
       "uid": "bc6ec5f47877fbb1@screenings.middleton.io",
@@ -50871,6 +50945,31 @@
       "source_ref": "2220372"
     },
     {
+      "uid": "1038f34164adbc64@screenings.middleton.io",
+      "hash": "1038f34164adbc64",
+      "guid": "tag:middleton.io,2026:screening/1038f34164adbc64",
+      "id_tuple": "seaside-wildlife-nature-park|mitchells-vs-the-machines|20260918|1915",
+      "film_key": "mitchells-vs-the-machines",
+      "run_key": "seaside-wildlife-nature-park|mitchells-vs-the-machines|2026-09-18",
+      "run_guid": "tag:middleton.io,2026:run/69396e2e683dc08b",
+      "first_emitted_at": "2026-09-08T21:55:07Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "seaside-wildlife-nature-park",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "The Mitchells Vs. The Machines",
+      "start_local": "2026-09-18T19:15",
+      "end_local": "2026-09-18T21:30",
+      "url": "https://www.nycgovparks.org/events/2026/09/18/movies-under-the-stars-the-mitchells-vs-the-machines",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2241779"
+    },
+    {
       "uid": "2dd2f5542c95544b@screenings.middleton.io",
       "hash": "2dd2f5542c95544b",
       "guid": "tag:middleton.io,2026:screening/2dd2f5542c95544b",
@@ -51448,7 +51547,7 @@
       "title": "LETTY LYNTON | Introduced by Farran Smith Nehme",
       "start_local": "2026-09-19T15:00",
       "url": "https://www.paristheaternyc.com/special-engagements",
-      "note": "$27",
+      "note": "$29",
       "source": "paris-theater",
       "source_ref": "letty-lynton-paris"
     },
@@ -55919,10 +56018,10 @@
       "venue_slug": "maysles-cinema",
       "programmer": "Maysles Documentary Center",
       "title": "Legacy Spirit of the Black Panthers",
-      "runtime_min": 25,
+      "runtime_min": 30,
       "start_local": "2026-09-26T19:00",
-      "end_local": "2026-09-26T19:25",
-      "url": "https://www.goelevent.com/maysles/e/LegacySpiritoftheBlackPanthers",
+      "end_local": "2026-09-26T19:30",
+      "url": "https://www.goelevent.com/maysles/e/LegacySpiritoftheBlackPanthers2026",
       "source": "elevent"
     },
     {
@@ -64727,30 +64826,6 @@
       "start_local": "2026-10-10T13:15",
       "url": "https://www.filmlinc.org/films/the-only-living-pickpocket/",
       "source": "repertory-nyc"
-    },
-    {
-      "uid": "92216626ce5682d0@screenings.middleton.io",
-      "hash": "92216626ce5682d0",
-      "guid": "tag:middleton.io,2026:screening/92216626ce5682d0",
-      "id_tuple": "victor-borge-hall|west-nordic-film-days-walls-akinni-inuk-sealskin-father-oh-father|20261010|1400",
-      "film_key": "west-nordic-film-days-walls-akinni-inuk-sealskin-father-oh-father",
-      "run_key": "victor-borge-hall|west-nordic-film-days-walls-akinni-inuk-sealskin-father-oh-father|2026-10-10",
-      "run_guid": "tag:middleton.io,2026:run/bb2ea29295b20eda",
-      "first_emitted_at": "2026-08-21T00:34:17Z",
-      "limited": true,
-      "dates_at_venue": 1,
-      "max_showtimes_per_date": 1,
-      "vintage": true,
-      "vintage_year": null,
-      "vintage_year_from": null,
-      "venue_slug": "victor-borge-hall",
-      "programmer": "Scandinavia House",
-      "title": "West Nordic Film Days: Walls - Akinni Inuk + Sealskin + Father, Oh Father",
-      "runtime_min": 120,
-      "start_local": "2026-10-10T14:00",
-      "end_local": "2026-10-10T16:00",
-      "url": "https://www.goelevent.com/ScandinaviaHouse/e/Walls-AkinniInukSelshamurinnFairmnFair",
-      "source": "elevent"
     },
     {
       "uid": "11dcaa03ffa1ff1d@screenings.middleton.io",
