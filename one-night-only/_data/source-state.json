@@ -43,13 +43,13 @@
     },
     "luma": {
       "label": "Luma calendars (programmer tier)",
-      "status": "empty",
+      "status": "failed",
       "stale": true,
       "last_change_at": "2026-08-22T19:40:17Z",
       "last_ok_count": 1,
       "high_water": 5,
-      "consecutive_failures": 9,
-      "last_error": "returned zero screenings (below the veto floor)"
+      "consecutive_failures": 10,
+      "last_error": "luma: parsed 1 raw items and produced ZERO usable start times (0 dropped for an unparseable time).\n  This is the Film Forum failure mode: well-formed records, empty times.\n  Refusing to report success. Fix the time parse before publishing."
     }
   }
 }
