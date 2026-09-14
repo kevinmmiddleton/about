@@ -332,10 +332,6 @@
         -73.905705213522
       ]
     },
-    "gansevoort-plaza-meatpacking-district": {
-      "name": "Gansevoort Plaza, Meatpacking District",
-      "address": "New York, NY"
-    },
     "green-wood-cemetery": {
       "name": "Green-Wood Cemetery",
       "address": "500 25th St, Brooklyn, NY 11232",
@@ -428,6 +424,14 @@
       "geo": [
         40.797199249268,
         -73.941802978516
+      ]
+    },
+    "john-jay-park": {
+      "name": "John Jay Park",
+      "address": "Playground",
+      "geo": [
+        40.769713445717,
+        -73.94938570261
       ]
     },
     "john-paul-jones-park": {
@@ -606,6 +610,10 @@
         -73.973914
       ],
       "neighborhood": "Midtown"
+    },
+    "pier-57": {
+      "name": "Pier 57",
+      "address": "New York, NY"
     },
     "play-area": {
       "name": "Play Area",
@@ -12909,7 +12917,7 @@
       "title": "2001: A SPACE ODYSSEY | Introduced by Matt Zoller Seitz",
       "start_local": "2026-08-23T17:45",
       "url": "https://www.paristheaternyc.com/special-engagements",
-      "note": "$2d",
+      "note": "$34",
       "source": "paris-theater",
       "source_ref": "2001-big-loud-2026"
     },
@@ -54006,30 +54014,6 @@
       "source": "repertory-nyc"
     },
     {
-      "uid": "61d13c8e644d3e0d@screenings.middleton.io",
-      "hash": "61d13c8e644d3e0d",
-      "guid": "tag:middleton.io,2026:screening/61d13c8e644d3e0d",
-      "id_tuple": "gansevoort-plaza-meatpacking-district|frances-ha|20260914|1900",
-      "film_key": "frances-ha",
-      "run_key": "gansevoort-plaza-meatpacking-district|frances-ha|2026-09-14",
-      "run_guid": "tag:middleton.io,2026:run/d528f4c853c989dc",
-      "first_emitted_at": "2026-08-21T00:34:17Z",
-      "limited": true,
-      "dates_at_venue": 1,
-      "max_showtimes_per_date": 1,
-      "vintage": true,
-      "vintage_year": null,
-      "vintage_year_from": null,
-      "venue_slug": "gansevoort-plaza-meatpacking-district",
-      "programmer": "Rooftop Films",
-      "title": "Frances Ha",
-      "runtime_min": 86,
-      "start_local": "2026-09-14T19:00",
-      "end_local": "2026-09-14T20:26",
-      "url": "https://www.goelevent.com/RooftopFilms/e/FrancesHa",
-      "source": "elevent"
-    },
-    {
       "uid": "6fb00018c8639aa5@screenings.middleton.io",
       "hash": "6fb00018c8639aa5",
       "guid": "tag:middleton.io,2026:screening/6fb00018c8639aa5",
@@ -61024,6 +61008,32 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "2aaa85f09f40ed9f@screenings.middleton.io",
+      "hash": "2aaa85f09f40ed9f",
+      "guid": "tag:middleton.io,2026:screening/2aaa85f09f40ed9f",
+      "id_tuple": "john-jay-park|shrek|20260917|1915",
+      "film_key": "shrek",
+      "run_key": "john-jay-park|shrek|2026-09-17",
+      "run_guid": "tag:middleton.io,2026:run/cc1a83368be5dd4d",
+      "first_emitted_at": "2026-09-14T22:33:41Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 2001,
+      "vintage_year_from": "source",
+      "venue_slug": "john-jay-park",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "Shrek",
+      "year": 2001,
+      "start_local": "2026-09-17T19:15",
+      "end_local": "2026-09-17T21:00",
+      "url": "https://www.nycgovparks.org/events/2026/09/17/movies-under-the-stars-shrek-2001",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2246731"
+    },
+    {
       "uid": "43c1abaa82dd57f3@screenings.middleton.io",
       "hash": "43c1abaa82dd57f3",
       "guid": "tag:middleton.io,2026:screening/43c1abaa82dd57f3",
@@ -63675,7 +63685,7 @@
       "title": "LETTY LYNTON | Introduced by Farran Smith Nehme",
       "start_local": "2026-09-19T15:00",
       "url": "https://www.paristheaternyc.com/special-engagements",
-      "note": "$29",
+      "note": "$2e",
       "source": "paris-theater",
       "source_ref": "letty-lynton-paris"
     },
@@ -70139,6 +70149,29 @@
       "series": "Movies Under the Stars",
       "source": "nyc-parks",
       "source_ref": "2237258"
+    },
+    {
+      "uid": "8a9d7a636079cca9@screenings.middleton.io",
+      "hash": "8a9d7a636079cca9",
+      "guid": "tag:middleton.io,2026:screening/8a9d7a636079cca9",
+      "id_tuple": "paris-theater|peppermint-candy-q-a-with-lee-chang-dong-sul-kyung-gu|20260926|1900",
+      "film_key": "peppermint-candy-q-a-with-lee-chang-dong-sul-kyung-gu",
+      "run_key": "paris-theater|peppermint-candy-q-a-with-lee-chang-dong-sul-kyung-gu|2026-09-26",
+      "run_guid": "tag:middleton.io,2026:run/a53aabcd4f4718c6",
+      "first_emitted_at": "2026-09-14T22:33:41Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "paris-theater",
+      "title": "PEPPERMINT CANDY | Q&A with Lee Chang-dong & Sul Kyung-gu",
+      "start_local": "2026-09-26T19:00",
+      "url": "https://www.paristheaternyc.com/special-engagements",
+      "note": "$30",
+      "source": "paris-theater",
+      "source_ref": "peppermint-candy-paris"
     },
     {
       "uid": "95eba6fc53eb04bd@screenings.middleton.io",
@@ -79055,6 +79088,30 @@
       "start_local": "2026-10-08T17:00",
       "end_local": "2026-10-08T18:42",
       "url": "https://www.goelevent.com/HellenicFilmSociety/e/HOLDONTOME-RECEPTIONANDOPENINGFILM",
+      "source": "elevent"
+    },
+    {
+      "uid": "27b49fa4c9e8a58a@screenings.middleton.io",
+      "hash": "27b49fa4c9e8a58a",
+      "guid": "tag:middleton.io,2026:screening/27b49fa4c9e8a58a",
+      "id_tuple": "pier-57|practical-magic|20261008|1800",
+      "film_key": "practical-magic",
+      "run_key": "pier-57|practical-magic|2026-10-08",
+      "run_guid": "tag:middleton.io,2026:run/7acf56a5449de804",
+      "first_emitted_at": "2026-09-14T22:33:41Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "pier-57",
+      "programmer": "Rooftop Films",
+      "title": "Practical Magic",
+      "runtime_min": 104,
+      "start_local": "2026-10-08T18:00",
+      "end_local": "2026-10-08T19:44",
+      "url": "https://www.goelevent.com/RooftopFilms/e/PracticalMagic",
       "source": "elevent"
     },
     {
