@@ -745,6 +745,36 @@ function socialTags(title, description, url) {
   ];
 }
 
+
+// Icons. Three files, each for a context that cannot use the others:
+//
+//   icon.svg           the Stamp, for browsers that take SVG favicons
+//   favicon.ico        16/32/48, for the ones that don't
+//   apple-touch-icon   the Compact, for the iOS home screen
+//
+// Two forms rather than one because the sizes are two different problems. The
+// Compact carries the RATED bar, which is the joke, and holds it at 180px. At
+// the 16px a tab strip actually draws, that bar is a smear and only the ring
+// survives — so the small end gets the Stamp, which is the form identity.html
+// already defines for exactly that squeeze. Neither is a new drawing.
+//
+// Paths are derived from siteBase rather than written out, so they stay right
+// if the subsite ever moves, and root-relative rather than bare so they resolve
+// the same from /one-night-only/ and /one-night-only/identity.html.
+function iconTags() {
+  const base = new URL(CONFIG.siteBase).pathname;
+  return [
+    `<link rel="icon" href="${xmlAttr(base + 'icon.svg')}" type="image/svg+xml">`,
+    `<link rel="icon" href="${xmlAttr(base + 'favicon.ico')}" sizes="32x32">`,
+    `<link rel="apple-touch-icon" href="${xmlAttr(base + 'apple-touch-icon.png')}">`,
+    `<meta name="apple-mobile-web-app-title" content="${xmlAttr(CONFIG.productName)}">`,
+    // Tints the browser chrome around the page. The plate colour is the one
+    // thing on the site that does not change between schemes, so it is the
+    // right single value here.
+    `<meta name="theme-color" content="#14432F">`,
+  ];
+}
+
 // ---------------------------------------------------------------------------
 // Presentation
 //
@@ -1595,6 +1625,7 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   w(`<meta name="description" content="${xmlAttr(CONFIG.calendarDescription)}">`);
   w(`<link rel="canonical" href="${xmlAttr(CONFIG.siteBase)}">`);
   w(...socialTags(CONFIG.productName, CONFIG.calendarDescription, CONFIG.siteBase));
+  w(...iconTags());
   w(`<link rel="alternate" type="application/rss+xml" title="${xmlAttr(CONFIG.productName)}" href="${xmlAttr(rssUrl)}">`);
   w(`<link rel="alternate" type="text/calendar" title="${xmlAttr(CONFIG.productName)}" href="${xmlAttr(icsUrl)}">`);
   w('<style>');
@@ -2498,6 +2529,7 @@ function buildIdentity() {
   w(...socialTags('The Rated O mark',
     'One rating, its forms, the format ramp, and the colours and type behind them.',
     CONFIG.siteBase + 'identity.html'));
+  w(...iconTags());
   w('<style>');
   w(stripCssComments(PAGE_CSS));
   w(stripCssComments(IDENTITY_CSS));
