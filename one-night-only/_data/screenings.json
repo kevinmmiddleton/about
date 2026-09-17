@@ -976,6 +976,18 @@
     "virtual": {
       "name": "Virtual",
       "address": "New York, NY"
+    },
+    "austin-j-mcdonald-playground": {
+      "name": "Austin J. McDonald Playground",
+      "address": "Austin J. McDonald Playground",
+      "geo": [
+        40.6296344823,
+        -74.1153178021
+      ]
+    },
+    "village-east": {
+      "name": "Village East",
+      "address": "New York, NY"
     }
   },
   "screenings": [
@@ -78319,6 +78331,36 @@
       "updated_at": "2026-09-07T03:10:44Z"
     },
     {
+      "uid": "86c3812939035ab0@screenings.middleton.io",
+      "hash": "86c3812939035ab0",
+      "guid": "tag:middleton.io,2026:screening/86c3812939035ab0",
+      "film_key": "superman",
+      "venue_slug": "austin-j-mcdonald-playground",
+      "title": "Superman",
+      "year": 2025,
+      "start_local": "2026-09-19T19:30",
+      "end_local": "2026-09-19T22:00",
+      "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-superman-2025",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "run_key": "austin-j-mcdonald-playground|superman|2026-09-19",
+      "run_guid": "tag:middleton.io,2026:run/824d1d72329d3e84",
+      "first_emitted_at": "2026-09-17T22:14:57Z",
+      "id_tuple": "austin-j-mcdonald-playground|superman|20260919|1930",
+      "source_ref": "2251641",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": false,
+      "vintage_year": 2025,
+      "vintage_year_from": "source",
+      "status": "confirmed",
+      "sequence": 0,
+      "created_at": "2026-09-17T22:14:57Z",
+      "updated_at": "2026-09-17T22:14:57Z"
+    },
+    {
       "uid": "1d33480eb5c5db3d@screenings.middleton.io",
       "hash": "1d33480eb5c5db3d",
       "guid": "tag:middleton.io,2026:screening/1d33480eb5c5db3d",
@@ -86865,6 +86907,34 @@
       "sequence": 0,
       "created_at": "2026-09-16T10:01:02Z",
       "updated_at": "2026-09-16T10:01:02Z"
+    },
+    {
+      "uid": "b1bda6399d8c50b0@screenings.middleton.io",
+      "hash": "b1bda6399d8c50b0",
+      "guid": "tag:middleton.io,2026:screening/b1bda6399d8c50b0",
+      "film_key": "special-preview-forgotten-island",
+      "venue_slug": "village-east",
+      "title": "Special Preview: Forgotten Island",
+      "runtime_min": 109,
+      "start_local": "2026-09-22T18:00",
+      "end_local": "2026-09-22T19:49",
+      "url": "https://www.goelevent.com/NYICFF/e/SpecialPreviewForgottenIsland",
+      "source": "elevent",
+      "programmer": "New York International Children's Film Festival",
+      "run_key": "village-east|special-preview-forgotten-island|2026-09-22",
+      "run_guid": "tag:middleton.io,2026:run/25b18b5aa05fba7d",
+      "first_emitted_at": "2026-09-17T22:14:57Z",
+      "id_tuple": "village-east|special-preview-forgotten-island|20260922|1800",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "status": "confirmed",
+      "sequence": 0,
+      "created_at": "2026-09-17T22:14:57Z",
+      "updated_at": "2026-09-17T22:14:57Z"
     },
     {
       "uid": "b2a973a5aba5f840@screenings.middleton.io",
@@ -99824,6 +99894,35 @@
       "sequence": 0,
       "created_at": "2026-08-21T08:00:02Z",
       "updated_at": "2026-08-21T08:00:02Z"
+    },
+    {
+      "uid": "0132e336b7f913da@screenings.middleton.io",
+      "hash": "0132e336b7f913da",
+      "guid": "tag:middleton.io,2026:screening/0132e336b7f913da",
+      "film_key": "golden-door",
+      "venue_slug": "inwood-hill-park",
+      "title": "Golden Door",
+      "start_local": "2026-10-01T19:15",
+      "end_local": "2026-10-01T21:15",
+      "url": "https://www.nycgovparks.org/events/2026/10/01/movies-under-the-stars-golden-door",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "run_key": "inwood-hill-park|golden-door|2026-10-01",
+      "run_guid": "tag:middleton.io,2026:run/864becaa461572ce",
+      "first_emitted_at": "2026-09-17T22:14:57Z",
+      "id_tuple": "inwood-hill-park|golden-door|20261001|1915",
+      "source_ref": "2242608",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "status": "confirmed",
+      "sequence": 0,
+      "created_at": "2026-09-17T22:14:57Z",
+      "updated_at": "2026-09-17T22:14:57Z"
     },
     {
       "uid": "bc4813f6d4f3ee1c@screenings.middleton.io",
