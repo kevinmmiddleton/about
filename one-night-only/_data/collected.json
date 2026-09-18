@@ -332,6 +332,14 @@
         -73.973175868392
       ]
     },
+    "fred-samuel-playground": {
+      "name": "Fred Samuel Playground",
+      "address": "Fred Samuel Playground - Play Area",
+      "geo": [
+        40.817199707031,
+        -73.93920135498
+      ]
+    },
     "fulton-street-and-callahan-kelly-playground-basketball-court": {
       "name": "Fulton Street and Callahan Kelly Playground- Basketball Courts",
       "address": "Fulton Street and Callahan Kelly Playground- Basketball Courts",
@@ -452,10 +460,10 @@
     },
     "julio-carballo-fields": {
       "name": "Julio Carballo Fields",
-      "address": "Hunts Point Recreation Center",
+      "address": "Athletic Field",
       "geo": [
-        40.815035990124,
-        -73.889272272587
+        40.815535113133,
+        -73.88931787014
       ]
     },
     "kwame-ture-recreation-center": {
@@ -44884,8 +44892,8 @@
       "run_key": "van-cortlandt-park|starlight-cinema-in-van-cortlandt-park|2026-09-11",
       "run_guid": "tag:middleton.io,2026:run/5dd485a40bad23f8",
       "first_emitted_at": "2026-09-07T03:10:44Z",
-      "limited": true,
-      "dates_at_venue": 3,
+      "limited": false,
+      "dates_at_venue": 4,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -61044,8 +61052,7 @@
       "end_local": "2026-09-17T21:00",
       "url": "https://www.nycgovparks.org/events/2026/09/17/movies-under-the-stars-shrek-2001",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2246731"
+      "source": "nyc-parks"
     },
     {
       "uid": "43c1abaa82dd57f3@screenings.middleton.io",
@@ -61070,8 +61077,7 @@
       "end_local": "2026-09-17T21:30",
       "url": "https://www.nycgovparks.org/events/2026/09/17/movies-under-the-stars-catch-me-if-you-can-2002",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2234891"
+      "source": "nyc-parks"
     },
     {
       "uid": "4173219c239c906e@screenings.middleton.io",
@@ -63241,8 +63247,8 @@
       "run_key": "van-cortlandt-park|starlight-cinema-in-van-cortlandt-park|2026-09-11",
       "run_guid": "tag:middleton.io,2026:run/5dd485a40bad23f8",
       "first_emitted_at": "2026-09-07T03:10:44Z",
-      "limited": true,
-      "dates_at_venue": 3,
+      "limited": false,
+      "dates_at_venue": 4,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -79640,9 +79646,9 @@
       "title": "Climate Week NYC Documentary Screening: River Restoration & Climate Resilience",
       "start_local": "2026-09-24T18:00",
       "end_local": "2026-09-24T20:00",
-      "url": "https://www.nycgovparks.org/events/2026/09/24/climate-week-nyc-documentary-screening-river-restoration-cl",
+      "url": "https://www.nycgovparks.org/events/2026/09/24/climate-week-nyc-documentary-screening-river-restoration-cl1",
       "source": "nyc-parks",
-      "source_ref": "2234734"
+      "source_ref": "2240399"
     },
     {
       "uid": "c928abab298e8a97@screenings.middleton.io",
@@ -81028,8 +81034,8 @@
       "run_key": "van-cortlandt-park|starlight-cinema-in-van-cortlandt-park|2026-09-11",
       "run_guid": "tag:middleton.io,2026:run/5dd485a40bad23f8",
       "first_emitted_at": "2026-09-12T21:28:54Z",
-      "limited": true,
-      "dates_at_venue": 3,
+      "limited": false,
+      "dates_at_venue": 4,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -87992,6 +87998,30 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "de2fb3a3d269c27f@screenings.middleton.io",
+      "hash": "de2fb3a3d269c27f",
+      "guid": "tag:middleton.io,2026:screening/de2fb3a3d269c27f",
+      "id_tuple": "van-cortlandt-park|starlight-cinema-in-van-cortlandt-park|20261002|1730",
+      "film_key": "starlight-cinema-in-van-cortlandt-park",
+      "run_key": "van-cortlandt-park|starlight-cinema-in-van-cortlandt-park|2026-09-11",
+      "run_guid": "tag:middleton.io,2026:run/5dd485a40bad23f8",
+      "first_emitted_at": "2026-09-18T21:44:00Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "van-cortlandt-park",
+      "programmer": "NYC Parks",
+      "title": "Starlight Cinema in Van Cortlandt Park",
+      "start_local": "2026-10-02T17:30",
+      "end_local": "2026-10-02T21:30",
+      "url": "https://www.nycgovparks.org/events/2026/10/02/starlight-cinema-in-van-cortlandt-park",
+      "source": "nyc-parks",
+      "source_ref": "2234414"
+    },
+    {
       "uid": "0a5744dff88c52b0@screenings.middleton.io",
       "hash": "0a5744dff88c52b0",
       "guid": "tag:middleton.io,2026:screening/0a5744dff88c52b0",
@@ -88229,6 +88259,58 @@
       "end_local": "2026-10-02T21:00",
       "url": "https://www.goelevent.com/maysles/e/365DaysofMarchingTheAmadouDialloStory",
       "source": "elevent"
+    },
+    {
+      "uid": "f643d76dc670c8e9@screenings.middleton.io",
+      "hash": "f643d76dc670c8e9",
+      "guid": "tag:middleton.io,2026:screening/f643d76dc670c8e9",
+      "id_tuple": "fred-samuel-playground|goat|20261002|1915",
+      "film_key": "goat",
+      "run_key": "fred-samuel-playground|goat|2026-10-02",
+      "run_guid": "tag:middleton.io,2026:run/cc7399d4ad47afe7",
+      "first_emitted_at": "2026-09-18T21:44:00Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "source",
+      "venue_slug": "fred-samuel-playground",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "Goat",
+      "year": 2026,
+      "start_local": "2026-10-02T19:15",
+      "end_local": "2026-10-02T21:30",
+      "url": "https://www.nycgovparks.org/events/2026/10/02/movies-under-the-stars-goat-2026",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2242725"
+    },
+    {
+      "uid": "b50413cac797813a@screenings.middleton.io",
+      "hash": "b50413cac797813a",
+      "guid": "tag:middleton.io,2026:screening/b50413cac797813a",
+      "id_tuple": "julio-carballo-fields|supergirl|20261002|2000",
+      "film_key": "supergirl",
+      "run_key": "julio-carballo-fields|supergirl|2026-10-02",
+      "run_guid": "tag:middleton.io,2026:run/f4e1f07e618536e0",
+      "first_emitted_at": "2026-09-18T21:44:00Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "source",
+      "venue_slug": "julio-carballo-fields",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "Supergirl",
+      "year": 2026,
+      "start_local": "2026-10-02T20:00",
+      "end_local": "2026-10-02T22:30",
+      "url": "https://www.nycgovparks.org/events/2026/10/02/movies-under-the-stars-supergirl-2026",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2227340"
     },
     {
       "uid": "4b58cfe0db03da49@screenings.middleton.io",
