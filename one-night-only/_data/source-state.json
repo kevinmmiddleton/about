@@ -5,8 +5,8 @@
       "label": "Elevent (goelevent.com)",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-09-17T22:14:57Z",
-      "last_ok_count": 55,
+      "last_change_at": "2026-09-18T09:51:28Z",
+      "last_ok_count": 54,
       "high_water": 56,
       "consecutive_failures": 0,
       "last_error": null
@@ -15,8 +15,8 @@
       "label": "repertory.nyc",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-09-17T10:04:36Z",
-      "last_ok_count": 1507,
+      "last_change_at": "2026-09-18T09:51:28Z",
+      "last_ok_count": 1496,
       "high_water": 1559,
       "consecutive_failures": 0,
       "last_error": null
@@ -43,13 +43,13 @@
     },
     "luma": {
       "label": "Luma calendars (programmer tier)",
-      "status": "failed",
+      "status": "empty",
       "stale": true,
       "last_change_at": "2026-08-22T19:40:17Z",
       "last_ok_count": 1,
       "high_water": 5,
-      "consecutive_failures": 25,
-      "last_error": "luma: parsed 1 raw items and produced ZERO usable start times (0 dropped for an unparseable time).\n  This is the Film Forum failure mode: well-formed records, empty times.\n  Refusing to report success. Fix the time parse before publishing."
+      "consecutive_failures": 26,
+      "last_error": "returned zero screenings (below the veto floor)"
     }
   }
 }
