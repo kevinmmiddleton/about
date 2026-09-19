@@ -5,8 +5,8 @@
       "label": "Elevent (goelevent.com)",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-09-19T09:35:19Z",
-      "last_ok_count": 52,
+      "last_change_at": "2026-09-19T21:29:13Z",
+      "last_ok_count": 54,
       "high_water": 56,
       "consecutive_failures": 0,
       "last_error": null
@@ -23,13 +23,13 @@
     },
     "nyc-parks": {
       "label": "NYC Parks (NYC Open Data w3wp-dpdi)",
-      "status": "ok",
-      "stale": false,
+      "status": "failed",
+      "stale": true,
       "last_change_at": "2026-09-18T21:44:00Z",
       "last_ok_count": 34,
       "high_water": 53,
-      "consecutive_failures": 0,
-      "last_error": null
+      "consecutive_failures": 1,
+      "last_error": "HTTP 503 from https://data.cityofnewyork.us/resource/w3wp-dpdi.json?$select=guid%2Ctitle%2Cstarttime%2Cendtime%2Cparknames%2Cparkids%2Clocation%2Ccoordinates%2Ccategories%2Cdescription%2Clink%2Cimage&$where=categories%20like%20'%25Film%25'%20OR%20categories%20like%20'%25Free%20Summer%20Movies%25'%20OR%20categories%20like%20'%25Movies%20Under%20the%20Stars%25'&$order=starttime&$limit=1000"
     },
     "paris-theater": {
       "label": "The Paris Theater",
@@ -48,7 +48,7 @@
       "last_change_at": "2026-08-22T19:40:17Z",
       "last_ok_count": 1,
       "high_water": 5,
-      "consecutive_failures": 28,
+      "consecutive_failures": 29,
       "last_error": "returned zero screenings (below the veto floor)"
     }
   }
