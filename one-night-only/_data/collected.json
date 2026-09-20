@@ -669,10 +669,6 @@
         -73.94059753418
       ]
     },
-    "reception-acadia-restaurant-film-directors-guild-theater": {
-      "name": "RECEPTION - Acadia Restaurant, FILM- Directors Guild Theater",
-      "address": "New York, NY"
-    },
     "regal-concourse": {
       "name": "Regal Concourse",
       "address": "214 E 161st St, Bronx, NY 10451",
@@ -897,6 +893,10 @@
       "address": "58 Park Ave, New York, NY 10016",
       "url": "https://www.scandinaviahouse.org/",
       "neighborhood": "Murray Hill"
+    },
+    "village-east": {
+      "name": "Village East",
+      "address": "New York, NY"
     },
     "village-east-cinema-auditorium-2": {
       "name": "Village East Cinema - Auditorium 2",
@@ -67254,8 +67254,7 @@
       "end_local": "2026-09-19T21:45",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-project-hail-mary-2026",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2238703"
+      "source": "nyc-parks"
     },
     {
       "uid": "457316158aeafee8@screenings.middleton.io",
@@ -67280,8 +67279,7 @@
       "end_local": "2026-09-19T21:00",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-ratatouille-2007",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2235201"
+      "source": "nyc-parks"
     },
     {
       "uid": "4f1ffd99e310d17d@screenings.middleton.io",
@@ -67306,8 +67304,7 @@
       "end_local": "2026-09-19T21:30",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-shrek-2001",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2235202"
+      "source": "nyc-parks"
     },
     {
       "uid": "edae974d0c863ba2@screenings.middleton.io",
@@ -67332,8 +67329,7 @@
       "end_local": "2026-09-19T21:30",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-captain-america-brave-new-world-2025",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2234776"
+      "source": "nyc-parks"
     },
     {
       "uid": "86c3812939035ab0@screenings.middleton.io",
@@ -67358,8 +67354,7 @@
       "end_local": "2026-09-19T22:00",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-superman-2025",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2251641"
+      "source": "nyc-parks"
     },
     {
       "uid": "1d33480eb5c5db3d@screenings.middleton.io",
@@ -67452,8 +67447,7 @@
       "end_local": "2026-09-19T22:30",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-zootopia-2",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2239686"
+      "source": "nyc-parks"
     },
     {
       "uid": "a2632bad52364ac2@screenings.middleton.io",
@@ -75020,6 +75014,30 @@
       "start_local": "2026-09-22T18:00",
       "url": "https://filmforum.org/film/you-had-to-be-there",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "b1bda6399d8c50b0@screenings.middleton.io",
+      "hash": "b1bda6399d8c50b0",
+      "guid": "tag:middleton.io,2026:screening/b1bda6399d8c50b0",
+      "id_tuple": "village-east|special-preview-forgotten-island|20260922|1800",
+      "film_key": "special-preview-forgotten-island",
+      "run_key": "village-east|special-preview-forgotten-island|2026-09-22",
+      "run_guid": "tag:middleton.io,2026:run/25b18b5aa05fba7d",
+      "first_emitted_at": "2026-09-17T22:14:57Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "village-east",
+      "programmer": "New York International Children's Film Festival",
+      "title": "Special Preview: Forgotten Island",
+      "runtime_min": 109,
+      "start_local": "2026-09-22T18:00",
+      "end_local": "2026-09-22T19:49",
+      "url": "https://www.goelevent.com/NYICFF/e/SpecialPreviewForgottenIsland",
+      "source": "elevent"
     },
     {
       "uid": "b2a973a5aba5f840@screenings.middleton.io",
@@ -93912,30 +93930,6 @@
       "start_local": "2026-10-08T16:45",
       "url": "https://ticketing.uswest.veezi.com/purchase/7875?siteToken=tt17e5ajy3v48kh5b2kremvnz4",
       "source": "repertory-nyc"
-    },
-    {
-      "uid": "62029f786b258989@screenings.middleton.io",
-      "hash": "62029f786b258989",
-      "guid": "tag:middleton.io,2026:screening/62029f786b258989",
-      "id_tuple": "reception-acadia-restaurant-film-directors-guild-theater|hold-onto-me-reception-and-opening-night-film|20261008|1700",
-      "film_key": "hold-onto-me-reception-and-opening-night-film",
-      "run_key": "reception-acadia-restaurant-film-directors-guild-theater|hold-onto-me-reception-and-opening-night-film|2026-10-08",
-      "run_guid": "tag:middleton.io,2026:run/db652f75b5d401fc",
-      "first_emitted_at": "2026-09-07T03:10:44Z",
-      "limited": true,
-      "dates_at_venue": 1,
-      "max_showtimes_per_date": 1,
-      "vintage": true,
-      "vintage_year": null,
-      "vintage_year_from": null,
-      "venue_slug": "reception-acadia-restaurant-film-directors-guild-theater",
-      "programmer": "Hellenic Film Society USA",
-      "title": "HOLD ONTO ME (Krata Me) - RECEPTION AND OPENING NIGHT FILM",
-      "runtime_min": 102,
-      "start_local": "2026-10-08T17:00",
-      "end_local": "2026-10-08T18:42",
-      "url": "https://www.goelevent.com/HellenicFilmSociety/e/HOLDONTOME-RECEPTIONANDOPENINGFILM",
-      "source": "elevent"
     },
     {
       "uid": "27b49fa4c9e8a58a@screenings.middleton.io",
