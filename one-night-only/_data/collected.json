@@ -898,10 +898,6 @@
       "url": "https://www.scandinaviahouse.org/",
       "neighborhood": "Murray Hill"
     },
-    "village-east": {
-      "name": "Village East",
-      "address": "New York, NY"
-    },
     "village-east-cinema-auditorium-2": {
       "name": "Village East Cinema - Auditorium 2",
       "address": "New York, NY"
@@ -12941,7 +12937,7 @@
       "title": "2001: A SPACE ODYSSEY | Introduced by Matt Zoller Seitz",
       "start_local": "2026-08-23T17:45",
       "url": "https://www.paristheaternyc.com/special-engagements",
-      "note": "$34",
+      "note": "$26",
       "source": "paris-theater",
       "source_ref": "2001-big-loud-2026"
     },
@@ -26373,8 +26369,8 @@
       "run_key": "quad-cinema|rocky-horror-picture-show-live-shadow-cast|2026-08-29",
       "run_guid": "tag:middleton.io,2026:run/fdb974dee3becd52",
       "first_emitted_at": "2026-08-21T00:34:17Z",
-      "limited": true,
-      "dates_at_venue": 3,
+      "limited": false,
+      "dates_at_venue": 4,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": 1975,
@@ -66084,8 +66080,7 @@
       "start_local": "2026-09-19T15:00",
       "url": "https://www.paristheaternyc.com/special-engagements",
       "note": "$2e",
-      "source": "paris-theater",
-      "source_ref": "letty-lynton-paris"
+      "source": "paris-theater"
     },
     {
       "uid": "0e0808618c905449@screenings.middleton.io",
@@ -67259,7 +67254,8 @@
       "end_local": "2026-09-19T21:45",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-project-hail-mary-2026",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2238703"
     },
     {
       "uid": "457316158aeafee8@screenings.middleton.io",
@@ -67284,7 +67280,8 @@
       "end_local": "2026-09-19T21:00",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-ratatouille-2007",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2235201"
     },
     {
       "uid": "4f1ffd99e310d17d@screenings.middleton.io",
@@ -67309,7 +67306,8 @@
       "end_local": "2026-09-19T21:30",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-shrek-2001",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2235202"
     },
     {
       "uid": "edae974d0c863ba2@screenings.middleton.io",
@@ -67334,7 +67332,8 @@
       "end_local": "2026-09-19T21:30",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-captain-america-brave-new-world-2025",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2234776"
     },
     {
       "uid": "86c3812939035ab0@screenings.middleton.io",
@@ -67359,7 +67358,8 @@
       "end_local": "2026-09-19T22:00",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-superman-2025",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2251641"
     },
     {
       "uid": "1d33480eb5c5db3d@screenings.middleton.io",
@@ -67452,7 +67452,8 @@
       "end_local": "2026-09-19T22:30",
       "url": "https://www.nycgovparks.org/events/2026/09/19/movies-under-the-stars-zootopia-2",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2239686"
     },
     {
       "uid": "a2632bad52364ac2@screenings.middleton.io",
@@ -67619,6 +67620,7 @@
       "start_local": "2026-09-19T20:30",
       "url": "http://www.fandango.com/quadcinema_aaefp/theaterpage?date=2026-09-19",
       "format": "DCP",
+      "note": "Q&A with Jonathan Dekel (writer/director) & Josh Pais (lead actor)",
       "source": "repertory-nyc"
     },
     {
@@ -70863,7 +70865,8 @@
       "end_local": "2026-09-20T20:45",
       "url": "https://www.nycgovparks.org/events/2026/09/20/movies-under-the-stars-the-super-mario-galaxy-movie-2026",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2237273"
     },
     {
       "uid": "494af33ad585cde5@screenings.middleton.io",
@@ -75019,30 +75022,6 @@
       "source": "repertory-nyc"
     },
     {
-      "uid": "b1bda6399d8c50b0@screenings.middleton.io",
-      "hash": "b1bda6399d8c50b0",
-      "guid": "tag:middleton.io,2026:screening/b1bda6399d8c50b0",
-      "id_tuple": "village-east|special-preview-forgotten-island|20260922|1800",
-      "film_key": "special-preview-forgotten-island",
-      "run_key": "village-east|special-preview-forgotten-island|2026-09-22",
-      "run_guid": "tag:middleton.io,2026:run/25b18b5aa05fba7d",
-      "first_emitted_at": "2026-09-17T22:14:57Z",
-      "limited": true,
-      "dates_at_venue": 1,
-      "max_showtimes_per_date": 1,
-      "vintage": true,
-      "vintage_year": null,
-      "vintage_year_from": null,
-      "venue_slug": "village-east",
-      "programmer": "New York International Children's Film Festival",
-      "title": "Special Preview: Forgotten Island",
-      "runtime_min": 109,
-      "start_local": "2026-09-22T18:00",
-      "end_local": "2026-09-22T19:49",
-      "url": "https://www.goelevent.com/NYICFF/e/SpecialPreviewForgottenIsland",
-      "source": "elevent"
-    },
-    {
       "uid": "b2a973a5aba5f840@screenings.middleton.io",
       "hash": "b2a973a5aba5f840",
       "guid": "tag:middleton.io,2026:screening/b2a973a5aba5f840",
@@ -77799,7 +77778,8 @@
       "end_local": "2026-09-23T21:00",
       "url": "https://www.nycgovparks.org/events/2026/09/23/movies-under-the-stars-michael-2026",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2235156"
     },
     {
       "uid": "8d138ad89cda4060@screenings.middleton.io",
@@ -77815,11 +77795,9 @@
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": 1987,
-      "vintage_year_from": "source",
+      "vintage_year_from": "catalog",
       "venue_slug": "roxy-cinema",
       "title": "Wings of Desire + Hidden in Pieces",
-      "year": 1987,
-      "runtime_min": 127,
       "start_local": "2026-09-23T19:00",
       "url": "https://ticketing.uswest.veezi.com/purchase/7788?siteToken=tt17e5ajy3v48kh5b2kremvnz4",
       "source": "repertory-nyc"
@@ -77955,7 +77933,7 @@
       "run_guid": "tag:middleton.io,2026:run/9266743f66060d9c",
       "first_emitted_at": "2026-09-13T21:28:36Z",
       "limited": true,
-      "dates_at_venue": 1,
+      "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -77967,7 +77945,8 @@
       "end_local": "2026-09-23T21:15",
       "url": "https://www.nycgovparks.org/events/2026/09/23/movies-under-the-stars-the-wild-robot",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2246396"
     },
     {
       "uid": "8518d17446df2c14@screenings.middleton.io",
@@ -80048,8 +80027,9 @@
       "title": "Climate Week NYC Documentary Screening: River Restoration & Climate Resilience",
       "start_local": "2026-09-24T18:00",
       "end_local": "2026-09-24T20:00",
-      "url": "https://www.nycgovparks.org/events/2026/09/24/climate-week-nyc-documentary-screening-river-restoration-cl1",
-      "source": "nyc-parks"
+      "url": "https://www.nycgovparks.org/events/2026/09/24/climate-week-nyc-documentary-screening-river-restoration-cl",
+      "source": "nyc-parks",
+      "source_ref": "2234734"
     },
     {
       "uid": "c928abab298e8a97@screenings.middleton.io",
@@ -80516,7 +80496,8 @@
       "end_local": "2026-09-24T21:00",
       "url": "https://www.nycgovparks.org/events/2026/09/24/movies-under-the-stars-the-mitchells-vs-the-machines-2021",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2235430"
     },
     {
       "uid": "09a2031cd8cec7e9@screenings.middleton.io",
@@ -80565,7 +80546,8 @@
       "end_local": "2026-09-24T21:15",
       "url": "https://www.nycgovparks.org/events/2026/09/24/movies-under-the-stars-godzilla-x-kong-the-new-empire",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2246368"
     },
     {
       "uid": "914ce36117ed29ac@screenings.middleton.io",
@@ -81620,7 +81602,8 @@
       "start_local": "2026-09-25T17:30",
       "end_local": "2026-09-25T21:30",
       "url": "https://www.nycgovparks.org/events/2026/09/25/starlight-cinema-in-van-cortlandt-park",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2234413"
     },
     {
       "uid": "7ea8a61902ffe496@screenings.middleton.io",
@@ -81832,7 +81815,8 @@
       "end_local": "2026-09-25T22:00",
       "url": "https://www.nycgovparks.org/events/2026/09/25/movies-under-the-stars-hamilton-2020",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2236224"
     },
     {
       "uid": "47d20221b950bcfc@screenings.middleton.io",
@@ -81904,7 +81888,8 @@
       "end_local": "2026-09-25T20:45",
       "url": "https://www.nycgovparks.org/events/2026/09/25/movies-under-the-stars-goat-pg",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2237097"
     },
     {
       "uid": "758e82cd774c8d58@screenings.middleton.io",
@@ -81952,7 +81937,8 @@
       "end_local": "2026-09-25T21:00",
       "url": "https://www.nycgovparks.org/events/2026/09/25/movies-under-the-stars-top-gun",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2241743"
     },
     {
       "uid": "2d968e71165ceb47@screenings.middleton.io",
@@ -82027,7 +82013,8 @@
       "end_local": "2026-09-25T21:00",
       "url": "https://www.nycgovparks.org/events/2026/09/25/movies-under-the-stars-monsters-inc-2001",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2242852"
     },
     {
       "uid": "d792fa731e4a2154@screenings.middleton.io",
@@ -82077,7 +82064,8 @@
       "end_local": "2026-09-25T22:30",
       "url": "https://www.nycgovparks.org/events/2026/09/25/movies-under-the-stars-project-hail-mary",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2234474"
     },
     {
       "uid": "bb41f277dda86c23@screenings.middleton.io",
@@ -82100,7 +82088,8 @@
       "start_local": "2026-09-25T20:30",
       "end_local": "2026-09-25T22:30",
       "url": "https://www.nycgovparks.org/events/2026/09/25/dyckman-marina-movie-nights",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2244714"
     },
     {
       "uid": "e6511351697c3a5c@screenings.middleton.io",
@@ -83507,7 +83496,8 @@
       "end_local": "2026-09-26T20:45",
       "url": "https://www.nycgovparks.org/events/2026/09/26/movies-under-the-stars-coco-2017",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2237258"
     },
     {
       "uid": "8a9d7a636079cca9@screenings.middleton.io",
@@ -83528,7 +83518,7 @@
       "title": "PEPPERMINT CANDY | Q&A with Lee Chang-dong & Sul Kyung-gu",
       "start_local": "2026-09-26T19:00",
       "url": "https://www.paristheaternyc.com/special-engagements",
-      "note": "$30",
+      "note": "$22",
       "source": "paris-theater",
       "source_ref": "peppermint-candy-paris"
     },
@@ -83579,7 +83569,8 @@
       "end_local": "2026-09-26T21:30",
       "url": "https://www.nycgovparks.org/events/2026/09/26/movies-under-the-stars-in-the-heights",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2241859"
     },
     {
       "uid": "a3e6c07aa5637060@screenings.middleton.io",
@@ -83651,7 +83642,8 @@
       "end_local": "2026-09-26T21:30",
       "url": "https://www.nycgovparks.org/events/2026/09/26/movies-under-the-stars-inside-out-2015",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2246358"
     },
     {
       "uid": "36c2e348d1275c03@screenings.middleton.io",
@@ -83910,8 +83902,8 @@
       "run_key": "quad-cinema|rocky-horror-picture-show-live-shadow-cast|2026-09-26",
       "run_guid": "tag:middleton.io,2026:run/266d3eb73fb5c5ab",
       "first_emitted_at": "2026-08-21T01:16:10Z",
-      "limited": true,
-      "dates_at_venue": 3,
+      "limited": false,
+      "dates_at_venue": 4,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": 1975,
@@ -87346,7 +87338,8 @@
       "end_local": "2026-09-30T21:00",
       "url": "https://www.nycgovparks.org/events/2026/09/30/movies-under-the-stars-on-becoming-a-guinea-fowl",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2246664"
     },
     {
       "uid": "ae219a10763cf84a@screenings.middleton.io",
@@ -88119,7 +88112,8 @@
       "end_local": "2026-10-01T21:15",
       "url": "https://www.nycgovparks.org/events/2026/10/01/movies-under-the-stars-golden-door",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2242608"
     },
     {
       "uid": "bc4813f6d4f3ee1c@screenings.middleton.io",
@@ -88803,7 +88797,8 @@
       "start_local": "2026-10-02T17:30",
       "end_local": "2026-10-02T21:30",
       "url": "https://www.nycgovparks.org/events/2026/10/02/starlight-cinema-in-van-cortlandt-park",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2234414"
     },
     {
       "uid": "0a5744dff88c52b0@screenings.middleton.io",
@@ -89093,7 +89088,8 @@
       "end_local": "2026-10-02T21:30",
       "url": "https://www.nycgovparks.org/events/2026/10/02/movies-under-the-stars-goat-2026",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2242725"
     },
     {
       "uid": "b50413cac797813a@screenings.middleton.io",
@@ -89118,7 +89114,8 @@
       "end_local": "2026-10-02T22:30",
       "url": "https://www.nycgovparks.org/events/2026/10/02/movies-under-the-stars-supergirl-2026",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks"
+      "source": "nyc-parks",
+      "source_ref": "2227340"
     },
     {
       "uid": "4b58cfe0db03da49@screenings.middleton.io",
@@ -90231,6 +90228,31 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "ea674ce3957b196b@screenings.middleton.io",
+      "hash": "ea674ce3957b196b",
+      "guid": "tag:middleton.io,2026:screening/ea674ce3957b196b",
+      "id_tuple": "jackie-robinson-park|wild-robot|20261003|1845",
+      "film_key": "wild-robot",
+      "run_key": "jackie-robinson-park|wild-robot|2026-10-03",
+      "run_guid": "tag:middleton.io,2026:run/d5f565de0d018c33",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 2,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "jackie-robinson-park",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "The Wild Robot",
+      "start_local": "2026-10-03T18:45",
+      "end_local": "2026-10-03T20:30",
+      "url": "https://www.nycgovparks.org/events/2026/10/03/movies-under-the-stars-the-wild-robot",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2253262"
+    },
+    {
       "uid": "714698d027e8e8bc@screenings.middleton.io",
       "hash": "714698d027e8e8bc",
       "guid": "tag:middleton.io,2026:screening/714698d027e8e8bc",
@@ -90425,6 +90447,32 @@
       "format": "DCP",
       "note": "Introduction by composer Jang Young Gyu",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "15dfa7d9146f3d95@screenings.middleton.io",
+      "hash": "15dfa7d9146f3d95",
+      "guid": "tag:middleton.io,2026:screening/15dfa7d9146f3d95",
+      "id_tuple": "noble-playground|lilo-and-stitch|20261003|2000",
+      "film_key": "lilo-and-stitch",
+      "run_key": "noble-playground|lilo-and-stitch|2026-10-03",
+      "run_guid": "tag:middleton.io,2026:run/8a992b19473441ee",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": false,
+      "vintage_year": 2025,
+      "vintage_year_from": "source",
+      "venue_slug": "noble-playground",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "Lilo and Stitch",
+      "year": 2025,
+      "start_local": "2026-10-03T20:00",
+      "end_local": "2026-10-03T22:30",
+      "url": "https://www.nycgovparks.org/events/2026/10/03/movies-under-the-stars-lilo-and-stitch-2025",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2248121"
     },
     {
       "uid": "c7ac11ddcc0fa3bf@screenings.middleton.io",
@@ -91126,11 +91174,11 @@
       "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": false,
-      "vintage_year": 2025,
+      "vintage_year": 2026,
       "vintage_year_from": "source",
       "venue_slug": "roxy-cinema",
       "title": "Bird in Hand + Q&A",
-      "year": 2025,
+      "year": 2026,
       "runtime_min": 90,
       "start_local": "2026-10-04T15:00",
       "url": "https://ticketing.uswest.veezi.com/purchase/7783?siteToken=tt17e5ajy3v48kh5b2kremvnz4",
@@ -100507,7 +100555,7 @@
       "run_guid": "tag:middleton.io,2026:run/b1cae5145aa09e4d",
       "first_emitted_at": "2026-09-14T10:45:47Z",
       "limited": true,
-      "dates_at_venue": 1,
+      "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -100572,7 +100620,7 @@
       "run_guid": "tag:middleton.io,2026:run/4b4830b9cc938836",
       "first_emitted_at": "2026-09-14T10:45:47Z",
       "limited": true,
-      "dates_at_venue": 1,
+      "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -100593,7 +100641,7 @@
       "run_guid": "tag:middleton.io,2026:run/300e4d9803130960",
       "first_emitted_at": "2026-09-15T10:09:43Z",
       "limited": true,
-      "dates_at_venue": 1,
+      "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -100960,8 +101008,8 @@
       "run_key": "quad-cinema|rocky-horror-picture-show-live-shadow-cast|2026-10-30",
       "run_guid": "tag:middleton.io,2026:run/a848da4d8d1c5303",
       "first_emitted_at": "2026-09-19T09:35:19Z",
-      "limited": true,
-      "dates_at_venue": 3,
+      "limited": false,
+      "dates_at_venue": 4,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": 1975,
@@ -100984,7 +101032,7 @@
       "run_guid": "tag:middleton.io,2026:run/481fdd86b770cc4f",
       "first_emitted_at": "2026-09-19T09:35:19Z",
       "limited": true,
-      "dates_at_venue": 1,
+      "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": 1978,
@@ -100995,6 +101043,103 @@
       "director": "John Carpenter",
       "start_local": "2026-10-30T23:55",
       "url": "https://nitehawkcinema.com/williamsburg/showtimes/halloween-1978-10-30-26-1155-pm/",
+      "format": "DCP",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "536a62c1ab0381d7@screenings.middleton.io",
+      "hash": "536a62c1ab0381d7",
+      "guid": "tag:middleton.io,2026:screening/536a62c1ab0381d7",
+      "id_tuple": "nitehawk-cinema-prospect-park|godzilla|20261031|1100",
+      "film_key": "godzilla",
+      "run_key": "nitehawk-cinema-prospect-park|godzilla|2026-10-31",
+      "run_guid": "tag:middleton.io,2026:run/3ca5ff7a67577e7e",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 1954,
+      "vintage_year_from": "source",
+      "venue_slug": "nitehawk-cinema-prospect-park",
+      "title": "Godzilla (1954)",
+      "year": 1954,
+      "director": "Ishirô Honda",
+      "start_local": "2026-10-31T11:00",
+      "url": "https://nitehawkcinema.com/prospectpark/purchase/24192347/",
+      "format": "DCP",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "b967030d5e00ed09@screenings.middleton.io",
+      "hash": "b967030d5e00ed09",
+      "guid": "tag:middleton.io,2026:screening/b967030d5e00ed09",
+      "id_tuple": "nitehawk-cinema-williamsburg|hocus-pocus|20261031|1100",
+      "film_key": "hocus-pocus",
+      "run_key": "nitehawk-cinema-williamsburg|hocus-pocus|2026-10-31",
+      "run_guid": "tag:middleton.io,2026:run/a2ddc6f006faa932",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 1993,
+      "vintage_year_from": "source",
+      "venue_slug": "nitehawk-cinema-williamsburg",
+      "title": "Hocus Pocus",
+      "year": 1993,
+      "director": "Kenny Ortega",
+      "start_local": "2026-10-31T11:00",
+      "url": "https://nitehawkcinema.com/williamsburg/purchase/24192151/",
+      "format": "DCP",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "ef3ed783a1a6b92d@screenings.middleton.io",
+      "hash": "ef3ed783a1a6b92d",
+      "guid": "tag:middleton.io,2026:screening/ef3ed783a1a6b92d",
+      "id_tuple": "nitehawk-cinema-williamsburg|cat-people|20261031|1115",
+      "film_key": "cat-people",
+      "run_key": "nitehawk-cinema-williamsburg|cat-people|2026-10-31",
+      "run_guid": "tag:middleton.io,2026:run/4562922a3bfbd96b",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 1942,
+      "vintage_year_from": "source",
+      "venue_slug": "nitehawk-cinema-williamsburg",
+      "title": "Cat People (1942)",
+      "year": 1942,
+      "director": "Jacques Tourneur",
+      "runtime_min": 73,
+      "start_local": "2026-10-31T11:15",
+      "url": "https://nitehawkcinema.com/williamsburg/purchase/24192150/",
+      "format": "35mm",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "83383d5790837191@screenings.middleton.io",
+      "hash": "83383d5790837191",
+      "guid": "tag:middleton.io,2026:screening/83383d5790837191",
+      "id_tuple": "nitehawk-cinema-prospect-park|halloween|20261031|1200",
+      "film_key": "halloween",
+      "run_key": "nitehawk-cinema-prospect-park|halloween|2026-10-31",
+      "run_guid": "tag:middleton.io,2026:run/8be7376ab5b07eb3",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 1978,
+      "vintage_year_from": "source",
+      "venue_slug": "nitehawk-cinema-prospect-park",
+      "title": "Halloween (1978)",
+      "year": 1978,
+      "director": "John Carpenter",
+      "start_local": "2026-10-31T12:00",
+      "url": "https://nitehawkcinema.com/prospectpark/purchase/24192298/",
       "format": "DCP",
       "source": "repertory-nyc"
     },
@@ -101019,6 +101164,158 @@
       "url": "https://www.paristheaternyc.com/special-engagements",
       "source": "paris-theater",
       "source_ref": "a-place-in-the-sun-paris"
+    },
+    {
+      "uid": "ceafd1ecd4de16f7@screenings.middleton.io",
+      "hash": "ceafd1ecd4de16f7",
+      "guid": "tag:middleton.io,2026:screening/ceafd1ecd4de16f7",
+      "id_tuple": "anthology-film-archives|sgt-kabukiman-nypd|20261031|1600",
+      "film_key": "sgt-kabukiman-nypd",
+      "run_key": "anthology-film-archives|sgt-kabukiman-nypd|2026-10-25",
+      "run_guid": "tag:middleton.io,2026:run/b1cae5145aa09e4d",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 2,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "anthology-film-archives",
+      "title": "SGT. KABUKIMAN NYPD",
+      "start_local": "2026-10-31T16:00",
+      "url": "https://www.anthologyfilmarchives.org/film_screenings/calendar?view=list&month=10&year=2026#showing-62041",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "6f861da02bd9f155@screenings.middleton.io",
+      "hash": "6f861da02bd9f155",
+      "guid": "tag:middleton.io,2026:screening/6f861da02bd9f155",
+      "id_tuple": "anthology-film-archives|ec-hollis-frampton|20261031|1730",
+      "film_key": "ec-hollis-frampton",
+      "run_key": "anthology-film-archives|ec-hollis-frampton|2026-10-31",
+      "run_guid": "tag:middleton.io,2026:run/7400b0f6052cd1c8",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "anthology-film-archives",
+      "title": "EC: HOLLIS FRAMPTON",
+      "start_local": "2026-10-31T17:30",
+      "url": "https://www.anthologyfilmarchives.org/film_screenings/calendar?view=list&month=10&year=2026#showing-61923",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "537dde43a1ab61b3@screenings.middleton.io",
+      "hash": "537dde43a1ab61b3",
+      "guid": "tag:middleton.io,2026:screening/537dde43a1ab61b3",
+      "id_tuple": "anthology-film-archives|def-by-temptation|20261031|1845",
+      "film_key": "def-by-temptation",
+      "run_key": "anthology-film-archives|def-by-temptation|2026-10-25",
+      "run_guid": "tag:middleton.io,2026:run/4b4830b9cc938836",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 2,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "anthology-film-archives",
+      "title": "DEF BY TEMPTATION",
+      "start_local": "2026-10-31T18:45",
+      "url": "https://www.anthologyfilmarchives.org/film_screenings/calendar?view=list&month=10&year=2026#showing-62044",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "2336c431be99708a@screenings.middleton.io",
+      "hash": "2336c431be99708a",
+      "guid": "tag:middleton.io,2026:screening/2336c431be99708a",
+      "id_tuple": "anthology-film-archives|ec-franju-genet|20261031|2000",
+      "film_key": "ec-franju-genet",
+      "run_key": "anthology-film-archives|ec-franju-genet|2026-10-31",
+      "run_guid": "tag:middleton.io,2026:run/1283735aa571f81e",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "anthology-film-archives",
+      "title": "EC: FRANJU / GENET",
+      "start_local": "2026-10-31T20:00",
+      "url": "https://www.anthologyfilmarchives.org/film_screenings/calendar?view=list&month=10&year=2026#showing-61924",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "ae8119d27af33309@screenings.middleton.io",
+      "hash": "ae8119d27af33309",
+      "guid": "tag:middleton.io,2026:screening/ae8119d27af33309",
+      "id_tuple": "anthology-film-archives|cannibal-the-musical|20261031|2115",
+      "film_key": "cannibal-the-musical",
+      "run_key": "anthology-film-archives|cannibal-the-musical|2026-10-26",
+      "run_guid": "tag:middleton.io,2026:run/300e4d9803130960",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 2,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "anthology-film-archives",
+      "title": "CANNIBAL! THE MUSICAL",
+      "start_local": "2026-10-31T21:15",
+      "url": "https://www.anthologyfilmarchives.org/film_screenings/calendar?view=list&month=10&year=2026#showing-62047",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "987dbedcef632cdd@screenings.middleton.io",
+      "hash": "987dbedcef632cdd",
+      "guid": "tag:middleton.io,2026:screening/987dbedcef632cdd",
+      "id_tuple": "quad-cinema|rocky-horror-picture-show-live-shadow-cast|20261031|2145",
+      "film_key": "rocky-horror-picture-show-live-shadow-cast",
+      "run_key": "quad-cinema|rocky-horror-picture-show-live-shadow-cast|2026-10-30",
+      "run_guid": "tag:middleton.io,2026:run/a848da4d8d1c5303",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 1975,
+      "vintage_year_from": "source",
+      "venue_slug": "quad-cinema",
+      "title": "The Rocky Horror Picture Show: Live Shadow Cast",
+      "year": 1975,
+      "director": "Jim Sharman",
+      "start_local": "2026-10-31T21:45",
+      "url": "http://www.fandango.com/quadcinema_aaefp/theaterpage?date=2026-10-31",
+      "source": "repertory-nyc"
+    },
+    {
+      "uid": "1618826011348f5f@screenings.middleton.io",
+      "hash": "1618826011348f5f",
+      "guid": "tag:middleton.io,2026:screening/1618826011348f5f",
+      "id_tuple": "nitehawk-cinema-williamsburg|halloween|20261031|2355",
+      "film_key": "halloween",
+      "run_key": "nitehawk-cinema-williamsburg|halloween|2026-10-30",
+      "run_guid": "tag:middleton.io,2026:run/481fdd86b770cc4f",
+      "first_emitted_at": "2026-09-20T09:51:26Z",
+      "limited": true,
+      "dates_at_venue": 2,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 1978,
+      "vintage_year_from": "source",
+      "venue_slug": "nitehawk-cinema-williamsburg",
+      "title": "Halloween (1978)",
+      "year": 1978,
+      "director": "John Carpenter",
+      "start_local": "2026-10-31T23:55",
+      "url": "https://nitehawkcinema.com/williamsburg/showtimes/halloween-1978-10-31-26-1155-pm/",
+      "format": "DCP",
+      "source": "repertory-nyc"
     },
     {
       "uid": "62bb3bde9e33a512@screenings.middleton.io",
