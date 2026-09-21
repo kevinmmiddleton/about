@@ -13396,6 +13396,10 @@ approved for all audiences<br>
   var months = [].slice.call(document.querySelectorAll('.months a'));
 
   var rows = null, days = null, tPass = 0, tUrl = 0, tSay = 0, jumped = false;
+  /* What pass() last counted. The share line quotes a number, and a number
+     in a message someone else reads has to be the one on the page rather
+     than one recomputed at copy time from a state that may have moved. */
+  var lastShown = 0;
   /* Nothing may write the URL until the URL has been READ. The filter sync below
      runs once on load to set the :has() fallback classes, and it used to call
      writeUrl() on that first pass -- which rebuilt the address bar from an empty
@@ -13749,6 +13753,7 @@ approved for all audiences<br>
     }
 
     root.classList.toggle('q-on', on);
+    lastShown = shown;
     if (out) out.textContent = on ? String(shown) : '';
     if (link) link.hidden = !(on || !oOn || !vOn);
 
@@ -13821,7 +13826,39 @@ approved for all audiences<br>
        the ceiling, and the URL is a convenience the page must not die for. */
     try { history.replaceState(history.state, '', stateUrl()); } catch (e) {}
   }
-  wireCopy(link, stateUrl);
+  /* What the copy button puts on the clipboard.
+     A bare URL told the recipient nothing: every link to this site produces the
+     same preview card, because the card is baked into one static file at build
+     time and a query string does not select a different one. Scrapers do not
+     run scripts, so the page cannot fix the card from here. It can say what it
+     sent, above the link, which is the part a person actually reads.
+     Only ever called while the button is visible, and the button is only
+     visible once something is narrowing the page -- so the default share is
+     still a bare URL with nothing bolted onto it. */
+  function shareText() {
+    var url = stateUrl();
+    var q = box.value.trim();
+    var oOn = !fo || fo.checked;
+    var vOn = !fv || fv.checked;
+    var bits = [];
+
+    if (q) bits.push('\u201C' + q + '\u201D');
+    /* Both chips on is the default and says nothing worth carrying. */
+    if (!oOn && !vOn) bits.push('filters off');
+    else if (!vOn) bits.push('rated O only');
+    else if (!oOn) bits.push('revivals only');
+
+    if (!bits.length) return url;
+
+    var count = q && lastShown === 0
+      ? 'nothing matches'
+      : lastShown.toLocaleString('en-US') + (lastShown === 1 ? ' listing' : ' listings');
+
+    /* Middot, not a dash: it is what the masthead already puts between the
+       product name and its counts, so the line reads as the page talking. */
+    return 'One Night Only \u00B7 ' + bits.join(', ') + ', ' + count + '\n' + url;
+  }
+  wireCopy(link, shareText);
 
   box.addEventListener('input', function () {
     clearTimeout(tPass);
