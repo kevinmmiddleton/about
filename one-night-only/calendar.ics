@@ -127,25 +127,6 @@ SEQUENCE:1
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
-UID:c7a75d13eaa10995@screenings.middleton.io
-DTSTAMP:20260921T162839Z
-CREATED:20260921T162839Z
-LAST-MODIFIED:20260921T162839Z
-DTSTART;TZID=America/New_York:20260921T123000
-DTEND;TZID=America/New_York:20260921T143000
-SUMMARY:Oasis: Don't Look Back in Anger at Alamo Drafthouse Lower Manhattan
-LOCATION:Alamo Drafthouse Lower Manhattan\, 28 Liberty Street\, Suite SC301
- \, New York\, NY\, 10005
-GEO:40.708327;-74.008664
-DESCRIPTION:\n\nTickets: https://drafthouse.com/nyc/show/oasis-dont-look-ba
- ck-in-anger
-URL:https://drafthouse.com/nyc/show/oasis-dont-look-back-in-anger
-CATEGORIES:Film,Repertory,Alamo Drafthouse Lower Manhattan
-STATUS:CONFIRMED
-SEQUENCE:0
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
 UID:312bc34fb6d245d4@screenings.middleton.io
 DTSTAMP:20260915T100943Z
 CREATED:20260915T100943Z
@@ -160,64 +141,6 @@ DESCRIPTION:DCP. Dir. Edward Yang. 237 min.\n\nTickets: https://t.metrograp
 URL:https://t.metrograph.com/Ticketing/visSelectTickets.aspx?cinemacode=999
  9&txtSessionId=31003
 CATEGORIES:Film,Repertory,Metrograph,DCP
-STATUS:CONFIRMED
-SEQUENCE:0
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
-UID:a0c08b9275fd4eee@screenings.middleton.io
-DTSTAMP:20260915T100943Z
-CREATED:20260915T100943Z
-LAST-MODIFIED:20260915T100943Z
-DTSTART;TZID=America/New_York:20260921T150000
-DTEND;TZID=America/New_York:20260921T165900
-SUMMARY:Jason and the Argonauts (1963) at Metrograph
-LOCATION:Metrograph\, 7 Ludlow Street\, New York\, NY 10002
-GEO:40.715436;-73.991018
-DESCRIPTION:35mm. Dir. Don Chaffey. 104 min.\n\nTickets: https://t.metrogra
- ph.com/Ticketing/visSelectTickets.aspx?cinemacode=9999&txtSessionId=31004
-URL:https://t.metrograph.com/Ticketing/visSelectTickets.aspx?cinemacode=999
- 9&txtSessionId=31004
-CATEGORIES:Film,Repertory,Metrograph,35mm
-STATUS:CONFIRMED
-SEQUENCE:0
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
-UID:06c4eee8ebf5bd91@screenings.middleton.io
-DTSTAMP:20260921T162839Z
-CREATED:20260921T162839Z
-LAST-MODIFIED:20260921T162839Z
-DTSTART;TZID=America/New_York:20260921T160000
-DTEND;TZID=America/New_York:20260921T180000
-SUMMARY:Ghost in the Shell (Dubbed) at Alamo Drafthouse Lower Manhattan
-LOCATION:Alamo Drafthouse Lower Manhattan\, 28 Liberty Street\, Suite SC301
- \, New York\, NY\, 10005
-GEO:40.708327;-74.008664
-DESCRIPTION:\n\nTickets: https://drafthouse.com/nyc/show/ghost-in-the-shell
- -dubbed
-URL:https://drafthouse.com/nyc/show/ghost-in-the-shell-dubbed
-CATEGORIES:Film,Repertory,Alamo Drafthouse Lower Manhattan
-STATUS:CONFIRMED
-SEQUENCE:0
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
-UID:8dcc88d0c7c8ec80@screenings.middleton.io
-DTSTAMP:20260921T162839Z
-CREATED:20260921T162839Z
-LAST-MODIFIED:20260921T162839Z
-DTSTART;TZID=America/New_York:20260921T161500
-DTEND;TZID=America/New_York:20260921T181500
-SUMMARY:Ghost in the Shell (Subtitled) at Alamo Drafthouse Downtown Brookly
- n
-LOCATION:Alamo Drafthouse Downtown Brooklyn\, 445 Albee Square West\, Brook
- lyn\, NY\, 11201
-GEO:40.6907;-73.9831
-DESCRIPTION:\n\nTickets: https://drafthouse.com/nyc/show/ghost-in-the-shell
- -subtitled
-URL:https://drafthouse.com/nyc/show/ghost-in-the-shell-subtitled
-CATEGORIES:Film,Repertory,Alamo Drafthouse Downtown Brooklyn
 STATUS:CONFIRMED
 SEQUENCE:0
 TRANSP:OPAQUE
@@ -2373,6 +2296,25 @@ SEQUENCE:0
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
+UID:b0ca7a0823c383d8@screenings.middleton.io
+DTSTAMP:20260921T223719Z
+CREATED:20260921T223719Z
+LAST-MODIFIED:20260921T223719Z
+DTSTART;TZID=America/New_York:20260925T123000
+DTEND;TZID=America/New_York:20260925T143000
+SUMMARY:Destroy All Monsters at Alamo Drafthouse Downtown Brooklyn
+LOCATION:Alamo Drafthouse Downtown Brooklyn\, 445 Albee Square West\, Brook
+ lyn\, NY\, 11201
+GEO:40.6907;-73.9831
+DESCRIPTION:\n\nTickets: https://drafthouse.com/nyc/show/destroy-all-monste
+ rs
+URL:https://drafthouse.com/nyc/show/destroy-all-monsters
+CATEGORIES:Film,Repertory,Alamo Drafthouse Downtown Brooklyn
+STATUS:CONFIRMED
+SEQUENCE:0
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
 UID:0f7774d917f3933d@screenings.middleton.io
 DTSTAMP:20260919T093519Z
 CREATED:20260919T093519Z
@@ -2544,12 +2486,13 @@ TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 UID:6d9334853a6dec14@screenings.middleton.io
-DTSTAMP:20260921T162839Z
+DTSTAMP:20260921T223719Z
 CREATED:20260921T162839Z
-LAST-MODIFIED:20260921T162839Z
+LAST-MODIFIED:20260921T223719Z
 DTSTART;TZID=America/New_York:20260925T180000
 DTEND;TZID=America/New_York:20260925T200000
-SUMMARY:Avengers Endgame: Encore at Alamo Drafthouse Staten Island
+SUMMARY:CANCELLED: Avengers Endgame: Encore at Alamo Drafthouse Staten Isla
+ nd
 LOCATION:Alamo Drafthouse Staten Island\, 2636 Hylan Blvd\, Suite 230\, Sta
  ten Island\, NY\, 10306
 GEO:40.566327;-74.109953
@@ -2557,8 +2500,8 @@ DESCRIPTION:\n\nTickets: https://drafthouse.com/nyc/show/avengers-endgame-e
  ncore
 URL:https://drafthouse.com/nyc/show/avengers-endgame-encore
 CATEGORIES:Film,Repertory,Alamo Drafthouse Staten Island
-STATUS:CONFIRMED
-SEQUENCE:0
+STATUS:CANCELLED
+SEQUENCE:1
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
@@ -3210,6 +3153,25 @@ DESCRIPTION:DCP. Dir. Richard Ayoade. 93 min.\n\nTickets: https://t.metrogr
 URL:https://t.metrograph.com/Ticketing/visSelectTickets.aspx?cinemacode=999
  9&txtSessionId=30920
 CATEGORIES:Film,Repertory,Metrograph,DCP
+STATUS:CONFIRMED
+SEQUENCE:0
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:681e2866dd62b81f@screenings.middleton.io
+DTSTAMP:20260921T223719Z
+CREATED:20260921T223719Z
+LAST-MODIFIED:20260921T223719Z
+DTSTART;TZID=America/New_York:20260926T123000
+DTEND;TZID=America/New_York:20260926T143000
+SUMMARY:Destroy All Monsters at Alamo Drafthouse Downtown Brooklyn
+LOCATION:Alamo Drafthouse Downtown Brooklyn\, 445 Albee Square West\, Brook
+ lyn\, NY\, 11201
+GEO:40.6907;-73.9831
+DESCRIPTION:\n\nTickets: https://drafthouse.com/nyc/show/destroy-all-monste
+ rs
+URL:https://drafthouse.com/nyc/show/destroy-all-monsters
+CATEGORIES:Film,Repertory,Alamo Drafthouse Downtown Brooklyn
 STATUS:CONFIRMED
 SEQUENCE:0
 TRANSP:OPAQUE
