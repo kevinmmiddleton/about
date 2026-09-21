@@ -75,12 +75,13 @@ import * as repertoryNyc from './source-repertory-nyc.mjs';
 import * as nycParks from './source-nyc-parks.mjs';
 import * as parisTheater from './source-paris-theater.mjs';
 import * as luma from './source-luma.mjs';
+import * as alamo from './source-alamo.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
 // Priority order. First one to claim a UID keeps it; later sources are treated
 // as duplicates of the same screening, not as a second screening.
-const SOURCES = [elevent, repertoryNyc, nycParks, parisTheater, luma];
+const SOURCES = [elevent, repertoryNyc, nycParks, parisTheater, luma, alamo];
 
 const GUARD = {
   // A source that has ever produced at least this many records may never
