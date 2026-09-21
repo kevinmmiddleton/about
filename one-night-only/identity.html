@@ -158,13 +158,17 @@ color:var(--ink);cursor:pointer;min-height:24px;display:flex;align-items:center;
 background:transparent;color:var(--ink);border:2px solid var(--rule-strong);
 min-height:24px;padding:.4rem .6rem;cursor:pointer}
 .copy:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.bq-acts{display:flex;gap:.35rem;flex:0 0 auto;align-items:center}
+.bq-acts[hidden]{display:none}
+.bq-ico{padding:0;min-width:32px;min-height:32px;display:inline-grid;place-items:center}
+.bq-ico svg{width:16px;height:16px;display:block}
+.bq-ico.is-done{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .copy[hidden]{display:none}
 .day[hidden],.months a[hidden]{display:none}
 .bar{position:sticky;top:0;z-index:5;background:var(--bg2);border-bottom:2px solid var(--ink)}
 .bar-in{max-width:var(--wrap);margin:0 auto;padding-inline:var(--pad);
 height:var(--bar);display:flex;align-items:center;gap:.7rem}
 .bar .ono-stamp{--ono-h:26px;flex:0 0 auto}
-.bq-share{flex:0 0 auto}
 .bmark{flex:0 0 auto;display:inline-flex;min-height:26px;text-decoration:none}
 .bscroll{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:.45rem;
 overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;white-space:nowrap}
@@ -329,7 +333,7 @@ html.js .bmark{grid-area:1/1/2/2}
 html.js .bq{grid-area:1/2/2/4;flex-basis:auto;width:100%}
 html.js .bscroll{grid-area:2/1/3/3}
 html.js .bsub{grid-area:2/3/3/4;display:inline-flex}
-html.js .bq-share{grid-area:2/3/3/4}
+html.js .bq-acts{grid-area:2/3/3/4}
 html.js .bq-i{font-size:16px;letter-spacing:.02em}
 .ono-band{padding:1.1rem}
 .months{display:none}
