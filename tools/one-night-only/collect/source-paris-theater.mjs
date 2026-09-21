@@ -54,6 +54,16 @@ export const id = 'paris-theater';
 export const label = 'The Paris Theater';
 export const credit = null;
 
+
+// Shown on sources.html. Exported here rather than kept in a list somewhere
+// else so a source cannot be wired in without saying what it is, and cannot
+// be removed while still being advertised.
+export const profile = {
+  name: "The Paris Theater",
+  url: "https://www.paristheaternyc.com/",
+  covers:
+    "Special engagements only. Their daily showtimes live behind a ticketing wall this does not read.",
+};
 const HOME = 'https://www.paristheaternyc.com/';
 const LISTING = 'https://www.paristheaternyc.com/special-engagements';
 

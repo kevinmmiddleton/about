@@ -444,6 +444,22 @@ function loadCredits(path) {
   return (raw.credits || []).filter((c) => c && c.name && c.url);
 }
 
+// The source registry, which is a different question from the credits above.
+// `credits` is attribution two licences ask for; this is the plain answer to
+// "where does any of this come from", which the site could not give at all.
+// Kept in _data rather than read off the collectors: build.mjs consumes a
+// dataset and does not import the input layer, and that boundary is worth more
+// than saving six lines of JSON.
+function loadSourceBook(path) {
+  let raw;
+  try {
+    raw = JSON.parse(readFileSync(path, 'utf8'));
+  } catch {
+    return [];
+  }
+  return (raw.sources || []).filter((s) => s && s.source && s.name);
+}
+
 // "Listings include data from repertory.nyc (https://www.repertory.nyc/) and
 //  NYC Open Data (https://data.cityofnewyork.us/d/w3wp-dpdi)."
 // One flat sentence. It has to survive being read aloud by a calendar client
@@ -1916,7 +1932,8 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
     'programmer and format. Press / to reach it and Escape to clear it. Every ' +
     'listing is still in the document either way, so with scripting off your ' +
     "browser's own find still searches all of it.</p>");
-  w(`<p><a href="${xmlAttr(CONFIG.siteBase + 'identity.html')}">How the Rated O mark works</a>` +
+  w(`<p><a href="${xmlAttr(CONFIG.siteBase + 'sources.html')}">Where these listings come from</a>` +
+    `, and <a href="${xmlAttr(CONFIG.siteBase + 'identity.html')}">how the Rated O mark works</a>` +
     ', if you are the sort of person who wonders.</p>');
   w('</footer>');
   w('</main>');
@@ -2496,6 +2513,145 @@ const PAGE_JS = String.raw`
 })();
 `;
 
+// The colophon. "How many theaters is it collecting from and where is that
+// information" was a fair question with no answer anywhere on the site: the
+// masthead claimed a venue count and then never named one of them, which sits
+// badly next to an identity page that is careful to claim only what it can back.
+//
+// Counts are computed from the same records the index renders, not from a
+// number kept by hand, so this page cannot drift away from the listings it
+// describes. A source in the dataset with no entry in the registry still
+// appears, under its own id, because silently omitting a source is the exact
+// failure this page exists to fix.
+function buildSources(records, venues, sourceBook, credits, now) {
+  const out = [];
+  const w = (...lines) => out.push(...lines);
+  const esc = htmlEscape;
+
+  const bySource = new Map();
+  const venueBySource = new Map();
+  for (const r of records) {
+    const key = r.source || 'unknown';
+    bySource.set(key, (bySource.get(key) || 0) + 1);
+    if (!venueBySource.has(key)) venueBySource.set(key, new Set());
+    if (r.venue_slug) venueBySource.get(key).add(r.venue_slug);
+  }
+
+  const known = new Map(sourceBook.map((x) => [x.source, x]));
+  // Every registered source appears, carrying zero if that is the truth, union
+  // anything in the dataset that the registry does not know about. Listing only
+  // the sources that happen to have listings today would quietly delete a
+  // source the moment it went quiet, which is precisely the failure this page
+  // is supposed to make visible.
+  const ids = new Set([...known.keys(), ...bySource.keys()]);
+  const rows = [...ids]
+    .map((id) => ({
+      id,
+      count: bySource.get(id) || 0,
+      venues: (venueBySource.get(id) || new Set()).size,
+      meta: known.get(id) || null,
+    }))
+    .sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
+
+  const venueSlugs = [...new Set(records.map((r) => r.venue_slug).filter(Boolean))];
+  const venueRows = venueSlugs
+    .map((slug) => ({
+      slug,
+      name: (venues[slug] && venues[slug].name) || slug,
+      count: records.filter((r) => r.venue_slug === slug).length,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const desc = 'Every source behind One Night Only, what each one covers, and ' +
+    'the venues they reach.';
+
+  w('<!DOCTYPE html>');
+  w('<html lang="en">');
+  w('<head>');
+  w('<meta charset="utf-8">');
+  w('<meta name="viewport" content="width=device-width,initial-scale=1">');
+  w(`<title>Where the listings come from &middot; ${esc(CONFIG.productName)}</title>`);
+  w(`<meta name="description" content="${xmlAttr(desc)}">`);
+  w(`<link rel="canonical" href="${xmlAttr(CONFIG.siteBase + 'sources.html')}">`);
+  w(...socialTags('Where the listings come from', desc, CONFIG.siteBase + 'sources.html'));
+  w(...iconTags());
+  w('<style>');
+  w(stripCssComments(PAGE_CSS));
+  w('</style>');
+  w('</head>');
+  w('<body id="top">');
+  w('<header class="wrap idw">');
+  w('<div class="id-h"><h1>Where the listings come from</h1>' +
+    `<p>${esc(CONFIG.productName)} &middot; Colophon</p></div>`);
+  w('</header>');
+  w('<main class="wrap idw">');
+
+  w('<section class="id-s">');
+  w('<h2>Nothing here is typed in by hand</h2>');
+  w(`<p>${rows.length} source${rows.length === 1 ? '' : 's'} are read on a schedule, ` +
+    `normalised to one shape, and filtered down to the screenings that are rated O. ` +
+    `Right now that is ${records.length.toLocaleString('en-US')} listing` +
+    `${records.length === 1 ? '' : 's'} across ${venueRows.length} venue` +
+    `${venueRows.length === 1 ? '' : 's'}.</p>`);
+  w('<p>A venue appears here because a source reached it, not because anyone chose ' +
+    'it. That cuts both ways: the list is not a taste judgement, and a room this ' +
+    'site cannot see is missing rather than excluded.</p>');
+  w('</section>');
+
+  w('<section class="id-s">');
+  w('<h2>The sources</h2>');
+  w('<table>');
+  for (const r of rows) {
+    const name = r.meta ? esc(r.meta.name) : esc(r.id);
+    const link = r.meta && r.meta.url
+      ? `<a href="${xmlAttr(r.meta.url)}">${name}</a>` : name;
+    const covers = r.meta && r.meta.covers
+      ? esc(r.meta.covers)
+      : 'In the dataset, but not yet described here.';
+    w('<tr>' +
+      `<td><strong>${link}</strong><br><span class="quiet">${covers}</span></td>` +
+      (r.count === 0
+        ? '<td>Nothing right now<br><span class="quiet">read, but currently quiet</span></td>'
+        : `<td>${r.count.toLocaleString('en-US')} listing${r.count === 1 ? '' : 's'}<br>` +
+          `<span class="quiet">${r.venues} venue${r.venues === 1 ? '' : 's'}</span></td>`) +
+      '</tr>');
+  }
+  w('</table>');
+  if (credits.length) {
+    w('<p class="quiet">Two of those ask to be credited by name, and are, in the ' +
+      'calendar and the feed as well as here.</p>');
+  }
+  w('</section>');
+
+  w('<section class="id-s">');
+  w('<h2>The venues</h2>');
+  w(`<p>Every room with a listing on the site today, and how many it has.</p>`);
+  w('<table>');
+  for (const v of venueRows) {
+    w(`<tr><td>${esc(v.name)}</td><td>${v.count.toLocaleString('en-US')}</td></tr>`);
+  }
+  w('</table>');
+  w('</section>');
+
+  w('<section class="id-s">');
+  w('<h2>How often, and what goes wrong</h2>');
+  w('<p>The collector runs twice a day. A screening usually appears here within ' +
+    'hours of a venue announcing it, and a cancellation is kept visible rather ' +
+    'than deleted, so a listing that vanished tells you it was cancelled instead ' +
+    'of quietly ceasing to exist.</p>');
+  w('<p>The characteristic failure of a site like this is silence: a source that ' +
+    'stops answering looks exactly like a quiet week. So a source that returns ' +
+    'nothing does not wipe its listings. They are carried forward and marked, ' +
+    'and the run says so rather than publishing an emptier city than the real one.</p>');
+  w('</section>');
+
+  w(`<a class="id-back" href="${xmlAttr(CONFIG.siteBase)}">Back to the listings</a>`);
+  w('</main>');
+  w('</body>');
+  w('</html>');
+  return out.join('\n') + '\n';
+}
+
 function buildIdentity() {
   const out = [];
   // Variadic: a one-argument sink silently drops all but the first tag when
@@ -2829,6 +2985,7 @@ function main() {
   }
   // sources.json sits next to the dataset and is written by the collector.
   const credits = loadCredits(join(dirname(dataPath), 'sources.json'));
+  const sourceBook = loadSourceBook(join(dirname(dataPath), 'sources.json'));
   const records = screenings.map((s) => hydrate(s, venues));
 
   const icsRecords = selectForIcs(records, now);
@@ -2880,11 +3037,12 @@ function main() {
   writeFileSync(join(outDir, 'calendar.ics'), Buffer.from(ics, 'utf8'));
   writeFileSync(join(outDir, 'feed.xml'), Buffer.from(rss, 'utf8'));
   const identity = buildIdentity();
+  const sources = buildSources(htmlRecords, venues, sourceBook, credits, now);
   // This shipped once with og:type and nothing else, because the line writer
   // took a single argument and the tags arrive as a spread. A social card that
   // is silently absent looks exactly like one that is present until somebody
   // pastes a link, so assert the count rather than trust the call.
-  for (const [name, doc] of [['index.html', html], ['identity.html', identity]]) {
+  for (const [name, doc] of [['index.html', html], ['identity.html', identity], ['sources.html', sources]]) {
     const n = (doc.match(/<meta (?:property="og:|name="twitter:)/g) || []).length;
     if (n < 13) {
       process.stderr.write(`\nbuild: FAIL ${name} carries ${n} social tag(s), expected 13.\n`);
@@ -2893,6 +3051,7 @@ function main() {
   }
   writeFileSync(join(outDir, 'index.html'), Buffer.from(html, 'utf8'));
   writeFileSync(join(outDir, 'identity.html'), Buffer.from(identity, 'utf8'));
+  writeFileSync(join(outDir, 'sources.html'), Buffer.from(sources, 'utf8'));
 
   const icsBytes = statSync(join(outDir, 'calendar.ics')).size;
   const qualifying = records.filter(qualifies).length;
@@ -2910,6 +3069,7 @@ function main() {
     `  feed.xml      ${rssRecords.length} item(s)  ${statSync(join(outDir, 'feed.xml')).size} bytes\n` +
     `  index.html    ${htmlRecords.length} listing(s)  ${statSync(join(outDir, 'index.html')).size} bytes\n` +
     `  identity.html ${statSync(join(outDir, 'identity.html')).size} bytes\n` +
+    `  sources.html  ${statSync(join(outDir, 'sources.html')).size} bytes\n` +
     `  credits       ${credits.length} source(s) rendered\n`
   );
   process.stdout.write(

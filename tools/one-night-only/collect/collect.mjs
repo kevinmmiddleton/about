@@ -918,6 +918,10 @@ async function main() {
   }
 
   const credits = SOURCES.filter((m) => m.credit).map((m) => ({ source: m.id, ...m.credit }));
+  // The colophon's registry. Generated from the adapters for the same reason
+  // credits are: a source cannot be wired in without describing itself, and
+  // cannot be removed while sources.html still advertises it.
+  const profiles = SOURCES.filter((m) => m.profile).map((m) => ({ source: m.id, ...m.profile }));
 
   // --- report ------------------------------------------------------------
   log('\n  per-source counts');
@@ -1008,7 +1012,7 @@ async function main() {
 
   writeJsonAtomic(collectedPath, collected);
   writeJsonAtomic(statePath, nextState);
-  writeJsonAtomic(sourcesPath, { version: 1, credits });
+  writeJsonAtomic(sourcesPath, { version: 1, credits, sources: profiles });
   log(`\n  wrote ${collectedPath}`);
 
   // --- hand off to the ledger --------------------------------------------

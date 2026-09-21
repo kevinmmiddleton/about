@@ -52,6 +52,16 @@ export const credit = {
   note: 'NYC Parks public events, updated daily.',
 };
 
+
+// Shown on sources.html. Exported here rather than kept in a list somewhere
+// else so a source cannot be wired in without saying what it is, and cannot
+// be removed while still being advertised.
+export const profile = {
+  name: "NYC Open Data",
+  url: "https://data.cityofnewyork.us/d/w3wp-dpdi",
+  covers:
+    "Free outdoor screenings run by NYC Parks, in season.",
+};
 const RESOURCE = 'https://data.cityofnewyork.us/resource/w3wp-dpdi.json';
 
 const SELECT = [

@@ -32,6 +32,16 @@ export const credit = {
   note: 'Cinema showtimes via their open API, used with their robots.txt permission.',
 };
 
+
+// Shown on sources.html. Exported here rather than kept in a list somewhere
+// else so a source cannot be wired in without saying what it is, and cannot
+// be removed while still being advertised.
+export const profile = {
+  name: "repertory.nyc",
+  url: "https://www.repertory.nyc/",
+  covers:
+    "The cinema core. Repertory and revival showtimes across the city, via their open API.",
+};
 const BASE = 'https://www.repertory.nyc';
 
 /**

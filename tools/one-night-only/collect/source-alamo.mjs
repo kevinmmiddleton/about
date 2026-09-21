@@ -22,6 +22,16 @@ export const id = 'alamo';
 export const label = 'Alamo Drafthouse';
 export const credit = null;
 
+
+// Shown on sources.html. Exported here rather than kept in a list somewhere
+// else so a source cannot be wired in without saying what it is, and cannot
+// be removed while still being advertised.
+export const profile = {
+  name: "Alamo Drafthouse",
+  url: "https://drafthouse.com/nyc",
+  covers:
+    "Their three NYC rooms, from the public market schedule. The only source that reports a print.",
+};
 const MARKET = 'nyc';
 const API = `https://drafthouse.com/s/mother/v2/schedule/market/${MARKET}`;
 const SHOW_URL = (slug) => `https://drafthouse.com/${MARKET}/show/${slug}`;

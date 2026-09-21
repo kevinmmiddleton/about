@@ -50,6 +50,16 @@ export const id = 'luma';
 export const label = 'Luma calendars (programmer tier)';
 export const credit = null;
 
+
+// Shown on sources.html. Exported here rather than kept in a list somewhere
+// else so a source cannot be wired in without saying what it is, and cannot
+// be removed while still being advertised.
+export const profile = {
+  name: "Luma",
+  url: "https://lu.ma/",
+  covers:
+    "Calendars kept by individual programmers, for screenings that never reach a box office.",
+};
 const API = 'https://api.lu.ma';
 
 /**

@@ -37,6 +37,16 @@ export const id = 'elevent';
 export const label = 'Elevent (goelevent.com)';
 export const credit = null;
 
+
+// Shown on sources.html. Exported here rather than kept in a list somewhere
+// else so a source cannot be wired in without saying what it is, and cannot
+// be removed while still being advertised.
+export const profile = {
+  name: "Elevent",
+  url: "https://www.goelevent.com/",
+  covers:
+    "Ticketing for microcinemas, museums and one-room venues that run their own box office.",
+};
 const BASE = 'https://www.goelevent.com';
 
 // ---------------------------------------------------------------------------
