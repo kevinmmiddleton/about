@@ -1183,6 +1183,7 @@ a{color:inherit}
 .bar-in{max-width:var(--wrap);margin:0 auto;padding-inline:var(--pad);
   height:var(--bar);display:flex;align-items:center;gap:.7rem}
 .bar .ono-stamp{--ono-h:26px;flex:0 0 auto}
+.bq-share{flex:0 0 auto}
 .bmark{flex:0 0 auto;display:inline-flex;min-height:26px;text-decoration:none}
 /* One nowrap scrolling row rather than a wrapping one. The pattern is fv.css's
    mobile nav: a control bar that wraps grows taller than the day header it has
@@ -1477,6 +1478,14 @@ footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center
   html.js .bq{grid-area:1/2/2/4;flex-basis:auto;width:100%}
   html.js .bscroll{grid-area:2/1/3/3}
   html.js .bsub{grid-area:2/3/3/4;display:inline-flex}
+  /* Copy link appears only while a filter or a search is narrowing the
+     page, which is exactly when the bar is fullest. Every other child of
+     this grid is placed by hand, so without an area of its own it was
+     auto-placed into an implicit THIRD row -- and the height above is
+     fixed at two, so it was drawn half outside the bar and clipped.
+     It takes the cell Subscribe vacates below: that column is already
+     sized for a button of this shape and is empty at this width. */
+  html.js .bq-share{grid-area:2/3/3/4}
   /* 16px minimum, or iOS zooms the whole page on focus and leaves the reader
      zoomed into an 850-row document with the bar off screen. This is the single
      most common way a mobile search field ships broken. */
@@ -1488,6 +1497,11 @@ footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center
      The Subscribe button goes, not the counts: it duplicates a 44px call to
      action that is one tap away through the mark beside it, and the counts are
      information the chips are the only place to carry. */
+  /* Raised from a bare .bsub, which is (0,1,0) and lost to the
+     html.js .bsub rule above it at (0,2,1). Specificity decides, not source
+     order, so the hide never once applied: Subscribe stayed at 390 and the chip
+     clipping described above was still happening when this was written. */
+  html.js .bsub{display:none}
   .bsub{display:none}
   .tog label{padding:.45rem .5rem;letter-spacing:.07em}
   .s-h{font-size:1.08rem}
@@ -1501,8 +1515,10 @@ footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center
   :root{--ono-h:112px;--pad:.75rem}
   .ono-band{padding:.75rem}
   html.js .bsub{display:none}
-  html.js .bar-in{grid-template-columns:auto 1fr}
-  html.js .bq{grid-area:1/2/2/3}
+  /* The third column went when Subscribe did, because it was empty. Copy link
+     lives there now, so it comes back; the search still spans the full width. */
+  html.js .bar-in{grid-template-columns:auto 1fr auto}
+  html.js .bq{grid-area:1/2/2/4}
   html.js .bscroll{grid-area:2/1/3/3}
 }
 
