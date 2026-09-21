@@ -1160,6 +1160,14 @@ a{color:inherit}
   background:transparent;color:var(--ink);border:2px solid var(--rule-strong);
   min-height:24px;padding:.4rem .6rem;cursor:pointer}
 .copy:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.bq-acts{display:flex;gap:.35rem;flex:0 0 auto;align-items:center}
+.bq-acts[hidden]{display:none}
+/* Square, so two of them are narrower than the one text button they replace
+   and the bar gets easier rather than tighter. */
+.bq-ico{padding:0;min-width:32px;min-height:32px;display:inline-grid;place-items:center}
+.bq-ico svg{width:16px;height:16px;display:block}
+/* The confirmation a text button did by changing its word. */
+.bq-ico.is-done{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .copy[hidden]{display:none}
 /* Author rules set display on .day, so [hidden] has to be stated here or it
    loses to them. Used only by the midnight guard in the page script. */
@@ -1183,7 +1191,7 @@ a{color:inherit}
 .bar-in{max-width:var(--wrap);margin:0 auto;padding-inline:var(--pad);
   height:var(--bar);display:flex;align-items:center;gap:.7rem}
 .bar .ono-stamp{--ono-h:26px;flex:0 0 auto}
-.bq-share{flex:0 0 auto}
+
 .bmark{flex:0 0 auto;display:inline-flex;min-height:26px;text-decoration:none}
 /* One nowrap scrolling row rather than a wrapping one. The pattern is fv.css's
    mobile nav: a control bar that wraps grows taller than the day header it has
@@ -1485,7 +1493,7 @@ footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center
      fixed at two, so it was drawn half outside the bar and clipped.
      It takes the cell Subscribe vacates below: that column is already
      sized for a button of this shape and is empty at this width. */
-  html.js .bq-share{grid-area:2/3/3/4}
+  html.js .bq-acts{grid-area:2/3/3/4}
   /* 16px minimum, or iOS zooms the whole page on focus and leaves the reader
      zoomed into an 850-row document with the bar off screen. This is the single
      most common way a mobile search field ships broken. */
@@ -1765,7 +1773,27 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   // absent, so its appearance is itself the signal that the view has become a
   // link. Built from live state rather than read off the address bar, which lags
   // the last keystroke by the debounce.
-  w('<button class="copy bq-share" type="button" id="copy-link" hidden>Copy link</button>');
+  /* Two actions, not one. A single button had to compromise: the link stopped
+     being pasteable into an address bar so that the message could read well.
+     Split, and neither has to. Drawn inline rather than pulled from an icon
+     set: the page carries no dependencies and no other image, and two paths
+     are cheaper than a licence to audit. 2px strokes and currentColor, so they
+     sit at the weight of the rules around them and follow the scheme. */
+  w('<span class="bq-acts" hidden>');
+  w('<button class="copy bq-ico" type="button" id="share-link" ' +
+    'aria-label="Copy link" title="Copy link">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+    '<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/>' +
+    '<path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>' +
+    '</svg></button>');
+  w('<button class="copy bq-ico" type="button" id="share-send" ' +
+    'aria-label="Send" title="Send" hidden>' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+    '<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.8-.8L3 21l1.8-5.7A8.5 8.5 0 1 1 21 11.5Z"/>' +
+    '</svg></button>');
+  w('</span>');
   w(`<a class="bsub" href="${xmlAttr(webcal)}">Subscribe</a>`);
   w('</div>');
   w('</div>');
@@ -2037,7 +2065,9 @@ const PAGE_JS = String.raw`
   var out   = document.getElementById('q-n');
   var stat  = document.getElementById('q-stat');
   var xbtn  = document.getElementById('q-clear');
-  var link  = document.getElementById('copy-link');
+  var acts  = document.querySelector('.bq-acts');
+  var bLink = document.getElementById('share-link');
+  var bSend = document.getElementById('share-send');
   var fo    = document.getElementById('f-o');
   var fv    = document.getElementById('f-v');
   var months = [].slice.call(document.querySelectorAll('.months a'));
@@ -2261,11 +2291,33 @@ const PAGE_JS = String.raw`
   });
 
   /* ---- 2. the ICS copy button, and the shared copy behaviour ---- */
+  /* An icon button cannot confirm by changing its word, so it confirms by
+     inverting and by relabelling itself for anyone listening rather than
+     looking. */
+  function done(btn, word) {
+    /* Remember the pristine label ONCE. Reading it at click time looked fine
+       until the button was pressed twice inside the two seconds: the second
+       call captured "Copied" as the original and restored it forever, leaving
+       a Send button permanently labelled Sent for anyone using a screen
+       reader. Same reason the timer is per-button rather than shared. */
+    if (!btn.dataset.label) btn.dataset.label = btn.getAttribute('aria-label') || '';
+    clearTimeout(Number(btn.dataset.timer) || 0);
+    btn.classList.add('is-done');
+    btn.setAttribute('aria-label', word);
+    btn.setAttribute('title', word);
+    btn.dataset.timer = String(setTimeout(function () {
+      btn.classList.remove('is-done');
+      btn.setAttribute('aria-label', btn.dataset.label);
+      btn.setAttribute('title', btn.dataset.label);
+    }, 2000));
+  }
+
   function wireCopy(btn, get) {
     if (!btn || !navigator.clipboard) return;
     btn.hidden = false;
     btn.addEventListener('click', function () {
       navigator.clipboard.writeText(get()).then(function () {
+        if (btn.classList.contains('bq-ico')) { done(btn, 'Copied'); return; }
         var o = btn.textContent;
         btn.textContent = 'Copied';
         setTimeout(function () { btn.textContent = o; }, 2000);
@@ -2402,7 +2454,7 @@ const PAGE_JS = String.raw`
     root.classList.toggle('q-on', on);
     lastShown = shown;
     if (out) out.textContent = on ? String(shown) : '';
-    if (link) link.hidden = !(on || !oOn || !vOn);
+    if (acts) acts.hidden = !(on || !oOn || !vOn);
 
     clearTimeout(tSay);
     /* Longer than the 120ms that drives the DOM, so a screen reader hears one
@@ -2482,8 +2534,7 @@ const PAGE_JS = String.raw`
      Only ever called while the button is visible, and the button is only
      visible once something is narrowing the page -- so the default share is
      still a bare URL with nothing bolted onto it. */
-  function shareText() {
-    var url = stateUrl();
+  function shareLine() {
     var q = box.value.trim();
     var oOn = !fo || fo.checked;
     var vOn = !fv || fv.checked;
@@ -2495,7 +2546,7 @@ const PAGE_JS = String.raw`
     else if (!vOn) bits.push('rated O only');
     else if (!oOn) bits.push('revivals only');
 
-    if (!bits.length) return url;
+    if (!bits.length) return '';
 
     var count = q && lastShown === 0
       ? 'nothing matches'
@@ -2503,9 +2554,35 @@ const PAGE_JS = String.raw`
 
     /* Middot, not a dash: it is what the masthead already puts between the
        product name and its counts, so the line reads as the page talking. */
-    return 'One Night Only \u00B7 ' + bits.join(', ') + ', ' + count + '\n' + url;
+    return 'One Night Only \u00B7 ' + bits.join(', ') + ', ' + count;
   }
-  wireCopy(link, shareText);
+  /* Link copies a naked URL, which is what an address bar wants. Send hands the
+     sentence to the share sheet, which is what a person reads. Neither has to
+     be a compromise now that they are separate. */
+  wireCopy(bLink, stateUrl);
+
+  /* Hidden unless the browser can actually share. Same discipline as the
+     clipboard check above: a button that does nothing is worse than no button,
+     and on a desktop without the API this would be one. */
+  if (bSend && navigator.share) {
+    bSend.hidden = false;
+    bSend.addEventListener('click', function () {
+      var url = stateUrl();
+      /* Targets disagree about whether they keep the text when handed a url
+         as well: some compose both, some drop the text and keep the link. So
+         the text carries the URL too, and the separate url field is there for
+         the targets that prefer it. Worst case the recipient sees the link
+         twice, which is better than a message that says nothing. */
+      var line = shareLine();
+      navigator.share({
+        title: 'One Night Only',
+        text: line ? line + '\n' + url : url,
+        url: url,
+      }).then(function () {
+        done(bSend, 'Sent');
+      }, function () { /* the sheet was dismissed; not an error */ });
+    });
+  }
 
   box.addEventListener('input', function () {
     clearTimeout(tPass);
