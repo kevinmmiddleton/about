@@ -13,5 +13,43 @@
       "url": "https://data.cityofnewyork.us/d/w3wp-dpdi",
       "note": "NYC Parks public events, updated daily."
     }
+  ],
+  "sources": [
+    {
+      "source": "elevent",
+      "name": "Elevent",
+      "url": "https://www.goelevent.com/",
+      "covers": "Ticketing for microcinemas, museums and one-room venues that run their own box office."
+    },
+    {
+      "source": "repertory-nyc",
+      "name": "repertory.nyc",
+      "url": "https://www.repertory.nyc/",
+      "covers": "The cinema core. Repertory and revival showtimes across the city, via their open API."
+    },
+    {
+      "source": "nyc-parks",
+      "name": "NYC Open Data",
+      "url": "https://data.cityofnewyork.us/d/w3wp-dpdi",
+      "covers": "Free outdoor screenings run by NYC Parks, in season."
+    },
+    {
+      "source": "paris-theater",
+      "name": "The Paris Theater",
+      "url": "https://www.paristheaternyc.com/",
+      "covers": "Special engagements only. Their daily showtimes live behind a ticketing wall this does not read."
+    },
+    {
+      "source": "luma",
+      "name": "Luma",
+      "url": "https://lu.ma/",
+      "covers": "Calendars kept by individual programmers, for screenings that never reach a box office."
+    },
+    {
+      "source": "alamo",
+      "name": "Alamo Drafthouse",
+      "url": "https://drafthouse.com/nyc",
+      "covers": "Their three NYC rooms, from the public market schedule. The only source that reports a print."
+    }
   ]
 }
