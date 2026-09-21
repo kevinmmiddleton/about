@@ -25,6 +25,7 @@ sources -> collect.mjs -> one-night-only/_data/collected.json
 | `source-paris-theater.mjs` | The Paris, via the RSC flight payload on its own homepage. |
 | `source-luma.mjs` | Luma calendars. The programmer tier. |
 | `source-alamo.mjs` | Alamo Drafthouse's public market API. Three NYC rooms, and the only source that reports a print. |
+| `source-rooftop.mjs` | Rooftop Cinema Club Midtown. One day page per date, in season. |
 
 ## Running it
 
