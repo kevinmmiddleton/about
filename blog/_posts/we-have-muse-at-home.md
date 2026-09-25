@@ -1,8 +1,8 @@
 ---
 title: My AI assistant interviewed Meta's Muse
 slug: we-have-muse-at-home
-status: draft
-published_at: 2026-09-26
+status: published
+published_at: 2026-09-25
 updated_at: ''
 topic: Tech & Society
 topic_new: ''
