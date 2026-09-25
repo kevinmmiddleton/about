@@ -517,12 +517,28 @@
         -73.922570763477
       ]
     },
+    "la-plaza-cultural": {
+      "name": "La Plaza Cultural",
+      "address": "La Plaza Cultural",
+      "geo": [
+        40.725299835205,
+        -73.97859954834
+      ]
+    },
     "lemon-creek-park": {
       "name": "Lemon Creek Park",
       "address": "Bayview Avenue and Johnston Terrace",
       "geo": [
         40.513289235191,
         -74.200308321674
+      ]
+    },
+    "louis-pasteur-park": {
+      "name": "Louis Pasteur Park",
+      "address": "Basketball Court",
+      "geo": [
+        40.7620152511,
+        -73.7354216358
       ]
     },
     "madison-square-park": {
@@ -923,6 +939,14 @@
     "the-lgbt-community-center": {
       "name": "The LGBT Community Center",
       "address": "New York, NY"
+    },
+    "the-pearly-gates": {
+      "name": "The Pearly Gates",
+      "address": "Tratman Playground",
+      "geo": [
+        40.838655078683,
+        -73.845650841163
+      ]
     },
     "theodore-roosevelt-park": {
       "name": "Theodore Roosevelt Park",
@@ -24870,7 +24894,7 @@
       "run_guid": "tag:middleton.io,2026:run/686035b8563e3a35",
       "first_emitted_at": "2026-08-21T00:34:17Z",
       "limited": true,
-      "dates_at_venue": 2,
+      "dates_at_venue": 3,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -90213,8 +90237,7 @@
       "start_local": "2026-09-24T18:00",
       "end_local": "2026-09-24T20:00",
       "url": "https://www.nycgovparks.org/events/2026/09/24/climate-week-nyc-documentary-screening-river-restoration-cl1",
-      "source": "nyc-parks",
-      "source_ref": "2240399"
+      "source": "nyc-parks"
     },
     {
       "uid": "ca80b8c313bf8869@screenings.middleton.io",
@@ -91047,8 +91070,7 @@
       "end_local": "2026-09-24T21:00",
       "url": "https://www.nycgovparks.org/events/2026/09/24/movies-under-the-stars-the-mitchells-vs-the-machines-2021",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2235430"
+      "source": "nyc-parks"
     },
     {
       "uid": "fb8f519fc984e838@screenings.middleton.io",
@@ -91118,8 +91140,7 @@
       "end_local": "2026-09-24T21:15",
       "url": "https://www.nycgovparks.org/events/2026/09/24/movies-under-the-stars-godzilla-x-kong-the-new-empire",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2246368"
+      "source": "nyc-parks"
     },
     {
       "uid": "55bcd76ac4ad916d@screenings.middleton.io",
@@ -92580,8 +92601,7 @@
       "title": "Avengers Endgame: Encore",
       "start_local": "2026-09-25T11:00",
       "url": "https://drafthouse.com/nyc/show/avengers-endgame-encore",
-      "source": "alamo",
-      "source_ref": "96119"
+      "source": "alamo"
     },
     {
       "uid": "f9afc2cd1cdd7f5f@screenings.middleton.io",
@@ -92603,8 +92623,7 @@
       "year": 2026,
       "start_local": "2026-09-25T11:00",
       "url": "https://drafthouse.com/nyc/show/hope-2026",
-      "source": "alamo",
-      "source_ref": "137972"
+      "source": "alamo"
     },
     {
       "uid": "f9baee5fade5bcdb@screenings.middleton.io",
@@ -92625,8 +92644,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-09-25T11:00",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "137098"
+      "source": "alamo"
     },
     {
       "uid": "0491ba2ecf9d2b72@screenings.middleton.io",
@@ -92671,8 +92689,7 @@
       "title": "Spider-Man: Brand New Day",
       "start_local": "2026-09-25T11:15",
       "url": "https://drafthouse.com/nyc/show/spider-man-brand-new-day",
-      "source": "alamo",
-      "source_ref": "97953"
+      "source": "alamo"
     },
     {
       "uid": "0cc26f5db79f51b3@screenings.middleton.io",
@@ -92694,8 +92711,7 @@
       "start_local": "2026-09-25T11:15",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "97812"
+      "source": "alamo"
     },
     {
       "uid": "6a5d5d367229bbb8@screenings.middleton.io",
@@ -92716,8 +92732,7 @@
       "title": "Practical Magic 2",
       "start_local": "2026-09-25T11:15",
       "url": "https://drafthouse.com/nyc/show/practical-magic-2",
-      "source": "alamo",
-      "source_ref": "97949"
+      "source": "alamo"
     },
     {
       "uid": "c5d4af866d7a7dd1@screenings.middleton.io",
@@ -92738,8 +92753,7 @@
       "title": "Coyote vs. ACME",
       "start_local": "2026-09-25T11:15",
       "url": "https://drafthouse.com/nyc/show/coyote-vs-acme",
-      "source": "alamo",
-      "source_ref": "137983"
+      "source": "alamo"
     },
     {
       "uid": "002e6e8cd3ffe924@screenings.middleton.io",
@@ -92760,8 +92774,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-09-25T11:30",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "45627"
+      "source": "alamo"
     },
     {
       "uid": "01a1aae0d1638243@screenings.middleton.io",
@@ -92782,8 +92795,7 @@
       "title": "Practical Magic 2",
       "start_local": "2026-09-25T11:30",
       "url": "https://drafthouse.com/nyc/show/practical-magic-2",
-      "source": "alamo",
-      "source_ref": "46129"
+      "source": "alamo"
     },
     {
       "uid": "71a477a64ba88159@screenings.middleton.io",
@@ -92804,8 +92816,7 @@
       "title": "Heart of the Beast",
       "start_local": "2026-09-25T11:30",
       "url": "https://drafthouse.com/nyc/show/heart-of-the-beast",
-      "source": "alamo",
-      "source_ref": "137987"
+      "source": "alamo"
     },
     {
       "uid": "c47ed8edf532942f@screenings.middleton.io",
@@ -92850,8 +92861,7 @@
       "title": "The Weight",
       "start_local": "2026-09-25T11:30",
       "url": "https://drafthouse.com/nyc/show/the-weight",
-      "source": "alamo",
-      "source_ref": "97959"
+      "source": "alamo"
     },
     {
       "uid": "e0d43e5592b13e71@screenings.middleton.io",
@@ -92872,8 +92882,7 @@
       "title": "Ha-Chan, Shake Your Booty!",
       "start_local": "2026-09-25T11:30",
       "url": "https://drafthouse.com/nyc/show/ha-chan-shake-your-booty",
-      "source": "alamo",
-      "source_ref": "46135"
+      "source": "alamo"
     },
     {
       "uid": "c47d1d4a1db4a7e2@screenings.middleton.io",
@@ -92919,8 +92928,7 @@
       "title": "The Weight",
       "start_local": "2026-09-25T11:45",
       "url": "https://drafthouse.com/nyc/show/the-weight",
-      "source": "alamo",
-      "source_ref": "137995"
+      "source": "alamo"
     },
     {
       "uid": "e9ab0bdaf613a67d@screenings.middleton.io",
@@ -92943,8 +92951,7 @@
       "start_local": "2026-09-25T11:45",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "97941"
+      "source": "alamo"
     },
     {
       "uid": "0f5ff16bba32afed@screenings.middleton.io",
@@ -92965,8 +92972,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-09-25T12:00",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "96884"
+      "source": "alamo"
     },
     {
       "uid": "3c4438f873f966a7@screenings.middleton.io",
@@ -92988,8 +92994,7 @@
       "start_local": "2026-09-25T12:00",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "137160"
+      "source": "alamo"
     },
     {
       "uid": "4b34a1cd663cdbe8@screenings.middleton.io",
@@ -93010,8 +93015,7 @@
       "title": "Avengers Endgame: Encore",
       "start_local": "2026-09-25T12:00",
       "url": "https://drafthouse.com/nyc/show/avengers-endgame-encore",
-      "source": "alamo",
-      "source_ref": "46120"
+      "source": "alamo"
     },
     {
       "uid": "51c3c95cb2d4479a@screenings.middleton.io",
@@ -93032,8 +93036,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-09-25T12:00",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "46117"
+      "source": "alamo"
     },
     {
       "uid": "69c012ede861ec1c@screenings.middleton.io",
@@ -93054,8 +93057,7 @@
       "title": "Ha-Chan, Shake Your Booty!",
       "start_local": "2026-09-25T12:00",
       "url": "https://drafthouse.com/nyc/show/ha-chan-shake-your-booty",
-      "source": "alamo",
-      "source_ref": "96950"
+      "source": "alamo"
     },
     {
       "uid": "1befa5e3ba0dfeab@screenings.middleton.io",
@@ -93100,8 +93102,7 @@
       "title": "Tony",
       "start_local": "2026-09-25T12:15",
       "url": "https://drafthouse.com/nyc/show/tony",
-      "source": "alamo",
-      "source_ref": "97931"
+      "source": "alamo"
     },
     {
       "uid": "4767de054874bf77@screenings.middleton.io",
@@ -93147,8 +93148,7 @@
       "title": "Practical Magic 2",
       "start_local": "2026-09-25T12:15",
       "url": "https://drafthouse.com/nyc/show/practical-magic-2",
-      "source": "alamo",
-      "source_ref": "137991"
+      "source": "alamo"
     },
     {
       "uid": "ed99fb1c40718f35@screenings.middleton.io",
@@ -93194,8 +93194,7 @@
       "start_local": "2026-09-25T12:15",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98107"
+      "source": "alamo"
     },
     {
       "uid": "79c75b205165eaf5@screenings.middleton.io",
@@ -93241,8 +93240,7 @@
       "title": "Coyote vs. ACME",
       "start_local": "2026-09-25T12:30",
       "url": "https://drafthouse.com/nyc/show/coyote-vs-acme",
-      "source": "alamo",
-      "source_ref": "97942"
+      "source": "alamo"
     },
     {
       "uid": "8f8d5990fb7c287a@screenings.middleton.io",
@@ -93288,8 +93286,7 @@
       "title": "The Weight",
       "start_local": "2026-09-25T12:30",
       "url": "https://drafthouse.com/nyc/show/the-weight",
-      "source": "alamo",
-      "source_ref": "46134"
+      "source": "alamo"
     },
     {
       "uid": "b0ca7a0823c383d8@screenings.middleton.io",
@@ -93310,8 +93307,7 @@
       "title": "Destroy All Monsters",
       "start_local": "2026-09-25T12:30",
       "url": "https://drafthouse.com/nyc/show/destroy-all-monsters",
-      "source": "alamo",
-      "source_ref": "138000"
+      "source": "alamo"
     },
     {
       "uid": "c23a5fa8d2c81ca7@screenings.middleton.io",
@@ -93359,8 +93355,7 @@
       "start_local": "2026-09-25T12:30",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "46284"
+      "source": "alamo"
     },
     {
       "uid": "1c4361b7d8202331@screenings.middleton.io",
@@ -93381,8 +93376,7 @@
       "title": "If I Go Will They Miss Me",
       "start_local": "2026-09-25T12:45",
       "url": "https://drafthouse.com/nyc/show/if-i-go-will-they-miss-me",
-      "source": "alamo",
-      "source_ref": "137996"
+      "source": "alamo"
     },
     {
       "uid": "3bc9e3e6e6f7b423@screenings.middleton.io",
@@ -93403,8 +93397,7 @@
       "title": "The Stunt Driver",
       "start_local": "2026-09-25T13:00",
       "url": "https://drafthouse.com/nyc/show/the-stunt-driver",
-      "source": "alamo",
-      "source_ref": "98103"
+      "source": "alamo"
     },
     {
       "uid": "62aa40a7dc3bcef5@screenings.middleton.io",
@@ -93449,8 +93442,7 @@
       "start_local": "2026-09-25T13:00",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "46124"
+      "source": "alamo"
     },
     {
       "uid": "983d7c3bad50e939@screenings.middleton.io",
@@ -93495,8 +93487,7 @@
       "title": "Your Mother Your Mother Your Mother",
       "start_local": "2026-09-25T13:00",
       "url": "https://drafthouse.com/nyc/show/your-mother-your-mother-your-mother",
-      "source": "alamo",
-      "source_ref": "136645"
+      "source": "alamo"
     },
     {
       "uid": "d15978d0eba6540e@screenings.middleton.io",
@@ -93518,8 +93509,7 @@
       "start_local": "2026-09-25T13:00",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "96523"
+      "source": "alamo"
     },
     {
       "uid": "08ff9a3ca94d27c2@screenings.middleton.io",
@@ -93540,8 +93530,7 @@
       "title": "Heart of the Beast",
       "start_local": "2026-09-25T13:15",
       "url": "https://drafthouse.com/nyc/show/heart-of-the-beast",
-      "source": "alamo",
-      "source_ref": "97947"
+      "source": "alamo"
     },
     {
       "uid": "0f7774d917f3933d@screenings.middleton.io",
@@ -93587,8 +93576,7 @@
       "title": "Avengers Endgame: Encore",
       "start_local": "2026-09-25T13:15",
       "url": "https://drafthouse.com/nyc/show/avengers-endgame-encore",
-      "source": "alamo",
-      "source_ref": "137973"
+      "source": "alamo"
     },
     {
       "uid": "a4f8cf5ce3905cd2@screenings.middleton.io",
@@ -93611,8 +93599,7 @@
       "start_local": "2026-09-25T13:15",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "137976"
+      "source": "alamo"
     },
     {
       "uid": "120fff44898926a1@screenings.middleton.io",
@@ -93733,8 +93720,7 @@
       "title": "Heart of the Beast",
       "start_local": "2026-09-25T13:30",
       "url": "https://drafthouse.com/nyc/show/heart-of-the-beast",
-      "source": "alamo",
-      "source_ref": "46125"
+      "source": "alamo"
     },
     {
       "uid": "ff9cf14b7d484a80@screenings.middleton.io",
@@ -93805,8 +93791,7 @@
       "title": "Heart of the Beast",
       "start_local": "2026-09-25T14:00",
       "url": "https://drafthouse.com/nyc/show/heart-of-the-beast",
-      "source": "alamo",
-      "source_ref": "137097"
+      "source": "alamo"
     },
     {
       "uid": "7523c3f7397fc60d@screenings.middleton.io",
@@ -93927,8 +93912,7 @@
       "start_local": "2026-09-25T14:15",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "97815"
+      "source": "alamo"
     },
     {
       "uid": "8f881dbc8fc0678e@screenings.middleton.io",
@@ -93974,8 +93958,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-09-25T14:15",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "137980"
+      "source": "alamo"
     },
     {
       "uid": "9296390ded396268@screenings.middleton.io",
@@ -94019,8 +94002,7 @@
       "title": "Heart of the Beast",
       "start_local": "2026-09-25T14:30",
       "url": "https://drafthouse.com/nyc/show/heart-of-the-beast",
-      "source": "alamo",
-      "source_ref": "45632"
+      "source": "alamo"
     },
     {
       "uid": "64021c0d37d4e90e@screenings.middleton.io",
@@ -94043,8 +94025,7 @@
       "start_local": "2026-09-25T14:30",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "97940"
+      "source": "alamo"
     },
     {
       "uid": "a3f2dc88bce0761a@screenings.middleton.io",
@@ -94090,8 +94071,7 @@
       "title": "Your Mother Your Mother Your Mother",
       "start_local": "2026-09-25T14:30",
       "url": "https://drafthouse.com/nyc/show/your-mother-your-mother-your-mother",
-      "source": "alamo",
-      "source_ref": "137984"
+      "source": "alamo"
     },
     {
       "uid": "da6ed6033dacb19d@screenings.middleton.io",
@@ -94187,8 +94167,7 @@
       "year": 2026,
       "start_local": "2026-09-25T14:45",
       "url": "https://drafthouse.com/nyc/show/hope-2026",
-      "source": "alamo",
-      "source_ref": "97954"
+      "source": "alamo"
     },
     {
       "uid": "0c6a82a622a67bcb@screenings.middleton.io",
@@ -94209,8 +94188,7 @@
       "title": "The Weight",
       "start_local": "2026-09-25T14:45",
       "url": "https://drafthouse.com/nyc/show/the-weight",
-      "source": "alamo",
-      "source_ref": "97958"
+      "source": "alamo"
     },
     {
       "uid": "1b636c49e526b5fe@screenings.middleton.io",
@@ -94256,8 +94234,7 @@
       "title": "Practical Magic 2",
       "start_local": "2026-09-25T14:45",
       "url": "https://drafthouse.com/nyc/show/practical-magic-2",
-      "source": "alamo",
-      "source_ref": "97950"
+      "source": "alamo"
     },
     {
       "uid": "54815b8a6db41b3c@screenings.middleton.io",
@@ -94278,8 +94255,7 @@
       "title": "Ha-Chan, Shake Your Booty!",
       "start_local": "2026-09-25T14:45",
       "url": "https://drafthouse.com/nyc/show/ha-chan-shake-your-booty",
-      "source": "alamo",
-      "source_ref": "46285"
+      "source": "alamo"
     },
     {
       "uid": "9c066d0615588132@screenings.middleton.io",
@@ -94300,8 +94276,7 @@
       "title": "Practical Magic 2",
       "start_local": "2026-09-25T14:45",
       "url": "https://drafthouse.com/nyc/show/practical-magic-2",
-      "source": "alamo",
-      "source_ref": "46130"
+      "source": "alamo"
     },
     {
       "uid": "ca51d4362f8df13d@screenings.middleton.io",
@@ -94323,8 +94298,7 @@
       "year": 2026,
       "start_local": "2026-09-25T14:45",
       "url": "https://drafthouse.com/nyc/show/hope-2026",
-      "source": "alamo",
-      "source_ref": "137969"
+      "source": "alamo"
     },
     {
       "uid": "0686cd53efecad0d@screenings.middleton.io",
@@ -94345,8 +94319,7 @@
       "title": "Coyote vs. ACME",
       "start_local": "2026-09-25T15:00",
       "url": "https://drafthouse.com/nyc/show/coyote-vs-acme",
-      "source": "alamo",
-      "source_ref": "137992"
+      "source": "alamo"
     },
     {
       "uid": "0f4447733171176b@screenings.middleton.io",
@@ -94367,8 +94340,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-09-25T15:00",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "46118"
+      "source": "alamo"
     },
     {
       "uid": "3989f2889bc21bb1@screenings.middleton.io",
@@ -94390,8 +94362,7 @@
       "start_local": "2026-09-25T15:00",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "137159"
+      "source": "alamo"
     },
     {
       "uid": "9beea9d41073ce4c@screenings.middleton.io",
@@ -94412,8 +94383,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-09-25T15:00",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "96881"
+      "source": "alamo"
     },
     {
       "uid": "b42855e1b919bcc9@screenings.middleton.io",
@@ -94434,8 +94404,7 @@
       "title": "Destroy All Monsters",
       "start_local": "2026-09-25T15:00",
       "url": "https://drafthouse.com/nyc/show/destroy-all-monsters",
-      "source": "alamo",
-      "source_ref": "97932"
+      "source": "alamo"
     },
     {
       "uid": "01f7166862e2f326@screenings.middleton.io",
@@ -94456,8 +94425,7 @@
       "title": "Charlie Harper",
       "start_local": "2026-09-25T15:15",
       "url": "https://drafthouse.com/nyc/show/charlie-harper",
-      "source": "alamo",
-      "source_ref": "97935"
+      "source": "alamo"
     },
     {
       "uid": "1ecb03d9a55e7403@screenings.middleton.io",
@@ -94501,8 +94469,7 @@
       "title": "Ha-Chan, Shake Your Booty!",
       "start_local": "2026-09-25T15:15",
       "url": "https://drafthouse.com/nyc/show/ha-chan-shake-your-booty",
-      "source": "alamo",
-      "source_ref": "96947"
+      "source": "alamo"
     },
     {
       "uid": "65f04e2e9f7b4c8a@screenings.middleton.io",
@@ -94523,8 +94490,7 @@
       "title": "Avengers Endgame: Encore",
       "start_local": "2026-09-25T15:15",
       "url": "https://drafthouse.com/nyc/show/avengers-endgame-encore",
-      "source": "alamo",
-      "source_ref": "96117"
+      "source": "alamo"
     },
     {
       "uid": "9560c2e48331e387@screenings.middleton.io",
@@ -94546,8 +94512,7 @@
       "start_local": "2026-09-25T15:15",
       "url": "https://drafthouse.com/nyc/show/your-mother-your-mother-your-mother",
       "format": "35mm",
-      "source": "alamo",
-      "source_ref": "137154"
+      "source": "alamo"
     },
     {
       "uid": "f11c5997a23d1b16@screenings.middleton.io",
@@ -94593,8 +94558,7 @@
       "title": "Practical Magic 2",
       "start_local": "2026-09-25T15:30",
       "url": "https://drafthouse.com/nyc/show/practical-magic-2",
-      "source": "alamo",
-      "source_ref": "137988"
+      "source": "alamo"
     },
     {
       "uid": "4c950465a5a75e82@screenings.middleton.io",
@@ -94615,8 +94579,7 @@
       "title": "Coyote vs. ACME",
       "start_local": "2026-09-25T15:30",
       "url": "https://drafthouse.com/nyc/show/coyote-vs-acme",
-      "source": "alamo",
-      "source_ref": "97943"
+      "source": "alamo"
     },
     {
       "uid": "cabf4ff582cb9807@screenings.middleton.io",
@@ -94639,8 +94602,7 @@
       "start_local": "2026-09-25T15:30",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "46081"
+      "source": "alamo"
     },
     {
       "uid": "e32226968728c223@screenings.middleton.io",
@@ -94661,8 +94623,7 @@
       "title": "Destroy All Monsters",
       "start_local": "2026-09-25T15:30",
       "url": "https://drafthouse.com/nyc/show/destroy-all-monsters",
-      "source": "alamo",
-      "source_ref": "46133"
+      "source": "alamo"
     },
     {
       "uid": "c8f64b499dc33873@screenings.middleton.io",
@@ -94732,8 +94693,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-09-25T15:45",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "137997"
+      "source": "alamo"
     },
     {
       "uid": "55ba802da2c66624@screenings.middleton.io",
@@ -94779,8 +94739,7 @@
       "start_local": "2026-09-25T16:00",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "45370"
+      "source": "alamo"
     },
     {
       "uid": "57ae87a4ab699144@screenings.middleton.io",
@@ -94824,8 +94783,7 @@
       "start_local": "2026-09-25T16:00",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98105"
+      "source": "alamo"
     },
     {
       "uid": "811d9b8a66c47865@screenings.middleton.io",
@@ -94847,8 +94805,7 @@
       "start_local": "2026-09-25T16:00",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "96502"
+      "source": "alamo"
     },
     {
       "uid": "b5cf134d2748e348@screenings.middleton.io",
@@ -94969,8 +94926,7 @@
       "title": "Heart of the Beast",
       "start_local": "2026-09-25T16:15",
       "url": "https://drafthouse.com/nyc/show/heart-of-the-beast",
-      "source": "alamo",
-      "source_ref": "97948"
+      "source": "alamo"
     },
     {
       "uid": "b492b61e08b6b11f@screenings.middleton.io",
@@ -94992,8 +94948,7 @@
       "start_local": "2026-09-25T16:15",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "136644"
+      "source": "alamo"
     },
     {
       "uid": "4eb45ef2cfb05df6@screenings.middleton.io",
@@ -95110,8 +95065,7 @@
       "title": "Heart of the Beast",
       "start_local": "2026-09-25T16:30",
       "url": "https://drafthouse.com/nyc/show/heart-of-the-beast",
-      "source": "alamo",
-      "source_ref": "46126"
+      "source": "alamo"
     },
     {
       "uid": "4f5ee8aaf59da367@screenings.middleton.io",
@@ -95159,8 +95113,7 @@
       "start_local": "2026-09-25T16:30",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "137977"
+      "source": "alamo"
     },
     {
       "uid": "59bd0d7a1f08a599@screenings.middleton.io",
@@ -95181,8 +95134,7 @@
       "title": "Avengers Endgame: Encore",
       "start_local": "2026-09-25T16:30",
       "url": "https://drafthouse.com/nyc/show/avengers-endgame-encore",
-      "source": "alamo",
-      "source_ref": "46121"
+      "source": "alamo"
     },
     {
       "uid": "bfe2e99fbdfbc9af@screenings.middleton.io",
@@ -95449,8 +95401,7 @@
       "title": "Avengers Endgame: Encore",
       "start_local": "2026-09-25T17:00",
       "url": "https://drafthouse.com/nyc/show/avengers-endgame-encore",
-      "source": "alamo",
-      "source_ref": "137112"
+      "source": "alamo"
     },
     {
       "uid": "94e716fc2c8f7cc5@screenings.middleton.io",
@@ -95520,8 +95471,7 @@
       "title": "Casablanca",
       "start_local": "2026-09-25T17:00",
       "url": "https://rooftopcinemaclub.com/us/new-york/midtown/screenings/casablanca-24148",
-      "source": "rooftop",
-      "source_ref": "casablanca-24148"
+      "source": "rooftop"
     },
     {
       "uid": "1fd1711f77f07fc8@screenings.middleton.io",
@@ -95544,8 +95494,7 @@
       "start_local": "2026-09-25T17:15",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "97939"
+      "source": "alamo"
     },
     {
       "uid": "a4c8f182eb378ae3@screenings.middleton.io",
@@ -95567,8 +95516,7 @@
       "start_local": "2026-09-25T17:15",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "97814"
+      "source": "alamo"
     },
     {
       "uid": "95ac8c7bf52c5704@screenings.middleton.io",
@@ -95640,8 +95588,7 @@
       "start_local": "2026-09-25T17:30",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "137981"
+      "source": "alamo"
     },
     {
       "uid": "deb46d957bfffcb6@screenings.middleton.io",
@@ -95662,8 +95609,7 @@
       "title": "Avengers Endgame: Encore",
       "start_local": "2026-09-25T17:30",
       "url": "https://drafthouse.com/nyc/show/avengers-endgame-encore",
-      "source": "alamo",
-      "source_ref": "45614"
+      "source": "alamo"
     },
     {
       "uid": "6f234940d4a05e64@screenings.middleton.io",
@@ -95684,8 +95630,7 @@
       "title": "Avengers Endgame: Encore",
       "start_local": "2026-09-25T17:45",
       "url": "https://drafthouse.com/nyc/show/avengers-endgame-encore",
-      "source": "alamo",
-      "source_ref": "137974"
+      "source": "alamo"
     },
     {
       "uid": "80b263debbf05bea@screenings.middleton.io",
@@ -95707,8 +95652,7 @@
       "start_local": "2026-09-25T17:45",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98106"
+      "source": "alamo"
     },
     {
       "uid": "113259fe31a1c98a@screenings.middleton.io",
@@ -95800,8 +95744,7 @@
       "title": "Practical Magic 2",
       "start_local": "2026-09-25T18:00",
       "url": "https://drafthouse.com/nyc/show/practical-magic-2",
-      "source": "alamo",
-      "source_ref": "46131"
+      "source": "alamo"
     },
     {
       "uid": "3d1c5579a1b82931@screenings.middleton.io",
@@ -95822,8 +95765,7 @@
       "title": "Your Mother Your Mother Your Mother",
       "start_local": "2026-09-25T18:00",
       "url": "https://drafthouse.com/nyc/show/your-mother-your-mother-your-mother",
-      "source": "alamo",
-      "source_ref": "137158"
+      "source": "alamo"
     },
     {
       "uid": "501c8f5e1bccaa56@screenings.middleton.io",
@@ -95844,8 +95786,7 @@
       "title": "Heart of the Beast",
       "start_local": "2026-09-25T18:00",
       "url": "https://drafthouse.com/nyc/show/heart-of-the-beast",
-      "source": "alamo",
-      "source_ref": "137985"
+      "source": "alamo"
     },
     {
       "uid": "6d9334853a6dec14@screenings.middleton.io",
@@ -95866,8 +95807,7 @@
       "title": "Avengers Endgame: Encore",
       "start_local": "2026-09-25T18:00",
       "url": "https://drafthouse.com/nyc/show/avengers-endgame-encore",
-      "source": "alamo",
-      "source_ref": "45276"
+      "source": "alamo"
     },
     {
       "uid": "acc2b1e3f9819c3b@screenings.middleton.io",
@@ -95888,8 +95828,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-09-25T18:00",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "96883"
+      "source": "alamo"
     },
     {
       "uid": "e9245ca72dc43087@screenings.middleton.io",
@@ -95911,8 +95850,7 @@
       "start_local": "2026-09-25T18:00",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "97957"
+      "source": "alamo"
     },
     {
       "uid": "fb393ffcc09315b3@screenings.middleton.io",
@@ -95933,8 +95871,7 @@
       "title": "Ha-Chan, Shake Your Booty!",
       "start_local": "2026-09-25T18:00",
       "url": "https://drafthouse.com/nyc/show/ha-chan-shake-your-booty",
-      "source": "alamo",
-      "source_ref": "46137"
+      "source": "alamo"
     },
     {
       "uid": "27c1d716d1958105@screenings.middleton.io",
@@ -97055,7 +96992,7 @@
       "run_guid": "tag:middleton.io,2026:run/db146a049bbcb879",
       "first_emitted_at": "2026-09-22T22:16:52Z",
       "limited": true,
-      "dates_at_venue": 2,
+      "dates_at_venue": 3,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -117431,6 +117368,28 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "f72b3ac844b8795c@screenings.middleton.io",
+      "hash": "f72b3ac844b8795c",
+      "guid": "tag:middleton.io,2026:screening/f72b3ac844b8795c",
+      "id_tuple": "paris-theater|scott-pilgrim-vs-the-world-introduced-by-edgar-wright|20260928|2200",
+      "film_key": "scott-pilgrim-vs-the-world-introduced-by-edgar-wright",
+      "run_key": "paris-theater|scott-pilgrim-vs-the-world-introduced-by-edgar-wright|2026-09-28",
+      "run_guid": "tag:middleton.io,2026:run/e360cfb5adb5f651",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "paris-theater",
+      "title": "SCOTT PILGRIM VS. THE WORLD | Introduced by Edgar Wright",
+      "start_local": "2026-09-28T22:00",
+      "url": "https://www.paristheaternyc.com/special-engagements",
+      "source": "paris-theater",
+      "source_ref": "scott-pilgrim-paris"
+    },
+    {
       "uid": "f9828cd2e3be8872@screenings.middleton.io",
       "hash": "f9828cd2e3be8872",
       "guid": "tag:middleton.io,2026:screening/f9828cd2e3be8872",
@@ -134373,6 +134332,30 @@
       "source_ref": "95648"
     },
     {
+      "uid": "69838682953dc170@screenings.middleton.io",
+      "hash": "69838682953dc170",
+      "guid": "tag:middleton.io,2026:screening/69838682953dc170",
+      "id_tuple": "la-plaza-cultural|la-plaza-cultural-50th-anniversary-celebration|20261003|1600",
+      "film_key": "la-plaza-cultural-50th-anniversary-celebration",
+      "run_key": "la-plaza-cultural|la-plaza-cultural-50th-anniversary-celebration|2026-10-03",
+      "run_guid": "tag:middleton.io,2026:run/a0a6c8600444c649",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "la-plaza-cultural",
+      "programmer": "NYC Parks",
+      "title": "La Plaza Cultural 50th Anniversary Celebration",
+      "start_local": "2026-10-03T16:00",
+      "end_local": "2026-10-03T20:00",
+      "url": "https://www.nycgovparks.org/events/2026/10/03/la-plaza-cultural-50th-anniversary-celebration",
+      "source": "nyc-parks",
+      "source_ref": "2262324"
+    },
+    {
       "uid": "73ab00287a2087ca@screenings.middleton.io",
       "hash": "73ab00287a2087ca",
       "guid": "tag:middleton.io,2026:screening/73ab00287a2087ca",
@@ -138142,6 +138125,28 @@
       "source_ref": "45900"
     },
     {
+      "uid": "5483681e57f6a85f@screenings.middleton.io",
+      "hash": "5483681e57f6a85f",
+      "guid": "tag:middleton.io,2026:screening/5483681e57f6a85f",
+      "id_tuple": "alamo-downtown-brooklyn|union-county|20261005|1900",
+      "film_key": "union-county",
+      "run_key": "alamo-downtown-brooklyn|union-county|2026-10-05",
+      "run_guid": "tag:middleton.io,2026:run/598dc1847100dce5",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 2,
+      "max_showtimes_per_date": 1,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Union County",
+      "start_local": "2026-10-05T19:00",
+      "url": "https://drafthouse.com/nyc/show/union-county",
+      "source": "alamo",
+      "source_ref": "138290"
+    },
+    {
       "uid": "843520c32c6a1a2b@screenings.middleton.io",
       "hash": "843520c32c6a1a2b",
       "guid": "tag:middleton.io,2026:screening/843520c32c6a1a2b",
@@ -138923,6 +138928,28 @@
       "url": "https://www.filmlinc.org/films/report-to-mother/",
       "format": "4K RESTORATION",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "10074045b6d83d0a@screenings.middleton.io",
+      "hash": "10074045b6d83d0a",
+      "guid": "tag:middleton.io,2026:screening/10074045b6d83d0a",
+      "id_tuple": "alamo-downtown-brooklyn|union-county|20261006|1845",
+      "film_key": "union-county",
+      "run_key": "alamo-downtown-brooklyn|union-county|2026-10-05",
+      "run_guid": "tag:middleton.io,2026:run/598dc1847100dce5",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 2,
+      "max_showtimes_per_date": 1,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Union County",
+      "start_local": "2026-10-06T18:45",
+      "url": "https://drafthouse.com/nyc/show/union-county",
+      "source": "alamo",
+      "source_ref": "138291"
     },
     {
       "uid": "383132e93d5c0a7c@screenings.middleton.io",
@@ -141918,6 +141945,28 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "10f9f90306015315@screenings.middleton.io",
+      "hash": "10f9f90306015315",
+      "guid": "tag:middleton.io,2026:screening/10f9f90306015315",
+      "id_tuple": "alamo-lower-manhattan|naza|20261009|1600",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-09T16:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97338"
+    },
+    {
       "uid": "267a6ae6523e8345@screenings.middleton.io",
       "hash": "267a6ae6523e8345",
       "guid": "tag:middleton.io,2026:screening/267a6ae6523e8345",
@@ -142079,6 +142128,28 @@
       "url": "https://drafthouse.com/nyc/show/other-mommy",
       "source": "alamo",
       "source_ref": "97358"
+    },
+    {
+      "uid": "f593b6fef164167d@screenings.middleton.io",
+      "hash": "f593b6fef164167d",
+      "guid": "tag:middleton.io,2026:screening/f593b6fef164167d",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261009|1700",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-09T17:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137540"
     },
     {
       "uid": "3cb1180b67e467cb@screenings.middleton.io",
@@ -142290,6 +142361,31 @@
       "source_ref": "96907"
     },
     {
+      "uid": "e033fb6d7842ddfc@screenings.middleton.io",
+      "hash": "e033fb6d7842ddfc",
+      "guid": "tag:middleton.io,2026:screening/e033fb6d7842ddfc",
+      "id_tuple": "louis-pasteur-park|nightmare-before-christmas-pg|20261009|1845",
+      "film_key": "nightmare-before-christmas-pg",
+      "run_key": "louis-pasteur-park|nightmare-before-christmas-pg|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/4ca4e494e41fec61",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "louis-pasteur-park",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "The Nightmare Before Christmas | PG",
+      "start_local": "2026-10-09T18:45",
+      "end_local": "2026-10-09T20:15",
+      "url": "https://www.nycgovparks.org/events/2026/10/09/movies-under-the-stars-the-nightmare-before-christmas-pg",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2259271"
+    },
+    {
       "uid": "09511acd7e034b19@screenings.middleton.io",
       "hash": "09511acd7e034b19",
       "guid": "tag:middleton.io,2026:screening/09511acd7e034b19",
@@ -142430,6 +142526,28 @@
       "source_ref": "137495"
     },
     {
+      "uid": "fa3118a8c6655fe8@screenings.middleton.io",
+      "hash": "fa3118a8c6655fe8",
+      "guid": "tag:middleton.io,2026:screening/fa3118a8c6655fe8",
+      "id_tuple": "alamo-lower-manhattan|naza|20261009|1900",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-09T19:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97339"
+    },
+    {
       "uid": "579a6cdab6ade1d1@screenings.middleton.io",
       "hash": "579a6cdab6ade1d1",
       "guid": "tag:middleton.io,2026:screening/579a6cdab6ade1d1",
@@ -142496,6 +142614,28 @@
       "url": "https://drafthouse.com/nyc/show/other-mommy",
       "source": "alamo",
       "source_ref": "45825"
+    },
+    {
+      "uid": "8fab093e211ff34d@screenings.middleton.io",
+      "hash": "8fab093e211ff34d",
+      "guid": "tag:middleton.io,2026:screening/8fab093e211ff34d",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261009|1930",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-09T19:30",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137541"
     },
     {
       "uid": "99a86ce337657210@screenings.middleton.io",
@@ -142589,6 +142729,31 @@
       "source_ref": "97359"
     },
     {
+      "uid": "8b13ce0d23a2fddb@screenings.middleton.io",
+      "hash": "8b13ce0d23a2fddb",
+      "guid": "tag:middleton.io,2026:screening/8b13ce0d23a2fddb",
+      "id_tuple": "the-pearly-gates|coco|20261009|2000",
+      "film_key": "coco",
+      "run_key": "the-pearly-gates|coco|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/322f7ef5b9871327",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "the-pearly-gates",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "Coco",
+      "start_local": "2026-10-09T20:00",
+      "end_local": "2026-10-09T22:30",
+      "url": "https://www.nycgovparks.org/events/2026/10/09/movies-under-the-stars-coco",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2234769"
+    },
+    {
       "uid": "c55ff85941d0e2ed@screenings.middleton.io",
       "hash": "c55ff85941d0e2ed",
       "guid": "tag:middleton.io,2026:screening/c55ff85941d0e2ed",
@@ -142608,6 +142773,30 @@
       "start_local": "2026-10-09T20:00",
       "url": "https://ticketing.useast.veezi.com/purchase/2686?siteToken=sz5016jfhkjfgdfcpmh564apxm",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "58cfa4edef05e431@screenings.middleton.io",
+      "hash": "58cfa4edef05e431",
+      "guid": "tag:middleton.io,2026:screening/58cfa4edef05e431",
+      "id_tuple": "inwood-hill-park|dyckman-marina-movie-nights|20261009|2030",
+      "film_key": "dyckman-marina-movie-nights",
+      "run_key": "inwood-hill-park|dyckman-marina-movie-nights|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/51d708ab34c42257",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 3,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "inwood-hill-park",
+      "programmer": "NYC Parks",
+      "title": "Dyckman Marina Movie Nights",
+      "start_local": "2026-10-09T20:30",
+      "end_local": "2026-10-09T22:30",
+      "url": "https://www.nycgovparks.org/events/2026/10/09/dyckman-marina-movie-nights",
+      "source": "nyc-parks",
+      "source_ref": "2244715"
     },
     {
       "uid": "f8dbb86042823967@screenings.middleton.io",
@@ -143735,6 +143924,28 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "61e9e2083397d2a7@screenings.middleton.io",
+      "hash": "61e9e2083397d2a7",
+      "guid": "tag:middleton.io,2026:screening/61e9e2083397d2a7",
+      "id_tuple": "alamo-lower-manhattan|naza|20261010|1600",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-10T16:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97341"
+    },
+    {
       "uid": "d45d3887cd0abc81@screenings.middleton.io",
       "hash": "d45d3887cd0abc81",
       "guid": "tag:middleton.io,2026:screening/d45d3887cd0abc81",
@@ -143874,6 +144085,28 @@
       "end_local": "2026-10-10T19:30",
       "url": "https://www.goelevent.com/ScandinaviaHouse/e/DreamsbytheSeaDgunIvikkisartoqKingulleq",
       "source": "elevent"
+    },
+    {
+      "uid": "dc75806c18ef7d9d@screenings.middleton.io",
+      "hash": "dc75806c18ef7d9d",
+      "guid": "tag:middleton.io,2026:screening/dc75806c18ef7d9d",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261010|1700",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-10T17:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137543"
     },
     {
       "uid": "f09d1e91f15c4233@screenings.middleton.io",
@@ -144153,6 +144386,28 @@
       "source_ref": "96910"
     },
     {
+      "uid": "562b25660f4b958c@screenings.middleton.io",
+      "hash": "562b25660f4b958c",
+      "guid": "tag:middleton.io,2026:screening/562b25660f4b958c",
+      "id_tuple": "alamo-lower-manhattan|naza|20261010|1900",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-10T19:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97340"
+    },
+    {
       "uid": "b6fbd09089e38de0@screenings.middleton.io",
       "hash": "b6fbd09089e38de0",
       "guid": "tag:middleton.io,2026:screening/b6fbd09089e38de0",
@@ -144220,6 +144475,28 @@
       "url": "https://drafthouse.com/nyc/show/other-mommy",
       "source": "alamo",
       "source_ref": "45827"
+    },
+    {
+      "uid": "b1182bf97c28c812@screenings.middleton.io",
+      "hash": "b1182bf97c28c812",
+      "guid": "tag:middleton.io,2026:screening/b1182bf97c28c812",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261010|1930",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-10T19:30",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137542"
     },
     {
       "uid": "b7ffea7f9a5ed261@screenings.middleton.io",
@@ -145464,6 +145741,28 @@
       "source_ref": "98307"
     },
     {
+      "uid": "3673a0e0d9baa114@screenings.middleton.io",
+      "hash": "3673a0e0d9baa114",
+      "guid": "tag:middleton.io,2026:screening/3673a0e0d9baa114",
+      "id_tuple": "alamo-lower-manhattan|naza|20261011|1600",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-11T16:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97342"
+    },
+    {
       "uid": "55b173040846d43c@screenings.middleton.io",
       "hash": "55b173040846d43c",
       "guid": "tag:middleton.io,2026:screening/55b173040846d43c",
@@ -145601,6 +145900,28 @@
       "url": "https://t.metrograph.com/Ticketing/visSelectTickets.aspx?cinemacode=9999&txtSessionId=31047",
       "format": "DCP",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "59c689ee4228b886@screenings.middleton.io",
+      "hash": "59c689ee4228b886",
+      "guid": "tag:middleton.io,2026:screening/59c689ee4228b886",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261011|1700",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-11T17:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137545"
     },
     {
       "uid": "71851f952eed1553@screenings.middleton.io",
@@ -146019,6 +146340,28 @@
       "source_ref": "44603"
     },
     {
+      "uid": "f9f9137fa537db28@screenings.middleton.io",
+      "hash": "f9f9137fa537db28",
+      "guid": "tag:middleton.io,2026:screening/f9f9137fa537db28",
+      "id_tuple": "alamo-lower-manhattan|naza|20261011|1900",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-11T19:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97343"
+    },
+    {
       "uid": "52a9cf318f7b1212@screenings.middleton.io",
       "hash": "52a9cf318f7b1212",
       "guid": "tag:middleton.io,2026:screening/52a9cf318f7b1212",
@@ -146111,6 +146454,28 @@
       "url": "https://drafthouse.com/nyc/show/other-mommy",
       "source": "alamo",
       "source_ref": "45830"
+    },
+    {
+      "uid": "d1608ee72931c92f@screenings.middleton.io",
+      "hash": "d1608ee72931c92f",
+      "guid": "tag:middleton.io,2026:screening/d1608ee72931c92f",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261011|1930",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-11T19:30",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137544"
     },
     {
       "uid": "624df40841d92bb9@screenings.middleton.io",
@@ -146672,6 +147037,28 @@
       "source_ref": "98308"
     },
     {
+      "uid": "7c72ef1c6a5e8eea@screenings.middleton.io",
+      "hash": "7c72ef1c6a5e8eea",
+      "guid": "tag:middleton.io,2026:screening/7c72ef1c6a5e8eea",
+      "id_tuple": "alamo-lower-manhattan|naza|20261012|1600",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-12T16:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97344"
+    },
+    {
       "uid": "63c9b7280659b6b6@screenings.middleton.io",
       "hash": "63c9b7280659b6b6",
       "guid": "tag:middleton.io,2026:screening/63c9b7280659b6b6",
@@ -146768,6 +147155,28 @@
       "url": "https://commerce.bam.org/booking/production/58581",
       "format": "DCP",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "92fbb77f3aa7715c@screenings.middleton.io",
+      "hash": "92fbb77f3aa7715c",
+      "guid": "tag:middleton.io,2026:screening/92fbb77f3aa7715c",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261012|1700",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-12T17:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137547"
     },
     {
       "uid": "52688030f756c868@screenings.middleton.io",
@@ -146936,6 +147345,28 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "cfea9544fccbea56@screenings.middleton.io",
+      "hash": "cfea9544fccbea56",
+      "guid": "tag:middleton.io,2026:screening/cfea9544fccbea56",
+      "id_tuple": "alamo-lower-manhattan|naza|20261012|1900",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-12T19:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97345"
+    },
+    {
       "uid": "f05f67e4f9834389@screenings.middleton.io",
       "hash": "f05f67e4f9834389",
       "guid": "tag:middleton.io,2026:screening/f05f67e4f9834389",
@@ -147007,6 +147438,28 @@
       "start_local": "2026-10-12T19:15",
       "url": "https://www.filmlinc.org/films/2026-new-york-shorts/",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "cf3cf0d857c13651@screenings.middleton.io",
+      "hash": "cf3cf0d857c13651",
+      "guid": "tag:middleton.io,2026:screening/cf3cf0d857c13651",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261012|1930",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-12T19:30",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137546"
     },
     {
       "uid": "dafe73fc33b6838d@screenings.middleton.io",
@@ -147268,6 +147721,28 @@
       "start_local": "2026-10-13T13:00",
       "url": "https://www.filmlinc.org/films/cosi-fan-tutte/",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "fabcbdf0ff92694c@screenings.middleton.io",
+      "hash": "fabcbdf0ff92694c",
+      "guid": "tag:middleton.io,2026:screening/fabcbdf0ff92694c",
+      "id_tuple": "alamo-lower-manhattan|naza|20261013|1600",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-13T16:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97346"
     },
     {
       "uid": "53e8e7bb1950289c@screenings.middleton.io",
@@ -147602,6 +148077,28 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "90232516facf1e5a@screenings.middleton.io",
+      "hash": "90232516facf1e5a",
+      "guid": "tag:middleton.io,2026:screening/90232516facf1e5a",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261013|1930",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-13T19:30",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137548"
+    },
+    {
       "uid": "d16970e54447bcbf@screenings.middleton.io",
       "hash": "d16970e54447bcbf",
       "guid": "tag:middleton.io,2026:screening/d16970e54447bcbf",
@@ -147858,6 +148355,28 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "58d16dc7eacd2ffb@screenings.middleton.io",
+      "hash": "58d16dc7eacd2ffb",
+      "guid": "tag:middleton.io,2026:screening/58d16dc7eacd2ffb",
+      "id_tuple": "alamo-lower-manhattan|naza|20261014|1600",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-14T16:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97347"
+    },
+    {
       "uid": "f6ff74d98c0de25a@screenings.middleton.io",
       "hash": "f6ff74d98c0de25a",
       "guid": "tag:middleton.io,2026:screening/f6ff74d98c0de25a",
@@ -147879,6 +148398,28 @@
       "series": "Fantastic Fest Presents",
       "source": "alamo",
       "source_ref": "98310"
+    },
+    {
+      "uid": "1dceda6ffa7cb1ec@screenings.middleton.io",
+      "hash": "1dceda6ffa7cb1ec",
+      "guid": "tag:middleton.io,2026:screening/1dceda6ffa7cb1ec",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261014|1700",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-14T17:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137549"
     },
     {
       "uid": "e8985a5702ffb99f@screenings.middleton.io",
@@ -148071,6 +148612,50 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "9db4f9891726eb35@screenings.middleton.io",
+      "hash": "9db4f9891726eb35",
+      "guid": "tag:middleton.io,2026:screening/9db4f9891726eb35",
+      "id_tuple": "alamo-lower-manhattan|naza|20261014|1900",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-14T19:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97348"
+    },
+    {
+      "uid": "69a0f04724efc83c@screenings.middleton.io",
+      "hash": "69a0f04724efc83c",
+      "guid": "tag:middleton.io,2026:screening/69a0f04724efc83c",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261014|1930",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-14T19:30",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137550"
+    },
+    {
       "uid": "30d4401057d44ff6@screenings.middleton.io",
       "hash": "30d4401057d44ff6",
       "guid": "tag:middleton.io,2026:screening/30d4401057d44ff6",
@@ -148119,6 +148704,30 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "5364a6360a95bbee@screenings.middleton.io",
+      "hash": "5364a6360a95bbee",
+      "guid": "tag:middleton.io,2026:screening/5364a6360a95bbee",
+      "id_tuple": "alamo-downtown-brooklyn|screamplay|20261014|2130",
+      "film_key": "screamplay",
+      "run_key": "alamo-downtown-brooklyn|screamplay|2026-10-14",
+      "run_guid": "tag:middleton.io,2026:run/021cc89410111b55",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Screamplay",
+      "runtime_min": 92,
+      "start_local": "2026-10-14T21:30",
+      "url": "https://drafthouse.com/nyc/show/weird-wednesday-screamplay",
+      "series": "Weird Wednesday",
+      "source": "alamo",
+      "source_ref": "138294"
+    },
+    {
       "uid": "fcc8562fd673073e@screenings.middleton.io",
       "hash": "fcc8562fd673073e",
       "guid": "tag:middleton.io,2026:screening/fcc8562fd673073e",
@@ -148162,30 +148771,6 @@
       "start_local": "2026-10-14T22:15",
       "url": "https://ticketing.uswest.veezi.com/purchase/7871?siteToken=tt17e5ajy3v48kh5b2kremvnz4",
       "source": "repertory-nyc"
-    },
-    {
-      "uid": "17dfb3758b9a9a72@screenings.middleton.io",
-      "hash": "17dfb3758b9a9a72",
-      "guid": "tag:middleton.io,2026:screening/17dfb3758b9a9a72",
-      "id_tuple": "virtual|aubin-virtual-exclusives|20261015|0000",
-      "film_key": "aubin-virtual-exclusives",
-      "run_key": "virtual|aubin-virtual-exclusives|2026-10-15",
-      "run_guid": "tag:middleton.io,2026:run/8f73ed05e24a7fa4",
-      "first_emitted_at": "2026-09-22T22:16:52Z",
-      "limited": true,
-      "dates_at_venue": 1,
-      "max_showtimes_per_date": 1,
-      "vintage": true,
-      "vintage_year": null,
-      "vintage_year_from": null,
-      "venue_slug": "virtual",
-      "programmer": "NewFest",
-      "title": "AUBIN: VIRTUAL EXCLUSIVES",
-      "runtime_min": 84,
-      "start_local": "2026-10-15T00:00",
-      "end_local": "2026-10-31T00:00",
-      "url": "https://www.goelevent.com/NewFest/e/AUBINVIRTUALEXCLUSIVES",
-      "source": "elevent"
     },
     {
       "uid": "1b2d573b2ab6e0db@screenings.middleton.io",
@@ -148305,6 +148890,30 @@
       "start_local": "2026-10-15T00:00",
       "end_local": "2026-10-31T00:00",
       "url": "https://www.goelevent.com/NewFest/e/INDIGOELSEWHERE",
+      "source": "elevent"
+    },
+    {
+      "uid": "6a6f8d4011a0be97@screenings.middleton.io",
+      "hash": "6a6f8d4011a0be97",
+      "guid": "tag:middleton.io,2026:screening/6a6f8d4011a0be97",
+      "id_tuple": "virtual|shorts-heartlands-usa|20261015|0000",
+      "film_key": "shorts-heartlands-usa",
+      "run_key": "virtual|shorts-heartlands-usa|2026-10-15",
+      "run_guid": "tag:middleton.io,2026:run/549d237d06b6f4cb",
+      "first_emitted_at": "2026-09-16T22:13:18Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "virtual",
+      "programmer": "NewFest",
+      "title": "SHORTS: HEARTLANDS, USA",
+      "runtime_min": 87,
+      "start_local": "2026-10-15T00:00",
+      "end_local": "2026-10-31T00:00",
+      "url": "https://www.goelevent.com/NewFest/e/SHORTSHEARTLANDSUSA",
       "source": "elevent"
     },
     {
@@ -148779,6 +149388,28 @@
       "source_ref": "46092"
     },
     {
+      "uid": "46972f655b14d8d3@screenings.middleton.io",
+      "hash": "46972f655b14d8d3",
+      "guid": "tag:middleton.io,2026:screening/46972f655b14d8d3",
+      "id_tuple": "alamo-lower-manhattan|naza|20261015|1600",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-15T16:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97349"
+    },
+    {
       "uid": "82bdea73648966d9@screenings.middleton.io",
       "hash": "82bdea73648966d9",
       "guid": "tag:middleton.io,2026:screening/82bdea73648966d9",
@@ -148872,6 +149503,28 @@
       "url": "https://drafthouse.com/nyc/show/you-can-see-everything",
       "source": "alamo",
       "source_ref": "138188"
+    },
+    {
+      "uid": "51a3f82755bc6dd9@screenings.middleton.io",
+      "hash": "51a3f82755bc6dd9",
+      "guid": "tag:middleton.io,2026:screening/51a3f82755bc6dd9",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261015|1700",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-15T17:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137552"
     },
     {
       "uid": "9186b554c4143874@screenings.middleton.io",
@@ -149131,6 +149784,28 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "bc97a1f1e85ef9ea@screenings.middleton.io",
+      "hash": "bc97a1f1e85ef9ea",
+      "guid": "tag:middleton.io,2026:screening/bc97a1f1e85ef9ea",
+      "id_tuple": "alamo-lower-manhattan|naza|20261015|1900",
+      "film_key": "naza",
+      "run_key": "alamo-lower-manhattan|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/1e24dd02d6e1d8d7",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-lower-manhattan",
+      "title": "Naza",
+      "start_local": "2026-10-15T19:00",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "97350"
+    },
+    {
       "uid": "c9d8ef45f16fb968@screenings.middleton.io",
       "hash": "c9d8ef45f16fb968",
       "guid": "tag:middleton.io,2026:screening/c9d8ef45f16fb968",
@@ -149221,6 +149896,28 @@
       "url": "https://drafthouse.com/nyc/show/street-fighter-2026",
       "source": "alamo",
       "source_ref": "46091"
+    },
+    {
+      "uid": "67c1cb55723e55ad@screenings.middleton.io",
+      "hash": "67c1cb55723e55ad",
+      "guid": "tag:middleton.io,2026:screening/67c1cb55723e55ad",
+      "id_tuple": "alamo-downtown-brooklyn|naza|20261015|1930",
+      "film_key": "naza",
+      "run_key": "alamo-downtown-brooklyn|naza|2026-10-09",
+      "run_guid": "tag:middleton.io,2026:run/63f10e017d2b8047",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 7,
+      "max_showtimes_per_date": 2,
+      "vintage": false,
+      "vintage_year": 2026,
+      "vintage_year_from": "catalog",
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Naza",
+      "start_local": "2026-10-15T19:30",
+      "url": "https://drafthouse.com/nyc/show/naza",
+      "source": "alamo",
+      "source_ref": "137551"
     },
     {
       "uid": "bff1ad8ad6da54fc@screenings.middleton.io",
@@ -154728,6 +155425,30 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "06385f3f8f234676@screenings.middleton.io",
+      "hash": "06385f3f8f234676",
+      "guid": "tag:middleton.io,2026:screening/06385f3f8f234676",
+      "id_tuple": "alamo-downtown-brooklyn|city-of-the-dead|20261020|2130",
+      "film_key": "city-of-the-dead",
+      "run_key": "alamo-downtown-brooklyn|city-of-the-dead|2026-10-20",
+      "run_guid": "tag:middleton.io,2026:run/a6b86ced21322e96",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "The City of The Dead",
+      "runtime_min": 78,
+      "start_local": "2026-10-20T21:30",
+      "url": "https://drafthouse.com/nyc/show/terror-tuesday-the-city-of-the-dead",
+      "series": "Terror Tuesday",
+      "source": "alamo",
+      "source_ref": "137535"
+    },
+    {
       "uid": "a935ac50089e43be@screenings.middleton.io",
       "hash": "a935ac50089e43be",
       "guid": "tag:middleton.io,2026:screening/a935ac50089e43be",
@@ -155340,6 +156061,51 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "5a671f241afa185b@screenings.middleton.io",
+      "hash": "5a671f241afa185b",
+      "guid": "tag:middleton.io,2026:screening/5a671f241afa185b",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261022|1400",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-22T14:00",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138266"
+    },
+    {
+      "uid": "a3ed5f0565935b5b@screenings.middleton.io",
+      "hash": "a3ed5f0565935b5b",
+      "guid": "tag:middleton.io,2026:screening/a3ed5f0565935b5b",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261022|1430",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-22T14:30",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138243"
+    },
+    {
       "uid": "73fd8d13b6006200@screenings.middleton.io",
       "hash": "73fd8d13b6006200",
       "guid": "tag:middleton.io,2026:screening/73fd8d13b6006200",
@@ -155434,6 +156200,51 @@
       "url": "https://rooftopcinemaclub.com/us/new-york/midtown/screenings/beetlejuice-24219",
       "source": "rooftop",
       "source_ref": "beetlejuice-24219"
+    },
+    {
+      "uid": "ac85d4d788ddecec@screenings.middleton.io",
+      "hash": "ac85d4d788ddecec",
+      "guid": "tag:middleton.io,2026:screening/ac85d4d788ddecec",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261022|1745",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-22T17:45",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138267"
+    },
+    {
+      "uid": "74562ec162d4c0a4@screenings.middleton.io",
+      "hash": "74562ec162d4c0a4",
+      "guid": "tag:middleton.io,2026:screening/74562ec162d4c0a4",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261022|1815",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-22T18:15",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138244"
     },
     {
       "uid": "c776e05d40d9a3dc@screenings.middleton.io",
@@ -155811,6 +156622,51 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "520442a1ae4f9bff@screenings.middleton.io",
+      "hash": "520442a1ae4f9bff",
+      "guid": "tag:middleton.io,2026:screening/520442a1ae4f9bff",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261022|2130",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-22T21:30",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138268"
+    },
+    {
+      "uid": "6822442a85c863bd@screenings.middleton.io",
+      "hash": "6822442a85c863bd",
+      "guid": "tag:middleton.io,2026:screening/6822442a85c863bd",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261022|2200",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-22T22:00",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138245"
+    },
+    {
       "uid": "b20b0881779e7de5@screenings.middleton.io",
       "hash": "b20b0881779e7de5",
       "guid": "tag:middleton.io,2026:screening/b20b0881779e7de5",
@@ -155832,6 +156688,96 @@
       "url": "https://rooftopcinemaclub.com/us/new-york/midtown/screenings/a-nightmare-on-elm-street-1984-24221",
       "source": "rooftop",
       "source_ref": "a-nightmare-on-elm-street-1984-24221"
+    },
+    {
+      "uid": "55fea724ac29c39d@screenings.middleton.io",
+      "hash": "55fea724ac29c39d",
+      "guid": "tag:middleton.io,2026:screening/55fea724ac29c39d",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261023|1100",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-23T11:00",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138242"
+    },
+    {
+      "uid": "b603715209f956aa@screenings.middleton.io",
+      "hash": "b603715209f956aa",
+      "guid": "tag:middleton.io,2026:screening/b603715209f956aa",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261023|1115",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-23T11:15",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138271"
+    },
+    {
+      "uid": "a588ab749290fd35@screenings.middleton.io",
+      "hash": "a588ab749290fd35",
+      "guid": "tag:middleton.io,2026:screening/a588ab749290fd35",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261023|1445",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-23T14:45",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138241"
+    },
+    {
+      "uid": "6904d22fe84a8bef@screenings.middleton.io",
+      "hash": "6904d22fe84a8bef",
+      "guid": "tag:middleton.io,2026:screening/6904d22fe84a8bef",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261023|1500",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-23T15:00",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138270"
     },
     {
       "uid": "e0bdd0de2ff84f3c@screenings.middleton.io",
@@ -155926,6 +156872,52 @@
       "source": "elevent"
     },
     {
+      "uid": "7cf3e450b6b71b49@screenings.middleton.io",
+      "hash": "7cf3e450b6b71b49",
+      "guid": "tag:middleton.io,2026:screening/7cf3e450b6b71b49",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261023|1830",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "runtime_min": 160,
+      "start_local": "2026-10-23T18:30",
+      "url": "https://drafthouse.com/nyc/show/fan-event-la-bola-negra-opening-night-fan-screening",
+      "source": "alamo",
+      "source_ref": "138239"
+    },
+    {
+      "uid": "1c885cde2edd51a4@screenings.middleton.io",
+      "hash": "1c885cde2edd51a4",
+      "guid": "tag:middleton.io,2026:screening/1c885cde2edd51a4",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261023|1845",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-23T18:45",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138269"
+    },
+    {
       "uid": "ff84555fb9282eac@screenings.middleton.io",
       "hash": "ff84555fb9282eac",
       "guid": "tag:middleton.io,2026:screening/ff84555fb9282eac",
@@ -156016,6 +157008,30 @@
       "source": "elevent"
     },
     {
+      "uid": "4e03a725f0d0618c@screenings.middleton.io",
+      "hash": "4e03a725f0d0618c",
+      "guid": "tag:middleton.io,2026:screening/4e03a725f0d0618c",
+      "id_tuple": "sva-beatrice|shorts-heartlands-usa|20261023|2115",
+      "film_key": "shorts-heartlands-usa",
+      "run_key": "sva-beatrice|shorts-heartlands-usa|2026-10-23",
+      "run_guid": "tag:middleton.io,2026:run/f7489104576d6e42",
+      "first_emitted_at": "2026-09-21T16:28:39Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "sva-beatrice",
+      "programmer": "NewFest",
+      "title": "SHORTS: HEARTLANDS, USA",
+      "runtime_min": 87,
+      "start_local": "2026-10-23T21:15",
+      "end_local": "2026-10-23T22:42",
+      "url": "https://www.goelevent.com/NewFest/e/SHORTSHEARTLANDSUSA",
+      "source": "elevent"
+    },
+    {
       "uid": "c83e4c1434246ee9@screenings.middleton.io",
       "hash": "c83e4c1434246ee9",
       "guid": "tag:middleton.io,2026:screening/c83e4c1434246ee9",
@@ -156037,6 +157053,29 @@
       "start_local": "2026-10-23T21:30",
       "url": "https://ticketing.uswest.veezi.com/purchase/7864?siteToken=tt17e5ajy3v48kh5b2kremvnz4",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "f26379c40a90db0d@screenings.middleton.io",
+      "hash": "f26379c40a90db0d",
+      "guid": "tag:middleton.io,2026:screening/f26379c40a90db0d",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261023|2230",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-23T22:30",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138289"
     },
     {
       "uid": "650330e2f268dd34@screenings.middleton.io",
@@ -156157,6 +157196,51 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "fb28aac9d30bb1dd@screenings.middleton.io",
+      "hash": "fb28aac9d30bb1dd",
+      "guid": "tag:middleton.io,2026:screening/fb28aac9d30bb1dd",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261024|1100",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-24T11:00",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138247"
+    },
+    {
+      "uid": "21ac5e8c3b8d4d4e@screenings.middleton.io",
+      "hash": "21ac5e8c3b8d4d4e",
+      "guid": "tag:middleton.io,2026:screening/21ac5e8c3b8d4d4e",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261024|1115",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-24T11:15",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138274"
+    },
+    {
       "uid": "d2b6da53d606f78a@screenings.middleton.io",
       "hash": "d2b6da53d606f78a",
       "guid": "tag:middleton.io,2026:screening/d2b6da53d606f78a",
@@ -156270,6 +157354,28 @@
       "source_ref": "hocus-pocus-24226"
     },
     {
+      "uid": "292480a5786ce9a0@screenings.middleton.io",
+      "hash": "292480a5786ce9a0",
+      "guid": "tag:middleton.io,2026:screening/292480a5786ce9a0",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261024|1445",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-24T14:45",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138246"
+    },
+    {
       "uid": "15dd0742e6608657@screenings.middleton.io",
       "hash": "15dd0742e6608657",
       "guid": "tag:middleton.io,2026:screening/15dd0742e6608657",
@@ -156292,6 +157398,29 @@
       "end_local": "2026-10-24T16:37",
       "url": "https://www.goelevent.com/NewFest/e/BLACKBURNSFAST",
       "source": "elevent"
+    },
+    {
+      "uid": "c1b53a9ef065fe22@screenings.middleton.io",
+      "hash": "c1b53a9ef065fe22",
+      "guid": "tag:middleton.io,2026:screening/c1b53a9ef065fe22",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261024|1500",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-24T15:00",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138273"
     },
     {
       "uid": "5b3d3ee4f89cb427@screenings.middleton.io",
@@ -156426,6 +157555,51 @@
       "start_local": "2026-10-24T18:00",
       "url": "https://www.anthologyfilmarchives.org/film_screenings/calendar?view=list&month=10&year=2026#showing-62000",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "d78e00eb65a93c24@screenings.middleton.io",
+      "hash": "d78e00eb65a93c24",
+      "guid": "tag:middleton.io,2026:screening/d78e00eb65a93c24",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261024|1830",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-24T18:30",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138249"
+    },
+    {
+      "uid": "cf31e04a5691c09b@screenings.middleton.io",
+      "hash": "cf31e04a5691c09b",
+      "guid": "tag:middleton.io,2026:screening/cf31e04a5691c09b",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261024|1845",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-24T18:45",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138272"
     },
     {
       "uid": "a30a5f25c2422e56@screenings.middleton.io",
@@ -156630,6 +157804,28 @@
       "source_ref": "97319"
     },
     {
+      "uid": "83f61a19852811ba@screenings.middleton.io",
+      "hash": "83f61a19852811ba",
+      "guid": "tag:middleton.io,2026:screening/83f61a19852811ba",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261024|2215",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-24T22:15",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138248"
+    },
+    {
       "uid": "937f8a8217b56b9a@screenings.middleton.io",
       "hash": "937f8a8217b56b9a",
       "guid": "tag:middleton.io,2026:screening/937f8a8217b56b9a",
@@ -156651,6 +157847,52 @@
       "url": "https://rooftopcinemaclub.com/us/new-york/midtown/screenings/scream-1996-24229",
       "source": "rooftop",
       "source_ref": "scream-1996-24229"
+    },
+    {
+      "uid": "5a1132dd0cc12b3a@screenings.middleton.io",
+      "hash": "5a1132dd0cc12b3a",
+      "guid": "tag:middleton.io,2026:screening/5a1132dd0cc12b3a",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261024|2230",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-24T22:30",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138288"
+    },
+    {
+      "uid": "ecf6e5822d1ef83a@screenings.middleton.io",
+      "hash": "ecf6e5822d1ef83a",
+      "guid": "tag:middleton.io,2026:screening/ecf6e5822d1ef83a",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261025|1045",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-25T10:45",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138285"
     },
     {
       "uid": "128d517d6cdb6937@screenings.middleton.io",
@@ -156791,6 +158033,51 @@
       "source": "repertory-nyc"
     },
     {
+      "uid": "b755b57a61308964@screenings.middleton.io",
+      "hash": "b755b57a61308964",
+      "guid": "tag:middleton.io,2026:screening/b755b57a61308964",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261025|1430",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-25T14:30",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138276"
+    },
+    {
+      "uid": "19adfacc3c7445f8@screenings.middleton.io",
+      "hash": "19adfacc3c7445f8",
+      "guid": "tag:middleton.io,2026:screening/19adfacc3c7445f8",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261025|1445",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-25T14:45",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138253"
+    },
+    {
       "uid": "41fcab80626414aa@screenings.middleton.io",
       "hash": "41fcab80626414aa",
       "guid": "tag:middleton.io,2026:screening/41fcab80626414aa",
@@ -156878,6 +158165,29 @@
       "source_ref": "98196"
     },
     {
+      "uid": "17d23c7851d1e9c5@screenings.middleton.io",
+      "hash": "17d23c7851d1e9c5",
+      "guid": "tag:middleton.io,2026:screening/17d23c7851d1e9c5",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261025|1815",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-25T18:15",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "format": "35mm",
+      "source": "alamo",
+      "source_ref": "138275"
+    },
+    {
       "uid": "502535daadcd855a@screenings.middleton.io",
       "hash": "502535daadcd855a",
       "guid": "tag:middleton.io,2026:screening/502535daadcd855a",
@@ -156897,6 +158207,28 @@
       "start_local": "2026-10-25T18:30",
       "url": "https://www.anthologyfilmarchives.org/film_screenings/calendar?view=list&month=10&year=2026#showing-62040",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "6cec84c5373d695a@screenings.middleton.io",
+      "hash": "6cec84c5373d695a",
+      "guid": "tag:middleton.io,2026:screening/6cec84c5373d695a",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261025|1830",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-25T18:30",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138250"
     },
     {
       "uid": "d632766ee3ff9f6d@screenings.middleton.io",
@@ -157030,6 +158362,28 @@
       "series": "Queer Film Theory 101",
       "source": "alamo",
       "source_ref": "137498"
+    },
+    {
+      "uid": "23e4a171e04fc1d4@screenings.middleton.io",
+      "hash": "23e4a171e04fc1d4",
+      "guid": "tag:middleton.io,2026:screening/23e4a171e04fc1d4",
+      "id_tuple": "alamo-downtown-brooklyn|la-bola-negra|20261025|2215",
+      "film_key": "la-bola-negra",
+      "run_key": "alamo-downtown-brooklyn|la-bola-negra|2026-10-22",
+      "run_guid": "tag:middleton.io,2026:run/62d79d247e4eabbe",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": false,
+      "dates_at_venue": 4,
+      "max_showtimes_per_date": 8,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "La Bola Negra",
+      "start_local": "2026-10-25T22:15",
+      "url": "https://drafthouse.com/nyc/show/la-bola-negra",
+      "source": "alamo",
+      "source_ref": "138251"
     },
     {
       "uid": "f246833a6d5fd60f@screenings.middleton.io",
@@ -157546,6 +158900,30 @@
       "url": "https://rooftopcinemaclub.com/us/new-york/midtown/screenings/sinners-24238",
       "source": "rooftop",
       "source_ref": "sinners-24238"
+    },
+    {
+      "uid": "f11d926f79ba0723@screenings.middleton.io",
+      "hash": "f11d926f79ba0723",
+      "guid": "tag:middleton.io,2026:screening/f11d926f79ba0723",
+      "id_tuple": "alamo-downtown-brooklyn|fireball-500|20261028|2130",
+      "film_key": "fireball-500",
+      "run_key": "alamo-downtown-brooklyn|fireball-500|2026-10-28",
+      "run_guid": "tag:middleton.io,2026:run/cdd443ba26ae849f",
+      "first_emitted_at": "2026-09-25T22:28:02Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "alamo-downtown-brooklyn",
+      "title": "Fireball 500",
+      "runtime_min": 92,
+      "start_local": "2026-10-28T21:30",
+      "url": "https://drafthouse.com/nyc/show/weird-wednesday-fireball-500",
+      "series": "Weird Wednesday",
+      "source": "alamo",
+      "source_ref": "137538"
     },
     {
       "uid": "2035a85966ab49b7@screenings.middleton.io",
