@@ -658,7 +658,7 @@
         <li>New accounts that start from an assistant</li>
       </ul>
     </div>
-    <p>Up for a 20-minute walkthrough? Reply to my email, or find me at middleton.io.</p>
+    <p class="ask">Up for a 20-minute walkthrough? Reply to my email, or find me at middleton.io.</p>
     <div class="ctas"><a class="pill white" data-cta="visit-site" href="https://middleton.io/">Visit middleton.io <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
   </div>
 </section>
@@ -728,14 +728,15 @@
     }
   }, true);
 
-  // Reached the end: the close section's ask came on screen.
-  // (Covered by Section View "close"; kept as its own goal for a clean funnel.)
-  var close = document.querySelector('[data-section="close"]');
-  if (close && 'IntersectionObserver' in window) {
+  // Reached the end: the walkthrough ask itself came fully on screen.
+  // Watches the ask line, not the whole close section, which is taller than
+  // a small phone's viewport now that the pilot card sits above the ask.
+  var ask = document.querySelector('[data-section="close"] .ask');
+  if (ask && 'IntersectionObserver' in window) {
     var io2 = new IntersectionObserver(function(entries){
       if (entries[0].isIntersecting) { track('MFP Proto: Read To Ask'); io2.disconnect(); }
-    }, { threshold: 0.5 });
-    io2.observe(close);
+    }, { threshold: 1 });
+    io2.observe(ask);
   }
 })();
 (function(){
