@@ -339,6 +339,15 @@
   .close .ctas{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:32px}
   .close .email{margin-top:18px;font-size:15px}
   .close .email a{color:#fff}
+  .pilot{max-width:760px;margin:40px auto 0;padding:28px 28px 30px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:var(--r-card)}
+  .close .pilot p{margin:0;max-width:none}
+  .pilot-k{font-size:13px !important;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--yellow)}
+  .close .pilot .pilot-h{font-size:clamp(22px,2.6vw,28px);font-weight:700;margin-top:6px}
+  .close .pilot .pilot-s{font-size:17px;margin-top:8px;color:rgba(255,255,255,.88)}
+  .close .pilot .pilot-k2{margin-top:24px}
+  .metrics{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left}
+  .metrics li{background:rgba(0,0,0,.16);border-radius:12px;padding:14px 16px;font-size:16px;line-height:1.4;font-weight:500}
+  @media (max-width:600px){.metrics{grid-template-columns:1fr}.pilot{padding:22px 18px 24px}}
 
   footer{background:var(--ink);color:#C4C7D1;padding-block:56px;font-size:15px}
   footer .cols{display:grid;grid-template-columns:1.3fr 1fr;gap:48px}
@@ -637,7 +646,18 @@
 <section data-section="close" class="close" aria-labelledby="close-h">
   <div class="wrap">
     <h2 id="close-h"><b>Fifteen years in,</b> I'd still renew for this</h2>
-    <p>A place to start: an open beta for every member. Anyone can connect an assistant and ask about their diary; logging from it is Premium. Watch logged days per week and renewal for members who connect, how many free members upgrade after they try to log, and how many new accounts start from an assistant.</p>
+    <div class="pilot">
+      <p class="pilot-k">A place to start</p>
+      <p class="pilot-h">An open beta for every member</p>
+      <p class="pilot-s">Anyone can connect an assistant and ask about their diary. Logging from it is Premium.</p>
+      <p class="pilot-k pilot-k2">What to watch</p>
+      <ul class="metrics">
+        <li>Logged days per week for members who connect</li>
+        <li>Renewal for members who connect</li>
+        <li>Free members who upgrade after they try to log</li>
+        <li>New accounts that start from an assistant</li>
+      </ul>
+    </div>
     <p>Up for a 20-minute walkthrough? Reply to my email, or find me at middleton.io.</p>
     <div class="ctas"><a class="pill white" data-cta="visit-site" href="https://middleton.io/">Visit middleton.io <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
   </div>
