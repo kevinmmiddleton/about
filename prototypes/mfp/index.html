@@ -180,15 +180,14 @@
   .c-top{display:flex;align-items:center;gap:10px;padding:6px 16px 12px;border-bottom:1px solid var(--chat-line)}
   .c-top b{font-size:15px}
   .c-top small{margin-left:auto;font-size:12px;color:var(--chat-muted);display:inline-flex;align-items:center;gap:5px}
-  .c-top small i{width:7px;height:7px;border-radius:50%;background:var(--green)}
-  .burst{width:22px;height:22px;color:var(--claude)}
+    .burst{width:22px;height:22px;color:var(--claude)}
   .c-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:none}
   .c-body::-webkit-scrollbar{display:none}
   .u{align-self:flex-end;background:var(--chat-user);border-radius:18px 18px 6px 18px;padding:10px 14px;max-width:86%}
   .used{align-self:flex-start;display:flex;flex-direction:column;gap:6px;width:100%}
   .used-h{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--chat-muted)}
-  .mfp-chip{width:18px;height:18px;border-radius:5px;background:var(--blue);display:grid;place-items:center}
-  .mfp-chip svg{width:11px;height:11px;color:#fff}
+  .mfp-ico{width:18px;height:18px;border-radius:5px;display:block;flex:none}
+  .c-top small .mfp-ico{width:16px;height:16px;border-radius:4px}
   .calls{display:flex;flex-direction:column;gap:4px;border-left:1.5px solid var(--chat-line);margin-left:8px;padding-left:14px}
   .call{font:500 12px/1.4 var(--mono);color:var(--chat-muted)}
   .call em{font-style:normal;color:var(--text)}
@@ -387,8 +386,7 @@
     <symbol id="ck-o" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11.3" fill="none" stroke="#BCBCC0" stroke-width="1.6"/><path d="M8.4 13.4l3.1 3.1L17.8 10.2" fill="none" stroke="#BCBCC0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="ck-g" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="#1F9D55"/><path d="M8 13.4l3.4 3.4L18.2 10" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M8 7.2v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="4.9" r=".9" fill="currentColor"/></symbol>
-    <symbol id="burst" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 2.5v6"/><path d="M12 15.5v6"/><path d="M2.5 12h6"/><path d="M15.5 12h6"/><path d="M5.3 5.3l4.2 4.2"/><path d="M14.5 14.5l4.2 4.2"/><path d="M18.7 5.3l-4.2 4.2"/><path d="M9.5 14.5l-4.2 4.2"/></g></symbol>
-    <symbol id="fork" viewBox="0 0 16 16"><path d="M4.5 1.5v4a2 2 0 002 2v7M8.5 1.5v4a2 2 0 01-2 2M6.5 1.5v4M12 14.5V1.5c1.4 1 2 3 2 5.5h-2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="burst" viewBox="0 0 24 24"><path fill="currentColor" d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z"/></symbol>
     <symbol id="cup" viewBox="0 0 20 20"><path d="M3.5 7h11v4.5a4.5 4.5 0 01-4.5 4.5H8a4.5 4.5 0 01-4.5-4.5V7zM14.5 8.5h1a2 2 0 010 4h-1.2M6.5 2.5v2M9.5 2.5v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="bowl" viewBox="0 0 20 20"><path d="M2.5 9h15a7.5 7.5 0 01-15 0zM6 16.5h8M7 5.5c0-1.4 1-2 1-3.2M11 5.5c0-1.4 1-2 1-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="plate" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
@@ -405,7 +403,7 @@
     <symbol id="tag" viewBox="0 0 26 26"><path d="M3.5 13.2V4.5a1 1 0 011-1h8.7l9.3 9.3-9.7 9.7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.8" fill="currentColor"/></symbol>
     <symbol id="repeat" viewBox="0 0 26 26"><path d="M5 11a8 8 0 0114-4.5L21 9M21 4v5h-5M21 15a8 8 0 01-14 4.5L5 17M5 22v-5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="ask" viewBox="0 0 26 26"><path d="M4 5.5h18v12H12l-5 4v-4H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10.5 9.5a2.5 2.5 0 114 2c-.9.5-1.5 1-1.5 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="13" cy="15.6" r="1" fill="currentColor"/></symbol>
-    <symbol id="gpt" viewBox="0 0 18 18"><circle cx="9" cy="9" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 2.8v12.4M3.6 5.9l10.8 6.2M3.6 12.1l10.8-6.2" stroke="currentColor" stroke-width="1.2"/></symbol>
+    <symbol id="gpt" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"/></symbol>
     <symbol id="link" viewBox="0 0 18 18"><path d="M7.5 10.5l3-3M6 8.5L4.3 10.2a2.6 2.6 0 003.6 3.6L9.6 12M12 9.5l1.7-1.7a2.6 2.6 0 00-3.6-3.6L8.4 5.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
   </defs>
 </svg>
@@ -468,7 +466,7 @@
         <div class="phone"><div class="screen chat">
           <div class="status"><span>12:41</span><svg aria-hidden="true"><use href="#sig"/></svg></div>
           <div class="island" aria-hidden="true"></div>
-          <div class="c-top"><svg class="burst" aria-hidden="true"><use href="#burst"/></svg><b>Claude</b><small><i aria-hidden="true"></i>MyFitnessPal</small></div>
+          <div class="c-top"><svg class="burst" aria-hidden="true"><use href="#burst"/></svg><b>Claude</b><small><img class="mfp-ico" src="img/mfp-icon.png" alt="" width="16" height="16">MyFitnessPal connected</small></div>
           <div class="c-body" id="chat" aria-live="polite"></div>
           <div class="c-input">Reply to Claude<i aria-hidden="true"><svg><use href="#send"/></svg></i></div>
         </div></div>
@@ -507,7 +505,7 @@
           <div class="s-sec">Connected</div>
           <div class="s-list">
             <div class="s-row"><div class="s-app"><span class="ic" style="background:#FBEDE7;color:var(--claude)"><svg><use href="#burst"/></svg></span><div><b>Claude</b><small>Connected today</small></div></div><span class="ok"><svg><use href="#ck-g"/></svg>On</span></div>
-            <div class="s-row"><div class="s-app"><span class="ic" style="background:var(--surface);color:var(--text)"><svg><use href="#gpt"/></svg></span><div><b>ChatGPT</b><small>Log from any chat</small></div></div><span class="s-btn">Connect</span></div>
+            <div class="s-row"><div class="s-app"><span class="ic" style="background:#000;color:#fff"><svg><use href="#gpt"/></svg></span><div><b>ChatGPT</b><small>Log from any chat</small></div></div><span class="s-btn">Connect</span></div>
             <div class="s-row"><div class="s-app"><span class="ic" style="background:var(--blue-tint);color:var(--blue)"><svg><use href="#link"/></svg></span><div><b>Other assistants</b><small>Copy the MCP server link</small></div></div><span class="s-btn">Copy</span></div>
           </div>
           <div class="s-sec">Claude can</div>
@@ -561,7 +559,7 @@
 <section class="pad proof-sec" aria-labelledby="proof-h">
   <div class="wrap">
     <div class="sec-h center" style="text-align:center">
-      <h2 id="proof-h"><b>Strava made it a subscriber perk.</b> Buffer made it the default.</h2>
+      <h2 id="proof-h"><b>Strava made it a subscriber perk.</b> Buffer has really championed their MCP.</h2>
       <p>Two apps members already pay for shipped official MCP servers this year. Strava's reasoning reads like it was written about MyFitnessPal.</p>
     </div>
 
@@ -652,8 +650,7 @@
   <div class="wrap">
     <h2 id="close-h"><b>Fifteen years in,</b> I'd still renew for this</h2>
     <p>If you're on the MyFitnessPal product team and this is interesting, I'd love to walk you through it.</p>
-    <div class="ctas"><a class="pill white" href="mailto:kevin@middleton.io?subject=MyFitnessPal%20%C3%97%20AI%20assistants">Email Kevin <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
-    <p class="email">kevin@middleton.io &middot; <a href="https://middleton.io/">middleton.io</a></p>
+    <div class="ctas"><a class="pill white" href="https://middleton.io/">Visit middleton.io <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
   </div>
 </section>
 
@@ -808,7 +805,7 @@
     document.querySelectorAll('.seg button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.sc === key)); });
     chat.innerHTML = s.chat.map(function(m){
       if (m[0] === 'u') return '<div class="u">' + m[1] + '</div>';
-      if (m[0] === 't') return '<div class="used"><span class="used-h"><span class="mfp-chip">' + U('fork', '') + '</span>Used MyFitnessPal</span><div class="calls">' +
+      if (m[0] === 't') return '<div class="used"><span class="used-h"><img class="mfp-ico" src="img/mfp-icon.png" alt="" width="18" height="18">Used MyFitnessPal</span><div class="calls">' +
         m[1].map(function(c){ return '<div class="call">' + c + '</div>'; }).join('') + '</div></div>';
       return '<div class="a">' + m[1].map(function(p){ return p.indexOf('<ol>') === 0 ? p : '<p>' + p + '</p>'; }).join('') + '</div>';
     }).join('');
