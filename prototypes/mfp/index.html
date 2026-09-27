@@ -17,436 +17,645 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<!-- Inter is MyFitnessPal's own face (myfitnesspal.com, 2026). Kept on purpose
+     so the concept reads as theirs. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-  /* Colors pulled from myfitnesspal.com (2026-09-27): primary blue, dark
-     comparison panel, Premium yellow, Apple-style system greys. */
+  /* Tokens pulled from myfitnesspal.com and myfitnesspal.com/premium on
+     2026-09-27: primary blue, deep blue, the dark comparison panel, Premium
+     yellow, and the Apple-style system greys they use for surfaces and text. */
   :root{
-    --blue:#0066EE; --blue-deep:#1943CF; --navy:#003D8F; --ink:#151824;
-    --yellow:#FDDA1C; --bg:#FFFFFF; --surface:#F6F6F8; --line:#EBEBF0;
-    --line-2:#D8D8DC; --muted:#6C6C70; --text:#1C1C1E; --green:#1F9D55;
-    --claude:#D97757; --chat-bg:#FAF9F5; --chat-user:#EEECE2;
+    --blue:#0066EE; --blue-deep:#1943CF; --blue-press:#003D8F; --blue-tint:#E8F1FE;
+    --ink:#151824; --ink-2:#232737;
+    --yellow:#FDDA1C; --yellow-tint:#FFF7CC;
+    --bg:#FFFFFF; --surface:#F6F6F8; --line:#EBEBF0; --line-2:#D8D8DC; --line-3:#BCBCC0;
+    --text:#1C1C1E; --muted:#5E5E63;
+    --carbs:#16B4A8; --fat:#8A3FFC; --protein:#F5A524;
+    --green:#1F9D55; --red:#D70015;
+    --claude:#D97757; --chat-bg:#FAF9F5; --chat-user:#EFECE3; --chat-line:#E6E2D6; --chat-muted:#6E6B62;
     --font:"Inter",Helvetica,Arial,-apple-system,sans-serif;
     --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+    --r-card:16px; --r-phone:44px;
+    --shadow-phone:0 30px 60px -20px rgba(21,24,36,.35),0 12px 24px -12px rgba(21,24,36,.2);
+    --shadow-card:0 8px 24px -8px rgba(21,24,36,.16);
     color-scheme:light;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-  body{margin:0;font:16px/1.55 var(--font);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
-  h1,h2,h3{margin:0;line-height:1.12;letter-spacing:-.02em;text-wrap:balance}
-  p{margin:0}
-  a{color:var(--blue)}
-  :focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
-  .wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
-  .narrow{max-width:720px}
-  section{padding-block:72px}
-  .eyebrow{font-size:14px;font-weight:600;color:var(--muted);margin-bottom:10px}
-  h2{font-size:clamp(28px,4.4vw,40px);font-weight:700}
-  .lede{font-size:18px;color:var(--muted);margin-top:14px;max-width:62ch}
-  .center{text-align:center}
-  .center .lede{margin-inline:auto}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+  body{margin:0;font:17px/1.6 var(--font);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+  ::selection{background:var(--yellow);color:#000}
+  h1,h2,h3{margin:0;line-height:1.12;letter-spacing:-.02em;text-wrap:balance;font-weight:300}
+  h1 b,h2 b,h3 b{font-weight:700}
+  p{margin:0;text-wrap:pretty}
+  a{color:var(--blue);text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{color:var(--blue-press)}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+  img{max-width:100%;height:auto;display:block}
+  .wrap{max-width:1120px;margin:0 auto;padding-inline:24px}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .icon{width:1em;height:1em;flex:none}
 
-  /* concept notice */
-  .notice{background:var(--ink);color:#fff;font-size:13px;text-align:center;padding:9px 16px}
-  .notice a{color:var(--yellow)}
-
-  /* top bar */
-  .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px}
-  .wordmark{font-weight:800;font-size:22px;letter-spacing:-.03em;color:#fff;text-decoration:none}
-  .wordmark sup{font-size:9px;font-weight:600;vertical-align:super}
-  .bar .by{color:rgba(255,255,255,.85);font-size:14px}
-
-  /* hero */
-  .hero{background:linear-gradient(135deg,#8580F9 0%,#5E77F6 30%,#4673F4 55%,#266CF1 78%,#0066EE 100%);color:#fff;padding-bottom:80px}
-  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-top:36px}
-  .hero h1{font-size:clamp(40px,6.4vw,68px);font-weight:800}
-  .hero p.sub{font-size:19px;line-height:1.5;margin-top:20px;max-width:34em;color:rgba(255,255,255,.92)}
-  .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-  .pill{display:inline-flex;align-items:center;gap:8px;border-radius:100px;padding:15px 26px;font:700 14px/1 var(--font);text-transform:uppercase;letter-spacing:.02em;text-decoration:none;border:0;cursor:pointer}
-  .pill::after{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-top:2px solid currentColor;transform:rotate(45deg);margin-left:2px}
-  .pill.white{background:#fff;color:var(--blue)}
+  /* buttons: MyFitnessPal's full pills, bold caps, trailing chevron */
+  .pill{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;border-radius:100px;padding:0 30px;font:700 15px/1 var(--font);text-transform:uppercase;letter-spacing:.01em;text-decoration:none;border:0;cursor:pointer;transition:background-color .15s ease,transform .15s ease}
+  .pill svg{width:9px;height:14px}
   .pill.yellow{background:var(--yellow);color:#000}
-  .pill.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.7)}
-  .hero-quote{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:14px}
-  .hero-quote .say{font-size:22px;font-weight:600;line-height:1.35}
-  .hero-quote .vs{display:flex;gap:10px;flex-wrap:wrap;font-size:14px}
-  .hero-quote .vs span{background:rgba(0,0,0,.18);border-radius:100px;padding:6px 12px}
-  .hero-quote .vs b{color:var(--yellow)}
+  .pill.yellow:hover{background:#F2CE00;color:#000}
+  .pill.white{background:#fff;color:var(--blue)}
+  .pill.white:hover{background:var(--blue-tint)}
+  .pill:active{transform:translateY(1px)}
 
-  /* letter */
-  .letter{background:var(--surface);border-radius:20px;padding:clamp(22px,4vw,40px);display:flex;flex-direction:column;gap:16px;font-size:17px}
-  .letter .sig{font-weight:600}
-  .letter .sig span{display:block;font-weight:400;color:var(--muted);font-size:15px}
+  /* promo bar, same treatment as the Premium page's offer strip */
+  .promo{background:var(--ink);color:#fff;font-size:15px;text-align:center;padding:12px 20px}
+  .promo a{color:#8FB8FF;display:inline-flex;align-items:center;gap:6px}
+  .promo a svg{width:7px;height:11px}
 
-  /* demo */
-  .demo-bg{background:var(--surface)}
-  .chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:28px}
-  .chip-btn{font:600 15px/1 var(--font);padding:12px 18px;border-radius:100px;border:2px solid var(--line-2);background:#fff;color:var(--text);cursor:pointer}
-  .chip-btn[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
-  .phones{display:flex;flex-wrap:wrap;justify-content:center;gap:32px;margin-top:36px}
-  .phone{width:340px;max-width:100%;background:#fff;border-radius:40px;padding:12px;box-shadow:0 0 0 1px var(--line-2),0 24px 60px rgba(21,24,36,.14)}
-  .screen{border-radius:30px;overflow:hidden;height:640px;display:flex;flex-direction:column}
-  .phone-label{text-align:center;font-size:13px;font-weight:600;color:var(--muted);margin-top:12px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px}
+  .wordmark{font-weight:800;font-size:25px;letter-spacing:-.035em;color:var(--blue);text-decoration:none;display:inline-flex;align-items:baseline;gap:12px}
+  .wordmark sup{vertical-align:top;position:relative;top:-2px}
+  .wordmark sup{font-size:9px;font-weight:600;margin-left:1px}
+  .wordmark small{font-size:15px;font-weight:500;letter-spacing:0;color:var(--muted)}
+  .topbar .pill{min-height:40px;padding:0 20px;font-size:13px}
 
-  /* chat screen */
-  .chat{background:var(--chat-bg)}
-  .chat-top{display:flex;align-items:center;gap:8px;padding:18px 18px 12px;font-weight:600;font-size:15px;border-bottom:1px solid #ECE9DF}
-  .spark{width:18px;height:18px;border-radius:5px;background:var(--claude);display:inline-block;position:relative}
-  .spark::before,.spark::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:2px;background:#fff;transform:translate(-50%,-50%)}
-  .spark::after{transform:translate(-50%,-50%) rotate(90deg)}
-  .chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;font-size:14.5px;line-height:1.45}
-  .m-user{align-self:flex-end;background:var(--chat-user);border-radius:16px 16px 4px 16px;padding:10px 13px;max-width:85%}
-  .m-ai{align-self:flex-start;max-width:95%}
-  .m-ai p+p{margin-top:8px}
-  .tool{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font:500 11.5px/1.3 var(--mono);color:#5b5a55;background:#F0EEE6;border:1px solid #E4E1D6;border-radius:8px;padding:5px 8px}
-  .tool i{font-style:normal;color:var(--blue)}
-  .chat-input{margin:10px 14px 16px;border:1px solid #E4E1D6;background:#fff;border-radius:18px;padding:12px 14px;color:#9a988f;font-size:14px}
+  /* hero: white with the phone, then the blue arc (Premium page pattern) */
+  .hero{position:relative;overflow:hidden;padding-top:40px}
+  .hero::after{content:"";position:absolute;left:-10%;right:-10%;bottom:-1px;height:260px;background:var(--blue);border-radius:50% 50% 0 0/100% 100% 0 0;z-index:0}
+  .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+  .hero-copy{padding-bottom:230px}
+  .kicker{font-size:16px;font-weight:600;color:var(--muted)}
+  .hero h1{font-size:clamp(42px,6vw,64px);margin-top:12px}
+  .hero .sub{font-size:19px;color:var(--muted);margin-top:22px;max-width:30em}
+  .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+  .hero-phone{display:flex;justify-content:center;padding-bottom:40px}
 
-  /* diary screen */
-  .diary{background:var(--surface);font-size:14px}
-  .d-top{background:var(--blue);color:#fff;padding:18px 16px 14px}
-  .d-top .row1{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:17px}
-  .d-top .date{font-size:13px;opacity:.9;font-weight:500}
-  .remaining{background:#fff;margin:12px 12px 0;border-radius:14px;padding:12px 14px}
-  .remaining .lbl{font-size:12px;font-weight:600;color:var(--muted)}
-  .eq{display:grid;grid-template-columns:repeat(7,auto);align-items:end;justify-content:space-between;margin-top:8px;font-variant-numeric:tabular-nums}
-  .eq div{text-align:center}
-  .eq b{display:block;font-size:16px}
-  .eq small{font-size:10px;color:var(--muted)}
-  .eq .op{color:var(--muted);font-size:15px;padding-bottom:14px}
-  .eq .res b{color:var(--blue)}
-  .d-body{flex:1;overflow-y:auto;padding:4px 0 12px}
-  .meal{background:#fff;margin:10px 12px 0;border-radius:14px;overflow:hidden}
-  .meal-h{display:flex;justify-content:space-between;padding:11px 14px;font-weight:700;border-bottom:1px solid var(--line)}
-  .meal-h span:last-child{font-variant-numeric:tabular-nums}
-  .item{display:flex;justify-content:space-between;gap:10px;padding:9px 14px;border-bottom:1px solid var(--line)}
-  .item:last-child{border-bottom:0}
-  .item .nm{font-weight:500;line-height:1.3}
-  .item .sv{font-size:12px;color:var(--muted);margin-top:2px}
-  .item .kc{font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
-  .via{display:inline-block;font-size:10.5px;font-weight:700;background:#FDF3C4;color:#6B5A00;border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:1px}
-  .item.new{animation:flash 1.2s ease-out}
-  .item.gone{opacity:.45;text-decoration:line-through}
-  @keyframes flash{from{background:#FFF6C9}to{background:#fff}}
-  .add{padding:9px 14px;color:var(--blue);font-weight:700;font-size:12.5px;text-transform:uppercase}
+  /* ---------- phone chrome ---------- */
+  .phone{width:330px;max-width:100%;background:#0E0F14;border-radius:var(--r-phone);padding:10px;box-shadow:var(--shadow-phone);flex:none}
+  .screen{position:relative;border-radius:35px;overflow:hidden;height:660px;display:flex;flex-direction:column;background:#fff;color:var(--text);text-align:left}
+  .status{display:flex;justify-content:space-between;align-items:center;padding:14px 26px 6px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+  .status svg{width:62px;height:12px}
+  .island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:96px;height:28px;border-radius:20px;background:#0E0F14}
 
-  /* settings */
-  .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-  .settings{background:var(--surface)}
-  .s-list{background:#fff;margin:12px;border-radius:14px;overflow:hidden}
-  .s-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--line)}
+  /* MyFitnessPal "Today" screen, modeled on the 2026 app shown on /premium */
+  .today{background:#F2F4F8;font-size:13px}
+  .t-head{background:linear-gradient(#E3EEFF,#F2F4F8);padding-bottom:6px}
+  .t-title{display:flex;justify-content:space-between;align-items:center;padding:4px 16px 0}
+  .t-title b{font-size:22px;font-weight:700;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:6px}
+  .t-title b svg{width:10px;height:6px}
+  .streak{font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);padding:10px 12px 4px;text-align:center;font-size:11px;font-weight:600;color:var(--muted)}
+  .week span{display:flex;flex-direction:column;align-items:center;gap:5px}
+  .dot{width:15px;height:15px;border-radius:50%;border:1.5px solid var(--line-3)}
+  .dot.on{background:var(--ink);border-color:var(--ink);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.2 2.2L11.5 5.6' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-size:100%}
+  .dot.now{border-color:var(--ink);border-width:2px}
+  .t-scroll{flex:1;overflow-y:auto;padding:4px 12px 12px;display:flex;flex-direction:column;gap:10px;scrollbar-width:none}
+  .t-scroll::-webkit-scrollbar{display:none}
+  .t-scroll>*{flex:none}
+  .tcard{background:#fff;border-radius:14px;padding:12px 14px}
+  .cal-top{display:flex;justify-content:space-between;align-items:baseline;font-variant-numeric:tabular-nums}
+  .cal-top .lbl{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:2px}
+  .cal-top b{font-size:17px}
+  .cal-top small{font-size:12px;color:var(--muted);font-weight:500}
+  .left{font-size:12px;font-weight:600;color:var(--muted)}
+  .bar{height:7px;border-radius:7px;background:var(--line);margin-top:8px;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:7px;background:var(--blue)}
+  .macros{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .macros .lbl{font-size:12px;font-weight:600;color:var(--muted)}
+  .macros b{font-size:14px;font-variant-numeric:tabular-nums}
+  .macros small{font-size:11px;color:var(--muted);font-weight:500}
+  .macros .bar{height:5px;margin-top:6px}
+  .macros .c i{background:var(--carbs)} .macros .f i{background:var(--fat)} .macros .p i{background:var(--protein)}
+  .diary-h{display:flex;justify-content:space-between;align-items:baseline;padding:4px 2px 0;font-weight:700;font-size:15px}
+  .diary-h span{font-size:12px;font-weight:600;color:var(--blue)}
+  .meal{background:#fff;border-radius:14px;overflow:hidden}
+  .meal-row{display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:start;padding:12px 14px}
+  .meal-row svg{width:20px;height:20px;color:var(--blue);margin-top:1px}
+  .meal-row b{font-size:14px;display:block}
+  .meal-row .sum{font-size:12px;color:var(--muted);line-height:1.4;margin-top:1px}
+  .meal-row .mac{grid-column:2 / 4;font-size:11px;color:var(--muted);margin-top:-6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .log-btn{font:700 12px/1 var(--font);color:#0055CC;background:var(--blue-tint);border-radius:100px;padding:6px 11px}
+  .items{border-top:1px solid var(--line)}
+  .it{display:flex;justify-content:space-between;gap:10px;padding:9px 14px 9px 46px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;transition:background-color .9s ease,opacity .3s ease}
+  .it:last-child{border-bottom:0}
+  .it .nm{font-size:13px;font-weight:500;line-height:1.3}
+  .it .sv{font-size:11.5px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .it .kc{font-size:13px;font-weight:500}
+  .via{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#5C4A00;background:var(--yellow-tint);border-radius:4px;padding:1px 6px}
+  .via svg{width:10px;height:10px;color:var(--claude)}
+  .it.fresh{background:#FFFAE0}
+  .it.gone{opacity:.4}
+  .it.gone .nm{text-decoration:line-through}
+  .tabs{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;padding:8px 6px 20px;background:#fff;border-top:1px solid var(--line);font-size:11px;font-weight:500;color:var(--muted);text-align:center}
+  .tabs span{display:flex;flex-direction:column;align-items:center;gap:3px}
+  .tabs svg{width:20px;height:20px}
+  .tabs .on{color:var(--ink);font-weight:700}
+  .tabs .plus{width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;margin:0 auto 6px}
+  .tabs .plus svg{width:18px;height:18px}
+
+  /* ---------- the note ---------- */
+  .blue-band{background:var(--blue);color:#fff;padding-block:24px 96px}
+  .note-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:start}
+  .blue-band h2{font-size:clamp(34px,4.6vw,52px)}
+  .blue-band .side{font-size:19px;margin-top:24px;color:#fff;max-width:28em}
+  .letter{background:#fff;color:var(--text);border-radius:var(--r-card);padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;gap:18px;box-shadow:var(--shadow-card)}
+  .letter .sig b{display:block}
+  .letter .sig span{color:var(--muted);font-size:15px}
+
+  /* ---------- demo ---------- */
+  .demo{background:var(--ink);color:#fff;padding-block:96px 48px;position:relative}
+  .demo::after{content:"";position:absolute;left:0;right:0;bottom:0;height:308px;background:var(--bg);z-index:0}
+  .demo-head{text-align:center;max-width:760px;margin:0 auto}
+  .demo-head h2{font-size:clamp(32px,4.4vw,46px)}
+  .demo-head p{color:#D0D2DA;font-size:18px;margin:18px auto 0;max-width:36em}
+  .seg{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:6px;background:var(--ink-2);border-radius:100px;padding:6px;margin-top:32px}
+  .seg button{font:600 15px/1 var(--font);min-height:44px;padding:0 20px;border-radius:100px;border:0;background:transparent;color:#D0D2DA;cursor:pointer;transition:background-color .15s ease,color .15s ease}
+  .seg button:hover{color:#fff}
+  .seg button[aria-pressed="true"]{background:var(--yellow);color:#000}
+  .stage{position:relative;z-index:1;display:flex;justify-content:center;align-items:flex-start;gap:56px;margin-top:48px;flex-wrap:wrap}
+  .stage figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .stage figcaption{font-size:15px;font-weight:600;color:var(--muted)}
+  .arrow{align-self:center;color:var(--line-3);width:40px;height:40px}
+
+  /* Claude chat screen */
+  .chat{background:var(--chat-bg);font-size:14.5px;line-height:1.5}
+  .c-top{display:flex;align-items:center;gap:10px;padding:6px 16px 12px;border-bottom:1px solid var(--chat-line)}
+  .c-top b{font-size:15px}
+  .c-top small{margin-left:auto;font-size:12px;color:var(--chat-muted);display:inline-flex;align-items:center;gap:5px}
+  .c-top small i{width:7px;height:7px;border-radius:50%;background:var(--green)}
+  .burst{width:22px;height:22px;color:var(--claude)}
+  .c-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:none}
+  .c-body::-webkit-scrollbar{display:none}
+  .u{align-self:flex-end;background:var(--chat-user);border-radius:18px 18px 6px 18px;padding:10px 14px;max-width:86%}
+  .used{align-self:flex-start;display:flex;flex-direction:column;gap:6px;width:100%}
+  .used-h{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--chat-muted)}
+  .mfp-chip{width:18px;height:18px;border-radius:5px;background:var(--blue);display:grid;place-items:center}
+  .mfp-chip svg{width:11px;height:11px;color:#fff}
+  .calls{display:flex;flex-direction:column;gap:4px;border-left:1.5px solid var(--chat-line);margin-left:8px;padding-left:14px}
+  .call{font:500 12px/1.4 var(--mono);color:var(--chat-muted)}
+  .call em{font-style:normal;color:var(--text)}
+  .a p+p{margin-top:8px}
+  .a ol{margin:8px 0 0;padding-left:18px}
+  .c-input{margin:8px 12px 18px;border:1px solid var(--chat-line);background:#fff;border-radius:22px;padding:12px 16px;color:var(--chat-muted);font-size:14px;display:flex;justify-content:space-between;align-items:center}
+  .c-input i{width:28px;height:28px;border-radius:50%;background:var(--claude);display:grid;place-items:center}
+  .c-input i svg{width:12px;height:12px;color:#fff}
+
+  .demo-note{position:relative;z-index:1;text-align:center;color:var(--muted);font-size:15px;margin:28px auto 0;max-width:46em}
+  .demo-note .via{vertical-align:1px}
+
+  section.pad{padding-block:104px}
+  .sec-h{max-width:720px}
+  .sec-h h2{font-size:clamp(32px,4.4vw,46px)}
+  .sec-h p{font-size:19px;color:var(--muted);margin-top:18px;max-width:36em}
+  .center{text-align:center;margin-inline:auto}
+  .center p{margin-inline:auto}
+
+  /* ---------- settings ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+  .checks{list-style:none;padding:0;margin:36px 0 0;display:flex;flex-direction:column;gap:22px}
+  .checks li{display:grid;grid-template-columns:26px 1fr;gap:14px}
+  .checks svg{width:26px;height:26px;margin-top:1px}
+  .checks b{display:block;font-size:17px}
+  .checks span{color:var(--muted);font-size:16px}
+  .settings{background:#F2F4F8}
+  .s-nav{display:flex;align-items:center;gap:8px;padding:6px 16px 10px;font-weight:700;font-size:17px}
+  .s-nav svg{width:9px;height:15px;color:var(--blue)}
+  .s-sec{font-size:12px;font-weight:600;color:var(--muted);padding:14px 20px 6px}
+  .s-list{background:#fff;margin:0 12px;border-radius:14px;overflow:hidden}
+  .s-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:14px}
   .s-row:last-child{border-bottom:0}
-  .s-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
-  .s-sec{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:16px 16px 0}
-  .connected{font-size:12px;font-weight:700;color:var(--green)}
-  .conn-btn{font:700 12px/1 var(--font);background:var(--blue);color:#fff;border-radius:100px;padding:8px 12px}
-  .toggle{width:44px;height:26px;border-radius:100px;background:var(--green);position:relative;flex:none}
-  .toggle::after{content:"";position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff}
-  .prem-tag{display:inline-block;background:var(--yellow);color:#000;font-size:10.5px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:4px}
-  .bullets{list-style:none;padding:0;margin:24px 0 0;display:flex;flex-direction:column;gap:18px}
-  .bullets li{display:grid;grid-template-columns:28px 1fr;gap:12px}
-  .bullets li::before{content:"";width:24px;height:24px;border-radius:50%;background:var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 12.5l3.2 3.2L17 9' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat;margin-top:1px}
-  .bullets b{display:block}
-  .bullets span{color:var(--muted)}
+  .s-row b{font-weight:600}
+  .s-row small{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+  .s-app{display:flex;align-items:center;gap:10px}
+  .s-app .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;flex:none}
+  .s-app .ic svg{width:18px;height:18px}
+  .ok{font-size:12px;font-weight:700;color:var(--green);display:inline-flex;align-items:center;gap:4px}
+  .ok svg{width:14px;height:14px}
+  .s-btn{font:700 12px/1 var(--font);color:#0055CC;background:var(--blue-tint);border-radius:100px;padding:7px 12px}
+  .tg{width:46px;height:28px;border-radius:100px;background:#34C759;position:relative;flex:none}
+  .tg::after{content:"";position:absolute;right:2px;top:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+  .prem{display:inline-block;background:var(--yellow);color:#000;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:4px;vertical-align:1px}
+  .danger{color:var(--red);font-weight:600}
 
-  /* plans table (mirrors myfitnesspal.com/premium) */
-  .plans{display:flex;justify-content:center;margin-top:40px;overflow-x:auto;padding-bottom:4px}
-  .ptable{display:grid;grid-template-columns:minmax(220px,420px) 116px 116px;position:relative}
-  .ptable .dark{grid-column:2 / 4;grid-row:1 / -1;background:var(--ink);border-radius:14px;z-index:0}
-  .ph{grid-row:1;z-index:1;text-align:center;font-weight:700;padding:22px 0 14px;color:#fff}
-  .ph.prem{color:var(--yellow)}
-  .pf{grid-column:1;background:var(--blue);color:#fff;font-weight:700;font-size:17px;padding:22px 28px;border-bottom:1px solid rgba(255,255,255,.18);display:flex;align-items:center;flex-wrap:wrap;gap:8px}
-  .pf.first{border-radius:14px 0 0 0}
-  .pf.last{border-radius:0 0 0 14px;border-bottom:0}
-  .pf .newb{background:var(--yellow);color:#000;font-size:12px;font-weight:700;border-radius:4px;padding:3px 7px}
-  .pf.added{background:var(--blue-deep)}
-  .pf.added small{display:block;width:100%;font-weight:500;font-size:13px;color:rgba(255,255,255,.85)}
-  .pc{z-index:1;display:flex;align-items:center;justify-content:center}
-  .ck{width:24px;height:24px;border-radius:50%;background:var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 12.5l3.2 3.2L17 9' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
-  .ck.free{background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10.5' fill='none' stroke='%23BCBCC0' stroke-width='1.5'/%3E%3Cpath d='M7.5 12.5l3 3L16.5 9' fill='none' stroke='%23BCBCC0' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
-  .dash{width:16px;height:3px;border-radius:2px;background:#BCBCC0}
-  .added-mark{grid-column:2 / 4;z-index:1}
-  .plans-note{text-align:center;color:var(--muted);font-size:14px;margin-top:22px}
-  .today{margin-top:28px;text-align:center}
-  .today button{font:600 14px var(--font);color:var(--blue);background:none;border:0;cursor:pointer;text-decoration:underline}
-  .today img[hidden]{display:none}
-  .today img{display:block;margin:18px auto 0;max-width:min(100%,640px);border:1px solid var(--line-2);border-radius:12px}
+  /* ---------- plans table: rebuilt from myfitnesspal.com/premium ---------- */
+  .compare-k{font-size:16px;font-weight:600;color:var(--muted);text-align:center}
+  .compare-h{font-size:clamp(28px,3.6vw,40px);font-weight:600;letter-spacing:-.02em;text-align:center;margin-top:10px}
+  .compare-sub{font-size:18px;color:var(--muted);text-align:center;max-width:36em;margin:16px auto 0}
+  .ptable-wrap{margin-top:44px;display:flex;justify-content:center}
+  .ptable{display:grid;grid-template-columns:minmax(0,420px) 116px 117px;grid-template-rows:44px repeat(10,77px) 20px;width:100%;max-width:653px}
+  .ptable .panel{grid-column:2 / 4;grid-row:1 / -1;background:var(--ink);border-radius:12px}
+  .ptable .blue{grid-column:1;grid-row:2 / 12;background:var(--blue);border-radius:12px 0 0 12px}
+  .ph{grid-row:1;align-self:center;text-align:center;font-weight:600;font-size:17px;color:#fff;z-index:1;padding-top:10px}
+  .ph.pr{color:var(--yellow)}
+  .pf{grid-column:1;z-index:1;display:flex;align-items:center;gap:8px;padding:0 20px 0 32px;color:#fff;font-weight:600;font-size:20px;letter-spacing:-.01em;line-height:1.25;border-top:1px solid rgba(255,255,255,.2)}
+  .pf.r2{border-top:0}
+  .pf .i{width:15px;height:15px;opacity:.75;flex:none}
+  .pf .new{background:var(--yellow);color:#000;font-size:14px;font-weight:700;border-radius:4px;padding:3px 8px;flex:none;letter-spacing:0}
+  .pf.prop{background:var(--blue-deep)}
+  .pf .tagp{background:#fff;color:var(--blue-deep);font-size:12px;font-weight:700;border-radius:100px;padding:4px 9px;flex:none;letter-spacing:0;text-transform:uppercase}
+  .pc{z-index:1;display:grid;place-items:center}
+  .pc svg{width:25px;height:25px}
+  .pc .dash{width:16px;height:4px;border-radius:2px;background:var(--line-3)}
+  .ptable-cta{display:flex;justify-content:center;margin-top:28px}
+  .legend{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:653px;margin:32px auto 0}
+  .legend div{background:var(--surface);border-radius:var(--r-card);padding:18px 20px}
+  .legend b{display:flex;align-items:center;gap:8px;font-size:16px;flex-wrap:wrap}
+  .legend .tagp{background:var(--blue-deep);color:#fff;font-size:11px;font-weight:700;border-radius:100px;padding:3px 8px;text-transform:uppercase}
+  .legend p{font-size:15px;color:var(--muted);margin-top:6px}
+  .before{max-width:653px;margin:28px auto 0;text-align:center}
+  .before button{font:600 15px var(--font);color:var(--blue);background:none;border:0;cursor:pointer;padding:10px;display:inline-flex;align-items:center;gap:8px;border-radius:8px}
+  .before button svg{width:12px;height:8px;transition:transform .2s ease}
+  .before button[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .before figure{margin:14px 0 0}
+  .before figure[hidden]{display:none}
+  .before figure img{border:1px solid var(--line-2);border-radius:12px}
+  .before figcaption{font-size:14px;color:var(--muted);margin-top:10px}
 
-  /* precedent */
-  .proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:40px}
-  .proof{border:1px solid var(--line-2);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;background:#fff}
-  .proof .shot{height:340px;overflow:hidden;border-bottom:1px solid var(--line-2);background:var(--surface)}
-  .proof .shot img{width:100%;display:block}
-  .proof .body{padding:22px 24px 26px;display:flex;flex-direction:column;gap:12px}
-  .proof .meta{display:flex;flex-wrap:wrap;gap:8px}
-  .tag{font-size:12px;font-weight:700;border-radius:100px;padding:4px 10px;background:var(--surface);color:var(--text)}
-  .tag.y{background:var(--yellow)}
-  .proof blockquote{margin:0;font-size:17px;font-weight:500;line-height:1.45}
-  .proof cite{font-style:normal;font-size:13px;color:var(--muted)}
-  .proof h3{font-size:20px}
-  .also{margin-top:28px;background:var(--surface);border-radius:16px;padding:20px 24px;font-size:15px}
+  /* ---------- precedent ---------- */
+  .proof-sec{background:var(--surface)}
+  .browser{background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-card)}
+  .browser-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#ECECF0}
+  .browser-bar .dots{display:flex;gap:6px}
+  .browser-bar .dots i{width:10px;height:10px;border-radius:50%;background:var(--line-3)}
+  .browser-bar .url{flex:1;min-width:0;background:#fff;border-radius:6px;padding:4px 10px;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lead-proof{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;margin-top:56px}
+  .proof-copy h3{font-size:30px}
+  .facts{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:10px}
+  .facts li{display:grid;grid-template-columns:22px 1fr;gap:10px;font-size:16px}
+  .facts svg{width:20px;height:20px;margin-top:3px}
+  .lead-proof>*,.second>*,.split>*,.note-grid>*,.hero-grid>*{min-width:0}
+  .quote-shot{margin-top:24px}
+  .pad-shot{padding:18px 22px 20px;background:#fff}
+  .gap-callout{margin-top:24px;font-size:17px;max-width:34em}
+  .gap-callout b{background:linear-gradient(transparent 58%,var(--yellow) 58%)}
+  .read{margin-top:14px;font-size:15px}
+  .second{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;margin-top:88px}
+  .second blockquote{margin:18px 0 0;font-size:19px;line-height:1.5;max-width:30em}
+  .second cite{display:block;font-style:normal;font-size:14px;color:var(--muted);margin-top:10px}
+  .second .more{margin-top:18px;max-width:32em;font-size:16px}
+  .todoist{margin-top:72px;border-top:1px solid var(--line-2);padding-top:32px;display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline}
+  .todoist h3{font-size:22px;font-weight:700}
+  .todoist p{color:var(--muted);max-width:60ch}
 
-  /* why + tools */
-  .dark-sec{background:var(--ink);color:#fff}
-  .dark-sec .eyebrow,.dark-sec .lede{color:#BCBCC0}
-  .why{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
-  .why div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:22px}
-  .why h3{font-size:18px;margin-bottom:8px}
-  .why p{color:#D8D8DC;font-size:15px}
-  .why a{color:var(--yellow)}
-  .tools{margin-top:44px;overflow-x:auto;border-radius:16px;border:1px solid rgba(255,255,255,.14)}
-  .tools table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
-  .tools th,.tools td{text-align:left;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.1);vertical-align:top}
-  .tools th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#BCBCC0}
-  .tools tr:last-child td{border-bottom:0}
-  .tools code{font:500 13.5px var(--mono);color:#fff;white-space:nowrap}
-  .tools td:nth-child(2){color:#D8D8DC}
-  .plan-f{font-size:12px;font-weight:700;border-radius:100px;padding:3px 9px;background:rgba(255,255,255,.12);white-space:nowrap}
-  .plan-p{font-size:12px;font-weight:700;border-radius:100px;padding:3px 9px;background:var(--yellow);color:#000;white-space:nowrap}
-  .rails{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:28px}
-  .rails div{border-left:3px solid var(--yellow);padding:4px 0 4px 16px}
-  .rails b{display:block;margin-bottom:4px}
-  .rails span{color:#D8D8DC;font-size:15px}
+  /* ---------- ready + tools ---------- */
+  .ready{background:var(--ink);color:#fff}
+  .ready .sec-h p{color:#D0D2DA}
+  .reasons{display:grid;grid-template-columns:repeat(3,1fr);margin-top:56px;border-top:1px solid rgba(255,255,255,.16)}
+  .reasons div{padding:28px 32px 0 0}
+  .reasons div+div{padding-left:32px;border-left:1px solid rgba(255,255,255,.16)}
+  .reasons h3{font-size:20px;font-weight:700}
+  .reasons p{color:#D0D2DA;font-size:16px;margin-top:10px}
+  .reasons a{color:#fff;text-decoration-color:var(--yellow);text-decoration-thickness:2px}
+  .tools-h{font-size:24px;font-weight:700;margin-top:88px}
+  .tools-sub{color:#D0D2DA;margin-top:8px;max-width:60ch}
+  .tools{margin-top:28px;overflow-x:auto;background:var(--ink-2);border-radius:var(--r-card);padding:8px 0}
+  .tools table{border-collapse:collapse;width:100%;min-width:640px}
+  .tools th,.tools td{text-align:left;padding:14px 24px;vertical-align:top}
+  .tools th{font-size:13px;font-weight:600;color:#A9ADBA}
+  .tools tbody tr{border-top:1px solid rgba(255,255,255,.1)}
+  .tools code{font:500 14px var(--mono);color:#fff;white-space:nowrap}
+  .tools td:nth-child(2){color:#D0D2DA;font-size:16px}
+  .pl{font-size:12px;font-weight:700;border-radius:100px;padding:4px 10px;white-space:nowrap;display:inline-block}
+  .pl.all{background:rgba(255,255,255,.12);color:#fff}
+  .pl.pr{background:var(--yellow);color:#000}
+  .rails{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:48px}
+  .rails svg{width:26px;height:26px;color:var(--yellow)}
+  .rails b{display:block;margin-top:12px;font-size:17px}
+  .rails span{color:#D0D2DA;font-size:15px;display:block;margin-top:4px}
 
-  /* close */
-  .close{background:linear-gradient(135deg,#266CF1,#0066EE);color:#fff;text-align:center}
-  .close p{font-size:19px;max-width:40em;margin:16px auto 0;color:rgba(255,255,255,.92)}
-  footer{padding-block:40px;font-size:13px;color:var(--muted)}
-  footer .cols{display:grid;grid-template-columns:1fr 1fr;gap:32px}
-  footer ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
-  footer .legal{margin-top:24px;border-top:1px solid var(--line);padding-top:18px}
+  /* ---------- close ---------- */
+  .close{background:linear-gradient(160deg,#1F66EE 0%,var(--blue) 55%,var(--blue-deep) 100%);color:#fff;text-align:center;padding-block:104px}
+  .close h2{font-size:clamp(34px,4.8vw,54px)}
+  .close p{font-size:19px;max-width:34em;margin:20px auto 0}
+  .close .ctas{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:32px}
+  .close .email{margin-top:18px;font-size:15px}
+  .close .email a{color:#fff}
 
-  @media (max-width:900px){
-    .hero-grid,.split,.proof-grid,footer .cols{grid-template-columns:1fr}
-    .why,.rails{grid-template-columns:1fr}
-    section{padding-block:56px}
+  footer{background:var(--ink);color:#C4C7D1;padding-block:56px;font-size:15px}
+  footer .cols{display:grid;grid-template-columns:1.3fr 1fr;gap:48px}
+  footer b{color:#fff}
+  footer ul{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+  footer a{color:#fff}
+  footer .legal{margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);font-size:13px;color:#A9ADBA;max-width:72ch}
+
+  @media (max-width:960px){
+    .hero-grid,.note-grid,.split,.lead-proof,.second,footer .cols{grid-template-columns:1fr}
+    .hero-copy{padding-bottom:0}
+    .hero::after{height:300px}
+    .hero-phone{padding-bottom:56px}
+    .note-grid{gap:40px}
+    .split{gap:48px}
+    .lead-proof,.second{gap:32px}
+    .second .browser{order:-1}
+    .reasons{grid-template-columns:1fr;border-top:0}
+    .reasons div,.reasons div+div{padding:24px 0 0;border-left:0;border-top:1px solid rgba(255,255,255,.16)}
+    .reasons div+div{margin-top:24px}
+    .rails{grid-template-columns:1fr 1fr}
+    .arrow{display:none}
+    .stage figure:first-child figcaption{color:#A9ADBA}
+    .stage{gap:40px}
+    .todoist{grid-template-columns:1fr;gap:8px}
   }
-  @media (max-width:520px){
-    .ptable{grid-template-columns:minmax(170px,1fr) 64px 76px}
-    .pf{font-size:15px;padding:18px 16px}
-    .screen{height:600px}
+  @media (max-width:640px){
+    body{font-size:16px}
+    .wrap{padding-inline:16px}
+    section.pad{padding-block:72px}
+    .topbar .pill{display:none}
+    .hero{padding-top:16px}
+    .hero .sub,.blue-band .side,.sec-h p{font-size:17px}
+    .hero .ctas .pill{width:100%}
+    .ptable{grid-template-columns:minmax(0,1fr) 60px 76px;grid-template-rows:44px repeat(10,72px) 16px}
+    .pf{font-size:15px;padding:0 10px 0 14px;gap:6px;flex-wrap:wrap;align-content:center;row-gap:4px}
+    .pf .i{display:none}
+    .pf .new{font-size:11px;padding:2px 5px}
+    .pf .tagp{font-size:10px;padding:3px 6px}
+    .ph{font-size:14px}
+    .pc svg{width:22px;height:22px}
+    .legend{grid-template-columns:1fr}
+    .rails{grid-template-columns:1fr}
+    .demo{padding-top:72px}
+    .seg{border-radius:20px}
+    .seg button{padding:0 16px;font-size:14px}
   }
 </style>
 </head>
 <body>
 
-<div class="notice">A concept by <a href="https://middleton.io/">Kevin Middleton</a>. Not made by or affiliated with MyFitnessPal.</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="chev" viewBox="0 0 9 14"><path d="M1.5 1.5L7 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="chev-down" viewBox="0 0 12 8"><path d="M1.5 1.5L6 6l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ck-y" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="#FDDA1C"/><path d="M8 13.4l3.4 3.4L18.2 10" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ck-o" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11.3" fill="none" stroke="#BCBCC0" stroke-width="1.6"/><path d="M8.4 13.4l3.1 3.1L17.8 10.2" fill="none" stroke="#BCBCC0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ck-g" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="#1F9D55"/><path d="M8 13.4l3.4 3.4L18.2 10" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M8 7.2v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="4.9" r=".9" fill="currentColor"/></symbol>
+    <symbol id="burst" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 2.5v6"/><path d="M12 15.5v6"/><path d="M2.5 12h6"/><path d="M15.5 12h6"/><path d="M5.3 5.3l4.2 4.2"/><path d="M14.5 14.5l4.2 4.2"/><path d="M18.7 5.3l-4.2 4.2"/><path d="M9.5 14.5l-4.2 4.2"/></g></symbol>
+    <symbol id="fork" viewBox="0 0 16 16"><path d="M4.5 1.5v4a2 2 0 002 2v7M8.5 1.5v4a2 2 0 01-2 2M6.5 1.5v4M12 14.5V1.5c1.4 1 2 3 2 5.5h-2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="cup" viewBox="0 0 20 20"><path d="M3.5 7h11v4.5a4.5 4.5 0 01-4.5 4.5H8a4.5 4.5 0 01-4.5-4.5V7zM14.5 8.5h1a2 2 0 010 4h-1.2M6.5 2.5v2M9.5 2.5v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="bowl" viewBox="0 0 20 20"><path d="M2.5 9h15a7.5 7.5 0 01-15 0zM6 16.5h8M7 5.5c0-1.4 1-2 1-3.2M11 5.5c0-1.4 1-2 1-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="plate" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="apple" viewBox="0 0 20 20"><path d="M10 6.5c-1.2-1-4.5-1.4-5.6 1.6-1 2.7.6 7.4 3.1 8.4 1 .4 1.6-.2 2.5-.2s1.5.6 2.5.2c2.5-1 4.1-5.7 3.1-8.4-1.1-3-4.4-2.6-5.6-1.6zM10 6.5c0-2 1-3.5 2.8-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="home" viewBox="0 0 20 20"><path d="M3 9l7-6 7 6v8H12v-5H8v5H3z" fill="currentColor"/></symbol>
+    <symbol id="cal" viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h14M7 2.5v3M13 2.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="plus" viewBox="0 0 20 20"><path d="M10 3v14M3 10h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="bars" viewBox="0 0 20 20"><path d="M4 16V10M10 16V4M16 16V8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="more" viewBox="0 0 20 20"><circle cx="4.5" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="10" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="15.5" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+    <symbol id="sig" viewBox="0 0 62 12"><g fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0.5" width="3" height="11.5" rx="1"/><path d="M29 3.2a9 9 0 0112 0l-1.5 1.6a6.8 6.8 0 00-9 0zM31.3 5.8a5.6 5.6 0 017.4 0l-1.5 1.6a3.4 3.4 0 00-4.4 0zM35 11l-2-2.1a2.8 2.8 0 014 0z"/><rect x="45" y="1" width="15" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="46.8" y="2.8" width="11.4" height="6.4" rx="1.6"/></g></symbol>
+    <symbol id="arrow" viewBox="0 0 40 40"><path d="M6 20h26M24 12l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="send" viewBox="0 0 12 12"><path d="M6 10.5V1.5M2 5.5l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="lock" viewBox="0 0 26 26"><rect x="5" y="11" width="16" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 11V8a4.5 4.5 0 019 0v3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="tag" viewBox="0 0 26 26"><path d="M3.5 13.2V4.5a1 1 0 011-1h8.7l9.3 9.3-9.7 9.7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.8" fill="currentColor"/></symbol>
+    <symbol id="repeat" viewBox="0 0 26 26"><path d="M5 11a8 8 0 0114-4.5L21 9M21 4v5h-5M21 15a8 8 0 01-14 4.5L5 17M5 22v-5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ask" viewBox="0 0 26 26"><path d="M4 5.5h18v12H12l-5 4v-4H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10.5 9.5a2.5 2.5 0 114 2c-.9.5-1.5 1-1.5 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="13" cy="15.6" r="1" fill="currentColor"/></symbol>
+    <symbol id="gpt" viewBox="0 0 18 18"><circle cx="9" cy="9" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 2.8v12.4M3.6 5.9l10.8 6.2M3.6 12.1l10.8-6.2" stroke="currentColor" stroke-width="1.2"/></symbol>
+    <symbol id="link" viewBox="0 0 18 18"><path d="M7.5 10.5l3-3M6 8.5L4.3 10.2a2.6 2.6 0 003.6 3.6L9.6 12M12 9.5l1.7-1.7a2.6 2.6 0 00-3.6-3.6L8.4 5.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<div class="promo">A concept by Kevin Middleton. Not made by or affiliated with MyFitnessPal. <a href="https://middleton.io/">About Kevin <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
 
 <header class="hero">
   <div class="wrap">
-    <div class="bar">
-      <span class="wordmark">myfitnesspal<sup>&reg;</sup> <span style="font-weight:500;opacity:.8">&times; AI assistants</span></span>
-      <span class="by">Concept &middot; Kevin Middleton</span>
+    <div class="topbar">
+      <span class="wordmark"><span>myfitnesspal<sup>&reg;</sup></span><small>&times; AI assistants</small></span>
+      <a class="pill yellow" href="#demo">See it work <svg aria-hidden="true"><use href="#chev"/></svg></a>
     </div>
     <div class="hero-grid">
-      <div>
-        <h1>Log lunch in one sentence.</h1>
-        <p class="sub">An official MyFitnessPal MCP server would let members log food, check what's left, and fix mistakes from Claude, ChatGPT, or whatever assistant they already talk to all day. Here's what it could look like, and why it belongs in Premium.</p>
+      <div class="hero-copy">
+        <p class="kicker">A Premium feature concept</p>
+        <h1><b>Log lunch</b> in one sentence</h1>
+        <p class="sub">An official MyFitnessPal MCP server would let members log food, check what's left, and fix mistakes from Claude, ChatGPT, or whatever assistant they already talk to all day.</p>
         <div class="ctas">
-          <a class="pill white" href="#demo">See it work</a>
-          <a class="pill ghost" href="#plans">Compare plans</a>
+          <a class="pill yellow" href="#demo">See it work <svg aria-hidden="true"><use href="#chev"/></svg></a>
         </div>
       </div>
-      <div class="hero-quote">
-        <span class="say">"Log lunch: Chipotle bowl, chicken, no rice, fajita veggies, black beans, guac."</span>
-        <div class="vs"><span>Today: <b>5 searches, 5 serving picks</b></span><span>With an MCP server: <b>1 message</b></span></div>
+      <div class="hero-phone">
+        <div class="phone" role="img" aria-label="The MyFitnessPal Today screen, with a Chipotle lunch logged from Claude">
+          <div class="screen today" id="hero-screen"></div>
+        </div>
       </div>
     </div>
   </div>
 </header>
 
-<main>
-  <section>
-    <div class="wrap narrow">
-      <div class="eyebrow">A note from a member</div>
-      <div class="letter">
-        <p>Hi MyFitnessPal team,</p>
-        <p>I've logged food in MyFitnessPal since 2011. Fifteen years, a few good runs, a few long breaks, and I keep coming back because your database has everything I eat.</p>
-        <p>Logging is still a chore, though. I have an AI assistant that handles my calendar, my email, and my gym check-ins, and it can't touch the app I open most. When I went looking for a workaround, I found members already building one: an unofficial MCP server that drives your website with a pasted session cookie. It works until your site changes, and it asks people to hand their login to a stranger's code.</p>
-        <p>Strava hit this same moment and turned it into a reason to subscribe. Buffer shipped theirs in May, and I use Buffer more because of it. MyFitnessPal is a better fit than either, because food gets logged in the moment, on a phone, often mid-bite. Voice Log shows you already believe that. An MCP server takes it to wherever members are already talking.</p>
-        <p>I sketched the whole thing below: the chat, the diary, the settings screen, and your plans table with two new rows. I'm a product manager, so I'm biased toward thinking this is easy. I know it isn't. I'd love to talk it through.</p>
-        <p class="sig">Kevin Middleton<span>Member since 2011 &middot; <a href="https://middleton.io/">middleton.io</a></span></p>
-      </div>
+<section class="blue-band" aria-labelledby="note-h">
+  <div class="wrap note-grid">
+    <div>
+      <h2 id="note-h"><b>Fifteen years</b> of logging, and it's still the part I put off</h2>
+      <p class="side">I've used MyFitnessPal since 2011. Every assistant I use can reach my calendar, my email, and my to-do list. None of them can reach the app I open most.</p>
     </div>
-  </section>
+    <article class="letter" aria-label="Letter to the MyFitnessPal team">
+      <p>Hi MyFitnessPal team,</p>
+      <p>Logging is still a chore for me. When I went looking for a way to have my assistant do it, I found members already building one: an unofficial MCP server that drives your website with a pasted session cookie. It works until your site changes, and it asks people to hand their login to a stranger's code.</p>
+      <p>Strava hit this same moment in June and turned it into a reason to subscribe. Buffer shipped theirs in May, and I use Buffer more because of it. MyFitnessPal is a better fit than either, because food gets logged in the moment, on a phone, often mid-bite. Voice Log shows you already believe that. An MCP server takes it to wherever members are already talking.</p>
+      <p>Below is the whole idea: the chat, the diary, the settings screen, and your plans table with two new rows. I'm a product manager, so I'm biased toward thinking this is easy. I know it isn't, and I'd love to talk it through.</p>
+      <p class="sig"><b>Kevin Middleton</b><span>Member since 2011</span></p>
+    </article>
+  </div>
+</section>
 
-  <section id="demo" class="demo-bg">
-    <div class="wrap center">
-      <div class="eyebrow">See it work</div>
-      <h2>Talk to your assistant. Your diary updates.</h2>
-      <p class="lede">Pick a moment from a normal day. The assistant searches your recent foods first, logs to the meal you named, and tells you what changed so a wrong match gets caught right away.</p>
-      <div class="chips" role="group" aria-label="Choose a scenario">
-        <button class="chip-btn" type="button" id="sc-log" data-sc="log" aria-pressed="true">Log lunch</button>
-        <button class="chip-btn" type="button" id="sc-dinner" data-sc="dinner" aria-pressed="false">What's for dinner?</button>
-        <button class="chip-btn" type="button" id="sc-fix" data-sc="fix" aria-pressed="false">Fix a mistake</button>
+<section class="demo" id="demo" aria-labelledby="demo-h">
+  <div class="wrap">
+    <div class="demo-head">
+      <h2 id="demo-h">Talk to your assistant. <b>Your diary updates.</b></h2>
+      <p>Pick a moment from a normal day. The assistant checks recent foods first, logs to the meal you named, and says exactly what changed so a wrong match gets caught right away.</p>
+      <div class="seg" role="group" aria-label="Choose a moment">
+        <button type="button" id="sc-log" data-sc="log" aria-pressed="true">Log lunch</button>
+        <button type="button" id="sc-dinner" data-sc="dinner" aria-pressed="false">Plan dinner</button>
+        <button type="button" id="sc-fix" data-sc="fix" aria-pressed="false">Fix a mistake</button>
       </div>
     </div>
-    <div class="wrap">
-      <div class="phones">
-        <div>
-          <div class="phone"><div class="screen chat">
-            <div class="chat-top"><span class="spark" aria-hidden="true"></span>Claude <span style="margin-left:auto;font-size:12px;color:#8a887f;font-weight:500">MyFitnessPal connected</span></div>
-            <div class="chat-body" id="chat" aria-live="polite"></div>
-            <div class="chat-input">Reply to Claude&hellip;</div>
-          </div></div>
-          <div class="phone-label">Any AI assistant</div>
-        </div>
-        <div>
-          <div class="phone"><div class="screen diary">
-            <div class="d-top"><div class="row1"><span>Diary</span><span class="date">Today</span></div></div>
-            <div class="remaining">
-              <div class="lbl">Calories Remaining</div>
-              <div class="eq">
-                <div><b>2,100</b><small>Goal</small></div><div class="op">&minus;</div>
-                <div><b id="food-total">767</b><small>Food</small></div><div class="op">+</div>
-                <div><b>0</b><small>Exercise</small></div><div class="op">=</div>
-                <div class="res"><b id="remaining">1,333</b><small>Remaining</small></div>
-              </div>
-            </div>
-            <div class="d-body" id="diary"></div>
-          </div></div>
-          <div class="phone-label">The MyFitnessPal app, a second later</div>
-        </div>
-      </div>
-      <p class="plans-note">Example numbers. The yellow "via Claude" tag marks entries an assistant made, and tapping one undoes it.</p>
+    <div class="stage">
+      <figure>
+        <div class="phone"><div class="screen chat">
+          <div class="status"><span>12:41</span><svg aria-hidden="true"><use href="#sig"/></svg></div>
+          <div class="island" aria-hidden="true"></div>
+          <div class="c-top"><svg class="burst" aria-hidden="true"><use href="#burst"/></svg><b>Claude</b><small><i aria-hidden="true"></i>MyFitnessPal</small></div>
+          <div class="c-body" id="chat" aria-live="polite"></div>
+          <div class="c-input">Reply to Claude<i aria-hidden="true"><svg><use href="#send"/></svg></i></div>
+        </div></div>
+        <figcaption>Any AI assistant</figcaption>
+      </figure>
+      <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+      <figure>
+        <div class="phone"><div class="screen today" id="demo-screen"></div></div>
+        <figcaption>MyFitnessPal, a second later</figcaption>
+      </figure>
     </div>
-  </section>
+    <p class="demo-note">Example numbers. Entries an assistant makes carry a <span class="via"><svg aria-hidden="true"><use href="#burst"/></svg>via Claude</span> tag in the diary, and one tap undoes them.</p>
+  </div>
+</section>
 
-  <section>
-    <div class="wrap split">
-      <div>
-        <div class="eyebrow">Setup</div>
-        <h2>Connect once. Revoke anytime.</h2>
-        <p class="lede">It lives in Settings next to the apps and devices members already connect. Reading is for everyone. Logging is the Premium switch.</p>
-        <ul class="bullets">
-          <li><div><b>Real sign-in, no pasted cookies.</b><span>OAuth with separate read and write permissions, the same pattern your partner integrations use.</span></div></li>
-          <li><div><b>Every assistant entry is marked.</b><span>"via Claude" or "via ChatGPT" in the diary, with one-tap undo.</span></div></li>
-          <li><div><b>No double lunches.</b><span>Each write carries a request ID, so a retried call never logs the same meal twice.</span></div></li>
-          <li><div><b>The meal is never a guess.</b><span>If the member didn't say Lunch or Snacks, the assistant asks.</span></div></li>
-        </ul>
+<section class="pad" aria-labelledby="setup-h">
+  <div class="wrap split">
+    <div>
+      <div class="sec-h">
+        <h2 id="setup-h"><b>Connect once.</b> Revoke anytime.</h2>
+        <p>It sits in Settings next to the apps and devices members already connect. Reading is for everyone. Logging is the Premium switch.</p>
       </div>
-      <div style="display:flex;justify-content:center">
-        <div class="phone"><div class="screen settings" style="height:auto;padding-bottom:12px">
-          <div class="d-top"><div class="row1"><span>AI Assistants</span><span class="date">Settings</span></div></div>
+      <ul class="checks">
+        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>A real sign-in</b><span>OAuth with separate read and write permissions, the same pattern partner integrations use. Nobody pastes a cookie.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>Every assistant entry is marked</b><span>"via Claude" or "via ChatGPT" shows in the diary, with one-tap undo.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>No double lunches</b><span>Each write carries a request ID, so a retried call never logs the same meal twice.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>The meal is never a guess</b><span>If the member didn't say Lunch or Snacks, the assistant asks.</span></div></li>
+      </ul>
+    </div>
+    <div style="display:flex;justify-content:center">
+      <div class="phone" role="img" aria-label="MyFitnessPal settings screen for AI assistants: Claude connected, with read and Premium logging permissions switched on">
+        <div class="screen settings" style="height:auto;padding-bottom:18px">
+          <div class="status"><span>12:40</span><svg aria-hidden="true"><use href="#sig"/></svg></div>
+          <div class="island" aria-hidden="true"></div>
+          <div class="s-nav"><svg aria-hidden="true" style="transform:scaleX(-1)"><use href="#chev"/></svg>AI Assistants</div>
           <div class="s-sec">Connected</div>
           <div class="s-list">
-            <div class="s-row"><div><b>Claude</b><small>Connected Sep 27</small></div><span class="connected">&#10003; Connected</span></div>
-            <div class="s-row"><div><b>ChatGPT</b><small>Log food from any chat</small></div><span class="conn-btn">Connect</span></div>
-            <div class="s-row"><div><b>Other assistants</b><small>Use the MyFitnessPal MCP URL</small></div><span class="conn-btn">Copy</span></div>
+            <div class="s-row"><div class="s-app"><span class="ic" style="background:#FBEDE7;color:var(--claude)"><svg><use href="#burst"/></svg></span><div><b>Claude</b><small>Connected today</small></div></div><span class="ok"><svg><use href="#ck-g"/></svg>On</span></div>
+            <div class="s-row"><div class="s-app"><span class="ic" style="background:var(--surface);color:var(--text)"><svg><use href="#gpt"/></svg></span><div><b>ChatGPT</b><small>Log from any chat</small></div></div><span class="s-btn">Connect</span></div>
+            <div class="s-row"><div class="s-app"><span class="ic" style="background:var(--blue-tint);color:var(--blue)"><svg><use href="#link"/></svg></span><div><b>Other assistants</b><small>Copy the MCP server link</small></div></div><span class="s-btn">Copy</span></div>
           </div>
           <div class="s-sec">Claude can</div>
           <div class="s-list">
-            <div class="s-row"><div><b>Read my diary and goals</b><small>Search foods, see what's left</small></div><span class="toggle" aria-label="On"></span></div>
-            <div class="s-row"><div><b>Log and edit food <span class="prem-tag">Premium</span></b><small>Add, change, and undo entries</small></div><span class="toggle" aria-label="On"></span></div>
-            <div class="s-row"><div><b>Log weight and water <span class="prem-tag">Premium</span></b><small>Weigh-ins and daily water</small></div><span class="toggle" aria-label="On"></span></div>
+            <div class="s-row"><div><b>Read my diary and goals</b><small>Search foods, see what's left</small></div><span class="tg" aria-hidden="true"></span></div>
+            <div class="s-row"><div><b>Log and edit food</b> <span class="prem">Premium</span><small>Add, change, and undo entries</small></div><span class="tg" aria-hidden="true"></span></div>
+            <div class="s-row"><div><b>Weight and water</b> <span class="prem">Premium</span><small>Log weigh-ins and daily water</small></div><span class="tg" aria-hidden="true"></span></div>
           </div>
-          <div class="s-list"><div class="s-row"><b style="color:#D70015">Disconnect Claude</b></div></div>
-        </div></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="plans" class="demo-bg">
-    <div class="wrap center">
-      <div class="eyebrow">Compare Free vs Premium</div>
-      <h2>There's even more to love with Premium</h2>
-      <p class="lede">Your plans table today, with two rows added. Asking about your diary is free and gets people hooked. Logging from an assistant is what keeps them paying.</p>
-    </div>
-    <div class="wrap">
-      <div class="plans">
-        <div class="ptable" role="table" aria-label="Free versus Premium features, with two proposed rows">
-          <div class="dark" aria-hidden="true"></div>
-          <div role="row" style="display:contents">
-            <div class="ph" role="columnheader" style="grid-column:1;visibility:hidden">Feature</div>
-            <div class="ph" role="columnheader" style="grid-column:2">Free</div>
-            <div class="ph prem" role="columnheader" style="grid-column:3">Premium</div>
-          </div>
+          <div style="height:18px" aria-hidden="true"></div>
+          <div class="s-list"><div class="s-row"><span class="danger">Disconnect Claude</span></div></div>
         </div>
       </div>
-      <p class="plans-note">Premium is $79.99 a year today. The two darker rows are the proposal.</p>
-      <div class="today">
-        <button type="button" id="show-today" aria-expanded="false" aria-controls="today-img">Show today's table on myfitnesspal.com</button>
-        <img id="today-img" src="img/mfp-plans-today.png" alt="Screenshot of the current Free vs Premium comparison table on myfitnesspal.com, captured September 27, 2026" width="1280" height="908" hidden>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="plans" aria-labelledby="plans-h" style="padding-top:24px">
+  <div class="wrap">
+    <p class="compare-k">Compare Free vs Premium</p>
+    <h2 class="compare-h" id="plans-h">There&rsquo;s even more to love with Premium</h2>
+    <p class="compare-sub">Your comparison table as it runs today, with two rows added. Asking about your diary is free and builds the habit. Logging from an assistant is what people pay to keep.</p>
+
+    <div class="ptable-wrap">
+      <div class="ptable" role="table" aria-label="Free versus Premium, with two proposed rows">
+        <div class="panel" aria-hidden="true"></div>
+        <div class="blue" aria-hidden="true"></div>
+        <div role="row" style="display:contents">
+          <span role="columnheader" class="sr">Feature</span>
+          <div class="ph" role="columnheader" style="grid-column:2">Free</div>
+          <div class="ph pr" role="columnheader" style="grid-column:3">Premium</div>
+        </div>
       </div>
     </div>
-  </section>
+    <div class="ptable-cta"><span class="pill yellow" aria-hidden="true">Start free trial <svg><use href="#chev"/></svg></span></div>
 
-  <section>
-    <div class="wrap">
-      <div class="center">
-        <div class="eyebrow">Who's already doing this</div>
-        <h2>Strava made it a subscriber perk. Buffer made it the default.</h2>
-        <p class="lede">Two apps members already pay for shipped official MCP servers in 2026. Strava's reasoning reads like it was written about MyFitnessPal.</p>
-      </div>
-      <div class="proof-grid">
-        <article class="proof">
-          <div class="shot"><img src="img/strava-press.jpg" alt="Strava press release, June 1, 2026: Strava Launches MCP Connector, Allowing Athletes to Sync Training History to Claude" loading="lazy" width="1280" height="1790"></div>
-          <div class="body">
-            <div class="meta"><span class="tag y">Subscribers only</span><span class="tag">Launched June 1, 2026</span><span class="tag">Read-only</span></div>
-            <h3>Strava</h3>
-            <blockquote>"They've been doing it with spreadsheets, exports, and third-party scripts for years. The MCP connector gives them a far more efficient, safer tool while keeping the athlete in control, representing a step-change in our subscription offering."</blockquote>
-            <cite>Ryan Dixon, VP Partnerships &amp; Developer Relations, Strava. <a href="https://press.strava.com/articles/strava-launches-mcp-connector" target="_blank" rel="noopener">Press release</a></cite>
-            <p>Strava's is read-only: it can't upload or edit activities. For food, writing is the whole point, so MyFitnessPal would ship something Strava hasn't.</p>
-          </div>
-        </article>
-        <article class="proof">
-          <div class="shot"><img src="img/buffer-mcp.jpg" alt="Buffer MCP page: Manage social media using an AI agent, with a three-step how it works section" loading="lazy" width="1280" height="1250"></div>
-          <div class="body">
-            <div class="meta"><span class="tag">Every plan, even Free</span><span class="tag">Launched May 27, 2026</span><span class="tag y">Can write</span></div>
-            <h3>Buffer</h3>
-            <blockquote>"That means you can tell your AI agent, 'Schedule three posts promoting this week's blog,' and it will actually do it."</blockquote>
-            <cite>Buffer, "Buffer's API is Open for Building." <a href="https://buffer.com/resources/buffer-api-is-here/" target="_blank" rel="noopener">Announcement</a> &middot; <a href="https://buffer.com/mcp" target="_blank" rel="noopener">buffer.com/mcp</a></cite>
-            <p>Buffer's version writes, with a safety net: posts land as drafts, and "nothing publishes without you seeing it first." The "via Claude" tag with undo is the same idea for a food diary.</p>
-          </div>
-        </article>
-      </div>
-      <p class="also"><b>Also:</b> Todoist runs an official hosted MCP server that creates and updates tasks, and features that are Pro in the app stay Pro through the assistant. That's the packaging model proposed here.</p>
+    <div class="legend">
+      <div><b><span class="tagp">Proposed</span>AI Assistant Access</b><p>Claude, ChatGPT, and others can read the diary, goals, and food history, and answer "what's left today?" Free, because it builds the habit.</p></div>
+      <div><b><span class="tagp">Proposed</span>Log From Any Assistant</b><p>Log, edit, and undo food by text from the assistant a member already uses. Premium, next to Voice Log.</p></div>
     </div>
-  </section>
 
-  <section class="dark-sec">
-    <div class="wrap">
-      <div class="eyebrow">Why MyFitnessPal is ready</div>
-      <h2>Most of the pieces already exist.</h2>
-      <div class="why">
-        <div><h3>Members are already building it</h3><p>An <a href="https://github.com/Mason-Levyy/myfitnesspal-mcp" target="_blank" rel="noopener">unofficial MCP server</a> logs food by scraping the website with a pasted session cookie, and <a href="https://github.com/coddingtonbear/python-myfitnesspal" target="_blank" rel="noopener">python-myfitnesspal</a> reads diaries through browser cookies. That's Strava's "third-party scripts," word for word.</p></div>
-        <div><h3>You've already bet on fast logging</h3><p>Voice Log, Meal Scan, the ChatGPT app, and the Cal AI acquisition all push toward logging with less effort. An MCP server meets members in the assistant they already have open.</p></div>
-        <div><h3>The plumbing is there</h3><p>MyFitnessPal already runs a partner API with OAuth for connected apps. An MCP server is a thin, well-understood layer over the same diary and food search.</p></div>
-      </div>
+    <div class="before">
+      <button type="button" id="show-today" aria-expanded="false" aria-controls="today-fig"><span>See the table as it looks today</span> <svg aria-hidden="true"><use href="#chev-down"/></svg></button>
+      <figure id="today-fig" hidden>
+        <img src="img/mfp-plans-today.png" alt="The current Free vs Premium comparison table on myfitnesspal.com/premium, with eight rows from Nutrition and Weight Tracking to Food Insights and Comparison" width="1280" height="920" loading="lazy">
+        <figcaption>myfitnesspal.com/premium, captured September 27, 2026.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 
-      <div class="tools">
-        <table>
-          <thead><tr><th>Tool</th><th>What it does</th><th>Plan</th></tr></thead>
-          <tbody>
-            <tr><td><code>search_foods</code></td><td>Searches the database, with the member's recent and saved foods ranked first</td><td><span class="plan-f">Everyone</span></td></tr>
-            <tr><td><code>get_diary</code></td><td>Reads any day's entries by meal</td><td><span class="plan-f">Everyone</span></td></tr>
-            <tr><td><code>get_remaining</code></td><td>Calories and macros left against today's goals</td><td><span class="plan-f">Everyone</span></td></tr>
-            <tr><td><code>log_food</code></td><td>Adds one or more foods to a named meal, with serving and quantity</td><td><span class="plan-p">Premium</span></td></tr>
-            <tr><td><code>quick_add</code></td><td>Logs raw calories and macros when there's no good match</td><td><span class="plan-p">Premium</span></td></tr>
-            <tr><td><code>update_entry</code></td><td>Changes or removes an entry the member points to</td><td><span class="plan-p">Premium</span></td></tr>
-            <tr><td><code>undo_last</code></td><td>Removes whatever the assistant logged most recently</td><td><span class="plan-p">Premium</span></td></tr>
-            <tr><td><code>log_weight</code></td><td>Records a weigh-in or water</td><td><span class="plan-p">Premium</span></td></tr>
-          </tbody>
-        </table>
+<section class="pad proof-sec" aria-labelledby="proof-h">
+  <div class="wrap">
+    <div class="sec-h center" style="text-align:center">
+      <h2 id="proof-h"><b>Strava made it a subscriber perk.</b> Buffer made it the default.</h2>
+      <p>Two apps members already pay for shipped official MCP servers this year. Strava's reasoning reads like it was written about MyFitnessPal.</p>
+    </div>
+
+    <div class="lead-proof">
+      <div>
+        <div class="browser">
+          <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">press.strava.com/articles/strava-launches-mcp-connector</span></div>
+          <img class="pad-shot" src="img/strava-press.jpg" alt="Strava press release headline: Strava Launches MCP Connector, Allowing Athletes to Sync Training History to Claude. June 1, 2026." width="1060" height="270">
+        </div>
+        <div class="browser quote-shot">
+          <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">Same release, a few paragraphs down</span></div>
+          <img src="img/strava-quote.jpg" alt="Quote from Ryan Dixon, VP Partnerships and Developer Relations at Strava: They've been doing it with spreadsheets, exports, and third-party scripts for years. The MCP connector gives them a far more efficient, safer tool while keeping the athlete in control, representing a step-change in our subscription offering." width="730" height="275" loading="lazy">
+        </div>
       </div>
-      <div class="rails">
-        <div><b>Scoped and revocable</b><span>Separate read and write permissions, visible and removable in Settings.</span></div>
-        <div><b>Visible in the diary</b><span>Assistant entries carry a "via" tag and undo in one tap.</span></div>
-        <div><b>Safe to retry</b><span>Writes take a request ID, so a flaky connection never double-logs.</span></div>
-        <div><b>Never guesses the meal</b><span>A missing meal is a question back to the member, not a default.</span></div>
+      <div class="proof-copy">
+        <h3><b>Strava</b></h3>
+        <ul class="facts">
+          <li><svg aria-hidden="true"><use href="#ck-y"/></svg><span>Launched June 1, 2026, starting with Claude</span></li>
+          <li><svg aria-hidden="true"><use href="#ck-y"/></svg><span>Subscribers only, part of the Strava subscription</span></li>
+          <li><svg aria-hidden="true"><use href="#ck-y"/></svg><span>Their VP of Partnerships called it "a step-change in our subscription offering"</span></li>
+        </ul>
+        <p class="gap-callout">Strava's connector is read-only: it can't upload or edit activities. For food, <b>writing is the whole point</b>, so MyFitnessPal would ship something Strava hasn't.</p>
+        <p class="read"><a href="https://press.strava.com/articles/strava-launches-mcp-connector" target="_blank" rel="noopener">Read Strava's announcement</a></p>
       </div>
     </div>
-  </section>
 
-  <section class="close">
-    <div class="wrap">
-      <h2>Fifteen years in, I'd still renew for this.</h2>
-      <p>If you're on the MyFitnessPal product team and this is interesting, I'd love to walk through it. It's the kind of thing I build for fun, and I'd rather build it with you.</p>
-      <div class="ctas" style="justify-content:center"><a class="pill yellow" href="https://middleton.io/">Get in touch</a></div>
+    <div class="second">
+      <div class="proof-copy">
+        <h3><b>Buffer</b></h3>
+        <blockquote>"That means you can tell your AI agent, 'Schedule three posts promoting this week's blog,' and it will actually do it."</blockquote>
+        <cite>"Buffer's API is Open for Building," May 27, 2026</cite>
+        <p class="more">Buffer put its MCP server on every plan, even Free, and it writes. Posts land in the queue for review first, because "nothing publishes without you seeing it first." The "via Claude" tag with undo is the same safety net for a food diary.</p>
+        <p class="read"><a href="https://buffer.com/resources/buffer-api-is-here/" target="_blank" rel="noopener">Read Buffer's announcement</a></p>
+      </div>
+      <div class="browser">
+        <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">buffer.com/mcp</span></div>
+        <img src="img/buffer-mcp.jpg" alt="Buffer's MCP page: Manage social media using an AI agent. Draft posts, schedule them, and check what's coming up right in Claude, ChatGPT, or the other tools you're already in all day." width="600" height="320" loading="lazy">
+      </div>
     </div>
-  </section>
-</main>
+
+    <div class="todoist">
+      <h3>And Todoist</h3>
+      <p>Todoist runs an official hosted MCP server that creates and updates tasks for everyone, and features that are Pro in the app stay Pro through the assistant. That's the packaging proposed here.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pad ready" aria-labelledby="ready-h">
+  <div class="wrap">
+    <div class="sec-h">
+      <h2 id="ready-h"><b>Most of the pieces</b> already exist</h2>
+      <p>This is a thin layer on top of work MyFitnessPal has already done.</p>
+    </div>
+    <div class="reasons">
+      <div><h3>Members are already building it</h3><p>An <a href="https://github.com/Mason-Levyy/myfitnesspal-mcp" target="_blank" rel="noopener">unofficial MCP server</a> logs food by scraping the website with a pasted session cookie, and <a href="https://github.com/coddingtonbear/python-myfitnesspal" target="_blank" rel="noopener">python-myfitnesspal</a> reads diaries through browser cookies. That's Strava's "third-party scripts," word for word.</p></div>
+      <div><h3>You've already bet on fast logging</h3><p>Voice Log, Meal Scan, the ChatGPT app, and the Cal AI acquisition all push toward logging with less effort. An MCP server meets members in the assistant they already have open.</p></div>
+      <div><h3>The plumbing is there</h3><p>MyFitnessPal already runs a partner API with OAuth for connected apps. An MCP server exposes the same diary and food search in a shape assistants understand.</p></div>
+    </div>
+
+    <h3 class="tools-h">Eight tools cover almost everything</h3>
+    <p class="tools-sub">Three are free and read-only. Five write to the diary and live in Premium.</p>
+    <div class="tools">
+      <table>
+        <thead><tr><th scope="col">Tool</th><th scope="col">What it does</th><th scope="col">Plan</th></tr></thead>
+        <tbody>
+          <tr><td><code>search_foods</code></td><td>Searches the database, with the member's recent and saved foods ranked first</td><td><span class="pl all">Everyone</span></td></tr>
+          <tr><td><code>get_diary</code></td><td>Reads any day's entries by meal</td><td><span class="pl all">Everyone</span></td></tr>
+          <tr><td><code>get_remaining</code></td><td>Calories and macros left against today's goals</td><td><span class="pl all">Everyone</span></td></tr>
+          <tr><td><code>log_food</code></td><td>Adds one or more foods to a named meal, with serving and quantity</td><td><span class="pl pr">Premium</span></td></tr>
+          <tr><td><code>quick_add</code></td><td>Logs raw calories and macros when there's no good match</td><td><span class="pl pr">Premium</span></td></tr>
+          <tr><td><code>update_entry</code></td><td>Changes or removes an entry the member points to</td><td><span class="pl pr">Premium</span></td></tr>
+          <tr><td><code>undo_last</code></td><td>Removes whatever the assistant logged most recently</td><td><span class="pl pr">Premium</span></td></tr>
+          <tr><td><code>log_weight</code></td><td>Records a weigh-in or water</td><td><span class="pl pr">Premium</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rails">
+      <div><svg aria-hidden="true"><use href="#lock"/></svg><b>Scoped and revocable</b><span>Separate read and write permissions, visible and removable in Settings.</span></div>
+      <div><svg aria-hidden="true"><use href="#tag"/></svg><b>Visible in the diary</b><span>Assistant entries carry a "via" tag and undo in one tap.</span></div>
+      <div><svg aria-hidden="true"><use href="#repeat"/></svg><b>Safe to retry</b><span>Writes take a request ID, so a flaky connection never double-logs.</span></div>
+      <div><svg aria-hidden="true"><use href="#ask"/></svg><b>Never guesses the meal</b><span>A missing meal is a question back to the member.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="close" aria-labelledby="close-h">
+  <div class="wrap">
+    <h2 id="close-h"><b>Fifteen years in,</b> I'd still renew for this</h2>
+    <p>If you're on the MyFitnessPal product team and this is interesting, I'd love to walk you through it.</p>
+    <div class="ctas"><a class="pill white" href="mailto:kevin@middleton.io?subject=MyFitnessPal%20%C3%97%20AI%20assistants">Email Kevin <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
+    <p class="email">kevin@middleton.io &middot; <a href="https://middleton.io/">middleton.io</a></p>
+  </div>
+</section>
 
 <footer>
   <div class="wrap">
@@ -459,137 +668,160 @@
           <li><a href="https://buffer.com/resources/buffer-api-is-here/" target="_blank" rel="noopener">Buffer's API is Open for Building</a>, May 27, 2026</li>
           <li><a href="https://buffer.com/mcp" target="_blank" rel="noopener">Buffer MCP</a></li>
           <li><a href="https://www.todoist.com/help/articles/use-chatgpt-with-todoist-mcp-WEeLx9d8h" target="_blank" rel="noopener">Todoist MCP</a></li>
-          <li><a href="https://www.myfitnesspal.com/premium" target="_blank" rel="noopener">MyFitnessPal Premium</a>, table captured September 27, 2026</li>
+          <li><a href="https://www.myfitnesspal.com/premium" target="_blank" rel="noopener">MyFitnessPal Premium</a>, captured September 27, 2026</li>
         </ul>
       </div>
       <div>
         <b>About this concept</b>
-        <p style="margin-top:8px">Built by <a href="https://middleton.io/">Kevin Middleton</a>, a product manager and MyFitnessPal member since 2011. More work in <a href="https://middleton.io/prototypes/">prototypes</a>.</p>
+        <p style="margin-top:12px">Built by <a href="https://middleton.io/">Kevin Middleton</a>, a product manager and MyFitnessPal member since 2011. More work in <a href="https://middleton.io/prototypes/">prototypes</a>.</p>
       </div>
     </div>
-    <p class="legal">MyFitnessPal is a trademark of MyFitnessPal, Inc. Strava, Buffer, Todoist, Claude, and ChatGPT belong to their owners. This is an unsolicited concept, not an official product or announcement. Screenshots are shown for commentary. Diary numbers are examples.</p>
+    <p class="legal">MyFitnessPal is a trademark of MyFitnessPal, Inc. Strava, Buffer, Todoist, Claude, and ChatGPT belong to their owners. This is an unsolicited concept, not an official product or announcement. Screenshots of public pages are shown for commentary. Diary numbers are examples.</p>
   </div>
 </footer>
 
 <script>
 (function(){
-  // ---- plans table: MyFitnessPal's current rows, plus two proposed rows ----
+  var U = function(id, cls){ return '<svg class="' + (cls || 'icon') + '" aria-hidden="true"><use href="#' + id + '"/></svg>'; };
+
+  // ---- plans table: MyFitnessPal's eight rows, plus two proposed rows ----
   var rows = [
-    ['Nutrition &amp; Weight Tracking', 1, 1],
-    ['Exercise Tracking', 1, 1],
-    ['Ask Your AI Assistant About Your Diary', 1, 1, 'Reads your diary, goals, and food history from Claude, ChatGPT, and others.'],
-    ['Barcode Scan &amp; Meal Scan', 0, 1],
-    ['Voice Log', 0, 1, null, true],
-    ['Log From Any AI Assistant', 0, 1, 'Log, edit, and undo food by text from the assistant you already use.'],
-    ['Macro Tracking with Custom Goals', 0, 1],
-    ['Ad-Free Logging', 0, 1],
-    ['Intermittent Fasting', 0, 1],
-    ['Food Insights &amp; Comparison', 0, 1]
+    ['Nutrition &amp; Weight Tracking', 1],
+    ['Exercise Tracking', 1],
+    ['AI Assistant Access', 1, 'prop'],
+    ['Barcode Scan &amp; Meal Scan', 0],
+    ['Voice Log', 0, 'new'],
+    ['Log From Any Assistant', 0, 'prop'],
+    ['Macro Tracking with Custom Goals', 0],
+    ['Ad-Free Logging', 0],
+    ['Intermittent Fasting', 0],
+    ['Food Insights &amp; Comparison', 0]
   ];
-  var t = document.querySelector('.ptable');
+  var html = '';
   rows.forEach(function(r, i){
-    var row = i + 2, added = !!r[3];
-    var f = document.createElement('div');
-    f.className = 'pf' + (i === 0 ? ' first' : '') + (i === rows.length - 1 ? ' last' : '') + (added ? ' added' : '');
-    f.style.gridRow = row;
-    f.setAttribute('role','rowheader');
-    f.innerHTML = r[0] + (added || r[4] ? ' <span class="newb">New!</span>' : '') + (added ? '<small>' + r[3] + '</small>' : '');
-    t.appendChild(f);
-    [r[1], r[2]].forEach(function(v, j){
-      var c = document.createElement('div');
-      c.className = 'pc'; c.style.gridRow = row; c.style.gridColumn = j + 2;
-      c.setAttribute('role','cell');
-      c.innerHTML = v ? '<span class="ck' + (j === 0 ? ' free' : '') + '" aria-label="Included"></span>' : '<span class="dash" aria-label="Not included"></span>';
-      t.appendChild(c);
-    });
+    var row = i + 2;
+    var tag = r[2] === 'new' ? '<span class="new">New!</span>' : r[2] === 'prop' ? '<span class="tagp">Proposed</span>' : '';
+    html += '<div role="row" style="display:contents">' +
+      '<div role="rowheader" class="pf' + (i === 0 ? ' r2' : '') + (r[2] === 'prop' ? ' prop' : '') + '" style="grid-row:' + row + '">' + r[0] + ' ' + U('info', 'i') + tag + '</div>' +
+      '<div role="cell" class="pc" style="grid-row:' + row + ';grid-column:2">' + (r[1] ? U('ck-o', '') + '<span class="sr">Included</span>' : '<span class="dash"></span><span class="sr">Not included</span>') + '</div>' +
+      '<div role="cell" class="pc" style="grid-row:' + row + ';grid-column:3">' + U('ck-y', '') + '<span class="sr">Included</span></div>' +
+      '</div>';
   });
-  var pad = document.createElement('div'); pad.style.gridRow = rows.length + 2; pad.style.gridColumn = '2 / 4'; pad.style.height = '20px'; t.appendChild(pad);
+  document.querySelector('.ptable').insertAdjacentHTML('beforeend', html);
 
-  var btn = document.getElementById('show-today'), img = document.getElementById('today-img');
+  var btn = document.getElementById('show-today'), fig = document.getElementById('today-fig');
   btn.addEventListener('click', function(){
-    img.hidden = !img.hidden;
-    btn.setAttribute('aria-expanded', String(!img.hidden));
-    btn.textContent = img.hidden ? "Show today's table on myfitnesspal.com" : "Hide today's table";
+    fig.hidden = !fig.hidden;
+    btn.setAttribute('aria-expanded', String(!fig.hidden));
+    btn.querySelector('span').textContent = fig.hidden ? 'See the table as it looks today' : 'Hide today’s table';
   });
 
-  // ---- demo ----
+  // ---- the day's food (example numbers) ----
+  // [name, serving, kcal, carbs g, fat g, protein g, key]
   var breakfast = [
-    ['Greek Yogurt, Nonfat Plain', '1 container (170 g)', 100],
-    ['Blueberries', '1/2 cup', 42],
-    ['Cold Brew with Oat Milk', '16 fl oz', 60]
+    ['Greek Yogurt, Nonfat Plain', '1 container (170 g)', 100, 6, 1, 18],
+    ['Blueberries', '1/2 cup', 42, 11, 0, 1],
+    ['Cold Brew with Oat Milk', '16 fl oz', 60, 8, 3, 1]
   ];
   var lunch = [
-    ['Chipotle, Chicken', '4 oz', 180, 'chicken'],
-    ['Chipotle, Fajita Veggies', '2 oz', 20],
-    ['Chipotle, Black Beans', '4 oz', 130],
-    ['Chipotle, Guacamole', '4 oz', 230, 'guac'],
-    ['Chipotle, Romaine Lettuce', '1 oz', 5]
+    ['Chipotle, Chicken', '4 oz', 180, 0, 7, 32],
+    ['Chipotle, Fajita Veggies', '2 oz', 20, 5, 0, 1],
+    ['Chipotle, Black Beans', '4 oz', 130, 22, 2, 8],
+    ['Chipotle, Guacamole', '4 oz', 230, 8, 22, 2, 'guac'],
+    ['Chipotle, Romaine Lettuce', '1 oz', 5, 1, 0, 0]
   ];
+  var GOAL = { kcal: 2100, c: 210, f: 70, p: 160 };
+
+  function totals(list, skipGuac){
+    return list.reduce(function(a, x){
+      if (skipGuac && x[6] === 'guac') return a;
+      return { kcal: a.kcal + x[2], c: a.c + x[3], f: a.f + x[4], p: a.p + x[5] };
+    }, { kcal: 0, c: 0, f: 0, p: 0 });
+  }
+  function pct(t){
+    var c = t.c * 4, f = t.f * 9, p = t.p * 4, s = c + f + p || 1;
+    return 'C ' + Math.round(c / s * 100) + '% · F ' + Math.round(f / s * 100) + '% · P ' + Math.round(p / s * 100) + '%';
+  }
+  function fmt(n){ return n.toLocaleString('en-US'); }
+
+  function todayScreen(state){
+    var b = totals(breakfast), l = totals(lunch, state.noGuac);
+    var day = { kcal: b.kcal + l.kcal, c: b.c + l.c, f: b.f + l.f, p: b.p + l.p };
+    var left = GOAL.kcal - day.kcal;
+    var w = function(v, g){ return Math.min(100, Math.round(v / g * 100)) + '%'; };
+    var items = lunch.map(function(x){
+      var gone = state.noGuac && x[6] === 'guac';
+      return '<div class="it' + (state.fresh ? ' fresh' : '') + (gone ? ' gone' : '') + '"><div><div class="nm">' + x[0] + '</div><div class="sv">' + x[1] +
+        '<span class="via">' + U('burst') + 'via Claude</span></div></div><div class="kc">' + x[2] + '</div></div>';
+    }).join('');
+    var kept = lunch.filter(function(x){ return !(state.noGuac && x[6] === 'guac'); }).length;
+    return '<div class="status"><span>12:41</span>' + U('sig', '') + '</div><div class="island" aria-hidden="true"></div>' +
+      '<div class="t-head"><div class="t-title"><b>Today ' + U('chev-down', '') + '</b><span class="streak">412 day streak</span></div>' +
+      '<div class="week">' + ['S','M','T','W','T','F','S'].map(function(d, i){ return '<span>' + d + '<i class="dot' + (i < 5 ? ' on' : i === 5 ? ' now' : '') + '"></i></span>'; }).join('') + '</div></div>' +
+      '<div class="t-scroll">' +
+        '<div class="tcard"><div class="cal-top"><div><span class="lbl">Calories</span><b>' + fmt(day.kcal) + ' cal</b> <small>/ ' + fmt(GOAL.kcal) + '</small></div><span class="left">' + fmt(left) + ' left</span></div><div class="bar"><i style="width:' + w(day.kcal, GOAL.kcal) + '"></i></div></div>' +
+        '<div class="tcard macros">' +
+          '<div class="c"><div class="lbl">Carbs</div><b>' + day.c + ' g</b> <small>/ ' + GOAL.c + '</small><div class="bar"><i style="width:' + w(day.c, GOAL.c) + '"></i></div></div>' +
+          '<div class="f"><div class="lbl">Fat</div><b>' + day.f + ' g</b> <small>/ ' + GOAL.f + '</small><div class="bar"><i style="width:' + w(day.f, GOAL.f) + '"></i></div></div>' +
+          '<div class="p"><div class="lbl">Protein</div><b>' + day.p + ' g</b> <small>/ ' + GOAL.p + '</small><div class="bar"><i style="width:' + w(day.p, GOAL.p) + '"></i></div></div>' +
+        '</div>' +
+        '<div class="diary-h">Diary<span>View all</span></div>' +
+        '<div class="meal"><div class="meal-row">' + U('cup', '') + '<div><b>Breakfast</b><div class="sum">Greek Yogurt and 2 more</div></div><span class="log-btn">Log</span><div class="mac">' + b.kcal + ' cal · ' + pct(b) + '</div></div></div>' +
+        '<div class="meal"><div class="meal-row">' + U('bowl', '') + '<div><b>Lunch</b><div class="sum">Chipotle, Chicken and ' + (kept - 1) + ' more</div></div><span class="log-btn">Log</span><div class="mac">' + l.kcal + ' cal · ' + pct(l) + '</div></div><div class="items">' + items + '</div></div>' +
+        '<div class="meal"><div class="meal-row">' + U('plate', '') + '<div><b>Dinner</b><div class="sum">Nothing logged yet</div></div><span class="log-btn">Log</span></div></div>' +
+        '<div class="meal"><div class="meal-row">' + U('apple', '') + '<div><b>Snacks</b><div class="sum">Nothing logged yet</div></div><span class="log-btn">Log</span></div></div>' +
+      '</div>' +
+      '<div class="tabs"><span class="on">' + U('home', '') + 'Today</span><span>' + U('cal', '') + 'Plan</span><span><i class="plus">' + U('plus', '') + '</i></span><span>' + U('bars', '') + 'Progress</span><span>' + U('more', '') + 'More</span></div>';
+  }
+
+  // ---- chat scenarios ----
   var scenarios = {
     log: {
+      state: { fresh: true },
       chat: [
         ['u', 'log lunch: chipotle bowl, chicken, no rice, fajita veggies, black beans, guac'],
-        ['t', 'search_foods', '"chipotle", recent first'],
-        ['t', 'log_food', 'meal: Lunch, 5 items'],
-        ['t', 'get_remaining', 'today'],
-        ['a', ['Logged 5 items to <b>Lunch</b>: 565 cal, 43 g protein.', 'You have <b>1,333 cal</b> and 98 g protein left today. Say "undo" if anything looks off.']]
-      ],
-      food: 767, remaining: '1,333', lunchNew: true, guacGone: false
+        ['t', ['search_foods(<em>"chipotle"</em>, recent first)', 'log_food(meal: <em>Lunch</em>, 5 items)', 'get_remaining(<em>today</em>)']],
+        ['a', ['Logged 5 items to <b>Lunch</b>: 565 cal and 43 g protein.', 'You have <b>1,333 cal</b> and 97 g protein left today. Say "undo" if anything looks off.']]
+      ]
     },
     dinner: {
+      state: {},
       chat: [
         ['u', 'what should I have for dinner?'],
-        ['t', 'get_remaining', 'today'],
-        ['t', 'get_diary', 'last 30 days, Dinner'],
-        ['a', ['You have <b>1,333 cal</b> and 98 g protein left. Two dinners you log a lot that fit:', '1. Salmon, rice, and broccoli: about 650 cal, 42 g protein.<br>2. The chicken shawarma bowl from last Tuesday: 610 cal, 48 g protein.', 'Tell me which one when you eat and I\'ll log it.']]
-      ],
-      food: 767, remaining: '1,333', lunchNew: false, guacGone: false
+        ['t', ['get_remaining(<em>today</em>)', 'get_diary(<em>last 30 days</em>, Dinner)']],
+        ['a', ['You have <b>1,333 cal</b> and 97 g protein left. Two dinners you log often that fit:', '<ol><li>Salmon, rice, and broccoli: about 650 cal, 42 g protein</li><li>The chicken shawarma bowl from last Tuesday: 610 cal, 48 g protein</li></ol>', 'Tell me which one when you eat and I\'ll log it.']]
+      ]
     },
     fix: {
+      state: { noGuac: true },
       chat: [
         ['u', 'actually I skipped the guac'],
-        ['t', 'get_diary', 'today, Lunch'],
-        ['t', 'update_entry', 'remove "Chipotle, Guacamole"'],
-        ['a', ['Removed <b>Guacamole</b> from Lunch. Lunch is now 335 cal.', 'You have <b>1,563 cal</b> left today.']]
-      ],
-      food: 537, remaining: '1,563', lunchNew: false, guacGone: true
+        ['t', ['get_diary(<em>today</em>, Lunch)', 'update_entry(remove <em>Chipotle, Guacamole</em>)']],
+        ['a', ['Removed <b>Guacamole</b> from Lunch, so Lunch is now 335 cal.', 'You have <b>1,563 cal</b> left today.']]
+      ]
     }
   };
 
-  function sum(list, skip){ return list.reduce(function(n, x){ return n + (skip && x[3] === 'guac' ? 0 : x[2]); }, 0); }
-  function item(x, opts){
-    var cls = 'item' + (opts.isNew ? ' new' : '') + (opts.gone ? ' gone' : '');
-    return '<div class="' + cls + '"><div><div class="nm">' + x[0] + (opts.via ? '<span class="via">via Claude</span>' : '') + '</div><div class="sv">' + x[1] + '</div></div><div class="kc">' + x[2] + '</div></div>';
-  }
-  function meal(name, list, opts){
-    opts = opts || {};
-    var total = opts.list ? sum(list, opts.guacGone) : 0;
-    var body = (list || []).map(function(x){
-      return item(x, { via: opts.via, isNew: opts.isNew, gone: opts.guacGone && x[3] === 'guac' });
-    }).join('');
-    return '<div class="meal"><div class="meal-h"><span>' + name + '</span><span>' + (total || '') + '</span></div>' + body + '<div class="add">Add food</div></div>';
-  }
+  var chat = document.getElementById('chat'), demo = document.getElementById('demo-screen');
   function render(key){
     var s = scenarios[key];
-    document.querySelectorAll('.chip-btn').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.sc === key)); });
-    document.getElementById('chat').innerHTML = s.chat.map(function(m){
-      if (m[0] === 'u') return '<div class="m-user">' + m[1] + '</div>';
-      if (m[0] === 't') return '<div class="tool"><i>&#9679;</i>' + m[1] + ' <span>' + m[2] + '</span></div>';
-      return '<div class="m-ai">' + m[1].map(function(p){ return '<p>' + p + '</p>'; }).join('') + '</div>';
+    document.querySelectorAll('.seg button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.sc === key)); });
+    chat.innerHTML = s.chat.map(function(m){
+      if (m[0] === 'u') return '<div class="u">' + m[1] + '</div>';
+      if (m[0] === 't') return '<div class="used"><span class="used-h"><span class="mfp-chip">' + U('fork', '') + '</span>Used MyFitnessPal</span><div class="calls">' +
+        m[1].map(function(c){ return '<div class="call">' + c + '</div>'; }).join('') + '</div></div>';
+      return '<div class="a">' + m[1].map(function(p){ return p.indexOf('<ol>') === 0 ? p : '<p>' + p + '</p>'; }).join('') + '</div>';
     }).join('');
-    document.getElementById('diary').innerHTML =
-      meal('Breakfast', breakfast, { list: true }) +
-      meal('Lunch', lunch, { list: true, via: true, isNew: s.lunchNew, guacGone: s.guacGone }) +
-      meal('Dinner', [], {}) + meal('Snacks', [], {});
-    document.getElementById('food-total').textContent = s.food.toLocaleString('en-US');
-    document.getElementById('remaining').textContent = s.remaining;
+    demo.innerHTML = todayScreen(s.state);
+    if (s.state.fresh) setTimeout(function(){ demo.querySelectorAll('.it.fresh').forEach(function(el){ el.classList.remove('fresh'); }); }, 900);
   }
-  document.querySelectorAll('.chip-btn').forEach(function(b){
+  document.querySelectorAll('.seg button').forEach(function(b){
     b.addEventListener('click', function(){
       render(b.dataset.sc);
       try { plausible('MFP Proto: Scenario', { props: { scenario: b.dataset.sc } }); } catch(e) {}
     });
   });
+  document.getElementById('hero-screen').innerHTML = todayScreen({});
   render('log');
 })();
 </script>
