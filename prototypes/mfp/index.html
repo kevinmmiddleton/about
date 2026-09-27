@@ -281,8 +281,10 @@
   .facts li{display:grid;grid-template-columns:22px 1fr;gap:10px;font-size:16px}
   .facts svg{width:20px;height:20px;margin-top:3px}
   .lead-proof>*,.second>*,.split>*,.note-grid>*,.hero-grid>*{min-width:0}
-  .quote-shot{margin-top:24px}
   .pad-shot{padding:18px 22px 20px;background:#fff}
+  .shot-gap{display:flex;justify-content:center;gap:6px;padding:4px 0 14px;background:#fff}
+  .shot-gap span{width:5px;height:5px;border-radius:50%;background:var(--line-3)}
+  .shot-quote{padding:0 8px 12px;background:#fff}
   .gap-callout{margin-top:24px;font-size:17px;max-width:34em}
   .gap-callout b{background:linear-gradient(transparent 58%,var(--yellow) 58%)}
   .read{margin-top:14px;font-size:15px}
@@ -566,10 +568,8 @@
         <div class="browser">
           <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">press.strava.com/articles/strava-launches-mcp-connector</span></div>
           <img class="pad-shot" src="img/strava-press.jpg" alt="Strava press release headline: Strava Launches MCP Connector, Allowing Athletes to Sync Training History to Claude. June 1, 2026." width="1060" height="270">
-        </div>
-        <div class="browser quote-shot">
-          <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">Same release, a few paragraphs down</span></div>
-          <img src="img/strava-quote.jpg" alt="Quote from Ryan Dixon, VP Partnerships and Developer Relations at Strava: They've been doing it with spreadsheets, exports, and third-party scripts for years. The MCP connector gives them a far more efficient, safer tool while keeping the athlete in control, representing a step-change in our subscription offering." width="730" height="275" loading="lazy">
+          <div class="shot-gap" aria-hidden="true"><span></span><span></span><span></span></div>
+          <img class="shot-quote" src="img/strava-quote.jpg" alt="Quote from Ryan Dixon, VP Partnerships and Developer Relations at Strava: They've been doing it with spreadsheets, exports, and third-party scripts for years. The MCP connector gives them a far more efficient, safer tool while keeping the athlete in control, representing a step-change in our subscription offering." width="730" height="275" loading="lazy">
         </div>
       </div>
       <div class="proof-copy">
