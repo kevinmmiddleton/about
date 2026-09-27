@@ -306,11 +306,8 @@
 
   /* ---------- ready + tools ---------- */
   .ready{background:var(--ink);color:#fff}
-  .ready .sec-h p{color:#D0D2DA}
-  .pull{margin:40px 0 0;max-width:46rem;padding-left:0}
-  .pull blockquote{margin:0;font-size:clamp(22px,2.6vw,28px);line-height:1.35;font-weight:300;color:#fff;letter-spacing:-.01em}
-  .pull figcaption{margin-top:12px;font-size:15px;color:#A9ADBA}
-  .pull a{color:#fff;text-decoration-color:var(--yellow)}
+  .ready .sec-h p{color:#D0D2DA;max-width:none}
+  .ready .sec-h{max-width:none}
   .reasons{display:grid;grid-template-columns:repeat(2,1fr);margin-top:56px;border-top:1px solid rgba(255,255,255,.16)}
   .reasons div{padding:28px 40px 28px 0;border-bottom:1px solid rgba(255,255,255,.16)}
   .reasons div:nth-child(even){padding-left:40px;padding-right:0;border-left:1px solid rgba(255,255,255,.16)}
@@ -612,12 +609,8 @@
   <div class="wrap">
     <div class="sec-h">
       <h2 id="ready-h"><b>Most of the pieces</b> already exist</h2>
-      <p>An official MCP server is a thin layer on top of work MyFitnessPal has already done. Here is what is in place, and the question a CPO will ask first.</p>
+      <p>An official MCP server is a thin layer on top of work MyFitnessPal has already done.</p>
     </div>
-    <figure class="pull">
-      <blockquote>"The Stripe house view is that most transactions will be between agents within, call it, three years."</blockquote>
-      <figcaption>Patrick Collison, CEO of Stripe, <a href="https://www.youtube.com/watch?v=S_lzYIvtEaQ" target="_blank" rel="noopener">on Claude Code at Stripe</a>, September 2026</figcaption>
-    </figure>
     <div class="reasons">
       <div><h3>Members are already building it</h3><p>An <a href="https://github.com/Mason-Levyy/myfitnesspal-mcp" target="_blank" rel="noopener">unofficial MCP server</a> logs food by scraping the website with a pasted session cookie, and <a href="https://github.com/coddingtonbear/python-myfitnesspal" target="_blank" rel="noopener">python-myfitnesspal</a> reads diaries through browser cookies.</p></div>
       <div><h3>You've already bet on fast logging</h3><p>Voice Log, Meal Scan, the ChatGPT app, and the Cal AI acquisition all push toward logging with less effort. An MCP server gives members one more way to log that works in whatever assistant they already use.</p></div>
@@ -659,7 +652,6 @@
           <li><a href="https://press.strava.com/articles/strava-launches-mcp-connector" target="_blank" rel="noopener">Strava Launches MCP Connector</a>, June 1, 2026</li>
           <li><a href="https://support.strava.com/en-us/articles/15401531-what-is-the-strava-mcp-connector" target="_blank" rel="noopener">What Is the Strava MCP Connector?</a></li>
           <li><a href="https://buffer.com/resources/buffer-api-is-here/" target="_blank" rel="noopener">Buffer's API is Open for Building</a>, May 27, 2026</li>
-          <li><a href="https://www.youtube.com/watch?v=S_lzYIvtEaQ" target="_blank" rel="noopener">Patrick Collison on Claude Code at Stripe</a>, Claude, September 24, 2026</li>
           <li><a href="https://buffer.com/mcp" target="_blank" rel="noopener">Buffer MCP</a></li>
           <li><a href="https://www.globenewswire.com/news-release/2026/07/28/3334299/0/en/New-Peer-Reviewed-Research-Confirms-App-Engagement-as-a-Key-Predictor-of-Weight-Loss-Success.html" target="_blank" rel="noopener">New Peer-Reviewed Research Confirms App Engagement as a Key Predictor of Weight Loss Success</a>, MyFitnessPal, July 28, 2026</li>
           <li><a href="https://www.myfitnesspal.com/premium" target="_blank" rel="noopener">MyFitnessPal Premium</a>, captured September 27, 2026</li>
