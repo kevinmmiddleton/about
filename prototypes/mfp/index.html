@@ -318,9 +318,10 @@
   .pl.all{background:rgba(255,255,255,.12);color:#fff}
   .pl.pr{background:var(--yellow);color:#000}
   .rails{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:48px}
-  .rails svg{width:26px;height:26px;color:var(--yellow)}
-  .rails b{display:block;margin-top:12px;font-size:17px}
-  .rails span{color:#D0D2DA;font-size:15px;display:block;margin-top:4px}
+  .rail-h{display:flex;align-items:center;gap:10px}
+  .rails svg{width:24px;height:24px;color:var(--yellow);flex:none}
+  .rails b{font-size:17px;line-height:1.3}
+  .rails span{color:#D0D2DA;font-size:15px;display:block;margin-top:8px;padding-left:34px}
 
   /* ---------- close ---------- */
   .close{background:linear-gradient(160deg,#1F66EE 0%,var(--blue) 55%,var(--blue-deep) 100%);color:#fff;text-align:center;padding-block:104px}
@@ -636,9 +637,9 @@
     </div>
 
     <div class="rails">
-      <div><svg aria-hidden="true"><use href="#lock"/></svg><b>You're in control</b><span>Choose what your assistant can see and do, and switch it off anytime in Settings.</span></div>
-      <div><svg aria-hidden="true"><use href="#tag"/></svg><b>Every entry is easy to spot</b><span>Anything your assistant logs is labeled in your diary, and one tap undoes it.</span></div>
-      <div><svg aria-hidden="true"><use href="#ask"/></svg><b>It checks before it logs</b><span>Not sure which meal? Your assistant asks you first.</span></div>
+      <div><p class="rail-h"><svg aria-hidden="true"><use href="#lock"/></svg><b>You're in control</b></p><span>Choose what your assistant can see and do, and switch it off anytime in Settings.</span></div>
+      <div><p class="rail-h"><svg aria-hidden="true"><use href="#tag"/></svg><b>Every entry is easy to spot</b></p><span>Anything your assistant logs is labeled in your diary, and one tap undoes it.</span></div>
+      <div><p class="rail-h"><svg aria-hidden="true"><use href="#ask"/></svg><b>It checks before it logs</b></p><span>Not sure which meal? Your assistant asks you first.</span></div>
     </div>
   </div>
 </section>
