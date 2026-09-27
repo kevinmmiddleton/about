@@ -299,9 +299,9 @@
   /* ---------- ready + tools ---------- */
   .ready{background:var(--ink);color:#fff}
   .ready .sec-h p{color:#D0D2DA}
-  .reasons{display:grid;grid-template-columns:repeat(3,1fr);margin-top:56px;border-top:1px solid rgba(255,255,255,.16)}
-  .reasons div{padding:28px 32px 0 0}
-  .reasons div+div{padding-left:32px;border-left:1px solid rgba(255,255,255,.16)}
+  .reasons{display:grid;grid-template-columns:repeat(2,1fr);margin-top:56px;border-top:1px solid rgba(255,255,255,.16)}
+  .reasons div{padding:28px 40px 28px 0;border-bottom:1px solid rgba(255,255,255,.16)}
+  .reasons div:nth-child(even){padding-left:40px;padding-right:0;border-left:1px solid rgba(255,255,255,.16)}
   .reasons h3{font-size:20px;font-weight:700}
   .reasons p{color:#D0D2DA;font-size:16px;margin-top:10px}
   .reasons a{color:#fff;text-decoration-color:var(--yellow);text-decoration-thickness:2px}
@@ -348,8 +348,7 @@
     .lead-proof,.second{gap:32px}
     .second .browser{order:-1}
     .reasons{grid-template-columns:1fr;border-top:0}
-    .reasons div,.reasons div+div{padding:24px 0 0;border-left:0;border-top:1px solid rgba(255,255,255,.16)}
-    .reasons div+div{margin-top:24px}
+    .reasons div,.reasons div:nth-child(even){padding:24px 0;border-left:0;border-bottom:1px solid rgba(255,255,255,.16)}
     .rails{grid-template-columns:1fr}
     .arrow{display:none}
     .stage figure:first-child figcaption{color:#A9ADBA}
@@ -421,8 +420,8 @@
     <div class="hero-grid">
       <div class="hero-copy">
         <p class="kicker">A Premium feature concept</p>
-        <h1>Tell your agent to <b>log lunch.</b></h1>
-        <p class="sub">An official MyFitnessPal MCP server would let members log food, check what's left, and fix mistakes from Claude, ChatGPT, or whatever assistant they already talk to all day.</p>
+        <h1>Tell your assistant to <b>log lunch.</b></h1>
+        <p class="sub">An official MyFitnessPal connection for Claude, ChatGPT, and other assistants would let members log food, check what's left, and fix mistakes from the assistant they already talk to all day.</p>
         <div class="ctas">
           <a class="pill yellow" href="#demo">See it work <svg aria-hidden="true"><use href="#chev"/></svg></a>
         </div>
@@ -440,13 +439,13 @@
   <div class="wrap note-grid">
     <div>
       <h2 id="note-h"><b>Fifteen years</b> of logging, and it's still the part I put off</h2>
-      <p class="side">I've used MyFitnessPal since 2011. Every assistant I use can reach my calendar, my email, and my to-do list. But I still have to log MFP entries. Womp!</p>
+      <p class="side">I've used MyFitnessPal since 2011. Every assistant I use can reach my calendar, my email, and my to-do list. But I still have to log MFP entries by hand.</p>
     </div>
     <article class="letter" aria-label="Letter to the MyFitnessPal team">
       <p>Hi MyFitnessPal team,</p>
-      <p>Logging is still a chore for me. When I went looking for a way to have my assistant do it, I found members already building one: an unofficial MCP server that drives your website with a pasted session cookie. It works until your site changes, and it asks people to hand their login to a stranger's code.</p>
-      <p>Strava hit this same moment in June and turned it into a reason to subscribe. Buffer shipped theirs in May, and I use Buffer more because of it. MyFitnessPal is a better fit than either, because food gets logged in the moment, on a phone, often mid-bite. Voice Log shows you already believe that. An MCP server takes it to wherever members are already talking.</p>
-      <p>Below is the whole idea: the chat, the diary, the settings screen, and your plans table with two new rows. I'm a product manager, so I'm biased toward thinking this is easy. I know it isn't, and I'd love to talk it through.</p>
+      <p>My bet is that the members who log most are the ones who renew. Right now every one of those logs starts with opening the app and searching. Letting members log from the assistant they already have open removes that step, and makes logging a reason to keep Premium.</p>
+      <p>Members are already trying to build this themselves. I found an unofficial connector that drives your website with a pasted session cookie. It works until your site changes, and it asks people to hand their login to a stranger's code. Strava saw the same thing and made an official version part of their subscription in June. MyFitnessPal is an even better fit, because food gets logged in the moment, on a phone, often mid-bite. Voice Log shows you already believe that.</p>
+      <p>Below is the whole idea: the chat, the diary, the settings screen, your plans table with two new rows, and a pilot you could run. I'm a product manager, so I'm biased toward thinking this is easy. I know it isn't, and I'd love to talk it through.</p>
       <p class="sig"><b>Kevin Middleton</b><span>Member since 2011</span></p>
     </article>
   </div>
@@ -455,8 +454,8 @@
 <section class="demo" id="demo" aria-labelledby="demo-h">
   <div class="wrap">
     <div class="demo-head">
-      <h2 id="demo-h">Talk to your assistant. <b>Your diary updates.</b></h2>
-      <p>Pick a moment from a normal day. The assistant checks recent foods first, logs to the meal you named, and says exactly what changed so a wrong match gets caught right away.</p>
+      <h2 id="demo-h">One message in the assistant. <b>The diary updates.</b></h2>
+      <p>Pick a moment from a normal day. The assistant checks recent foods first, logs to the meal the member named, and says exactly what changed so a wrong match gets caught right away.</p>
       <div class="seg" role="group" aria-label="Choose a moment">
         <button type="button" id="sc-log" data-sc="log" aria-pressed="true">Log lunch</button>
         <button type="button" id="sc-dinner" data-sc="dinner" aria-pressed="false">Plan dinner</button>
@@ -480,7 +479,7 @@
         <figcaption>MyFitnessPal, a second later</figcaption>
       </figure>
     </div>
-    <p class="demo-note">Example numbers. Entries an assistant makes carry a <span class="via"><svg aria-hidden="true"><use href="#burst"/></svg>via Claude</span> tag in the diary, and one tap undoes them.</p>
+    <p class="demo-note">Example numbers. The <span class="via"><svg aria-hidden="true"><use href="#burst"/></svg>via Claude</span> tag marks entries an assistant made.</p>
   </div>
 </section>
 
@@ -488,13 +487,13 @@
   <div class="wrap split">
     <div>
       <div class="sec-h">
-        <h2 id="setup-h"><b>Your assistant,</b> connected in one tap</h2>
-        <p>Link Claude or ChatGPT from Settings, right next to the apps and devices members already connect. Reading is for everyone. Logging is the hook to drive (and retain) Premium subscriptions.</p>
+        <h2 id="setup-h"><b>One tap</b> to connect an assistant</h2>
+        <p>Members link Claude or ChatGPT from Settings, next to the apps and devices they already connect. Reading is free for everyone. Logging is the hook to drive (and retain) Premium subscriptions.</p>
       </div>
       <ul class="checks">
-        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>Set up in seconds</b><span>Connect once from Settings with your MyFitnessPal sign-in. Turn it off anytime.</span></div></li>
-        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>See exactly what was added</b><span>Every entry your assistant logs is labeled in your diary, and one tap takes it back.</span></div></li>
-        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>Your assistant double-checks with you</b><span>Didn't say which meal? It asks before logging anything.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>Members stay in control</b><span>Nothing is shared until a member connects an assistant. They pick what it can see and do, and can switch it off anytime.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>Every entry is easy to spot</b><span>Anything an assistant logs is labeled in the diary, and one tap undoes it.</span></div></li>
+        <li><svg aria-hidden="true"><use href="#ck-y"/></svg><div><b>The assistant double-checks</b><span>If a member doesn't say which meal, it asks before logging anything.</span></div></li>
       </ul>
     </div>
     <div style="display:flex;justify-content:center">
@@ -507,7 +506,7 @@
           <div class="s-list">
             <div class="s-row"><div class="s-app"><span class="ic" style="background:#FBEDE7;color:var(--claude)"><svg><use href="#burst"/></svg></span><div><b>Claude</b><small>Connected today</small></div></div><span class="ok"><svg><use href="#ck-g"/></svg>On</span></div>
             <div class="s-row"><div class="s-app"><span class="ic" style="background:#000;color:#fff"><svg><use href="#gpt"/></svg></span><div><b>ChatGPT</b><small>Log from any chat</small></div></div><span class="s-btn">Connect</span></div>
-            <div class="s-row"><div class="s-app"><span class="ic" style="background:var(--blue-tint);color:var(--blue)"><svg><use href="#link"/></svg></span><div><b>Other assistants</b><small>Copy the MCP server link</small></div></div><span class="s-btn">Copy</span></div>
+            <div class="s-row"><div class="s-app"><span class="ic" style="background:var(--blue-tint);color:var(--blue)"><svg><use href="#link"/></svg></span><div><b>Other assistants</b><small>Copy the connection link</small></div></div><span class="s-btn">Copy</span></div>
           </div>
           <div class="s-sec">Claude can</div>
           <div class="s-list">
@@ -527,7 +526,7 @@
   <div class="wrap">
     <p class="compare-k">Compare Free vs Premium</p>
     <h2 class="compare-h" id="plans-h">There&rsquo;s even more to love with Premium</h2>
-    <p class="compare-sub">Mock of your comparison table with two rows added for Agent/MCP support. Asking about your diary is free, but logging from an assistant is what pro users would pay to keep.</p>
+    <p class="compare-sub">A mock of your comparison table with two rows added for assistant support. Asking about the diary is free, but logging from an assistant is what Premium members would pay to keep.</p>
 
     <div class="ptable-wrap">
       <div class="ptable" role="table" aria-label="Free versus Premium, with two proposed rows">
@@ -540,7 +539,6 @@
         </div>
       </div>
     </div>
-    <div class="ptable-cta"><span class="pill yellow" aria-hidden="true">Start free trial <svg><use href="#chev"/></svg></span></div>
 
     <div class="legend">
       <div><b><span class="tagp">Proposed</span>AI Assistant Access</b><p>Claude, ChatGPT, and others can read the diary, goals, and food history, and answer "what's left today?" Free, because it builds the habit.</p></div>
@@ -561,7 +559,7 @@
   <div class="wrap">
     <div class="sec-h center" style="text-align:center">
       <h2 id="proof-h"><b>Strava made it a subscriber perk.</b> Buffer has championed their MCP.</h2>
-      <p>Two apps members already pay for shipped official MCP servers this year. Strava's reasoning reads like it was written about MyFitnessPal.</p>
+      <p>Two subscription apps shipped official MCP servers this year. MCP is the open standard Claude and ChatGPT use to connect to other apps. Strava's reasoning is the closest match to MyFitnessPal's.</p>
     </div>
 
     <div class="lead-proof">
@@ -591,17 +589,13 @@
         <blockquote>"That means you can tell your AI agent, 'Schedule three posts promoting this week's blog,' and it will actually do it."</blockquote>
         <cite>"Buffer's API is Open for Building," May 27, 2026</cite>
         <p class="more">Buffer put its MCP server on every plan, even Free, and it writes. Posts land in the queue for review first, because "nothing publishes without you seeing it first."</p>
+        <p class="more"><b>Why not free, like Buffer?</b> Buffer's writes are drafts that a person reviews before anything posts. In MyFitnessPal the log is the product, and fast logging is already what Premium sells: Voice Log and Meal Scan are both Premium. Reading stays free, so everyone can try it.</p>
         <p class="read"><a href="https://buffer.com/resources/buffer-api-is-here/" target="_blank" rel="noopener">Read Buffer's announcement</a></p>
       </div>
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">buffer.com/mcp</span></div>
         <img src="img/buffer-mcp.jpg" alt="Buffer's MCP page: Manage social media using an AI agent. Draft posts, schedule them, and check what's coming up right in Claude, ChatGPT, or the other tools you're already in all day." width="600" height="320" loading="lazy">
       </div>
-    </div>
-
-    <div class="todoist">
-      <h3>And Todoist</h3>
-      <div><p>Todoist runs an official hosted MCP server that reads, creates, and updates tasks from Claude, ChatGPT, and other assistants, on top of whatever plan you already have.</p><p class="read"><a href="https://www.todoist.com/help/todoist/todoist-and-ai/connect-todoist-to-an-ai-assistant-xMSzFfHng" target="_blank" rel="noopener">Read Todoist's guide</a></p></div>
     </div>
   </div>
 </section>
@@ -610,36 +604,27 @@
   <div class="wrap">
     <div class="sec-h">
       <h2 id="ready-h"><b>Most of the pieces</b> already exist</h2>
-      <p>This is a thin layer on top of work MyFitnessPal has already done.</p>
+      <p>An official MCP server is a thin layer on top of work MyFitnessPal has already done. Here is what is in place, and the question a CPO will ask first.</p>
     </div>
     <div class="reasons">
-      <div><h3>Members are already building it</h3><p>An <a href="https://github.com/Mason-Levyy/myfitnesspal-mcp" target="_blank" rel="noopener">unofficial MCP server</a> logs food by scraping the website with a pasted session cookie, and <a href="https://github.com/coddingtonbear/python-myfitnesspal" target="_blank" rel="noopener">python-myfitnesspal</a> reads diaries through browser cookies. That's Strava's "third-party scripts," word for word.</p></div>
-      <div><h3>You've already bet on fast logging</h3><p>Voice Log, Meal Scan, the ChatGPT app, and the Cal AI acquisition all push toward logging with less effort. An MCP server meets members in the assistant they already have open.</p></div>
-      <div><h3>The plumbing is there</h3><p>MyFitnessPal already runs a partner API with OAuth for connected apps. An MCP server exposes the same diary and food search in a shape assistants understand.</p></div>
+      <div><h3>Members are already building it</h3><p>An <a href="https://github.com/Mason-Levyy/myfitnesspal-mcp" target="_blank" rel="noopener">unofficial MCP server</a> logs food by scraping the website with a pasted session cookie, and <a href="https://github.com/coddingtonbear/python-myfitnesspal" target="_blank" rel="noopener">python-myfitnesspal</a> reads diaries through browser cookies. That's the same "third-party scripts" problem Strava described.</p></div>
+      <div><h3>You've already bet on fast logging</h3><p>Voice Log, Meal Scan, the ChatGPT app, and the Cal AI acquisition all push toward logging with less effort. An MCP server doesn't compete with them. It gives members one way to log that works in whatever assistant they already use.</p></div>
+      <div><h3>The sign-in model exists</h3><p>MyFitnessPal's existing partner integrations already connect outside apps to a member's account with scoped permissions. An MCP server uses the same model for assistants.</p></div>
+      <div><h3>Privacy stays with the member</h3><p>Health data only reaches an assistant after the member connects it, with the permissions they pick, and they can revoke it in one tap. Wrong food matches get caught by the confirmation reply and undone from the diary.</p></div>
     </div>
 
-    <h3 class="tools-h">Everything members (and your agents) need at your fingertips.</h3>
-    <p class="tools-sub">Search foods and check your daily progress. Premium members can log, edit, and undo.</p>
+    <h3 class="tools-h">Everything members (and their assistants) need at their fingertips.</h3>
+    <p class="tools-sub">Anyone can search foods and check daily progress. Premium members can log, edit, and undo.</p>
     <div class="tools">
       <table>
         <thead><tr><th scope="col">Tool</th><th scope="col">What it does</th><th scope="col">Plan</th></tr></thead>
         <tbody>
           <tr><td><code>search_foods</code></td><td>Searches the database, with the member's recent and saved foods ranked first</td><td><span class="pl all">Everyone</span></td></tr>
-          <tr><td><code>get_diary</code></td><td>Reads any day's entries by meal</td><td><span class="pl all">Everyone</span></td></tr>
-          <tr><td><code>get_remaining</code></td><td>Calories and macros left against today's goals</td><td><span class="pl all">Everyone</span></td></tr>
+          <tr><td><code>get_remaining</code></td><td>Reads the diary and what's left against today's goals</td><td><span class="pl all">Everyone</span></td></tr>
           <tr><td><code>log_food</code></td><td>Adds one or more foods to a named meal, with serving and quantity</td><td><span class="pl pr">Premium</span></td></tr>
-          <tr><td><code>quick_add</code></td><td>Logs raw calories and macros when there's no good match</td><td><span class="pl pr">Premium</span></td></tr>
-          <tr><td><code>update_entry</code></td><td>Changes or removes an entry the member points to</td><td><span class="pl pr">Premium</span></td></tr>
-          <tr><td><code>undo_last</code></td><td>Removes whatever the assistant logged most recently</td><td><span class="pl pr">Premium</span></td></tr>
-          <tr><td><code>log_weight</code></td><td>Records a weigh-in or water</td><td><span class="pl pr">Premium</span></td></tr>
+          <tr><td><code>update_entry</code></td><td>Changes, removes, or undoes an entry</td><td><span class="pl pr">Premium</span></td></tr>
         </tbody>
       </table>
-    </div>
-
-    <div class="rails">
-      <div><p class="rail-h"><svg aria-hidden="true"><use href="#lock"/></svg><b>You're in control</b></p><span>Choose what your assistant can see and do, and switch it off anytime in Settings.</span></div>
-      <div><p class="rail-h"><svg aria-hidden="true"><use href="#tag"/></svg><b>Every entry is easy to spot</b></p><span>Anything your assistant logs is labeled in your diary, and one tap undoes it.</span></div>
-      <div><p class="rail-h"><svg aria-hidden="true"><use href="#ask"/></svg><b>It checks before it logs</b></p><span>Not sure which meal? Your assistant asks you first.</span></div>
     </div>
   </div>
 </section>
@@ -647,7 +632,8 @@
 <section class="close" aria-labelledby="close-h">
   <div class="wrap">
     <h2 id="close-h"><b>Fifteen years in,</b> I'd still renew for this</h2>
-    <p>If you're on the MyFitnessPal product team and this is interesting, I'd love to walk you through it.</p>
+    <p>A place to start: a 90-day Premium beta with a few thousand members, measured on logged days per week, trial-to-paid conversion, and renewal for connected members against a matched group.</p>
+    <p>Up for a 20-minute walkthrough? Reply to my email, or find me at middleton.io.</p>
     <div class="ctas"><a class="pill white" href="https://middleton.io/">Visit middleton.io <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
   </div>
 </section>
@@ -662,7 +648,6 @@
           <li><a href="https://support.strava.com/en-us/articles/15401531-what-is-the-strava-mcp-connector" target="_blank" rel="noopener">What Is the Strava MCP Connector?</a></li>
           <li><a href="https://buffer.com/resources/buffer-api-is-here/" target="_blank" rel="noopener">Buffer's API is Open for Building</a>, May 27, 2026</li>
           <li><a href="https://buffer.com/mcp" target="_blank" rel="noopener">Buffer MCP</a></li>
-          <li><a href="https://www.todoist.com/help/todoist/todoist-and-ai/connect-todoist-to-an-ai-assistant-xMSzFfHng" target="_blank" rel="noopener">Connect Todoist to an AI assistant</a></li>
           <li><a href="https://www.myfitnesspal.com/premium" target="_blank" rel="noopener">MyFitnessPal Premium</a>, captured September 27, 2026</li>
         </ul>
       </div>
@@ -671,7 +656,7 @@
         <p style="margin-top:12px">Built by <a href="https://middleton.io/">Kevin Middleton</a>, a product manager and MyFitnessPal member since 2011. More work in <a href="https://middleton.io/prototypes/">prototypes</a>.</p>
       </div>
     </div>
-    <p class="legal">MyFitnessPal is a trademark of MyFitnessPal, Inc. Strava, Buffer, Todoist, Claude, and ChatGPT belong to their owners. This is an unsolicited concept, not an official product or announcement. Screenshots of public pages are shown for commentary. Diary numbers are examples.</p>
+    <p class="legal">MyFitnessPal is a trademark of MyFitnessPal, Inc. Strava, Buffer, Claude, and ChatGPT belong to their owners. This is an unsolicited concept, not an official product or announcement. Screenshots of public pages are shown for commentary. Diary numbers are examples.</p>
   </div>
 </footer>
 
