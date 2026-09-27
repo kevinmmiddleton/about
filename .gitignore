@@ -5,7 +5,10 @@
 .idea/
 .vscode/
 node_modules/
-.claude/
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/verify/
 
 # editor/tooling backups; these were untracked cruft that a blanket
 # `git add -A` swept into the relaunch branch
