@@ -206,17 +206,6 @@
   .c-input i{width:28px;height:28px;border-radius:50%;background:var(--claude);display:grid;place-items:center}
   .c-input i svg{width:12px;height:12px;color:#fff}
 
-  .live-wrap{padding-top:8px}
-  .live{position:relative;z-index:1;max-width:720px;margin:0 auto;color:var(--text);background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-card);padding:22px 24px;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:start}
-  .live .dot{width:10px;height:10px;border-radius:50%;background:var(--line-3);margin-top:7px}
-  .live.on .dot{background:var(--green)}
-  .live b{font-size:17px}
-  .live p{grid-column:2;color:var(--muted);font-size:15px;max-width:62ch}
-  .live q{quotes:none;font-weight:600;color:var(--text)}
-  .live .row{grid-column:2;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
-  .live button{font:600 14px/1 var(--font);min-height:40px;padding:12px 16px;border-radius:100px;border:1px solid var(--line-2);background:#fff;color:var(--text);cursor:pointer}
-  .live button:hover{border-color:var(--blue);color:var(--blue)}
-  .live .log{grid-column:2;font:500 12.5px/1.5 var(--mono);color:var(--muted);margin-top:6px;min-height:1.5em}
   .demo-note{position:relative;z-index:1;text-align:center;color:var(--muted);font-size:15px;margin:28px auto 0;max-width:46em}
   .demo-note .via{vertical-align:1px}
 
@@ -509,16 +498,6 @@
     <p class="demo-note">Example numbers. The <span class="via"><svg aria-hidden="true"><use href="#burst"/></svg>via Claude</span> tag marks entries an assistant made.</p>
   </div>
 </section>
-
-<div class="wrap live-wrap">
-  <div class="live" id="live" aria-live="polite">
-    <span class="dot" aria-hidden="true"></span>
-    <b id="live-title">This page is agent-ready</b>
-    <p>It registers the same tools listed further down with WebMCP, the new standard for letting an AI assistant use a web page directly. Open it in ChatGPT Desktop, or Chrome with WebMCP turned on, and say <q>log a salmon dinner with rice and broccoli</q>. The diary above updates as the assistant works.</p>
-    <div class="row"><button type="button" id="sim">Simulate an assistant call</button><button type="button" id="reset">Reset diary</button></div>
-    <div class="log" id="live-log"></div>
-  </div>
-</div>
 
 <section data-section="setup" class="pad" aria-labelledby="setup-h">
   <div class="wrap split">
@@ -936,7 +915,8 @@
   // These are the same tools listed in the table further down, running
   // against the demo diary in this page. Spec: github.com/webmachinelearning/webmcp
   var live = baseDiary(), history = [];
-  var liveTitle = document.getElementById('live-title'), liveLog = document.getElementById('live-log');
+  // No on-page status for WebMCP (too early to feature); tool calls just update the demo phones.
+  var liveLog = { textContent: '' };
   function snapshot(){ history.push(JSON.stringify(live)); if (history.length > 20) history.shift(); }
   function clearFresh(){ MEALS.forEach(function(m){ live[m[0]].forEach(function(x){ delete x.fresh; }); }); }
   function showLive(meal, note, tool){
@@ -1099,38 +1079,18 @@
   ];
 
   var mc = document.modelContext || navigator.modelContext;
-  var liveBox = document.getElementById('live');
   if (mc && typeof mc.registerTool === 'function') {
     var ctrl = new AbortController(), ok = 0;
     TOOLS.forEach(function(t){
       var def = { name: t.name, title: t.title, description: t.description, inputSchema: t.inputSchema, execute: function(input){ return Promise.resolve(t.execute(input || {})); } };
       if (t.annotations) def.annotations = t.annotations;
       try {
-        Promise.resolve(mc.registerTool(def, { signal: ctrl.signal })).then(function(){ ok++; liveTitle.textContent = 'Live: ' + ok + ' WebMCP tools ready for your assistant'; }, function(){});
+        Promise.resolve(mc.registerTool(def, { signal: ctrl.signal })).then(function(){ ok++; }, function(){});
       } catch (e) {}
     });
-    liveBox.classList.add('on');
-  } else {
-    liveTitle.textContent = 'This page is agent-ready';
   }
   window.mfpDemoTools = TOOLS;
 
-  // Simulate: run the same tool code an assistant would call.
-  var simSteps = [
-    ['log_food', { meal: 'dinner', foods: [{ name: 'salmon fillet' }, { name: 'white rice' }, { name: 'broccoli' }] }],
-    ['remove_food', { meal: 'dinner', name: 'white rice' }],
-    ['log_food', { meal: 'dinner', foods: [{ name: 'brown rice' }] }],
-    ['undo_last', {}]
-  ], simAt = 0;
-  document.getElementById('sim').addEventListener('click', function(){
-    var step = simSteps[simAt % simSteps.length]; simAt++;
-    TOOLS.filter(function(t){ return t.name === step[0]; })[0].execute(step[1]);
-    track('MFP Proto: WebMCP Simulate', { step: step[0] });
-  });
-  document.getElementById('reset').addEventListener('click', function(){
-    live = baseDiary(); history = []; simAt = 0; liveLog.textContent = 'Diary reset.';
-    render('log');
-  });
 })();
 </script>
 </body>
