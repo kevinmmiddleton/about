@@ -734,6 +734,10 @@
       return '<div class="it' + (state.fresh ? ' fresh' : '') + (gone ? ' gone' : '') + '"><div><div class="nm">' + x[0] + '</div><div class="sv">' + x[1] +
         '<span class="via">' + U('burst') + 'via Claude</span></div></div><div class="kc">' + x[2] + '</div></div>';
     }).join('');
+    var bItems = breakfast.map(function(x){
+      return '<div class="it"><div><div class="nm">' + x[0] + '</div><div class="sv">' + x[1] +
+        '<span class="via">' + U('burst') + 'via Claude</span></div></div><div class="kc">' + x[2] + '</div></div>';
+    }).join('');
     var kept = lunch.filter(function(x){ return !(state.noGuac && x[6] === 'guac'); }).length;
     return '<div class="status"><span>12:41</span>' + U('sig', '') + '</div><div class="island" aria-hidden="true"></div>' +
       '<div class="t-head"><div class="t-title"><b>Today ' + U('chev-down', '') + '</b><span class="streak">412 day streak</span></div>' +
@@ -746,7 +750,7 @@
           '<div class="p"><div class="lbl">Protein</div><b>' + day.p + ' g</b> <small>/ ' + GOAL.p + '</small><div class="bar"><i style="width:' + w(day.p, GOAL.p) + '"></i></div></div>' +
         '</div>' +
         '<div class="diary-h">Diary<span>View all</span></div>' +
-        '<div class="meal"><div class="meal-row">' + U('cup', '') + '<div><b>Breakfast</b><div class="sum">Greek Yogurt and 2 more</div></div><span class="log-btn">Log</span><div class="mac">' + b.kcal + ' cal · ' + pct(b) + '</div></div></div>' +
+        '<div class="meal"><div class="meal-row">' + U('cup', '') + '<div><b>Breakfast</b><div class="sum">Greek Yogurt and 2 more</div></div><span class="log-btn">Log</span><div class="mac">' + b.kcal + ' cal · ' + pct(b) + '</div></div><div class="items">' + bItems + '</div></div>' +
         '<div class="meal"><div class="meal-row">' + U('bowl', '') + '<div><b>Lunch</b><div class="sum">Chipotle, Chicken and ' + (kept - 1) + ' more</div></div><span class="log-btn">Log</span><div class="mac">' + l.kcal + ' cal · ' + pct(l) + '</div></div><div class="items">' + items + '</div></div>' +
         '<div class="meal"><div class="meal-row">' + U('plate', '') + '<div><b>Dinner</b><div class="sum">Nothing logged yet</div></div><span class="log-btn">Log</span></div></div>' +
         '<div class="meal"><div class="meal-row">' + U('apple', '') + '<div><b>Snacks</b><div class="sum">Nothing logged yet</div></div><span class="log-btn">Log</span></div></div>' +
@@ -793,6 +797,10 @@
       return '<div class="a">' + m[1].map(function(p){ return p.indexOf('<ol>') === 0 ? p : '<p>' + p + '</p>'; }).join('') + '</div>';
     }).join('');
     demo.innerHTML = todayScreen(s.state);
+    // Bring Lunch into view on the demo phone so the change is visible; the
+    // hero phone stays at the top, where Breakfast shows its own tags.
+    var sc = demo.querySelector('.t-scroll'), lunchCard = demo.querySelectorAll('.meal')[1];
+    if (sc && lunchCard) sc.scrollTop = lunchCard.offsetTop - sc.offsetTop - 8;
     if (s.state.fresh) setTimeout(function(){ demo.querySelectorAll('.it.fresh').forEach(function(el){ el.classList.remove('fresh'); }); }, 900);
   }
   document.querySelectorAll('.seg button').forEach(function(b){
