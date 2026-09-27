@@ -421,13 +421,13 @@
   </defs>
 </svg>
 
-<div class="promo">A concept by Kevin Middleton. Not made by or affiliated with MyFitnessPal. <a href="https://middleton.io/">About Kevin <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
+<div class="promo">A concept by Kevin Middleton. Not made by or affiliated with MyFitnessPal. <a data-cta="about-kevin" href="https://middleton.io/">About Kevin <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
 
-<header class="hero">
+<header data-section="hero" class="hero">
   <div class="wrap">
     <div class="topbar">
       <span class="wordmark"><span>myfitnesspal<sup>&reg;</sup></span><small>&times; AI assistants</small></span>
-      <a class="pill yellow" href="#demo">See it work <svg aria-hidden="true"><use href="#chev"/></svg></a>
+      <a class="pill yellow" data-cta="see-it-work-top" href="#demo">See it work <svg aria-hidden="true"><use href="#chev"/></svg></a>
     </div>
     <div class="hero-grid">
       <div class="hero-copy">
@@ -435,7 +435,7 @@
         <h1>Tell your assistant to <b>log lunch.</b></h1>
         <p class="sub">An official MyFitnessPal connection for Claude, ChatGPT, and other assistants would let members log food, check what's left, and fix mistakes from the assistant they already talk to all day.</p>
         <div class="ctas">
-          <a class="pill yellow" href="#demo">See it work <svg aria-hidden="true"><use href="#chev"/></svg></a>
+          <a class="pill yellow" data-cta="see-it-work-hero" href="#demo">See it work <svg aria-hidden="true"><use href="#chev"/></svg></a>
         </div>
       </div>
       <div class="hero-phone">
@@ -447,7 +447,7 @@
   </div>
 </header>
 
-<section class="blue-band" aria-labelledby="note-h">
+<section data-section="letter" class="blue-band" aria-labelledby="note-h">
   <div class="wrap note-grid">
     <div>
       <h2 id="note-h"><b>Fifteen years</b> of logging, and it's still the part I put off</h2>
@@ -463,7 +463,7 @@
   </div>
 </section>
 
-<section class="demo" id="demo" aria-labelledby="demo-h">
+<section data-section="demo" class="demo" id="demo" aria-labelledby="demo-h">
   <div class="wrap">
     <div class="demo-head">
       <h2 id="demo-h">One message to your assistant. <b>Your MFP diary updates.</b></h2>
@@ -495,7 +495,7 @@
   </div>
 </section>
 
-<section class="pad" aria-labelledby="setup-h">
+<section data-section="setup" class="pad" aria-labelledby="setup-h">
   <div class="wrap split">
     <div>
       <div class="sec-h">
@@ -534,7 +534,7 @@
   </div>
 </section>
 
-<section class="pad" id="plans" aria-labelledby="plans-h" style="padding-top:24px">
+<section data-section="plans" class="pad" id="plans" aria-labelledby="plans-h" style="padding-top:24px">
   <div class="wrap">
     <p class="compare-k">Compare Free vs Premium</p>
     <h2 class="compare-h" id="plans-h">There&rsquo;s even more to love with Premium</h2>
@@ -567,7 +567,7 @@
   </div>
 </section>
 
-<section class="pad proof-sec" aria-labelledby="proof-h">
+<section data-section="precedent" class="pad proof-sec" aria-labelledby="proof-h">
   <div class="wrap">
     <div class="sec-h center" style="text-align:center">
       <h2 id="proof-h"><b>Strava made it a subscriber perk.</b> Buffer has championed their MCP.</h2>
@@ -612,7 +612,7 @@
   </div>
 </section>
 
-<section class="pad ready" aria-labelledby="ready-h">
+<section data-section="ready" class="pad ready" aria-labelledby="ready-h">
   <div class="wrap">
     <div class="sec-h">
       <h2 id="ready-h"><b>Most of the pieces</b> already exist</h2>
@@ -641,16 +641,16 @@
   </div>
 </section>
 
-<section class="close" aria-labelledby="close-h">
+<section data-section="close" class="close" aria-labelledby="close-h">
   <div class="wrap">
     <h2 id="close-h"><b>Fifteen years in,</b> I'd still renew for this</h2>
     <p>A place to start: a 90-day Premium beta with a few thousand members, measured on logged days per week, trial-to-paid conversion, and renewal for connected members against a matched group.</p>
     <p>Up for a 20-minute walkthrough? Reply to my email, or find me at middleton.io.</p>
-    <div class="ctas"><a class="pill white" href="https://middleton.io/">Visit middleton.io <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
+    <div class="ctas"><a class="pill white" data-cta="visit-site" href="https://middleton.io/">Visit middleton.io <svg aria-hidden="true"><use href="#chev"/></svg></a></div>
   </div>
 </section>
 
-<footer>
+<footer data-section="footer">
   <div class="wrap">
     <div class="cols">
       <div>
@@ -666,7 +666,7 @@
       </div>
       <div>
         <b>About this concept</b>
-        <p style="margin-top:12px">Built by <a href="https://middleton.io/">Kevin Middleton</a>, a product manager and MyFitnessPal member since 2011. More work in <a href="https://middleton.io/prototypes/">prototypes</a>.</p>
+        <p style="margin-top:12px">Built by <a data-cta="footer-kevin" href="https://middleton.io/">Kevin Middleton</a>, a product manager and MyFitnessPal member since 2011. More work in <a href="https://middleton.io/prototypes/">prototypes</a>.</p>
       </div>
     </div>
     <p class="legal">MyFitnessPal is a trademark of MyFitnessPal, Inc. Strava, Buffer, Claude, and ChatGPT belong to their owners. This is an unsolicited concept, not an official product or announcement. Screenshots of public pages are shown for commentary. Diary numbers are examples.</p>
@@ -674,6 +674,57 @@
 </footer>
 
 <script>
+(function(){
+  // ---- analytics (Plausible) ----
+  // Every event carries `recipient`, read from ?utm_source= (or ?r=), so a
+  // link sent as middleton.io/prototypes/mfp/?utm_source=holley can be
+  // followed through the whole page. Plausible also records utm_source on the
+  // pageview by itself.
+  var q = new URLSearchParams(location.search);
+  var recipient = (q.get('utm_source') || q.get('r') || 'direct').toLowerCase().slice(0, 40);
+  window.track = function(name, props){
+    props = props || {};
+    props.recipient = recipient;
+    try { plausible(name, { props: props }); } catch(e) {}
+  };
+
+  // Section views: once each, when a quarter of the section is on screen.
+  var seen = {};
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        var name = en.target.getAttribute('data-section');
+        if (en.isIntersecting && !seen[name]) {
+          seen[name] = true;
+          track('MFP Proto: Section View', { section: name });
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll('[data-section]').forEach(function(el){ io.observe(el); });
+  }
+
+  // Clicks: named CTAs, then every outbound link, labeled by where it sits.
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var where = (a.closest('[data-section]') || {}).getAttribute ? a.closest('[data-section]').getAttribute('data-section') : 'promo';
+    if (a.dataset.cta) { track('MFP Proto: CTA Click', { cta: a.dataset.cta, section: where }); return; }
+    if (a.hostname && a.hostname !== location.hostname) {
+      track('MFP Proto: Outbound Click', { dest: a.hostname.replace(/^www\./, ''), link: a.textContent.trim().replace(/\s+/g, ' ').slice(0, 60), section: where });
+    }
+  }, true);
+
+  // Reached the end: the close section's ask came on screen.
+  // (Covered by Section View "close"; kept as its own goal for a clean funnel.)
+  var close = document.querySelector('[data-section="close"]');
+  if (close && 'IntersectionObserver' in window) {
+    var io2 = new IntersectionObserver(function(entries){
+      if (entries[0].isIntersecting) { track('MFP Proto: Read To Ask'); io2.disconnect(); }
+    }, { threshold: 0.5 });
+    io2.observe(close);
+  }
+})();
 (function(){
   var U = function(id, cls){ return '<svg class="' + (cls || 'icon') + '" aria-hidden="true"><use href="#' + id + '"/></svg>'; };
 
@@ -705,6 +756,7 @@
   var btn = document.getElementById('show-today'), fig = document.getElementById('today-fig');
   btn.addEventListener('click', function(){
     fig.hidden = !fig.hidden;
+    track('MFP Proto: Plans Toggle', { open: String(!fig.hidden) });
     btn.setAttribute('aria-expanded', String(!fig.hidden));
     btn.querySelector('span').textContent = fig.hidden ? 'See the table as it looks today' : 'Hide today’s table';
   });
@@ -819,7 +871,7 @@
   document.querySelectorAll('.seg button').forEach(function(b){
     b.addEventListener('click', function(){
       render(b.dataset.sc);
-      try { plausible('MFP Proto: Scenario', { props: { scenario: b.dataset.sc } }); } catch(e) {}
+      track('MFP Proto: Scenario', { scenario: b.dataset.sc });
     });
   });
   document.getElementById('hero-screen').innerHTML = todayScreen({});
