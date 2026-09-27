@@ -485,8 +485,8 @@
       <p>Tap a moment below. Your assistant finds the food, logs it to the right meal, and tells you exactly what it added.</p>
       <div class="seg" role="group" aria-label="Choose a moment">
         <button type="button" id="sc-log" data-sc="log" aria-pressed="true">Log lunch</button>
-        <button type="button" id="sc-dinner" data-sc="dinner" aria-pressed="false">Plan dinner</button>
         <button type="button" id="sc-fix" data-sc="fix" aria-pressed="false">Fix a mistake</button>
+        <button type="button" id="sc-dinner" data-sc="dinner" aria-pressed="false">Plan dinner</button>
       </div>
     </div>
     <div class="stage">
@@ -880,6 +880,7 @@
     var d = baseDiary();
     if (key === 'log') d.lunch.forEach(function(x){ x.fresh = true; });
     if (key === 'fix') d.lunch.forEach(function(x){ if (x.id === 'chipotle-guac') x.gone = true; });
+    if (key === 'dinner') d.dinner = ['salmon', 'white-rice', 'broccoli'].map(function(id){ return entry(id, { fresh: true }); });
     return d;
   }
   var scenarios = {
@@ -891,7 +892,10 @@
     dinner: { chat: [
       ['u', 'what should I have for dinner?'],
       ['t', ['get_remaining(<em>today</em>)', 'get_diary(<em>last 30 days</em>, Dinner)']],
-      ['a', ['You have <b>1,333 cal</b> and 97 g protein left. Two dinners you log often that fit:', '<ol><li>Salmon, rice, and broccoli: about 630 cal, 47 g protein</li><li>The chicken shawarma bowl from last Tuesday: 610 cal, 48 g protein</li></ol>', 'Tell me which one when you eat and I\'ll log it.']]
+      ['a', ['You have <b>1,333 cal</b> and 97 g protein left. Two of your usual dinners fit:', '<ol><li>Salmon, rice, and broccoli: about 630 cal, 47 g protein</li><li>Chicken shawarma bowl: 610 cal, 48 g protein</li></ol>']],
+      ['u', 'the salmon one, add it to dinner'],
+      ['t', ['log_food(meal: <em>Dinner</em>, 3 items)']],
+      ['a', ['Added 3 items to <b>Dinner</b>: 627 cal and 47 g protein.', 'That leaves <b>706 cal</b> and 50 g protein for today.']]
     ] },
     fix: { chat: [
       ['u', 'actually I skipped the guac'],
@@ -916,7 +920,8 @@
       return '<div class="a">' + m[1].map(function(p){ return p.indexOf('<ol>') === 0 ? p : '<p>' + p + '</p>'; }).join('') + '</div>';
     }).join('');
     demo.innerHTML = todayScreen(scenarioDiary(key));
-    showMeal('lunch');
+    showMeal(key === 'dinner' ? 'dinner' : 'lunch');
+    chat.scrollTop = chat.scrollHeight;
   }
   document.querySelectorAll('.seg button').forEach(function(b){
     b.addEventListener('click', function(){
