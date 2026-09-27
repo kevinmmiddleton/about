@@ -282,6 +282,9 @@
   .facts svg{width:20px;height:20px;margin-top:3px}
   .lead-proof>*,.second>*,.split>*,.note-grid>*,.hero-grid>*{min-width:0}
   .pad-shot{padding:18px 22px 20px;background:#fff}
+  /* Buffer's page color, so the frame has no white gap when it is wider than the crop */
+  .browser:has(.buffer-shot){background:#F7F8F3}
+  .buffer-shot{width:auto;max-width:100%}
   .shot-gap{display:flex;justify-content:center;gap:6px;padding:4px 0 14px;background:#fff}
   .shot-gap span{width:5px;height:5px;border-radius:50%;background:var(--line-3)}
   .shot-quote{padding:0 8px 12px;background:#fff}
@@ -594,7 +597,7 @@
       </div>
       <div class="browser">
         <div class="browser-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">buffer.com/mcp</span></div>
-        <img src="img/buffer-mcp.jpg" alt="Buffer's MCP page: Manage social media using an AI agent. Draft posts, schedule them, and check what's coming up right in Claude, ChatGPT, or the other tools you're already in all day." width="600" height="320" loading="lazy">
+        <img class="buffer-shot" src="img/buffer-mcp.jpg" alt="Buffer's MCP page: Manage social media using an AI agent. Draft posts, schedule them, and check what's coming up right in Claude, ChatGPT, or the other tools you're already in all day." width="600" height="320" loading="lazy">
       </div>
     </div>
   </div>
