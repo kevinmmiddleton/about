@@ -206,6 +206,17 @@
   .c-input i{width:28px;height:28px;border-radius:50%;background:var(--claude);display:grid;place-items:center}
   .c-input i svg{width:12px;height:12px;color:#fff}
 
+  .live-wrap{padding-top:8px}
+  .live{position:relative;z-index:1;max-width:720px;margin:0 auto;color:var(--text);background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-card);padding:22px 24px;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:start}
+  .live .dot{width:10px;height:10px;border-radius:50%;background:var(--line-3);margin-top:7px}
+  .live.on .dot{background:var(--green)}
+  .live b{font-size:17px}
+  .live p{grid-column:2;color:var(--muted);font-size:15px;max-width:62ch}
+  .live q{quotes:none;font-weight:600;color:var(--text)}
+  .live .row{grid-column:2;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+  .live button{font:600 14px/1 var(--font);min-height:40px;padding:12px 16px;border-radius:100px;border:1px solid var(--line-2);background:#fff;color:var(--text);cursor:pointer}
+  .live button:hover{border-color:var(--blue);color:var(--blue)}
+  .live .log{grid-column:2;font:500 12.5px/1.5 var(--mono);color:var(--muted);margin-top:6px;min-height:1.5em}
   .demo-note{position:relative;z-index:1;text-align:center;color:var(--muted);font-size:15px;margin:28px auto 0;max-width:46em}
   .demo-note .via{vertical-align:1px}
 
@@ -495,6 +506,16 @@
   </div>
 </section>
 
+<div class="wrap live-wrap">
+  <div class="live" id="live" aria-live="polite">
+    <span class="dot" aria-hidden="true"></span>
+    <b id="live-title">This page is agent-ready</b>
+    <p>It registers the same tools listed further down with WebMCP, the new standard for letting an AI assistant use a web page directly. Open it in ChatGPT Desktop, or Chrome with WebMCP turned on, and say <q>log a salmon dinner with rice and broccoli</q>. The diary above updates as the assistant works.</p>
+    <div class="row"><button type="button" id="sim">Simulate an assistant call</button><button type="button" id="reset">Reset diary</button></div>
+    <div class="log" id="live-log"></div>
+  </div>
+</div>
+
 <section data-section="setup" class="pad" aria-labelledby="setup-h">
   <div class="wrap split">
     <div>
@@ -762,51 +783,77 @@
   });
 
   // ---- the day's food (example numbers) ----
-  // [name, serving, kcal, carbs g, fat g, protein g, key]
-  var breakfast = [
-    ['Greek Yogurt, Nonfat Plain', '1 container (170 g)', 100, 6, 1, 18],
-    ['Blueberries', '1/2 cup', 42, 11, 0, 1],
-    ['Cold Brew with Oat Milk', '16 fl oz', 60, 8, 3, 1]
+  // Each entry: { n: name, s: serving, k: kcal, c/f/p: grams, id }
+  var CATALOG = [
+    { id: 'greek-yogurt', n: 'Greek Yogurt, Nonfat Plain', s: '1 container (170 g)', k: 100, c: 6, f: 1, p: 18 },
+    { id: 'blueberries', n: 'Blueberries', s: '1/2 cup', k: 42, c: 11, f: 0, p: 1 },
+    { id: 'cold-brew-oat', n: 'Cold Brew with Oat Milk', s: '16 fl oz', k: 60, c: 8, f: 3, p: 1 },
+    { id: 'chipotle-chicken', n: 'Chipotle, Chicken', s: '4 oz', k: 180, c: 0, f: 7, p: 32 },
+    { id: 'chipotle-fajita', n: 'Chipotle, Fajita Veggies', s: '2 oz', k: 20, c: 5, f: 0, p: 1 },
+    { id: 'chipotle-black-beans', n: 'Chipotle, Black Beans', s: '4 oz', k: 130, c: 22, f: 2, p: 8 },
+    { id: 'chipotle-guac', n: 'Chipotle, Guacamole', s: '4 oz', k: 230, c: 8, f: 22, p: 2 },
+    { id: 'chipotle-romaine', n: 'Chipotle, Romaine Lettuce', s: '1 oz', k: 5, c: 1, f: 0, p: 0 },
+    { id: 'chipotle-white-rice', n: 'Chipotle, Cilantro-Lime White Rice', s: '4 oz', k: 210, c: 40, f: 4, p: 4 },
+    { id: 'salmon', n: 'Salmon Fillet, Baked', s: '6 oz', k: 367, c: 0, f: 22, p: 39 },
+    { id: 'white-rice', n: 'White Rice, Cooked', s: '1 cup', k: 205, c: 45, f: 0, p: 4 },
+    { id: 'brown-rice', n: 'Brown Rice, Cooked', s: '1 cup', k: 218, c: 46, f: 2, p: 5 },
+    { id: 'broccoli', n: 'Broccoli, Steamed', s: '1 cup', k: 55, c: 11, f: 1, p: 4 },
+    { id: 'shawarma-bowl', n: 'Chicken Shawarma Bowl', s: '1 bowl', k: 610, c: 58, f: 22, p: 48 },
+    { id: 'banana', n: 'Banana', s: '1 medium', k: 105, c: 27, f: 0, p: 1 },
+    { id: 'apple', n: 'Apple', s: '1 medium', k: 95, c: 25, f: 0, p: 0 },
+    { id: 'almonds', n: 'Almonds', s: '1 oz (23 nuts)', k: 165, c: 6, f: 14, p: 6 },
+    { id: 'protein-bar', n: 'Protein Bar', s: '1 bar', k: 200, c: 22, f: 7, p: 20 },
+    { id: 'eggs', n: 'Eggs, Scrambled', s: '2 large', k: 180, c: 2, f: 13, p: 12 },
+    { id: 'avocado-toast', n: 'Avocado Toast', s: '1 slice', k: 260, c: 28, f: 14, p: 7 },
+    { id: 'pizza', n: 'Pizza, Cheese', s: '1 slice', k: 285, c: 36, f: 10, p: 12 },
+    { id: 'latte', n: 'Oat Milk Latte', s: '16 fl oz', k: 190, c: 27, f: 7, p: 4 }
   ];
-  var lunch = [
-    ['Chipotle, Chicken', '4 oz', 180, 0, 7, 32],
-    ['Chipotle, Fajita Veggies', '2 oz', 20, 5, 0, 1],
-    ['Chipotle, Black Beans', '4 oz', 130, 22, 2, 8],
-    ['Chipotle, Guacamole', '4 oz', 230, 8, 22, 2, 'guac'],
-    ['Chipotle, Romaine Lettuce', '1 oz', 5, 1, 0, 0]
-  ];
+  function byId(id){ for (var i = 0; i < CATALOG.length; i++) if (CATALOG[i].id === id) return CATALOG[i]; return null; }
+  function entry(id, extra){ var f = byId(id), e = { n: f.n, s: f.s, k: f.k, c: f.c, f: f.f, p: f.p, id: f.id, via: 'Claude' }; for (var k in extra || {}) e[k] = extra[k]; return e; }
   var GOAL = { kcal: 2100, c: 210, f: 70, p: 160 };
+  var MEALS = [['breakfast', 'Breakfast', 'cup'], ['lunch', 'Lunch', 'bowl'], ['dinner', 'Dinner', 'plate'], ['snacks', 'Snacks', 'apple']];
 
-  function totals(list, skipGuac){
+  function baseDiary(){
+    return {
+      breakfast: ['greek-yogurt', 'blueberries', 'cold-brew-oat'].map(function(id){ return entry(id); }),
+      lunch: ['chipotle-chicken', 'chipotle-fajita', 'chipotle-black-beans', 'chipotle-guac', 'chipotle-romaine'].map(function(id){ return entry(id); }),
+      dinner: [], snacks: []
+    };
+  }
+
+  function totals(list){
     return list.reduce(function(a, x){
-      if (skipGuac && x[6] === 'guac') return a;
-      return { kcal: a.kcal + x[2], c: a.c + x[3], f: a.f + x[4], p: a.p + x[5] };
+      if (x.gone) return a;
+      return { kcal: a.kcal + x.k, c: a.c + x.c, f: a.f + x.f, p: a.p + x.p };
     }, { kcal: 0, c: 0, f: 0, p: 0 });
+  }
+  function dayTotals(d){
+    return MEALS.reduce(function(a, m){ var t = totals(d[m[0]]); return { kcal: a.kcal + t.kcal, c: a.c + t.c, f: a.f + t.f, p: a.p + t.p }; }, { kcal: 0, c: 0, f: 0, p: 0 });
   }
   function pct(t){
     var c = t.c * 4, f = t.f * 9, p = t.p * 4, s = c + f + p || 1;
     return 'C ' + Math.round(c / s * 100) + '% · F ' + Math.round(f / s * 100) + '% · P ' + Math.round(p / s * 100) + '%';
   }
   function fmt(n){ return n.toLocaleString('en-US'); }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(ch){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]; }); }
 
-  function todayScreen(state){
-    var b = totals(breakfast), l = totals(lunch, state.noGuac);
-    var day = { kcal: b.kcal + l.kcal, c: b.c + l.c, f: b.f + l.f, p: b.p + l.p };
-    var left = GOAL.kcal - day.kcal;
+  function todayScreen(d, opts){
+    opts = opts || {};
+    var day = dayTotals(d), left = GOAL.kcal - day.kcal;
     var w = function(v, g){ return Math.min(100, Math.round(v / g * 100)) + '%'; };
-    var items = lunch.map(function(x){
-      var gone = state.noGuac && x[6] === 'guac';
-      return '<div class="it' + (state.fresh ? ' fresh' : '') + (gone ? ' gone' : '') + '"><div><div class="nm">' + x[0] + '</div><div class="sv">' + x[1] +
-        '<span class="via">' + U('burst') + 'via Claude</span></div></div><div class="kc">' + x[2] + '</div></div>';
+    var meals = MEALS.map(function(m){
+      var list = d[m[0]], t = totals(list), kept = list.filter(function(x){ return !x.gone; });
+      var sum = kept.length ? esc(kept[0].n) + (kept.length > 1 ? ' and ' + (kept.length - 1) + ' more' : '') : 'Nothing logged yet';
+      var items = list.map(function(x){
+        return '<div class="it' + (x.fresh ? ' fresh' : '') + (x.gone ? ' gone' : '') + '"><div><div class="nm">' + esc(x.n) + '</div><div class="sv">' + esc(x.s) +
+          (x.via ? '<span class="via">' + U('burst') + 'via ' + esc(x.via) + '</span>' : '') + '</div></div><div class="kc">' + x.k + '</div></div>';
+      }).join('');
+      return '<div class="meal" data-meal="' + m[0] + '"><div class="meal-row">' + U(m[2], '') + '<div><b>' + m[1] + '</b><div class="sum">' + sum + '</div></div><span class="log-btn">Log</span>' +
+        (kept.length ? '<div class="mac">' + t.kcal + ' cal · ' + pct(t) + '</div>' : '') + '</div>' + (list.length ? '<div class="items">' + items + '</div>' : '') + '</div>';
     }).join('');
-    var bItems = breakfast.map(function(x){
-      return '<div class="it"><div><div class="nm">' + x[0] + '</div><div class="sv">' + x[1] +
-        '<span class="via">' + U('burst') + 'via Claude</span></div></div><div class="kc">' + x[2] + '</div></div>';
-    }).join('');
-    var kept = lunch.filter(function(x){ return !(state.noGuac && x[6] === 'guac'); }).length;
     return '<div class="status"><span>12:41</span>' + U('sig', '') + '</div><div class="island" aria-hidden="true"></div>' +
       '<div class="t-head"><div class="t-title"><b>Today ' + U('chev-down', '') + '</b><span class="streak">412 day streak</span></div>' +
-      '<div class="week">' + ['S','M','T','W','T','F','S'].map(function(d, i){ return '<span>' + d + '<i class="dot' + (i < 5 ? ' on' : i === 5 ? ' now' : '') + '"></i></span>'; }).join('') + '</div></div>' +
+      '<div class="week">' + ['S','M','T','W','T','F','S'].map(function(dd, i){ return '<span>' + dd + '<i class="dot' + (i < 5 ? ' on' : i === 5 ? ' now' : '') + '"></i></span>'; }).join('') + '</div></div>' +
       '<div class="t-scroll">' +
         '<div class="tcard"><div class="cal-top"><div><span class="lbl">Calories</span><b>' + fmt(day.kcal) + ' cal</b> <small>/ ' + fmt(GOAL.kcal) + '</small></div><span class="left">' + fmt(left) + ' left</span></div><div class="bar"><i style="width:' + w(day.kcal, GOAL.kcal) + '"></i></div></div>' +
         '<div class="tcard macros">' +
@@ -814,44 +861,42 @@
           '<div class="f"><div class="lbl">Fat</div><b>' + day.f + ' g</b> <small>/ ' + GOAL.f + '</small><div class="bar"><i style="width:' + w(day.f, GOAL.f) + '"></i></div></div>' +
           '<div class="p"><div class="lbl">Protein</div><b>' + day.p + ' g</b> <small>/ ' + GOAL.p + '</small><div class="bar"><i style="width:' + w(day.p, GOAL.p) + '"></i></div></div>' +
         '</div>' +
-        '<div class="diary-h">Diary<span>View all</span></div>' +
-        '<div class="meal"><div class="meal-row">' + U('cup', '') + '<div><b>Breakfast</b><div class="sum">Greek Yogurt and 2 more</div></div><span class="log-btn">Log</span><div class="mac">' + b.kcal + ' cal · ' + pct(b) + '</div></div><div class="items">' + bItems + '</div></div>' +
-        '<div class="meal"><div class="meal-row">' + U('bowl', '') + '<div><b>Lunch</b><div class="sum">Chipotle, Chicken and ' + (kept - 1) + ' more</div></div><span class="log-btn">Log</span><div class="mac">' + l.kcal + ' cal · ' + pct(l) + '</div></div><div class="items">' + items + '</div></div>' +
-        '<div class="meal"><div class="meal-row">' + U('plate', '') + '<div><b>Dinner</b><div class="sum">Nothing logged yet</div></div><span class="log-btn">Log</span></div></div>' +
-        '<div class="meal"><div class="meal-row">' + U('apple', '') + '<div><b>Snacks</b><div class="sum">Nothing logged yet</div></div><span class="log-btn">Log</span></div></div>' +
+        '<div class="diary-h">Diary<span>View all</span></div>' + meals +
       '</div>' +
       '<div class="tabs"><span class="on">' + U('home', '') + 'Today</span><span>' + U('cal', '') + 'Plan</span><span><i class="plus">' + U('plus', '') + '</i></span><span>' + U('bars', '') + 'Progress</span><span>' + U('more', '') + 'More</span></div>';
   }
 
-  // ---- chat scenarios ----
+  // ---- chat scenarios (scripted examples) ----
+  function scenarioDiary(key){
+    var d = baseDiary();
+    if (key === 'log') d.lunch.forEach(function(x){ x.fresh = true; });
+    if (key === 'fix') d.lunch.forEach(function(x){ if (x.id === 'chipotle-guac') x.gone = true; });
+    return d;
+  }
   var scenarios = {
-    log: {
-      state: { fresh: true },
-      chat: [
-        ['u', 'log lunch: chipotle bowl, chicken, no rice, fajita veggies, black beans, guac'],
-        ['t', ['search_foods(<em>"chipotle"</em>, recent first)', 'log_food(meal: <em>Lunch</em>, 5 items)', 'get_remaining(<em>today</em>)']],
-        ['a', ['Logged 5 items to <b>Lunch</b>: 565 cal and 43 g protein.', 'You have <b>1,333 cal</b> and 97 g protein left today. Say "undo" if anything looks off.']]
-      ]
-    },
-    dinner: {
-      state: {},
-      chat: [
-        ['u', 'what should I have for dinner?'],
-        ['t', ['get_remaining(<em>today</em>)', 'get_diary(<em>last 30 days</em>, Dinner)']],
-        ['a', ['You have <b>1,333 cal</b> and 97 g protein left. Two dinners you log often that fit:', '<ol><li>Salmon, rice, and broccoli: about 650 cal, 42 g protein</li><li>The chicken shawarma bowl from last Tuesday: 610 cal, 48 g protein</li></ol>', 'Tell me which one when you eat and I\'ll log it.']]
-      ]
-    },
-    fix: {
-      state: { noGuac: true },
-      chat: [
-        ['u', 'actually I skipped the guac'],
-        ['t', ['get_diary(<em>today</em>, Lunch)', 'update_entry(remove <em>Chipotle, Guacamole</em>)']],
-        ['a', ['Removed <b>Guacamole</b> from Lunch, so Lunch is now 335 cal.', 'You have <b>1,563 cal</b> left today.']]
-      ]
-    }
+    log: { chat: [
+      ['u', 'log lunch: chipotle bowl, chicken, no rice, fajita veggies, black beans, guac'],
+      ['t', ['search_foods(<em>"chipotle"</em>, recent first)', 'log_food(meal: <em>Lunch</em>, 5 items)', 'get_remaining(<em>today</em>)']],
+      ['a', ['Logged 5 items to <b>Lunch</b>: 565 cal and 43 g protein.', 'You have <b>1,333 cal</b> and 97 g protein left today. Say "undo" if anything looks off.']]
+    ] },
+    dinner: { chat: [
+      ['u', 'what should I have for dinner?'],
+      ['t', ['get_remaining(<em>today</em>)', 'get_diary(<em>last 30 days</em>, Dinner)']],
+      ['a', ['You have <b>1,333 cal</b> and 97 g protein left. Two dinners you log often that fit:', '<ol><li>Salmon, rice, and broccoli: about 630 cal, 47 g protein</li><li>The chicken shawarma bowl from last Tuesday: 610 cal, 48 g protein</li></ol>', 'Tell me which one when you eat and I\'ll log it.']]
+    ] },
+    fix: { chat: [
+      ['u', 'actually I skipped the guac'],
+      ['t', ['get_diary(<em>today</em>, Lunch)', 'update_entry(remove <em>Chipotle, Guacamole</em>)']],
+      ['a', ['Removed <b>Guacamole</b> from Lunch, so Lunch is now 335 cal.', 'You have <b>1,563 cal</b> left today.']]
+    ] }
   };
 
   var chat = document.getElementById('chat'), demo = document.getElementById('demo-screen');
+  function showMeal(meal){
+    var sc = demo.querySelector('.t-scroll'), card = demo.querySelector('.meal[data-meal="' + meal + '"]');
+    if (sc && card) sc.scrollTop = card.offsetTop - sc.offsetTop - 8;
+    setTimeout(function(){ demo.querySelectorAll('.it.fresh').forEach(function(el){ el.classList.remove('fresh'); }); }, 900);
+  }
   function render(key){
     var s = scenarios[key];
     document.querySelectorAll('.seg button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.sc === key)); });
@@ -861,12 +906,8 @@
         m[1].map(function(c){ return '<div class="call">' + c + '</div>'; }).join('') + '</div></div>';
       return '<div class="a">' + m[1].map(function(p){ return p.indexOf('<ol>') === 0 ? p : '<p>' + p + '</p>'; }).join('') + '</div>';
     }).join('');
-    demo.innerHTML = todayScreen(s.state);
-    // Bring Lunch into view on the demo phone so the change is visible; the
-    // hero phone stays at the top, where Breakfast shows its own tags.
-    var sc = demo.querySelector('.t-scroll'), lunchCard = demo.querySelectorAll('.meal')[1];
-    if (sc && lunchCard) sc.scrollTop = lunchCard.offsetTop - sc.offsetTop - 8;
-    if (s.state.fresh) setTimeout(function(){ demo.querySelectorAll('.it.fresh').forEach(function(el){ el.classList.remove('fresh'); }); }, 900);
+    demo.innerHTML = todayScreen(scenarioDiary(key));
+    showMeal('lunch');
   }
   document.querySelectorAll('.seg button').forEach(function(b){
     b.addEventListener('click', function(){
@@ -874,8 +915,208 @@
       track('MFP Proto: Scenario', { scenario: b.dataset.sc });
     });
   });
-  document.getElementById('hero-screen').innerHTML = todayScreen({});
+  document.getElementById('hero-screen').innerHTML = todayScreen(baseDiary());
   render('log');
+
+  // ---- live mode: real tools an assistant can call through WebMCP ----
+  // These are the same tools listed in the table further down, running
+  // against the demo diary in this page. Spec: github.com/webmachinelearning/webmcp
+  var live = baseDiary(), history = [];
+  var liveTitle = document.getElementById('live-title'), liveLog = document.getElementById('live-log');
+  function snapshot(){ history.push(JSON.stringify(live)); if (history.length > 20) history.shift(); }
+  function clearFresh(){ MEALS.forEach(function(m){ live[m[0]].forEach(function(x){ delete x.fresh; }); }); }
+  function showLive(meal, note, tool){
+    document.querySelectorAll('.seg button').forEach(function(b){ b.setAttribute('aria-pressed', 'false'); });
+    chat.innerHTML = '<div class="used"><span class="used-h"><img class="mfp-ico" src="img/mfp-icon.png" alt="" width="18" height="18">Live: an assistant used this page</span><div class="calls"><div class="call">' + esc(note) + '</div></div></div>';
+    demo.innerHTML = todayScreen(live);
+    showMeal(meal || 'lunch');
+    liveLog.textContent = note;
+    track('MFP Proto: WebMCP Tool Call', { tool: tool });
+  }
+  function text(obj){ return { content: [{ type: 'text', text: typeof obj === 'string' ? obj : JSON.stringify(obj) }] }; }
+  function mealKey(m){
+    var k = String(m || '').toLowerCase().trim();
+    if (k === 'snack') k = 'snacks';
+    return live[k] ? k : null;
+  }
+  function findFood(q){
+    var words = String(q || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean);
+    var best = null, bestScore = 0;
+    CATALOG.forEach(function(f){
+      var hay = f.n.toLowerCase(), score = 0, nameWords = hay.split(/[^a-z0-9]+/).filter(Boolean).length, hits = 0;
+      words.forEach(function(wd){ if (wd.length > 2 && hay.indexOf(wd) !== -1) { score += wd.length; hits++; } });
+      // Prefer the entry with the fewest words the member didn't say
+      // ("white rice" should land on plain white rice, not a branded one).
+      if (hits) score -= 0.5 * Math.max(0, nameWords - hits);
+      if (hits && score > bestScore) { best = f; bestScore = score; }
+    });
+    return best;
+  }
+  function remaining(){
+    var t = dayTotals(live);
+    return { calories_eaten: t.kcal, calories_goal: GOAL.kcal, calories_left: GOAL.kcal - t.kcal, protein_g: t.p, protein_left_g: GOAL.p - t.p, carbs_g: t.c, fat_g: t.f };
+  }
+
+  var MEAL_ENUM = ['breakfast', 'lunch', 'dinner', 'snacks'];
+  var TOOLS = [
+    {
+      name: 'search_foods',
+      title: 'Search foods',
+      description: 'Searches the MyFitnessPal food database (demo catalog) and returns matching foods with serving size, calories, and macros. Use it to find the right entry before logging.',
+      inputSchema: { type: 'object', properties: { query: { type: 'string', description: 'What the member ate, in plain words, e.g. "salmon" or "chipotle guac".' } }, required: ['query'] },
+      annotations: { readOnlyHint: true },
+      execute: function(input){
+        var words = String(input.query || '').toLowerCase().split(/\s+/).filter(function(wd){ return wd.length > 2; });
+        var hits = CATALOG.filter(function(f){ var hay = f.n.toLowerCase(); return words.some(function(wd){ return hay.indexOf(wd) !== -1; }); }).slice(0, 8);
+        liveLog.textContent = 'search_foods("' + input.query + '"): ' + hits.length + ' results';
+        track('MFP Proto: WebMCP Tool Call', { tool: 'search_foods' });
+        return text({ results: hits.map(function(f){ return { food: f.n, serving: f.s, calories: f.k, protein_g: f.p, carbs_g: f.c, fat_g: f.f }; }) });
+      }
+    },
+    {
+      name: 'log_food',
+      title: 'Log food',
+      description: 'Adds one or more foods to a meal in today\'s diary. Always pass the meal the member named. If the meal was not stated, ask the member instead of guessing.',
+      inputSchema: { type: 'object', properties: {
+        meal: { type: 'string', enum: MEAL_ENUM, description: 'Which meal to add the foods to.' },
+        foods: { type: 'array', description: 'Foods to add, in plain words.', items: { type: 'object', properties: {
+          name: { type: 'string', description: 'The food, e.g. "salmon fillet".' },
+          servings: { type: 'number', description: 'Number of servings. Defaults to 1.' } }, required: ['name'] } }
+      }, required: ['meal', 'foods'] },
+      execute: function(input){
+        var meal = mealKey(input.meal);
+        if (!meal) return text('Unknown meal "' + input.meal + '". Use one of: breakfast, lunch, dinner, snacks.');
+        var added = [], missing = [];
+        snapshot(); clearFresh();
+        (input.foods || []).forEach(function(it){
+          var f = findFood(it.name), n = Math.max(0.25, Number(it.servings) || 1);
+          if (!f) { missing.push(it.name); return; }
+          var e = entry(f.id, { fresh: true, via: 'assistant' });
+          if (n !== 1) { e.s = n + ' x ' + f.s; e.k = Math.round(f.k * n); e.c = Math.round(f.c * n); e.f = Math.round(f.f * n); e.p = Math.round(f.p * n); }
+          live[meal].push(e); added.push(e);
+        });
+        if (!added.length) { history.pop(); return text({ logged: [], not_found: missing, hint: 'Nothing matched. Try search_foods, or quick_add with the calories.' }); }
+        var kcal = added.reduce(function(a, e){ return a + e.k; }, 0);
+        showLive(meal, 'log_food(' + meal + ', ' + added.length + ' item' + (added.length > 1 ? 's' : '') + '): +' + kcal + ' cal', 'log_food');
+        return text({ logged: added.map(function(e){ return e.n + ' (' + e.s + ', ' + e.k + ' cal)'; }), meal: meal, not_found: missing, today: remaining() });
+      }
+    },
+    {
+      name: 'quick_add',
+      title: 'Quick add calories',
+      description: 'Logs raw calories and macros to a meal when no food in the database is a good match.',
+      inputSchema: { type: 'object', properties: {
+        meal: { type: 'string', enum: MEAL_ENUM, description: 'Which meal to add to.' },
+        name: { type: 'string', description: 'A short label, e.g. "Office birthday cake".' },
+        calories: { type: 'number', description: 'Calories for the whole portion.' },
+        protein_g: { type: 'number' }, carbs_g: { type: 'number' }, fat_g: { type: 'number' }
+      }, required: ['meal', 'calories'] },
+      execute: function(input){
+        var meal = mealKey(input.meal);
+        if (!meal) return text('Unknown meal "' + input.meal + '". Use one of: breakfast, lunch, dinner, snacks.');
+        var kcal = Math.round(Number(input.calories) || 0);
+        if (kcal <= 0) return text('Calories must be a positive number.');
+        snapshot(); clearFresh();
+        live[meal].push({ n: input.name ? 'Quick Add: ' + input.name : 'Quick Add', s: 'custom', k: kcal, c: Math.round(input.carbs_g || 0), f: Math.round(input.fat_g || 0), p: Math.round(input.protein_g || 0), fresh: true, via: 'assistant' });
+        showLive(meal, 'quick_add(' + meal + ', ' + kcal + ' cal)', 'quick_add');
+        return text({ logged: kcal + ' cal to ' + meal, today: remaining() });
+      }
+    },
+    {
+      name: 'get_remaining',
+      title: 'Check what is left today',
+      description: 'Returns calories and macros eaten today and what is left against the member\'s goals.',
+      inputSchema: { type: 'object', properties: {} },
+      annotations: { readOnlyHint: true },
+      execute: function(){
+        liveLog.textContent = 'get_remaining(): ' + fmt(remaining().calories_left) + ' cal left';
+        track('MFP Proto: WebMCP Tool Call', { tool: 'get_remaining' });
+        return text(remaining());
+      }
+    },
+    {
+      name: 'get_diary',
+      title: 'Read today\'s diary',
+      description: 'Returns today\'s diary entries, optionally for one meal.',
+      inputSchema: { type: 'object', properties: { meal: { type: 'string', enum: MEAL_ENUM, description: 'Optional. Limit to one meal.' } } },
+      annotations: { readOnlyHint: true },
+      execute: function(input){
+        var keys = input && mealKey(input.meal) ? [mealKey(input.meal)] : MEAL_ENUM;
+        var out = {};
+        keys.forEach(function(k){ out[k] = live[k].filter(function(x){ return !x.gone; }).map(function(x){ return x.n + ' (' + x.s + ', ' + x.k + ' cal)'; }); });
+        liveLog.textContent = 'get_diary(' + keys.join(', ') + ')';
+        track('MFP Proto: WebMCP Tool Call', { tool: 'get_diary' });
+        return text(out);
+      }
+    },
+    {
+      name: 'remove_food',
+      title: 'Remove a food',
+      description: 'Removes a food the member points to from a meal in today\'s diary, e.g. "I skipped the guac".',
+      inputSchema: { type: 'object', properties: {
+        meal: { type: 'string', enum: MEAL_ENUM, description: 'The meal the food is in.' },
+        name: { type: 'string', description: 'The food to remove, in plain words.' }
+      }, required: ['meal', 'name'] },
+      execute: function(input){
+        var meal = mealKey(input.meal);
+        if (!meal) return text('Unknown meal "' + input.meal + '".');
+        var words = String(input.name || '').toLowerCase().split(/\s+/).filter(function(wd){ return wd.length > 2; });
+        var idx = -1;
+        live[meal].forEach(function(x, i){ if (idx === -1 && !x.gone && words.some(function(wd){ return x.n.toLowerCase().indexOf(wd) !== -1; })) idx = i; });
+        if (idx === -1) return text('No "' + input.name + '" found in ' + meal + '. Call get_diary to see what is there.');
+        snapshot(); clearFresh();
+        var gone = live[meal].splice(idx, 1)[0];
+        showLive(meal, 'remove_food(' + meal + ', ' + gone.n + '): -' + gone.k + ' cal', 'remove_food');
+        return text({ removed: gone.n, meal: meal, today: remaining() });
+      }
+    },
+    {
+      name: 'undo_last',
+      title: 'Undo the last change',
+      description: 'Reverts the most recent change an assistant made to today\'s diary.',
+      inputSchema: { type: 'object', properties: {} },
+      execute: function(){
+        if (!history.length) return text('Nothing to undo.');
+        live = JSON.parse(history.pop());
+        showLive('lunch', 'undo_last(): diary restored', 'undo_last');
+        return text({ undone: true, today: remaining() });
+      }
+    }
+  ];
+
+  var mc = document.modelContext || navigator.modelContext;
+  var liveBox = document.getElementById('live');
+  if (mc && typeof mc.registerTool === 'function') {
+    var ctrl = new AbortController(), ok = 0;
+    TOOLS.forEach(function(t){
+      var def = { name: t.name, title: t.title, description: t.description, inputSchema: t.inputSchema, execute: function(input){ return Promise.resolve(t.execute(input || {})); } };
+      if (t.annotations) def.annotations = t.annotations;
+      try {
+        Promise.resolve(mc.registerTool(def, { signal: ctrl.signal })).then(function(){ ok++; liveTitle.textContent = 'Live: ' + ok + ' WebMCP tools ready for your assistant'; }, function(){});
+      } catch (e) {}
+    });
+    liveBox.classList.add('on');
+  } else {
+    liveTitle.textContent = 'This page is agent-ready';
+  }
+  window.mfpDemoTools = TOOLS;
+
+  // Simulate: run the same tool code an assistant would call.
+  var simSteps = [
+    ['log_food', { meal: 'dinner', foods: [{ name: 'salmon fillet' }, { name: 'white rice' }, { name: 'broccoli' }] }],
+    ['remove_food', { meal: 'dinner', name: 'white rice' }],
+    ['log_food', { meal: 'dinner', foods: [{ name: 'brown rice' }] }],
+    ['undo_last', {}]
+  ], simAt = 0;
+  document.getElementById('sim').addEventListener('click', function(){
+    var step = simSteps[simAt % simSteps.length]; simAt++;
+    TOOLS.filter(function(t){ return t.name === step[0]; })[0].execute(step[1]);
+    track('MFP Proto: WebMCP Simulate', { step: step[0] });
+  });
+  document.getElementById('reset').addEventListener('click', function(){
+    live = baseDiary(); history = []; simAt = 0; liveLog.textContent = 'Diary reset.';
+    render('log');
+  });
 })();
 </script>
 </body>
