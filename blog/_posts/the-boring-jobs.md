@@ -59,6 +59,8 @@ So every job on my Mac mini now checks in when it runs, and if one goes quiet fo
 
 To do the subscription job well, an assistant needs your receipts, your email, and some sense of who in your house uses what. Muse is honest that your conversations can be logged and reviewed by Meta, and Nate is upfront that it asks for real trust with your data.
 
+Three weeks after Muse launched, OpenAI announced Dots at its Dev Day: always-on agents inside ChatGPT with their own computer in the cloud that learn how you work and, soon, will text you. Meta and OpenAI are now building the same assistant, which means they want the same thing from you, the context that makes it useful.
+
 That's a fair trade for a lot of people. I made a different one. My assistant keeps its memory, its instructions, and its logs on a machine in my apartment, and I can read every file. The thinking still goes out to a model provider, but the record of my life stays home. I wrote more about why in [owning your context](/blog/owning-your-context/).
 
 Either way, the question to ask any assistant is the same one I should have asked my rejection scanner: what did you actually do this week, and how would I know if you stopped?
