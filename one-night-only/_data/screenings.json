@@ -163879,7 +163879,7 @@
       "film_key": "bird-in-hand-q-a",
       "venue_slug": "roxy-cinema",
       "title": "Bird in Hand + Q&A",
-      "year": 2025,
+      "year": 2026,
       "runtime_min": 90,
       "start_local": "2026-10-02T19:00",
       "url": "https://ticketing.uswest.veezi.com/purchase/7782?siteToken=tt17e5ajy3v48kh5b2kremvnz4",
@@ -163892,12 +163892,12 @@
       "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": false,
-      "vintage_year": 2025,
+      "vintage_year": 2026,
       "vintage_year_from": "source",
       "status": "confirmed",
       "sequence": 0,
       "created_at": "2026-08-22T05:46:43Z",
-      "updated_at": "2026-09-29T11:25:06Z"
+      "updated_at": "2026-09-30T11:12:58Z"
     },
     {
       "uid": "b5d964441f536f5e@screenings.middleton.io",
@@ -170250,7 +170250,7 @@
       "run_guid": "tag:middleton.io,2026:run/446047edb09fbadf",
       "first_emitted_at": "2026-09-21T16:28:39Z",
       "id_tuple": "alamo-downtown-brooklyn|verity|20261003|1800",
-      "source_ref": "137090",
+      "source_ref": "138465",
       "limited": false,
       "dates_at_venue": 8,
       "max_showtimes_per_date": 7,
@@ -174950,10 +174950,11 @@
       "vintage": true,
       "vintage_year": null,
       "vintage_year_from": null,
-      "status": "confirmed",
-      "sequence": 0,
+      "status": "cancelled",
+      "sequence": 1,
       "created_at": "2026-09-28T23:50:47Z",
-      "updated_at": "2026-09-28T23:50:47Z"
+      "updated_at": "2026-09-30T11:12:58Z",
+      "cancelled_at": "2026-09-30T11:12:58Z"
     },
     {
       "uid": "2901b27a9790788d@screenings.middleton.io",
@@ -176014,7 +176015,7 @@
       "film_key": "bird-in-hand-q-a",
       "venue_slug": "roxy-cinema",
       "title": "Bird in Hand + Q&A",
-      "year": 2026,
+      "year": 2025,
       "runtime_min": 90,
       "start_local": "2026-10-04T15:00",
       "url": "https://ticketing.uswest.veezi.com/purchase/7783?siteToken=tt17e5ajy3v48kh5b2kremvnz4",
@@ -176027,12 +176028,12 @@
       "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": false,
-      "vintage_year": 2026,
+      "vintage_year": 2025,
       "vintage_year_from": "source",
       "status": "confirmed",
       "sequence": 0,
       "created_at": "2026-09-07T03:10:44Z",
-      "updated_at": "2026-09-27T10:36:35Z"
+      "updated_at": "2026-09-30T11:12:58Z"
     },
     {
       "uid": "e0611d3a98459aae@screenings.middleton.io",
@@ -186238,10 +186239,11 @@
       "vintage": true,
       "vintage_year": null,
       "vintage_year_from": null,
-      "status": "confirmed",
-      "sequence": 0,
+      "status": "cancelled",
+      "sequence": 1,
       "created_at": "2026-09-28T23:50:47Z",
-      "updated_at": "2026-09-28T23:50:47Z"
+      "updated_at": "2026-09-30T11:12:58Z",
+      "cancelled_at": "2026-09-30T11:12:58Z"
     },
     {
       "uid": "ec45750a42db48f4@screenings.middleton.io",
@@ -194597,8 +194599,8 @@
       "first_emitted_at": "2026-09-21T16:28:39Z",
       "id_tuple": "alamo-downtown-brooklyn|queen-budapest|20261007|1830",
       "source_ref": "136393",
-      "limited": false,
-      "dates_at_venue": 4,
+      "limited": true,
+      "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -201513,8 +201515,8 @@
       "first_emitted_at": "2026-09-21T16:28:39Z",
       "id_tuple": "alamo-downtown-brooklyn|queen-budapest|20261010|1315",
       "source_ref": "136394",
-      "limited": false,
-      "dates_at_venue": 4,
+      "limited": true,
+      "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
