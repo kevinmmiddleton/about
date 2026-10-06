@@ -3,7 +3,7 @@ title: Need an AI recruiter that works for you? Try this one.
 slug: job-search-agent
 status: published
 published_at: 2026-06-06
-updated_at: 2026-06-06
+updated_at: 2026-10-06
 topic: Building with AI
 topic_new: ''
 series: Building a Job Search Agent
@@ -21,6 +21,8 @@ cover_alt: Job Search Agent banner. Turn Claude into your job search assistant.
 lede_align: left
 linkedin_url: ''
 ---
+
+*Update, Oct 6: Job Search Agent is now [Recruiter BFF](https://github.com/kevinmmiddleton/recruiter-bff). Same plugin, new name, and the download links below get you the latest version.*
 
 I built an AI job-search system [for myself first](https://middleton.io/blog/ai-job-search-assistant/). A Mac Mini sitting in my office, scanning the boards twice a day, texting me only the roles worth a look, costing about a penny per run. I've written about how it works in the previous posts in this series.
 

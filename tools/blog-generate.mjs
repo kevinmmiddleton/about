@@ -278,8 +278,8 @@ const hueClass = (topic) => `hue-${TOPIC_HUE[topic] || 2}`;
 // lengthened slightly for this page. Event names deliberately match the
 // homepage so a repo's clicks aggregate across both surfaces.
 const TAKEAWAYS = [
-  ['Job Search Agent', 'Your AI recruiter. It reads your profile, pulls fresh roles, and skips what you have already seen.',
-   'https://github.com/kevinmmiddleton/job-search-agent', 'Building+JobSearchAgent'],
+  ['Recruiter BFF', 'A recruiter that works for you. It scores any posting, preps you for the interview, and keeps your pipeline in a file you own.',
+   'https://github.com/kevinmmiddleton/recruiter-bff', 'Building+JobSearchAgent'],
   ['Personal Site', 'A website from an interview. Answer the questions, get a site you own.',
    'https://github.com/kevinmmiddleton/personal-site', 'Building+PersonalSite'],
   ['Build with Claude', 'Ship apps from your phone. No IDE, no laptop, just a message.',
