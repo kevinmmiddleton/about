@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Retention &amp; Post-Purchase · concepts by Kevin Middleton</title>
+<link rel="icon" type="image/png" href="captures/favicon.png">
+<script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* palette sampled from bombas.com 2025 rebrand: promo bar and Add to Bag #223859, donations band #e8ba4c, page bone #fdfcf6, sage #b2c691 */
+    --navy:#223859; --navy-deep:#192b45; --honey:#e8ba4c; --honey-soft:#f2d58c;
+    --honey-tint:#faf2da; --navy-tint:#edf0f4;
+    --paper:#fdfcf6; --white:#ffffff; --ink:#212936; --soft:#5a6275;
+    --line:#e5e3d9; --good:#4e7a43; --bad:#b3543f; --r:14px;
+    --display:"Bricolage Grotesque", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --body:-apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono:"SF Mono", Menlo, ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body); background:var(--paper); color:var(--ink); line-height:1.55; font-size:15.5px}
+  ::selection{background:var(--honey-soft); color:var(--navy-deep)}
+  :focus-visible{outline:3px solid var(--navy); outline-offset:2px; border-radius:4px}
+  header :focus-visible, footer :focus-visible, .quiz :focus-visible{outline-color:var(--honey)}
+  .sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+  .wrap{max-width:980px; margin:0 auto; padding:0 22px}
+  img{max-width:100%; height:auto; display:block}
+
+  /* type roles: display / section / body / label / micro */
+  h1{font-family:var(--display); font-size:clamp(27px,4.4vw,40px); font-weight:800; letter-spacing:-.5px; line-height:1.12}
+  h2{font-family:var(--display); font-size:22px; font-weight:800; color:var(--navy); margin-bottom:6px}
+  h3{font-size:15.5px; font-weight:700; color:var(--navy)}
+  .label{font-size:13.5px; font-weight:600}
+  .micro{font-family:var(--mono); font-size:12px; font-weight:700}
+
+  header{background:var(--navy); color:var(--white); padding:40px 0 30px}
+  .preline{display:flex; align-items:center; gap:9px; margin-bottom:14px; flex-wrap:wrap}
+  .routebar{margin-left:auto; display:none; gap:6px}
+  .routebar.show{display:flex}
+  .rchip{border:1px solid rgba(255,255,255,.25); background:none; color:#c9d4e6; border-radius:99px; padding:4px 12px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:var(--mono); transition:background .15s, color .15s, border-color .15s}
+  .rchip:hover{border-color:var(--honey-soft); color:var(--white)}
+  .rchip.on{background:var(--honey); border-color:var(--honey); color:var(--navy-deep)}
+  .stab .tdot{display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--honey); margin-left:7px; vertical-align:2px}
+  .beechip{display:inline-flex; align-items:center; justify-content:center; width:32px; height:30px; background:var(--white); clip-path:polygon(25% 2%, 75% 2%, 99% 50%, 75% 98%, 25% 98%, 1% 50%)}
+  .beechip img{width:26px; height:26px}
+  .preline .micro{color:#c9d4e6}
+  header h1{margin:0 0 12px}
+  .sub{color:#c9d4e6; font-size:17px; max-width:640px}
+  .sub b{color:var(--honey-soft)}
+  .evidence{margin-top:22px; padding-top:14px; border-top:1px solid #38507a; color:#9fb0c9; font-size:14px; max-width:640px}
+
+  section{padding:38px 0; display:none}
+  section.active{display:block}
+  .h2sub{color:var(--soft); margin-bottom:20px; font-size:15px; max-width:68ch}
+  .take{font-family:var(--display); font-size:18px; font-weight:600; color:var(--navy); max-width:56ch; margin:2px 0 14px; line-height:1.35}
+  .quiz .take{color:var(--honey-soft)}
+  .lrow ul{margin:0 0 0 18px; padding:0; color:var(--soft); font-size:14.5px; max-width:62ch}
+  .lrow ul li{margin-bottom:5px}
+  .lrow a{color:var(--navy); font-weight:600}
+  .codepair{display:grid; grid-template-columns:1fr; gap:10px; margin:12px 0 4px; max-width:480px}
+  .codepair > *{min-width:0}
+  @media(max-width:560px){.codepair{grid-template-columns:1fr}}
+  .codebox{border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--white)}
+  .codebox .cbhead{font-family:var(--mono); font-size:11.5px; font-weight:700; text-transform:uppercase; padding:6px 12px; border-bottom:1px solid var(--line); background:#f4f5f7}
+  .codebox .cbhead.ob{color:var(--bad)} .codebox .cbhead.co{color:var(--good)}
+  .codebox pre{margin:0; padding:14px; font-family:var(--mono); font-size:12.5px; line-height:1.75; color:var(--ink); white-space:pre-wrap; overflow-wrap:break-word}
+  .codebox pre .dim{color:var(--soft)}
+  .codebox pre i{font-style:normal}
+  .codebox pre i.k{color:var(--navy); font-weight:700}
+  .codebox pre i.v{color:var(--good)}
+  .codebox pre b{font-size:15px; color:var(--bad)}
+
+  /* tab bar */
+  .tabbar{position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--line)}
+  .tabbar .wrap{display:flex; gap:6px; overflow-x:auto; padding:10px 22px; align-items:center}
+  .stab{border:0; background:none; color:var(--soft); border-radius:99px; padding:8px 14px; font-size:13.5px; font-weight:600; cursor:pointer; white-space:nowrap; font-family:var(--body); transition:background .15s}
+  .stab:hover{background:var(--honey-soft); color:var(--navy)}
+  .stab[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .stab .n{font-family:var(--mono); font-size:11px; margin-right:5px; opacity:.65}
+  .tabhint{margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--soft); white-space:nowrap; padding-left:10px}
+  @media(max-width:720px){.tabhint{display:none}}
+
+  /* ---- search sim ---- */
+  .searchbox{background:var(--white); border:2px solid var(--navy); border-radius:99px; display:flex; align-items:center; padding:6px 8px 6px 20px; max-width:560px}
+  .searchbox input{border:0; outline:0; flex:1; font-size:16px; background:transparent; color:var(--ink); font-family:var(--body)}
+  .searchbox .go{background:var(--honey); border:0; display:inline-flex; align-items:center; justify-content:center; padding:8px 18px; border-radius:99px; cursor:pointer; transition:transform .15s}
+  .searchbox .go svg{display:block}
+  .searchbox .go:hover{transform:translateY(-1px)}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 4px}
+  .chip{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:99px; padding:7px 14px; font-size:13.5px; font-weight:600; cursor:pointer; transition:background .15s; font-family:var(--body)}
+  .chip:hover{background:var(--honey-soft)}
+  .chip[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:18px}
+  .cols > *{min-width:0}
+  @media(max-width:720px){.cols{grid-template-columns:1fr}}
+  .panel{background:var(--white); border-radius:var(--r); padding:18px; border:1px solid var(--line)}
+  .panel h3{margin-bottom:12px}
+  .panel .tag{margin-left:6px; text-transform:uppercase; font-size:11.5px}
+  .panel.today .tag{color:var(--bad)}
+  .panel.couldbe .tag{color:var(--good)}
+  .capture{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-bottom:12px; background:var(--white)}
+  .capture img{width:100%; cursor:zoom-in}
+  .gate{position:fixed; inset:0; z-index:200; background:var(--navy); display:flex; align-items:center; justify-content:center; padding:24px}
+  .gate.open{display:none}
+  body.locked{overflow:hidden}
+  .gatecard{text-align:center; max-width:360px; width:100%}
+  .gatecard .beechip{width:44px; height:41px; margin:0 auto 14px}
+  .gatecard .beechip img{width:34px; height:34px}
+  .gatecard h2{color:var(--white); font-size:24px; margin:0 0 4px; border:0; padding:0}
+  .gatecard .micro{color:#c9d4e6; display:block; margin-bottom:26px}
+  .gaterow{display:flex; gap:8px}
+  .gaterow input{flex:1; min-width:0; border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.06); color:var(--white); border-radius:99px; padding:11px 18px; font-size:15px; font-family:var(--body); outline:none}
+  .gaterow input:focus{border-color:var(--honey-soft)}
+  .gaterow button{border:0; background:var(--honey); color:var(--navy-deep); border-radius:99px; padding:11px 22px; font-size:15px; font-weight:700; font-family:var(--body); cursor:pointer}
+  .gatemiss{color:var(--honey-soft); font-size:13.5px; margin-top:14px; min-height:20px}
+  .gatenote{color:#8fa0ba; font-size:12px; margin-top:26px; white-space:nowrap; margin-left:-80px; margin-right:-80px}
+  @media(max-width:600px){.gatenote{white-space:normal; margin-left:0; margin-right:0}}
+  .sitenote{margin-top:48px; padding:20px 0 28px}
+  .sitenote .wrap{font-size:13px; color:var(--white)}
+  .sitenote a{color:var(--honey-soft)}
+  .lightbox{position:fixed; inset:0; z-index:99; display:none; align-items:center; justify-content:center; padding:28px; background:rgba(25,43,69,.9); cursor:zoom-out}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:100%; max-height:100%; width:auto; height:auto; border-radius:8px; box-shadow:0 16px 56px rgba(0,0,0,.45)}
+  .capnote{font-family:var(--mono); font-size:12px; font-weight:700; color:var(--soft); padding:7px 12px; background:#f4f5f7; border-top:1px solid var(--line)}
+  .capnote a{color:var(--navy); white-space:nowrap}
+  .quote span{white-space:nowrap}
+  .zoombox{border:2px solid var(--honey); border-radius:8px; overflow:hidden; margin-bottom:12px; background:var(--white)}
+  .zoombox img{width:100%}
+  .zoombox .capnote{border-top:1px solid var(--honey-soft); background:var(--honey-tint); color:var(--navy-deep)}
+  .comparepair{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0 4px; max-width:620px}
+  .comparepair > *{min-width:0}
+  .comparepair .capture{margin:0}
+  @media(max-width:560px){.comparepair{grid-template-columns:1fr}}
+  /* results and mocks keep the system voice on purpose: they imitate real surfaces */
+  .resultline{padding:8px 10px; border-radius:8px; font-size:14.5px; margin-bottom:6px; background:#f4f5f7}
+  .resultline b{display:block; font-size:14.5px}
+  .resultline span{color:var(--soft); font-size:13px}
+  .whisper{font-size:14px; color:var(--soft); margin-top:12px; max-width:72ch}
+  .flipbar{display:flex; gap:8px; margin:18px 0 12px}
+  .flipbtn{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:10px; padding:10px 18px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:var(--body); transition:background .15s}
+  .flipbtn .tag{margin-left:7px; text-transform:uppercase; font-size:11px; font-weight:700}
+  .flipbtn .t-ob{color:var(--bad)} .flipbtn .t-co{color:var(--good)}
+  .flipbtn[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .flipbtn[aria-pressed="true"] .tag{color:var(--honey-soft)}
+  a.mockaddr{text-decoration:none; display:block}
+  a.mockaddr:hover{border-color:var(--navy)}
+  .flippad{padding:12px}
+  .flippad .capture{margin-bottom:12px}
+  .flipframe #flipbody.swap{animation:arrive .35s cubic-bezier(0.16,1,0.3,1)}
+
+  /* mini storefront mock */
+  .mock{border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--white)}
+  .mockchrome{background:#eef0f3; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px; padding:7px 10px}
+  .mockdots{display:flex; gap:4px}
+  .mockdots i{width:8px; height:8px; border-radius:50%; background:#d3d7dd}
+  .mockaddr{flex:1; min-width:0; background:var(--white); border:1px solid var(--line); border-radius:99px; font-family:var(--mono); font-size:11.5px; color:var(--soft); padding:4px 12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .mockaddr b{color:var(--navy); font-weight:700}
+  .mockbar{background:var(--navy); color:var(--white); display:flex; align-items:center; gap:10px; padding:8px 12px}
+  .mockbrand{font-weight:800; font-size:11px; letter-spacing:.18em}
+  .mockfield{flex:1; background:#ffffff22; border-radius:99px; font-size:12px; padding:4px 12px; color:#dfe7f2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .mockroute{background:var(--honey-tint); color:var(--navy-deep); font-size:12.5px; padding:8px 12px; border-bottom:1px solid var(--line)}
+  .mockroute b{font-weight:700}
+  .mocktiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; padding:10px}
+  .pair .mocktiles{grid-template-columns:repeat(2,1fr)}
+  .mocktile{border-radius:8px; padding:8px; display:flex; flex-direction:column}
+  .mocktile img{width:100%; height:auto; border-radius:6px; margin-bottom:8px}
+  .mocktile.hy{background:var(--honey-tint)} .mocktile.nv{background:var(--navy-tint)}
+  .mocktile b{font-size:12.5px; color:var(--navy); line-height:1.25}
+  .mocktile span{font-size:11.5px; color:var(--soft); margin-top:4px}
+  .mockchip{align-self:flex-start; margin-top:8px; background:var(--white); border:1px solid var(--line); border-radius:99px; font-size:11px; font-weight:700; color:var(--navy); padding:2px 8px}
+  .mockurl{font-family:var(--mono); font-size:11.5px; color:var(--soft); padding:8px 12px; border-top:1px solid var(--line); background:#fafaf8; overflow-x:auto; white-space:nowrap}
+  .mockgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:12px}
+  .mockprod .pimg{background:#f6f6f4; border-radius:8px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; overflow:hidden}
+  .mockprod .pimg img{width:100%; height:auto; mix-blend-mode:multiply}
+  .mockprod b{display:block; font-size:12px; color:var(--navy); margin-top:6px; line-height:1.3}
+  .mockprod span{font-size:11.5px; color:var(--soft)}
+  .mockhero.withimg{display:flex; gap:14px; align-items:center}
+  .mockhero .herobody{flex:1; min-width:0}
+  .mockhero .heroimg{flex:0 0 96px; background:#f6f6f4; border-radius:8px; overflow:hidden}
+  .mockhero .heroimg img{width:100%; height:auto; mix-blend-mode:multiply}
+  .mockhero{padding:12px}
+  .mockcrumb{font-size:11px; color:var(--soft); margin-bottom:6px}
+  .mockh{font-family:var(--display); font-size:17px; font-weight:800; color:var(--navy)}
+  .mocksub{font-size:12.5px; color:var(--soft); margin-top:3px}
+  .mocksub mark{background:var(--honey-soft); color:var(--navy-deep); padding:0 3px; border-radius:3px}
+  .mockquote{margin-top:8px; font-size:12px; color:var(--navy); background:var(--navy-tint); border-radius:8px; padding:7px 10px; display:inline-block}
+  .mockstate{font-family:var(--mono); font-size:11px; color:var(--good); margin-top:8px}
+  .mockflow{display:flex; align-items:center; gap:8px; padding:12px; flex-wrap:wrap}
+  .mockflow .arrow{color:var(--soft); font-size:15px}
+  .flowcard{border:1px solid var(--line); border-radius:8px; padding:8px 11px; font-size:12px; color:var(--navy); background:var(--navy-tint); font-weight:700}
+  .flowcard.dest{background:var(--honey-tint)}
+  .flowcard span{display:block; font-weight:400; color:var(--soft); font-size:11px; margin-top:2px}
+
+  /* complete the day */
+  #fit{flex-basis:100%; border-top:1px solid var(--line); margin-top:18px; padding-top:14px; display:none}
+  #fit.show{display:block}
+  .fitlabel{color:var(--soft); text-transform:uppercase; font-size:11.5px; margin-bottom:10px}
+  .fitgrid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media(max-width:560px){.fitgrid{grid-template-columns:1fr}}
+  .fititem{display:flex; gap:12px; align-items:center; border:1px solid var(--line); border-radius:10px; padding:10px; text-decoration:none; color:var(--ink); transition:transform .15s}
+  .fititem:hover{transform:translateY(-2px)}
+  .fititem .fimg{flex:0 0 64px; background:#f6f6f4; border-radius:8px; overflow:hidden}
+  .fititem .fimg img{width:100%; height:auto; mix-blend-mode:multiply}
+  .fititem b{display:block; font-size:13.5px; color:var(--navy); line-height:1.3}
+  .fititem span{font-size:12.5px; color:var(--soft)}
+  .fitline{font-family:var(--mono); font-size:12.5px; color:var(--soft); margin-top:12px}
+
+  /* guide + gift widgets */
+  .widgetcard{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:22px}
+  .gout{display:grid; grid-template-columns:auto 1fr 170px; gap:24px; align-items:center; margin-top:18px}
+  .gout > *{min-width:0}
+  @media(max-width:640px){.gout{grid-template-columns:1fr; gap:16px}}
+  .gnum{font-family:var(--display); font-size:46px; font-weight:800; color:var(--navy); line-height:1; min-width:180px}
+  .gnum small{display:block; font-family:var(--mono); font-size:12px; font-weight:700; color:var(--soft); margin-top:8px}
+  .gwhat{font-size:14.5px; color:var(--soft); max-width:52ch}
+  .gwhat b{color:var(--ink)}
+  .gprod{display:block; text-decoration:none; max-width:170px}
+  .gprod .pimg{background:#f6f6f4; border-radius:8px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; overflow:hidden}
+  .gprod .pimg img{width:100%; height:auto; mix-blend-mode:multiply}
+  .gprod b{display:block; font-size:12.5px; color:var(--navy); margin-top:6px; line-height:1.3}
+  .gprod span{font-size:11.5px; color:var(--soft)}
+  .mockurl.stand{border:1px solid var(--line); border-radius:8px; margin-top:18px; white-space:normal; font-size:12.5px}
+  .bundle{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px}
+  @media(max-width:560px){.bundle{grid-template-columns:1fr}}
+  .bundle .mockprod{transition:opacity .2s}
+  .bundle .mockprod.dim{opacity:.22}
+  .btotal{margin-top:14px; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+  .btotal .sum{font-family:var(--display); font-size:24px; font-weight:800; color:var(--navy)}
+  .btotal .note{font-size:13px; color:var(--soft)}
+
+  /* callout */
+  .callout{background:var(--navy); border-radius:12px; padding:16px 18px; font-size:14.5px; color:#dfe7f2; max-width:68ch; margin-top:14px}
+  .callout b{color:var(--honey-soft)}
+  .callout.honey{background:var(--honey-tint); color:var(--navy-deep)}
+  .callout.honey b{color:var(--navy)}
+
+  /* branding */
+  .brandrow{display:flex; align-items:center; gap:12px; margin-bottom:16px}
+  .brandrow img{height:38px; width:auto; display:block; filter:brightness(0) saturate(100%) invert(18%) sepia(22%) saturate(1600%) hue-rotate(200deg) brightness(95%) contrast(95%)}
+  .quiz .brandrow img{filter:brightness(0) invert(1)}
+  .brandrow .micro{text-transform:uppercase; font-size:11px; color:var(--soft)}
+  .quiz .brandrow .micro{color:var(--honey-soft)}
+
+  /* door accordion */
+  .doorwrap{border:1px solid var(--line); border-radius:12px; background:var(--white); margin-bottom:10px; overflow:hidden}
+  .door{width:100%; text-align:left; background:none; border:0; cursor:pointer; display:grid; grid-template-columns:180px 1fr auto; gap:12px; align-items:center; padding:14px 16px; font-family:var(--body)}
+  .door:hover{background:var(--honey-tint)}
+  .doorlabel{font-weight:700; color:var(--navy); font-size:14.5px}
+  .doorchips{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .dchip{font-size:12.5px; padding:4px 10px; border-radius:99px; font-weight:600}
+  .dchip.b{background:#f7ebe7; color:var(--bad)}
+  .dchip.g{background:#ebf2e6; color:var(--good)}
+  .doorplus{font-family:var(--mono); color:var(--soft); font-size:18px; transition:transform .2s; line-height:1}
+  .door[aria-expanded="true"] .doorplus{transform:rotate(45deg)}
+  .doorbody{display:none; padding:2px 16px 16px}
+  .door[aria-expanded="true"] + .doorbody{display:block}
+  .doorbody .pair{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px}
+  .doorbody .pair > *{min-width:0}
+  @media(max-width:720px){.doorbody .pair{grid-template-columns:1fr} .door{grid-template-columns:1fr; gap:8px} .doorplus{display:none}}
+
+  /* journey stepper */
+  .journey .jstep{display:none}
+  .journey .jstep.on{display:block; animation:arrive .3s cubic-bezier(0.16,1,0.3,1)}
+  .jdots{display:flex; gap:10px; justify-content:center; align-items:center; margin-top:10px}
+  .jdot{width:11px; height:11px; border-radius:50%; background:var(--line); border:0; cursor:pointer; padding:0; transition:background .15s}
+  .jdot:hover{background:var(--honey)}
+  .jdot[aria-pressed="true"]{background:var(--navy)}
+  .jhint{font-family:var(--mono); font-size:11px; color:var(--soft); margin-left:6px}
+
+  /* mock google organic result */
+  .gres{border:1px solid var(--line); border-radius:10px; background:var(--white); padding:14px; font-family:arial, sans-serif}
+  .gres .gurl{font-size:12px; color:#202124; margin-bottom:2px}
+  .gres .gtitle{color:#1a0dab; font-size:16.5px; margin-bottom:3px}
+  .gres .gsnip{font-size:13px; color:#4d5156; max-width:52ch}
+
+  /* mock AI answer */
+  .aimock{border:1px solid var(--line); border-radius:10px; background:var(--white); padding:14px}
+  .aimock .aiq{font-weight:700; font-size:13.5px; color:var(--navy); margin-bottom:8px}
+  .aimock .aia{font-size:13px; color:var(--ink); max-width:52ch}
+  .aimock .aia b{color:var(--navy)}
+  .aisrc{display:inline-flex; align-items:center; gap:6px; margin-top:10px; border:1px solid var(--line); border-radius:99px; padding:4px 12px; font-family:var(--mono); font-size:11.5px; color:var(--navy); background:var(--honey-tint)}
+
+  /* test card: hypothesis / metric / guardrail */
+  .testcard{margin-top:14px; background:var(--white); border:1px solid var(--line); border-radius:10px; padding:14px 16px; display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:14px}
+  .testcard .micro{color:var(--soft); padding-top:2px; text-transform:uppercase; font-size:11.5px}
+  @media(max-width:560px){.testcard{grid-template-columns:1fr; gap:2px}}
+
+  /* ---- quiz ---- */
+  .quiz{background:var(--navy); border-radius:18px; padding:26px; color:var(--white)}
+  .quiz h2{color:var(--white)}
+  .quiz .h2sub{color:#b9c6da}
+  .qstep{margin-top:14px}
+  .qlabel{color:var(--honey-soft); margin-bottom:8px; font-size:12.5px}
+  .qopts{display:flex; flex-wrap:wrap; gap:8px}
+  .qbtn{background:#31497097; color:var(--white); border:1.5px solid #4d648a; border-radius:10px; padding:10px 16px; cursor:pointer; font-size:14.5px; font-weight:600; transition:border-color .15s, transform .15s; font-family:var(--body)}
+  .qbtn:hover{border-color:var(--honey); transform:translateY(-1px)}
+  .qbtn[aria-pressed="true"]{background:var(--honey); color:var(--navy-deep); border-color:var(--honey); font-weight:800}
+  .progress{display:flex; gap:6px; margin-top:20px; max-width:280px}
+  .progress i{height:6px; flex:1; border-radius:99px; background:#31497097; transition:background .3s}
+  .progress i.on{background:var(--honey)}
+  .verdict{margin-top:16px; background:var(--white); color:var(--ink); border-radius:14px; padding:20px; display:none}
+  .verdict.show{display:flex; flex-wrap:wrap; gap:18px; align-items:flex-start; animation:arrive .45s cubic-bezier(0.16,1,0.3,1)}
+  .vmedia{flex:0 0 120px; background:#f6f6f4; border-radius:10px; overflow:hidden}
+  .vmedia img{width:100%; height:auto; mix-blend-mode:multiply}
+  .vbody{flex:1; min-width:0}
+  @media(max-width:560px){.verdict.show{flex-direction:column} .vmedia{flex-basis:auto; width:120px}}
+  @keyframes arrive{from{transform:translateY(10px) scale(.98); opacity:0} to{transform:none; opacity:1}}
+  .verdict .vtitle{font-family:var(--display); font-weight:800; font-size:20px; color:var(--navy)}
+  .vchips{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0}
+  .vchip{background:var(--honey-tint); color:var(--navy-deep); border-radius:99px; font-size:12px; font-weight:700; padding:4px 10px}
+  .verdict .vwhy{color:var(--soft); font-size:14.5px; margin:6px 0 12px; max-width:68ch}
+  #vlinks a{display:inline-block; background:var(--navy); color:var(--white); text-decoration:none; font-weight:700; border-radius:99px; padding:9px 18px; font-size:14px; transition:transform .15s; margin-right:8px}
+  #vlinks a:hover{transform:translateY(-2px)}
+  #vlinks a.alt{background:var(--white); color:var(--navy); border:1.5px solid var(--navy)}
+  .vroute{font-family:var(--mono); font-size:12.5px; color:var(--soft); margin-top:12px}
+  .tapcount{color:#b9c6da; margin-top:10px}
+
+  /* ---- evidence ledger ---- */
+  .ledger{border-top:2px solid var(--navy)}
+  .lrow{display:grid; grid-template-columns:1.5fr 1fr; gap:10px 28px; padding:20px 0; border-bottom:1px solid var(--line)}
+  .lrow > *{min-width:0}
+  @media(max-width:720px){.lrow{grid-template-columns:1fr}}
+  .lrow h3{font-family:var(--display); font-size:17px; font-weight:800; margin-bottom:6px}
+  .lrow.lead h3{font-size:21px}
+  .lrow p{color:var(--soft); font-size:14.5px; max-width:62ch}
+  .lrow .so{font-size:14px; color:var(--navy); font-weight:600; align-self:start; padding-top:2px}
+  .lrow .so .micro{display:block; color:var(--soft); margin-bottom:4px; text-transform:uppercase; font-size:11.5px}
+  .lrow .capture{margin:12px 0 4px; max-width:600px}
+
+  /* ---- audience strip ---- */
+  .aud{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:22px; display:grid; grid-template-columns:auto 1fr; gap:8px 0; align-items:center}
+  @media(max-width:720px){.aud{grid-template-columns:1fr}}
+  .aud .zerowrap{display:flex; align-items:center; gap:18px}
+  .aud .zero{font-family:var(--display); font-size:92px; font-weight:800; color:var(--navy); line-height:.9}
+  .aud .zerolbl{font-size:14.5px; color:var(--soft); max-width:20ch}
+  .zerolbl a{color:var(--navy); font-weight:600}
+  .audmeta{border-left:1px solid var(--line); margin-left:32px; padding:4px 0 4px 32px; display:flex; flex-direction:column; gap:10px}
+  @media(max-width:720px){.audmeta{border-left:0; margin-left:0; padding:16px 12px 4px; border-top:1px solid var(--line); margin-top:12px}}
+  .bar{height:12px; border-radius:99px; overflow:hidden; display:flex; max-width:420px}
+  .bar .f{background:var(--honey)} .bar .m{background:var(--navy)}
+  .audline{font-size:13.5px; color:var(--soft)}
+  .audline b{color:var(--ink)}
+  .quoteband{grid-column:1/-1; border-top:1px solid var(--line); margin-top:16px; padding-top:16px}
+  .quoteband .micro{color:var(--soft); text-transform:uppercase; font-size:11.5px; display:block; margin-bottom:10px}
+  .quoterow{display:flex; gap:10px; flex-wrap:wrap}
+  .quote{background:var(--navy-tint); border-radius:10px; padding:10px 14px; font-size:13.5px; color:var(--navy); max-width:32ch; text-decoration:none; display:block; transition:transform .15s}
+  a.quote:hover{transform:translateY(-2px)}
+  .quote span{display:block; font-size:12px; color:var(--soft); margin-top:4px}
+  .quoteband p{font-size:13.5px; color:var(--soft); margin:-2px 0 12px; max-width:68ch}
+
+  /* ---- intent router ---- */
+  .router{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:22px}
+  .rtabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px}
+  .rtab{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:10px; padding:9px 15px; font-size:13.5px; font-weight:600; cursor:pointer; transition:background .15s; font-family:var(--body)}
+  .rtab:hover{background:var(--honey-soft)}
+  .rtab[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .route{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .route > *{min-width:0}
+  @media(max-width:720px){.route{grid-template-columns:1fr}}
+  .rsignal{grid-column:1/-1; font-family:var(--mono); font-size:12.5px; color:var(--soft); background:#f4f5f7; border-radius:8px; padding:10px 14px}
+  .rsignal b{color:var(--navy); font-weight:700}
+  .rsignal a{color:var(--navy)}
+  .rcol h3{margin-bottom:8px}
+  .rcol .tag{margin-left:6px; text-transform:uppercase; font-size:11.5px}
+  .rcol.now .tag{color:var(--bad)}
+  .rcol.next .tag{color:var(--good)}
+  .rcol > p{font-size:14px; color:var(--soft); max-width:52ch; margin-bottom:10px}
+  .rcol p b{color:var(--ink)}
+  .route .testcard{grid-column:1/-1; margin-top:2px}
+  .rfoot{margin-top:14px; font-size:13.5px; color:var(--soft)}
+
+  /* ---- open questions ---- */
+  .qs{counter-reset:q}
+  .qitem{display:grid; grid-template-columns:34px 108px 1fr; gap:14px; align-items:baseline; padding:14px 0; border-bottom:1px solid var(--line); font-size:16px}
+  .qitem > span:last-child{text-wrap:pretty}
+  .qitem::before{counter-increment:q; content:counter(q,decimal-leading-zero); font-family:var(--mono); font-weight:700; font-size:13px; color:var(--honey); background:var(--navy); border-radius:6px; padding:2px 7px}
+  .qtag{font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--soft); white-space:nowrap}
+  @media(max-width:560px){.qitem{grid-template-columns:auto 1fr} .qtag{grid-column:2}}
+
+  .postscript{border-top:1px solid var(--line); padding:22px 0; color:var(--soft); font-size:13.5px; max-width:72ch}
+  .postscript b{color:var(--ink)}
+
+  footer{background:var(--navy-deep); color:#9fb0c9; padding:26px 0; font-size:13px}
+  footer a{color:var(--honey-soft)}
+
+  a.ext::after, .arr{content:""; display:inline-block; width:.8em; height:.8em; margin-left:.38em; flex:none;
+    background:currentColor;
+    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 17 L17 7 M9.5 7 H17 V14.5' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+    mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 17 L17 7 M9.5 7 H17 V14.5' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat}
+  .arr{transform:rotate(45deg); margin:0 .18em; vertical-align:-.06em}
+  .mockurl .arr{margin-right:.3em}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important}
+    html{scroll-behavior:auto}
+  }
+
+  /* ===== retention additions ===== */
+  .partlink{color:#c9d4e6; font-family:var(--mono); font-size:12px; font-weight:700; text-decoration:none; border:1px solid rgba(255,255,255,.25); border-radius:99px; padding:3px 10px}
+  .partlink:hover{border-color:var(--honey-soft); color:var(--white)}
+  .northline{margin-top:18px; padding-top:14px; border-top:1px solid #38507a; color:#c9d4e6; font-size:14.5px; max-width:680px}
+  .northline b{color:var(--honey-soft)}
+
+  /* stat strip */
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:6px 0 18px}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--white); border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+  .stat b{display:block; font-family:var(--display); font-size:34px; font-weight:800; color:var(--navy); line-height:1}
+  .stat span{display:block; font-size:13px; color:var(--soft); margin-top:6px}
+  .stat.hot{background:var(--honey-tint); border-color:var(--honey-soft)}
+
+  /* day strip */
+  .daystrip{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:18px 18px 12px}
+  .dfilters{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px}
+  .days{display:grid; grid-template-columns:repeat(27,1fr); gap:3px; align-items:end}
+  .dcol{display:flex; flex-direction:column-reverse; align-items:center; gap:3px; min-height:108px; min-width:0}
+  .dnum{font-family:var(--mono); font-size:10px; color:var(--soft); margin-top:4px}
+  .dot{width:100%; max-width:22px; aspect-ratio:1; border-radius:50%; border:0; cursor:pointer; padding:0; transition:transform .15s, opacity .2s}
+  .dot:hover{transform:scale(1.15)}
+  .dot.k-store{background:var(--navy)}
+  .dot.k-mkt{background:#c9cdd4}
+  .dot.k-rev{background:var(--honey)}
+  .dot.k-team{background:var(--good)}
+  .dot.hot{box-shadow:0 0 0 3px var(--bad)}
+  .dot.fade{opacity:.15}
+  .dot[aria-pressed="true"]{outline:3px solid var(--navy); outline-offset:2px}
+  .dlegend{display:flex; flex-wrap:wrap; gap:14px; margin-top:12px; font-size:12.5px; color:var(--soft)}
+  .dlegend i{display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:-1px}
+  .dcard{margin-top:14px; border-top:1px solid var(--line); padding-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .dcard > *{min-width:0}
+  @media(max-width:720px){.dcard{grid-template-columns:1fr}}
+  .dmeta{font-family:var(--mono); font-size:12px; font-weight:700; color:var(--soft); text-transform:uppercase}
+  .dsubj{font-family:var(--display); font-size:19px; font-weight:800; color:var(--navy); margin:4px 0 8px; line-height:1.2}
+  .dknew{font-size:14px; color:var(--soft)}
+  .dknew b{color:var(--ink)}
+  .dkpill{display:inline-block; border-radius:99px; font-size:12px; font-weight:700; padding:3px 10px; margin-top:10px}
+  .dkpill.no{background:#f7ebe7; color:var(--bad)}
+  .dkpill.yes{background:#ebf2e6; color:var(--good)}
+  .dkpill.part{background:var(--honey-tint); color:var(--navy-deep)}
+  .creditband{margin-top:14px; background:var(--navy); color:#dfe7f2; border-radius:12px; padding:20px 22px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); gap:22px; align-items:center}
+  @media(max-width:720px){.creditband{grid-template-columns:1fr; gap:14px}}
+  .creditband .micro{display:block; color:var(--honey-soft); text-transform:uppercase; font-size:11px; margin-bottom:6px}
+  .cbhead p{font-size:15px; line-height:1.45; margin:0}
+  .creditband b{color:var(--honey-soft)}
+  .cbstats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px}
+  @media(max-width:520px){.cbstats{grid-template-columns:1fr}}
+  .cbstat{background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:12px 14px}
+  .cbstat .big{display:block; font-family:var(--display); font-size:30px; font-weight:800; color:var(--honey); line-height:1; margin-bottom:6px; white-space:nowrap}
+  .cbstat span:last-child{display:block; font-size:12.5px; line-height:1.4; color:#c9d4e6}
+  @media(max-width:520px){.cbstat{display:flex; align-items:center; gap:12px; padding:10px 12px} .cbstat .big{margin:0; font-size:22px; min-width:78px}}
+
+  /* systems row */
+  .systems{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; align-items:center}
+  .sys{border:1px solid var(--line); background:var(--white); border-radius:10px; padding:8px 12px; font-size:13px}
+  .sys b{display:block; color:var(--navy); font-size:13.5px}
+  .sys span{color:var(--soft); font-size:12px}
+  .sysarrow{color:var(--soft); font-family:var(--mono)}
+
+  /* account home mock */
+  .acct{display:grid; grid-template-columns:200px 1fr; gap:14px; padding:14px; background:#f3f2ec}
+  @media(max-width:640px){.acct{grid-template-columns:1fr}}
+  .acctnav{background:var(--white); border-radius:10px; padding:14px; font-size:12.5px; color:var(--soft); align-self:start}
+  .acctnav b{display:block; font-family:var(--display); font-size:16px; color:var(--navy); text-align:center; margin-bottom:10px}
+  .acctnav div{padding:5px 0; border-top:1px solid var(--line)}
+  .acctmain{display:flex; flex-direction:column; gap:10px; min-width:0}
+  .acard{background:var(--white); border-radius:10px; padding:12px 14px; font-size:13px}
+  .acard h4{font-size:13.5px; color:var(--navy); margin-bottom:6px}
+  .impact{background:var(--honey-tint); border:1px solid var(--honey-soft); display:flex; gap:14px; align-items:center}
+  .impact .n{font-family:var(--display); font-size:42px; font-weight:800; color:var(--navy); line-height:1}
+  .impact .t b{color:var(--navy)}
+  .impact .t span{display:block; color:var(--soft); font-size:12px; margin-top:3px}
+  .fitq{display:flex; gap:12px; align-items:center}
+  .fitq img{width:62px; border-radius:8px; mix-blend-mode:multiply; background:#f6f6f4}
+  .fitbtns{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
+  .fitbtn{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:99px; padding:5px 12px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:var(--body)}
+  .fitbtn:hover{background:var(--honey-soft)}
+  .fitbtn[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .fitout{font-family:var(--mono); font-size:11.5px; color:var(--good); margin-top:8px; min-height:16px}
+  .orow{display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap}
+  .opill{font-size:11.5px; font-weight:700; border-radius:99px; padding:3px 10px; background:var(--navy-tint); color:var(--navy)}
+  .opill.store{background:#ebf2e6; color:var(--good)}
+  .helplink{font-size:12.5px; font-weight:700; color:var(--navy); text-decoration:underline; text-underline-offset:3px; cursor:default}
+  .bagain{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:6px}
+  .bagain .it{font-size:11.5px; color:var(--soft)}
+  .bagain .it img{width:100%; height:110px; object-fit:contain; border-radius:8px; background:#f6f6f4; mix-blend-mode:multiply}
+  .bagain .it img.photo{object-fit:cover; mix-blend-mode:normal}
+  .bagain .it b{display:block; color:var(--navy); font-size:12px; margin-top:4px; line-height:1.25}
+  .bagain .it .sz{font-family:var(--mono); font-size:11px; color:var(--good)}
+
+  /* help stepper */
+  .stepcount{display:flex; gap:10px; flex-wrap:wrap; margin:6px 0 14px}
+  .scount{background:var(--white); border:1px solid var(--line); border-radius:10px; padding:10px 14px; font-size:13.5px}
+  .scount b{font-family:var(--display); font-size:24px; font-weight:800; color:var(--navy); margin-right:6px}
+  .scount.bad b{color:var(--bad)} .scount.good b{color:var(--good)}
+  .hsteps{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+  @media(max-width:720px){.hsteps{grid-template-columns:1fr 1fr}}
+  .hstep .capture{margin-bottom:0}
+  .hstep .capnote{white-space:normal}
+  .hnum{font-family:var(--mono); font-size:11px; font-weight:700; color:var(--white); background:var(--bad); border-radius:6px; padding:2px 7px; display:inline-block; margin-bottom:6px}
+  .hnum.g{background:var(--good)}
+  .helpmenu{margin-top:8px; border:1px solid var(--line); border-radius:10px; overflow:hidden}
+  .helpmenu button{display:block; width:100%; text-align:left; border:0; border-top:1px solid var(--line); background:var(--white); padding:10px 12px; font-size:13px; color:var(--navy); font-weight:600; cursor:pointer; font-family:var(--body)}
+  .helpmenu button:first-child{border-top:0}
+  .helpmenu button:hover, .helpmenu button[aria-pressed="true"]{background:var(--honey-tint)}
+  .helpout{font-size:12.5px; color:var(--soft); padding:10px 12px; background:#fafaf8; border-top:1px solid var(--line); min-height:40px}
+  .helpout b{color:var(--good)}
+
+  /* personalization sorter */
+  .sorter{display:grid; grid-template-columns:1.25fr 1fr; gap:16px}
+  .sorter > *{min-width:0}
+  @media(max-width:820px){.sorter{grid-template-columns:1fr}}
+  .sig{background:var(--white); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:8px}
+  .sig .what{font-size:14px; color:var(--ink); font-weight:600}
+  .sig .src{font-family:var(--mono); font-size:11px; color:var(--soft); margin-top:2px}
+  .sigbtns{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap}
+  .sigbtn{border:1.5px solid var(--line); background:var(--white); border-radius:99px; padding:5px 12px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:var(--body); color:var(--soft)}
+  .sigbtn.e:hover, .sigbtn.e[aria-pressed="true"]{border-color:var(--good); color:var(--good); background:#ebf2e6}
+  .sigbtn.q:hover, .sigbtn.q[aria-pressed="true"]{border-color:var(--bad); color:var(--bad); background:#f7ebe7}
+  .mycall{display:none; margin-top:8px; font-size:13px; color:var(--soft); border-left:3px solid var(--honey); padding-left:10px}
+  .mycall.show{display:block; animation:arrive .3s cubic-bezier(0.16,1,0.3,1)}
+  .mycall b{color:var(--navy)}
+  .mycall .agree{font-family:var(--mono); font-size:11px; font-weight:700; margin-right:6px}
+  .mycall .agree.y{color:var(--good)} .mycall .agree.n{color:var(--bad)}
+  .preview{position:sticky; top:70px; align-self:start}
+  .rules{padding:12px; display:flex; flex-direction:column; gap:6px; min-height:120px}
+  .rule{font-size:12.5px; background:#ebf2e6; color:var(--good); border-radius:8px; padding:7px 10px; font-weight:600}
+  .rule.quiet{background:#f4f5f7; color:var(--soft); font-weight:500}
+  .rules .empty{font-size:12.5px; color:var(--soft)}
+  .principle{font-family:var(--display); font-size:20px; font-weight:800; color:var(--navy); line-height:1.3; margin:4px 0 16px; max-width:40ch}
+  .principle span{color:var(--honey); background:var(--navy); padding:0 6px; border-radius:4px}
+  .scoreline{font-family:var(--mono); font-size:12px; color:var(--soft); padding:10px 12px; border-top:1px solid var(--line)}
+
+  /* one journey: dual timeline */
+  .tl{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:18px}
+  .tlrow{display:grid; grid-template-columns:70px 1fr; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); align-items:start}
+  .tlrow:last-child{border-bottom:0}
+  .tlday{font-family:var(--mono); font-size:12px; font-weight:700; color:var(--navy); padding-top:3px}
+  .tlitems{display:flex; flex-wrap:wrap; gap:6px}
+  .tli{border-radius:8px; padding:6px 10px; font-size:12.5px; line-height:1.35; max-width:100%}
+  .tli.mkt{background:#f4f5f7; color:var(--soft)}
+  .tli.store{background:var(--navy-tint); color:var(--navy)}
+  .tli.rev{background:var(--honey-tint); color:var(--navy-deep)}
+  .tli.hot{outline:2px solid var(--bad)}
+  .tli.new{background:#ebf2e6; color:#2f5428}
+  .tli.team{background:#e3efe0; color:#2f5428; border:1px dashed #9cc08f}
+  .tli .who{display:block; font-family:var(--mono); font-size:10.5px; font-weight:700; text-transform:uppercase; opacity:.75}
+  .tli .moves{display:block; font-family:var(--mono); font-size:10.5px; color:var(--good); margin-top:3px}
+  .tlsum{font-family:var(--mono); font-size:12.5px; color:var(--soft); margin-top:12px}
+  .tlsum b{color:var(--navy)}
+
+  /* north star tree */
+  .tree{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:20px}
+  .nsroot{background:var(--navy); color:var(--white); border-radius:12px; padding:14px 18px; text-align:center}
+  .nsroot .micro{color:var(--honey-soft); display:block; margin-bottom:4px; text-transform:uppercase; font-size:11px}
+  .nsroot b{font-family:var(--display); font-size:19px; font-weight:800}
+  .nsstem{width:2px; height:18px; background:var(--line); margin:0 auto}
+  .nsinputs{display:grid; grid-template-columns:repeat(4,1fr); gap:8px}
+  @media(max-width:720px){.nsinputs{grid-template-columns:1fr 1fr}}
+  .nsin{border:1.5px solid var(--navy); background:var(--white); border-radius:10px; padding:10px; font-size:13px; font-weight:700; color:var(--navy); cursor:pointer; font-family:var(--body); text-align:center; transition:background .15s}
+  .nsin:hover{background:var(--honey-soft)}
+  .nsin[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .nsout{margin-top:14px}
+  .nsconcepts{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px}
+  .nsc{background:var(--honey-tint); color:var(--navy-deep); border-radius:99px; font-size:12.5px; font-weight:700; padding:4px 11px}
+  .defbox{margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  @media(max-width:640px){.defbox{grid-template-columns:1fr}}
+  .defcol{border:1px solid var(--line); border-radius:10px; padding:12px 14px; font-size:13.5px}
+  .defcol h4{font-size:12px; font-family:var(--mono); text-transform:uppercase; margin-bottom:6px}
+  .defcol.in h4{color:var(--good)} .defcol.out h4{color:var(--bad)}
+  .defcol ul{margin-left:16px; color:var(--soft)}
+  .agency{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px}
+  @media(max-width:720px){.agency{grid-template-columns:1fr 1fr}}
+  .lane{background:#f4f5f7; border-radius:10px; padding:10px}
+  .lane h5{font-family:var(--mono); font-size:11px; text-transform:uppercase; color:var(--soft); margin-bottom:8px}
+  .lcard{background:var(--white); border:1px solid var(--line); border-radius:8px; padding:7px 9px; font-size:12px; color:var(--ink); margin-bottom:6px}
+  .lcard.lost{border-color:#e6c4bb}
+  .lcard .r{display:block; font-family:var(--mono); font-size:10.5px; margin-top:3px}
+  .lcard .r.w{color:var(--good)} .lcard .r.l{color:var(--bad)}
+
+  @media(max-width:560px){
+    .dnum{font-size:9px}
+    .dcol:not(:nth-child(5n+1)) .dnum{visibility:hidden}
+    .days{gap:2px}
+  }
+
+  /* ===== build once, use everywhere ===== */
+  .take a{color:var(--navy); text-decoration:underline; text-underline-offset:3px}
+  .cfgwrap{display:grid; grid-template-columns:340px 1fr; gap:16px; align-items:start}
+  .cfgwrap > *{min-width:0}
+  @media(max-width:900px){.cfgwrap{grid-template-columns:1fr}}
+  .cfgpanel{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:16px}
+  @media(max-width:900px){.cfgpanel{position:static}}
+  .cfghead{display:flex; justify-content:space-between; align-items:center; margin-bottom:6px}
+  .cfghead .micro{color:var(--soft); text-transform:uppercase; font-size:11px}
+  .cfgver{font-family:var(--mono); font-size:11px; color:var(--soft); background:#f4f5f7; border-radius:99px; padding:2px 8px}
+  .cfgfield{border-top:1px solid var(--line); padding:12px 0 4px}
+  .cfglabel{display:block; font-family:var(--mono); font-size:11.5px; font-weight:700; text-transform:uppercase; color:var(--navy); margin-bottom:8px}
+  .cfgfield .chips{margin:0}
+  .cfgfield .chip{padding:5px 11px; font-size:12.5px}
+  .pick{display:grid; grid-template-columns:40px 1fr; gap:8px; align-items:center; margin-bottom:8px}
+  .pick img{width:40px; height:40px; object-fit:contain; border-radius:6px; background:#f6f6f4; mix-blend-mode:multiply}
+  .pick img.photo{object-fit:cover; mix-blend-mode:normal}
+  .pick select{width:100%; font-family:var(--body); font-size:12.5px; border:1px solid var(--line); border-radius:6px; padding:4px 6px; background:var(--white); color:var(--ink)}
+  .pick .bk{display:flex; gap:6px; align-items:center; margin-top:4px; font-family:var(--mono); font-size:10.5px; color:var(--soft)}
+  .pick .bk select{font-size:11.5px; padding:2px 4px}
+  .pick .so{font-family:var(--mono); font-size:10.5px; font-weight:700; color:var(--bad); margin-top:3px}
+  .cfgbtn{border:0; background:var(--navy); color:var(--white); border-radius:99px; padding:8px 16px; font-size:13px; font-weight:700; cursor:pointer; font-family:var(--body); margin-top:8px}
+  .cfgbtn.ghost{background:var(--white); color:var(--bad); border:1.5px solid var(--bad)}
+  .cfgbtn.ghost[aria-pressed="true"]{background:var(--bad); color:var(--white)}
+  .cfgdates{display:flex; gap:10px; flex-wrap:wrap}
+  .cfgdates label{font-size:12px; color:var(--soft); display:flex; flex-direction:column; gap:3px}
+  .cfgdates input{font-family:var(--mono); font-size:12px; border:1px solid var(--line); border-radius:6px; padding:4px 6px; color:var(--ink)}
+  .cfgnote{font-size:12px; color:var(--soft); margin-top:6px}
+  .wf{display:flex; flex-wrap:wrap; gap:4px}
+  .wfs{font-family:var(--mono); font-size:10.5px; font-weight:700; border-radius:99px; padding:3px 8px; background:#f4f5f7; color:var(--soft)}
+  .wfs.done{background:#ebf2e6; color:var(--good)}
+  .wfs.on{background:var(--navy); color:var(--white)}
+
+  .prevgrid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .prevgrid > *{min-width:0}
+  @media(max-width:640px){.prevgrid{grid-template-columns:1fr}}
+  .pvlabel{display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:6px}
+  .pvlabel .micro{color:var(--soft); text-transform:uppercase; font-size:10.5px}
+  .pvtag{font-family:var(--mono); font-size:10px; font-weight:700; border-radius:99px; padding:2px 7px; white-space:nowrap}
+  .pvtag.preview{background:var(--honey-tint); color:var(--navy-deep)}
+  .pvtag.live{background:#ebf2e6; color:var(--good)}
+  .pvtag.ended{background:#f4f5f7; color:var(--soft)}
+  .pvhero{padding:12px; color:var(--white)}
+  .pvhero .k{font-family:var(--mono); font-size:10px; opacity:.8; text-transform:uppercase}
+  .pvhero .h{font-family:var(--display); font-weight:800; font-size:17px; line-height:1.2; margin:3px 0 8px}
+  .pvq{font-size:11.5px; margin-bottom:6px; opacity:.9}
+  .pvbtns{display:flex; flex-wrap:wrap; gap:5px}
+  .pvbtn{background:rgba(255,255,255,.95); color:var(--navy-deep); border-radius:99px; font-size:11px; font-weight:700; padding:4px 9px}
+  .pvtiles{display:grid; grid-template-columns:repeat(3,1fr); gap:6px; padding:10px}
+  .pvtile{font-size:10.5px; color:var(--navy); font-weight:700; line-height:1.25; position:relative}
+  .pvtile img{width:100%; height:70px; object-fit:contain; border-radius:6px; background:#f6f6f4; mix-blend-mode:multiply; margin-bottom:4px}
+  .pvtile img.photo{object-fit:cover; mix-blend-mode:normal}
+  .pvtile .bkup{position:absolute; top:4px; left:4px; background:var(--honey); color:var(--navy-deep); font-family:var(--mono); font-size:9px; border-radius:4px; padding:1px 5px}
+  .pvemail .ehead{padding:8px 12px; border-bottom:1px solid var(--line); font-size:11px; color:var(--soft)}
+  .pvemail .ehead b{display:block; color:var(--ink); font-size:12.5px}
+  .pvemail .ebody{padding:12px}
+  .pvemail .eh{font-family:var(--display); font-weight:800; font-size:15px; color:var(--navy); margin-bottom:8px}
+  .elink{display:block; border:1.5px solid var(--navy); border-radius:8px; padding:6px 10px; margin-bottom:6px; font-size:12px; font-weight:700; color:var(--navy)}
+  .elink span{display:block; font-family:var(--mono); font-size:9.5px; font-weight:400; color:var(--soft); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .pvstory{aspect-ratio:9/14; max-height:340px; margin:0 auto; border-radius:16px; padding:16px; color:var(--white); display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; position:relative}
+  .pvstory .h{font-family:var(--display); font-weight:800; font-size:20px; line-height:1.15}
+  .pvstory .imgs{display:flex; gap:6px; justify-content:center}
+  .pvstory .imgs img{width:31%; aspect-ratio:1; object-fit:contain; background:rgba(255,255,255,.92); border-radius:10px}
+  .pvstory .imgs img.photo{object-fit:cover}
+  .sticker{align-self:center; background:var(--white); color:var(--navy-deep); border-radius:10px; padding:7px 12px; font-weight:800; font-size:13px; box-shadow:0 4px 14px rgba(0,0,0,.2)}
+  .pvstory .lnk{font-family:var(--mono); font-size:9.5px; text-align:center; opacity:.85; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .pvstory.off{background:#f4f5f7 !important; color:var(--soft); justify-content:center; text-align:center; font-size:13px}
+  .pvacct{padding:12px; background:#f3f2ec}
+  .pvacct .acard{font-size:12px}
+  .pvacct .tg{font-family:var(--mono); font-size:10.5px; color:var(--good)}
+  .watermark{position:relative}
+  .watermark::after{content:"PREVIEW"; position:absolute; top:8px; right:8px; font-family:var(--mono); font-size:10px; font-weight:700; color:var(--navy-deep); background:var(--honey-soft); border-radius:4px; padding:1px 6px; pointer-events:none}
+
+  .owners{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  @media(max-width:720px){.owners{grid-template-columns:1fr}}
+  .owner{background:var(--white); border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:13px; color:var(--soft)}
+  .owner b{display:block; color:var(--navy); font-size:13.5px; margin-bottom:3px}
+  .owner.me{border:2px solid var(--navy); background:var(--navy-tint)}
+  .guards{display:flex; flex-wrap:wrap; gap:6px}
+  .guard{background:#ebf2e6; color:#2f5428; border-radius:99px; padding:5px 11px; font-size:12.5px; font-weight:600}
+  .guard::before{content:"\2713"; margin-right:6px}
+
+  .tabbar .wrap{gap:2px}
+  .tabbar .stab{padding:7px 9px; font-size:12.5px}
+  .tabbar .stab .n{margin-right:4px}
+
+  .cfgsub{font-weight:400; text-transform:none; color:var(--soft); margin-left:4px}
+  .cpf{display:block; margin-bottom:8px}
+  .cpl{display:flex; justify-content:space-between; font-size:11.5px; color:var(--soft); margin-bottom:3px}
+  .cc{font-family:var(--mono); font-size:10.5px; color:var(--soft)}
+  .cc.max{color:var(--bad); font-weight:700}
+  .cpf input, .ansrow input{width:100%; font-family:var(--body); font-size:13px; border:1px solid var(--line); border-radius:6px; padding:6px 8px; color:var(--ink); background:var(--white)}
+  .cpf input:focus, .ansrow input:focus, .ansrow select:focus{outline:2px solid var(--honey); border-color:var(--honey)}
+  .ansrow{display:grid; grid-template-columns:1fr 1fr 22px; gap:5px; align-items:center; margin-bottom:5px}
+  .ansrow select{width:100%; font-family:var(--body); font-size:11.5px; border:1px solid var(--line); border-radius:6px; padding:5px 4px; background:var(--white); color:var(--ink)}
+  .ansx{border:0; background:none; color:var(--soft); font-size:16px; cursor:pointer; line-height:1}
+  .ansx:hover{color:var(--bad)}
+  .ansbtns{display:flex; flex-wrap:wrap; gap:6px; margin:4px 0 8px}
+  .cfgbtn.small{padding:5px 11px; font-size:12px; margin-top:0}
+  .cfgbtn.ghostn{background:var(--white); color:var(--navy); border:1.5px solid var(--navy)}
+  .cpf.vb input{border-color:var(--honey); background:var(--honey-tint)}
+  .abchip{margin-left:6px; background:var(--honey); color:var(--navy-deep); border-radius:4px; padding:0 5px}
+  .pvfine{font-size:10px; color:var(--soft); padding:0 10px 8px}
+  .lib{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  @media(max-width:720px){.lib{grid-template-columns:1fr 1fr}}
+  @media(max-width:460px){.lib{grid-template-columns:1fr}}
+  .libcard{background:var(--white); border:1px solid var(--line); border-radius:10px; padding:11px 12px; font-size:12.5px; color:var(--soft); position:relative}
+  .libcard b{display:block; color:var(--navy); font-size:14px; margin-bottom:3px}
+  .libcard.on{border:2px solid var(--navy)}
+  .libcard.on::after{content:"in the studio above"; position:absolute; top:10px; right:10px; font-family:var(--mono); font-size:9.5px; color:var(--good)}
+  .libtag{display:inline-block; font-family:var(--mono); font-size:9.5px; font-weight:700; border-radius:99px; padding:1px 7px; margin-bottom:6px}
+  .libtag.both{background:var(--navy-tint); color:var(--navy)}
+  .libtag.acq{background:var(--honey-tint); color:var(--navy-deep)}
+  .libtag.ret{background:#ebf2e6; color:var(--good)}
+  .libmock{display:flex; gap:4px; margin-top:8px}
+  .libmock i{flex:1; height:16px; border-radius:4px; background:#eef0f3}
+  .libmock i.s{flex:.5; background:var(--honey-soft)}
+  .libmock.two i{height:30px}
+  .libmock.grid{display:grid; grid-template-columns:repeat(4,1fr)}
+  .libmock.big i{height:30px; background:var(--honey-tint)}
+  .locks{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px}
+  @media(max-width:640px){.locks{grid-template-columns:1fr}}
+  .lockcol{border-radius:12px; padding:12px 14px; font-size:13.5px}
+  .lockcol h4{font-family:var(--mono); font-size:11.5px; text-transform:uppercase; margin-bottom:6px}
+  .lockcol ul{margin-left:16px}
+  .lockcol.open{background:#ebf2e6; color:#2f5428}
+  .lockcol.shut{background:var(--navy); color:#dfe7f2}
+  .lockcol.shut h4{color:var(--honey-soft)}
+
+  /* chunky SVG arrows (same stroke weight as part one's link arrow) */
+  .ico{display:inline-block; width:.95em; height:.95em; vertical-align:-.12em; background:currentColor; flex:none}
+  .ico-r{-webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 12 H19 M13 6 L19 12 L13 18' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+         mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 12 H19 M13 6 L19 12 L13 18' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat}
+  .ico-ne{-webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 17 L17 7 M9.5 7 H17 V14.5' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+          mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 17 L17 7 M9.5 7 H17 V14.5' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat}
+  .sticker{display:inline-flex; align-items:center; gap:6px}
+  .sysarrow{display:inline-flex; align-items:center; color:var(--soft)}
+  .elink span.ico{display:inline-block; margin:0 0 0 4px; overflow:visible; white-space:normal; vertical-align:-.1em}
+  .sticker .ico{width:1.05em; height:1.05em}
+
+  /* ===== account home + help concepts, Bombas-style ===== */
+  .bx{display:grid; grid-template-columns:190px 1fr; gap:14px; padding:16px; background:#f0efe9}
+  .bx > *{min-width:0}
+  @media(max-width:720px){.bx{grid-template-columns:1fr} .bx-link{display:none} .bx-hi{border:0; padding:0; margin:0}}
+  .bx-nav{background:var(--white); border-radius:14px; padding:16px 14px; align-self:start}
+  .bx-hi{font-family:Georgia,"Times New Roman",serif; font-size:19px; color:var(--ink); text-align:center; padding-bottom:12px; border-bottom:1px solid var(--line); margin-bottom:6px}
+  .bx-link{font-size:13px; color:var(--soft); padding:6px 4px}
+  .bx-link.on{color:var(--ink); font-weight:700}
+  .bx-main{display:flex; flex-direction:column; gap:12px; min-width:0}
+  .bx-row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .bx-row > *{min-width:0}
+  @media(max-width:900px){.bx-row{grid-template-columns:1fr}}
+  .bx-card{background:var(--white); border-radius:14px; padding:16px}
+  .bx-h{font-weight:800; font-size:15px; color:var(--ink)}
+  .bx-sub{font-size:12px; color:var(--soft); margin:2px 0 10px}
+  .bx-impact{background:var(--honey); border-radius:14px; padding:16px 18px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; color:var(--navy-deep)}
+  .bx-n{font-family:var(--display); font-size:52px; font-weight:800; line-height:.9}
+  .bx-it{flex:1; min-width:200px}
+  .bx-it b{display:block; font-size:15px}
+  .bx-socks{display:flex; align-items:flex-end; gap:5px; margin-top:8px; flex-wrap:wrap}
+  .bx-sock{width:14px; height:19px; fill:var(--navy-deep)}
+  .bx-sock.next{fill:none; stroke:var(--navy-deep); stroke-width:1.6; stroke-dasharray:2.5 2}
+  .bx-socks span{font-size:11.5px; font-weight:700; margin-left:4px}
+  .bx-pillw{background:var(--white); color:var(--navy-deep); border-radius:99px; padding:8px 14px; font-size:12.5px; font-weight:800; display:inline-flex; align-items:center; gap:6px; white-space:nowrap}
+  .bx-size{display:grid; grid-template-columns:96px auto 1fr; gap:8px; align-items:center; padding:7px 0; border-top:1px solid var(--line); font-size:12.5px}
+  .bx-sl{color:var(--soft)}
+  .bx-chip{background:var(--navy); color:var(--white); border-radius:8px; font-weight:800; font-size:13px; padding:3px 10px; text-align:center; min-width:34px; transition:background .3s}
+  .bx-chip.changed{background:var(--good)}
+  .bx-src{font-size:11px; color:var(--soft)}
+  .bx-fit{display:flex; gap:10px; align-items:flex-start; margin-top:10px; background:#f7f6f1; border-radius:10px; padding:10px}
+  .bx-fit img{width:48px; height:48px; object-fit:contain; border-radius:8px; background:#fff; mix-blend-mode:multiply}
+  .bx-fit b{font-size:12.5px; color:var(--ink)}
+  .bx-fitbtns{display:flex; flex-wrap:wrap; gap:5px; margin-top:6px}
+  .bx-fitbtns button{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:99px; padding:4px 10px; font-size:12px; font-weight:700; cursor:pointer; font-family:var(--body)}
+  .bx-fitbtns button:hover{background:var(--honey-soft)}
+  .bx-fitbtns button[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .bx-fitnote{font-family:var(--mono); font-size:10.5px; color:var(--good); margin-top:6px}
+  .bx-order{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 0; border-top:1px solid var(--line)}
+  .bx-order:first-of-type{border-top:0}
+  .bx-order b{display:block; font-size:13px; color:var(--ink)}
+  .bx-order span{display:block; font-size:12px; color:var(--soft)}
+  .bx-store{display:inline-flex !important; align-items:center; gap:4px; color:var(--good) !important; font-weight:700; font-size:11.5px !important; margin-top:3px}
+  .bx-store.pill{background:#ebf2e6; border-radius:99px; padding:4px 10px; margin:0}
+  .bx-pin{width:13px; height:13px; flex:none}
+  .bx-pillo{border:1.5px solid var(--navy); color:var(--navy); border-radius:99px; padding:5px 12px; font-size:12px; font-weight:800; text-decoration:none; white-space:nowrap}
+  .bx-pillo:hover{background:var(--honey-soft)}
+  .bx-again{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px}
+  @media(max-width:640px){.bx-again{grid-template-columns:1fr}}
+  .bx-ag{display:grid; grid-template-columns:52px 1fr auto; gap:10px; align-items:center; border:1px solid var(--line); border-radius:12px; padding:8px}
+  .bx-ag.pair{border-style:dashed}
+  .bx-th{width:52px; height:52px; border-radius:10px; background:#f6f6f4; display:flex; align-items:center; justify-content:center; overflow:hidden}
+  .bx-th img{width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply}
+  .bx-th.cover img{object-fit:cover; mix-blend-mode:normal}
+  .bx-ag b{display:block; font-size:12.5px; color:var(--ink); line-height:1.25}
+  .bx-agsz{font-family:var(--mono); font-size:11px; color:var(--soft); border-radius:4px; padding:0 3px; transition:background .3s}
+  .bx-agsz.changed{color:var(--good); font-weight:700}
+  .flash{animation:flash 1s ease}
+  @keyframes flash{0%{box-shadow:0 0 0 0 rgba(232,186,76,.9)} 100%{box-shadow:0 0 0 10px rgba(232,186,76,0)}}
+  .bx-add{background:var(--navy); color:var(--white); border-radius:99px; padding:6px 11px; font-size:11.5px; font-weight:800; white-space:nowrap}
+  .bx-add.ghost{background:var(--white); color:var(--navy); border:1.5px solid var(--navy)}
+
+  .hx{max-width:720px}
+  .hx-body{padding:16px; background:#f0efe9}
+  .hx-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; background:var(--white); border-radius:14px 14px 0 0; padding:14px 16px; border-bottom:1px solid var(--line)}
+  .hx-title{font-family:Georgia,"Times New Roman",serif; font-size:20px; color:var(--ink)}
+  .hx-meta{font-size:12px; color:var(--soft); margin-top:2px}
+  .hx-item{display:grid; grid-template-columns:52px 1fr auto; gap:12px; align-items:center; background:var(--white); padding:12px 16px; border-bottom:1px solid var(--line)}
+  @media(max-width:560px){.hx-item{grid-template-columns:52px 1fr} .hx-acts{grid-column:1/-1}}
+  .hx-it b{display:block; font-size:13px; color:var(--ink)}
+  .hx-it span{display:block; font-size:12px; color:var(--soft)}
+  .hx-it .hx-sale{font-family:var(--mono); font-size:10.5px; color:var(--bad)}
+  .hx-acts{display:flex; gap:6px}
+  .hx-acts button{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:99px; padding:6px 12px; font-size:12px; font-weight:800; cursor:pointer; font-family:var(--body); white-space:nowrap}
+  .hx-acts button:hover{background:var(--honey-soft)}
+  .hx-flow{background:var(--navy-tint); padding:14px 16px; border-bottom:1px solid var(--line); position:relative; animation:arrive .3s cubic-bezier(0.16,1,0.3,1)}
+  .hx-steps{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px}
+  .hx-steps span{font-family:var(--mono); font-size:10.5px; font-weight:700; border-radius:99px; padding:2px 8px; background:var(--white); color:var(--soft)}
+  .hx-steps span.done{background:#ebf2e6; color:var(--good)}
+  .hx-steps span.on{background:var(--navy); color:var(--white)}
+  .hx-q{font-weight:800; font-size:13.5px; color:var(--navy); margin-bottom:8px}
+  .hx-opts{display:flex; flex-wrap:wrap; gap:6px}
+  .hx-opts button{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:10px; padding:8px 14px; font-size:13px; font-weight:800; cursor:pointer; font-family:var(--body); min-width:46px; display:inline-flex; flex-direction:column; align-items:center}
+  .hx-opts button:hover{background:var(--honey-soft)}
+  .hx-opts button.mine{border-style:dashed; color:var(--soft)}
+  .hx-opts button small{font-family:var(--mono); font-size:9px; font-weight:400}
+  .hx-opts.wide button{flex-direction:row}
+  .hx-note, .hx-save{font-size:13px; color:var(--ink); margin-bottom:8px}
+  .hx-save b{color:var(--navy)}
+  .hx-save .hx-opts{margin-top:8px}
+  .hx-done{font-size:13px; color:var(--ink); background:#ebf2e6; border-radius:10px; padding:10px 12px}
+  .hx-done b{color:#2f5428}
+  .hx-cancel{position:absolute; top:10px; right:12px; border:0; background:none; color:var(--soft); font-size:12px; cursor:pointer; text-decoration:underline; font-family:var(--body)}
+  .hx-foot{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; background:var(--white); border-radius:0 0 14px 14px; padding:12px 16px; font-size:12.5px}
+  .hx-chat{color:var(--navy); font-weight:800; display:inline-flex; align-items:center; gap:6px}
+  .hx-track{color:var(--soft)}
+
+  /* ===== north star tab ===== */
+  .nstree{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:20px}
+  .nstree .nsroot{position:relative; z-index:1}
+  .nsbranch{position:relative; height:26px; margin:0 12.5%}
+  .nsbranch::before{content:""; position:absolute; left:50%; top:0; width:2px; height:13px; background:var(--navy); transform:translateX(-1px)}
+  .nsbranch::after{content:""; position:absolute; left:0; right:0; top:13px; height:13px; border:2px solid var(--navy); border-bottom:0; border-radius:8px 8px 0 0}
+  .nscards{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; position:relative}
+  .nscards::before{content:""; position:absolute; left:37.5%; width:25%; top:-13px; height:13px; border-left:2px solid var(--navy); border-right:2px solid var(--navy)}
+  @media(max-width:860px){.nscards{grid-template-columns:1fr 1fr} .nsbranch,.nscards::before{display:none} .nstree .nsroot{margin-bottom:12px}}
+  @media(max-width:520px){.nscards{grid-template-columns:1fr}}
+  .nscard{border:1.5px solid var(--line); border-radius:12px; padding:12px; display:flex; flex-direction:column; background:var(--white); transition:border-color .15s, box-shadow .15s}
+  .nscard.on{border-color:var(--navy); box-shadow:0 0 0 3px var(--navy-tint)}
+  .nsnum{font-family:var(--mono); font-size:10.5px; font-weight:700; color:var(--soft); text-transform:uppercase}
+  .nscard > b{font-family:var(--display); font-size:16px; font-weight:800; color:var(--navy); line-height:1.2; margin:2px 0 8px}
+  .nsmoved{font-family:var(--mono); font-size:10px; color:var(--soft); text-transform:uppercase; margin-bottom:4px}
+  .nscard ul{list-style:none; margin:0 0 10px; padding:0; flex:1}
+  .nscard li{border-top:1px solid var(--line)}
+  .nscard li a{display:block; padding:7px 0; text-decoration:none; color:var(--ink); font-size:12.5px; font-weight:600; line-height:1.3}
+  .nscard li a > span{display:flex; align-items:center; gap:4px; font-family:var(--mono); font-size:10px; font-weight:700; color:var(--blue, #2b5d9b); color:var(--navy); opacity:.7; margin-top:2px}
+  .nscard li a:hover{color:var(--navy)}
+  .nscard li a:hover > span{opacity:1}
+  .nstest{border:1.5px solid var(--navy); background:var(--white); color:var(--navy); border-radius:99px; padding:6px 10px; font-size:12px; font-weight:800; cursor:pointer; font-family:var(--body)}
+  .nstest:hover{background:var(--honey-soft)}
+  .nstest[aria-pressed="true"]{background:var(--navy); color:var(--white)}
+  .nstc{margin-top:14px}
+  .nstc .micro{display:block; color:var(--soft); text-transform:uppercase; font-size:11px; margin-bottom:-6px}
+  .nsdef{display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:12px; margin-top:16px; align-items:stretch}
+  @media(max-width:760px){.nsdef{grid-template-columns:1fr}}
+  .nsdef-l .micro{display:block; color:var(--soft); text-transform:uppercase; font-size:11px; margin-bottom:4px}
+  .nsdef-l h3{font-family:var(--display); font-size:18px; font-weight:800; margin-bottom:6px}
+  .nsdef-l p{font-size:13.5px; color:var(--soft)}
+  .nsdef .defcol{background:var(--white)}
+  .nsdef .defcol.in{background:#ebf2e6; border-color:#cfe2c6}
+  .nsdef .defcol.out{background:#f7ebe7; border-color:#ecd2ca}
+  .nsagency{margin-top:22px; background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:20px}
+  .nsag-head{display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap}
+  .nsag-head .micro{display:block; color:var(--soft); text-transform:uppercase; font-size:11px; margin-bottom:4px}
+  .nsag-head h3{font-family:var(--display); font-size:18px; font-weight:800}
+  .nsag-metric{background:var(--honey-tint); color:var(--navy-deep); border-radius:99px; padding:5px 12px; font-size:12.5px; font-weight:700}
+  .nsag-p{font-size:14px; color:var(--soft); margin:8px 0 12px; max-width:72ch}
+  .agency .lane{border-top:3px solid var(--line)}
+  .agency .lane.l1{border-top-color:#c9cdd4} .agency .lane.l2{border-top-color:var(--honey)} .agency .lane.l3{border-top-color:var(--navy)} .agency .lane.l4{border-top-color:var(--good)}
+  .agency .lane h5{display:flex; justify-content:space-between; align-items:center}
+  .agency .lane h5 i{font-style:normal; background:var(--white); border-radius:99px; padding:0 7px; color:var(--navy)}
+  .lcard .r:not(.w):not(.l){color:var(--soft)}
+
+  #northstar h2 + .nstree{margin-top:14px}
+  #northstar .nsdef{margin:14px 0 20px}
+
+  /* tagging + holiday */
+  .bx-grp{font-family:var(--mono); font-size:10.5px; font-weight:700; text-transform:uppercase; color:var(--soft); margin:10px 0 2px}
+  .bx-chip.gift{background:var(--honey); color:var(--navy-deep)}
+  .bx-empty{font-size:12px; color:var(--soft); background:#f7f6f1; border-radius:8px; padding:8px 10px; margin-top:4px}
+  .bx-buy{display:grid; grid-template-columns:52px 1fr; gap:10px; padding:10px 0; border-top:1px solid var(--line)}
+  .bx-buy:first-child{border-top:0}
+  .bx-bi b{display:block; font-size:13px; color:var(--ink)}
+  .bx-bi > span{display:block; font-size:11.5px; color:var(--soft)}
+  .bx-tags{display:flex; flex-wrap:wrap; gap:4px; margin-top:6px}
+  .bx-tags button{border:1.5px solid var(--line); background:var(--white); color:var(--soft); border-radius:99px; padding:3px 9px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:var(--body)}
+  .bx-tags button:hover{border-color:var(--navy); color:var(--navy)}
+  .bx-tags button[aria-pressed="true"]{background:var(--navy); border-color:var(--navy); color:var(--white)}
+  .bx-who{margin-top:6px; font-size:12px; color:var(--soft)}
+  .bx-who input{margin-left:4px; border:1.5px solid var(--honey); background:var(--honey-tint); border-radius:6px; padding:3px 7px; font-size:12px; font-family:var(--body); width:130px; color:var(--ink)}
+  .bx-helplink{display:inline-flex; align-items:center; gap:5px; margin-top:8px; font-size:12px; font-weight:800; color:var(--navy); text-decoration:none}
+  .bx-again.one{grid-template-columns:1fr}
+  .bx-holiday{background:#fbf6e8; border:1.5px dashed var(--honey)}
+  .bx-holiday .bx-ag{background:var(--white)}
+  .bx-gnote{font-size:11px; color:var(--soft); margin-top:8px}
+  .holi-wrap{margin-top:26px}
+  .holi-wrap > .micro{display:block; color:var(--soft); text-transform:uppercase; font-size:11px; margin-bottom:2px}
+  .holi-wrap h3{font-family:var(--display); font-size:18px; font-weight:800; margin-bottom:10px}
+  .holi{display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:12px; align-items:start}
+  @media(max-width:760px){.holi{grid-template-columns:1fr}}
+  .hm-btn{display:inline-flex; align-items:center; gap:6px; background:var(--navy); color:var(--white); border-radius:99px; padding:8px 14px; font-size:12.5px; font-weight:800; margin-top:4px}
+  .hm-small{font-size:11px; color:var(--soft); margin-top:8px}
+  .hm-page{padding:14px; background:#f0efe9}
+  .hm-hi{font-family:Georgia,"Times New Roman",serif; font-size:19px; color:var(--ink)}
+  .hm-sub{font-size:12.5px; color:var(--soft); margin-bottom:8px}
+  .hm-item{display:grid; grid-template-columns:52px 1fr auto; gap:10px; align-items:center; background:var(--white); border-radius:12px; padding:8px; margin-bottom:6px}
+  .hm-item b{display:block; font-size:12.5px; color:var(--ink)}
+  .hm-item span{font-size:11.5px; color:var(--soft)}
+  .hm-save{background:var(--navy); color:var(--white); text-align:center; border-radius:99px; padding:9px; font-size:12.5px; font-weight:800; margin-top:8px}
+  .hm-not{text-align:center; font-size:11.5px; color:var(--soft); text-decoration:underline; margin-top:6px}
+  .linkspec{display:grid; grid-template-columns:1fr 1fr 1.3fr; gap:10px; margin-top:12px}
+  @media(max-width:760px){.linkspec{grid-template-columns:1fr}}
+  .ls{border-radius:12px; padding:12px 14px; font-size:13px}
+  .ls h4{font-family:var(--mono); font-size:11px; text-transform:uppercase; margin-bottom:6px}
+  .ls ul{margin-left:16px}
+  .ls.in{background:#ebf2e6; color:#2f5428}
+  .ls.out{background:#f7ebe7; color:#7a3424}
+  .ls.note{background:var(--navy); color:#dfe7f2}
+  .ls.note h4{color:var(--honey-soft)}
+  .ls code{background:rgba(255,255,255,.15); color:var(--white)}
+
+  /* ===== personalization, reimagined ===== */
+  .sigcols{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px}
+  @media(max-width:760px){.sigcols{grid-template-columns:1fr}}
+  .sigcol{border-radius:12px; padding:12px 14px}
+  .sigcol h4{font-family:var(--mono); font-size:11.5px; text-transform:uppercase; margin-bottom:6px}
+  .sigcol ul{list-style:none; margin:0; padding:0}
+  .sigcol li{font-size:13.5px; font-weight:600; padding:6px 0; border-top:1px solid rgba(0,0,0,.07); display:flex; justify-content:space-between; gap:8px}
+  .sigcol li:first-child{border-top:0}
+  .sigcol li span{font-family:var(--mono); font-size:10.5px; font-weight:400; opacity:.75; white-space:nowrap}
+  .sigcol.told{background:#ebf2e6; color:#2f5428}
+  .sigcol.did{background:var(--navy-tint); color:var(--navy)}
+  .sigcol.never{background:#f7ebe7; color:#7a3424}
+  .sigcol.never li{text-decoration:line-through; text-decoration-color:rgba(122,52,36,.45)}
+  .pzgrid{display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); gap:14px; align-items:start; margin-bottom:12px}
+  @media(max-width:820px){.pzgrid{grid-template-columns:1fr}}
+  .pz{border-width:2px}
+  .pz.bad{border-color:#e3b3a6} .pz.good{border-color:#a9cf9c}
+  .pz-banner{position:relative; background:var(--navy); color:var(--white); font-size:12px; font-weight:700; text-align:center; padding:8px 30px}
+  .pz.bad .pz-banner{background:#7a3424} .pz.good .pz-banner{background:#2f5428}
+  .pz-nav{display:flex; gap:14px; align-items:center; padding:10px 14px; border-bottom:1px solid var(--line); font-size:12.5px; color:var(--soft)}
+  .pz-nav b{letter-spacing:.14em; color:var(--ink); margin-right:6px; font-size:12px}
+  .pz-nav span.on{color:var(--ink); font-weight:800; text-decoration:underline; text-underline-offset:4px}
+  .pz-hero{position:relative; display:grid; grid-template-columns:1fr 120px; gap:12px; align-items:center; padding:16px 18px; background:#f0efe9}
+  .pz-eb{font-family:var(--mono); font-size:10.5px; font-weight:700; text-transform:uppercase; color:var(--soft)}
+  .pz-h{font-family:var(--display); font-weight:800; font-size:21px; color:var(--navy); line-height:1.15; margin:3px 0}
+  .pz-hs{font-size:12.5px; color:var(--soft)}
+  .pz-ctas{display:flex; gap:6px; margin-top:8px}
+  .pz-ctas span{background:var(--navy); color:var(--white); border-radius:99px; padding:5px 12px; font-size:11.5px; font-weight:800}
+  .pz-hero img{width:120px; height:100px; object-fit:contain; mix-blend-mode:multiply}
+  .pz-body{display:grid; grid-template-columns:1fr 188px; gap:10px; padding:12px 14px}
+  @media(max-width:560px){.pz-body{grid-template-columns:1fr}}
+  .pz-tiles{position:relative; display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  .pz-tile{font-size:11.5px; color:var(--ink); line-height:1.25}
+  .pz-tile .bx-th{width:100%; height:72px; margin-bottom:5px}
+  .pz-tile b{display:block; font-weight:700}
+  .pz-tile em{display:inline-block; font-style:normal; font-family:var(--mono); font-size:10px; font-weight:700; border-radius:4px; padding:1px 5px; margin-top:3px; background:#ebf2e6; color:var(--good)}
+  .pz.bad .pz-tile em{background:#f7ebe7; color:var(--bad)}
+  .pz-side{position:relative; background:var(--honey-tint); border-radius:10px; padding:10px; font-size:12px; color:var(--soft)}
+  .pz.bad .pz-side{background:#f7ebe7}
+  .pz.good .pz-side{background:var(--honey)}
+  .pz-side b{display:block; color:var(--navy-deep); font-size:12.5px; margin-bottom:3px}
+  .pzpin{display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; background:var(--ink); color:var(--white); font-family:var(--mono); font-size:11px; font-weight:700; flex:none}
+  .pz .pzpin{position:absolute; top:6px; left:6px; z-index:2; box-shadow:0 0 0 2px var(--white)}
+  .pz.bad .pzpin, .pznotes.bad .pzpin{background:var(--bad)}
+  .pz.good .pzpin, .pznotes.good .pzpin{background:var(--good)}
+  .pz-tiles .pzpin{top:-8px; left:-8px}
+  .pznotes{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
+  .pznotes li{display:flex; gap:10px; align-items:flex-start; background:var(--white); border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:13.5px; color:var(--soft)}
+  .pznotes li b{color:var(--ink)}
+  .pznotes.bad li{border-color:#ecd2ca} .pznotes.good li{border-color:#cfe2c6}
+  .pz-hero .pzpin{left:auto; right:8px; top:8px}
+  .pz-side .pzpin{left:auto; right:-8px; top:-8px}
+
+  /* pin 4: side module, styled per mode */
+  .pz-side{display:flex; flex-direction:column; gap:6px; padding:12px}
+  .pz .pz-side.everyone{background:var(--navy-tint)}
+  .ps-new{align-self:flex-start; font-family:var(--mono); font-size:10px; font-weight:700; text-transform:uppercase; background:var(--navy); color:var(--white); border-radius:4px; padding:2px 6px}
+  .ps-t{font-size:13px; color:var(--navy-deep); line-height:1.25}
+  .ps-s{font-size:11.5px; color:var(--soft); line-height:1.35}
+  .ps-cta{align-self:flex-start; margin-top:auto; white-space:nowrap; background:var(--navy); color:var(--white); border-radius:99px; padding:6px 12px; font-size:11.5px; font-weight:800; display:inline-flex; align-items:center; gap:5px}
+  .pz .pz-side.creepy{background:#fff; border:1px solid #ecd2ca}
+  .pz .pz-side.creepy{gap:7px; box-shadow:0 6px 18px rgba(122,52,36,.12)}
+  .ps-toast{background:#f7ebe7; border-radius:8px; padding:7px 9px 8px}
+  .ps-th{display:flex; align-items:center; gap:5px; margin-bottom:3px}
+  .ps-th svg{width:13px; height:13px; color:var(--bad); flex:none}
+  .ps-th span{font-family:var(--mono); font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--bad)}
+  .ps-th i{margin-left:auto; font-style:normal; font-size:10px; color:var(--soft)}
+  .ps-toast p{margin:0; font-size:11.5px; line-height:1.35; color:var(--soft)}
+  .pz-side .ps-toast p b{display:inline; margin:0; font-size:11.5px; color:#7a3424}
+  .ps-cta.full{align-self:stretch; justify-content:center}
+  .ps-cta.bad{background:var(--bad)}
+  .pz .pz-side.right{background:var(--honey); color:var(--navy-deep)}
+  .pz-side.right .ps-t{color:var(--navy-deep)}
+  .pz-side.right .ps-s{color:#5a4a1e}
+  .ps-head{display:flex; align-items:center; gap:10px}
+  .ps-n{font-family:var(--display); font-size:38px; font-weight:800; line-height:.9; color:var(--navy-deep)}
+  .ps-socks{display:flex; gap:3px; padding-top:4px}
+  .ps-socks .bx-sock{width:13px; height:18px; fill:var(--navy-deep)}
+  .ps-cta.light{background:var(--white); color:var(--navy-deep)}
+
+  /* tab 2: pointers to findings shown in full later */
+  .later{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:10px}
+  @media(max-width:900px){.later{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.later{grid-template-columns:1fr}}
+  .latercard{display:flex; flex-direction:column; gap:5px; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:12px 14px; text-decoration:none; color:var(--ink); transition:border-color .15s, transform .15s}
+  .latercard:hover{border-color:var(--navy); transform:translateY(-1px)}
+  .latercard .micro{font-size:10.5px; text-transform:uppercase; color:var(--soft); display:flex; align-items:center; gap:4px}
+  .latercard b{font-size:14px; line-height:1.3; color:var(--navy-deep)}
+  .latercard > span:last-child{font-size:12.5px; color:var(--soft); line-height:1.4}
+
+  /* tab 7: one governance block */
+  .locks.three{grid-template-columns:1fr 1fr 1.15fr; margin-top:8px}
+  @media(max-width:900px){.locks.three{grid-template-columns:1fr}}
+  .lockcol li{margin-bottom:4px; line-height:1.4}
+  .lockcol.rest{background:var(--white); border:1px solid var(--line); color:var(--ink)}
+  .lockcol.rest h4{color:var(--soft)}
+  .lockcol ul.plain{list-style:none; margin-left:0}
+  .lockcol ul.plain li{margin-bottom:7px}
+  .lockcol.rest b{color:var(--navy-deep)}
+
+  .stats.three{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:560px){.stats.three{grid-template-columns:1fr}}
+  .stat b small{font-size:.5em; font-weight:700; color:var(--soft); margin-left:2px}
+
+  /* ===== five-chapter layout ===== */
+  h3.chh{margin-top:28px}
+  .thesis{font-family:var(--display); font-size:21px; font-weight:800; color:var(--navy); line-height:1.3; max-width:40ch; margin:28px 0 4px; padding-left:14px; border-left:4px solid var(--honey)}
+
+  /* ch1 findings */
+  .fcard{background:var(--white); border:1px solid var(--line); border-radius:12px; padding:14px; display:flex; flex-direction:column}
+  .fcard h4{font-size:15px; font-weight:800; color:var(--navy-deep); margin:10px 0 4px; line-height:1.3}
+  .fcard p{font-size:13.5px; color:var(--soft); line-height:1.45}
+  .fcard .fso{margin-top:auto; padding-top:10px; color:var(--navy-deep); font-weight:600}
+  .fcard .fso .micro{display:block; color:var(--soft); text-transform:uppercase; font-size:10.5px; margin-bottom:2px; font-weight:700}
+  .fcard.wide{display:grid; grid-template-columns:1.15fr 1fr; gap:16px; align-items:center; margin-top:10px}
+  .fcard.wide h4{margin-top:0}
+  .fthumbs{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+  .fthumb{margin:0}
+  .fthumb img{width:100%; height:128px; object-fit:cover; object-position:top; cursor:zoom-in}
+  .fthumb .capnote{font-size:11px; padding:5px 8px}
+  .fgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+  @media(max-width:820px){.fgrid{grid-template-columns:1fr} .fcard.wide{grid-template-columns:1fr}}
+
+  /* ch2 learn more */
+  .learn{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+  @media(max-width:860px){.learn{grid-template-columns:1fr}}
+  .lcardx{background:var(--white); border:1px solid var(--line); border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:6px}
+  .lcardx h4{font-size:15px; font-weight:800; color:var(--navy-deep); line-height:1.3}
+  .lcardx > p{font-size:13.5px; color:var(--soft); line-height:1.45}
+  .lm{background:var(--navy-tint); border-radius:10px; padding:10px 12px; margin:4px 0 2px; font-size:13px; color:var(--navy-deep)}
+  .lm-row{display:flex; justify-content:space-between; align-items:center; font-weight:600}
+  .lm-tog{width:34px; height:20px; border-radius:99px; background:var(--navy); position:relative; flex:none}
+  .lm-tog::after{content:""; position:absolute; right:3px; top:3px; width:14px; height:14px; border-radius:50%; background:var(--white)}
+  .lm-tags{display:flex; flex-wrap:wrap; gap:5px; margin-top:9px}
+  .lm-tags span{border:1px solid #c9d0db; background:var(--white); border-radius:99px; padding:3px 9px; font-size:12px; font-weight:600}
+  .lm-tags span.on{background:var(--navy); border-color:var(--navy); color:var(--white)}
+  .lm-give{background:var(--honey-tint)}
+  .lm-give b{display:block; font-size:13.5px}
+  .lm-give span{display:block; font-size:12.5px; color:var(--soft); margin:2px 0 8px}
+  .lm-prog{height:6px; border-radius:99px; background:#efe3bd; overflow:hidden}
+  .lm-prog i{display:block; width:66%; height:100%; background:var(--honey)}
+  .lm-give small{display:block; font-size:11.5px; color:var(--soft); margin-top:4px}
+  .lm-note{font-size:12px !important; color:var(--soft)}
+  .lm-rule{display:grid; gap:8px}
+  .lm-rule div{font-size:13px; font-weight:600}
+  .lm-k{display:block; font-family:var(--mono); font-size:10px; font-weight:700; text-transform:uppercase; color:var(--soft); margin-bottom:1px}
+  .lm-rulep{font-size:13px; color:var(--navy-deep)}
+  .lm-link{margin-top:auto; font-size:13px; font-weight:700; color:var(--navy); text-decoration:none; display:inline-flex; align-items:center; gap:5px}
+  .lm-link:hover{text-decoration:underline}
+
+  .giftband{display:grid; grid-template-columns:1.5fr 1fr; gap:22px; align-items:center; background:var(--navy); color:#dfe7f2; border-radius:var(--r); padding:22px 24px; margin-top:16px}
+  @media(max-width:760px){.giftband{grid-template-columns:1fr}}
+  .giftband .micro{display:block; color:var(--honey-soft); text-transform:uppercase; font-size:11px; margin-bottom:4px}
+  .giftband h3{color:var(--white); font-family:var(--display); font-size:19px; font-weight:800; margin-bottom:6px}
+  .giftband p{font-size:14px; line-height:1.5}
+  .giftband a{color:var(--honey-soft)}
+  .gb-card{justify-self:center; width:220px; background:var(--paper); color:var(--ink); border-radius:12px; padding:16px; transform:rotate(-2.5deg); box-shadow:0 10px 24px rgba(0,0,0,.25); display:flex; flex-direction:column; align-items:center; text-align:center; gap:4px}
+  .gb-bee img{width:26px; height:26px}
+  .gb-card b{font-family:var(--display); font-size:16px; color:var(--navy-deep)}
+  .gb-card > span:not(.gb-bee){font-size:12.5px; color:var(--soft)}
+  .gb-qr{display:grid; grid-template-columns:repeat(3,14px); gap:3px; margin:8px 0 2px}
+  .gb-qr i{width:14px; height:14px; background:var(--navy-deep); border-radius:2px}
+  .gb-qr i:nth-child(2), .gb-qr i:nth-child(4), .gb-qr i:nth-child(8){background:transparent; border:2px solid var(--navy-deep)}
+  .gb-card small{font-family:var(--mono); font-size:10px; color:var(--soft); text-transform:uppercase}
+
+  /* ch3 sub-tabs */
+  .subnav{display:flex; gap:4px; border-bottom:1px solid var(--line); margin:4px 0 18px; overflow-x:auto}
+  .subbtn{background:none; border:0; border-bottom:3px solid transparent; padding:9px 12px 8px; font:inherit; font-size:14.5px; font-weight:700; color:var(--soft); cursor:pointer; white-space:nowrap}
+  .subbtn:hover{color:var(--navy)}
+  .subbtn[aria-selected="true"]{color:var(--navy); border-bottom-color:var(--honey)}
+  .subpane{display:none}
+  .subpane.on{display:block}
+  h3.subh{font-family:var(--display); font-size:20px; font-weight:800; color:var(--navy); margin:0 0 4px}
+  .howknow{display:inline-flex; align-items:center; gap:6px; margin-top:20px; padding:9px 15px; border:1px solid var(--line); border-radius:99px; background:var(--white); font-size:14px; font-weight:700; color:var(--navy); text-decoration:none}
+  .howknow:hover{border-color:var(--navy)}
+
+  /* ch4 tests, audit, board */
+  #nscards, #audit{scroll-margin-top:96px}
+  .nstc .testcard + .testcard{margin-top:8px}
+  .tfrom{grid-column:1/-1; justify-self:start; font-family:var(--mono); font-size:10.5px; font-weight:700; text-transform:uppercase; background:var(--honey-tint); color:var(--navy); border-radius:4px; padding:2px 7px; margin-bottom:4px}
+  .nstest i{font-style:normal; font-size:11px; background:var(--honey); color:var(--navy-deep); border-radius:99px; padding:0 6px; margin-left:4px}
+  .audit{margin-top:22px; background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:20px}
+  .audit-head .micro{display:block; color:var(--soft); text-transform:uppercase; font-size:11px; margin-bottom:4px}
+  .audit-head h3{font-family:var(--display); font-size:19px; font-weight:800; margin-bottom:6px}
+  .audit-head p{font-size:14px; color:var(--soft); max-width:70ch}
+  .asteps{list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0 0; padding:0}
+  @media(max-width:900px){.asteps{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.asteps{grid-template-columns:1fr}}
+  .asteps li{background:var(--navy-tint); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:4px}
+  .anum{width:24px; height:24px; border-radius:50%; background:var(--honey); color:var(--navy-deep); font-weight:800; font-size:13px; display:grid; place-items:center}
+  .asteps b{font-family:var(--display); font-size:15px; color:var(--navy-deep)}
+  .asteps li > span:last-child{font-size:13px; color:var(--soft); line-height:1.45}
+  .aowners{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px}
+  @media(max-width:900px){.aowners{grid-template-columns:1fr 1fr}}
+  .aowners div{border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:13px; color:var(--soft)}
+  .aowners b{display:block; color:var(--navy-deep); font-size:13.5px; margin-bottom:2px}
+  .ltag{display:block; width:fit-content; font-family:var(--mono); font-size:9.5px; font-weight:700; text-transform:uppercase; border-radius:3px; padding:1px 5px; margin-bottom:4px}
+  .ltag.ret{background:#ebf2e6; color:var(--good)}
+  .ltag.chk{background:var(--navy-tint); color:var(--navy)}
+
+  /* ch5 */
+  .firstbet{display:grid; grid-template-columns:1fr 1fr; gap:22px; background:var(--navy); color:#dfe7f2; border-radius:var(--r); padding:22px 24px; margin-top:6px}
+  @media(max-width:760px){.firstbet{grid-template-columns:1fr}}
+  .firstbet .micro{display:block; color:var(--honey-soft); text-transform:uppercase; font-size:11px; margin-bottom:6px}
+  .firstbet h3{color:var(--white); font-family:var(--display); font-size:21px; font-weight:800; line-height:1.3; margin-bottom:12px}
+  .fb-link{color:var(--honey-soft); font-size:14px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:6px}
+  .fb-link:hover{text-decoration:underline}
+  .fb-why{list-style:none; margin:0; padding:0}
+  .fb-why li{font-size:14px; padding:9px 0; border-top:1px solid rgba(255,255,255,.14); line-height:1.45}
+  .fb-why li:first-child{border-top:0; padding-top:0}
+  .fb-why b{color:var(--white)}
+  .qfix{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  @media(max-width:700px){.qfix{grid-template-columns:1fr}}
+  .qfix > div{display:flex; gap:10px; align-items:flex-start; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:12px 14px; font-size:14px}
+  .qf-n{flex:none; width:24px; height:24px; border-radius:50%; background:var(--honey); color:var(--navy-deep); font-weight:800; font-size:13px; display:grid; place-items:center}
+  .ninety{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+  @media(max-width:760px){.ninety{grid-template-columns:1fr}}
+  .ninety > div{background:var(--white); border:1px solid var(--line); border-top:3px solid var(--navy); border-radius:12px; padding:12px 14px}
+  .ninety > div:nth-child(2){border-top-color:var(--honey)}
+  .ninety > div:nth-child(3){border-top-color:var(--good)}
+  .ninety .micro{display:block; color:var(--soft); text-transform:uppercase; font-size:10.5px}
+  .ninety b{display:block; font-family:var(--display); font-size:16px; color:var(--navy-deep); margin:2px 0 6px}
+  .ninety ul{margin-left:16px; font-size:13.5px; color:var(--soft)}
+  .ninety li{margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gatecard">
+    <span class="beechip"><img src="captures/bombas-icon-filled-256.webp" alt=""></span>
+    <h2>Retention &amp; Post-Purchase</h2>
+    <span class="micro">concepts by Kevin Middleton · part two</span>
+    <div class="gaterow">
+      <input type="password" id="gatepw" placeholder="password" autocomplete="off" aria-label="Password">
+      <button id="gatego">Enter</button>
+    </div>
+    <div class="gatemiss" id="gatemiss"></div>
+    <div class="gatenote">An independent concept exercise by a candidate. Not affiliated with Bombas.</div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <p class="preline"><span class="beechip"><img src="captures/bombas-icon-filled-256.webp" alt="" width="26" height="26"></span><span class="micro">Concepts · part two · after the purchase</span><a class="partlink" href="../">part one: attract &amp; discover</a><span class="routebar" id="routebar" aria-label="Mark tabs for a conversation"></span></p>
+    <h1>Every purchase starts a 30-day window.</h1>
+    <p class="sub">My first Bombas purchase to now.</p>
+  </div>
+</header>
+
+<nav class="tabbar" aria-label="Sections">
+  <div class="wrap" id="tabbar"></div>
+</nav>
+
+<section id="journey">
+  <div class="wrap">
+    <h2>1 · 30 days after my first purchase</h2>
+    <p class="take">Every message Bombas sent me, and what each one knew.</p>
+    <p class="h2sub">Every dot is real, from my inbox and account.</p>
+    <div class="stats three">
+      <div class="stat"><b>26</b><span>messages in 30 days: 2 receipts, 2 surveys, 2 notes from the store team, 17 marketing emails, 3 review requests</span></div>
+      <div class="stat"><b>1</b><span>marketing email I opened on my own, out of 17</span></div>
+      <div class="stat hot"><b>Day 23</b><span>an email featuring the exact sock I bought on day 0</span></div>
+    </div>
+
+    <div class="daystrip">
+      <div class="dfilters chips" id="dfilters" style="margin-top:0"></div>
+      <div class="days" id="days" role="group" aria-label="Days 0 to 30 after purchase"></div>
+      <div class="dlegend"><span><i style="background:var(--navy)"></i>receipt or survey</span><span><i style="background:var(--good)"></i>store team</span><span><i style="background:#c9cdd4"></i>marketing email</span><span><i style="background:var(--honey)"></i>review request</span><span><i style="background:#fff; box-shadow:0 0 0 2px var(--bad)"></i>the one to look at</span></div>
+      <div class="dcard" id="dcard" aria-live="polite"></div>
+    </div>
+
+    <h3 class="chh">What's working</h3>
+    <div class="creditband">
+      <div class="cbhead"><span class="micro">In my account</span><p><b>The hard part is done:</b> my store visit is tied to my online account.</p></div>
+      <div class="cbstats">
+        <div class="cbstat"><span class="big">2</span><span>store orders in Order History, with items, colors, and SKUs</span></div>
+        <div class="cbstat"><span class="big">M&thinsp;·&thinsp;L&thinsp;·&thinsp;L</span><span>sizes remembered in Buy Again</span></div>
+        <div class="cbstat"><span class="big">6</span><span>pairs donated, counted on the account home</span></div>
+      </div>
+    </div>
+    <div class="fcard wide">
+      <div class="fbody">
+        <h4>The store team follows up like a person</h4>
+        <p>A thank-you on day 2 and a check-in on day 14, both from the West Village store leader. Neither could see my order, my sizes, or my account. The thank-you counted "an item" donated. My account says six.</p>
+        <p class="fso"><span class="micro">So what</span>Give the store team the order, sizes, and donation count. Put a fit question in the day-14 check-in.</p>
+      </div>
+      <div class="fthumbs">
+        <div class="capture fthumb"><img src="captures/email-store-thanks.jpg" width="1137" height="672" alt="Email from the Bombas West Village store leader thanking me for shopping, mentioning a donated item and offering fit and care tips" loading="lazy"><div class="capnote">day 2 · store team</div></div>
+        <div class="capture fthumb"><img src="captures/email-store-checkin.jpg" width="1137" height="672" alt="Email from the Bombas West Village store leader checking in on how I'm loving my new gear" loading="lazy"><div class="capnote">day 14 · store team</div></div>
+      </div>
+    </div>
+
+    <h3 class="chh">What's not working yet</h3>
+    <div class="fgrid">
+      <div class="fcard">
+        <div class="capture fthumb"><img src="captures/comm-prefs-content.jpg" width="1341" height="896" alt="Bombas communication preferences: Shopping Preferences Women, Men, Kids" loading="lazy"><div class="capnote">my preferences, as I found them</div></div>
+        <h4>The unisex pack is filed as women's</h4>
+        <p>It was on the store shelf as unisex. Online it's a women's pack, so my receipt, Buy Again, and review request all say Women's. My preferences list Women, Men, and Kids. I never picked them.</p>
+        <p class="fso"><span class="micro">So what</span>Let purchases set preferences. Men's plus unisex means men's and unisex.</p>
+      </div>
+      <div class="fcard">
+        <div class="capture fthumb"><img src="captures/order-history.jpg" width="1341" height="896" alt="Bombas Order History: two orders placed September 6, 2026, both marked Shipped" loading="lazy"><div class="capnote">order history · "Shipped"</div></div>
+        <h4>Store orders say "Shipped"</h4>
+        <p>Both orders wear a Shipped badge and "Shipping $0." The review request asks if my purchase arrived. I carried it out the door.</p>
+        <p class="fso"><span class="micro">So what</span>Say "Bought in store · Sep 6." It's a copy fix.</p>
+      </div>
+      <div class="fcard">
+        <div class="capture fthumb"><img src="captures/email-receipt.jpg" width="985" height="762" alt="Store receipt for order 5369784-L on Sep 6, 2026: Men's Tri-Block Ankle Sock and Women's Chunky Ragg Half Calf Sock 4-Pack" loading="lazy"><div class="capnote">day 0 · what I bought</div></div>
+        <h4>The day-23 email sold me my own sock</h4>
+        <p>"The Perfect Fall Sock Is Here" led with the Chunky Ragg I bought on day 0, two days after a review request for the same pair.</p>
+        <p class="fso"><span class="micro">So what</span>If they own the featured sock, show what goes with it instead.</p>
+      </div>
+    </div>
+
+    <h3 class="chh">The systems a post-purchase customer meets</h3>
+    <div class="systems">
+      <div class="sys"><b>Leap</b><span>receipts and a survey</span></div><span class="sysarrow"><span class="ico ico-r" aria-hidden="true"></span></span>
+      <div class="sys"><b>Endear</b><span>store team notes</span></div><span class="sysarrow"><span class="ico ico-r" aria-hidden="true"></span></span>
+      <div class="sys"><b>Marketing email</b><span>17 sends</span></div><span class="sysarrow"><span class="ico ico-r" aria-hidden="true"></span></span>
+      <div class="sys"><b>Yotpo</b><span>review requests</span></div><span class="sysarrow"><span class="ico ico-r" aria-hidden="true"></span></span>
+      <div class="sys"><b>Gladly</b><span>help center</span></div><span class="sysarrow"><span class="ico ico-r" aria-hidden="true"></span></span>
+      <div class="sys"><b>Loop</b><span>returns portal</span></div>
+    </div>
+    <p class="whisper">Each system works. None passes along the order or the customer, so the returns portal asks for the order again.</p>
+    <p class="thesis">The data is already there. It just doesn't reach the moments that matter.</p>
+  </div>
+</section>
+
+<section id="know">
+  <div class="wrap">
+    <h2>2 · Just personal enough</h2>
+    <p class="take">What should change what a customer sees? My answer:</p>
+    <p class="principle">Personalize from what customers tell you and what they buy, <span>never from guesses.</span></p>
+    <div class="sigcols">
+      <div class="sigcol told"><h4>They told us</h4><ul><li>The M runs small<span>fit check</span></li><li>The Tri-Block was a gift for Dad<span>purchase tag</span></li></ul></div>
+      <div class="sigcol did"><h4>They did</h4><ul><li>Bought Chunky Ragg, men's M<span>Sep 6</span></li><li>Shopped in a store<span>receipt</span></li><li>Opened 1 of 17 emails<span>inbox</span></li><li>Donated six pairs<span>account</span></li></ul></div>
+      <div class="sigcol never"><h4>Never guess</h4><ul><li>Gender, from one unisex pack</li><li>Who a purchase was for</li><li>Where and when they shopped, in marketing</li></ul></div>
+    </div>
+
+    <h3 class="chh">How we learn more</h3>
+    <div class="learn">
+      <div class="lcardx">
+        <h4>Ask when the answer is fresh</h4>
+        <p>A gift toggle at checkout. A tag on Buy Again: mine, a gift, someone at home. One tap each.</p>
+        <div class="lm">
+          <div class="lm-row"><span>This order is a gift</span><span class="lm-tog" aria-hidden="true"></span></div>
+          <div class="lm-tags"><span class="on">Mine</span><span>A gift</span><span>Someone at home</span></div>
+        </div>
+        <a class="lm-link" href="#home">Try tagging on the account home <span class="ico ico-r" aria-hidden="true"></span></a>
+      </div>
+      <div class="lcardx">
+        <h4>Say thanks with a pair, not a discount</h4>
+        <p>Tag your purchases and we'll donate an extra pair. Bombas has no loyalty program, and impact already brings people back. A discount for data teaches people to wait for discounts.</p>
+        <div class="lm lm-give">
+          <b>Who were these for?</b>
+          <span>Tag 3 purchases and we'll donate one more pair.</span>
+          <div class="lm-prog" aria-hidden="true"><i></i></div>
+          <small>2 of 3 tagged</small>
+        </div>
+        <p class="lm-note">Answers stay private. They aren't public reviews.</p>
+      </div>
+      <div class="lcardx">
+        <h4>Read the gift clues already in the order</h4>
+        <p>A ship-to address that isn't theirs. A gift message. A gift box.</p>
+        <div class="lm lm-rule">
+          <div><span class="lm-k">Likely a gift</span>It stays out of "your size" picks</div>
+          <div><span class="lm-k">Then we ask</span>"Was this a gift?" comes pre-checked</div>
+        </div>
+        <p class="lm-rulep"><b>Guesses can hide things.</b> Only what the customer confirms can change what we show them.</p>
+      </div>
+    </div>
+
+    <div class="giftband">
+      <div class="gb-text">
+        <span class="micro">The other half of every gift</span>
+        <h3>The person who got the gift is a new customer</h3>
+        <p>Every gift box lands with someone who may never have bought Bombas. A card in the box lets them save their size, so their first order fits. The giver is a retention moment. The person opening the box is an acquisition one. That's where <a href="../">part one</a> picks up.</p>
+      </div>
+      <div class="gb-card" aria-hidden="true">
+        <span class="gb-bee"><img src="captures/bombas-icon-filled-256.webp" alt=""></span>
+        <b>Someone sent you Bombas.</b>
+        <span>Save your size, and your next pair fits.</span>
+        <div class="gb-qr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <small>scan to save your size</small>
+      </div>
+    </div>
+
+    <h3 class="chh">Same customer, next visit, three ways</h3>
+    <div class="flipbar" id="pzflip" role="group" aria-label="Personalization level">
+      <button class="flipbtn" data-m="everyone" aria-pressed="false">Everyone sees <span class="tag" style="color:var(--soft)">today</span></button>
+      <button class="flipbtn" data-m="right" aria-pressed="true">Just right <span class="tag t-co">concept</span></button>
+      <button class="flipbtn" data-m="creepy" aria-pressed="false">Too far <span class="tag t-ob">guesses</span></button>
+    </div>
+    <div class="pzgrid"><div id="pzpage"></div><ol id="pznotes"></ol></div>
+  </div>
+</section>
+
+<section id="shows">
+  <div class="wrap">
+    <h2>3 · Where it shows up</h2>
+    <p class="take">Four places a returning customer lands. Each one uses what we know.</p>
+    <div class="subnav" id="subnav" role="tablist" aria-label="Where it shows up">
+      <button class="subbtn" data-sub="home" role="tab" aria-selected="true">Account home</button>
+      <button class="subbtn" data-sub="help" role="tab" aria-selected="false">Help</button>
+      <button class="subbtn" data-sub="onejourney" role="tab" aria-selected="false">Messages</button>
+      <button class="subbtn" data-sub="reuse" role="tab" aria-selected="false">Build once</button>
+    </div>
+    <div class="subpane on" id="sub-home" role="tabpanel">
+    <h3 class="subh">A better account home</h3>
+    <p class="take">The account home already holds the best material: orders, sizes, and impact.</p>
+
+    <div class="flipbar" role="group" aria-label="Today or concept view">
+      <button class="flipbtn" id="hb-today" aria-pressed="false">Today <span class="tag t-ob">observed</span></button>
+      <button class="flipbtn" id="hb-could" aria-pressed="true">Could be <span class="tag t-co">concept</span></button>
+    </div>
+    <div class="mock">
+      <div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><span class="mockaddr">bombas.com<b>/account</b></span></div>
+      <div id="homebody"></div>
+    </div>
+    <p class="whisper" id="homewhisper"></p>
+
+    <div class="holi-wrap">
+      <span class="micro">holiday, even when signed out</span>
+      <h3>The November email opens their list, no password needed</h3>
+      <div class="holi">
+        <div class="mock holi-mail"><div class="pvemail"><div class="ehead"><b>Your gift list is ready</b>Bombas &lt;hello&gt; · mid-November</div>
+          <div class="ebody"><div class="eh">See what you bought before, in the right sizes.</div><span class="hm-btn">See my list <span class="ico ico-r" aria-hidden="true"></span></span><div class="hm-small">Works for 60 days. Not you? Ignore this email.</div></div></div></div>
+        <div class="mock"><div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><span class="mockaddr">bombas.com<b>/gifts/bought-before?k=7f3c9a…e21</b></span></div>
+          <div class="hm-page"><div class="hm-hi">Welcome back.</div><div class="hm-sub">Here's what you've bought before.</div>
+            <div class="hm-item"><span class="bx-th cover"><img src="captures/products/triblock.jpg" alt=""></span><div><b>Tri-Block Ankle</b><span>Men's L · tagged a gift</span></div><span class="bx-add">Add</span></div>
+            <div class="hm-item"><span class="bx-th"><img src="captures/products/ragg-mens.jpg" alt=""></span><div><b>Chunky Ragg Half Calf</b><span>Men's M</span></div><span class="bx-add">Add</span></div>
+            <div class="hm-item"><span class="bx-th"><img src="captures/products/ragg-4pack-womens-email.jpg" alt=""></span><div><b>Chunky Ragg 4-Pack</b><span>Unisex L</span></div><span class="bx-add">Add</span></div>
+            <div class="hm-save">Save this list to your account</div><div class="hm-not">Not you?</div></div></div>
+      </div>
+      <div class="linkspec">
+        <div class="ls in"><h4>In the link</h4><ul><li>One random code that can't be faked</li><li>An expiry date</li></ul></div>
+        <div class="ls out"><h4>Never in the link</h4><ul><li>Names or email</li><li>Sizes or products</li><li>Order numbers or prices</li></ul></div>
+        <div class="ls note"><h4>Already a Bombas pattern</h4><p>Order pages on bombas.com load from a link with a <code>key=</code> code. Same idea, applied to gifting.</p></div>
+      </div>
+    </div>
+    <a class="howknow" href="#prove" data-ns="3">How we'd test this: post-purchase engagement and repeat rate <span class="ico ico-r" aria-hidden="true"></span></a>
+    </div>
+    <div class="subpane" id="sub-help" role="tabpanel">
+    <h3 class="subh">Help, right on the order</h3>
+    <p class="take">Self-service should start where the customer is: on the order.</p>
+    <div class="flipbar" role="group" aria-label="Today or concept view">
+      <button class="flipbtn" id="pb-today" aria-pressed="false">Today <span class="tag t-ob">observed</span></button>
+      <button class="flipbtn" id="pb-could" aria-pressed="true">Could be <span class="tag t-co">concept</span></button>
+    </div>
+    <div id="helpbody"></div>
+    <div class="callout"><b>Leap, Gladly, and Loop can all stay.</b> Customers just shouldn't see the seams.</div>
+    <a class="howknow" href="#prove" data-ns="2">How we'd test this: self-service resolution <span class="ico ico-r" aria-hidden="true"></span></a>
+    </div>
+    <div class="subpane" id="sub-onejourney" role="tabpanel">
+    <h3 class="subh">Every message knows what you bought</h3>
+    <p class="take">The same month, planned once by product and CRM, with fewer, better-timed messages.</p>
+    <div class="stats three">
+      <div class="stat"><b>5 <small>of 26</small></b><span>messages knew what I bought: 2 receipts and 3 review requests</span></div>
+      <div class="stat"><b>0 <small>of 17</small></b><span>marketing emails knew</span></div>
+      <div class="stat hot"><b>1</b><span>sold me the sock I'd just bought</span></div>
+    </div>
+    <div class="flipbar" role="group" aria-label="Today or concept view">
+      <button class="flipbtn" id="jb-today" aria-pressed="false">Today <span class="tag t-ob">observed</span></button>
+      <button class="flipbtn" id="jb-could" aria-pressed="true">Could be <span class="tag t-co">concept</span></button>
+    </div>
+    <div class="tl" id="tl"></div>
+    <div class="callout"><b>Marketing keeps its calendar.</b> It skips what customers already own and slows down for people who don't click. Product supplies the lists.</div>
+    <a class="howknow" href="#prove" data-scroll="audit">How we'd test this: the AI cohort audit <span class="ico ico-r" aria-hidden="true"></span></a>
+    </div>
+    <div class="subpane" id="sub-reuse" role="tabpanel">
+    <h3 class="subh">Build once, use everywhere</h3>
+    <p class="take">Part one's tools, like the <a href="../#finder">sock finder</a> and <a href="../#gifts">gift finder</a>, win new customers. The same tools bring past ones back.</p>
+    <p class="h2sub">Set up a tool the way merchandising would. The four places it shows up update as you type.</p>
+
+    <div class="cfgwrap">
+      <div class="cfgpanel">
+        <div class="cfghead"><span class="micro">tool studio · concept</span><span class="cfgver" id="cfgver">v3 · roll back to v2</span></div>
+
+        <div class="cfgfield"><span class="cfglabel">Start from <span class="cfgsub">all three use the quiz template</span></span><div class="chips" id="cfgtool"></div></div>
+        <div class="cfgfield"><span class="cfglabel">Theme <span class="cfgsub">brand-approved presets</span></span><div class="chips" id="cfgtheme"></div></div>
+        <div class="cfgfield"><span class="cfglabel">Words and answers <span class="cfgsub">write your own</span></span><div id="cfgcopy"></div></div>
+
+        <div class="cfgfield"><span class="cfglabel">Hero socks, with a backup for each</span>
+          <div id="cfgpicks"></div>
+          <button class="cfgbtn ghost" id="cfgsellout" aria-pressed="false">Simulate a sellout</button>
+        </div>
+
+        <div class="cfgfield"><span class="cfglabel">Runs</span>
+          <div class="cfgdates"><label>Start <input type="date" id="cfgstart" value="2026-10-15"></label><label>End <input type="date" id="cfgend" value="2026-11-30"></label></div>
+          <div class="cfgnote">After the end date, everything switches back to the year-round version. Nothing goes stale.</div>
+        </div>
+
+        <div class="cfgfield"><span class="cfglabel">Sign-off</span>
+          <div class="wf" id="cfgwf"></div>
+          <div class="cfgnote" id="cfgwfnote"></div>
+          <button class="cfgbtn" id="cfgnext">Send for review</button>
+        </div>
+      </div>
+
+      <div class="cfgpreview">
+        <div class="prevgrid">
+          <div class="pv">
+            <div class="pvlabel"><span class="micro">on site · dedicated page</span><span class="pvtag" id="pvtag-site"></span></div>
+            <div class="mock"><div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><span class="mockaddr" id="pv-site-addr"></span></div><div id="pv-site"></div></div>
+          </div>
+          <div class="pv">
+            <div class="pvlabel"><span class="micro">email · day-28 "next pair"</span><span class="pvtag" id="pvtag-email"></span></div>
+            <div class="mock"><div id="pv-email"></div></div>
+          </div>
+          <div class="pv">
+            <div class="pvlabel"><span class="micro">social · story card</span><span class="pvtag" id="pvtag-social"></span></div>
+            <div id="pv-social"></div>
+          </div>
+          <div class="pv">
+            <div class="pvlabel"><span class="micro">account home · signed in</span><span class="pvtag" id="pvtag-acct"></span></div>
+            <div class="mock"><div id="pv-acct"></div></div>
+          </div>
+        </div>
+        <p class="whisper" id="pvwhisper"></p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:26px">The template library</h3>
+    <p class="h2sub" style="margin-top:4px">New templates, not one-off pages. Each works everywhere.</p>
+    <div class="lib">
+      <div class="libcard on"><span class="libtag both">both</span><b>Quiz</b><span>One to three questions that lead to the right socks. The sock finder, gift finder, and fit check all live here.</span><div class="libmock"><i></i><i></i><i class="s"></i></div></div>
+      <div class="libcard"><span class="libtag acq">acquisition</span><b>This or that</b><span>Two socks side by side, with the difference that matters: cushion, height, or support.</span><div class="libmock two"><i></i><i></i></div></div>
+      <div class="libcard"><span class="libtag both">both</span><b>Pack builder</b><span>Pick colors and sizes for a pack. Builds on the "Build a Pack &amp; Save" Bombas already sells.</span><div class="libmock grid"><i></i><i></i><i></i><i></i></div></div>
+      <div class="libcard"><span class="libtag both">both</span><b>Size helper</b><span>Shoe size in, sock size out. Signed-in customers see the sizes they already wear.</span><div class="libmock"><i class="s"></i><i></i></div></div>
+      <div class="libcard"><span class="libtag ret">retention</span><b>Impact card</b><span>"Your pairs went here." Uses the donation count the account already shows.</span><div class="libmock big"><i></i></div></div>
+      <div class="libcard"><span class="libtag ret">retention</span><b>Care guide</b><span>How to wash and wear what someone just bought, keyed to the product.</span><div class="libmock"><i></i><i class="s"></i><i class="s"></i></div></div>
+    </div>
+
+    <h3 style="margin-top:24px">Who owns what</h3>
+    <div class="locks three">
+      <div class="lockcol open"><h4>Merchandising changes</h4><ul>
+        <li>Words, questions, and answers, within character limits</li>
+        <li>What each answer shows</li>
+        <li>Hero socks and backups, with stock checked on every load</li>
+        <li>Theme, from brand presets</li>
+        <li>Start and end dates, then the year-round version</li>
+        <li>A version B to test</li></ul></div>
+      <div class="lockcol shut"><h4>Product keeps locked</h4><ul>
+        <li>Layout and code</li>
+        <li>Which customer data a tool can use: only what customers told us or bought</li>
+        <li>A tracking tag on every spot, generated for you</li>
+        <li>Accessibility basics: image descriptions, contrast</li>
+        <li>Version history and one-click rollback</li></ul></div>
+      <div class="lockcol rest"><h4>Everyone else</h4><ul class="plain">
+        <li><b>Brand &amp; design:</b> the themes, and sign-off on a preview link before anything goes live</li>
+        <li><b>CRM, social &amp; stores:</b> where it shows up, for whom, and when</li>
+        <li><b>Engineering &amp; agency:</b> new building blocks for the shared set, not one-off pages</li>
+        <li><b>Analytics:</b> one dashboard per tool, each spot measured on its own</li></ul></div>
+    </div>
+    <p class="whisper">Products, themes, and dates are illustrative.</p>
+    <a class="howknow" href="#prove" data-ns="0">How we'd test this: repeat rate <span class="ico ico-r" aria-hidden="true"></span></a>
+    </div>
+  </div>
+</section>
+
+<section id="prove">
+  <div class="wrap">
+    <h2>4 · The north star, and what moves it</h2>
+
+    <div class="nsdef">
+      <div class="nsdef-l"><span class="micro">before any of this</span><h3>Define "meaningful" first</h3><p>The north star counts visits that return to a "meaningful product interaction." Settle what that means with the team first. It decides what the number rewards. My draft:</p></div>
+      <div class="defcol in"><h4>Counts</h4><ul><li>a product page view</li><li>a Buy Again tap or add to bag</li><li>a fit answer saved to the customer's profile</li><li>a help issue resolved without a contact</li></ul></div>
+      <div class="defcol out"><h4>Doesn't count</h4><ul><li>a login that goes nowhere</li><li>opening an email</li><li>landing on the homepage and leaving</li></ul></div>
+    </div>
+
+
+    <div class="nstree">
+      <div class="nsroot"><span class="micro">north star</span><b>Sessions returning to a meaningful product interaction within 30 days of a purchase</b></div>
+      <div class="nsbranch" aria-hidden="true"></div>
+      <div class="nscards" id="nscards"></div>
+      <div class="nsout" id="nsout"></div>
+    </div>
+
+    <div class="audit" id="audit">
+      <div class="audit-head">
+        <span class="micro">the ai cohort audit</span>
+        <h3>I did this by hand for one customer. AI can do it for 500.</h3>
+        <p>My audit lined up every message I got against what I'd bought. The same check, run across a real group of customers, turns one story into a pattern, and the pattern into rules worth testing.</p>
+      </div>
+      <ol class="asteps">
+        <li><span class="anum">1</span><b>Pick a group</b><span>About 500 recent customers, store and online.</span></li>
+        <li><span class="anum">2</span><b>Compare</b><span>AI reads each customer's purchases against every message they got. Clicks and visits count. Opens don't, since Apple Mail inflates them.</span></li>
+        <li><span class="anum">3</span><b>Write the rules</b><span>Skip what they own. Slow down for people who don't click. Keep gifts out of "your size."</span></li>
+        <li><span class="anum">4</span><b>Test on a fresh group</b><span>The new rules against today's emails, on customers we didn't study. Written up either way.</span></li>
+      </ol>
+      <div class="testcard"><span class="micro">The test</span><span>today's emails versus the same calendar with the audit's rules, for half of new store and online customers</span><span class="micro">How we'd know</span><span>the north star itself: more sessions returning to a meaningful product interaction within 30 days</span><span class="micro">What we'd watch</span><span>revenue per email and unsubscribes, so the calmer plan doesn't cost us the emails that work</span></div>
+      <div class="aowners">
+        <div><b>Product</b><span>the customer data and the test design</span></div>
+        <div><b>Retention &amp; CRM</b><span>the emails themselves, in Braze</span></div>
+        <div><b>Analytics</b><span>the readout</span></div>
+        <div><b>AI</b><span>the audit, and applying rules across thousands of customers. Less so the copy.</span></div>
+      </div>
+    </div>
+
+    <div class="nsagency">
+      <div class="nsag-head">
+        <div><span class="micro">retention + checkout agency</span><h3>One test board, every result written down</h3></div>
+        <span class="nsag-metric">Checkout completion stays this team's number</span>
+      </div>
+      <p class="nsag-p">The agency builds checkout tests, and the team owns the result. Retention tests sit on the same board and get the same write-up. At HVAC.com I wired every Split.io test into Heap, so each one launched with a dashboard, then taught marketing to build their own.</p>
+      <div class="agency">
+        <div class="lane l1"><h5>Next up <i>2</i></h5><div class="lcard"><span class="ltag ret">retention</span>Help on the order page</div><div class="lcard"><span class="ltag chk">checkout</span>Express pay above the fold on mobile</div></div>
+        <div class="lane l2"><h5>Being scoped <i>2</i></h5><div class="lcard"><span class="ltag ret">retention</span>The AI cohort audit</div><div class="lcard"><span class="ltag chk">checkout</span>Saved sizes pre-selected at checkout</div></div>
+        <div class="lane l3"><h5>Running <i>2</i></h5><div class="lcard"><span class="ltag ret">retention</span>Don't feature what they just bought<span class="r">day 3 of 30</span></div><div class="lcard"><span class="ltag chk">checkout</span>Impact line on the review step<span class="r">day 9 of 21</span></div></div>
+        <div class="lane l4"><h5>Written up <i>2</i></h5><div class="lcard"><span class="ltag chk">checkout</span>Gift note field moved up<span class="r w">win · kept</span></div><div class="lcard lost"><span class="ltag chk">checkout</span>Upsell carousel at payment<span class="r l">loss · removed, and written down</span></div></div>
+      </div>
+      <p class="whisper">Illustrative cards. The point is one shared board, with losses written up like wins.</p>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <h2>5 · Where I'd start</h2>
+    <p class="take">A candidate first bet, to pressure-test with the Head of Digital Product.</p>
+
+    <div class="firstbet">
+      <div class="fb-l">
+        <span class="micro">my candidate first bet</span>
+        <h3>Audit a group of customers, then stop selling people what they just bought.</h3>
+        <a class="fb-link" href="#prove" data-scroll="audit">The cohort audit, step by step <span class="ico ico-r" aria-hidden="true"></span></a>
+      </div>
+      <ul class="fb-why">
+        <li><b>It produces learning in weeks.</b> The team says it has few learnings in this space so far.</li>
+        <li><b>Light engineering.</b> A just-bought list, sent to Braze.</li>
+        <li><b>It moves repeat rate,</b> and the north star with it.</li>
+        <li><b>It starts the CRM partnership</b> on day one.</li>
+      </ul>
+    </div>
+
+    <h3 class="chh">Quick fixes, no test needed</h3>
+    <div class="qfix">
+      <div><span class="qf-n">1</span><p>Say <b>"Bought in store · Sep 6"</b> instead of "Shipped" on store orders.</p></div>
+      <div><span class="qf-n">2</span><p>Hide the <b>"20% off your first order"</b> signup from signed-in customers.</p></div>
+    </div>
+
+    <h3 class="chh">First 90 days</h3>
+    <div class="ninety">
+      <div><span class="micro">days 1–30</span><b>Learn</b><ul><li>Meet Retention, CRM, the platform teams, and the agency</li><li>Read the cohort and funnel data myself</li><li>Run the cohort audit</li></ul></div>
+      <div><span class="micro">days 31–60</span><b>First test live</b><ul><li>The just-bought rule, live in Braze for half of new customers</li><li>Quick fixes shipped</li><li>Agency and retention tests on one board</li></ul></div>
+      <div><span class="micro">days 61–90</span><b>Read out, then roadmap</b><ul><li>Write up the result, win or lose</li><li>Pick the next two bets</li><li>Set the roadmap with the Head of Digital Product</li></ul></div>
+    </div>
+    <p class="whisper">A starting point. The first bet gets set together.</p>
+
+    <h3 class="chh">Questions for the team</h3>
+    <div class="qs">
+      <div class="qitem"><span class="qtag">first bet</span><span>What first big bet do you and the Head of Digital Product have in mind, and what have you already learned in this space?</span></div>
+      <div class="qitem"><span class="qtag">measurement</span><span>What counts as a "meaningful product interaction" today? Is a fit answer or a resolved help issue in, or only purchases?</span></div>
+      <div class="qitem"><span class="qtag">crm</span><span>How do Retention, CRM, and product plan sends together today? Is skipping just-bought products a choice, or just not built yet?</span></div>
+      <div class="qitem"><span class="qtag">engineering</span><span>Which customer and order data can the site use live, and what has to be worked out ahead of time?</span></div>
+      <div class="qitem"><span class="qtag">stores</span><span>The store team sends thoughtful follow-ups through Endear. Do customer replies reach the account or CRM, and do store customers know their orders are already online?</span></div>
+      <div class="qitem"><span class="qtag">checkout</span><span>Does checkout already ask whether an order is a gift? That answer should tag the purchase, so customers never have to.</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="sitenote">
+  <div class="wrap">An independent concept exercise by <a href="https://middleton.io" target="_blank" rel="noopener">Kevin Middleton<span class="sr"> (opens in a new tab)</span></a>. Not affiliated with Bombas. One customer, one store visit, one inbox: a sample of one, reported as found. Screenshots come from my own account, my inbox, and public bombas.com pages; the bee mark, product photos, and emails belong to Bombas, shown as cited evidence.</div>
+</footer>
+
+<script>
+// ---------- 7 · build once, use everywhere ----------
+const CAT={
+  raggm:{n:"Men's Chunky Ragg Half Calf", img:'captures/products/ragg-mens.jpg'},
+  ragg4:{n:'Chunky Ragg 4-Pack', img:'captures/products/ragg-4pack-womens-email.jpg'},
+  ragg4m:{n:"Men's Chunky Ragg 4-Pack", img:'captures/products/ragg-4pack-mens.jpg'},
+  tri:{n:'Tri-Block Ankle', img:'captures/products/triblock.jpg', photo:true},
+  comp:{n:'Everyday Compression Calf', img:'captures/products/compression-rosewater.webp'},
+  compm:{n:"Men's Everyday Compression", img:'captures/products/compression-mens.webp'},
+  slip:{n:'Gripper Slippers', img:'captures/products/gripper-slipper.webp'},
+  tee:{n:'Pima Cotton Crew Tee', img:'captures/products/tee.webp'},
+  teem:{n:"Men's Pima Cotton Tee", img:'captures/products/tee-mens.webp'}
+};
+const ATTRS=[
+  ['cozy','Cozy, heavyweight knit'],['cushion','Extra cushion for standing'],['support','Compression support'],['boot','Boot height'],
+  ['light','Lightweight'],['slipper','Slippers'],['tees','Tees and underwear'],['gift','Gift-ready packs'],['unisex','Unisex styles'],
+  ['sizeup','Suggest one size up'],['keep','Keep this size'],['sizedown','Suggest one size down']
+];
+const ATTRNAME=Object.fromEntries(ATTRS);
+const TOOLS={
+  finder:{l:'Sock finder', ever:'Find your pair', q:'What kind of day are you planning?', a:[['A cozy day in','cozy'],['A long day on my feet','cushion'],['Out in boots','boot']], p:'want', path:'/find', acct:'Your next pair, in your size (M)'},
+  gift:{l:'Gift finder', ever:'Find a gift that gives back', q:"Who's it for?", a:[['Dad','gift'],['Someone always cold','cozy'],['The nurse in your life','support']], p:'want', path:'/gift-finder', acct:'Gifting season: we kept your sizes, tell us theirs'},
+  fit:{l:'Fit check', ever:'How\'s the fit?', q:'How are your last pair fitting?', a:[['Runs small','sizeup'],['Just right','keep'],['Runs large','sizedown']], p:'fit', path:'/fit', acct:'How are your Chunky Raggs fitting?', existingOnly:true}
+};
+const THEMES={
+  fall:{l:'Ragg for fall', bg:'linear-gradient(160deg,#7a2e3a,#4e1c26)', h:'Thick, chunky, cozy. Find your fall pair.', s:'Find your fall pair', subj:'Your fall pair is waiting', camp:'ragg-fall', picks:['raggm','ragg4','slip'], backups:['ragg4m','raggm','tee']},
+  gifting:{l:'Holiday gifting', bg:'linear-gradient(160deg,#c9962f,#8a6418)', h:'Gifts that donate, too.', s:'Gifts that donate, too', subj:'Gifts that give twice', camp:'holiday-gifting', picks:['ragg4','slip','tee'], backups:['ragg4m','compm','teem']},
+  shifts:{l:'Long shifts', bg:'linear-gradient(160deg,#223859,#192b45)', h:'Built for 12-hour days.', s:'Built for 12-hour days', subj:'For the long days', camp:'long-shifts', picks:['comp','slip','tee'], backups:['compm','tri','teem']}
+};
+const LIMITS={h:60, s:36, subj:45, q:70, a:24, fine:90};
+const WF=[
+  {k:'Draft', note:'Only visible through preview links, marked with a preview badge.', btn:'Send for review'},
+  {k:'In review', note:'The merch lead and brand sign off. Comments stay attached to this version.', btn:'Approve'},
+  {k:'Scheduled', note:'Approved. Goes live on the start date with no engineer involved.', btn:'Start date arrives'},
+  {k:'Live', note:'Every spot pulls this version. Stock is checked on every load.', btn:'End date passes'},
+  {k:'Ended', note:'Past the end date, everything switches back to the year-round version. Nothing goes stale.', btn:'Start a new version'}
+];
+const EVERGREEN=['raggm','tri','slip'];
+const cfg={tool:'finder', theme:'fall', picks:[], backups:[], sellout:false, wf:0, copy:null, varB:null};
+function defaultCopy(){
+  const T=TOOLS[cfg.tool], H=THEMES[cfg.theme];
+  return {h:H.h, s:H.s, subj:H.subj, q:T.q, answers:T.a.map(a=>({label:a[0], attr:a[1]})), fine:''};
+}
+function resetForTheme(){ const H=THEMES[cfg.theme]; cfg.picks=[...H.picks]; cfg.backups=[...H.backups]; cfg.copy=defaultCopy(); cfg.varB=null; }
+resetForTheme();
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const elTool=document.getElementById('cfgtool'), elTheme=document.getElementById('cfgtheme'), elPicks=document.getElementById('cfgpicks'), elCopy=document.getElementById('cfgcopy');
+Object.entries(TOOLS).forEach(([k,t])=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=t.l; b.dataset.k=k; b.onclick=()=>{cfg.tool=k; cfg.copy=defaultCopy(); cfg.varB=null; renderCfg();}; elTool.appendChild(b); });
+Object.entries(THEMES).forEach(([k,t])=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=t.l; b.dataset.k=k; b.onclick=()=>{cfg.theme=k; resetForTheme(); renderCfg();}; elTheme.appendChild(b); });
+const opt=(sel)=>Object.entries(CAT).map(([k,c])=>`<option value="${k}"${k===sel?' selected':''}>${c.n}</option>`).join('');
+const attrOpt=(sel)=>ATTRS.map(([k,l])=>`<option value="${k}"${k===sel?' selected':''}>${l}</option>`).join('');
+const imgTag=(k)=>`<img${CAT[k].photo?' class="photo"':''} src="${CAT[k].img}" alt="${CAT[k].n}" loading="lazy">`;
+function shown(i){ if(cfg.wf===4) return EVERGREEN[i]; return (cfg.sellout && i===0) ? cfg.backups[0] : cfg.picks[i]; }
+
+function counter(key, val){ const n=val.length, max=LIMITS[key]; return `<span class="cc${n>=max?' max':''}" data-cc="${key}">${n}/${max}</span>`; }
+function renderCopyFields(){
+  const c=cfg.copy;
+  const field=(key,label,val,ph)=>`<label class="cpf"><span class="cpl">${label}${counter(key,val)}</span><input data-k="${key}" maxlength="${LIMITS[key]}" value="${esc(val)}" placeholder="${ph||''}"></label>`;
+  elCopy.innerHTML=
+    field('h','Page headline',c.h)+
+    field('s','Story card version',c.s)+
+    field('subj','Email subject',c.subj)+
+    field('q','Question',c.q)+
+    `<div class="cpl" style="margin-top:6px">Answers, each mapped to what it shows</div>`+
+    c.answers.map((a,i)=>`<div class="ansrow"><input data-ans="${i}" maxlength="${LIMITS.a}" value="${esc(a.label)}" aria-label="Answer ${i+1}">
+      <select data-attr="${i}" aria-label="What answer ${i+1} shows">${attrOpt(a.attr)}</select>
+      ${c.answers.length>2?`<button class="ansx" data-rm="${i}" aria-label="Remove answer ${i+1}">&times;</button>`:'<span></span>'}</div>`).join('')+
+    `<div class="ansbtns">${c.answers.length<4?'<button class="cfgbtn small ghostn" id="ansadd">+ Add an answer</button>':''}<button class="cfgbtn small ghostn" id="varb">${cfg.varB===null?'Make a version B':'Remove version B'}</button><button class="cfgbtn small ghostn" id="cpreset">Reset words</button></div>`+
+    (cfg.varB!==null?`<label class="cpf vb"><span class="cpl">Version B headline · 50/50 split${counter('h',cfg.varB)}</span><input data-k="varB" maxlength="${LIMITS.h}" value="${esc(cfg.varB)}"></label>`:'')+
+    field('fine','Fine print (optional)',c.fine,'Terms, dates, anything legal wants');
+  elCopy.querySelectorAll('input[data-k]').forEach(inp=>inp.oninput=()=>{
+    const k=inp.dataset.k;
+    if(k==='varB') cfg.varB=inp.value; else cfg.copy[k]=inp.value;
+    const cc=inp.closest('.cpf').querySelector('.cc'); const max=LIMITS[k==='varB'?'h':k];
+    cc.textContent=`${inp.value.length}/${max}`; cc.classList.toggle('max', inp.value.length>=max);
+    renderPreviews();
+  });
+  elCopy.querySelectorAll('input[data-ans]').forEach(inp=>inp.oninput=()=>{ cfg.copy.answers[+inp.dataset.ans].label=inp.value; renderPreviews(); });
+  elCopy.querySelectorAll('select[data-attr]').forEach(s=>s.onchange=()=>{ cfg.copy.answers[+s.dataset.attr].attr=s.value; renderPreviews(); });
+  elCopy.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{ cfg.copy.answers.splice(+b.dataset.rm,1); renderCopyFields(); renderPreviews(); });
+  const add=document.getElementById('ansadd'); if(add) add.onclick=()=>{ cfg.copy.answers.push({label:'New answer', attr:'unisex'}); renderCopyFields(); renderPreviews(); };
+  document.getElementById('varb').onclick=()=>{ cfg.varB = cfg.varB===null ? cfg.copy.h : null; renderCopyFields(); renderPreviews(); };
+  document.getElementById('cpreset').onclick=()=>{ cfg.copy=defaultCopy(); cfg.varB=null; renderCopyFields(); renderPreviews(); };
+}
+function renderPicks(){
+  elPicks.innerHTML=cfg.picks.map((k,i)=>`<div class="pick">${imgTag(cfg.sellout&&i===0?cfg.backups[0]:k)}<div>
+      <select data-i="${i}" class="pk" aria-label="Hero sock ${i+1}">${opt(k)}</select>
+      ${cfg.sellout&&i===0?`<div class="so">sold out · backup is loading everywhere</div>`:''}
+      <div class="bk">backup <select data-i="${i}" class="bkp" aria-label="Backup for hero sock ${i+1}">${opt(cfg.backups[i])}</select></div></div></div>`).join('');
+  elPicks.querySelectorAll('select.pk').forEach(s=>s.onchange=()=>{cfg.picks[+s.dataset.i]=s.value; renderPicks(); renderPreviews();});
+  elPicks.querySelectorAll('select.bkp').forEach(s=>s.onchange=()=>{cfg.backups[+s.dataset.i]=s.value; renderPicks(); renderPreviews();});
+}
+function tiles(){
+  return `<div class="pvtiles">${[0,1,2].map(i=>{const k=shown(i); return `<div class="pvtile">${(cfg.sellout&&i===0&&cfg.wf!==4)?'<span class="bkup">backup</span>':''}${imgTag(k)}${CAT[k].n}</div>`;}).join('')}</div>`;
+}
+function renderCfg(){
+  [...elTool.children].forEach(b=>b.setAttribute('aria-pressed', b.dataset.k===cfg.tool?'true':'false'));
+  [...elTheme.children].forEach(b=>b.setAttribute('aria-pressed', b.dataset.k===cfg.theme?'true':'false'));
+  renderCopyFields(); renderPicks();
+  const W=WF[cfg.wf];
+  document.getElementById('cfgsellout').setAttribute('aria-pressed', cfg.sellout?'true':'false');
+  document.getElementById('cfgsellout').textContent = cfg.sellout ? 'Restock it' : 'Simulate a sellout';
+  document.getElementById('cfgwf').innerHTML=WF.map((s,i)=>`<span class="wfs${i<cfg.wf?' done':''}${i===cfg.wf?' on':''}">${s.k}</span>`).join('');
+  document.getElementById('cfgwfnote').textContent=W.note;
+  document.getElementById('cfgnext').textContent=W.btn;
+  document.getElementById('cfgver').textContent = cfg.wf===4 ? 'v3 ended · v4 in draft' : 'v3 · roll back to v2';
+  renderPreviews();
+}
+function renderPreviews(){
+  const T=TOOLS[cfg.tool], H=THEMES[cfg.theme], W=WF[cfg.wf], c=cfg.copy;
+  const ended = cfg.wf===4;
+  const st = cfg.wf<3 ? ['preview','preview: '+W.k.toLowerCase()] : cfg.wf===3 ? ['live','live'] : ['ended','ended · year-round version'];
+  ['site','email','social','acct'].forEach(p=>{ const t=document.getElementById('pvtag-'+p); t.className='pvtag '+st[0]; t.textContent=st[1]; });
+  const head = ended ? T.ever : (c.h||'Add a headline');
+  const story = ended ? T.ever : (c.s||'Add a story version');
+  const subj = ended ? 'A pair for whatever’s next' : (c.subj||'Add a subject line');
+  const q = ended ? T.q : (c.q||'Add a question');
+  const ans = ended ? T.a.map(a=>({label:a[0], attr:a[1]})) : c.answers;
+  const fine = ended ? '' : c.fine;
+  const bg = ended ? 'linear-gradient(160deg,#223859,#192b45)' : H.bg;
+  const camp = ended ? 'evergreen' : H.camp;
+  const url=(src,a)=>`bombas.com${T.path}?${a?`${T.p}=${a}&`:''}utm_source=${src}&utm_campaign=${camp}`;
+  const ab = (!ended && cfg.varB!==null) ? `<span class="abchip">A/B · headline</span>` : '';
+  document.getElementById('pv-site-addr').innerHTML=`bombas.com<b>${T.path}?theme=${ended?'evergreen':cfg.theme}</b>`;
+  const site=document.getElementById('pv-site');
+  site.className = cfg.wf<3 ? 'watermark' : '';
+  site.innerHTML=`<div class="pvhero" style="background:${bg}"><div class="k">${T.l}${ab}</div><div class="h">${esc(head)}</div><div class="pvq">${esc(q)}</div><div class="pvbtns">${ans.map(a=>`<span class="pvbtn" title="shows: ${ATTRNAME[a.attr]}">${esc(a.label||'...')}</span>`).join('')}</div></div>${tiles()}${fine?`<div class="pvfine">${esc(fine)}</div>`:''}`;
+  document.getElementById('pv-email').innerHTML=`<div class="pvemail"><div class="ehead"><b>${esc(subj)}</b>Bombas &lt;hello&gt; · to a customer 28 days after a purchase</div>
+    <div class="ebody"><div class="eh">${esc(q)}</div>${ans.map(a=>`<span class="elink">${esc(a.label||'...')} <span class="ico ico-r" aria-hidden="true"></span><span>${url('email',a.attr)}</span></span>`).join('')}${fine?`<div class="pvfine" style="padding:6px 0 0">${esc(fine)}</div>`:''}</div></div>`;
+  const so=document.getElementById('pv-social');
+  if(T.existingOnly){ so.innerHTML=`<div class="pvstory off">Not used here. A fit check is for existing customers, so this spot switches off on its own.</div>`; }
+  else so.innerHTML=`<div class="pvstory" style="background:${bg}"><div class="h">${esc(story)}</div><div class="imgs">${[0,1,2].map(i=>imgTag(shown(i))).join('')}</div><span class="sticker">${T.l} <span class="ico ico-ne" aria-hidden="true"></span></span><div class="lnk">${url('instagram')}</div></div>`;
+  document.getElementById('pv-acct').innerHTML=`<div class="pvacct"><div class="acard"><h4>${T.acct}</h4><div class="pvbtns" style="margin:6px 0">${ans.map(a=>`<span class="fitbtn" style="cursor:default">${esc(a.label||'...')}</span>`).join('')}</div><span class="tg">signed in · uses size, past purchases, and fit answers only</span></div></div>`;
+  const mapping = ans.map(a=>`${esc(a.label||'...')} = ${ATTRNAME[a.attr].toLowerCase()}`).join(' · ');
+  document.getElementById('pvwhisper').innerHTML = `Set up once, shows up in four places, each tracked separately. Answers open the page filtered to: ${mapping}.${cfg.sellout&&!ended?' <b>The sellout swapped in the backup everywhere at once.</b>':''}${cfg.varB!==null&&!ended?' <b>Version B splits traffic 50/50, and results report back to the testing tool.</b>':''}`;
+}
+document.getElementById('cfgsellout').onclick=()=>{cfg.sellout=!cfg.sellout; renderPicks(); renderCfg();};
+document.getElementById('cfgnext').onclick=()=>{cfg.wf=(cfg.wf+1)%WF.length; renderCfg();};
+renderCfg();
+
+// ---------- 1 · my first 30 days ----------
+const LAST_DAY=30; // window closed: day 30 = Tue Oct 6
+const EVENTS=[
+  {d:0, k:'store', date:'Sun Sep 6, 4:00pm', from:'Bombas (Powered by Leap)', subj:'Receipt for order #5369784-L', knew:'<b>What I bought:</b> Tri-Block Ankle and the Chunky Ragg 4-Pack, $94. Nothing about my account or the five pairs donated.', yes:true, cap:{src:'captures/email-receipt.jpg', w:985, h:762, alt:'Store receipt for order 5369784-L from Bombas Powered by Leap', note:'my inbox · day 0'}},
+  {d:0, k:'store', date:'Sun Sep 6, 4:11pm', from:'Bombas (Powered by Leap)', subj:'Receipt for order #5369887-L', knew:'<b>What I bought:</b> Men\'s Chunky Ragg Half Calf, M. Eleven minutes after the first receipt.', yes:true, cap:{src:'captures/email-receipt.jpg', w:985, h:762, alt:'Store receipt from Bombas Powered by Leap', note:'my inbox · day 0 · same format'}},
+  {d:0, k:'store', date:'Sun Sep 6, 10:02pm', from:'Leap', subj:'Kevin, did you enjoy shopping Bombas in New York?', knew:'<b>Knew I\'d been in a store</b>, not what I bought. A one-to-ten survey under Leap\'s logo, not Bombas\'s.', yes:'part', cap:{src:'captures/email-leap-survey.jpg', w:1027, h:761, alt:'Leap-branded survey email: How likely are you to recommend Bombas New York, 1 to 10', note:'my inbox · day 0, 10:02pm'}},
+  {d:0, k:'store', date:'Sun Sep 6, 10:12pm', from:'Leap', subj:'Kevin, did you enjoy shopping Bombas in New York? (again)', knew:'The same survey ten minutes later: one per receipt.', yes:'part', cap:{src:'captures/email-leap-survey.jpg', w:1027, h:761, alt:'Leap-branded survey email', note:'my inbox · same survey, second copy'}},
+  {d:1, k:'mkt', date:'Mon Sep 7', from:'Bombas', subj:'Save Up to 20% With Packs', knew:'The morning after I bought a 4-pack. The only one of the seventeen I opened.', yes:false},
+  {d:2, k:'team', date:'Tue Sep 8, 9:05am', from:'West Village store leader (via Endear)', subj:'A huge thanks from Bombas West Village!', knew:'<b>The warmest note of the month.</b> A personal thank-you with fit and care tips. It didn\'t know what I bought, and counted "an item" donated, not six. I opened this one.', yes:'part', cap:{src:'captures/email-store-thanks.jpg', w:1137, h:672, alt:'Email from the Bombas West Village store leader: thank you for shopping with us, an item donated, offer of fit and care tips', note:'my inbox · day 2 · from the store team'}},
+  {d:10, k:'mkt', date:'Wed Sep 16', from:'Bombas', subj:'They’re Back: Travel Compression Socks', knew:'Nothing about my purchase. Eight days without marketing email, then the daily rhythm starts.', yes:false},
+  {d:11, k:'mkt', date:'Thu Sep 17', from:'Bombas', subj:'New Comfy Footwear for Fall', knew:'Nothing about my purchase.', yes:false},
+  {d:14, k:'mkt', date:'Sun Sep 20', from:'Bombas', subj:'Our Coziest Slippers, All in One Place', knew:'Nothing about my purchase.', yes:false},
+  {d:14, k:'team', date:'Sun Sep 20, 9:04am', from:'West Village store leader (via Endear)', subj:'How are you loving your new Bombas?', knew:'A check-in: "If anything doesn\'t feel quite right... we\'re here to make it right." The right moment for a fit question.', yes:'part', cap:{src:'captures/email-store-checkin.jpg', w:1137, h:672, alt:'Email from the Bombas West Village store leader: just checking in to see how you are loving your new gear', note:'my inbox · day 14 · from the store team'}},
+  {d:15, k:'mkt', date:'Mon Sep 21', from:'Bombas', subj:'New MARVEL | Bombas: Kids Edition', knew:'I\'ve never bought kids\' socks. My preferences say Kids anyway.', yes:false},
+  {d:16, k:'mkt', date:'Tue Sep 22', from:'Bombas', subj:'Tall Socks Are In Season', knew:'Nothing about my purchase.', yes:false},
+  {d:16, k:'rev', date:'Tue Sep 22', from:'Bombas (reviews, via Yotpo)', subj:'Review Your New Bombas? (Chunky Ragg 4-Pack)', knew:'<b>Knew the product</b> and asked about fit. Not that it was a store purchase: the footer asks if it arrived.', yes:true, cap:{src:'captures/email-review-top.jpg', w:985, h:762, alt:'Review request: Hi Kevin, you recently purchased Women\'s Chunky Ragg Half Calf Sock 4-Pack', note:'my inbox · day 16'}},
+  {d:17, k:'mkt', date:'Wed Sep 23', from:'Bombas', subj:'New Floral Compression Socks', knew:'Nothing about my purchase.', yes:false},
+  {d:18, k:'mkt', date:'Thu Sep 24', from:'Bombas', subj:'Feels Like Fall: Super Cozy Staples', knew:'Nothing about my purchase.', yes:false},
+  {d:19, k:'mkt', date:'Fri Sep 25', from:'Bombas', subj:'A Fuzzy, New Collab is Coming Soon', knew:'Nothing about my purchase.', yes:false},
+  {d:20, k:'mkt', date:'Sat Sep 26', from:'Bombas', subj:'Selling Fast: The Summer Collection', knew:'Nothing about my purchase. Summer, in late September.', yes:false},
+  {d:21, k:'mkt', date:'Sun Sep 27', from:'Bombas', subj:'Up to 20% Off Packs for Fall', knew:'Nothing about my purchase.', yes:false},
+  {d:21, k:'rev', date:'Sun Sep 27', from:'Bombas (reviews, via Yotpo)', subj:'Review Your New Bombas? (Men\'s Chunky Ragg)', knew:'<b>Knew the product.</b> The same template as the day-16 request.', yes:true, cap:{src:'captures/email-review-fit.jpg', w:966, h:467, alt:'Review request fit question: runs small, true to size, runs large', note:'my inbox · the fit question'}},
+  {d:22, k:'mkt', date:'Mon Sep 28', from:'Bombas', subj:'Our Hottest Sport Sock Is Going Fast', knew:'Nothing about my purchase.', yes:false},
+  {d:23, k:'mkt', hot:true, date:'Tue Sep 29', from:'Bombas', subj:'The Perfect Fall Sock Is Here', knew:'<b>The hero is Chunky Ragg Half Calf</b>, including the single and 4-pack I bought on day 0.', yes:false, cap:{src:'captures/email-ragg-hero.jpg', w:1315, h:905, alt:'Email hero RAGG FOR FALL featuring navy Chunky Ragg socks', note:'my inbox · day 23'}},
+  {d:25, k:'mkt', date:'Thu Oct 1', from:'Bombas', subj:'Just Dropped: All New and Sooo Cozy', knew:'Nothing about my purchase.', yes:false},
+  {d:26, k:'rev', date:'Fri Oct 2', from:'Bombas (reviews, via Yotpo)', subj:'Review Your New Bombas? (Men\'s Chunky Ragg, again)', knew:'<b>Second ask for the same pair.</b> The 4-pack got one. The Tri-Block got none.', yes:true},
+  {d:27, k:'mkt', date:'Sat Oct 3', from:'Bombas', subj:'NEW: Welcome Back to Sesame Street', knew:'Nothing about my purchase. The collab teased on day 19 arrives: mostly kids\' packs and women\'s slippers.', yes:false},
+  {d:28, k:'mkt', date:'Sun Oct 4', from:'Bombas', subj:'All New Sunday Slipper Colors', knew:'Nothing about my purchase. Slippers again, plus a restock of the Plush.', yes:false},
+  {d:30, k:'mkt', date:'Tue Oct 6', from:'Bombas', subj:'New Socks for Festive Fun 🪩', knew:'Nothing about my purchase. Every sock in it is women\'s, and the only button says Shop Women.', yes:false}
+];
+const KNAME={store:'store system', team:'store team', mkt:'marketing email', rev:'review request'};
+const FILTERS=[{k:'all',l:'Everything'},{k:'store',l:'Receipts & survey'},{k:'team',l:'Store team'},{k:'mkt',l:'Marketing'},{k:'rev',l:'Review requests'}];
+const daysEl=document.getElementById('days'), dcard=document.getElementById('dcard'), dfilters=document.getElementById('dfilters');
+let dFilter='all', dSel=EVENTS.findIndex(e=>e.hot);
+daysEl.style.gridTemplateColumns=`repeat(${LAST_DAY+1},minmax(0,1fr))`;
+for(let d=0; d<=LAST_DAY; d++){
+  const col=document.createElement('div'); col.className='dcol';
+  const num=document.createElement('span'); num.className='dnum'; num.textContent=d; col.appendChild(num);
+  EVENTS.forEach((e,i)=>{ if(e.d!==d) return;
+    const b=document.createElement('button'); b.className='dot k-'+e.k+(e.hot?' hot':''); b.dataset.i=i;
+    b.setAttribute('aria-label', `Day ${e.d}: ${KNAME[e.k]}, ${e.subj}`); b.setAttribute('aria-pressed','false');
+    b.onclick=()=>{dSel=i; renderDays();}; col.appendChild(b);
+  });
+  daysEl.appendChild(col);
+}
+FILTERS.forEach(f=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=f.l; b.dataset.k=f.k; b.onclick=()=>{dFilter=f.k; renderDays();}; dfilters.appendChild(b); });
+function renderDays(){
+  [...dfilters.children].forEach(c=>c.setAttribute('aria-pressed', c.dataset.k===dFilter?'true':'false'));
+  daysEl.querySelectorAll('.dot').forEach(b=>{
+    const e=EVENTS[+b.dataset.i];
+    b.classList.toggle('fade', dFilter!=='all' && e.k!==dFilter);
+    b.setAttribute('aria-pressed', +b.dataset.i===dSel?'true':'false');
+  });
+  const e=EVENTS[dSel];
+  const cap = e.cap ? `<div class="capture"><img src="${e.cap.src}" width="${e.cap.w}" height="${e.cap.h}" alt="${e.cap.alt}" loading="lazy"><div class="capnote">${e.cap.note}</div></div>`
+    : (e.k==='mkt' ? `<div class="capture"><img src="captures/inbox-14.jpg" width="1456" height="814" alt="My inbox filtered to Bombas marketing: fourteen emails from Sep 7 to Oct 1" loading="lazy"><div class="capnote">my inbox · the first fourteen, through Oct 1 · Sep 29 shows as read because I opened it for this page</div></div>` : '');
+  dcard.innerHTML=`<div><span class="dmeta">Day ${e.d} · ${e.date} · ${KNAME[e.k]}</span><div class="dsubj">${e.subj}</div><div class="dknew">${e.knew}</div>
+    <span class="dkpill ${e.yes==='part'?'part':(e.yes?'yes':'no')}">${e.yes==='part'?'knew I\'d shopped in the store, not what I bought':(e.yes?'knew what I bought':'didn’t know what I bought')}</span></div><div>${cap}</div>`;
+}
+renderDays();
+
+// ---------- 3 · account home ----------
+const homebody=document.getElementById('homebody'), homewhisper=document.getElementById('homewhisper');
+const hbT=document.getElementById('hb-today'), hbC=document.getElementById('hb-could');
+const ARR='<span class="ico ico-r" aria-hidden="true"></span>';
+const PIN='<svg class="bx-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11.2A6.5 6.5 0 0 1 18.5 9.8C18.5 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><circle cx="12" cy="9.8" r="2.3" fill="currentColor"/></svg>';
+const SOCK=(cls)=>`<svg class="bx-sock ${cls||''}" viewBox="0 0 24 32" aria-hidden="true"><path d="M7 2h9v15.5c0 1.2.4 2.3 1.1 3.2l2.2 2.8a4.6 4.6 0 0 1-3.6 7.5H9.5A5.5 5.5 0 0 1 4 25.5V22l3-3.5V2z"/></svg>`;
+let fitPick=null;
+const FIT={
+  small:{size:'L', tag:'updated from your fit answer', note:'Saved. Your men\'s sock size is now L.'},
+  right:{size:'M', tag:'confirmed by your fit answer', note:'Saved. M it is.'},
+  large:{size:'S', tag:'updated from your fit answer', note:'Saved. Your men\'s sock size is now S.'}
+};
+const BUYS=[
+  {id:'ragg', n:'Chunky Ragg Half Calf', sz:'Men\'s M', img:'captures/products/ragg-mens.jpg', order:'#5369887-L'},
+  {id:'tri', n:'Tri-Block Ankle', sz:'Men\'s L', img:'captures/products/triblock.jpg', cover:true, order:'#5369784-L'},
+  {id:'pack', n:'Chunky Ragg 4-Pack', sz:'Unisex L', img:'captures/products/ragg-4pack-womens-email.jpg', order:'#5369784-L'}
+];
+const TAGS={}; const WHO={};
+const TAGL={mine:'Mine', gift:'A gift', home:'Someone at home'};
+function th(b){ return `<span class="bx-th${b.cover?' cover':''}"><img src="${b.img}" alt=""></span>`; }
+function sizeOf(b){ return (b.id==='ragg' && fitPick) ? 'Men\'s '+FIT[fitPick].size : b.sz; }
+function homeCould(){
+  const socks=[0,1,2,3,4,5].map(()=>SOCK()).join('')+SOCK('next');
+  return `<div class="bx">
+    <aside class="bx-nav"><div class="bx-hi">Hi Kevin!</div><div class="bx-link on">Account Overview</div><div class="bx-link">Order History</div><div class="bx-link">Sizes</div><div class="bx-link">Account Settings</div></aside>
+    <div class="bx-main">
+      <div class="bx-impact">
+        <div class="bx-n">6</div>
+        <div class="bx-it"><b>pairs donated through your purchases</b><div class="bx-socks">${socks}<span>+1 with your next pair</span></div></div>
+        <span class="bx-pillw">See where they went ${ARR}</span>
+      </div>
+      <div class="bx-row">
+        <div class="bx-card">
+          <div class="bx-h">Your purchases</div>
+          <div class="bx-sub">Tag them and we stop guessing. Untagged means we don't.</div>
+          <div id="bxbuys"></div>
+        </div>
+        <div class="bx-card">
+          <div class="bx-h">Sizes</div>
+          <div class="bx-grp">You</div>
+          <div class="bx-size"><span class="bx-sl">Men's socks</span><span class="bx-chip" id="bxsz-m">M</span><span class="bx-src" id="bxsrc-m">from Chunky Ragg, Sep 6</span></div>
+          <div class="bx-size"><span class="bx-sl">Unisex socks</span><span class="bx-chip">L</span><span class="bx-src">from Chunky Ragg 4-Pack, Sep 6</span></div>
+          <div class="bx-grp">People you shop for</div>
+          <div id="bxpeople"></div>
+          <div class="bx-fit">
+            <img src="captures/products/ragg-mens.jpg" alt="">
+            <div><b>How are the Chunky Raggs fitting?</b>
+              <div class="bx-fitbtns" id="bxfit"><button data-v="small">Runs small</button><button data-v="right">Just right</button><button data-v="large">Runs large</button></div>
+              <div class="bx-fitnote" id="bxfitnote">One tap. It updates your sizes.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="bx-row">
+        <div class="bx-card"><div class="bx-h">Buy again, for you</div><div class="bx-again one" id="bxagain"></div></div>
+        <div class="bx-card bx-holiday"><div class="bx-h">Gifting season</div><div id="bxgifts"></div></div>
+      </div>
+    </div></div>`;
+}
+function renderBuys(){
+  const el=document.getElementById('bxbuys'); if(!el) return;
+  el.innerHTML=BUYS.map(b=>{
+    const t=TAGS[b.id];
+    return `<div class="bx-buy">${th(b)}<div class="bx-bi"><b>${b.n}</b><span>${b.sz} · ${b.order}</span><span class="bx-store">${PIN} West Village · Sep 6</span>
+      <div class="bx-tags">${Object.entries(TAGL).map(([k,l])=>`<button data-b="${b.id}" data-t="${k}" aria-pressed="${t===k}">${l}</button>`).join('')}</div>
+      ${t==='gift'?`<div class="bx-who"><label>For <input data-who="${b.id}" maxlength="18" value="${WHO[b.id]||''}" placeholder="name or nickname"></label></div>`:''}
+    </div></div>`;}).join('')+`<a class="bx-helplink" href="#help">Need help with an order? ${ARR}</a>`;
+  el.querySelectorAll('[data-t]').forEach(btn=>btn.onclick=()=>{
+    const id=btn.dataset.b, k=btn.dataset.t;
+    TAGS[id] = TAGS[id]===k ? undefined : k;
+    if(TAGS[id]==='gift' && !WHO[id]) WHO[id]='Dad';
+    renderBuys(); renderDerived();
+    const inp=el.querySelector(`[data-who="${id}"]`); if(inp){ inp.focus(); inp.select(); }
+  });
+  el.querySelectorAll('[data-who]').forEach(inp=>inp.oninput=()=>{ WHO[inp.dataset.who]=inp.value; renderDerived(); });
+}
+function renderDerived(){
+  const gifts=BUYS.filter(b=>TAGS[b.id]==='gift');
+  const people=document.getElementById('bxpeople');
+  if(people) people.innerHTML = gifts.length ? gifts.map(b=>`<div class="bx-size"><span class="bx-sl">${(WHO[b.id]||'Someone')}</span><span class="bx-chip gift">${b.sz.split(' ').pop()}</span><span class="bx-src">${b.n}</span></div>`).join('')
+    : `<div class="bx-empty">Tag a purchase as a gift and their size lives here.</div>`;
+  const again=document.getElementById('bxagain');
+  if(again) again.innerHTML = BUYS.filter(b=>TAGS[b.id]!=='gift').map(b=>`<div class="bx-ag">${th(b)}<div><b>${b.n}</b><span class="bx-agsz${b.id==='ragg'&&fitPick&&FIT[fitPick].size!=='M'?' changed':''}" ${b.id==='ragg'?'id="bxag-m"':''}>${sizeOf(b)}${TAGS[b.id]==='home'?' · someone at home':''}</span></div><span class="bx-add">Add to bag</span></div>`).join('') || `<div class="bx-empty">Everything here is tagged as a gift.</div>`;
+  const g=document.getElementById('bxgifts');
+  if(g) g.innerHTML = gifts.length ? gifts.map(b=>`<div class="bx-ag">${th(b)}<div><b>For ${WHO[b.id]||'someone'}</b><span class="bx-agsz">Last time: ${b.n}, ${b.sz.split(' ').pop()}</span></div><span class="bx-add">Gift again</span></div>`).join('')+`<div class="bx-gnote">This list also arrives by email in November, signed-in or not.</div>`
+    : `<div class="bx-empty">Tag a gift and, come November, it shows up here with their size, ready to reorder.</div>`;
+}
+function renderFit(){
+  const fb=document.getElementById('bxfit'); if(!fb) return;
+  fb.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.v===fitPick?'true':'false'));
+  const f=fitPick?FIT[fitPick]:null;
+  const chip=document.getElementById('bxsz-m');
+  chip.textContent=f?f.size:'M'; document.getElementById('bxsrc-m').textContent=f?f.tag:'from Chunky Ragg, Sep 6';
+  document.getElementById('bxfitnote').textContent=f?f.note:'One tap. It updates your sizes.';
+  chip.classList.toggle('changed', !!f && f.size!=='M'); chip.classList.remove('flash'); void chip.offsetWidth; if(f) chip.classList.add('flash');
+  renderBuys(); renderDerived();
+  const ag=document.getElementById('bxag-m'); if(ag && f){ ag.classList.remove('flash'); void ag.offsetWidth; ag.classList.add('flash'); }
+}
+function renderHome(view){
+  hbT.setAttribute('aria-pressed', view==='today'?'true':'false');
+  hbC.setAttribute('aria-pressed', view==='could'?'true':'false');
+  if(view==='today'){
+    homebody.innerHTML=`<div class="flippad"><div class="capture"><img src="captures/account-overview.jpg" width="1341" height="896" alt="My real Bombas account home" loading="lazy"><div class="capnote">bombas.com/account · my real account, today</div></div></div>`;
+    homewhisper.textContent='Real capture. Impact up top, Buy Again under it, store orders already here.';
+  } else {
+    homebody.innerHTML=homeCould();
+    homewhisper.textContent='Built from data the account has. Tags and fit answers are the only new inputs. Try tagging the Tri-Block as a gift.';
+    document.querySelectorAll('#bxfit button').forEach(b=>b.onclick=()=>{fitPick=b.dataset.v; renderFit();});
+    renderFit();
+  }
+  homebody.classList.remove('swap'); void homebody.offsetWidth; homebody.classList.add('swap');
+}
+hbT.onclick=()=>renderHome('today'); hbC.onclick=()=>renderHome('could');
+renderHome('could');
+
+// ---------- 4 · help ----------
+const helpbody=document.getElementById('helpbody');
+const pbT=document.getElementById('pb-today'), pbC=document.getElementById('pb-could');
+const ITEMS=[
+  {id:'tri', n:"Men's Tri-Block Ankle Sock", v:'Green Taupe / L', img:'captures/products/triblock.jpg', cover:true, size:'L', sizes:['S','M','L','XL'], sale:false},
+  {id:'pack', n:'Chunky Ragg Half Calf 4-Pack', v:'Navy Red Mix / L · unisex', img:'captures/products/ragg-4pack-womens-email.jpg', size:'L', sizes:['S','M','L','XL'], sale:true}
+];
+let flow=null; // {item, kind, step, size, how, reason}
+function flowHTML(it){
+  if(!flow || flow.item!==it.id) return '';
+  const steps = flow.kind==='exchange' ? ['New size','How','Done'] : ['What happened','Done'];
+  const cur = flow.step==='save' ? 0 : flow.step;
+  const dots = `<div class="hx-steps">${steps.map((s,i)=>`<span class="${i<cur?'done':''}${i===cur?' on':''}">${i+1} · ${s}</span>`).join('')}</div>`;
+  let body='';
+  if(flow.kind==='exchange'){
+    if(flow.step===0) body=`<div class="hx-q">Pick the new size</div><div class="hx-opts">${it.sizes.map(s=>`<button data-size="${s}"${s===it.size?' class="mine"':''}>${s}${s===it.size?'<small>yours</small>':''}</button>`).join('')}</div>`;
+    else if(flow.step===1) body=`<div class="hx-q">How do you want the ${flow.size}?</div><div class="hx-opts wide"><button data-how="ship">Ship it to me, free</button><button data-how="store">Swap it at West Village</button></div>`;
+    else body=`<div class="hx-done"><b>Exchange started: ${it.size} to ${flow.size}${flow.how==='store'?', ready to swap at West Village':', shipping free'}.</b> The order came with you, so there was nothing to retype. Your sizes now say ${flow.size} for this sock.</div>`;
+  } else {
+    if(flow.step===0){
+      body = it.sale
+        ? `<div class="hx-note">This one was on sale ($90, paid $80), so it can be exchanged or replaced rather than refunded.</div><div class="hx-opts wide"><button data-go="exchange">Exchange the size</button><button data-reason="replace">Replace it</button></div>`
+        : `<div class="hx-q">What happened?</div><div class="hx-opts wide"><button data-reason="fit">It didn't fit</button><button data-reason="mind">Changed my mind</button><button data-reason="wrong">Something's wrong with it</button></div>`;
+    } else if(flow.step==='save'){
+      body=`<div class="hx-save"><b>Want a different size instead?</b> Exchanges are free, and we'll remember the fit for next time.<div class="hx-opts wide"><button data-go="exchange">Exchange instead</button><button data-reason="still">Still return it</button></div></div>`;
+    } else {
+      const done={mind:'Return started. The refund goes back to your original payment under the Happiness Guarantee.', still:'Return started. We saved the fit note anyway, so your next size suggestion is better.', wrong:'A chat opens with this order attached, so the person helping sees it before you type a word.', replace:'Replacement started, same size, no charge.'};
+      body=`<div class="hx-done"><b>${done[flow.reason]}</b></div>`;
+    }
+  }
+  return `<div class="hx-flow">${dots}${body}<button class="hx-cancel" data-cancel="1">Close</button></div>`;
+}
+function helpCould(){
+  return `<div class="stepcount"><div class="scount good"><b>1</b>tap to start</div><div class="scount good"><b>0</b>retyped</div><div class="scount good"><b>same</b>page</div></div>
+  <div class="mock hx">
+    <div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><span class="mockaddr">bombas.com<b>/account/order-history/5369784-L</b></span></div>
+    <div class="hx-body">
+      <div class="hx-head"><div><div class="hx-title">Order #5369784-L</div><div class="hx-meta">Sep 6 · 2 items · $94</div></div><span class="bx-store pill">${PIN} Bought in store · West Village</span></div>
+      ${ITEMS.map(it=>`<div class="hx-item">
+        <span class="bx-th${it.cover?' cover':''}"><img src="${it.img}" alt=""></span>
+        <div class="hx-it"><b>${it.n}</b><span>${it.v}</span>${it.sale?'<span class="hx-sale">was $90 · paid $80</span>':''}</div>
+        <div class="hx-acts"><button data-act="exchange" data-item="${it.id}">Exchange size</button><button data-act="return" data-item="${it.id}">Return</button></div>
+      </div>${flowHTML(it)}`).join('')}
+      <div class="hx-foot"><span class="hx-chat">Something else? Chat with this order attached ${ARR}</span><span class="hx-track">No tracking needed: you carried these out.</span></div>
+    </div>
+  </div>
+  <p class="whisper">A fit problem becomes an exchange, not a refund. Open question for engineering: can the portal take a pre-filled order?</p>`;
+}
+function wireHelp(){
+  const root=helpbody;
+  root.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{ flow={item:b.dataset.item, kind:b.dataset.act, step:0}; renderHelp('could'); });
+  root.querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{ flow.size=b.dataset.size; flow.step=1; renderHelp('could'); });
+  root.querySelectorAll('[data-how]').forEach(b=>b.onclick=()=>{ flow.how=b.dataset.how; flow.step=2; renderHelp('could'); });
+  root.querySelectorAll('[data-reason]').forEach(b=>b.onclick=()=>{ const r=b.dataset.reason; if(r==='fit'){ flow.step='save'; } else { flow.reason=r; flow.step=1; } renderHelp('could'); });
+  root.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{ flow={item:flow.item, kind:'exchange', step:0}; renderHelp('could'); });
+  root.querySelectorAll('[data-cancel]').forEach(b=>b.onclick=()=>{ flow=null; renderHelp('could'); });
+}
+function renderHelp(view){
+  pbT.setAttribute('aria-pressed', view==='today'?'true':'false');
+  pbC.setAttribute('aria-pressed', view==='could'?'true':'false');
+  if(view==='today'){
+    flow=null;
+    helpbody.innerHTML=`<div class="stepcount"><div class="scount bad"><b>4</b>screens</div><div class="scount bad"><b>2</b>websites</div><div class="scount bad"><b>1</b>order number retyped</div></div>
+    <div class="hsteps">
+      <div class="hstep"><span class="hnum">1</span><div class="capture"><img src="captures/order-detail.jpg" width="1341" height="896" alt="Order detail with Buy Again buttons and no help option" loading="lazy"><div class="capnote">the order: no help here</div></div></div>
+      <div class="hstep"><span class="hnum">2</span><div class="capture"><img src="captures/help-center.jpg" width="805" height="538" alt="Bombas Help Center with tiles for Returns and Exchanges, Shipping and Tracking" loading="lazy"><div class="capnote">leave the order, find Help</div></div></div>
+      <div class="hstep"><span class="hnum">3</span><div class="capture"><img src="captures/help-returns.jpg" width="805" height="538" alt="Help article What's your return policy with a Click here to get started link" loading="lazy"><div class="capnote">read the policy, "click here"</div></div></div>
+      <div class="hstep"><span class="hnum">4</span><div class="capture"><img src="captures/loop-portal.jpg" width="1341" height="896" alt="Returns portal asking for order number and zip code or email" loading="lazy"><div class="capnote">type the order number I was just looking at</div></div></div>
+    </div>`;
+  } else {
+    helpbody.innerHTML=helpCould(); wireHelp();
+  }
+}
+pbT.onclick=()=>renderHelp('today'); pbC.onclick=()=>renderHelp('could');
+renderHelp('could');
+
+// ---------- 5 · personalization: same customer, three versions ----------
+const PZ={
+  everyone:{
+    tone:'neutral',
+    banner:'20% off your first order with code COMFORT20',
+    nav:['Women','Men','Kids'], navOn:null,
+    eyebrow:'Just dropped', hero:'Ragg for fall', heroSub:'Thick, chunky, cozy.', heroImg:'captures/products/ragg-mens.jpg', heroCta:['Shop Women','Shop Men'],
+    tiles:[['captures/products/ragg-4pack-womens-email.jpg',"Women's Chunky Ragg 4-Pack",''],['captures/products/ragg-mens.jpg',"Men's Chunky Ragg Half Calf",''],['captures/products/compression-rosewater.webp','Everyday Compression Calf','']],
+    side:['New for kids','Marvel and Peanuts socks, just in.'],
+    pins:{banner:1,hero:2,tiles:3,side:4},
+    notes:[
+      ['A first-order offer','shown to a customer with two orders and an account.'],
+      ['The hero is the sock he bought','on Sep 6. Everyone gets the same page.'],
+      ['Women\'s first','because the catalog filed his unisex pack as women\'s.'],
+      ['Kids','because his preferences default to everything.']
+    ]
+  },
+  creepy:{
+    tone:'bad',
+    banner:'Welcome back, Kevin! Hope you enjoyed Sunday at West Village.',
+    nav:['Women','Men','Kids'], navOn:'Women',
+    eyebrow:'Picked for you', hero:'Shopping for her again?', heroSub:'More of what you bought last time.', heroImg:'captures/products/ragg-4pack-womens-email.jpg', heroCta:['Shop Women'],
+    tiles:[['captures/products/ragg-4pack-womens-email.jpg',"Women's Chunky Ragg 4-Pack",'again'],['captures/products/compression-rosewater.webp',"Women's Compression",''],['captures/products/ragg-mens.jpg',"Men's Chunky Ragg Half Calf",'again']],
+    side:['Your socks are 26 days old','Time for new ones? Also, we noticed you stopped opening our emails.'],
+    pins:{banner:1,hero:2,tiles:3,side:4},
+    notes:[
+      ['Where and when he shopped','pulled from the store into a marketing page.'],
+      ['Guessed a gender and a recipient','from one unisex pack.'],
+      ['Sells back what he owns','with "again" stickers.'],
+      ['Calls out his email habits','and pushes socks he didn’t ask for.']
+    ]
+  },
+  right:{
+    tone:'good',
+    banner:'Your store orders are in your account. 6 pairs donated so far.',
+    nav:['Men','Unisex','Women','Kids'], navOn:'Men',
+    eyebrow:'Goes with your Ragg', hero:'Something for the other end of the day', heroSub:'Gripper Slippers, in your size.', heroImg:'captures/products/gripper-slipper.webp', heroCta:['Shop slippers'],
+    tiles:[['captures/products/ragg-4pack-mens.jpg',"Men's Chunky Ragg 4-Pack",'Men\'s L'],['captures/products/gripper-slipper.webp','Gripper Slippers','your size'],['captures/products/triblock.jpg','Tri-Block Ankle','for Dad · L']],
+    side:['Where your 6 pairs went','A short story from the giving team.'],
+    pins:{banner:1,hero:2,tiles:3,side:4},
+    notes:[
+      ['From what he did:','bought in a store, donated six pairs. No first-order offer.'],
+      ['Skips what he bought on Sep 6','and shows what pairs with it.'],
+      ['From what he told us:','the fit answer (L) and the gift tag (Dad). Men\'s and unisex lead.'],
+      ['Impact instead of a discount','as the reason to come back.']
+    ]
+  }
+};
+const CLOCK='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
+const EYE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>';
+const PZSIDE={
+  everyone:()=>`<span class="ps-new">New</span><b class="ps-t">Kids' socks, just in</b><span class="ps-s">Marvel and Peanuts styles.</span><span class="ps-cta">Shop kids</span>`,
+  creepy:()=>`<div class="ps-toast"><div class="ps-th">${CLOCK}<span>Reminder</span><i>now</i></div><p><b>Your socks are 26 days old.</b> Time for new ones?</p></div>
+    <div class="ps-toast"><div class="ps-th">${EYE}<span>We noticed</span><i>now</i></div><p><b>You stopped opening our emails.</b> Everything okay?</p></div>
+    <span class="ps-cta bad full">Replace them now</span>`,
+  right:()=>`<div class="ps-head"><div class="ps-n">6</div><div class="ps-socks">${[0,1,2,3,4,5].map(()=>SOCK()).join('')}</div></div><b class="ps-t">pairs donated through your purchases</b><span class="ps-s">From the giving team: where this season's pairs went.</span><span class="ps-cta light">See where they went ${ARR}</span>`
+};
+const pzPage=document.getElementById('pzpage'), pzNotes=document.getElementById('pznotes');
+const pzBtns=[...document.querySelectorAll('#pzflip .flipbtn')];
+let pzMode='right';
+const pin=n=>`<span class="pzpin">${n}</span>`;
+function renderPZ(){
+  const m=PZ[pzMode];
+  pzBtns.forEach(b=>b.setAttribute('aria-pressed', b.dataset.m===pzMode?'true':'false'));
+  pzPage.className='mock pz '+m.tone;
+  pzPage.innerHTML=`<div class="mockchrome"><span class="mockdots"><i></i><i></i><i></i></span><span class="mockaddr">bombas.com<b>/</b> · signed in as Kevin</span></div>
+    <div class="pz-banner">${pin(m.pins.banner)}${m.banner}</div>
+    <div class="pz-nav"><b>BOMBAS</b>${m.nav.map(n=>`<span${n===m.navOn?' class="on"':''}>${n}</span>`).join('')}</div>
+    <div class="pz-hero">${pin(m.pins.hero)}<div class="pz-ht"><span class="pz-eb">${m.eyebrow}</span><div class="pz-h">${m.hero}</div><div class="pz-hs">${m.heroSub}</div><div class="pz-ctas">${m.heroCta.map(c=>`<span>${c}</span>`).join('')}</div></div><img src="${m.heroImg}" alt=""></div>
+    <div class="pz-body"><div class="pz-tiles">${pin(m.pins.tiles)}${m.tiles.map(t=>`<div class="pz-tile"><span class="bx-th${t[0].includes('triblock')?' cover':''}"><img src="${t[0]}" alt=""></span><b>${t[1]}</b>${t[2]?`<em>${t[2]}</em>`:''}</div>`).join('')}</div>
+      <div class="pz-side ${pzMode}">${pin(m.pins.side)}${PZSIDE[pzMode]()}</div></div>`;
+  pzNotes.className='pznotes '+m.tone;
+  pzNotes.innerHTML=m.notes.map((n,i)=>`<li><span class="pzpin">${i+1}</span><div><b>${n[0]}</b> ${n[1]}</div></li>`).join('');
+  pzPage.classList.remove('swap'); void pzPage.offsetWidth; pzPage.classList.add('swap');
+}
+pzBtns.forEach(b=>b.onclick=()=>{pzMode=b.dataset.m; renderPZ();});
+renderPZ();
+
+// ---------- 6 · one journey ----------
+const TODAY_TL=[
+  {d:'Day 0', items:[{c:'store', w:'Leap', t:'Two receipts: items and prices'},{c:'store', w:'Leap', t:'Two identical surveys that night, one per receipt'}]},
+  {d:'Day 1', items:[{c:'mkt', w:'marketing', t:'Save Up to 20% With Packs'}]},
+  {d:'Day 2', items:[{c:'team', w:'store team', t:'A personal thank-you from the West Village store leader'}]},
+  {d:'Days 3–9', items:[{c:'mkt', w:'', t:'nothing'}]},
+  {d:'Days 10–22', items:[{c:'mkt', w:'marketing', t:'Eleven sends: travel compression, footwear, slippers, Marvel kids, tall socks, floral compression, cozy staples, a collab, the summer collection, packs, a sport sock'},{c:'team', w:'store team', t:'Check-in from the store leader (day 14)'},{c:'rev', w:'Yotpo', t:'Review request: 4-pack (day 16)'},{c:'rev', w:'Yotpo', t:'Review request: Chunky Ragg (day 21)'}]},
+  {d:'Day 23', items:[{c:'mkt hot', w:'marketing', t:'The Perfect Fall Sock Is Here: the sock I bought'}]},
+  {d:'Days 25–30', items:[{c:'mkt', w:'marketing', t:'Just Dropped: All New and Sooo Cozy'},{c:'rev', w:'Yotpo', t:'Review request: Chunky Ragg, again'},{c:'mkt', w:'marketing', t:'Welcome Back to Sesame Street'},{c:'mkt', w:'marketing', t:'All New Sunday Slipper Colors'},{c:'mkt', w:'marketing', t:'New Socks for Festive Fun'}]}
+];
+const COULD_TL=[
+  {d:'Day 0', items:[{c:'new', w:'store + CRM', t:'A Bombas receipt: what they bought, the pairs they just donated, "your orders already live in your account," and one survey instead of one per receipt', m:'moves: account creation and login'}]},
+  {d:'Day 2', items:[{c:'new', w:'store team', t:'The store leader\'s thank-you, now naming what they bought and the six pairs donated, plus one tap: "Was any of this a gift?"', m:'moves: post-purchase engagement'}]},
+  {d:'Day 14', items:[{c:'new', w:'store team + account', t:'The store leader\'s check-in, with a one-tap fit question saved straight to their sizes', m:'moves: post-purchase engagement'}]},
+  {d:'Day 18', items:[{c:'rev', w:'Yotpo', t:'One review request per product, store-aware: no "haven\'t received it yet?"', m:'moves: post-purchase engagement'}]},
+  {d:'Day 21', items:[{c:'new', w:'both', t:'Where their pairs went: the Giving & Mission News their preferences already say yes to', m:'moves: the north star'}]},
+  {d:'Day 28', items:[{c:'new', w:'both', t:'The next pair: the matching 4-pack, in their size, minus what they own', m:'moves: repeat rate'}]},
+  {d:'Mid-November', items:[{c:'new', w:'both', t:'The holiday email: a link to what they bought before, gifts first, in the right sizes', m:'moves: repeat rate'}]},
+  {d:'All month', items:[{c:'mkt', w:'marketing', t:'Seasonal sends keep going: weekly for someone who isn\'t clicking, skipping what they just bought', m:''}]}
+];
+const tlEl=document.getElementById('tl');
+const jbT=document.getElementById('jb-today'), jbC=document.getElementById('jb-could');
+function renderTL(view){
+  jbT.setAttribute('aria-pressed', view==='today'?'true':'false');
+  jbC.setAttribute('aria-pressed', view==='could'?'true':'false');
+  const rows= view==='today'? TODAY_TL : COULD_TL;
+  tlEl.innerHTML=rows.map(r=>`<div class="tlrow"><div class="tlday">${r.d}</div><div class="tlitems">${r.items.map(i=>`<span class="tli ${i.c}">${i.w?`<span class="who">${i.w}</span>`:''}${i.t}${i.m?`<span class="moves">${i.m}</span>`:''}</span>`).join('')}</div></div>`).join('')
+    + (view==='today' ? `<div class="tlsum">The other 4, the surveys and store-team notes, knew I'd been in the store but not what I bought.</div>`
+                      : `<div class="tlsum"><b>7 planned moments</b> plus the regular sends · every one knows what the customer bought · each tied to an input under the north star</div>`);
+  tlEl.classList.remove('swap'); void tlEl.offsetWidth; tlEl.classList.add('swap');
+}
+jbT.onclick=()=>renderTL('today'); jbC.onclick=()=>renderTL('could');
+renderTL('could');
+
+// ---------- 4 · north star ----------
+const T={
+  swap:{from:'Messages', t:'in half the emails, if they just bought the featured sock, show what goes with it instead', m:'repeat purchases within 30 and 60 days', g:'revenue per email, so the personal version earns at least as much as the generic one'},
+  holiday:{from:'Account home', t:'send the bought-before link to half of last year\'s holiday buyers', m:'more repeat holiday orders, and a faster trip from email to checkout', g:'average order size, and links opened on many devices, a sign of forwarding'},
+  finder:{from:'Build once', t:'run the sock finder, configured by merchandising, in the day-28 email and on the account home for half of recent customers', m:'more of them come back to a product within 30 days, and more of those visits start from the tool', g:'how long a new theme takes to launch without an engineer, and clicks that land on a sold-out sock, which should stay at zero'},
+  receipt:{from:'Messages', t:'add the "your orders are already in your account" line to half of store receipts', m:'first logins from store customers within 30 days', g:'unsubscribes and receipt replies asking what this is'},
+  insert:{from:'What we know', t:'a save-your-size card in half of gift boxes', m:'recipients who save a size, and their first orders', g:'returns on those first orders, since the point is a first pair that fits'},
+  help:{from:'Help', t:'add help to the order page for half of signed-in customers, carrying the order into the returns portal', m:'more issues resolved without a contact, fewer contacts per order, and more returns that become exchanges', g:'satisfaction on returns and exchanges, to make sure faster still feels good'},
+  home:{from:'Account home', t:'show half of signed-in customers the new account home for their first 30 days after a purchase', m:'more of them come back to the account within 30 days, and more fit answers and Buy Again taps per customer', g:'help contacts and unsubscribes, so a busier home never starts to feel pushy'},
+  fit:{from:'Account home', t:'a fit check on the account home versus only inside the review email', m:'fit answers per order, and sessions that reach a product after answering', g:'review volume, so the fit check doesn\'t eat the reviews'},
+  tag:{from:'What we know', t:'offer an extra donated pair for tagging purchases, to half of recent customers', m:'customers who tag at least one purchase, and how often they come back', g:'tags that look careless, like everything marked "mine"'}
+};
+const INPUTS=[
+  {l:'Repeat rate', c:[['Day 23 swap: pair it, don\'t repeat it','onejourney','Messages'],['Buy Again in fit-adjusted sizes','home','Account home'],['The sock finder in the day-28 email','reuse','Build once'],['Last holiday\'s gifts, one tap to reorder','home','Account home']], t:[T.swap,T.holiday,T.finder]},
+  {l:'Account creation & login', c:[['A store receipt that says your orders already live online','onejourney','Messages'],['Store team notes that link to the account','journey','My 30 days'],['A save-your-size card in gift boxes','know','What we know'],['A holiday link that ends in "Save this list"','home','Account home']], t:[T.receipt,T.insert]},
+  {l:'Self-service resolution', c:[['Help on the order page','help','Help'],['A return that becomes an exchange','help','Help'],['No tracking step for store orders','help','Help']], t:[T.help]},
+  {l:'Post-purchase engagement', c:[['A fit question in the store team\'s check-in','onejourney','Messages'],['Where your pairs went','home','Account home'],['Tagging purchases, thanked with a donated pair','know','What we know'],['How to wear and wash what you bought','onejourney','Messages']], t:[T.home,T.fit,T.tag]}
+];
+const nsCards=document.getElementById('nscards'), nsOut=document.getElementById('nsout');
+let nsSel=0;
+INPUTS.forEach((x,i)=>{
+  const d=document.createElement('div'); d.className='nscard';
+  d.innerHTML=`<span class="nsnum">input ${i+1}</span><b>${x.l}</b><span class="nsmoved">moved by</span>
+    <ul>${x.c.map(c=>`<li><a href="#${c[1]}">${c[0]}<span>${c[2]} <span class="ico ico-r" aria-hidden="true"></span></span></a></li>`).join('')}</ul>
+    <button class="nstest" data-i="${i}">How I'd test it${x.t.length>1?` <i>${x.t.length}</i>`:''}</button>`;
+  d.querySelector('.nstest').onclick=()=>{nsSel=i; renderNS(); if(window.innerWidth<860) nsOut.scrollIntoView({block:'nearest', behavior:'smooth'});};
+  nsCards.appendChild(d);
+});
+function renderNS(){
+  [...nsCards.children].forEach((c,i)=>{ c.classList.toggle('on', i===nsSel); c.querySelector('.nstest').setAttribute('aria-pressed', i===nsSel?'true':'false'); });
+  const x=INPUTS[nsSel];
+  nsOut.innerHTML=`<div class="nstc"><span class="micro">testing input ${nsSel+1} · ${x.l.toLowerCase()} · ${x.t.length} test${x.t.length>1?'s':''}</span>`
+    + x.t.map(t=>`<div class="testcard"><span class="tfrom">from ${t.from}</span><span class="micro">The test</span><span>${t.t}</span><span class="micro">How we'd know</span><span>${t.m}</span><span class="micro">What we'd watch</span><span>${t.g}</span></div>`).join('')
+    + `</div>`;
+}
+renderNS();
+
+// ---------- tabs ----------
+const SECTIONS=[
+  {id:'journey', label:'My 30 days'},
+  {id:'know', label:'What we know'},
+  {id:'shows', label:'Where it shows up'},
+  {id:'prove', label:'How we\'d prove it'},
+  {id:'start', label:'Where I\'d start'}
+];
+const SUBS={home:'Account home', help:'Help', onejourney:'Messages', reuse:'Build once'};
+const ALIASES={findings:'journey', personal:'know', northstar:'prove', questions:'start', audit:'prove'};
+const SHOWS=SECTIONS.findIndex(s=>s.id==='shows');
+let currentSub='home';
+const tabbarEl=document.getElementById('tabbar');
+SECTIONS.forEach((sec,i)=>{
+  const b=document.createElement('button'); b.className='stab';
+  b.innerHTML=`<span class="n">${i+1}</span>${sec.label}`;
+  b.setAttribute('aria-pressed','false');
+  b.onclick=()=>showTab(i); tabbarEl.appendChild(b);
+});
+let currentTab=0;
+function tabLabel(){ return SECTIONS[currentTab].label + (currentTab===SHOWS ? ' · '+SUBS[currentSub] : ''); }
+function setHash(){ history.replaceState(null, '', location.pathname + location.search + '#' + (currentTab===SHOWS ? currentSub : SECTIONS[currentTab].id)); }
+function track(){
+  const gateEl=document.getElementById('gate');
+  if(gateEl && gateEl.classList.contains('open')){ try{ plausible('Retention Tab View', {props:{tab: tabLabel()}}); }catch(e){} }
+}
+function showTab(i){
+  currentTab=(i+SECTIONS.length)%SECTIONS.length;
+  SECTIONS.forEach((sec,j)=>{
+    document.getElementById(sec.id).classList.toggle('active', j===currentTab);
+    tabbarEl.children[j].setAttribute('aria-pressed', j===currentTab?'true':'false');
+  });
+  setHash(); window.scrollTo({top:0}); track();
+}
+function showSub(id, fromClick){
+  currentSub=id;
+  document.querySelectorAll('.subpane').forEach(p=>p.classList.toggle('on', p.id==='sub-'+id));
+  document.querySelectorAll('#subnav .subbtn').forEach(b=>b.setAttribute('aria-selected', b.dataset.sub===id?'true':'false'));
+  if(currentTab===SHOWS) setHash();
+  if(fromClick) track();
+}
+document.querySelectorAll('#subnav .subbtn').forEach(b=>b.onclick=()=>showSub(b.dataset.sub, true));
+function go(h){
+  h=(h||'').replace('#',''); if(ALIASES[h]) h=ALIASES[h];
+  if(SUBS[h]){ showSub(h); showTab(SHOWS); return true; }
+  const i=SECTIONS.findIndex(s=>s.id===h);
+  if(i>-1){ showTab(i); return true; }
+  return false;
+}
+window.addEventListener('hashchange', ()=>go(location.hash));
+// "How we'd test this" links: jump to chapter 4 and open the right input or block
+document.addEventListener('click', e=>{
+  const a=e.target.closest ? e.target.closest('a[data-ns], a[data-scroll]') : null;
+  if(!a) return;
+  e.preventDefault();
+  showTab(SECTIONS.findIndex(s=>s.id==='prove'));
+  if(a.dataset.ns!==undefined){ nsSel=+a.dataset.ns; renderNS(); }
+  const target=document.getElementById(a.dataset.scroll || 'nscards');
+  setTimeout(()=>target.scrollIntoView({block:'start'}), 0);
+});
+const lightbox=document.createElement('div');
+lightbox.className='lightbox';
+const lightboxImg=document.createElement('img');
+lightbox.appendChild(lightboxImg);
+document.body.appendChild(lightbox);
+document.addEventListener('click', e=>{
+  if(lightbox.classList.contains('open')){ lightbox.classList.remove('open'); return; }
+  const im=e.target.closest ? e.target.closest('.capture img') : null;
+  if(im){ lightboxImg.src=im.src; lightboxImg.alt=im.alt||''; lightbox.classList.add('open'); try{ plausible('Retention Screenshot Zoom', {props:{image: im.src.split('/').pop()}}); }catch(e){} }
+});
+document.addEventListener('keydown', e=>{
+  if(lightbox.classList.contains('open')){ if(e.key==='Escape') lightbox.classList.remove('open'); return; }
+  if(e.target && e.target.matches && e.target.matches('input, textarea, select')) return;
+  if(e.key==='ArrowRight') showTab(currentTab+1);
+  if(e.key==='ArrowLeft') showTab(currentTab-1);
+});
+const ROUTES=[
+  {key:'crm', tabs:['journey','shows','prove','start']},
+  {key:'engineering', tabs:['know','shows','prove','start']},
+  {key:'design', tabs:['know','shows']}
+];
+const routebarEl=document.getElementById('routebar');
+let currentRoute=null;
+function setRoute(key){
+  currentRoute=(key===currentRoute)?null:key;
+  const route=ROUTES.find(r=>r.key===currentRoute);
+  [...routebarEl.children].forEach(c=>c.classList.toggle('on', c.dataset.key===currentRoute));
+  SECTIONS.forEach((sec,i)=>{
+    const b=tabbarEl.children[i];
+    const dot=b.querySelector('.tdot');
+    if(route && route.tabs.includes(sec.id)){
+      if(!dot){const s=document.createElement('span'); s.className='tdot'; b.appendChild(s);}
+    } else if(dot){ dot.remove(); }
+  });
+  history.replaceState(null,'', location.pathname + (currentRoute?'?for='+currentRoute:'') + location.hash);
+  if(currentRoute){ try{ plausible('Retention Route', {props:{route: currentRoute}}); }catch(e){} }
+}
+ROUTES.forEach(r=>{
+  const c=document.createElement('button'); c.className='rchip'; c.textContent=r.key; c.dataset.key=r.key;
+  c.onclick=()=>setRoute(r.key); routebarEl.appendChild(c);
+});
+if(!go(location.hash)) showTab(0);
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+window.addEventListener('load', ()=>window.scrollTo(0,0));
+document.addEventListener('click', e=>{
+  const a=e.target.closest ? e.target.closest('a[href^="http"]') : null;
+  if(a && !a.href.includes('middleton.io')){
+    try{ plausible('Retention Link Click', {props:{link: a.href.replace(/^https?:\/\//,'').split('?')[0].slice(0,80)}}); }catch(err){}
+    return;
+  }
+  const btn=e.target.closest ? e.target.closest('button') : null;
+  if(btn && !btn.closest('#tabbar') && !btn.closest('.gate') && !btn.closest('.routebar')){
+    const sec=btn.closest('section');
+    if(sec){
+      try{ plausible('Retention Widget', {props:{widget: sec.id, choice: (btn.textContent||'').trim().slice(0,40)}}); }catch(err){}
+    }
+  }
+});
+const forParam=new URLSearchParams(location.search).get('for');
+if(forParam && ROUTES.some(r=>r.key===forParam)){ routebarEl.classList.add('show'); setRoute(forParam); }
+
+const gate=document.getElementById('gate');
+const gatepw=document.getElementById('gatepw');
+const gatemiss=document.getElementById('gatemiss');
+let unlocked=false;
+try{ unlocked = sessionStorage.getItem('gate')==='open'; }catch(e){}
+function openGate(){
+  gate.classList.add('open');
+  document.body.classList.remove('locked');
+  window.scrollTo(0,0);
+  try{ sessionStorage.setItem('gate','open'); }catch(e){}
+  try{ plausible('Retention Login'); }catch(e){}
+  try{ plausible('Retention Tab View', {props:{tab: tabLabel()}}); }catch(e){}
+}
+function tryGate(){
+  if(gatepw.value.trim().toLowerCase()==='concepts'){ openGate(); }
+  else{ gatemiss.textContent="That's not it. Same one as part one."; gatepw.select(); try{ plausible('Retention Login Failed'); }catch(e){} }
+}
+if(unlocked){ gate.classList.add('open'); try{ plausible('Retention Tab View', {props:{tab: SECTIONS[currentTab].label}}); }catch(e){} }
+else{
+  document.body.classList.add('locked');
+  document.getElementById('gatego').onclick=tryGate;
+  gatepw.addEventListener('keydown', e=>{ if(e.key==='Enter') tryGate(); e.stopPropagation(); });
+  gatepw.focus();
+}
+</script>
+</body>
+</html>
