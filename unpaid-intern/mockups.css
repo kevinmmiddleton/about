@@ -1,4 +1,4 @@
-/* Live edition only: the four README images rebuilt as HTML.
+/* Live edition only: the five README images rebuilt as HTML.
    Loaded after unpaid-intern.css. Token colors only, so they follow light and dark. */
 
 .p-intern .mock { margin: 0; background: var(--ui-card); color: var(--ui-ink); border: 2.5px solid var(--ui-line);
@@ -69,6 +69,18 @@
 .p-intern .dirs li + li { border-top: 1.5px solid color-mix(in srgb, var(--ui-line) 16%, transparent); }
 .p-intern .dirs b { font-weight: 800; font-size: .98rem; }
 .p-intern .dirs span { color: var(--ui-ink2); font-size: .92rem; line-height: 1.4; }
+
+/* 5. the inbox: files in, filed out */
+.p-intern .inbox { display: grid; }
+.p-intern .files { list-style: none; margin: 0 0 1.2rem; padding: 0; display: grid; gap: .8rem; }
+.p-intern .files li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); gap: .75rem; align-items: start; }
+.p-intern .files b { display: block; font-family: var(--mono); font-size: .9rem; font-weight: 700; overflow-wrap: anywhere; }
+.p-intern .files span { color: var(--ui-ink2); font-size: .92rem; line-height: 1.4; }
+.p-intern .file { width: 1.6rem; height: auto; }
+.p-intern .file path { fill: var(--ui-card); stroke: var(--ui-line); stroke-width: 2.5; stroke-linejoin: round; }
+.p-intern .file .ear { fill: none; }
+.p-intern .inbox .ask { margin: .2rem auto 1.2rem; }
+.p-intern .inbox ul.dots { gap: .6rem; }
 
 @media (max-width: 760px) {
   .p-intern .flow { grid-template-columns: 1fr; }

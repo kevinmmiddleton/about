@@ -146,6 +146,7 @@ section.blk { padding: clamp(2.2rem, 5vw, 3.6rem) 0; }
 .prose { max-width: 66ch; }
 .prose p { margin: 0 0 1rem; }
 .lead-in { margin: 0 0 1.3rem; font-size: 1.08rem; max-width: 60ch; }
+.lead-in.after { margin: 1.3rem 0 0; }
 .story, .alt { background: var(--ui-bg2); border-block: 2px solid var(--ui-line); }
 .story p { font-size: clamp(1.15rem, 2.2vw, 1.45rem); line-height: 1.45; letter-spacing: -.01em; max-width: 52ch; margin: 0; font-weight: 600; }
 .story p + p { margin-top: .9rem; font-weight: 400; color: var(--ui-ink2); font-size: 1.05rem; line-height: 1.6; max-width: 62ch; }

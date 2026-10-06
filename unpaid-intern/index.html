@@ -28,8 +28,8 @@
 <meta name="theme-color" content="#FFF8EF" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#16131F" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="unpaid-intern.css?v=d87c06f0">
-<link rel="stylesheet" href="mockups.css?v=c4ae7b37">
+<link rel="stylesheet" href="unpaid-intern.css?v=3e2818fe">
+<link rel="stylesheet" href="mockups.css?v=d3ba5888">
 <!-- Privacy-friendly analytics by Plausible (main middleton.io site) -->
 <script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
 <script>
@@ -37,7 +37,7 @@
   plausible.init()
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Unpaid Intern","url":"https://middleton.io/unpaid-intern/","applicationCategory":"ProductivityApplication","operatingSystem":"macOS, Windows, Linux, web","description":"A free second brain for work: an Agent Skill (and Claude plugin) that turns meeting transcripts, docs, tickets, and email into a morning briefing, meeting prep, status updates, and follow-ups, in plain files you own.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/license/mit","downloadUrl":"https://github.com/kevinmmiddleton/unpaid-intern/releases/latest","sameAs":"https://github.com/kevinmmiddleton/unpaid-intern","isAccessibleForFree":true,"softwareVersion":"1.3.0","image":"https://middleton.io/unpaid-intern/images/og.jpg","author":{"@id":"https://middleton.io/#kevin"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Unpaid Intern","url":"https://middleton.io/unpaid-intern/","applicationCategory":"ProductivityApplication","operatingSystem":"macOS, Windows, Linux, web","description":"A free second brain for work: an Agent Skill (and Claude plugin) that turns meeting transcripts, docs, tickets, and email into a morning briefing, meeting prep, status updates, and follow-ups, in plain files you own.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/license/mit","downloadUrl":"https://github.com/kevinmmiddleton/unpaid-intern/releases/latest","sameAs":"https://github.com/kevinmmiddleton/unpaid-intern","isAccessibleForFree":true,"softwareVersion":"1.3.1","image":"https://middleton.io/unpaid-intern/images/og.jpg","author":{"@id":"https://middleton.io/#kevin"}}
 </script>
 </head>
 <body class="p-intern">
@@ -78,8 +78,8 @@
 
 <section class="story">
   <div class="wrap story-in">
-    <p>Starting somewhere new is a lot. Fifty new names, a dozen projects, acronyms nobody explains, and an onboarding buddy who's been in back-to-back meetings since your first day.</p>
-    <p>You need all the help you can get. You need an unpaid intern. And long after you've ramped up, it's how you walk into every meeting already knowing the last decision.</p>
+    <p>You're in back-to-back meetings. You've got a dozen projects going, follow-ups scattered across email and chat, and the work still has to get done.</p>
+    <p>You need all the help you can get. You need an unpaid intern. It's for anyone juggling more than they can keep in their head, and it's extra helpful when you've just started somewhere new.</p>
   </div>
 </section>
 
@@ -113,6 +113,42 @@
         </ul>
       </div>
     </figure>
+  </div>
+</section>
+
+<section class="blk alt" id="inbox" aria-labelledby="inbox-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="inbox-h">If you can save it, your intern can read it</h2><span class="k">Drop it in. Say "file my inbox."</span></div>
+    <div class="split">
+      <figure class="mock inbox">
+        <span class="chip pink k">1-Inbox</span>
+        <ul class="files">
+          <li><svg class="file" viewBox="0 0 30 38" aria-hidden="true"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg><div><b>standup-10-06.txt</b><span>The meeting transcript</span></div></li>
+          <li><svg class="file" viewBox="0 0 30 38" aria-hidden="true"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg><div><b>vendor-terms.pdf</b><span>The PDF legal sent</span></div></li>
+          <li><svg class="file" viewBox="0 0 30 38" aria-hidden="true"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg><div><b>thread.png</b><span>A screenshot of a Slack thread</span></div></li>
+          <li><svg class="file" viewBox="0 0 30 38" aria-hidden="true"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg><div><b>q4-plan.pptx</b><span>The deck someone shared five minutes before the meeting</span></div></li>
+        </ul>
+        <p class="ask">file my inbox</p>
+        <span class="chip k">Where it went</span>
+        <ul class="dots">
+          <li><b>Launch v2</b><span>Two decisions and the new date, with the source noted.</span></li>
+          <li><b>Follow-ups</b><span>Three new ones, each with an owner and a date.</span></li>
+          <li><b>Glossary</b><span>Two acronyms it wants you to confirm.</span></li>
+          <li><b>People</b><span>Asks who Dana Kim is. Never guesses.</span></li>
+          <li><b>5-Archive</b><span>Your originals, untouched. Nothing is deleted.</span></li>
+        </ul>
+      </figure>
+      <div>
+        <p class="lead-in">Your second brain has an inbox. Put a shortcut to it on your desktop and saving something for your intern is one drag. A meeting transcript, the PDF legal sent, a screenshot of a Slack thread, the deck someone shared five minutes before the meeting. Messy is fine. Just get it in there.</p>
+        <ul class="ticks">
+          <li><strong>Each fact goes where it belongs.</strong> Decisions and status land on the right project page, with the source noted.</li>
+          <li><strong>The follow-ups get caught.</strong> Anything someone promised gets an owner and a date.</li>
+          <li><strong>It learns the lingo and the people.</strong> New acronyms go to your glossary, and it asks who the new names are.</li>
+          <li><strong>Your originals stay untouched.</strong> It never edits a drop. Once it's filed, the original moves to the archive, and nothing is deleted.</li>
+        </ul>
+        <p class="lead-in after">You don't have to remember to check it. Your intern tells you when something's waiting.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -170,7 +206,7 @@
       <li><span class="k when">End of day</span><code>/close</code><span>What moved, what's still open, and tomorrow's first move.</span></li>
     </ol>
     <details class="all">
-      <summary>Everything your intern can do (27 commands)</summary>
+      <summary>Everything your intern can do (28 commands)</summary>
       <div class="tbl">
         <table>
           <thead><tr><th scope="col">When</th><th scope="col">Commands</th></tr></thead>
@@ -180,7 +216,7 @@
             <tr><th scope="row">Follow-ups</th><td><b><code>/capture</code></b> any promise, yours or theirs, with an owner and a date. <code>/triage</code> your inbox, sorted into groups, nothing deleted. <b><code>/close</code></b> what moved, what's open, and tomorrow's first move.</td></tr>
             <tr><th scope="row">Status</th><td><b><code>/project-status</code></b> a status table built from your records, ready to paste; it flags stale rows and missing next steps first. <code>/gofer</code> the cut: what deserves today, what's your call, and what can go.</td></tr>
             <tr><th scope="row">Writing</th><td><code>/draft</code> a message in your voice, for you to send. <code>/redline</code> a skeptic reads it before your exec does. <code>/write-epic</code> messy notes in, a clean ticket out.</td></tr>
-            <tr><th scope="row">Thinking</th><td><b><code>/explain</code></b> any acronym, doc, or engineering note, explained like you're new. <code>/grill</code> pokes holes in a plan, starting with your own past decisions. <code>/bro</code> say that again, in plain words. <code>/quick</code> the short version. <code>/study</code> quizzes you from your own notes.</td></tr>
+            <tr><th scope="row">Thinking</th><td><b><code>/explain</code></b> any acronym, doc, or engineering note, explained like you're new. <code>/grill</code> pokes holes in a plan, starting with your own past decisions. <code>/bro</code> say that again, in plain words. <code>/quick</code> the short version. <code>/study</code> quizzes you from your own notes. <code>/learn</code> builds you a 101 lesson on any topic from your own sources, with a quiz.</td></tr>
             <tr><th scope="row">Keeping the record</th><td><code>/new-project</code> a home for every project. <code>/decision</code> the decision and the why, so nobody relitigates it. <code>/sync-kb</code> files everything in your inbox folder. <code>/kb-lint</code> finds what's gone stale. <code>/tidy</code> merges duplicates, fixes fuzzy dates, and archives what's done.</td></tr>
             <tr><th scope="row">Setup</th><td><code>/setup</code> guided setup, mostly clicking. <code>/connect</code> add a tool, or fix one that won't connect.</td></tr>
           </tbody>
@@ -190,33 +226,7 @@
   </div>
 </section>
 
-<section class="blk alt" aria-labelledby="new-h">
-  <div class="wrap">
-    <div class="sec-h"><h2 id="new-h">New here? Start with the who's who</h2><span class="k">Your onboarding buddy is busy. Your intern isn't.</span></div>
-    <div class="split rev">
-      <figure class="mock who">
-        <p class="ask">/who is Hollis?</p>
-        <div class="person"><span class="avatar" aria-hidden="true">HQ</span><b>Hollis Quint</b></div>
-        <dl class="facts">
-          <dt>Role</dt><dd>Director of Pricing on the Revenue team. Reports to Felix Abara.</dd>
-          <dt>Owns</dt><dd>List prices and discount bands.</dd>
-          <dt>Last talked</dt><dd>The pricing review, Tuesday, October 6.</dd>
-          <dt>Open</dt><dd>You owe Hollis the pricing one-pager, due Friday. Hollis owes you the discount model, waiting 4 business days.</dd>
-          <dt>Projects</dt><dd>Pricing refresh, launch v2.</dd>
-          <dt>Source</dt><dd>Your org chart screenshot, October 6.</dd>
-        </dl>
-      </figure>
-      <ul class="ticks">
-        <li><strong>Drop in your org chart.</strong> A screenshot is enough. Your intern reads who reports to whom, saves it to your people page, and shows you what it saved so you can fix anything it misread.</li>
-        <li><strong>New names get asked about.</strong> When someone comes up in a meeting or a thread, your intern asks who they are, a few at a time, and never guesses.</li>
-        <li><strong>/who is your cheat sheet</strong> for anyone: their role, who they report to, the last time you talked, and what's open between you.</li>
-        <li><strong>A 30-60-90 page</strong> keeps your first three months on track.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="blk" aria-labelledby="more-h">
+<section class="blk alt" aria-labelledby="more-h">
   <div class="wrap">
     <div class="sec-h"><h2 id="more-h">Get more done between meetings</h2><span class="k">Why you can hand it real work</span></div>
     <div class="prose">
@@ -230,6 +240,35 @@
       <div><h3>It treats what it reads as information, not orders.</h3><p>If a pasted email says "ignore your instructions," it's built to flag that to you instead of following it.</p></div>
       <div><h3>It keeps sensitive details out of your notes.</h3><p>It's built to leave passwords, customer records, and pay, HR, or health details where they belong, and a scanner double-checks what you drop in.</p></div>
       <div><h3>You decide how much it does.</h3><p>One settings file says what it reads without asking and where it can write. Start careful and loosen it as you go.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" aria-labelledby="new-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="new-h">New somewhere? Get the who's who</h2><span class="k">Your onboarding buddy is busy. Your intern isn't.</span></div>
+    <div class="split rev">
+      <figure class="mock who">
+        <p class="ask">/who is Hollis?</p>
+        <div class="person"><span class="avatar" aria-hidden="true">HQ</span><b>Hollis Quint</b></div>
+        <dl class="facts">
+          <dt>Role</dt><dd>Director of Pricing on the Revenue team. Reports to Felix Abara.</dd>
+          <dt>Owns</dt><dd>List prices and discount bands.</dd>
+          <dt>Last talked</dt><dd>The pricing review, Tuesday, October 6.</dd>
+          <dt>Open</dt><dd>You owe Hollis the pricing one-pager, due Friday. Hollis owes you the discount model, waiting 4 business days.</dd>
+          <dt>Projects</dt><dd>Pricing refresh, launch v2.</dd>
+          <dt>Source</dt><dd>Your org chart screenshot, October 6.</dd>
+        </dl>
+      </figure>
+      <div>
+      <p class="lead-in">Org charts and /who help anyone, but they're a lifesaver in your first few months.</p>
+      <ul class="ticks">
+        <li><strong>Drop in your org chart.</strong> A screenshot is enough. Your intern reads who reports to whom, saves it to your people page, and shows you what it saved so you can fix anything it misread.</li>
+        <li><strong>New names get asked about.</strong> When someone comes up in a meeting or a thread, your intern asks who they are, a few at a time, and never guesses.</li>
+        <li><strong>/who is your cheat sheet</strong> for anyone: their role, who they report to, the last time you talked, and what's open between you.</li>
+        <li><strong>A 30-60-90 page</strong> keeps your first three months on track.</li>
+      </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -253,7 +292,7 @@
       <div>
         <p class="lead-in">It's plain markdown, so you can open, edit, or move any of it. Setup is built for people who have never connected anything, and it hands you something useful before it asks you to connect anything.</p>
         <ol class="steps">
-          <li><strong>Pick a home.</strong> A Second Brain folder in your work OneDrive, Google Drive, or Documents.</li>
+          <li><strong>Pick a home.</strong> A Second Brain folder in your work OneDrive, Google Drive, or Documents, plus a shortcut to your inbox on your desktop.</li>
           <li><strong>Tell it about you.</strong> Your role, what you want help with first, and whether you're new.</li>
           <li><strong>Brain dump.</strong> What, like it's hard? Talk or type everything on your plate. It sorts it and checks with you before writing anything down.</li>
           <li><strong>Something real, right away.</strong> It runs one command on what you just told it.</li>
@@ -368,7 +407,7 @@
     <div class="sec-h"><h2 id="faq-h">FAQ</h2><span class="k">Frequently asked questions</span></div>
     <div class="faq">
       <details><summary>Is it really free?</summary><div><p>Yes. It's free and MIT licensed. It runs inside an AI assistant you already use at work, like Claude, so you'll need access to one of those. It's the only intern who should be unpaid.</p></div></details>
-      <details id="who-made-this"><summary>Who made this?</summary><div><p>I'm Kevin Middleton, a product manager who builds systems that help teams not lose their minds. I built the first version for my own job, then rebuilt it so you don't have to start from scratch. Want help putting it to work for you or your team? Grab a free half hour at <a class="plausible-event-name=UnpaidIntern+OfficeHours+FAQ" href="https://middleton.io/officehours/">Office Hours</a>. More about me at <a class="plausible-event-name=UnpaidIntern+Site+FAQ" href="https://middleton.io/">middleton.io</a>.</p></div></details>
+      <details id="who-made-this"><summary>Who made this?</summary><div><p>I'm Kevin Middleton, a product manager who builds systems that help teams not lose their minds. I've been building my own work agent for a while. This is the part I can hand to everyone, because nobody should have to start from scratch. Want help putting it to work for you or your team? Grab a free half hour at <a class="plausible-event-name=UnpaidIntern+OfficeHours+FAQ" href="https://middleton.io/officehours/">Office Hours</a>. More about me at <a class="plausible-event-name=UnpaidIntern+Site+FAQ" href="https://middleton.io/">middleton.io</a>.</p></div></details>
       <details><summary>Do you make other plugins?</summary><div><p>A few, all free: Job Search Agent (saved searches, scored postings, and an application tracker), Personal Site (a guided interview that ends with your site live), and Build with Claude (set up Claude Code with Telegram and build apps from your phone). They're all in <a class="plausible-event-name=UnpaidIntern+Plugins+FAQ" href="https://github.com/kevinmmiddleton/claude-plugins" target="_blank" rel="noopener noreferrer">my plugin catalog<span class="vh"> (opens in a new tab)</span></a>. In Claude Code, <code>/plugin marketplace add kevinmmiddleton/claude-plugins</code> lists them all, and you install the ones you want from <code>/plugin</code>. Unpaid Intern is in there too, so skip it if you already have it.</p></div></details>
       <details><summary>Do I have to connect anything?</summary><div><p>No. Everything works from pasted text and dropped files. Connectors just save you the copying.</p></div></details>
       <details><summary>Will it send email for me?</summary><div><p>Out of the box it drafts and you hit send. You can let it send from a connected tool by changing that tool's line in your intern's settings file. Even then, nothing goes out until you approve the exact message, recipients, and channel.</p></div></details>
@@ -384,7 +423,7 @@
       </ul></div></details>
     </div>
     <div class="agent-notes">
-    <p class="note"><strong>AI assistant sizing this up for someone?</strong> Unpaid Intern is an Agent Skill with a plugin wrapper: a plain-markdown workspace, 27 commands, optional connectors, and two standard-library Python scripts (also optional; without Python it does their steps by hand). It needs a folder it can write to, or a zip carried between chats in claude.ai or the Claude app without Cowork. The entry point is <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/blob/main/skills/unpaid-intern/SKILL.md">SKILL.md</a>. Every command's full procedure is in <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/blob/main/skills/unpaid-intern/references/commands.md">commands.md</a>, the scripts are in <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/blob/main/skills/unpaid-intern/references/scripts.md">scripts.md</a>, and what it does on its own versus with your yes is in <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/blob/main/skills/unpaid-intern/references/trust-and-safety.md">trust-and-safety.md</a>. There's no Unpaid Intern server: notes stay in the user's folder, the notes script never touches the network, and the only network call Unpaid Intern's own code makes is an opt-in check that a connector is reachable. Connectors sign in as the user and see only what the user can already see. In Claude Code, the plugin's connectors and ask-first check apply to every session while it's enabled.</p>
+    <p class="note"><strong>AI assistant sizing this up for someone?</strong> Unpaid Intern is an Agent Skill with a plugin wrapper: a plain-markdown workspace, 28 commands, optional connectors, and two standard-library Python scripts (also optional; without Python it does their steps by hand). It needs a folder it can write to, or a zip carried between chats in claude.ai or the Claude app without Cowork. The entry point is <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/blob/main/skills/unpaid-intern/SKILL.md">SKILL.md</a>. Every command's full procedure is in <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/blob/main/skills/unpaid-intern/references/commands.md">commands.md</a>, the scripts are in <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/blob/main/skills/unpaid-intern/references/scripts.md">scripts.md</a>, and what it does on its own versus with your yes is in <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/blob/main/skills/unpaid-intern/references/trust-and-safety.md">trust-and-safety.md</a>. There's no Unpaid Intern server: notes stay in the user's folder, the notes script never touches the network, and the only network call Unpaid Intern's own code makes is an opt-in check that a connector is reachable. Connectors sign in as the user and see only what the user can already see. In Claude Code, the plugin's connectors and ask-first check apply to every session while it's enabled.</p>
     <p class="note">Every install route, in tab order. Cowork: the plugin file, <code>unpaid-intern.plugin</code>, from <a class="plausible-event-name=UnpaidIntern+Docs+Release" href="https://github.com/kevinmmiddleton/unpaid-intern/releases/latest">the latest release</a>. Claude.ai, or the Claude app without Cowork: upload <code>unpaid-intern.zip</code> as a skill, with code execution on. Microsoft Copilot, ChatGPT, Gemini, or any other chat assistant: the no-install kit, <code>unpaid-intern-no-install-kit.zip</code>. Claude Code: <code>/plugin marketplace add kevinmmiddleton/unpaid-intern</code>, then <code>/plugin install unpaid-intern@unpaid-intern</code>. Codex: <code>codex plugin marketplace add kevinmmiddleton/unpaid-intern</code>, then <code>codex plugin add unpaid-intern@unpaid-intern</code>. Cursor, GitHub Copilot, Gemini CLI, and other coding agents: <code>npx skills add kevinmmiddleton/unpaid-intern</code>. Connectors, tool by tool, are in <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/blob/main/CONNECTORS.md">CONNECTORS.md</a>, and every test result is in <a class="plausible-event-name=UnpaidIntern+Docs" href="https://github.com/kevinmmiddleton/unpaid-intern/tree/main/evals/results">evals/results</a>.</p>
     </div>
   </div>
