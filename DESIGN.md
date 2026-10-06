@@ -192,14 +192,14 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 220,739 | 165 / 636 | 6 | 16 |
+| `fv.css` | 220,786 | 165 / 636 | 6 | 16 |
 | `kevinos/kevinos.css` | 328,999 | 61 / 293 | 0 | 7 |
 | `blog/blog.css` | 50,008 | 28 / 70 | 0 | 5 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=0e693b41`
-- `blog` (/blog/index.html): `/fv.css?v=0e693b41`, `/blog/blog.css?v=a5b1199e`, `inline`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=eb8b3a06`
+- `blog` (/blog/index.html): `/fv.css?v=eb8b3a06`, `/blog/blog.css?v=a5b1199e`, `inline`
 - `kevinos` (/kevinos/index.html): `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=814af6a3`, `inline`
 
 <details><summary><strong>blog</strong>: 107 tokens, 47 flip between modes</summary>
