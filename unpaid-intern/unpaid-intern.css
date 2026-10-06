@@ -214,7 +214,6 @@ ol.day span:last-child { color: var(--ui-ink2); }
 .stp > .tier + .tier { margin-top: 1rem; }
 /* tabs show up only when the script runs; without it every option stays listed */
 .tabs { display: none; flex-wrap: wrap; gap: .45rem; margin: 0 0 1rem; max-width: 52rem; } /* no wider than the panel below */
-.has-tabs .tabs { display: flex; }
 .tabs { scroll-margin-top: 88px; }
 .story-in { padding-block: clamp(1.8rem, 4vw, 2.6rem); }
 .after-cards { margin-top: clamp(1.8rem, 4vw, 2.6rem); }
@@ -329,3 +328,16 @@ details[open] > summary::after { transform: rotate(45deg); }
 @media (max-width: 480px) {
   .tabs [role="tab"] { min-height: 36px; padding: .4rem .75rem; font-size: .82rem; }
 }
+
+/* install tabs: three equal pills per row (chat apps, then coding tools); two per row on phones */
+.has-tabs .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: .5rem; }
+.tabs [role="tab"] { text-align: center; text-wrap: balance; }
+@media (max-width: 700px) {
+  .has-tabs .tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tabs [role="tab"] { min-height: 44px; padding: .35rem .7rem; line-height: 1.15; }
+}
+
+/* the phone note at the point of download, and the 8 habits list without a doubled rule */
+.stp > .phone-note { margin: 0 0 .9rem; }
+ol.day li:nth-child(1), ol.day li:nth-child(5) { border-top: 0; padding-top: 0; }
+@media (max-width: 760px) { ol.day li:nth-child(5) { border-top: 2px solid var(--ui-line); padding-top: .85rem; } }
