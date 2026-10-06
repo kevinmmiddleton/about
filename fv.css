@@ -3179,7 +3179,7 @@ html:has(.fv){scroll-behavior:smooth;scroll-padding-top:5rem}
    them (bg here, colour on .bc/.val) is what put white on marigold.
    `.fv` prefix is load-bearing: it makes these (0,2,0) so they outrank
    `.fv a{color:inherit}` at (0,1,1) on cards that are links. */
-.fv .b-blue{background:var(--cobalt);color:var(--on-hue)}.fv .b-red{background:var(--madder);color:var(--on-hue)}.fv .b-green{background:var(--viridian);color:var(--on-hue)}.fv .b-plum{background:var(--plum);color:var(--on-hue)}.fv .b-mari{background:var(--marigold);color:var(--on-mari)}.fv .b-ink{background:var(--invert);color:var(--on-invert)}
+.fv .b-blue{background:var(--cobalt);color:var(--on-hue)}.fv .b-red{background:var(--madder);color:var(--on-hue)}.fv .b-green{background:var(--viridian);color:var(--on-hue)}.fv .b-plum{background:var(--plum);color:var(--on-hue)}.fv .b-mari{background:var(--marigold);color:var(--on-mari)}.fv .b-intern{background:#FF8FC1;color:#16131F}.fv .b-ink{background:var(--invert);color:var(--on-invert)}
 /* One Night Only carries its own subsite green so the card and the site match.
    It is far darker than every other card and exactly ONE pairing fails: forest
    against the black Writing card is 1.68:1, where the two read as a single dark
