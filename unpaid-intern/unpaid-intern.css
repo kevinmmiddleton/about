@@ -341,3 +341,6 @@ details[open] > summary::after { transform: rotate(45deg); }
 .stp > .phone-note { margin: 0 0 .9rem; }
 ol.day li:nth-child(1), ol.day li:nth-child(5) { border-top: 0; padding-top: 0; }
 @media (max-width: 760px) { ol.day li:nth-child(5) { border-top: 2px solid var(--ui-line); padding-top: .85rem; } }
+
+/* the skip link keeps dark text on its yellow fill in dark mode */
+.p-intern a.skip, .p-intern a.skip:focus { color: var(--ui-on-fill); }
