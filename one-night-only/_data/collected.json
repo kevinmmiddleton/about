@@ -211,6 +211,14 @@
         -73.834982587126
       ]
     },
+    "conference-house-park": {
+      "name": "Conference House Park",
+      "address": "Great Lawn",
+      "geo": [
+        40.502811336283,
+        -74.253613710403
+      ]
+    },
     "cooper-park": {
       "name": "Cooper Park",
       "address": "Playground",
@@ -511,6 +519,14 @@
         -73.97859954834
       ]
     },
+    "lawrence-virgilio-playground": {
+      "name": "Lawrence Virgilio Playground",
+      "address": "Basketball Courts",
+      "geo": [
+        40.747576045855,
+        -73.911432862282
+      ]
+    },
     "lemon-creek-park": {
       "name": "Lemon Creek Park",
       "address": "Bayview Avenue and Johnston Terrace",
@@ -549,6 +565,14 @@
       "geo": [
         40.74100112915039,
         -73.98829650878906
+      ]
+    },
+    "marine-park": {
+      "name": "Marine Park",
+      "address": "Lawn at Fillmore Avenue and Madison Place",
+      "geo": [
+        40.60825618813,
+        -73.937683701515
       ]
     },
     "maysles-cinema": {
@@ -125200,7 +125224,7 @@
       "run_guid": "tag:middleton.io,2026:run/a0a6c8600444c649",
       "first_emitted_at": "2026-09-25T22:28:02Z",
       "limited": true,
-      "dates_at_venue": 1,
+      "dates_at_venue": 2,
       "max_showtimes_per_date": 1,
       "vintage": true,
       "vintage_year": null,
@@ -161388,8 +161412,7 @@
       "end_local": "2026-10-09T20:30",
       "url": "https://www.nycgovparks.org/events/2026/10/09/movies-under-the-stars-halloweentown",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2267811"
+      "source": "nyc-parks"
     },
     {
       "uid": "cfbedcbfb4c874ec@screenings.middleton.io",
@@ -161434,8 +161457,7 @@
       "end_local": "2026-10-09T20:15",
       "url": "https://www.nycgovparks.org/events/2026/10/09/movies-under-the-stars-the-nightmare-before-christmas-pg",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2259271"
+      "source": "nyc-parks"
     },
     {
       "uid": "2e725c61f489b26e@screenings.middleton.io",
@@ -161947,8 +161969,7 @@
       "start_local": "2026-10-09T19:15",
       "end_local": "2026-10-09T20:55",
       "url": "https://www.nycgovparks.org/events/2026/10/09/movie-under-the-stars-inside-out-2-pg",
-      "source": "nyc-parks",
-      "source_ref": "2270264"
+      "source": "nyc-parks"
     },
     {
       "uid": "29e22f6b43a6a997@screenings.middleton.io",
@@ -162171,8 +162192,7 @@
       "end_local": "2026-10-09T22:30",
       "url": "https://www.nycgovparks.org/events/2026/10/09/movies-under-the-stars-coco",
       "series": "Movies Under the Stars",
-      "source": "nyc-parks",
-      "source_ref": "2234769"
+      "source": "nyc-parks"
     },
     {
       "uid": "c55ff85941d0e2ed@screenings.middleton.io",
@@ -162264,8 +162284,7 @@
       "start_local": "2026-10-09T20:30",
       "end_local": "2026-10-09T22:30",
       "url": "https://www.nycgovparks.org/events/2026/10/09/dyckman-marina-movie-nights",
-      "source": "nyc-parks",
-      "source_ref": "2244715"
+      "source": "nyc-parks"
     },
     {
       "uid": "f5f0e0313ca2d149@screenings.middleton.io",
@@ -163774,8 +163793,7 @@
       "title": "9 to 5",
       "start_local": "2026-10-10T11:00",
       "url": "https://drafthouse.com/nyc/show/9-to-5",
-      "source": "alamo",
-      "source_ref": "139084"
+      "source": "alamo"
     },
     {
       "uid": "78a7e955e8791252@screenings.middleton.io",
@@ -163820,8 +163838,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-10-10T11:00",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "139074"
+      "source": "alamo"
     },
     {
       "uid": "cfb913a3da9a4f73@screenings.middleton.io",
@@ -163844,8 +163861,7 @@
       "start_local": "2026-10-10T11:00",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98818"
+      "source": "alamo"
     },
     {
       "uid": "d630f85cf34eb511@screenings.middleton.io",
@@ -163866,8 +163882,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T11:00",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "98985"
+      "source": "alamo"
     },
     {
       "uid": "3f94de7c4fd25d99@screenings.middleton.io",
@@ -163912,8 +163927,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T11:15",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "98835"
+      "source": "alamo"
     },
     {
       "uid": "a4e8bd5a424b0cde@screenings.middleton.io",
@@ -163934,8 +163948,7 @@
       "title": "Coyote vs. ACME",
       "start_local": "2026-10-10T11:15",
       "url": "https://drafthouse.com/nyc/show/coyote-vs-acme",
-      "source": "alamo",
-      "source_ref": "98925"
+      "source": "alamo"
     },
     {
       "uid": "a66d0496606225a1@screenings.middleton.io",
@@ -164006,8 +164019,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T11:30",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "97761"
+      "source": "alamo"
     },
     {
       "uid": "234598af2c31f239@screenings.middleton.io",
@@ -164053,8 +164065,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T11:30",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "97365"
+      "source": "alamo"
     },
     {
       "uid": "647fb27b075914d6@screenings.middleton.io",
@@ -164124,8 +164135,7 @@
       "title": "Digger",
       "start_local": "2026-10-10T11:45",
       "url": "https://drafthouse.com/nyc/show/digger",
-      "source": "alamo",
-      "source_ref": "98825"
+      "source": "alamo"
     },
     {
       "uid": "8066b4f53d45e643@screenings.middleton.io",
@@ -164147,8 +164157,7 @@
       "start_local": "2026-10-10T11:45",
       "url": "https://drafthouse.com/nyc/show/a-prayer-for-the-dying",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98306"
+      "source": "alamo"
     },
     {
       "uid": "84ac40fd01db6e6a@screenings.middleton.io",
@@ -164169,8 +164178,7 @@
       "title": "Digger",
       "start_local": "2026-10-10T11:45",
       "url": "https://drafthouse.com/nyc/show/digger",
-      "source": "alamo",
-      "source_ref": "139085"
+      "source": "alamo"
     },
     {
       "uid": "9cd58db77840d050@screenings.middleton.io",
@@ -164191,8 +164199,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T11:45",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "139078"
+      "source": "alamo"
     },
     {
       "uid": "fd0478ec1decb804@screenings.middleton.io",
@@ -164213,8 +164220,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T11:45",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "98929"
+      "source": "alamo"
     },
     {
       "uid": "7bf20a82ce1e3c53@screenings.middleton.io",
@@ -164235,8 +164241,7 @@
       "title": "The Sheep Detectives",
       "start_local": "2026-10-10T11:50",
       "url": "https://rooftopcinemaclub.com/us/new-york/midtown/screenings/the-sheep-detectives-24187",
-      "source": "rooftop",
-      "source_ref": "the-sheep-detectives-24187"
+      "source": "rooftop"
     },
     {
       "uid": "353e58407c940355@screenings.middleton.io",
@@ -164257,8 +164262,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T12:00",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "46640"
+      "source": "alamo"
     },
     {
       "uid": "3ab44c81c841fa43@screenings.middleton.io",
@@ -164305,8 +164309,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T12:00",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "137879"
+      "source": "alamo"
     },
     {
       "uid": "628366f45f3023c0@screenings.middleton.io",
@@ -164327,8 +164330,7 @@
       "title": "Your Mother Your Mother Your Mother",
       "start_local": "2026-10-10T12:00",
       "url": "https://drafthouse.com/nyc/show/your-mother-your-mother-your-mother",
-      "source": "alamo",
-      "source_ref": "96911"
+      "source": "alamo"
     },
     {
       "uid": "d8a2dffb8907f11f@screenings.middleton.io",
@@ -164394,8 +164396,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T12:00",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "46648"
+      "source": "alamo"
     },
     {
       "uid": "f11eb06ae8081a23@screenings.middleton.io",
@@ -164416,8 +164417,7 @@
       "title": "The History of Concrete",
       "start_local": "2026-10-10T12:00",
       "url": "https://drafthouse.com/nyc/show/the-history-of-concrete",
-      "source": "alamo",
-      "source_ref": "98837"
+      "source": "alamo"
     },
     {
       "uid": "20fd0d8684b355dc@screenings.middleton.io",
@@ -164460,8 +164460,7 @@
       "start_local": "2026-10-10T12:15",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "139080"
+      "source": "alamo"
     },
     {
       "uid": "aaf20e7584f0b61c@screenings.middleton.io",
@@ -164577,8 +164576,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-10-10T12:30",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "46764"
+      "source": "alamo"
     },
     {
       "uid": "552e544a61444fec@screenings.middleton.io",
@@ -164599,8 +164597,7 @@
       "title": "Digger",
       "start_local": "2026-10-10T12:30",
       "url": "https://drafthouse.com/nyc/show/digger",
-      "source": "alamo",
-      "source_ref": "46748"
+      "source": "alamo"
     },
     {
       "uid": "5b8366e93832be0a@screenings.middleton.io",
@@ -164621,8 +164618,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T12:30",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "46099"
+      "source": "alamo"
     },
     {
       "uid": "94a6a7047088be73@screenings.middleton.io",
@@ -164669,8 +164665,7 @@
       "start_local": "2026-10-10T12:30",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98965"
+      "source": "alamo"
     },
     {
       "uid": "e3aafcb1d556c5ca@screenings.middleton.io",
@@ -164716,8 +164711,7 @@
       "title": "Your Mother Your Mother Your Mother",
       "start_local": "2026-10-10T12:45",
       "url": "https://drafthouse.com/nyc/show/your-mother-your-mother-your-mother",
-      "source": "alamo",
-      "source_ref": "139088"
+      "source": "alamo"
     },
     {
       "uid": "b4052e08cda56ca1@screenings.middleton.io",
@@ -164760,8 +164754,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-10-10T12:45",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "98829"
+      "source": "alamo"
     },
     {
       "uid": "aee0acc71a11bbe9@screenings.middleton.io",
@@ -164858,8 +164851,7 @@
       "start_local": "2026-10-10T13:00",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "46627"
+      "source": "alamo"
     },
     {
       "uid": "306576f114933463@screenings.middleton.io",
@@ -164882,8 +164874,7 @@
       "start_local": "2026-10-10T13:00",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "139089"
+      "source": "alamo"
     },
     {
       "uid": "4241497deae8e916@screenings.middleton.io",
@@ -164905,8 +164896,7 @@
       "start_local": "2026-10-10T13:00",
       "url": "https://drafthouse.com/nyc/show/appofeniacs",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98297"
+      "source": "alamo"
     },
     {
       "uid": "5c4cfec2938c513f@screenings.middleton.io",
@@ -165023,8 +165013,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T13:00",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "46636"
+      "source": "alamo"
     },
     {
       "uid": "b490acc9835f7d88@screenings.middleton.io",
@@ -165094,8 +165083,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T13:15",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "137516"
+      "source": "alamo"
     },
     {
       "uid": "f1c42fcb192aa8bc@screenings.middleton.io",
@@ -165116,8 +165104,7 @@
       "title": "Queen Budapest",
       "start_local": "2026-10-10T13:15",
       "url": "https://drafthouse.com/nyc/show/queen-budapest",
-      "source": "alamo",
-      "source_ref": "136394"
+      "source": "alamo"
     },
     {
       "uid": "06e899ec43a1c7f6@screenings.middleton.io",
@@ -165188,8 +165175,7 @@
       "start_local": "2026-10-10T13:30",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "46628"
+      "source": "alamo"
     },
     {
       "uid": "159e9a823059c637@screenings.middleton.io",
@@ -165262,8 +165248,7 @@
       "start_local": "2026-10-10T13:45",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98819"
+      "source": "alamo"
     },
     {
       "uid": "22fe09d1c5639bb3@screenings.middleton.io",
@@ -165359,8 +165344,7 @@
       "title": "Queen Budapest",
       "start_local": "2026-10-10T14:00",
       "url": "https://drafthouse.com/nyc/show/queen-budapest",
-      "source": "alamo",
-      "source_ref": "96165"
+      "source": "alamo"
     },
     {
       "uid": "8798dc6541fd21e0@screenings.middleton.io",
@@ -165381,8 +165365,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T14:00",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "46644"
+      "source": "alamo"
     },
     {
       "uid": "de7e7523b4b3d443@screenings.middleton.io",
@@ -165403,8 +165386,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-10-10T14:00",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "139075"
+      "source": "alamo"
     },
     {
       "uid": "ed9219e0d51fb321@screenings.middleton.io",
@@ -165470,8 +165452,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T14:15",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "97364"
+      "source": "alamo"
     },
     {
       "uid": "d276d086d2f23486@screenings.middleton.io",
@@ -165492,8 +165473,7 @@
       "title": "Practical Magic 2",
       "start_local": "2026-10-10T14:15",
       "url": "https://drafthouse.com/nyc/show/practical-magic-2",
-      "source": "alamo",
-      "source_ref": "139086"
+      "source": "alamo"
     },
     {
       "uid": "1d7197a2f9c38ce0@screenings.middleton.io",
@@ -165540,8 +165520,7 @@
       "start_local": "2026-10-10T14:30",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98834"
+      "source": "alamo"
     },
     {
       "uid": "83e02ea6b2824cde@screenings.middleton.io",
@@ -165562,8 +165541,7 @@
       "title": "Coyote vs. ACME",
       "start_local": "2026-10-10T14:30",
       "url": "https://drafthouse.com/nyc/show/coyote-vs-acme",
-      "source": "alamo",
-      "source_ref": "98924"
+      "source": "alamo"
     },
     {
       "uid": "c94b395ebaa108fb@screenings.middleton.io",
@@ -165585,8 +165563,7 @@
       "year": 1991,
       "start_local": "2026-10-10T14:30",
       "url": "https://rooftopcinemaclub.com/us/new-york/midtown/screenings/the-addams-family-1991-24188",
-      "source": "rooftop",
-      "source_ref": "the-addams-family-1991-24188"
+      "source": "rooftop"
     },
     {
       "uid": "76b111d97f3f0236@screenings.middleton.io",
@@ -165682,8 +165659,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T14:45",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "97760"
+      "source": "alamo"
     },
     {
       "uid": "0ed3e8203239abf5@screenings.middleton.io",
@@ -165729,8 +165705,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T14:45",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "98983"
+      "source": "alamo"
     },
     {
       "uid": "87fc8af13d1aa7ea@screenings.middleton.io",
@@ -165776,8 +165751,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T14:45",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "46645"
+      "source": "alamo"
     },
     {
       "uid": "fda950f4aaeda37c@screenings.middleton.io",
@@ -165798,8 +165772,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T14:45",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "138671"
+      "source": "alamo"
     },
     {
       "uid": "11dcaa03ffa1ff1d@screenings.middleton.io",
@@ -165844,8 +165817,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T15:00",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "98928"
+      "source": "alamo"
     },
     {
       "uid": "1ca5fef4d1216bd2@screenings.middleton.io",
@@ -165866,8 +165838,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T15:00",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "137880"
+      "source": "alamo"
     },
     {
       "uid": "4fffa9882fdd2d7d@screenings.middleton.io",
@@ -165913,8 +165884,7 @@
       "title": "The History of Concrete",
       "start_local": "2026-10-10T15:00",
       "url": "https://drafthouse.com/nyc/show/the-history-of-concrete",
-      "source": "alamo",
-      "source_ref": "98822"
+      "source": "alamo"
     },
     {
       "uid": "88ebcf42ee94f9f5@screenings.middleton.io",
@@ -165935,8 +165905,7 @@
       "title": "Digger",
       "start_local": "2026-10-10T15:00",
       "url": "https://drafthouse.com/nyc/show/digger",
-      "source": "alamo",
-      "source_ref": "139087"
+      "source": "alamo"
     },
     {
       "uid": "debbcb37b58c1744@screenings.middleton.io",
@@ -165957,8 +165926,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T15:00",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "46757"
+      "source": "alamo"
     },
     {
       "uid": "4cf7720ae1260899@screenings.middleton.io",
@@ -165979,8 +165947,7 @@
       "title": "Your Mother Your Mother Your Mother",
       "start_local": "2026-10-10T15:15",
       "url": "https://drafthouse.com/nyc/show/your-mother-your-mother-your-mother",
-      "source": "alamo",
-      "source_ref": "96912"
+      "source": "alamo"
     },
     {
       "uid": "99188dbfd6f0145b@screenings.middleton.io",
@@ -166001,8 +165968,7 @@
       "title": "Digger",
       "start_local": "2026-10-10T15:15",
       "url": "https://drafthouse.com/nyc/show/digger",
-      "source": "alamo",
-      "source_ref": "98826"
+      "source": "alamo"
     },
     {
       "uid": "df61797c9929fe80@screenings.middleton.io",
@@ -166119,8 +166085,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T15:30",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "46100"
+      "source": "alamo"
     },
     {
       "uid": "0c193f97001ff773@screenings.middleton.io",
@@ -166141,8 +166106,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-10-10T15:30",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "46633"
+      "source": "alamo"
     },
     {
       "uid": "0f6ff0034f4e41b8@screenings.middleton.io",
@@ -166188,8 +166152,7 @@
       "start_local": "2026-10-10T15:30",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98964"
+      "source": "alamo"
     },
     {
       "uid": "ccbc707b11740607@screenings.middleton.io",
@@ -166211,8 +166174,7 @@
       "start_local": "2026-10-10T15:30",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "139081"
+      "source": "alamo"
     },
     {
       "uid": "e4adf7872feeae41@screenings.middleton.io",
@@ -166306,8 +166268,7 @@
       "title": "Forgotten Island",
       "start_local": "2026-10-10T15:45",
       "url": "https://drafthouse.com/nyc/show/forgotten-island",
-      "source": "alamo",
-      "source_ref": "98830"
+      "source": "alamo"
     },
     {
       "uid": "830322d02364826e@screenings.middleton.io",
@@ -166330,8 +166291,7 @@
       "start_local": "2026-10-10T15:45",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "46626"
+      "source": "alamo"
     },
     {
       "uid": "a19479a218e7ed5a@screenings.middleton.io",
@@ -166354,8 +166314,7 @@
       "start_local": "2026-10-10T15:45",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "139093"
+      "source": "alamo"
     },
     {
       "uid": "baeb2077547a691d@screenings.middleton.io",
@@ -166376,8 +166335,7 @@
       "title": "Digger",
       "start_local": "2026-10-10T15:45",
       "url": "https://drafthouse.com/nyc/show/digger",
-      "source": "alamo",
-      "source_ref": "46749"
+      "source": "alamo"
     },
     {
       "uid": "0f357fd46a3ee5df@screenings.middleton.io",
@@ -166469,8 +166427,7 @@
       "title": "Your Mother Your Mother Your Mother",
       "start_local": "2026-10-10T16:00",
       "url": "https://drafthouse.com/nyc/show/your-mother-your-mother-your-mother",
-      "source": "alamo",
-      "source_ref": "139095"
+      "source": "alamo"
     },
     {
       "uid": "61e9e2083397d2a7@screenings.middleton.io",
@@ -166491,8 +166448,7 @@
       "title": "Naza",
       "start_local": "2026-10-10T16:00",
       "url": "https://drafthouse.com/nyc/show/naza",
-      "source": "alamo",
-      "source_ref": "97341"
+      "source": "alamo"
     },
     {
       "uid": "bb1999983e782a56@screenings.middleton.io",
@@ -166513,8 +166469,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T16:00",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "46637"
+      "source": "alamo"
     },
     {
       "uid": "d14da1a35b3ac28c@screenings.middleton.io",
@@ -166610,8 +166565,7 @@
       "start_local": "2026-10-10T16:15",
       "url": "https://drafthouse.com/nyc/show/dismember-the-alamo-2026-brooklyn",
       "format": "35mm",
-      "source": "alamo",
-      "source_ref": "136666"
+      "source": "alamo"
     },
     {
       "uid": "e23a013f3daf3a26@screenings.middleton.io",
@@ -166632,8 +166586,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T16:15",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "137515"
+      "source": "alamo"
     },
     {
       "uid": "ea35f5c7d5110c73@screenings.middleton.io",
@@ -166754,8 +166707,7 @@
       "start_local": "2026-10-10T16:30",
       "url": "https://drafthouse.com/nyc/show/resident-evil-2026",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "98821"
+      "source": "alamo"
     },
     {
       "uid": "5b3eafc69da45342@screenings.middleton.io",
@@ -166827,8 +166779,7 @@
       "start_local": "2026-10-10T16:30",
       "url": "https://drafthouse.com/nyc/show/primetime",
       "series": "Fantastic Fest Presents",
-      "source": "alamo",
-      "source_ref": "46765"
+      "source": "alamo"
     },
     {
       "uid": "90effbec004ac041@screenings.middleton.io",
@@ -166849,8 +166800,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T16:45",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "45829"
+      "source": "alamo"
     },
     {
       "uid": "f3ba45ccae211d49@screenings.middleton.io",
@@ -166946,8 +166896,7 @@
       "title": "Hocus Pocus",
       "start_local": "2026-10-10T17:00",
       "url": "https://rooftopcinemaclub.com/us/new-york/midtown/screenings/hocus-pocus-24189",
-      "source": "rooftop",
-      "source_ref": "hocus-pocus-24189"
+      "source": "rooftop"
     },
     {
       "uid": "27b448d26e63218a@screenings.middleton.io",
@@ -166968,8 +166917,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T17:00",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "97363"
+      "source": "alamo"
     },
     {
       "uid": "4cc552f23c586212@screenings.middleton.io",
@@ -167016,8 +166964,7 @@
       "year": 1974,
       "start_local": "2026-10-10T17:00",
       "url": "https://drafthouse.com/nyc/show/the-texas-chainsaw-massacre-1974",
-      "source": "alamo",
-      "source_ref": "98982"
+      "source": "alamo"
     },
     {
       "uid": "dc75806c18ef7d9d@screenings.middleton.io",
@@ -167038,8 +166985,7 @@
       "title": "Naza",
       "start_local": "2026-10-10T17:00",
       "url": "https://drafthouse.com/nyc/show/naza",
-      "source": "alamo",
-      "source_ref": "137543"
+      "source": "alamo"
     },
     {
       "uid": "f09d1e91f15c4233@screenings.middleton.io",
@@ -167104,8 +167050,7 @@
       "title": "Other Mommy",
       "start_local": "2026-10-10T17:30",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
-      "source": "alamo",
-      "source_ref": "46646"
+      "source": "alamo"
     },
     {
       "uid": "c44f0069fc1163eb@screenings.middleton.io",
@@ -167126,8 +167071,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T17:30",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "98833"
+      "source": "alamo"
     },
     {
       "uid": "d221d3eaf05a5fbb@screenings.middleton.io",
@@ -167148,8 +167092,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T17:30",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "139101"
+      "source": "alamo"
     },
     {
       "uid": "9d524641caba2512@screenings.middleton.io",
@@ -167289,8 +167232,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T18:00",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "97763"
+      "source": "alamo"
     },
     {
       "uid": "653916ffecd7ffba@screenings.middleton.io",
@@ -167311,8 +167253,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T18:00",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "46642"
+      "source": "alamo"
     },
     {
       "uid": "7f0d44c011dd9756@screenings.middleton.io",
@@ -167333,8 +167274,7 @@
       "title": "Misty Green",
       "start_local": "2026-10-10T18:00",
       "url": "https://drafthouse.com/nyc/show/misty-green",
-      "source": "alamo",
-      "source_ref": "138670"
+      "source": "alamo"
     },
     {
       "uid": "a72ce11586b8bc70@screenings.middleton.io",
@@ -167403,8 +167343,7 @@
       "title": "The History of Concrete",
       "start_local": "2026-10-10T18:00",
       "url": "https://drafthouse.com/nyc/show/the-history-of-concrete",
-      "source": "alamo",
-      "source_ref": "98824"
+      "source": "alamo"
     },
     {
       "uid": "cd0867c2db57acc9@screenings.middleton.io",
@@ -167498,8 +167437,7 @@
       "title": "Coyote vs. ACME",
       "start_local": "2026-10-10T18:15",
       "url": "https://drafthouse.com/nyc/show/coyote-vs-acme",
-      "source": "alamo",
-      "source_ref": "98923"
+      "source": "alamo"
     },
     {
       "uid": "256b1e45417ec8b8@screenings.middleton.io",
@@ -167520,8 +167458,7 @@
       "title": "Verity",
       "start_local": "2026-10-10T18:15",
       "url": "https://drafthouse.com/nyc/show/verity",
-      "source": "alamo",
-      "source_ref": "98927"
+      "source": "alamo"
     },
     {
       "uid": "9231593cdfc7dc08@screenings.middleton.io",
@@ -167542,8 +167479,7 @@
       "title": "The Social Reckoning",
       "start_local": "2026-10-10T18:15",
       "url": "https://drafthouse.com/nyc/show/the-social-reckoning",
-      "source": "alamo",
-      "source_ref": "137881"
+      "source": "alamo"
     },
     {
       "uid": "dff9c9c3182510ea@screenings.middleton.io",
@@ -168253,6 +168189,31 @@
       "series": "Fantastic Fest Presents",
       "source": "alamo",
       "source_ref": "139096"
+    },
+    {
+      "uid": "f11236d615f5b5a6@screenings.middleton.io",
+      "hash": "f11236d615f5b5a6",
+      "guid": "tag:middleton.io,2026:screening/f11236d615f5b5a6",
+      "id_tuple": "marine-park|movie-under-the-stars-pirates-of-the-caribbean-the-curse-of-the-black-pearl|20261010|1900",
+      "film_key": "movie-under-the-stars-pirates-of-the-caribbean-the-curse-of-the-black-pearl",
+      "run_key": "marine-park|movie-under-the-stars-pirates-of-the-caribbean-the-curse-of-the-black-pearl|2026-10-10",
+      "run_guid": "tag:middleton.io,2026:run/0ae68d74d0f273be",
+      "first_emitted_at": "2026-10-10T22:38:39Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 2003,
+      "vintage_year_from": "source",
+      "venue_slug": "marine-park",
+      "programmer": "NYC Parks",
+      "title": "Movie Under the Stars: Pirates of the Caribbean: The Curse of the Black Pearl",
+      "year": 2003,
+      "start_local": "2026-10-10T19:00",
+      "end_local": "2026-10-10T21:45",
+      "url": "https://www.nycgovparks.org/events/2026/10/10/movie-under-the-stars-pirates-of-the-caribbean-the-curse-of-the-black-pearl-2003",
+      "source": "nyc-parks",
+      "source_ref": "2271675"
     },
     {
       "uid": "20d1f4544e06102a@screenings.middleton.io",
@@ -176120,7 +176081,7 @@
       "start_local": "2026-10-11T22:00",
       "url": "https://drafthouse.com/nyc/show/other-mommy",
       "source": "alamo",
-      "source_ref": "137517"
+      "source_ref": "139136"
     },
     {
       "uid": "474137561b61af42@screenings.middleton.io",
@@ -210150,6 +210111,30 @@
       "source_ref": "99060"
     },
     {
+      "uid": "9b9ca71745958329@screenings.middleton.io",
+      "hash": "9b9ca71745958329",
+      "guid": "tag:middleton.io,2026:screening/9b9ca71745958329",
+      "id_tuple": "la-plaza-cultural|la-plaza-cultural-50th-anniversary-celebration|20261024|1600",
+      "film_key": "la-plaza-cultural-50th-anniversary-celebration",
+      "run_key": "la-plaza-cultural|la-plaza-cultural-50th-anniversary-celebration|2026-10-24",
+      "run_guid": "tag:middleton.io,2026:run/f18e6b3688f1bc33",
+      "first_emitted_at": "2026-10-10T22:38:39Z",
+      "limited": true,
+      "dates_at_venue": 2,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "la-plaza-cultural",
+      "programmer": "NYC Parks",
+      "title": "La Plaza Cultural 50th Anniversary Celebration",
+      "start_local": "2026-10-24T16:00",
+      "end_local": "2026-10-24T20:00",
+      "url": "https://www.nycgovparks.org/events/2026/10/24/la-plaza-cultural-50th-anniversary-celebration",
+      "source": "nyc-parks",
+      "source_ref": "2262324"
+    },
+    {
       "uid": "40c3cde01f495695@screenings.middleton.io",
       "hash": "40c3cde01f495695",
       "guid": "tag:middleton.io,2026:screening/40c3cde01f495695",
@@ -210381,6 +210366,31 @@
       "source_ref": "98759"
     },
     {
+      "uid": "d9760c0854230f15@screenings.middleton.io",
+      "hash": "d9760c0854230f15",
+      "guid": "tag:middleton.io,2026:screening/d9760c0854230f15",
+      "id_tuple": "lawrence-virgilio-playground|casper-pg|20261024|1815",
+      "film_key": "casper-pg",
+      "run_key": "lawrence-virgilio-playground|casper-pg|2026-10-24",
+      "run_guid": "tag:middleton.io,2026:run/4a50c06af83a030d",
+      "first_emitted_at": "2026-10-10T22:38:39Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": null,
+      "vintage_year_from": null,
+      "venue_slug": "lawrence-virgilio-playground",
+      "programmer": "NYC Parks Movies Under the Stars",
+      "title": "Casper | PG",
+      "start_local": "2026-10-24T18:15",
+      "end_local": "2026-10-24T20:00",
+      "url": "https://www.nycgovparks.org/events/2026/10/24/movies-under-the-stars-casper-pg",
+      "series": "Movies Under the Stars",
+      "source": "nyc-parks",
+      "source_ref": "2259276"
+    },
+    {
       "uid": "01578e5ef2245f33@screenings.middleton.io",
       "hash": "01578e5ef2245f33",
       "guid": "tag:middleton.io,2026:screening/01578e5ef2245f33",
@@ -210492,6 +210502,31 @@
       "source_ref": "99128"
     },
     {
+      "uid": "21d1dae13ddb0055@screenings.middleton.io",
+      "hash": "21d1dae13ddb0055",
+      "guid": "tag:middleton.io,2026:screening/21d1dae13ddb0055",
+      "id_tuple": "conference-house-park|movie-under-the-stars-scooby-doo|20261024|1900",
+      "film_key": "movie-under-the-stars-scooby-doo",
+      "run_key": "conference-house-park|movie-under-the-stars-scooby-doo|2026-10-24",
+      "run_guid": "tag:middleton.io,2026:run/6634861fdd040afd",
+      "first_emitted_at": "2026-10-10T22:38:39Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 2002,
+      "vintage_year_from": "source",
+      "venue_slug": "conference-house-park",
+      "programmer": "NYC Parks",
+      "title": "Movie Under the Stars: Scooby-Doo",
+      "year": 2002,
+      "start_local": "2026-10-24T19:00",
+      "end_local": "2026-10-24T20:30",
+      "url": "https://www.nycgovparks.org/events/2026/10/24/movie-under-the-stars-scoobydoo-2002",
+      "source": "nyc-parks",
+      "source_ref": "2270102"
+    },
+    {
       "uid": "5fd6c079b44e327c@screenings.middleton.io",
       "hash": "5fd6c079b44e327c",
       "guid": "tag:middleton.io,2026:screening/5fd6c079b44e327c",
@@ -210583,6 +210618,31 @@
       "format": "35mm",
       "note": "Larry Clark, in person, following screening.",
       "source": "repertory-nyc"
+    },
+    {
+      "uid": "dd913f26051f6b82@screenings.middleton.io",
+      "hash": "dd913f26051f6b82",
+      "guid": "tag:middleton.io,2026:screening/dd913f26051f6b82",
+      "id_tuple": "herbert-von-king-park|movie-under-the-stars-coco|20261024|1900",
+      "film_key": "movie-under-the-stars-coco",
+      "run_key": "herbert-von-king-park|movie-under-the-stars-coco|2026-10-24",
+      "run_guid": "tag:middleton.io,2026:run/0fd22acf4ed84fd3",
+      "first_emitted_at": "2026-10-10T22:38:39Z",
+      "limited": true,
+      "dates_at_venue": 1,
+      "max_showtimes_per_date": 1,
+      "vintage": true,
+      "vintage_year": 2017,
+      "vintage_year_from": "source",
+      "venue_slug": "herbert-von-king-park",
+      "programmer": "NYC Parks",
+      "title": "Movie Under the Stars: Coco",
+      "year": 2017,
+      "start_local": "2026-10-24T19:00",
+      "end_local": "2026-10-24T20:45",
+      "url": "https://www.nycgovparks.org/events/2026/10/24/movie-under-the-stars-coco-2017",
+      "source": "nyc-parks",
+      "source_ref": "2271689"
     },
     {
       "uid": "e619f5dab9e6b320@screenings.middleton.io",
