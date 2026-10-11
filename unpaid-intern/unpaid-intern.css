@@ -318,6 +318,12 @@ details[open] > summary::after { transform: rotate(45deg); }
   .hero-art { width: clamp(104px, 18vw, 136px); justify-self: start; margin-top: calc(1.7rem + .6rem - 6px); margin-left: calc(var(--h1) * 7.25); }
 }
 
+/* phones: the sticker sits up in the top-right corner, beside the eyebrow and the first headline line; it shrinks to clear
+   that line, and below 367px (where it can't) it keeps the lower spot above */
+@media (min-width: 367px) and (max-width: 480px) {
+  .hero .hero-art { width: clamp(64px, calc(100vw - 303px), 92px); margin-top: -4px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mascot-tile:hover .sticker { transform: rotate(-8deg); }
   .btn:hover .arr, .home:hover .arr { transform: none; }

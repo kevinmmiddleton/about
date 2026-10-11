@@ -95,3 +95,57 @@
   .p-intern .dirs li { grid-template-columns: 2.1rem minmax(0, 1fr); }
   .p-intern .dirs span { grid-column: 2; }
 }
+
+/* 6. the trust picture: a draft that waits for you, and an order it won't take */
+.p-intern .asks { display: grid; }
+.p-intern .asks .ask { max-width: 92%; text-align: left; }
+.p-intern .draft { border: 2px solid var(--ui-line); border-radius: 12px; overflow: hidden; }
+.p-intern .draft-h { display: flex; justify-content: space-between; align-items: center; gap: .8rem; padding: .7rem .9rem; border-bottom: 2px solid var(--ui-line); }
+.p-intern .draft-h b { font-weight: 800; }
+.p-intern .draft-h .chip { margin: 0; }
+.p-intern .mail { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); gap: .15rem .6rem; margin: 0; padding: .65rem .9rem; background: var(--ui-bg2); font-size: .93rem; }
+.p-intern .mail dt { font-weight: 700; color: var(--ui-ink2); }
+.p-intern .mail dd { margin: 0; }
+.p-intern .draft > p { margin: 0; padding: .7rem .9rem .8rem; line-height: 1.45; }
+.p-intern .asks .ns { margin: .7rem 0 1.2rem; font-weight: 700; font-size: .95rem; }
+.p-intern .att { display: inline-block; margin-top: .3rem; padding: .1rem .45rem; border: 2px solid var(--ui-on-fill); border-radius: 6px; background: var(--ui-paper); color: var(--ui-on-fill); font-size: .82rem; }
+.p-intern .flag { padding: .8rem .95rem .9rem; border: 2.5px solid var(--ui-line); border-radius: 12px; background: var(--ui-yel); color: var(--ui-on-fill); }
+.p-intern .flag .chip { margin-bottom: .45rem; background: var(--ui-paper); color: var(--ui-on-fill); }
+.p-intern .flag p { margin: 0; font-weight: 600; line-height: 1.45; }
+.p-intern .split.trust { align-items: center; margin-bottom: .4rem; }
+
+/* 7. motion. JavaScript sets .has-motion only when this file is loaded (--ui-motion), IntersectionObserver exists,
+   and reduced motion is off. Each [data-step] waits hidden until its picture scrolls into view (.play), then plays once
+   in order (--i, set by the script) and rests on the finished picture. Opacity and transform only, so it follows both themes. */
+body.p-intern { --ui-motion: 1; }
+.has-motion [data-motion] { position: relative; }
+.has-motion [data-motion] [data-step] { opacity: 0; }
+.has-motion [data-motion].play [data-step] { animation: ui-rise .45s cubic-bezier(.2, .8, .2, 1) both;
+  animation-delay: calc(var(--d, 0ms) + var(--i, 0) * var(--gap, 120ms)); }
+.has-motion [data-motion].play [data-step="pop"] { animation-name: ui-pop; animation-duration: .5s; }
+.has-motion [data-motion].play [data-step="drop"] { animation-name: ui-drop; animation-duration: .5s; }
+.has-motion [data-motion].play [data-step="gulp"] { animation-name: ui-gulp; animation-duration: .7s; }
+.has-motion [data-motion].play [data-step="type"] { animation-name: ui-type; animation-duration: .7s; animation-timing-function: steps(14, end); }
+.has-motion [data-motion="pile"] { --gap: 110ms; }
+.has-motion [data-motion="brief"] { --gap: 170ms; }
+.has-motion [data-motion="inbox"] { --gap: 150ms; }
+.has-motion [data-motion="who"] { --gap: 90ms; }
+.has-motion [data-motion="habits"] { --gap: 110ms; }
+.has-motion [data-motion="folder"] { --gap: 120ms; }
+.has-motion [data-motion="ask"] { --gap: 260ms; }
+@keyframes ui-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes ui-pop { 0% { opacity: 0; transform: scale(.6) rotate(var(--tilt, 0deg)); } 70% { opacity: 1; transform: scale(1.05) rotate(var(--tilt, 0deg)); }
+  100% { opacity: 1; transform: scale(1) rotate(var(--tilt, 0deg)); } }
+@keyframes ui-drop { 0% { opacity: 0; transform: translateY(-16px) rotate(-4deg); } 70% { opacity: 1; transform: translateY(2px) rotate(1deg); } 100% { opacity: 1; transform: none; } }
+@keyframes ui-gulp { 0% { opacity: 0; transform: scale(.7); } 45% { opacity: 1; transform: scale(1.12); } 70% { transform: scale(.96); } 100% { opacity: 1; transform: none; } }
+@keyframes ui-type { from { opacity: 1; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+
+/* replay: shows once a picture has finished playing */
+.p-intern .replay { display: none; }
+.has-motion .replay { display: block; position: absolute; right: 14px; bottom: -15px; z-index: 2; padding: .2rem .65rem; border: 2px solid var(--ui-line);
+  border-radius: 99px; background: var(--ui-card); color: var(--ui-ink); font: 700 .72rem/1.2 var(--mono); letter-spacing: .04em; text-transform: uppercase;
+  cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.has-motion .replay.after { position: static; margin: .9rem 0 0 auto; }
+.has-motion .done > .replay, .has-motion .done + .replay { opacity: 1; pointer-events: auto; }
+.has-motion .replay:hover { background: var(--ui-yel); color: var(--ui-on-fill); }
+@media print { .has-motion [data-step] { opacity: 1 !important; animation: none !important; } .p-intern .replay { display: none !important; } }
