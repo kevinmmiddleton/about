@@ -35,7 +35,7 @@ With a little setup, those same one-offs can start from a knowledge base that al
 
 A second brain is a system that keeps track of every project you're on, stays up to date as things change, and can help with any of them because it already has your context. And it's easy to set one up!
 
-![Animated: eight scraps of work (a meeting transcript, an email asking about the launch date for the second time, a calendar invite, a Jira ticket, a Confluence page, a Google Doc, a to-do, and the question “Wait, who is Marco?”) fly into a pink brain in glasses, which hands back a sorted desk: morning briefing, meeting prep, follow-ups, requirements, a status update, and email replies.](/blog/images/unpaid-intern-s1-pile-wd.gif "Give your second brain the busy work. Then go get a Starbies.")
+![Animated, on a yellow wall of brains: eight scraps of work (a meeting transcript, an email asking about the launch date for the second time, a calendar invite, a Jira ticket, a Confluence page, a Google Doc, a to-do, and the question “Wait, who is Marco?”) sit above the caption “You drop in these…” and fly into a pink brain in glasses. It hands back a sorted desk, captioned “…it hands back this.”: morning briefing, meeting prep, follow-ups, requirements, a status update, and email replies. It ends on the Unpaid Intern logo.](/blog/images/unpaid-intern-s1-pile-yellow-wd.gif "Give your second brain the busy work. Then go get a Starbies.")
 
 - **Start with one folder.** It's your second brain's home: notes on each project and on the people you work with, a glossary, and a running memory of follow-ups and decisions.
 - **Feed it.** Drop in what comes at you: transcripts, PDFs, screenshots of chat threads, PowerPoint decks. If your company policy allows, connect email, calendar, chat, Jira, and Confluence so it can read those too.
@@ -44,7 +44,7 @@ A second brain is a system that keeps track of every project you're on, stays up
 - **You make the calls.** Your second brain can draft emails and messages ready for you to send, but nothing goes out or gets deleted without your approval.
 - **It keeps itself current.** When you wrap up for the day, it logs what moved and what's still open, so tomorrow starts where today ended.
 
-![Animated: someone types “Process my notes from the pricing sync.” The intern replies that it filed the notes: two decisions added to the pricing project, three follow-ups each with an owner and a date, a new person added to the people page, and the original archived untouched, plus a heads-up that a one-pager is due Friday.](/blog/images/unpaid-intern-s5-notes-wd.gif "Meeting notes in, follow-ups out.")
+![Animated: someone types “Process my notes from the pricing sync.” The intern replies that it filed the notes: two decisions added to the pricing project, three follow-ups each with an owner and a date, a new person added to the people page, and the original archived untouched, plus a heads-up that a one-pager is due Friday.](/blog/images/unpaid-intern-s5-notes-wd.gif "Every follow-up gets an owner and a date.")
 
 ## What my day looks like with a second brain
 
