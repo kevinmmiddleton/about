@@ -2,7 +2,7 @@
 title: Stop prompting from scratch. Start building a second brain.
 slug: build-a-second-brain-for-work
 status: published
-published_at: ''
+published_at: 2026-10-11
 updated_at: ''
 topic: Building with AI
 topic_new: ''
