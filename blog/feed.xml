@@ -6,7 +6,77 @@
     <atom:link href="https://middleton.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Essays on building with AI, product, and the systems in between.</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 11 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Stop prompting from scratch. Start building a second brain.</title>
+      <link>https://middleton.io/blog/build-a-second-brain-for-work/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/build-a-second-brain-for-work/</guid>
+      <pubDate>Sun, 11 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Most work is a few ongoing projects moving every day, and AI gets a lot more useful once it can keep up with them.</description>
+      <enclosure url="https://middleton.io/blog/images/build-a-second-brain-for-work-cover.png" type="image/png" length="53646"/>
+      <media:content url="https://middleton.io/blog/images/build-a-second-brain-for-work-cover.png" medium="image" type="image/png"/>
+      <media:thumbnail url="https://middleton.io/blog/images/build-a-second-brain-for-work-cover.png"/>
+      <content:encoded><![CDATA[<p>You have ten minutes before a meeting about a project you just inherited. You open a fresh chat, paste in the epic, the kickoff plan, and a few notes you scribbled down, and wait for AI to pull out some insights. Meanwhile your other projects are stuck on to-dos other people still owe you, and the updates you need are sitting in emails you haven't read yet. AI can't really help with any of this, because it only knows what you just pasted and has no deeper context.</p>
+
+<p>I don't know many people who use AI the way I do, and that holds across roles: product managers, colleagues, executives. They're every bit as capable. They just use it one task at a time, because that's how chat taught all of us to use it. Summarize this email, rewrite this paragraph, draft these slides (you can start there, but please make edits), then close the tab and start over next time.</p>
+
+<p>But knowledge work depends on deep context. Projects move at their own pace, some every day and some every couple of weeks: a pricing refresh, a launch, a vendor review. Any one of them can pick up a new requirement in a morning meeting, a decision in a hallway, or a promise in a Slack thread. If AI only ever sees one task at a time, it can't help you keep any of that straight, so every prompt you give it starts from scratch.</p>
+
+<p>With a little setup, those same one-offs can start from a knowledge base that already knows your projects, so they get faster and more accurate. That's what a lot of folks call a second brain, and it's the single biggest change in how I work now.</p>
+
+<h2>So what is a second brain?</h2>
+
+<p>A second brain is a system that keeps track of every project you're on, stays up to date as things change, and can help with any of them because it already has your context. And it's easy to set one up!</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/unpaid-intern-s1-pile-wd.gif" width="1200" height="675" alt="Animated: eight scraps of work (a meeting transcript, an email asking about the launch date for the second time, a calendar invite, a Jira ticket, a Confluence page, a Google Doc, a to-do, and the question “Wait, who is Marco?”) fly into a pink brain in glasses, which hands back a sorted desk: morning briefing, meeting prep, follow-ups, requirements, a status update, and email replies." loading="lazy">
+  <figcaption>Give your second brain the busy work. Then go get a Starbies.</figcaption>
+</figure>
+
+<ul>
+<li><strong>Start with one folder.</strong> It's your second brain's home: notes on each project and on the people you work with, a glossary, and a running memory of follow-ups and decisions.</li>
+<li><strong>Feed it.</strong> Drop in what comes at you: transcripts, PDFs, screenshots of chat threads, PowerPoint decks. If your company policy allows, connect email, calendar, chat, Jira, and Confluence so it can read those too.</li>
+<li><strong>Let it create your knowledge base.</strong> Your second brain reads everything you give it and saves away every fact where it belongs in your personal knowledge base. A decision goes into that project's notes, follow-ups are captured with owners and dates, and a new name gets added to the list of people you work with.</li>
+<li><strong>Ask your second brain things all day.</strong> Briefings, meeting prep, debriefs, status updates. Each one pulls from what it already knows about the project, so nothing starts from scratch. And the more you give it, the better context it will have.</li>
+<li><strong>You make the calls.</strong> Your second brain can draft emails and messages ready for you to send, but nothing goes out or gets deleted without your approval.</li>
+<li><strong>It keeps itself current.</strong> When you wrap up for the day, it logs what moved and what's still open, so tomorrow starts where today ended.</li>
+</ul>
+
+<figure>
+  <img src="https://middleton.io/blog/images/unpaid-intern-s5-notes-wd.gif" width="1200" height="675" alt="Animated: someone types “Process my notes from the pricing sync.” The intern replies that it filed the notes: two decisions added to the pricing project, three follow-ups each with an owner and a date, a new person added to the people page, and the original archived untouched, plus a heads-up that a one-pager is due Friday." loading="lazy">
+  <figcaption>Meeting notes in, follow-ups out.</figcaption>
+</figure>
+
+<h2>Use your second brain all day</h2>
+
+<p>A second brain only helps if you use it consistently. I built a set of commands around the way a day really goes, for people who spend hours in meetings and need to maximize free moments during the day:</p>
+
+<ul>
+<li><strong>Start of day: <code>/briefing</code>.</strong> What needs you, what you're waiting on, and what can wait.</li>
+<li><strong>Your calendar changes: <code>/pulse</code>.</strong> Only what changed since the briefing: new asks, collisions, and what resolved.</li>
+<li><strong>Before a meeting: <code>/prep</code>.</strong> The last decision, the open question, and outcomes to drive during the meeting.</li>
+<li><strong>After the meeting: <code>/debrief</code>.</strong> Provide your pasted notes or a transcript to capture decisions and follow-ups with owners and dates, so next steps are clear.</li>
+<li><strong>A new requirement: <code>/write-epic</code>.</strong> Meeting notes, previously captured requirements, and transcripts can easily be turned into draft tickets for Jira or Linear.</li>
+<li><strong>Something you learned: <code>/sync-kb</code>, or just "file my inbox."</strong> All of your new learnings land in your knowledge base where they belong. If Confluence is connected, it can update corresponding pages too.</li>
+<li><strong>A topic you're behind on: <code>/learn</code>.</strong> Need to onboard to a new area quickly? Just hand your second brain any docs you have and it can build a short lesson with a quiz to test your knowledge.</li>
+<li><strong>End of day: <code>/close</code>.</strong> Catch anything left dangling from the day and map out your first move for tomorrow.</li>
+</ul>
+
+<p>Each one of those started as a standalone prompt that I found myself using so often I made it into a proper command.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/unpaid-intern-s7-reqs-wd.gif" width="1200" height="675" alt="Animated: someone asks the intern to pull the key requirements from the pricing sync notes. It drafts an epic that keeps three stated requirements apart from one unconfirmed assumption and one open question, with a note that it goes into Jira only after you say yes." loading="lazy">
+  <figcaption>Turn meeting notes into requirements.</figcaption>
+</figure>
+
+<h2>I built a second brain you can start using today</h2>
+
+<p>I built <a href="https://middleton.io/unpaid-intern/?utm_source=blog&amp;utm_campaign=build-a-second-brain-for-work">Unpaid Intern</a> to be your second brain, so you don't have to build one from scratch. It's free, and it's the only intern who should be unpaid. Say "set me up" and it walks you through the rest. You get a real result before it asks you to connect anything, and it's especially handy if you just started somewhere new: it learns who's who from an org chart screenshot and keeps a glossary of every acronym you nod along to. It runs in Claude and Codex, and there's a no-install kit for Copilot, ChatGPT, and Gemini. In 301 test runs across 44 everyday situations, with connectors simulated, it never sent or deleted anything on its own.</p>
+
+<p><a href="https://middleton.io/unpaid-intern/?utm_source=blog&amp;utm_campaign=build-a-second-brain-for-work">See how it works and install it</a>, or <a href="https://github.com/kevinmmiddleton/unpaid-intern">read the code on GitHub</a>.</p>
+
+<p>Your projects don't start over every morning, so your AI shouldn't either.</p>]]></content:encoded>
+    </item>
     <item>
       <title>My AI assistant interviewed Meta's Muse</title>
       <link>https://middleton.io/blog/we-have-muse-at-home/</link>
@@ -1303,58 +1373,6 @@ through it one step at a time. Use this open-source project as a starting point:
 <p>I would not call any of this production-ready. But it's perfectly serviceable for me, and that's the point. I don't need it to scale. I need it to work. For personal projects, AI is incredible at unblocking things that would've been stuck behind access to engineering resources. There's never been a better time for the value you get from these tools.</p>
 
 <p>I've been thinking a lot about the data that flows through this system and why I'm sending all of it to cloud APIs. More on that here: <a href="https://middleton.io/blog/owning-your-context/">I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</a></p>]]></content:encoded>
-    </item>
-    <item>
-      <title>I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</title>
-      <link>https://middleton.io/blog/owning-your-context/</link>
-      <guid isPermaLink="true">https://middleton.io/blog/owning-your-context/</guid>
-      <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
-      <description>I pay a service to scrub my data from hundreds of brokers. Then I hand an AI my taxes, my finances, my fears. Where should that personal context actually live?</description>
-      <enclosure url="https://middleton.io/blog/images/owning-your-context-cover.jpg" type="image/jpeg" length="59870"/>
-      <media:content url="https://middleton.io/blog/images/owning-your-context-cover.jpg" medium="image" type="image/jpeg"/>
-      <media:thumbnail url="https://middleton.io/blog/images/owning-your-context-cover.jpg"/>
-      <content:encoded><![CDATA[<p>Data brokers are companies that collect and sell your personal information. Your address, income range, employment history, purchasing habits. Most people don't know they exist. Most people don't know they already have a profile on hundreds of them.</p>
-
-<p>I use a service called Incogni to send removal requests on my behalf. It's identified 223 brokers that had my data, sent 1,127 removal requests, and completed 1,041 of them. Hundreds of companies had built profiles on me, and I'm paying a service to scrub them one by one.</p>
-
-<figure>
-  <img src="https://middleton.io/blog/images/incogni-dashboard.jpg" width="744" height="323" alt="A data privacy dashboard showing 223 brokers covered, 1,127 removal requests sent, and 1,041 completed." loading="lazy">
-  <figcaption>My data privacy dashboard. 223 brokers found, 1,127 removal requests sent, 1,041 completed.</figcaption>
-</figure>
-
-<p>But every day, I send an AI all kinds of deeply specific and personal information about me in the name of personal automation. In the last month alone, I've used AI to prep my 2025 taxes, price out a move across town, edit personal essays, and workshop LinkedIn posts about my career. I've shared what I earn, what I'm afraid of, and what I'm not willing to settle for.</p>
-
-<p>That's more personal than anything those data brokers had. And I'm not unusual. Anyone using AI seriously is doing the same thing.</p>
-
-<p>If I care enough to pay Incogni to scrub my info from brokers, it follows that I'd want this even more personal context protected too. The question is where it lives.</p>
-
-<figure>
-  <img src="https://middleton.io/blog/images/context-today-vs-future.jpg" width="744" height="322" alt="A two-panel diagram. Today: your context lives in the cloud, exposed to ads, data brokers, and third parties. The future: your context lives at home, with the cloud fetching info only as needed." loading="lazy">
-  <figcaption>Your personal context today, and where it should live tomorrow.</figcaption>
-</figure>
-
-<h2>Where I Think This Is Going</h2>
-
-<p>Apple is already investing heavily in on-device AI. I can see a near future where your personal context lives locally in your home, encrypted and under your control. A home device running a capable local model that handles your personal knowledge base. Nothing leaves your network unless you want it to.</p>
-
-<figure>
-  <img src="https://middleton.io/blog/images/apple-home-hub.jpg" width="1008" height="1000" alt="A news article screenshot about Apple's upcoming home hub device with a robotic swiveling base." loading="lazy">
-  <figcaption>Apple's upcoming home hub. Now imagine your personal AI context living here, encrypted and local. (Image: MacRumors)</figcaption>
-</figure>
-
-<p>The infrastructure is already there. Tools like Ollama have made running local models accessible. The missing piece is model quality at smaller sizes, and that gap is closing fast. The quality jumps between model generations have been massive. Hardware costs are dropping every year. The machines capable of running personal AI workflows are getting cheaper and more powerful at the same time.</p>
-
-<p>I tested local models for my own workflow last fall. They couldn't handle the nuance I needed. But that gap is closing faster than most people realize. Microsoft's Phi-4, a 14B parameter model, is already outperforming GPT-4o on certain benchmarks. "Not yet" has a shorter shelf life than it used to.</p>
-
-<h2>Ownership, Control, Encryption</h2>
-
-<p>I already pay to scrub my data from hundreds of brokers because I believe that information is mine. The logical extension is wanting my AI context to stay mine too.</p>
-
-<p>Not because cloud APIs are bad. I use them daily and they work well. But because ownership matters. Control matters. Encryption you hold the keys to matters. And as AI assistants get more personal, as we start trusting them with the things we wouldn't share anywhere else, where that data lives becomes a real question.</p>
-
-<p>The day a model I can run at home handles the work I currently send to the cloud, the whole thing comes home.</p>
-
-<p>Your personal context is yours. It should stay yours.</p>]]></content:encoded>
     </item>
   </channel>
 </rss>

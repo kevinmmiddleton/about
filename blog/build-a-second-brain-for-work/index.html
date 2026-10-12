@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
+    <!-- No " | Kevin Middleton" suffix: it cost 18 chars of a ~60 char budget and
+         pushed real titles past the truncation point. og:title, twitter:title, the
+         h1, the blog card and the RSS item all use post.title directly, so nothing
+         visible changes. -->
+    <title>Stop prompting from scratch. Start building a second brain.</title>
+    <meta name="description" content="Most work is a few ongoing projects moving every day, and AI gets a lot more useful once it can keep up with them.">
+
+    <link rel="canonical" href="https://middleton.io/blog/build-a-second-brain-for-work/">
+    <link rel="alternate" type="application/rss+xml" title="Kevin Middleton" href="https://middleton.io/blog/feed.xml">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://middleton.io/blog/build-a-second-brain-for-work/">
+    <meta property="og:title" content="Stop prompting from scratch. Start building a second brain.">
+    <meta property="og:description" content="Most work is a few ongoing projects moving every day, and AI gets a lot more useful once it can keep up with them.">
+    <meta property="og:image" content="https://middleton.io/blog/images/build-a-second-brain-for-work-cover.png">
+    <meta property="og:site_name" content="Kevin Middleton">
+    <meta property="article:published_time" content="2026-10-11">
+    <meta property="article:author" content="Kevin Middleton">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Stop prompting from scratch. Start building a second brain.">
+    <meta name="twitter:description" content="Most work is a few ongoing projects moving every day, and AI gets a lot more useful once it can keep up with them.">
+    <meta name="twitter:image" content="https://middleton.io/blog/images/build-a-second-brain-for-work-cover.png">
+
+    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
+         system stack, which is also why the old Inter/Epilogue links are gone. -->
+    <link rel="stylesheet" href="/fv.css?v=eb8b3a06">
+    <link rel="stylesheet" href="/blog/blog.css?v=a5b1199e">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <!-- Identity verification. Same three profiles the homepage claims, so every
+         page resolves to one entity rather than a separate author blob.
+         Wikidata is the disambiguating anchor. -->
+    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+    <link rel="me" href="https://github.com/kevinmmiddleton">
+    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+
+    <!-- JSON-LD: Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Stop prompting from scratch. Start building a second brain.",
+        "description": "Most work is a few ongoing projects moving every day, and AI gets a lot more useful once it can keep up with them.",
+        "author": {
+            "@type": "Person",
+            "@id": "https://middleton.io/#kevin",
+            "name": "Kevin Middleton",
+            "url": "https://middleton.io",
+            "sameAs": [
+                "https://www.linkedin.com/in/kevinmiddleton/",
+                "https://github.com/kevinmmiddleton",
+                "https://www.wikidata.org/wiki/Q140389537"
+            ]
+        },
+        "publisher": {
+            "@type": "Person",
+            "@id": "https://middleton.io/#kevin",
+            "name": "Kevin Middleton",
+            "url": "https://middleton.io"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://middleton.io/blog/build-a-second-brain-for-work/"
+        },
+        "url": "https://middleton.io/blog/build-a-second-brain-for-work/",
+        "image": "https://middleton.io/blog/images/build-a-second-brain-for-work-cover.png",
+        "articleSection": "Blog",
+        "keywords": [
+            "AI",
+            "Productivity",
+            "Knowledge Work",
+            "Agents",
+            "Open Source"
+        ],
+        "wordCount": 1159,
+        "datePublished": "2026-10-11",
+        "dateModified": "2026-10-11"
+    }
+    </script>
+
+    <!-- JSON-LD: Breadcrumb -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://middleton.io/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://middleton.io/blog/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Stop prompting from scratch. Start building a second brain.",
+                "item": "https://middleton.io/blog/build-a-second-brain-for-work/"
+            }
+        ]
+    }
+    </script>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+    <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+    </script>
+</head>
+<body class="p-post">
+    <a class="skip" href="#content">Skip to content</a>
+    <nav class="nav pad">
+        <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+        <span class="nav-l">
+          <a href="/#building">Building</a>
+          <a href="/#about">About</a>
+          <a href="/#record">Experience</a>
+          <a href="/#cases">Case Studies</a>
+          <a href="/blog/">Blog</a>
+        </span>
+        <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
+      </nav>
+
+    <main id="content" tabindex="-1">
+    <article class="article hue-4">
+        <!-- The lede. The headline sits ON the art rather than after it: the
+             image used to arrive below the eyebrow, title, dek and byline, at
+             exactly the text column's width, so it read as an illustration
+             dropped into the queue instead of an opening.
+
+             The hero is the LCP element on every post, so it is never lazy and
+             always high priority. alt is empty because the headline beside it
+             carries the meaning; a descriptive alt here would be read out
+             immediately before the same words in the h1. -->
+        <div class="article-lede">
+            <img class="article-hero" src="/blog/images/build-a-second-brain-for-work-cover.png" width="1600" height="900" alt="A yellow wall covered in rows of pink brains wearing chunky black glasses." fetchpriority="high" decoding="async">
+            <div class="article-lede-in">
+                <p class="article-eyebrow">Building with AI</p>
+                <h1 class="article-title">Stop prompting from scratch. Start building a second brain.</h1>
+                <!-- The dek. Already written for every post as the excerpt
+                     field, already used on the index card and in
+                     og:description, and previously thrown away on the page
+                     where it does the most work. -->
+                <p class="article-dek">Most work is a few ongoing projects moving every day, and AI gets a lot more useful once it can keep up with them.</p>
+                <!-- No byline. It is a single-author blog, the name is in the
+                     nav lockup and again in the bio at the foot, so a third
+                     printing of it only cost a line in the band. -->
+                <div class="article-meta">
+                    <time datetime="2026-10-11">October 11, 2026</time>
+                </div>
+            </div>
+        </div>
+
+
+        <nav class="toc" aria-label="Sections">
+            <p class="toc-lbl">In this piece</p>
+            <ol>
+                <li><a href="#so-what-is-a-second-brain">So what is a second brain?</a></li>
+                <li><a href="#use-your-second-brain-all-day">Use your second brain all day</a></li>
+                <li><a href="#i-built-a-second-brain-you-can-start-using-today">I built a second brain you can start using today</a></li>
+            </ol>
+        </nav>
+
+        <div class="article-body">
+<p>You have ten minutes before a meeting about a project you just inherited. You open a fresh chat, paste in the epic, the kickoff plan, and a few notes you scribbled down, and wait for AI to pull out some insights. Meanwhile your other projects are stuck on to-dos other people still owe you, and the updates you need are sitting in emails you haven't read yet. AI can't really help with any of this, because it only knows what you just pasted and has no deeper context.</p>
+
+<p>I don't know many people who use AI the way I do, and that holds across roles: product managers, colleagues, executives. They're every bit as capable. They just use it one task at a time, because that's how chat taught all of us to use it. Summarize this email, rewrite this paragraph, draft these slides (you can start there, but please make edits), then close the tab and start over next time.</p>
+
+<p>But knowledge work depends on deep context. Projects move at their own pace, some every day and some every couple of weeks: a pricing refresh, a launch, a vendor review. Any one of them can pick up a new requirement in a morning meeting, a decision in a hallway, or a promise in a Slack thread. If AI only ever sees one task at a time, it can't help you keep any of that straight, so every prompt you give it starts from scratch.</p>
+
+<p>With a little setup, those same one-offs can start from a knowledge base that already knows your projects, so they get faster and more accurate. That's what a lot of folks call a second brain, and it's the single biggest change in how I work now.</p>
+
+<h2 id="so-what-is-a-second-brain" class="sec">So what is a second brain?</h2>
+
+<p>A second brain is a system that keeps track of every project you're on, stays up to date as things change, and can help with any of them because it already has your context. And it's easy to set one up!</p>
+
+<figure>
+  <img src="/blog/images/unpaid-intern-s1-pile-wd.gif" width="1200" height="675" alt="Animated: eight scraps of work (a meeting transcript, an email asking about the launch date for the second time, a calendar invite, a Jira ticket, a Confluence page, a Google Doc, a to-do, and the question “Wait, who is Marco?”) fly into a pink brain in glasses, which hands back a sorted desk: morning briefing, meeting prep, follow-ups, requirements, a status update, and email replies." loading="lazy">
+  <figcaption>Give your second brain the busy work. Then go get a Starbies.</figcaption>
+</figure>
+
+<ul>
+<li><strong>Start with one folder.</strong> It's your second brain's home: notes on each project and on the people you work with, a glossary, and a running memory of follow-ups and decisions.</li>
+<li><strong>Feed it.</strong> Drop in what comes at you: transcripts, PDFs, screenshots of chat threads, PowerPoint decks. If your company policy allows, connect email, calendar, chat, Jira, and Confluence so it can read those too.</li>
+<li><strong>Let it create your knowledge base.</strong> Your second brain reads everything you give it and saves away every fact where it belongs in your personal knowledge base. A decision goes into that project's notes, follow-ups are captured with owners and dates, and a new name gets added to the list of people you work with.</li>
+<li><strong>Ask your second brain things all day.</strong> Briefings, meeting prep, debriefs, status updates. Each one pulls from what it already knows about the project, so nothing starts from scratch. And the more you give it, the better context it will have.</li>
+<li><strong>You make the calls.</strong> Your second brain can draft emails and messages ready for you to send, but nothing goes out or gets deleted without your approval.</li>
+<li><strong>It keeps itself current.</strong> When you wrap up for the day, it logs what moved and what's still open, so tomorrow starts where today ended.</li>
+</ul>
+
+<figure>
+  <img src="/blog/images/unpaid-intern-s5-notes-wd.gif" width="1200" height="675" alt="Animated: someone types “Process my notes from the pricing sync.” The intern replies that it filed the notes: two decisions added to the pricing project, three follow-ups each with an owner and a date, a new person added to the people page, and the original archived untouched, plus a heads-up that a one-pager is due Friday." loading="lazy">
+  <figcaption>Meeting notes in, follow-ups out.</figcaption>
+</figure>
+
+<h2 id="use-your-second-brain-all-day" class="sec">Use your second brain all day</h2>
+
+<p>A second brain only helps if you use it consistently. I built a set of commands around the way a day really goes, for people who spend hours in meetings and need to maximize free moments during the day:</p>
+
+<ul>
+<li><strong>Start of day: <code>/briefing</code>.</strong> What needs you, what you're waiting on, and what can wait.</li>
+<li><strong>Your calendar changes: <code>/pulse</code>.</strong> Only what changed since the briefing: new asks, collisions, and what resolved.</li>
+<li><strong>Before a meeting: <code>/prep</code>.</strong> The last decision, the open question, and outcomes to drive during the meeting.</li>
+<li><strong>After the meeting: <code>/debrief</code>.</strong> Provide your pasted notes or a transcript to capture decisions and follow-ups with owners and dates, so next steps are clear.</li>
+<li><strong>A new requirement: <code>/write-epic</code>.</strong> Meeting notes, previously captured requirements, and transcripts can easily be turned into draft tickets for Jira or Linear.</li>
+<li><strong>Something you learned: <code>/sync-kb</code>, or just "file my inbox."</strong> All of your new learnings land in your knowledge base where they belong. If Confluence is connected, it can update corresponding pages too.</li>
+<li><strong>A topic you're behind on: <code>/learn</code>.</strong> Need to onboard to a new area quickly? Just hand your second brain any docs you have and it can build a short lesson with a quiz to test your knowledge.</li>
+<li><strong>End of day: <code>/close</code>.</strong> Catch anything left dangling from the day and map out your first move for tomorrow.</li>
+</ul>
+
+<p>Each one of those started as a standalone prompt that I found myself using so often I made it into a proper command.</p>
+
+<figure>
+  <img src="/blog/images/unpaid-intern-s7-reqs-wd.gif" width="1200" height="675" alt="Animated: someone asks the intern to pull the key requirements from the pricing sync notes. It drafts an epic that keeps three stated requirements apart from one unconfirmed assumption and one open question, with a note that it goes into Jira only after you say yes." loading="lazy">
+  <figcaption>Turn meeting notes into requirements.</figcaption>
+</figure>
+
+<h2 id="i-built-a-second-brain-you-can-start-using-today" class="sec">I built a second brain you can start using today</h2>
+
+<p>I built <a target="_blank" rel="noopener" href="https://middleton.io/unpaid-intern/?utm_source=blog&amp;utm_campaign=build-a-second-brain-for-work">Unpaid Intern</a> to be your second brain, so you don't have to build one from scratch. It's free, and it's the only intern who should be unpaid. Say "set me up" and it walks you through the rest. You get a real result before it asks you to connect anything, and it's especially handy if you just started somewhere new: it learns who's who from an org chart screenshot and keeps a glossary of every acronym you nod along to. It runs in Claude and Codex, and there's a no-install kit for Copilot, ChatGPT, and Gemini. In 301 test runs across 44 everyday situations, with connectors simulated, it never sent or deleted anything on its own.</p>
+
+<p><a target="_blank" rel="noopener" href="https://middleton.io/unpaid-intern/?utm_source=blog&amp;utm_campaign=build-a-second-brain-for-work">See how it works and install it</a>, or <a target="_blank" rel="noopener" href="https://github.com/kevinmmiddleton/unpaid-intern">read the code on GitHub</a>.</p>
+
+<p>Your projects don't start over every morning, so your AI shouldn't either.</p>
+        </div>
+<nav class="readnext" aria-label="Read next">
+        <h2 class="rn-lbl">Read next</h2>
+        <div class="rn-grid">
+            <a class="rn hue-4" href="/blog/building-personal-ai-tools-for-everyone-else/">
+                <span class="rn-k">More in Building with AI</span>
+                <span class="rn-t">An AI tool for me 🎉 An AI tool for us? 🙈</span>
+                <span class="rn-x">The best tool I ever built had exactly one user (me). Now, it's time to share it with some of my friends. I can't wait to see how this turns out.</span>
+            </a>
+            <a class="rn hue-4" href="/blog/one-page-you-own/">
+                <span class="rn-k">More in Building with AI</span>
+                <span class="rn-t">You should have a website. And you can build it in an hour with Claude.</span>
+                <span class="rn-x">An old colleague got laid off, shipped a personal site ten days after I sent him a starter kit, and took back his story online. So I turned the starter into a free plugin.</span>
+            </a>
+        </div>
+    </nav>
+        <p class="article-rail">More from Kevin: <a href="/casestudies/">Case studies</a> <span class="dot" aria-hidden="true">·</span> <a href="/#record">Experience</a> <span class="dot" aria-hidden="true">·</span> <a href="https://shortlist.middleton.io/" target="_blank" rel="noopener">Shortlist</a></p>
+        <div class="article-bio">
+  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
+</div>
+        <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+    </article>
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="container footer-content">
+            <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
+        </div>
+    </footer>
+
+    <script src="/blog/blog-nav.js?v=735e7e47"></script>
+</body>
+</html>
