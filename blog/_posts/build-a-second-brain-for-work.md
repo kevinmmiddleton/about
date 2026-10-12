@@ -1,10 +1,11 @@
 ---
 title: Stop prompting from scratch. Start building a second brain.
 slug: build-a-second-brain-for-work
-status: draft
+status: published
 published_at: ''
 updated_at: ''
 topic: Building with AI
+topic_new: ''
 series: ''
 series_order: null
 tags:
@@ -18,6 +19,7 @@ sort_order: null
 excerpt: Most work is a few ongoing projects moving every day, and AI gets a lot more useful once it can keep up with them.
 cover_image: /blog/images/build-a-second-brain-for-work-cover.png
 cover_alt: A yellow wall covered in rows of pink brains wearing chunky black glasses.
+lede_align: left
 linkedin_url: ''
 ---
 
