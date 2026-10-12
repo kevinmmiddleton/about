@@ -46,18 +46,18 @@ A second brain is a system that keeps track of every project you're on, stays up
 
 ![Animated: someone types “Process my notes from the pricing sync.” The intern replies that it filed the notes: two decisions added to the pricing project, three follow-ups each with an owner and a date, a new person added to the people page, and the original archived untouched, plus a heads-up that a one-pager is due Friday.](/blog/images/unpaid-intern-s5-notes-wd.gif "Meeting notes in, follow-ups out.")
 
-## Use your second brain all day
+## What my day looks like with a second brain
 
 A second brain only helps if you use it consistently. I built a set of commands around the way a day really goes, for people who spend hours in meetings and need to maximize free moments during the day:
 
-- **Start of day: `/briefing`.** What needs you, what you're waiting on, and what can wait.
-- **Your calendar changes: `/pulse`.** Only what changed since the briefing: new asks, collisions, and what resolved.
+- **Start of day: `/briefing`.** What needs attention, what's stuck on someone else, and what can wait.
+- **Plans change: `/pulse`.** Only what changed since the briefing: new asks, collisions, and what resolved.
 - **Before a meeting: `/prep`.** The last decision, the open question, and outcomes to drive during the meeting.
-- **After the meeting: `/debrief`.** Provide your pasted notes or a transcript to capture decisions and follow-ups with owners and dates, so next steps are clear.
+- **After the meeting: `/debrief`.** Paste in notes or a transcript to capture decisions and follow-ups with owners and dates, so next steps are clear.
 - **A new requirement: `/write-epic`.** Meeting notes, previously captured requirements, and transcripts can easily be turned into draft tickets for Jira or Linear.
-- **Something you learned: `/sync-kb`, or just "file my inbox."** All of your new learnings land in your knowledge base where they belong. If Confluence is connected, it can update corresponding pages too.
-- **A topic you're behind on: `/learn`.** Need to onboard to a new area quickly? Just hand your second brain any docs you have and it can build a short lesson with a quiz to test your knowledge.
-- **End of day: `/close`.** Catch anything left dangling from the day and map out your first move for tomorrow.
+- **Something new: `/sync-kb`, or just "file my inbox."** All of your new learnings land in your knowledge base where they belong. If Confluence is connected, it can update corresponding pages too.
+- **Catching up on a topic: `/learn`.** Need to onboard to a new area quickly? Just hand your second brain any docs you have and it can build a short lesson with a quiz to test your knowledge.
+- **End of day: `/close`.** Catch anything left dangling from the day and map out the first move for tomorrow.
 
 Each one of those started as a standalone prompt that I found myself using so often I made it into a proper command.
 
