@@ -1,0 +1,44 @@
+name: Publish recipes
+
+# Builds one static page per recipe (recipes/<slug>/index.html, with schema.org
+# Recipe JSON-LD) from recipes/recipes.md, and keeps their sitemap entries in
+# step. Edit recipes.md, push, and this commits the generated pages back
+# (push to main -> GitHub Pages deploys). No deps, no secrets.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/recipes.md'
+      - 'tools/recipes-generate.mjs'
+      - 'fv.css'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-recipes
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build recipe pages
+        run: node tools/recipes-generate.mjs
+      - name: Commit & push if the output changed
+        run: |
+          git config user.name "recipes-bot"
+          git config user.email "noreply@middleton.io"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A recipes sitemap.xml
+            git commit -m "Auto-build recipe pages"
+            git pull --rebase
+            git push
+          else
+            echo "No changes to publish."
+          fi

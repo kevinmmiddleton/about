@@ -14,16 +14,9 @@ async function init() {
   setupSearch();
   setupClearFilters();
   
-  // Check for hash on load
-  if (window.location.hash) {
-    const slug = window.location.hash.slice(1);
-    const recipe = recipes.find(r => slugify(r.title) === slug);
-    if (recipe) {
-      renderDetail(recipe);
-      return;
-    }
-  }
-  
+  // Old share links were /recipes/#slug; each recipe now has its own page.
+  if (redirectHash()) return;
+
   renderList();
 }
 
@@ -170,17 +163,6 @@ function getFilteredRecipes() {
 
 function renderList() {
   const container = document.getElementById('recipe-list');
-  const detail = document.getElementById('recipe-detail');
-
-  detail.classList.remove('visible');
-  container.classList.remove('hidden');
-  document.body.classList.remove('detail-view');
-
-  // Clear hash when returning to list
-  if (window.location.hash) {
-    history.pushState(null, '', window.location.pathname);
-  }
-
   const filtered = getFilteredRecipes();
 
   if (filtered.length === 0) {
@@ -189,112 +171,26 @@ function renderList() {
   }
 
   container.innerHTML = filtered.map((r, i) => `
-    <div class="recipe-card" data-index="${recipes.indexOf(r)}" style="animation-delay: ${i * 0.05}s">
+    <a class="recipe-card" href="/recipes/${slugify(r.title)}/" style="animation-delay: ${i * 0.05}s">
       <div class="card-content">
         <h2>${r.title}</h2>
         <div class="meta">${r.servings ? `Serves ${r.servings}` : ''}</div>
         <div class="tags">${r.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
       </div>
       ${r.photo ? `<img class="card-thumb" src="${r.photo}" alt="${r.title}">` : ''}
-    </div>
+    </a>
   `).join('');
-
-  container.querySelectorAll('.recipe-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const index = parseInt(card.dataset.index);
-      renderDetail(recipes[index]);
-    });
-  });
 }
 
-function renderDetail(recipe) {
-  const container = document.getElementById('recipe-list');
-  const detail = document.getElementById('recipe-detail');
-
-  container.classList.add('hidden');
-  detail.classList.add('visible');
-  document.body.classList.add('detail-view');
-
-  // Update URL hash
-  const slug = slugify(recipe.title);
-  history.pushState(null, '', `#${slug}`);
-
-  const ingredientsHtml = parseIngredients(recipe.ingredientsRaw);
-  const instructionsHtml = parseInstructions(recipe.instructionsRaw);
-
-  const backIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>`;
-
-  detail.innerHTML = `
-    <button class="back-btn">${backIcon} Back to recipes</button>
-    <div class="detail-header">
-      <div class="detail-header-content">
-        <h1>${recipe.title}</h1>
-        <hr class="title-rule">
-        <div class="meta">
-          ${recipe.servings ? `Serves ${recipe.servings}` : ''}
-          ${recipe.source ? ` · <a href="${recipe.source}" target="_blank">Adapted from source</a>` : ''}
-        </div>
-      </div>
-      ${recipe.photo ? `<img class="detail-thumb" src="${recipe.photo}" alt="${recipe.title}">` : ''}
-    </div>
-    ${recipe.intro ? `<p class="intro">${recipe.intro}</p>` : ''}
-    <h2>Ingredients</h2>
-    ${ingredientsHtml}
-    <h2>Instructions</h2>
-    ${instructionsHtml}
-    ${recipe.notes ? `<div class="notes"><strong>Notes:</strong> ${recipe.notes}</div>` : ''}
-    <button class="back-btn-bottom">${backIcon} Back to recipes</button>
-  `;
-
-  detail.querySelectorAll('.back-btn, .back-btn-bottom').forEach(btn => {
-    btn.addEventListener('click', () => {
-      renderList();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  });
-  
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function parseIngredients(raw) {
-  const lines = raw.split('\n');
-  let html = '';
-  let inList = false;
-
-  lines.forEach(line => {
-    if (line.startsWith('### ')) {
-      if (inList) html += '</ul>';
-      html += `<h3>${line.slice(4)}</h3>`;
-      inList = false;
-    } else if (line.startsWith('- ')) {
-      if (!inList) {
-        html += '<ul>';
-        inList = true;
-      }
-      html += `<li>${line.slice(2)}</li>`;
-    }
-  });
-
-  if (inList) html += '</ul>';
-  return html;
-}
-
-function parseInstructions(raw) {
-  const lines = raw.split('\n').filter(l => l.match(/^\d+\./));
-  return '<ol>' + lines.map(l => `<li>${l.replace(/^\d+\.\s*/, '')}</li>`).join('') + '</ol>';
-}
-
-// Handle browser back/forward
-window.addEventListener('popstate', () => {
-  if (window.location.hash) {
-    const slug = window.location.hash.slice(1);
-    const recipe = recipes.find(r => slugify(r.title) === slug);
-    if (recipe) {
-      renderDetail(recipe);
-      return;
-    }
+function redirectHash() {
+  const slug = window.location.hash.slice(1);
+  if (slug && recipes.some(r => slugify(r.title) === slug)) {
+    window.location.replace(`/recipes/${slug}/`);
+    return true;
   }
-  renderList();
-});
+  return false;
+}
+
+window.addEventListener('hashchange', redirectHash);
 
 document.addEventListener('DOMContentLoaded', init);
