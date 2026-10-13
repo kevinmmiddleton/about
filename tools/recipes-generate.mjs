@@ -66,6 +66,8 @@ function parseRecipes(md) {
       prepTime: fm.prep_time || '',
       cookTime: fm.cook_time || '',
       totalTime: fm.total_time || '',
+      cuisine: fm.cuisine || '',
+      calories: fm.calories || '',
       intro: firstHeading > 0 ? content.slice(0, firstHeading).trim() : '',
       groups,
       steps,
@@ -81,6 +83,13 @@ function isoDuration(s) {
   const h = +(s.match(/(\d+)\s*h/i) || [])[1] || 0;
   const m = +(s.match(/(\d+)\s*m/i) || [])[1] || 0;
   return h || m ? `PT${h ? h + 'H' : ''}${m ? m + 'M' : ''}` : '';
+}
+
+// A step's short name: its first sentence, cut at a word near 60 characters.
+function stepName(text) {
+  let first = text.split(/(?<=[.!?])\s/)[0].replace(/[.!?]$/, '');
+  if (first.length > 60) first = first.slice(0, 60).replace(/\s+\S*$/, '') + '…';
+  return first;
 }
 
 const COURSES = { main: 'Main course', breakfast: 'Breakfast', snack: 'Snack' };
@@ -102,12 +111,15 @@ function recipeSchema(r) {
   for (const k of ['prepTime', 'cookTime', 'totalTime']) if (isoDuration(r[k])) schema[k] = isoDuration(r[k]);
   const course = r.tags.find((t) => COURSES[t]);
   if (course) schema.recipeCategory = COURSES[course];
-  if (r.tags.includes('asian')) schema.recipeCuisine = 'Asian';
+  if (r.cuisine) schema.recipeCuisine = r.cuisine;
+  else if (r.tags.includes('asian')) schema.recipeCuisine = 'Asian';
+  // Estimated per serving from the gram weights; shown on the page too.
+  if (r.calories) schema.nutrition = { '@type': 'NutritionInformation', calories: `${r.calories} calories` };
   if (r.tags.includes('vegetarian')) schema.suitableForDiet = 'https://schema.org/VegetarianDiet';
   if (r.tags.length) schema.keywords = r.tags.join(', ');
   schema.recipeIngredient = r.groups.flatMap((g) => g.items);
   schema.recipeInstructions = r.steps.map((text, i) => ({
-    '@type': 'HowToStep', position: i + 1, text, url: `${url}#step-${i + 1}`,
+    '@type': 'HowToStep', position: i + 1, name: stepName(text), text, url: `${url}#step-${i + 1}`,
   }));
   if (r.source) schema.isBasedOn = r.source;
   return JSON.stringify(schema, null, 2).replace(/</g, '\\u003c');
@@ -188,6 +200,7 @@ ${recipeSchema(r)}
             r.prepTime && `Prep ${esc(r.prepTime)}`,
             r.cookTime && `Cook ${esc(r.cookTime)}`,
             r.totalTime && `Total ${esc(r.totalTime)}`,
+            r.calories && `About ${esc(r.calories)} cal per serving`,
             r.source && `<a href="${escAttr(r.source)}" target="_blank" rel="noopener">Adapted from source</a>`,
           ].filter(Boolean).join(' · ')}</div>
         </div>

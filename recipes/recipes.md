@@ -1,6 +1,8 @@
 # Broccoli Potato Cheddar Soup
 
 ---
+cuisine: American
+calories: 510
 prep_time: 15 min
 cook_time: 25 min
 total_time: 40 min
@@ -45,6 +47,8 @@ The Instant Pot earns its counter space with this one.
 # Sausage and Cheese Quiche
 
 ---
+cuisine: French
+calories: 400
 prep_time: 15 min
 cook_time: 40 min
 total_time: 1 hr 10 min
@@ -91,6 +95,8 @@ The ratio here is forgiving. More cheese, different sausage, whatever. It'll wor
 # Chick-fil-A Style Chicken
 
 ---
+cuisine: American
+calories: 360
 prep_time: 20 min
 cook_time: 15 min
 total_time: 2 hr 35 min
@@ -148,6 +154,8 @@ I spent too long on this. It's close. Close enough.
 # Honey-Teriyaki Chicken Thighs
 
 ---
+cuisine: Japanese-inspired
+calories: 360
 prep_time: 10 min
 cook_time: 20 min
 total_time: 1 hr
@@ -183,6 +191,8 @@ Sticky, slightly sweet, dead simple. Good over rice, obviously.
 # Crispy Pork Schnitzel
 
 ---
+cuisine: Austrian
+calories: 710
 prep_time: 15 min
 cook_time: 15 min
 total_time: 30 min
@@ -219,6 +229,8 @@ Pounded thin, fried fast. Perfect with a lemon wedge or your favorite sauce.
 # Slow-Cooked Creamy Scrambled Eggs
 
 ---
+cuisine: British
+calories: 330
 prep_time: 2 min
 cook_time: 10 min
 total_time: 12 min
@@ -251,6 +263,8 @@ The Gordon Ramsay method, minus the crème fraîche because I'm not buying crèm
 # Costco-Style Blueberry Muffins
 
 ---
+cuisine: American
+calories: 390
 prep_time: 15 min
 cook_time: 25 min
 total_time: 50 min
@@ -290,6 +304,8 @@ These taste like the Costco muffins, which is the whole point.
 # One-Pan Chicken Tenders & Asparagus
 
 ---
+cuisine: American
+calories: 420
 prep_time: 10 min
 cook_time: 20 min
 total_time: 30 min
@@ -339,6 +355,8 @@ Roast first, shallow braise second. One dish, no babysitting.
 # Herb Roasted Chicken Thighs & Fingerling Potatoes
 
 ---
+cuisine: American
+calories: 650
 prep_time: 15 min
 cook_time: 30 min
 total_time: 45 min
@@ -386,6 +404,8 @@ Sheet pan comfort food. Herbs on everything.
 # Italian Pork Meatballs over Cauliflower Rice
 
 ---
+cuisine: Italian-American
+calories: 560
 prep_time: 20 min
 cook_time: 20 min
 total_time: 40 min
