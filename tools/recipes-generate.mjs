@@ -183,7 +183,13 @@ ${recipeSchema(r)}
         <div class="detail-header-content">
           <h1>${esc(r.title)}</h1>
           <hr class="title-rule">
-          <div class="meta">${r.servings ? `Serves ${esc(r.servings)}` : ''}${r.source ? `${r.servings ? ' · ' : ''}<a href="${escAttr(r.source)}" target="_blank" rel="noopener">Adapted from source</a>` : ''}</div>
+          <div class="meta">${[
+            r.servings && `Serves ${esc(r.servings)}`,
+            r.prepTime && `Prep ${esc(r.prepTime)}`,
+            r.cookTime && `Cook ${esc(r.cookTime)}`,
+            r.totalTime && `Total ${esc(r.totalTime)}`,
+            r.source && `<a href="${escAttr(r.source)}" target="_blank" rel="noopener">Adapted from source</a>`,
+          ].filter(Boolean).join(' · ')}</div>
         </div>
         ${r.photo ? `<img class="detail-thumb" src="${escAttr(r.photo)}" alt="${escAttr(r.title)}">` : ''}
       </div>

@@ -1,6 +1,9 @@
 # Broccoli Potato Cheddar Soup
 
 ---
+prep_time: 15 min
+cook_time: 25 min
+total_time: 40 min
 tags: vegetarian, main, weeknight
 servings: 4
 photo: https://middleton.io/recipes/images/potato-brocolli-cheddar-soup.jpg
@@ -42,6 +45,9 @@ The Instant Pot earns its counter space with this one.
 # Sausage and Cheese Quiche
 
 ---
+prep_time: 15 min
+cook_time: 40 min
+total_time: 1 hr 10 min
 tags: eggs, pork, breakfast, main, project
 servings: 6-8 slices
 photo: https://middleton.io/recipes/images/sausag-cheese-quiche.jpg
@@ -85,6 +91,9 @@ The ratio here is forgiving. More cheese, different sausage, whatever. It'll wor
 # Chick-fil-A Style Chicken
 
 ---
+prep_time: 20 min
+cook_time: 15 min
+total_time: 2 hr 35 min
 tags: chicken, main, project
 servings: 2-3
 source: https://jasonfarmer.com/chick-fil-a-chicken-sandwich/
@@ -139,6 +148,9 @@ I spent too long on this. It's close. Close enough.
 # Honey-Teriyaki Chicken Thighs
 
 ---
+prep_time: 10 min
+cook_time: 20 min
+total_time: 1 hr
 tags: chicken, main, asian, weeknight
 servings: 3-4
 photo: https://middleton.io/recipes/images/teriyaki-chicken.jpg
@@ -171,6 +183,9 @@ Sticky, slightly sweet, dead simple. Good over rice, obviously.
 # Crispy Pork Schnitzel
 
 ---
+prep_time: 15 min
+cook_time: 15 min
+total_time: 30 min
 tags: pork, main, weeknight
 servings: 2
 photo: https://middleton.io/recipes/images/schnitzel.jpg
@@ -204,6 +219,9 @@ Pounded thin, fried fast. Perfect with a lemon wedge or your favorite sauce.
 # Slow-Cooked Creamy Scrambled Eggs
 
 ---
+prep_time: 2 min
+cook_time: 10 min
+total_time: 12 min
 tags: eggs, breakfast, weeknight
 servings: 2
 photo: https://middleton.io/recipes/images/eggs.jpg
@@ -233,6 +251,9 @@ The Gordon Ramsay method, minus the crème fraîche because I'm not buying crèm
 # Costco-Style Blueberry Muffins
 
 ---
+prep_time: 15 min
+cook_time: 25 min
+total_time: 50 min
 tags: vegetarian, breakfast, snack, project
 servings: 8 large muffins
 photo: https://middleton.io/recipes/images/blueberry-muffins.jpg
@@ -269,6 +290,9 @@ These taste like the Costco muffins, which is the whole point.
 # One-Pan Chicken Tenders & Asparagus
 
 ---
+prep_time: 10 min
+cook_time: 20 min
+total_time: 30 min
 tags: chicken, main, weeknight, low-carb
 servings: 2
 photo: https://middleton.io/recipes/images/chicken-asparagus.jpg
@@ -315,6 +339,9 @@ Roast first, shallow braise second. One dish, no babysitting.
 # Herb Roasted Chicken Thighs & Fingerling Potatoes
 
 ---
+prep_time: 15 min
+cook_time: 30 min
+total_time: 45 min
 tags: chicken, main, weeknight
 servings: 2-3
 photo: https://middleton.io/recipes/images/herb-chicken-potatoes.jpg
@@ -359,6 +386,9 @@ Sheet pan comfort food. Herbs on everything.
 # Italian Pork Meatballs over Cauliflower Rice
 
 ---
+prep_time: 20 min
+cook_time: 20 min
+total_time: 40 min
 tags: pork, main, weeknight, low-carb
 servings: 3-4
 photo: https://middleton.io/recipes/images/pork-meatballs.jpg

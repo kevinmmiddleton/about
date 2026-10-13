@@ -34,6 +34,7 @@ function parseRecipes(md) {
     let source = '';
     let photo = '';
     let notes = '';
+    let totalTime = '';
 
     if (fmStart !== -1 && fmEnd !== -1) {
       const fm = lines.slice(fmStart + 1, fmEnd);
@@ -50,6 +51,8 @@ function parseRecipes(md) {
           photo = val;
         } else if (key.trim() === 'notes') {
           notes = val;
+        } else if (key.trim() === 'total_time') {
+          totalTime = val;
         }
       });
     }
@@ -73,6 +76,7 @@ function parseRecipes(md) {
       source,
       photo,
       notes,
+      totalTime,
       intro,
       ingredientsRaw,
       instructionsRaw
@@ -174,7 +178,7 @@ function renderList() {
     <a class="recipe-card" href="/recipes/${slugify(r.title)}/" style="animation-delay: ${i * 0.05}s">
       <div class="card-content">
         <h2>${r.title}</h2>
-        <div class="meta">${r.servings ? `Serves ${r.servings}` : ''}</div>
+        <div class="meta">${[r.servings && `Serves ${r.servings}`, r.totalTime].filter(Boolean).join(' · ')}</div>
         <div class="tags">${r.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
       </div>
       ${r.photo ? `<img class="card-thumb" src="${r.photo}" alt="${r.title}">` : ''}
