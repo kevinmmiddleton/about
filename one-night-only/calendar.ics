@@ -378,44 +378,6 @@ SEQUENCE:1
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
-UID:b218bd17a0180b21@screenings.middleton.io
-DTSTAMP:20261007T115041Z
-CREATED:20261007T115041Z
-LAST-MODIFIED:20261007T115041Z
-DTSTART;TZID=America/New_York:20261013T130000
-DTEND;TZID=America/New_York:20261013T160400
-SUMMARY:THE PROMISED LAND (1975) at Film Forum
-LOCATION:Film Forum\, 209 W Houston St\, New York\, NY 10014
-GEO:40.728702;-74.004373
-DESCRIPTION:Dir. Andrzej Wajda. 169 min.\n\nTickets: https://filmforum.org/
- film/the-promised-land-wajda-100
-URL:https://filmforum.org/film/the-promised-land-wajda-100
-CATEGORIES:Film,Repertory,Film Forum
-STATUS:CONFIRMED
-SEQUENCE:0
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
-UID:84ff8a42bbeced71@screenings.middleton.io
-DTSTAMP:20261003T102744Z
-CREATED:20261003T102744Z
-LAST-MODIFIED:20261003T102744Z
-DTSTART;TZID=America/New_York:20261013T162500
-DTEND;TZID=America/New_York:20261013T183000
-SUMMARY:Invisible Adversaries (1977) at Metrograph
-LOCATION:Metrograph\, 7 Ludlow Street\, New York\, NY 10002
-GEO:40.715436;-73.991018
-DESCRIPTION:DCP. Dir. Valie Export. 110 min. Introduction by filmmaker Lynn
- e Sachs\n\nTickets: https://t.metrograph.com/Ticketing/visSelectTickets.as
- px?cinemacode=9999&txtSessionId=31206
-URL:https://t.metrograph.com/Ticketing/visSelectTickets.aspx?cinemacode=999
- 9&txtSessionId=31206
-CATEGORIES:Film,Repertory,Metrograph,DCP
-STATUS:CONFIRMED
-SEQUENCE:0
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
 UID:29acfb1c84b1ae82@screenings.middleton.io
 DTSTAMP:20260922T221652Z
 CREATED:20260922T221652Z
@@ -770,6 +732,23 @@ DESCRIPTION:Dir. Andrzej Wajda. 118 min.\n\nTickets: https://filmforum.org/
  film/the-maids-of-wilko-wajda-100
 URL:https://filmforum.org/film/the-maids-of-wilko-wajda-100
 CATEGORIES:Film,Repertory,Film Forum
+STATUS:CONFIRMED
+SEQUENCE:0
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:612275cdf6b920a5@screenings.middleton.io
+DTSTAMP:20261013T231833Z
+CREATED:20261013T231833Z
+LAST-MODIFIED:20261013T231833Z
+DTSTART;TZID=America/New_York:20261014T173000
+DTEND;TZID=America/New_York:20261014T213000
+SUMMARY:2026 Summer Students Showcase at Maysles Cinema
+LOCATION:Maysles Cinema\, 343 Lenox Ave\, New York\, NY 10027
+DESCRIPTION:240 min.\n\nTickets: https://www.goelevent.com/maysles/e/2026Su
+ mmerStudentsShowcase
+URL:https://www.goelevent.com/maysles/e/2026SummerStudentsShowcase
+CATEGORIES:Film,Repertory,Maysles Cinema
 STATUS:CONFIRMED
 SEQUENCE:0
 TRANSP:OPAQUE
@@ -4626,19 +4605,19 @@ TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 UID:2a5f5a72bc95a174@screenings.middleton.io
-DTSTAMP:20261013T124626Z
+DTSTAMP:20261013T231833Z
 CREATED:20260930T230342Z
-LAST-MODIFIED:20261013T124626Z
+LAST-MODIFIED:20261013T231833Z
 DTSTART;TZID=America/New_York:20261023T180000
 DTEND;TZID=America/New_York:20261023T193000
-SUMMARY:Nordic Short Block A at Victor Borge Hall
+SUMMARY:CANCELLED: Nordic Short Block A at Victor Borge Hall
 LOCATION:Victor Borge Hall\, 58 Park Ave\, New York\, NY 10016
 DESCRIPTION:90 min.\n\nTickets: https://www.goelevent.com/ScandinaviaHouse/
  e/NordicShortBlockA
 URL:https://www.goelevent.com/ScandinaviaHouse/e/NordicShortBlockA
 CATEGORIES:Film,Repertory,Victor Borge Hall
-STATUS:CONFIRMED
-SEQUENCE:2
+STATUS:CANCELLED
+SEQUENCE:3
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
@@ -10247,6 +10226,25 @@ DESCRIPTION:\n\nTickets: https://drafthouse.com/nyc/show/doctor-who-the-sat
  an-pit
 URL:https://drafthouse.com/nyc/show/doctor-who-the-satan-pit
 CATEGORIES:Film,Repertory,Alamo Drafthouse Staten Island
+STATUS:CONFIRMED
+SEQUENCE:0
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:bf3bf642dd4f7634@screenings.middleton.io
+DTSTAMP:20261013T231833Z
+CREATED:20261013T231833Z
+LAST-MODIFIED:20261013T231833Z
+DTSTART;TZID=America/New_York:20261203T190000
+DTEND;TZID=America/New_York:20261203T205000
+SUMMARY:Nordic & Baltic Oscar Contenders: How to Divorce During the War at 
+ Victor Borge Hall
+LOCATION:Victor Borge Hall\, 58 Park Ave\, New York\, NY 10016
+DESCRIPTION:110 min.\n\nTickets: https://www.goelevent.com/ScandinaviaHouse
+ /e/NordicBalticOscarContendersHowtoDivorce
+URL:https://www.goelevent.com/ScandinaviaHouse/e/NordicBalticOscarContender
+ sHowtoDivorce
+CATEGORIES:Film,Repertory,Victor Borge Hall
 STATUS:CONFIRMED
 SEQUENCE:0
 TRANSP:OPAQUE
