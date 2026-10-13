@@ -116,7 +116,37 @@ body.p-intern {
 .hero-art { position: relative; justify-self: center; width: min(360px, 100%); aspect-ratio: 1; display: grid; place-items: center; }
 .hero-art::before { content: ""; position: absolute; inset: 6%; border-radius: 50%; background: var(--ui-yel); opacity: .55; }
 @media (prefers-color-scheme: dark) { .hero-art::before { opacity: .92; } }
-.hero-art img { position: relative; width: 78%; }
+/* hero brain: it bobs, its lenses gleam, its glasses follow your pointer, and a poke gets a squish, a glasses push, and a line */
+.hero-art .brain { all: unset; position: relative; display: block; width: 78%; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.hero-art .brain:focus-visible { outline: 3px solid var(--ui-ink); outline-offset: 8px; border-radius: 14px; }
+.brain-svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.brain-svg .b-body { transform-box: fill-box; transform-origin: 50% 95%; animation: brain-bob 5.5s ease-in-out infinite; }
+@keyframes brain-bob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-3.5px) rotate(-1.5deg); } }
+
+.b-look { transform: translate(calc(var(--gx, 0) * 1px), calc(var(--gy, 0) * 1px)); transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+
+.b-gleam { transform: skewX(-24deg); animation: brain-gleam 7s ease-in-out 1.2s infinite; }
+@keyframes brain-gleam { 0%, 84% { transform: skewX(-24deg) translateX(0); } 96%, 100% { transform: skewX(-24deg) translateX(210px); } }
+
+.brain.poked .b-body { animation: brain-squish .6s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes brain-squish { 0% { transform: scale(1); } 25% { transform: scale(1.07, .9); } 55% { transform: scale(.96, 1.06); } 100% { transform: scale(1); } }
+.b-push { transform-box: fill-box; }
+.brain.poked .b-push { animation: brain-push .7s ease-out; }
+@keyframes brain-push { 0% { transform: none; } 30% { transform: translateY(7px); } 60% { transform: translateY(-3px); } 100% { transform: none; } }
+.b-squig { transform-box: fill-box; transform-origin: center; }
+.brain.poked .b-squig { animation: brain-wiggle .25s ease-in-out 3; }
+@keyframes brain-wiggle { 25% { transform: rotate(-2.5deg); } 75% { transform: rotate(2.5deg); } }
+
+.brain-says { position: absolute; z-index: 2; left: -10%; top: 2%; margin: 0; width: max-content; max-width: 19ch; padding: .55rem .8rem;
+  background: var(--ui-paper); color: var(--ui-on-fill); border: 2.5px solid var(--ui-line); border-radius: 14px; box-shadow: 3px 3px 0 var(--ui-hard);
+  font: 700 .95rem/1.25 var(--sans); text-wrap: balance; pointer-events: none;
+  opacity: 0; transform: translateY(8px) scale(.85) rotate(-4deg); transform-origin: 85% 100%;
+  transition: opacity .15s, transform .3s cubic-bezier(.3, 1.6, .5, 1); }
+.brain-says.on { opacity: 1; transform: rotate(-4deg); }
+.brain-says:empty { visibility: hidden; }
+.brain-says::after { content: ""; position: absolute; right: 16%; bottom: -9px; width: 14px; height: 14px; background: var(--ui-paper);
+  border-right: 2.5px solid var(--ui-line); border-bottom: 2.5px solid var(--ui-line); transform: rotate(45deg); }
 
 /* the three daily commands: 1, 2, or 3 across; at 2 across the brain fills the empty fourth spot */
 .grid3.daily { grid-template-columns: 1fr; }
@@ -322,6 +352,13 @@ details[open] > summary::after { transform: rotate(45deg); }
    that line, and below 367px (where it can't) it keeps the lower spot above */
 @media (min-width: 367px) and (max-width: 480px) {
   .hero .hero-art { width: clamp(64px, calc(100vw - 303px), 92px); margin-top: -4px; }
+}
+
+/* phones: the bubble opens below the sticker */
+@media (max-width: 760px) {
+  .hero-art .brain { pointer-events: auto; } /* the sticker ignores taps; the brain inside it takes them */
+  .brain-says { left: auto; right: 10%; top: calc(100% + 12px); max-width: 18ch; font-size: .8rem; transform-origin: 80% 0; }
+  .brain-says::after { bottom: auto; top: -9px; transform: rotate(-135deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
