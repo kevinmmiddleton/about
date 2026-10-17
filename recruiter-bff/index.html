@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recruiter BFF: find out if you&rsquo;re a match before you apply | Kevin Middleton</title>
+<meta name="description" content="Find out if you're a match before you apply, then walk in prepared. A free Claude plugin that builds your interview guides, scores any posting against your background, and finds fresh roles. Formerly Job Search Agent.">
+<meta name="author" content="Kevin Middleton">
+<link rel="canonical" href="https://middleton.io/recruiter-bff/">
+<!-- Favicon: the kit's files sit next to this page (relative paths). -->
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+<link rel="me" href="https://github.com/kevinmmiddleton">
+<link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kevin Middleton">
+<meta property="og:title" content="Recruiter BFF: find out if you're a match before you apply">
+<meta property="og:description" content="Find out if you're a match before you apply, then walk in prepared. A free plugin, in plain files you own.">
+<meta property="og:url" content="https://middleton.io/recruiter-bff/">
+<meta property="og:image" content="https://middleton.io/recruiter-bff/images/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Recruiter BFF logo: a giant iced tea in chunky glasses next to the words recruiter bff, above the line A recruiter that works for you.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Recruiter BFF: find out if you're a match before you apply">
+<meta name="twitter:description" content="Find out if you're a match before you apply, then walk in prepared. A free plugin, in plain files you own.">
+<meta name="twitter:image" content="https://middleton.io/recruiter-bff/images/og.png">
+<meta name="theme-color" content="#FFF8EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16131F" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="recruiter-bff.css?v=660efcbe">
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-Z07TxuD0n4MH2KTPfPNF6.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Recruiter BFF","alternateName":"Job Search Agent","url":"https://middleton.io/recruiter-bff/","applicationCategory":"BusinessApplication","operatingSystem":"macOS, Windows","softwareRequirements":"Claude desktop app with Cowork, on a paid Claude plan (Pro, Max, Team, or Enterprise)","description":"A recruiter that works for you: a free Claude plugin that writes interview guides from your background, scores any job posting against it, finds fresh roles, and tracks your applications, in plain files you own.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/license/mit","downloadUrl":"https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/recruiter-bff.plugin","sameAs":"https://github.com/kevinmmiddleton/recruiter-bff","isAccessibleForFree":true,"image":"https://middleton.io/recruiter-bff/images/og.png","author":{"@id":"https://middleton.io/#kevin"}}
+</script>
+</head>
+<body class="p-bff">
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand plausible-event-name=RecruiterBFF+Brand" href="#top" aria-label="Recruiter BFF, back to the top"><img src="images/recruiter-bff-mark.svg" width="20" height="48" alt="">Recruiter BFF</a>
+    <nav aria-label="On this page">
+      <a class="k plausible-event-name=RecruiterBFF+Nav+Guide" href="#guide">Interview guide</a>
+      <a class="k plausible-event-name=RecruiterBFF+Nav+Fit" href="#fit">Fit check</a>
+      <a class="k plausible-event-name=RecruiterBFF+Nav+Install" href="#install">Install</a>
+      <a class="k plausible-event-name=RecruiterBFF+Nav+FAQ" href="#faq">FAQ</a>
+    </nav>
+    <a class="btn small gh plausible-event-name=RecruiterBFF+GitHub+Nav" href="https://github.com/kevinmmiddleton/recruiter-bff" target="_blank" rel="noopener noreferrer">GitHub<span class="vh"> (opens in a new tab)</span></a>
+    <a class="btn small inst plausible-event-name=RecruiterBFF+Install+Nav" href="#install">Install</a>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <a class="k home plausible-event-name=RecruiterBFF+WhoMadeThis" href="#who-made-this">Who made this? <span class="arr down" aria-hidden="true"></span></a>
+      <h1>Find out if you&rsquo;re a <span class="hl">match</span> before you&nbsp;apply.</h1>
+      <p class="sub">Then walk in prepared. <span class="br">Your recruiter will notice.</span></p>
+      <p class="lede">Recruiter BFF is a free plugin for Claude. Paste a job posting and it tells you how you really stack up, gaps included, and whether to apply. When the interview comes, it hands you a guide built from your own background. It never applies or reaches out for you, and that&rsquo;s the point: fewer, better applications, sent sooner.</p>
+      <div class="ctas">
+        <a class="btn plausible-event-name=RecruiterBFF+Get+Hero" href="#install">Get Recruiter BFF <span class="arr" aria-hidden="true"></span></a>
+        <a class="btn ghost plausible-event-name=RecruiterBFF+Guide+Hero" href="#guide">See the interview guide</a>
+      </div>
+      <p class="phone-note">Setup happens on your computer, in the Claude desktop app, so save this page for then.</p>
+      <p class="meta k"><span class="nw">Free plugin</span>&nbsp;&middot; <span class="nw">For the Claude desktop app</span>&nbsp;&middot; <span class="nw">Needs a paid Claude plan</span>&nbsp;&middot; <span class="nw">MIT licensed</span>&nbsp;&middot; <span class="nw">Formerly Job Search Agent</span></p>
+    </div>
+    <div class="hero-art">
+      <button type="button" class="cup" aria-label="Poke your Recruiter BFF"><svg class="cup-svg" viewBox="0 0 41.81 100" aria-hidden="true" focusable="false">
+  <defs><clipPath id="cup-in"><path d="M6.121,35.224 L35.382,31.112 Q36.098,31.011 36.676,31.447 Q37.254,31.882 37.355,32.598 Q37.365,32.675 37.368,32.753 L40.447,94.227 Q40.482,94.904 40.05,95.426 Q39.619,95.949 38.948,96.043 L20.592,98.623 Q19.92,98.716 19.362,98.334 Q18.803,97.95 18.65,97.29 L4.664,37.351 Q4.5,36.646 4.882,36.032 Q5.264,35.417 5.968,35.254 Q6.044,35.236 6.121,35.224 Z"/></clipPath><clipPath id="cup-lens"><path d="M29.669,51.456 L35.374,50.655 C36.808,50.453 38.131,51.45 38.333,52.884 L38.697,55.478 C38.899,56.909 37.9,58.234 36.468,58.434 L30.763,59.237 C29.331,59.437 28.006,58.44 27.804,57.008 L27.44,54.415 C27.24,52.981 28.237,51.658 29.669,51.456 Z M11.514,54.007 L17.22,53.206 C18.654,53.004 19.977,54.003 20.178,55.435 L20.543,58.029 C20.745,59.461 19.746,60.786 18.314,60.985 L12.609,61.789 C11.177,61.99 9.852,60.991 9.65,59.559 L9.285,56.966 C9.086,55.534 10.083,54.209 11.514,54.007 Z"/></clipPath></defs>
+  <g class="c-body">
+    <g class="c-straw"><path fill="#16131F" d="M18.611,32.922 L19.693,2.992 Q19.74,1.706 20.681,0.831 Q21.624,-0.044 22.908,0.002 Q24.192,0.049 25.069,0.99 Q25.944,1.931 25.897,3.215 L24.815,33.145 Q24.768,34.431 23.826,35.306 Q22.885,36.181 21.6,36.134 Q20.316,36.088 19.439,35.147 Q18.564,34.206 18.611,32.922 Z"/><path fill="#FFF8EF" d="M19.967,32.97 L21.051,3.04 Q21.077,2.319 21.606,1.826 Q22.136,1.333 22.859,1.358 Q23.581,1.386 24.074,1.915 Q24.567,2.445 24.539,3.166 L23.457,33.096 Q23.432,33.82 22.902,34.311 Q22.372,34.804 21.649,34.778 Q20.927,34.751 20.434,34.222 Q19.942,33.692 19.967,32.97 Z"/></g>
+    <path fill="#16131F" d="M5.933,33.88 L35.194,29.767 Q36.466,29.589 37.493,30.363 Q38.519,31.135 38.699,32.41 Q38.719,32.547 38.725,32.685 L41.803,94.159 Q41.865,95.362 41.097,96.291 Q40.329,97.22 39.136,97.387 L20.782,99.967 Q19.589,100.134 18.593,99.453 Q17.6,98.772 17.327,97.598 L3.341,37.659 Q3.05,36.406 3.729,35.314 Q4.408,34.223 5.66,33.931 Q5.795,33.899 5.933,33.88 Z"/><path fill="#FFF8EF" d="M6.121,35.224 L35.382,31.112 Q36.098,31.011 36.676,31.447 Q37.254,31.882 37.355,32.598 Q37.365,32.675 37.368,32.753 L40.447,94.227 Q40.482,94.904 40.05,95.426 Q39.619,95.949 38.948,96.043 L20.592,98.623 Q19.92,98.716 19.362,98.334 Q18.803,97.95 18.65,97.29 L4.664,37.351 Q4.5,36.646 4.882,36.032 Q5.264,35.417 5.968,35.254 Q6.044,35.236 6.121,35.224 Z"/>
+    <g clip-path="url(#cup-in)"><g class="c-tea"><path fill="#16131F" d="M39.097,40.115 L41.803,94.159 Q41.865,95.362 41.097,96.291 Q40.329,97.22 39.136,97.387 L20.782,99.967 Q19.589,100.134 18.593,99.453 Q17.6,98.772 17.327,97.598 L5.033,44.903 Q4.905,44.356 5.202,43.879 Q5.499,43.4 6.046,43.273 Q6.106,43.258 6.166,43.25 L37.553,38.839 Q38.11,38.761 38.558,39.099 Q39.008,39.438 39.085,39.995 Q39.095,40.055 39.097,40.115 Z"/><path fill="#D98A2B" d="M37.741,40.183 L40.447,94.227 Q40.482,94.904 40.05,95.426 Q39.619,95.949 38.948,96.043 L20.592,98.623 Q19.92,98.716 19.362,98.334 Q18.803,97.95 18.65,97.29 L6.354,44.595 L37.741,40.183 Z"/><g class="c-cubes"><path fill="#16131F" d="M11.414,38.167 L14.51,38.383 Q15.633,38.462 16.37,39.31 Q17.109,40.16 17.03,41.283 L16.814,44.379 Q16.735,45.501 15.887,46.24 Q15.037,46.977 13.914,46.899 L10.818,46.682 Q9.697,46.604 8.958,45.755 Q8.22,44.905 8.298,43.784 L8.515,40.687 Q8.593,39.564 9.443,38.827 Q10.292,38.088 11.414,38.167 Z M28.258,35.977 L31.211,35.019 Q32.28,34.67 33.283,35.182 Q34.286,35.692 34.633,36.761 L35.591,39.714 Q35.939,40.784 35.429,41.785 Q34.918,42.788 33.847,43.136 L30.897,44.096 Q29.826,44.443 28.823,43.933 Q27.822,43.421 27.473,42.352 L26.514,39.399 Q26.167,38.33 26.677,37.327 Q27.188,36.324 28.258,35.977 Z"/><path fill="#FFF8EF" d="M28.677,37.269 L31.63,36.309 C32.344,36.078 33.11,36.468 33.341,37.182 L34.299,40.133 C34.532,40.847 34.142,41.613 33.428,41.844 L30.476,42.804 C29.764,43.035 28.997,42.645 28.765,41.931 L27.806,38.98 C27.574,38.266 27.965,37.5 28.677,37.269 Z M11.319,39.522 L14.417,39.739 C15.164,39.791 15.728,40.439 15.676,41.188 L15.458,44.284 C15.406,45.033 14.758,45.596 14.009,45.543 L10.913,45.328 C10.166,45.275 9.602,44.626 9.654,43.879 L9.869,40.783 C9.922,40.034 10.572,39.469 11.319,39.522 Z"/></g><g class="c-heart"><path fill="#16131F" d="M16.797,43.415 L16.793,43.413 Q15.491,42.383 15.261,40.73 Q15.022,39.04 16.031,37.677 Q17.049,36.301 18.733,36.064 Q20.136,35.869 21.214,36.456 Q22.087,35.593 23.492,35.397 Q25.176,35.16 26.532,36.2 Q27.878,37.234 28.115,38.924 Q28.348,40.577 27.38,41.927 L23.901,46.802 Q23.474,47.4 22.797,47.506 Q22.12,47.613 21.529,47.177 Q21.505,47.159 21.484,47.142 Z"/><path fill="#FFF8EF" d="M17.639,42.35 L17.637,42.35 Q16.762,41.655 16.605,40.542 Q16.444,39.401 17.123,38.484 Q17.802,37.568 18.921,37.411 Q20.533,37.184 21.503,38.519 Q22.07,36.969 23.68,36.742 Q24.801,36.584 25.705,37.279 Q26.611,37.973 26.77,39.112 Q26.928,40.228 26.276,41.136 L22.795,46.013 Q22.698,46.147 22.584,46.166 Q22.469,46.183 22.338,46.084 Q22.334,46.083 22.328,46.079 Z"/></g></g></g>
+    <path fill="#16131F" d="M3.178,27.998 L36.22,23.354 Q37.731,23.142 38.951,24.06 Q40.172,24.979 40.383,26.491 L40.707,28.797 Q40.921,30.309 40.001,31.527 Q39.081,32.747 37.57,32.959 L4.527,37.603 Q3.015,37.816 1.797,36.897 Q0.577,35.977 0.364,34.466 L0.04,32.161 Q-0.172,30.648 0.748,29.43 Q1.665,28.21 3.178,27.998 Z"/><path fill="#5FD6A4" d="M3.367,29.342 L36.41,24.698 C37.683,24.52 38.86,25.406 39.039,26.681 L39.363,28.986 C39.541,30.258 38.655,31.436 37.382,31.614 L4.339,36.258 C3.066,36.437 1.888,35.55 1.71,34.278 L1.386,31.971 C1.205,30.699 2.094,29.521 3.367,29.342 Z"/>
+    <g class="c-look"><g class="c-push"><path fill="#FFF8EF" d="M29.669,51.456 L35.374,50.655 C36.808,50.453 38.131,51.45 38.333,52.884 L38.697,55.478 C38.899,56.909 37.9,58.234 36.468,58.434 L30.763,59.237 C29.331,59.437 28.006,58.44 27.804,57.008 L27.44,54.415 C27.24,52.981 28.237,51.658 29.669,51.456 Z M11.514,54.007 L17.22,53.206 C18.654,53.004 19.977,54.003 20.178,55.435 L20.543,58.029 C20.745,59.461 19.746,60.786 18.314,60.985 L12.609,61.789 C11.177,61.99 9.852,60.991 9.65,59.559 L9.285,56.966 C9.086,55.534 10.083,54.209 11.514,54.007 Z"/><g clip-path="url(#cup-lens)"><rect class="c-gleam" x="10" y="47" width="4" height="20" fill="#fff" opacity=".85"/></g><path fill="#5FD6A4" d="M11.307,60.304 L13.503,55.235 Q13.765,54.634 14.364,54.894 Q14.665,55.024 14.75,55.239 Q14.836,55.455 14.706,55.755 L12.508,60.824 Q12.248,61.426 11.646,61.166 Q11.348,61.036 11.262,60.82 Q11.177,60.605 11.307,60.304 Z M29.461,57.753 L31.657,52.684 Q31.919,52.083 32.519,52.343 Q33.12,52.603 32.86,53.204 L30.662,58.273 Q30.402,58.875 29.801,58.613 Q29.201,58.353 29.461,57.753 Z"/><path fill="#16131F" d="M11.223,51.933 L16.929,51.13 C19.051,50.833 21.04,51.996 21.88,53.854 Q23.507,52.777 25.368,53.363 C25.665,51.346 27.255,49.679 29.378,49.382 L35.083,48.579 C37.661,48.216 40.046,50.013 40.408,52.591 L40.773,55.185 C41.134,57.763 39.338,60.147 36.759,60.51 L31.054,61.311 C28.476,61.674 26.093,59.878 25.731,57.299 L25.507,55.714 Q23.791,54.785 22.396,56.151 L22.619,57.736 C22.98,60.314 21.183,62.698 18.605,63.061 L12.9,63.862 C10.321,64.225 7.937,62.429 7.576,59.85 L7.212,57.257 C6.849,54.679 8.645,52.296 11.223,51.933 Z M29.669,51.456 C28.237,51.658 27.24,52.981 27.44,54.415 L27.511,54.919 Q27.515,54.94 27.517,54.962 L27.804,57.008 C28.006,58.44 29.331,59.437 30.763,59.237 L36.468,58.434 C37.9,58.234 38.899,56.909 38.697,55.478 L38.333,52.884 C38.131,51.45 36.808,50.453 35.374,50.655 Z M11.514,54.007 C10.083,54.209 9.086,55.534 9.285,56.966 L9.65,59.559 C9.852,60.991 11.177,61.99 12.609,61.789 L18.314,60.985 C19.746,60.786 20.745,59.461 20.543,58.029 L20.256,55.982 Q20.252,55.961 20.25,55.94 L20.178,55.435 C19.977,54.003 18.654,53.004 17.22,53.206 Z"/></g></g>
+  </g>
+</svg></button>
+      <p class="cup-says" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="wrap story-in">
+    <p>Job searching can be overwhelming, difficult, and lonely. You apply widely and hear nothing back, every job post seems to want everything, and you walk into interviews hoping you prepped the right things.</p>
+    <p>Recruiter BFF is like having a recruiter in your corner the whole time. It helps you apply early to the roles worth it, checks your fit for each role, and makes sure you walk into interviews prepared.</p>
+  </div>
+</section>
+
+<section class="blk" id="guide" aria-labelledby="guide-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="guide-h">An interview guide for every round</h2><span class="k">Walk in prepared</span></div>
+    <div class="split">
+      <figure class="mock">
+        <div class="mock-h"><img src="images/recruiter-bff-mark.svg" width="20" height="48" alt=""><div><b>Fernhill &middot; Senior PM, Growth</b><span class="k">Example guide &middot; recruiter screen, then the hiring manager</span></div></div>
+        <div class="blocks">
+          <div><span class="chip k">The role</span><p>Own everything from sign-up to first renewal: onboarding, the trial, and the first payment. Run the experiments and report on trial conversion.</p></div>
+          <div><span class="chip mint k">Your fit</span><p>Trial-to-paid from 9% to 13% across 40+ tests at Brightloop, the paywall work they list, and the lifecycle program you already own.</p></div>
+          <div><span class="chip k">Your gaps</span><p>No experience managing a PM. Expect the question, say it plainly, and point to running a program with a team of six, without calling it management.</p></div>
+          <div><span class="chip mint k">Questions to ask</span><p>For Dana, the recruiter: is the renewal work new to this role, or moving over from another team? For Alex, the hiring manager: what would a great first 90 days look like on renewal?</p></div>
+        </div>
+      </figure>
+      <div>
+        <p class="lead-in">Tell it you have an interview and paste the posting. It writes the guide from what it already knows about you.</p>
+        <ul class="ticks">
+          <li><strong>The role, in plain words.</strong> What they&rsquo;re really hiring for, before the jargon.</li>
+          <li><strong>Your fit.</strong> Each requirement matched to something you&rsquo;ve actually done.</li>
+          <li><strong>Your gaps.</strong> The question they&rsquo;ll likely ask, the honest answer, and what to point to instead.</li>
+          <li><strong>Questions to ask.</strong> Good ones, for each person you&rsquo;re meeting.</li>
+        </ul>
+        <p class="lead-in after">Below that come likely questions with answers in your words, and what it can find on the company. Your best stories go into a story bank, so every guide starts from material you&rsquo;ve already polished.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk alt" id="fit" aria-labelledby="fit-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="fit-h">Check your fit before you apply</h2><span class="k">This one checks</span></div>
+    <div class="split rev">
+      <figure class="mock">
+        <span class="chip k">Example fit check &middot; Fernhill</span>
+        <div class="verdict"><b>4.6 / 5</b><span class="chip mint k">Apply now</span></div>
+        <p class="dims k"><span>Requirements 4.5 &middot;</span> <span>What you want 5 &middot;</span> <span>Logistics and pay 5 &middot;</span> <span>Company 4 &middot;</span> <span>Posting 4</span></p>
+        <ul class="reqs">
+          <li><span class="mk ok" role="img" aria-label="Match">&#10003;</span><span><b>3+ years in growth at a subscription company.</b> Brightloop, Senior PM, Growth, since 2022.</span></li>
+          <li><span class="mk ok" role="img" aria-label="Match">&#10003;</span><span><b>Moved conversion through experiments.</b> 40+ A/B tests, trial-to-paid 9% to 13%.</span></li>
+          <li><span class="mk part" role="img" aria-label="Partial">~</span><span><b>Own the journey through first renewal.</b> Strong up to the first payment; renewal isn&rsquo;t on your resume yet.</span></li>
+          <li><span class="mk gap" role="img" aria-label="Gap">&#10007;</span><span><b>Nice to have: managed a PM.</b> A real gap. Expect the question.</span></li>
+        </ul>
+        <p class="lead-with"><b>If you apply:</b> lead with the 9% to 13% trial-to-paid work, and expect the question about managing a PM.</p>
+      </figure>
+      <div>
+        <p class="lead-in">Paste a posting, or a link to one, and ask &ldquo;should I apply?&rdquo; It reads the posting against your background and gives you a straight answer.</p>
+        <ul class="ticks">
+          <li><strong>A score from 1 to 5.</strong> Requirements, fit with what you want, logistics and pay, the company, and how clear the posting is.</li>
+          <li><strong>Every requirement, matched.</strong> Each one points to the line in your background that answers it, or says that nothing does.</li>
+          <li><strong>Honest about the gaps.</strong> Partial matches are called partial, and it won&rsquo;t stretch a team of six into people management to make the numbers work.</li>
+          <li><strong>Apply or skip.</strong> Plus what to lead with if you apply.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="early" aria-labelledby="early-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="early-h">Apply early, to the right roles</h2><span class="k">Fresh roles, filtered to what you want</span></div>
+    <div class="split">
+      <figure class="mock">
+        <span class="chip k">Example &middot; 5 roles, 2 strong</span>
+        <ul class="scan">
+          <li><b>Fernhill &middot; Senior PM, Growth</b><span>Strong: growth role, NYC hybrid, the whole range clears your floor.</span></li>
+          <li><b>Northstar Learning &middot; Senior PM, Retention</b><span>Strong: retention role, remote. Heads-up, the range starts under your floor.</span></li>
+          <li><b>Tallyho Sports &middot; Senior PM</b><span>Check first: if it&rsquo;s sports betting, that&rsquo;s one of your dealbreakers.</span></li>
+          <li class="hid">Hid 2: one fully on-site, one under your pay floor.</li>
+        </ul>
+      </figure>
+      <div>
+        <p class="lead-in">In this market, being one of the first 50 applicants beats being a perfectly tailored 200th. I wrote about that <a class="plausible-event-name=RecruiterBFF+June+Post" href="https://middleton.io/blog/job-search-agent/">when this tool first launched</a>. Knowing what you want is what lets you move fast, and you still read every role and decide for yourself.</p>
+        <ul class="ticks">
+          <li><strong>Scans when you ask.</strong> It reads your saved LinkedIn search in a browser you&rsquo;re signed in to, or you paste the results in.</li>
+          <li><strong>Company job sites, too.</strong> Lots of roles are posted only on the company&rsquo;s own careers page, often run on Greenhouse, Lever, or Ashby, and never reach LinkedIn. It builds one-click searches for those, limited to the past day or week.</li>
+          <li><strong>A watchlist.</strong> Name the companies you&rsquo;d jump at. If they post on Greenhouse, Lever, or Ashby, it checks their public job feeds directly.</li>
+          <li><strong>Filtered to you.</strong> It hides your dealbreakers and any role whose listed pay is under your floor, and says why each match made the cut.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk alt" id="bff" aria-labelledby="bff-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="bff-h">In your corner</h2><span class="k">Iced coffee or tea allowed</span></div>
+    <div class="grid3 daily">
+      <div class="card"><span class="chip mint k">Straight answers</span><h3>More prepared</h3><p>It tells you the truth about fit, like a friend who knows how hiring works. You walk in knowing what they&rsquo;re likely to ask and what you&rsquo;ll say.</p></div>
+      <div class="card"><span class="chip k">One thing at a time</span><h3>Less overwhelming</h3><p>Your pipeline lives in one file. Ask, and it shows what needs doing first, like an interview process that&rsquo;s gone quiet for a week. You always know what&rsquo;s next.</p></div>
+      <div class="card"><span class="chip mint k">On your side</span><h3>Less lonely</h3><p>A search is a long stretch of silence. It keeps track of every role so the weight isn&rsquo;t all on you, and it&rsquo;s there when you want to talk through a posting at 11pm.</p></div>
+      <div class="mascot-tile" aria-hidden="true"><span class="sticker"><img src="images/recruiter-bff-mark.svg" width="63" height="150" alt=""></span><span class="k">Bring the iced tea to the prep session.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="does" aria-labelledby="does-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="does-h">Everything it does</h2><span class="k">Say it in plain words</span></div>
+    <div class="grid3 does8">
+      <div class="card"><span class="chip k">Start here</span><h3>Set up</h3><p class="say">&ldquo;Set up my job search&rdquo;</p><p>Starts from your primary resume (plus an alternate, if you&rsquo;re aiming at a second kind of role), tells you straight if it needs work, and asks only what&rsquo;s missing. Everything else it does builds on that, so you only answer once.</p></div>
+      <div class="card"><span class="chip mint k">When you want</span><h3>Scan</h3><p class="say">&ldquo;Scan for jobs&rdquo;</p><p>Fresh roles from your saved search, company job sites, and your watchlist, with staffing firms and your dealbreakers filtered out.</p></div>
+      <div class="card"><span class="chip k">Every posting</span><h3>Fit check</h3><p class="say">&ldquo;Should I apply to this?&rdquo;</p><p>Checks the role is still open, matches every requirement to your primary resume, and gives you a straight answer. Same resume every time, so the scores mean something.</p></div>
+      <div class="card"><span class="chip mint k">Before the interview</span><h3>Prep</h3><p class="say">&ldquo;Prep me for my interview with&nbsp;&hellip;&rdquo;</p><p>A guide for every round: the role, your fit, your gaps, and questions to ask. Then a debrief and practice.</p></div>
+      <div class="card"><span class="chip k">After you apply</span><h3>Track</h3><p class="say">&ldquo;What&rsquo;s in my pipeline?&rdquo;</p><p>Your job tracker as a table, sorted by what needs doing, with follow-ups flagged and a weekly review.</p></div>
+      <div class="card"><span class="chip mint k">Anytime</span><h3>Your materials</h3><p class="say">&ldquo;Fix this resume bullet&rdquo;</p><p>Sharpen your primary resume, your LinkedIn, and your application answers, in your voice. It won&rsquo;t make a new resume for every job, and it never invents a number.</p></div>
+      <div class="card"><span class="chip k">Who you know</span><h3>Contacts</h3><p class="say">&ldquo;Who do I know at&nbsp;&hellip;&rdquo;</p><p>Matches your LinkedIn connections to the companies you&rsquo;re after, and drafts short notes you send yourself.</p></div>
+      <div class="card"><span class="chip mint k">On your days</span><h3>Reminders</h3><p class="say">&ldquo;Remind me on Mondays&rdquo;</p><p>Follow-ups that are due, interviews coming up, and links to fresh roles, on the days you pick.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk alt" id="files" aria-labelledby="files-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="files-h">Your search, in files you own</h2><span class="k">Your Recruiter BFF&rsquo;s brain</span></div>
+    <div class="split">
+      <figure class="mock files-mock">
+        <ul class="ftree" aria-label="What's in your job-search folder">
+          <li class="dir"><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="fi yel" viewBox="0 0 48 38"><path d="M4.5 8.5a3.5 3.5 0 0 1 3.5-3.5h10l4.5 4.5h17.5a3.5 3.5 0 0 1 3.5 3.5v18.5a3.5 3.5 0 0 1-3.5 3.5h-32a3.5 3.5 0 0 1-3.5-3.5z"/></svg></span>job-search/</span></div>
+            <ul>
+              <li><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="file" viewBox="0 0 30 38"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg></span>search-profile.md</span></div></li>
+              <li><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="file" viewBox="0 0 30 38"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg></span>looking-for.md</span></div></li>
+              <li><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="file" viewBox="0 0 30 38"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg></span>job-tracker.csv</span></div></li>
+              <li><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="file" viewBox="0 0 30 38"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg></span>interview-stories.md</span></div></li>
+              <li><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="file" viewBox="0 0 30 38"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg></span>contacts.csv</span></div></li>
+              <li class="dir"><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="fi yel" viewBox="0 0 48 38"><path d="M4.5 8.5a3.5 3.5 0 0 1 3.5-3.5h10l4.5 4.5h17.5a3.5 3.5 0 0 1 3.5 3.5v18.5a3.5 3.5 0 0 1-3.5 3.5h-32a3.5 3.5 0 0 1-3.5-3.5z"/></svg></span>resume/</span></div></li>
+              <li class="dir"><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="fi yel" viewBox="0 0 48 38"><path d="M4.5 8.5a3.5 3.5 0 0 1 3.5-3.5h10l4.5 4.5h17.5a3.5 3.5 0 0 1 3.5 3.5v18.5a3.5 3.5 0 0 1-3.5 3.5h-32a3.5 3.5 0 0 1-3.5-3.5z"/></svg></span>companies/</span></div>
+                <ul>
+                  <li class="dir"><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="fi yel" viewBox="0 0 48 38"><path d="M4.5 8.5a3.5 3.5 0 0 1 3.5-3.5h10l4.5 4.5h17.5a3.5 3.5 0 0 1 3.5 3.5v18.5a3.5 3.5 0 0 1-3.5 3.5h-32a3.5 3.5 0 0 1-3.5-3.5z"/></svg></span>fernhill/</span></div>
+                    <ul>
+                      <li><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="file" viewBox="0 0 30 38"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg></span>job-post.md</span></div></li>
+                      <li><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="file" viewBox="0 0 30 38"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg></span>fit-check.md</span></div></li>
+                      <li><div class="row"><span class="nm"><span class="ic" aria-hidden="true"><svg class="file" viewBox="0 0 30 38"><path d="M3.5 6a2.5 2.5 0 0 1 2.5-2.5h12.5l8 8v20.5a2.5 2.5 0 0 1-2.5 2.5h-18a2.5 2.5 0 0 1-2.5-2.5z"/><path class="ear" d="M18.5 3.5v8h8"/></svg></span>interview-guide.md</span></div></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </figure>
+      <div>
+        <p class="lead-in">Everything lives in one folder on your computer: your search profile, what you&rsquo;re looking for, your job tracker, your best interview stories, the people who can help, and your resume. Each company you&rsquo;re serious about gets its own folder with the job post, your fit check, and your interview guide. They&rsquo;re plain files, so you can open, edit, or move any of them.</p>
+        <ul class="ticks">
+          <li><strong>It never applies or sends anything for you.</strong> You decide where to apply and you hit submit.</li>
+          <li><strong>It reads LinkedIn the way you do.</strong> Your own saved search, in a browser you&rsquo;re signed in to, or whatever you paste in. It never works around a login.</li>
+          <li><strong>Updates keep everything you&rsquo;ve saved.</strong> Your folder stays where it is, and if a file gets a new name or column, it tells you.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="install" aria-labelledby="install-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="install-h">Install</h2><span class="k">Get started!</span></div>
+    <ol class="stepper">
+      <li class="stp" id="step-install">
+        <h3 class="stp-h"><span class="n" aria-hidden="true">1</span>Install it</h3>
+        <p class="phone-note">On your phone? This download needs your computer, so save this page for then.</p>
+        <!-- Upload clicks confirmed in the app on Oct 14 (Kevin's rc.2 test). Use the same steps on the Unpaid Intern page. -->
+        <p class="lead-in">You need the Claude desktop app (Mac or Windows) and a paid Claude plan, like Pro. Download <code>recruiter-bff.plugin</code>. In Claude, open Customize in the left sidebar, then the Plugins tab. Click + Add, choose Upload plugin, and pick the file.</p>
+        <a class="btn plausible-event-name=RecruiterBFF+Download+Plugin" href="https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/recruiter-bff.plugin">Download the plugin <span class="arr down" aria-hidden="true"></span></a>
+        <p class="note">Seeing &ldquo;Skill files must have a .skill, .zip, or .md file extension&rdquo;? You&rsquo;re on the Skills tab. Use the Plugins tab instead.</p>
+        <a class="next k plausible-event-name=RecruiterBFF+Install+Next" href="#step-setup">Next: set up your search <span class="arr" aria-hidden="true"></span></a>
+      </li>
+      <li class="stp" id="step-setup">
+        <h3 class="stp-h"><span class="n" aria-hidden="true">2</span>Say &ldquo;set up my job search&rdquo;</h3>
+        <p class="lead-in">In Claude, choose Cowork if you see the option, and connect a folder on your computer for your search. Then say it and paste your resume. It asks only what&rsquo;s missing: the roles you want, where, your pay floor, and your dealbreakers.</p>
+        <div class="starters">
+          <div class="starter"><span class="k">First</span><div class="cmd"><div class="row"><pre class="code" data-copy>set up my job search</pre></div></div><p>Your resume, then a few questions, once.</p></div>
+          <div class="starter"><span class="k">Most mornings</span><div class="cmd"><div class="row"><pre class="code" data-copy>scan for jobs</pre></div></div><p>Fresh roles, filtered to you.</p></div>
+          <div class="starter"><span class="k">Before you apply</span><div class="cmd"><div class="row"><pre class="code" data-copy>should I apply to this?</pre></div></div><p>Then paste the posting.</p></div>
+          <div class="starter"><span class="k">When you land the interview</span><div class="cmd"><div class="row"><pre class="code" data-copy>prep me for my interview with </pre></div></div><p>Then the company, and paste the posting.</p></div>
+        </div>
+        <a class="next k plausible-event-name=RecruiterBFF+Install+Next2" href="#step-loop">Next: stay in the loop <span class="arr" aria-hidden="true"></span></a>
+      </li>
+      <li class="stp" id="step-loop">
+        <h3 class="stp-h"><span class="n" aria-hidden="true">3</span>Stay in the loop</h3>
+        <ul class="loop">
+          <li><b>Get new versions.</b> <span>On GitHub, choose Watch, then Custom, then Releases.</span> <a class="btn small ghost plausible-event-name=RecruiterBFF+Watch" href="https://github.com/kevinmmiddleton/recruiter-bff" target="_blank" rel="noopener noreferrer">Watch the repo<span class="vh"> (opens in a new tab)</span></a></li>
+          <li><b>Tell me how it went.</b> <span>What broke, or what it helped you land. No GitHub account? <a class="plausible-event-name=RecruiterBFF+Email" href="mailto:kevin@middleton.io">Email kevin@middleton.io</a>.</span> <a class="btn small ghost plausible-event-name=RecruiterBFF+Issues" href="https://github.com/kevinmmiddleton/recruiter-bff/issues/new" target="_blank" rel="noopener noreferrer">Open an issue<span class="vh"> (opens in a new tab)</span></a></li>
+          <li><b>Mid-search and want a second pair of eyes?</b> <span>A free half hour on your resume, a posting, or an interview.</span> <a class="btn small ghost plausible-event-name=RecruiterBFF+OfficeHours" href="https://middleton.io/officehours/">Office Hours</a></li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="blk alt" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <div class="sec-h"><h2 id="faq-h">FAQ</h2><span class="k">Frequently asked questions</span></div>
+    <div class="faq">
+      <details><summary>Is it really free?</summary><div><p>The plugin is, and it&rsquo;s MIT licensed. It runs in Claude Cowork, though, which needs a paid Claude plan, like Pro, plus the Claude desktop app (Mac or Windows) so it can reach the files on your computer.</p></div></details>
+      <details id="who-made-this"><summary>Who made this?</summary><div><p>I&rsquo;m Kevin Middleton, a product manager who builds things with AI. I built a job search system for myself first, then made the version anyone can run on a normal laptop. Want a second pair of eyes on your search? Grab a free half hour at <a class="plausible-event-name=RecruiterBFF+OfficeHours+FAQ" href="https://middleton.io/officehours/">Office Hours</a>. More about me at <a class="plausible-event-name=RecruiterBFF+Site+FAQ" href="https://middleton.io/">middleton.io</a>.</p></div></details>
+      <details><summary>Will it apply to jobs for me?</summary><div><p>No. It finds roles, scores them, tracks them, and preps you, but you decide where to apply and you submit every application yourself. It never contacts anyone for you.</p></div></details>
+      <details><summary>How do I know the score is fair?</summary><div><p>Every match points to a line in your background, partial matches are called partial, and you see all five scores, not just the total. If a read feels off, tell it why and it takes another look.</p></div></details>
+      <details><summary>What happened to Job Search Agent?</summary><div><p>Same plugin, new name and a new look. If you have Job Search Agent installed, uninstall it first, then install Recruiter BFF. With both installed, both answer &ldquo;scan for jobs.&rdquo; Your <code>job-search/</code> folder stays where it is. The first time it saves something, it gives the files clearer names where it can, and tells you either way. Links to the latest release now download Recruiter BFF.</p></div></details>
+      <details><summary>Does it scrape LinkedIn?</summary><div><p>No. It reads your own saved search, the same page you&rsquo;d look at anyway, in a browser you&rsquo;ve signed in to: the one in the Claude desktop app, or Chrome with the Claude in Chrome extension. No browser set up? Paste the results in and it works the same way. The company job site searches are ordinary Google searches you click, and watchlist companies come from their public job feeds.</p></div></details>
+      <details><summary>Where does my data go?</summary><div><p>Your profile, tracker, story bank, and guides are plain files in a <code>job-search/</code> folder on your computer. There&rsquo;s no Recruiter BFF server. Claude reads the files the way it reads anything else you share with it, under your own Claude account. The only other things that go online are the searches and page reads you&rsquo;d do yourself, and the public job feeds for your watchlist.</p></div></details>
+      <details><summary>Can it run on its own every morning?</summary><div><p>Yes, on the days you pick. Say &ldquo;remind me on Mondays and Thursdays&rdquo; and it checks in with follow-ups that are due, interviews coming up, and links to fresh roles. Reminders only read your files, so they don&rsquo;t need a browser. They do need your computer awake and the Claude desktop app open when they run, since that&rsquo;s how Claude reaches your files. The first time, turn on two settings so your check-in can reach your folder: in Scheduled, open the check-in, click the pencil, open Advanced settings, turn on Require this computer, and set Local folder to the folder you connected. It walks you through it. If you quit the Claude app, your check-in pauses until you turn it back on.</p><p>It can also scan on a schedule, which needs the app open too. Your watchlist&rsquo;s job feeds need no login or browser, so they run whenever the task can reach the web. Your LinkedIn search and company job site searches need a browser, so if the task can&rsquo;t reach one, the scan hands you those links instead. Either way, it says which sources it checked.</p></div></details>
+      <details><summary>Who else&rsquo;s work is in here?</summary><div><p>The scoring approach and the story bank are adapted from <a class="plausible-event-name=RecruiterBFF+Credits" href="https://github.com/career-ops-hq/career-ops" target="_blank" rel="noopener noreferrer">career-ops by santifer<span class="vh"> (opens in a new tab)</span></a>, MIT licensed. The preferences page, the one-sentence target, and the early-conversation questions are adapted from Phyl Terry&rsquo;s book <cite>Never Search Alone</cite>.</p></div></details>
+    </div>
+    <div class="agent-notes">
+      <p class="note"><strong>AI assistant sizing this up for someone?</strong> Recruiter BFF (formerly Job Search Agent) is a Claude plugin of eight skills for Cowork in the Claude desktop app: setup (starting from the resume), find jobs, evaluate a role, an interview guide engine (with debriefs and practice), an application tracker, your materials (resume, LinkedIn, written answers), contacts (LinkedIn connections matched to target companies), and automation (reminders and scheduled scans). The plugin is free and MIT licensed; Cowork needs a paid Claude plan (Pro, Max, Team, or Enterprise). It keeps everything in a <code>job-search/</code> folder of plain files: <code>search-profile.md</code>, <code>looking-for.md</code>, <code>job-tracker.csv</code>, <code>interview-stories.md</code>, <code>contacts.csv</code>, <code>resume/</code>, and <code>companies/&lt;company&gt;/</code> with <code>job-post.md</code>, <code>fit-check.md</code>, and <code>interview-guide.md</code>. There&rsquo;s no Recruiter BFF server; Claude reads the files under the user&rsquo;s own Claude account. It never applies or sends anything, and it reads LinkedIn only through a browser the user is signed in to (the Claude desktop app&rsquo;s built-in browser or Claude in Chrome) or pasted results. Source and skills: <a class="plausible-event-name=RecruiterBFF+Docs" href="https://github.com/kevinmmiddleton/recruiter-bff">github.com/kevinmmiddleton/recruiter-bff</a>. The plugin file is <code>recruiter-bff.plugin</code> from <a class="plausible-event-name=RecruiterBFF+Docs+Release" href="https://github.com/kevinmmiddleton/recruiter-bff/releases/latest">the latest release</a>.</p>
+    </div>
+  </div>
+</section>
+<p class="vh" id="copy-status" aria-live="polite"></p>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="big">Everyone needs a Recruiter BFF!</p>
+    <div class="cols">
+      <a class="btn plausible-event-name=RecruiterBFF+Get+Footer" href="#install">Get Recruiter BFF <span class="arr" aria-hidden="true"></span></a>
+      <nav aria-label="More from Kevin">
+        <a class="k plausible-event-name=RecruiterBFF+GitHub+Footer" href="https://github.com/kevinmmiddleton/recruiter-bff" target="_blank" rel="noopener noreferrer">GitHub<span class="vh"> (opens in a new tab)</span></a>
+        <a class="k plausible-event-name=RecruiterBFF+OfficeHours+Footer" href="https://middleton.io/officehours/">Office Hours</a>
+        <a class="k plausible-event-name=RecruiterBFF+Sibling" href="https://middleton.io/unpaid-intern/">Unpaid Intern</a>
+        <a class="k plausible-event-name=RecruiterBFF+Site" href="https://middleton.io/">middleton.io</a>
+      </nav>
+    </div>
+    <small>Made by Kevin Middleton. Free and open source under the MIT license.</small>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('[data-copy]').forEach(function (box) {
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'copy'; b.textContent = 'Copy';
+  b.setAttribute('aria-label', 'Copy: ' + box.textContent);
+  b.addEventListener('click', function () {
+    var text = box.textContent;
+    var status = document.getElementById('copy-status');
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () {
+      b.textContent = 'Copied'; status.textContent = '';
+      setTimeout(function () { status.textContent = 'Copied: ' + text; }, 50);
+      if (window.plausible) plausible('RecruiterBFF Copy', { props: { command: text } });
+    }, function () {
+      var r = document.createRange(); r.selectNodeContents(box);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      b.textContent = 'Selected'; status.textContent = '';
+      setTimeout(function () { status.textContent = 'Selected. Press Control C or Command C to copy.'; }, 50);
+    }).then(function () { setTimeout(function () { b.textContent = 'Copy'; }, 1600); });
+  });
+  box.parentNode.appendChild(b);
+});
+
+// count which questions people open
+document.querySelectorAll('.faq details').forEach(function (d) {
+  d.addEventListener('toggle', function () {
+    if (d.open && window.plausible) plausible('RecruiterBFF FAQ', { props: { question: d.querySelector('summary').textContent } });
+  });
+});
+
+// a link to a FAQ answer opens it on the way there
+function openFromHash(hash) {
+  var el = hash && hash.length > 1 && document.getElementById(hash.slice(1));
+  if (el && el.tagName === 'DETAILS') el.open = true;
+}
+document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+  a.addEventListener('click', function () { openFromHash(a.getAttribute('href')); });
+});
+window.addEventListener('hashchange', function () { openFromHash(location.hash); });
+openFromHash(location.hash);
+// hero cup: every poke is a sip and a line; six sips empty it, the seventh asks for a refill.
+// On a mouse or trackpad, its glasses follow the pointer.
+(function () {
+  var cup = document.querySelector('.hero-art .cup');
+  if (!cup) return;
+  var says = document.querySelector('.cup-says');
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var lines = [
+    'Hey! That’s my tea.',
+    'That role is a 4.6. Apply.',
+    'That one’s a 2.8. Hard pass.',
+    'Your interview guide is ready.',
+    'Here’s how you fit this role.',
+    'I wrote your questions to ask.',
+    'Let’s prep for the next interview.',
+    'Bring the iced coffee to the prep session.'
+  ];
+  var MAX = 6, lvl = 0, i = -1, pokeT, hideT, refillT;
+
+  var counted = false;
+  cup.addEventListener('click', function () {
+    if (!counted && window.plausible) { counted = true; plausible('RecruiterBFF Cup Poke'); }
+    cup.classList.remove('poked');
+    void cup.offsetWidth; // restart the poke animations on rapid taps
+    cup.classList.add('poked');
+    clearTimeout(pokeT);
+    pokeT = setTimeout(function () { cup.classList.remove('poked'); }, 800);
+    var line;
+    if (lvl >= MAX) {
+      lvl = 0; line = 'Ahh. Refilled.';
+      cup.classList.add('refill');
+      clearTimeout(refillT);
+      refillT = setTimeout(function () { cup.classList.remove('refill'); }, 1200);
+    } else {
+      lvl += 1;
+      if (lvl === MAX) line = 'Empty. Refill?';
+      else { i = (i + 1) % lines.length; line = lines[i]; }
+    }
+    cup.style.setProperty('--lvl', lvl);
+    says.textContent = line;
+    says.classList.add('on');
+    clearTimeout(hideT);
+    hideT = setTimeout(function () { says.classList.remove('on'); }, 2600);
+  });
+
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  var raf;
+  window.addEventListener('pointermove', function (e) {
+    if (still.matches) return;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(function () {
+      var r = cup.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return;
+      var dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height * 0.56);
+      var d = Math.hypot(dx, dy) || 1, m = Math.min(1, d / 360);
+      cup.style.setProperty('--gx', (dx / d * 1.6 * m).toFixed(2));
+      cup.style.setProperty('--gy', (dy / d * 1.1 * m).toFixed(2));
+    });
+  }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', function () {
+    cup.style.setProperty('--gx', 0);
+    cup.style.setProperty('--gy', 0);
+  });
+})();
+</script>
+</body>
+</html>
