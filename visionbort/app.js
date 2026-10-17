@@ -252,9 +252,27 @@
     // converted onto it.
     const weChangedShape = board.shape !== base.fields.shape;
     if (theirs.shape !== board.shape) {
-      if (weChangedShape) return Object.assign({}, board, { title: board.title });
+      // Pieces only one side has (new ones) are never dropped: they're
+      // converted onto the winning shape. Moves made on the losing side are.
+      const convert = (p, fromShape, toShape) => {
+        const F = SHAPES[fromShape], T = SHAPES[toShape];
+        const kx = T.w / F.w, ky = T.h / F.h, k = Math.min(kx, ky);
+        const q = Object.assign({}, p);
+        const cx = (q.x + q.w / 2) * kx, cy = (q.y + q.h / 2) * ky;
+        q.w *= k; q.h *= k;
+        if (q.type === 'text') q.size *= k;
+        q.x = cx - q.w / 2; q.y = cy - q.h / 2;
+        return q;
+      };
+      if (weChangedShape) {
+        const ours = new Set(board.pieces.map(p => p.id));
+        const added = (theirs.pieces || []).filter(p => !ours.has(p.id) && !base.pieces.has(p.id));
+        return Object.assign({}, board, { pieces: board.pieces.concat(added.map(p => convert(p, theirs.shape, board.shape))) });
+      }
       mergeNotice = 'Your other tab changed the wall\u2019s shape, so this tab is showing that version.';
-      return Object.assign({}, theirs);
+      const theirIds = new Set((theirs.pieces || []).map(p => p.id));
+      const added = board.pieces.filter(p => !theirIds.has(p.id) && !base.pieces.has(p.id));
+      return Object.assign({}, theirs, { pieces: (theirs.pieces || []).concat(added.map(p => convert(p, board.shape, theirs.shape))) });
     }
     const merged = Object.assign({}, theirs);
     FIELDS.forEach(f => { if (board[f] !== base.fields[f]) merged[f] = board[f]; });
