@@ -568,6 +568,13 @@ body[data-view="labels"] .lbl { width: 230px; }
 .fld input:focus, .fld textarea:focus { outline: 2px solid var(--dot); outline-offset: 1px; background: var(--stock); }
 .fld input::placeholder, .fld textarea::placeholder { color: var(--ink-3); }
 #card-name { font-style: italic; }
+/* Remind me: a calendar file, no backend */
+.remind { display: grid; gap: 10px; }
+.remind > .btn { justify-self: start; }
+.remind-row { display: grid; gap: 10px; padding: 12px; border-radius: var(--radius); background: var(--stock-2); }
+.remind-row .btn.primary { justify-self: start; }
+.remind-note { margin: 0; font-size: 12.5px; line-height: 1.4; color: var(--ink-3); }
+.fld input[type="date"] { font-variant-numeric: tabular-nums; }
 .dot-toggle {
   display: flex; align-items: flex-start; gap: 12px; width: 100%;
   padding: 12px; text-align: left;

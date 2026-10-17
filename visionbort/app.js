@@ -1314,6 +1314,7 @@
     $('#card-name').value = p.name || '';
     $('#card-by').value = p.by || '';
     setDotUI(!!p.dot, p);
+    toggleRemindRow(false);
     card.hidden = false;
     buildCtx();
     if (!wasOpen) { if (isPhone()) refitIfAuto(); positionCtx(); }
@@ -3063,8 +3064,7 @@
   async function saveHang() {
     const blob = hangBlobs[hangFmt];
     if (!blob) return;
-    const translit = { 'æ': 'ae', 'Æ': 'Ae', 'ø': 'o', 'Ø': 'O', 'ß': 'ss', 'œ': 'oe', 'Œ': 'Oe', 'đ': 'd', 'Đ': 'D', 'ł': 'l', 'Ł': 'L', 'þ': 'th', 'Þ': 'Th', 'ð': 'd', 'Ð': 'D' };
-    const base = (showTitle.value.trim() || 'visionbort').replace(/[æÆøØßœŒđĐłŁþÞðÐ]/g, c => translit[c]).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s-]+/g, '').trim().replace(/\s+/g, '-').toLowerCase() || 'visionbort';
+    const base = fileSlug(showTitle.value.trim(), 'visionbort');
     const ext = hangFmt === 'film' ? (blob.type.includes('mp4') ? 'mp4' : 'webm') : 'jpg';
     const name = `${base}-${hangFmt === 'lock' ? 'lock-screen' : hangFmt}.${ext}`;
     const file = new File([blob], name, { type: blob.type });
@@ -3083,6 +3083,183 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
     toast('Saved ' + name);
   }
+
+  // ===== Calendar reminders =====
+  // No backend: "Remind me" writes a standard calendar file (.ics) and the
+  // person's own calendar does the nudging. Nothing leaves the device.
+  const APP_URL = 'https://middleton.io/visionbort/';
+  const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+  const SEASONS = { spring: [2, 20], summer: [5, 21], fall: [8, 22], autumn: [8, 22], winter: [11, 21] };
+
+  // Turn a free-text "by when" into a date to prefill: "March 2027",
+  // "June", "April 3", "Fall", "2027-04-01", "4/1/27", "end of year",
+  // "next year". Anything unreadable falls back to a month from today.
+  // The person can always change it; this only saves them a few taps.
+  function parseByWhen(text, now) {
+    now = now || new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const t = String(text || '').trim().toLowerCase().replace(/[.,]/g, ' ').replace(/\s+/g, ' ');
+    const future = (d) => d < today ? null : d;
+    const nextOccurrence = (m, day) => {
+      let d = new Date(today.getFullYear(), m, day);
+      if (d < today) d = new Date(today.getFullYear() + 1, m, day);
+      return d;
+    };
+    let m;
+    if ((m = t.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/))) return future(new Date(+m[1], +m[2] - 1, +m[3])) || addDays(today, 7);
+    if ((m = t.match(/\b(\d{1,2})\/(\d{1,2})\/(\d{2,4})\b/))) {
+      const y = +m[3] < 100 ? 2000 + +m[3] : +m[3];
+      return future(new Date(y, +m[1] - 1, +m[2])) || addDays(today, 7);
+    }
+    const yearM = t.match(/\b(20\d{2})\b/);
+    const year = yearM ? +yearM[1] : null;
+    const mi = MONTHS.findIndex(name => new RegExp(`\\b${name.slice(0, 3)}[a-z]*\\b`).test(t));
+    if (mi >= 0) {
+      const dayM = t.match(new RegExp(`\\b${MONTHS[mi].slice(0, 3)}[a-z]* (\\d{1,2})\\b`)) || t.match(/\b(\d{1,2}) [a-z]+\b/);
+      const day = dayM && +dayM[1] <= 31 ? +dayM[1] : 1;
+      // A date that already passed means the goal is due now: check in soon.
+      return year ? (future(new Date(year, mi, day)) || addDays(today, 7)) : nextOccurrence(mi, day);
+    }
+    const season = Object.keys(SEASONS).find(sname => new RegExp(`\\b${sname}\\b`).test(t));
+    if (season) {
+      const [sm, sd] = SEASONS[season];
+      return year ? (future(new Date(year, sm, sd)) || addDays(today, 7)) : nextOccurrence(sm, sd);
+    }
+    if (/\bnext year\b/.test(t)) return new Date(today.getFullYear() + 1, 0, 1);
+    if (/\b(end of (the )?year|this year|year end)\b/.test(t)) return future(new Date(today.getFullYear(), 11, 1)) || new Date(today.getFullYear() + 1, 11, 1);
+    if (year) return future(new Date(year, 0, 1)) || addDays(today, 7);
+    return addDays(today, 30);
+  }
+  function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const ymd = (d) => `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}`;
+  const isoDay = (d) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+  function fromIsoDay(v) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
+    return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+  }
+
+  // RFC 5545 text: escape \ ; , and newlines; fold lines at 75 octets
+  // without splitting a UTF-8 character.
+  function icsText(s) {
+    return String(s || '').replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+  }
+  function icsFold(line) {
+    const enc = new TextEncoder();
+    if (enc.encode(line).length <= 75) return line;
+    const out = [];
+    let cur = '', curBytes = 0, limit = 75;
+    for (const ch of line) {
+      const b = enc.encode(ch).length;
+      if (curBytes + b > limit) { out.push(cur); cur = ''; curBytes = 0; limit = 74; }
+      cur += ch; curBytes += b;
+    }
+    out.push(cur);
+    return out.join('\r\n ');
+  }
+  function buildIcs(events) {
+    const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//middleton.io//Visionbort//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+    events.forEach(ev => {
+      const end = addDays(ev.date, 1);
+      lines.push('BEGIN:VEVENT',
+        `UID:${ev.uid}@visionbort.middleton.io`,
+        `DTSTAMP:${stamp}`,
+        `DTSTART;VALUE=DATE:${ymd(ev.date)}`,
+        `DTEND;VALUE=DATE:${ymd(end)}`);
+      if (ev.rrule) lines.push(`RRULE:${ev.rrule}`);
+      lines.push(`SUMMARY:${icsText(ev.summary)}`,
+        `DESCRIPTION:${icsText(ev.description)}`,
+        `URL:${APP_URL}`,
+        'TRANSP:TRANSPARENT',
+        // All-day event: remind at 9am that day.
+        'BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${icsText(ev.summary)}`, 'TRIGGER;RELATED=START:PT9H', 'END:VALARM',
+        'END:VEVENT');
+    });
+    lines.push('END:VCALENDAR');
+    return lines.map(icsFold).join('\r\n') + '\r\n';
+  }
+
+  function pieceTitle(p) {
+    return p.name || shorten(p.why, 48) || (p.type === 'text' ? shorten(p.content, 48) : (p.alt || 'a piece on your wall'));
+  }
+  function pieceReminder(p, date) {
+    const show = showTitle.value.trim();
+    const lines = [];
+    if (p.why) lines.push(`Why it matters: ${p.why}`);
+    if (p.by) lines.push(`By ${p.by}`);
+    lines.push('', 'How is it going? If it came true, give it a red dot.', `Your wall${show ? ` (${show})` : ''}: ${APP_URL}`);
+    return buildIcs([{ uid: `${p.id}-${ymd(date)}`, date, summary: `Check in: ${pieceTitle(p)}`, description: lines.join('\n') }]);
+  }
+  function showReminder(date) {
+    const show = showTitle.value.trim() || 'your wall';
+    const listed = readingOrder().filter(hasLabel);
+    const lines = ['A few minutes with your wall. What moved? What came true?', ''];
+    listed.slice(0, 20).forEach(p => lines.push(`${p.dot ? '(red dot) ' : ''}${pieceTitle(p)}${p.by ? `, by ${p.by}` : ''}`));
+    if (listed.length > 20) lines.push(`and ${listed.length - 20} more`);
+    lines.push('', APP_URL);
+    return buildIcs([{ uid: `show-${ymd(date)}-${Math.random().toString(36).slice(2, 8)}`, date, rrule: 'FREQ=MONTHLY;COUNT=12', summary: `Walk your wall: ${show}`, description: lines.join('\n') }]);
+  }
+
+  function fileSlug(text, fallback) {
+    const translit = { 'æ': 'ae', 'Æ': 'Ae', 'ø': 'o', 'Ø': 'O', 'ß': 'ss', 'œ': 'oe', 'Œ': 'Oe', 'đ': 'd', 'Đ': 'D', 'ł': 'l', 'Ł': 'L', 'þ': 'th', 'Þ': 'Th', 'ð': 'd', 'Ð': 'D' };
+    return (String(text || '').replace(/[æÆøØßœŒđĐłŁþÞðÐ]/g, c => translit[c]).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\w\s-]+/g, '').trim().replace(/\s+/g, '-').toLowerCase().slice(0, 48)) || fallback;
+  }
+  // A calendar file download. On iPhone and iPad, Safari opens it straight
+  // into the Add to Calendar sheet (checked in the iOS simulator); a data:
+  // URL navigation, the usual trick, is blocked there. Elsewhere it lands in
+  // Downloads and opens in the calendar app.
+  function deliverIcs(ics, name) {
+    const ios = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    if (!ios) toast(`Saved ${name}. Open it to add the reminder to your calendar.`, { ms: 7000 });
+  }
+
+  function toggleRemindRow(open) {
+    const row = $('#remind-row');
+    const btn = $('#card-remind');
+    const show = open == null ? row.hidden : open;
+    row.hidden = !show;
+    btn.setAttribute('aria-expanded', String(show));
+    if (show) {
+      const p = byId(cardForId);
+      $('#remind-date').value = isoDay(parseByWhen(p && p.by));
+      $('#remind-date').min = isoDay(new Date());
+      $('#remind-date').focus();
+    }
+  }
+  function saveRemind() {
+    const p = byId(cardForId);
+    const date = fromIsoDay($('#remind-date').value);
+    if (!p || !date) { toast('Pick a date for the reminder.', { error: true }); return; }
+    deliverIcs(pieceReminder(p, date), `check-in-${fileSlug(pieceTitle(p), 'visionbort')}.ics`);
+    toggleRemindRow(false);
+    $('#card-remind').focus();
+  }
+  function openCheckin() {
+    closeMenu();
+    const d = new Date();
+    $('#checkin-date').value = isoDay(new Date(d.getFullYear(), d.getMonth() + 1, 1));
+    $('#checkin-date').min = isoDay(d);
+    showDialog($('#dlg-checkin'), $('#checkin-date'));
+  }
+  function saveCheckin() {
+    const date = fromIsoDay($('#checkin-date').value);
+    if (!date) { toast('Pick a start date.', { error: true }); return; }
+    const ics = showReminder(date);
+    closeDialog();
+    deliverIcs(ics, `monthly-walk-${fileSlug(showTitle.value.trim(), 'visionbort')}.ics`);
+  }
+  // For tests and for anyone reading the console.
+  window.visionbortCalendar = { parseByWhen, buildIcs };
 
   // ===== Toasts =====
   function toast(msg, opts) {
@@ -3234,6 +3411,12 @@
     }));
     $('#card-name').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#card-by').focus(); });
     $('#card-by').addEventListener('keydown', (e) => { if (e.key === 'Enter') closeCard(); });
+    $('#card-remind').addEventListener('click', () => toggleRemindRow());
+    $('#remind-save').addEventListener('click', saveRemind);
+    $('#remind-date').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); saveRemind(); } });
+    $('#opt-checkin').addEventListener('click', openCheckin);
+    $('#checkin-cancel').addEventListener('click', closeDialog);
+    $('#checkin-save').addEventListener('click', saveCheckin);
     $('#card-dot').addEventListener('click', () => {
       const p = byId(cardForId);
       if (!p) return;

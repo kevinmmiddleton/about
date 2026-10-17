@@ -28,7 +28,7 @@
   <!-- UI: Funnel Display + Host Grotesk. Board lettering: the six faces boards
        already use. Noto Color Emoji makes stickers look the same on every OS. -->
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;500;600;700&family=Host+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Bebas+Neue&family=Caveat:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Noto+Color+Emoji&display=swap" rel="stylesheet" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles.css?v=a4da0321">
+  <link rel="stylesheet" href="styles.css?v=42a06853">
   <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js" defer></script>
     <!-- JSON-LD -->
     <script type="application/ld+json">
@@ -96,6 +96,9 @@
   <symbol id="i-trash" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></symbol>
   <symbol id="i-upload-simple" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0ZM93.66,77.66,120,51.31V144a8,8,0,0,0,16,0V51.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,77.66Z"/></symbol>
   <symbol id="i-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol>
+  <symbol id="i-calendar-plus" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-48-56a8,8,0,0,1-8,8H136v16a8,8,0,0,1-16,0V160H104a8,8,0,0,1,0-16h16V128a8,8,0,0,1,16,0v16h16A8,8,0,0,1,160,152Z"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 256 256"><path d="M157.73,113.13A8,8,0,0,1,159.82,102L227.48,55.7a8,8,0,0,1,9,13.21l-67.67,46.3a7.92,7.92,0,0,1-4.51,1.4A8,8,0,0,1,157.73,113.13Zm80.87,85.09a8,8,0,0,1-11.12,2.08L136,137.7,93.49,166.78a36,36,0,1,1-9-13.19L121.83,128,84.44,102.41a35.86,35.86,0,1,1,9-13.19l143,97.87A8,8,0,0,1,238.6,198.22ZM80,180a20,20,0,1,0-5.86,14.14A19.85,19.85,0,0,0,80,180ZM74.14,90.13a20,20,0,1,0-28.28,0A19.85,19.85,0,0,0,74.14,90.13Z"/></symbol>
+  <symbol id="i-arrow-u-up-left" viewBox="0 0 256 256"><path d="M232,144a64.07,64.07,0,0,1-64,64H80a8,8,0,0,1,0-16h88a48,48,0,0,0,0-96H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,45.66L51.31,80H168A64.07,64.07,0,0,1,232,144Z"/></symbol>
 </svg>
 
   <!-- ===== Top bar ===== -->
@@ -125,6 +128,7 @@
           <button type="button" id="opt-ask" aria-pressed="true">
             <span class="menu-check"><svg aria-hidden="true"><use href="#i-check"/></svg></span>Ask why when I add a piece
           </button>
+          <button type="button" id="opt-checkin">Monthly check-in reminder</button>
           <button type="button" id="opt-example">See an example show</button>
           <hr>
           <button type="button" id="opt-new" class="danger-text">Start a new wall</button>
@@ -236,6 +240,16 @@
       <label class="fld"><span>By when</span>
         <input id="card-by" type="text" maxlength="30" placeholder="March 2027">
       </label>
+      <div class="remind">
+        <button type="button" class="btn" id="card-remind" aria-expanded="false" aria-controls="remind-row"><svg aria-hidden="true"><use href="#i-calendar-plus"/></svg><span>Remind me</span></button>
+        <div id="remind-row" class="remind-row" hidden>
+          <label class="fld"><span>Check in on</span>
+            <input id="remind-date" type="date">
+          </label>
+          <button type="button" class="btn primary" id="remind-save">Add to calendar</button>
+          <p class="remind-note">Saves a calendar event with this wall text. Your calendar does the reminding; nothing is sent anywhere.</p>
+        </div>
+      </div>
       <button type="button" class="dot-toggle" id="card-dot" aria-pressed="false" aria-label="Mark it yours" aria-describedby="dot-note">
         <span class="dot-swatch" aria-hidden="true"></span>
         <span class="dot-text"><strong>Mark it yours</strong><small id="dot-note">Galleries put a red dot on a piece that has found its home. Add one when this comes true.</small></span>
@@ -298,6 +312,18 @@
     </div>
   </section>
 
+  <section id="dlg-checkin" class="dlg chrome sm" role="dialog" aria-modal="true" aria-labelledby="checkin-h" aria-describedby="checkin-p" hidden>
+    <h2 id="checkin-h">A monthly walk past your wall</h2>
+    <p id="checkin-p">Adds a reminder to your calendar once a month for a year, with your wall text in it. Your calendar does the reminding; nothing is sent anywhere.</p>
+    <label class="fld"><span>Starting</span>
+      <input id="checkin-date" type="date">
+    </label>
+    <div class="dlg-actions row" style="margin-top:20px">
+      <button type="button" class="btn" id="checkin-cancel">Cancel</button>
+      <button type="button" class="btn primary" id="checkin-save"><svg aria-hidden="true"><use href="#i-calendar-plus"/></svg><span>Add to calendar</span></button>
+    </div>
+  </section>
+
   <section id="dlg-hang" class="dlg chrome wide" role="dialog" aria-modal="true" aria-labelledby="hang-h" hidden>
     <header class="dlg-head">
       <h2 id="hang-h">Hang the show</h2>
@@ -337,6 +363,6 @@
   <input type="file" id="file-photos" accept="image/*" multiple hidden>
   <input type="file" id="file-wallpaper" accept="image/*" hidden>
 
-  <script src="app.js?v=a44ec58e"></script>
+  <script src="app.js?v=94c46298"></script>
 </body>
 </html>
