@@ -1,2384 +1,2587 @@
-/* ===== Visionbort — Vanilla JS Vision Board ===== */
+/* ===== Visionbort: Opening Night =====
+   The board is a gallery wall with a fixed size in world units. The stage pans
+   and zooms over it, so a wall hung on a laptop is the same wall on a phone:
+   nothing reflows, nothing overlaps that didn't overlap before.
+
+   v1 (visionbort-lite) stored positions as fractions of whatever the window
+   happened to be, with sizes in screen pixels. That is why a desktop board
+   piled up on a phone. loadBoard() migrates those boards once and keeps the
+   old key untouched as a backup. */
 
 (function () {
   'use strict';
 
   // ===== Config =====
   const UNSPLASH_PROXY = 'https://unsplash-proxy.kevin-middleton.workers.dev';
-  const STORAGE_KEY = 'visionbort-lite';
-  const MAX_IMAGE_SIZE = 300;          // longest display edge, px
-  const IMAGE_STORE_SCALE = 2;         // store at 2x display size (retina export)
-  const IMAGE_STORE_QUALITY = 0.85;    // JPEG quality for re-encoded images
-  const MAX_BG_STORE_SIZE = 2000;      // longest stored edge for canvas backgrounds
-  const PLACEMENT_EDGE_INSET = 24;     // keep new items off the canvas edges
-  const PLACEMENT_BOTTOM_INSET = 90;   // keep new items clear of the floating toolbar
-  const MIN_VISIBLE = 40;              // px of an element that must stay on canvas
-  const MAX_IMAGE_UNDO = 8;            // snapshots allowed to carry image bytes
-  const STICKERS = [
-    '⭐','✨','💫','🌟','💖','🔥','🌈','🎯',
-    '🏆','💪','🚀','🌸','🦋','🌺','🍀','💎',
-    '👑','🎨','🎵','📸','✈️','🏠','🌍','💰',
-    '📚','🧘','❤️','🎉','🌅','🏔️','🌊','🎭',
-    '🥂','🎓','💐','🕊️','🌻','⚡','🎪','🗝️'
+  const DB_NAME = 'visionbort';
+  const DB_STORE = 'kv';
+  const BOARD_KEY = 'board-v2';
+  const LEGACY_KEY = 'visionbort-lite';
+  const LEGACY_MODE_KEY = 'visionbort-mode';
+  const ASK_KEY = 'visionbort-ask';
+  const WELCOMED_KEY = 'visionbort-welcomed';
+
+  const SHAPES = { wide: { w: 1600, h: 1000 }, tall: { w: 1000, h: 1600 } };
+  const PHOTO_EDGE = 360;            // longest edge of a new photo, world units
+  const STICKER_SIZE = 150;
+  const WORDS_SIZE = 72;
+  const STORE_SCALE = 2;             // image bytes kept at 2x their world size
+  const STORE_QUALITY = 0.85;
+  const WALLPAPER_EDGE = 2400;
+  const MIN_ON_WALL = 40;            // world units of a piece that must stay on the wall
+  const MAX_UNDO = 60;
+  const LABEL_GAP = 14;
+
+  const PAINTS = [
+    { id: 'salon', label: 'Salon green', tone: 'dark', ink: '#f1ede4', hex: '#2e4537' },
+    { id: 'white', label: 'Gallery white', tone: 'light', ink: '#1c1b19', hex: '#eeebe4' },
+    { id: 'plaster', label: 'Plaster', tone: 'light', ink: '#1c1b19', hex: '#d6cfc2' },
+    { id: 'oxblood', label: 'Oxblood', tone: 'dark', ink: '#f1ede4', hex: '#5b2229' },
+    { id: 'ochre', label: 'Ochre', tone: 'light', ink: '#1c1b19', hex: '#b58a45' },
+    { id: 'charcoal', label: 'Charcoal', tone: 'dark', ink: '#f1ede4', hex: '#2a2a28' },
+  ];
+  const FRAMES = [
+    { id: 'none', label: 'Print' },
+    { id: 'black', label: 'Black frame' },
+    { id: 'oak', label: 'Oak frame' },
+    { id: 'white', label: 'White frame' },
+    { id: 'oval', label: 'Oval mat' },
+    { id: 'polaroid', label: 'Instant photo' },
+    { id: 'circle', label: 'Round print' },
+    { id: 'torn', label: 'Magazine cut' },
   ];
   const FONTS = [
-    { id: 'helvetica', label: 'Helvetica', family: "'Helvetica Neue', Helvetica, Arial, sans-serif" },
+    { id: 'gallery', label: 'Gallery', family: "'Funnel Display', sans-serif" },
     { id: 'playfair', label: 'Playfair', family: "'Playfair Display', serif" },
-    { id: 'dancing', label: 'Dancing Script', family: "'Dancing Script', cursive" },
+    { id: 'cormorant', label: 'Cormorant', family: "'Cormorant Garamond', serif" },
     { id: 'bebas', label: 'Bebas Neue', family: "'Bebas Neue', sans-serif" },
     { id: 'caveat', label: 'Caveat', family: "'Caveat', cursive" },
-    { id: 'cormorant', label: 'Cormorant', family: "'Cormorant Garamond', serif" },
+    { id: 'dancing', label: 'Dancing Script', family: "'Dancing Script', cursive" },
+    { id: 'helvetica', label: 'Helvetica', family: "'Helvetica Neue', Helvetica, Arial, sans-serif" },
   ];
-  const BACKGROUNDS = [
-    { id: 'warm', label: 'Warm', cls: 'bg-warm' },
-    { id: 'cork', label: 'Cork', cls: 'bg-cork' },
-    { id: 'midnight', label: 'Midnight', cls: 'bg-midnight' },
-    { id: 'blush', label: 'Blush', cls: 'bg-blush' },
-    { id: 'ocean', label: 'Ocean', cls: 'bg-ocean' },
-    { id: 'sunset', label: 'Sunset', cls: 'bg-sunset' },
-    { id: 'forest', label: 'Forest', cls: 'bg-forest' },
-    { id: 'lavender', label: 'Lavender', cls: 'bg-lavender' },
+  const INKS = ['#1c1b19', '#f1ede4', '#c4122f', '#d29a2e', '#7d9b76', '#86a7c2', '#b07aa1', '#ffffff'];
+  const INK_NAMES = {
+    '#1c1b19': 'Black', '#f1ede4': 'Bone', '#c4122f': 'Gallery red', '#d29a2e': 'Gold',
+    '#7d9b76': 'Sage', '#86a7c2': 'Sky', '#b07aa1': 'Mauve', '#ffffff': 'White',
+  };
+  const STICKERS = [
+    '✨','⭐','🌟','💫','❤️','💖','🔥','🌈',
+    '🎯','🏆','💪','🚀','✈️','🏠','🌍','🗝️',
+    '🌸','🦋','🌻','🍀','🌊','🏔️','🌅','🕊️',
+    '📚','🎨','🎵','📸','🧘','🎓','🥂','🎉',
+    '💎','👑','💰','⚡','🎭','💐','🌺','🎪',
   ];
-  const CLIP_SHAPES = [
-    { id: 'none', label: 'None' },
-    { id: 'circle', label: 'Circle' },
-    { id: 'star', label: 'Star' },
-    { id: 'heart', label: 'Heart' },
-    { id: 'diamond', label: 'Diamond' },
-    { id: 'torn', label: 'Magazine Cut' },
-    { id: 'polaroid', label: 'Polaroid' },
+  const STICKER_NAMES = {
+    '⭐':'Star','✨':'Sparkles','💫':'Shooting star','🌟':'Glowing star','💖':'Heart','🔥':'Fire',
+    '🌈':'Rainbow','🎯':'Target','🏆':'Trophy','💪':'Strength','🚀':'Rocket','🌸':'Blossom',
+    '🦋':'Butterfly','🌺':'Hibiscus','🍀':'Clover','💎':'Gem','👑':'Crown','🎨':'Art',
+    '🎵':'Music','📸':'Camera','✈️':'Travel','🏠':'Home','🌍':'World','💰':'Money',
+    '📚':'Books','🧘':'Calm','❤️':'Love','🎉':'Party','🌅':'Sunrise','🏔️':'Mountain',
+    '🌊':'Wave','🎭':'Theater','🥂':'Cheers','🎓':'Graduation','💐':'Bouquet','🕊️':'Peace',
+    '🌻':'Sunflower','⚡':'Energy','🎪':'Circus','🗝️':'Key',
+  };
+  const WHY_PROMPTS = [
+    'What would having this mean to you?',
+    'Why does this one matter?',
+    'What changes when this comes true?',
+    'What does this stand for?',
   ];
 
-  function getClipPath(shapeId, width, height) {
-    // Use pixel-based inset for shapes that need to stay undistorted
-    const min = Math.min(width, height);
-    const cx = width / 2, cy = height / 2;
-    switch (shapeId) {
-      case 'circle':
-        return `circle(${min * 0.45}px at ${cx}px ${cy}px)`;
-      case 'star': {
-        // Generate a 5-point star centered, using pixel coords
-        const outerR = min * 0.48, innerR = min * 0.2;
-        const pts = [];
-        for (let i = 0; i < 5; i++) {
-          const outerAngle = (i * 72 - 90) * Math.PI / 180;
-          const innerAngle = ((i * 72) + 36 - 90) * Math.PI / 180;
-          pts.push(`${cx + outerR * Math.cos(outerAngle)}px ${cy + outerR * Math.sin(outerAngle)}px`);
-          pts.push(`${cx + innerR * Math.cos(innerAngle)}px ${cy + innerR * Math.sin(innerAngle)}px`);
-        }
-        return `polygon(${pts.join(', ')})`;
-      }
-      case 'heart': {
-        // Heart using SVG path approach — approximate with polygon
-        const r = min * 0.45;
-        const pts = [];
-        for (let i = 0; i <= 30; i++) {
-          const t = (i / 30) * 2 * Math.PI;
-          const x = 16 * Math.pow(Math.sin(t), 3);
-          const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-          pts.push(`${cx + x * r / 17}px ${cy + y * r / 17 - r * 0.1}px`);
-        }
-        return `polygon(${pts.join(', ')})`;
-      }
-      case 'diamond': {
-        return `polygon(${cx}px ${cy - min*0.48}px, ${cx + min*0.48}px ${cy}px, ${cx}px ${cy + min*0.48}px, ${cx - min*0.48}px ${cy}px)`;
-      }
-      case 'torn':
-        return generateTornPath();
-      default:
-        return '';
-    }
-  }
-  const TEXT_PHRASES = ['Dream big', 'Make it happen', 'You got this', 'Believe', 'Manifest it'];
-  const INTENTION_PROMPTS = [
-    'What does this represent for you?',
-    'Why does this inspire you?',
-    'How does this connect to your goals?',
-    'What feeling does this bring up?',
-    'What would achieving this mean to you?',
-  ];
+  // ===== DOM =====
+  const $ = (sel) => document.querySelector(sel);
+  const stage = $('#stage');
+  const wall = $('#wall');
+  const piecesEl = $('#pieces');
+  const labelsEl = $('#labels');
+  const wallEmpty = $('#wall-empty');
+  const wallPaper = $('#wall-paper');
+  const showTitle = $('#show-title');
+  const ctxBar = $('#ctx');
+  const pop = $('#pop');
+  const panel = $('#panel');
+  const card = $('#card');
+  const scrim = $('#scrim');
+  const fileInput = $('#file-photos');
+  const wallpaperInput = $('#file-wallpaper');
 
   // ===== State =====
-  let elements = [];
+  let board = emptyBoard();
   let selectedId = null;
-  let nextId = 1;
-  let maxZ = 0;
-  let currentBg = BACKGROUNDS[0];
-  let sidebarTab = null;
-  let searchTimeout = null;
-  let saveTimeout = null;
-  let mode = 'freeform'; // 'intentional' or 'freeform'
-  let pendingElement = null; // element waiting for intention note
-  let intentionsPanelOpen = false;
-  let showIntentionsOnBoard = false;
-  let undoStack = []; // history of states for undo
-  const MAX_UNDO = 30;
-  let quotaWarned = false; // avoid stacking identical quota toasts
-  let modalReturnFocus = null;
-  let relayoutTimer = null;
+  let view = { s: 1, tx: 0, ty: 0 };
+  let fitS = 1;
+  let userZoomed = false;
+  let viewMode = 'arrange';
+  let panelTab = null;
+  let cardForId = null;
+  let cardDirty = false;
+  let undoStack = [];
+  let redoStack = [];
+  let saveTimer = null;
+  let saveWarned = false;
+  let editingTextId = null;
+  let askWhy = true;
+  let openDialog = null;
+  let dialogReturnFocus = null;
+  let fontEmbedCSS = null;
 
-  // ===== DOM refs =====
-  const $ = (sel) => document.querySelector(sel);
-  const canvas = $('#canvas');
-  const canvasContainer = $('#canvas-container');
-  const emptyState = $('#canvas-empty');
-  const dropOverlay = $('#drop-overlay');
-  const sidebar = $('#sidebar');
-  const sidebarTitle = $('#sidebar-title');
-  const fileInput = $('#file-input');
-  const boardTitle = $('#board-title');
-  const btnClear = $('#btn-clear');
-  const btnExport = $('#btn-export');
-  const btnIntentions = $('#btn-intentions');
-  const welcomeModal = $('#welcome-modal');
-  const intentionModal = $('#intention-modal');
-  const intentionInput = $('#intention-input');
-  const intentionPromptText = $('#intention-prompt-text');
-  const intentionsPanel = $('#intentions-panel');
-  const intentionsList = $('#intentions-list');
-  const intentionsCount = $('#intentions-count');
-  const intentionsEmpty = $('#intentions-empty');
-
-  // ===== Init =====
-  function init() {
-    loadBoard();
-    renderStickers();
-    renderBackgrounds();
-    bindEvents();
-    updateUI();
-
-    // Show welcome modal if no mode has been chosen yet
-    if (!localStorage.getItem('visionbort-mode')) {
-      openModal(welcomeModal, $('#welcome-intentional'));
-    } else {
-      mode = localStorage.getItem('visionbort-mode') || 'freeform';
-      welcomeModal.classList.add('hidden');
-    }
-  }
-
-  // ===== Toasts =====
-  // Storage and export failures used to go to console.warn only, which is
-  // invisible to anyone actually using the app.
-  function showToast(message, kind, ms) {
-    const region = $('#toast-region');
-    if (!region) return;
-    const toast = document.createElement('div');
-    toast.className = 'toast' + (kind === 'error' ? ' error' : '');
-    toast.textContent = message;
-    region.appendChild(toast);
-    setTimeout(() => toast.remove(), ms || 4500);
-  }
-
-  // ===== Modals =====
-  function openModal(overlay, focusTarget) {
-    modalReturnFocus = document.activeElement;
-    overlay.classList.remove('hidden');
-    setTimeout(() => {
-      const target = focusTarget || overlay.querySelector('button, textarea, input, [href]');
-      if (target) target.focus();
-    }, 60);
-  }
-
-  function closeModal(overlay) {
-    overlay.classList.add('hidden');
-    if (modalReturnFocus && typeof modalReturnFocus.focus === 'function') {
-      try { modalReturnFocus.focus(); } catch (e) { /* element may be gone */ }
-    }
-    modalReturnFocus = null;
-  }
-
-  function openModalOverlay() {
-    if (!intentionModal.classList.contains('hidden')) return intentionModal;
-    if (!welcomeModal.classList.contains('hidden')) return welcomeModal;
-    return null;
-  }
-
-  // aria-modal is a promise that Tab stays inside the dialog. Keep it.
-  function trapFocus(container, e) {
-    const nodes = Array.from(container.querySelectorAll(
-      'button, [href], input:not([type="hidden"]), textarea, select, [tabindex]:not([tabindex="-1"])'
-    )).filter(n => !n.disabled && n.offsetParent !== null);
-    if (!nodes.length) return;
-    const first = nodes[0];
-    const last = nodes[nodes.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  }
-
-  // ===== Geometry =====
-  // The canvas box shrinks when a side panel opens, so every placement and
-  // clamp decision has to read the live rect rather than the window width.
-  function canvasBounds() {
-    const r = canvas.getBoundingClientRect();
-    return { width: r.width, height: r.height };
-  }
-
-  // Positions are stored as fractions of the canvas box (fx/fy) and multiplied
-  // on render, so a board composed at 1280px still lands inside a 375px
-  // viewport. el.x/el.y hold the resolved px for the current box; drag and
-  // resize write px, then call syncFractions().
-  function resolvePosition(el) {
-    const b = canvasBounds();
-    const x = typeof el.fx === 'number' ? el.fx * b.width : (el.x || 0);
-    const y = typeof el.fy === 'number' ? el.fy * b.height : (el.y || 0);
-    const clamped = clampPosition(x, y, el.width, el.height, b);
-    el.x = clamped.x;
-    el.y = clamped.y;
-    return clamped;
-  }
-
-  function syncFractions(el) {
-    const b = canvasBounds();
-    if (b.width > 0) el.fx = el.x / b.width;
-    if (b.height > 0) el.fy = el.y / b.height;
-  }
-
-  // Drag/render clamp: at least MIN_VISIBLE px stays on canvas on each axis, so
-  // nothing can be dragged (or restored) somewhere it can never be grabbed again.
-  function clampPosition(x, y, w, h, b) {
-    b = b || canvasBounds();
-    const minX = -(Math.max(w || 0, MIN_VISIBLE) - MIN_VISIBLE);
-    const minY = -(Math.max(h || 0, MIN_VISIBLE) - MIN_VISIBLE);
+  function emptyBoard() {
     return {
-      x: Math.min(Math.max(x, minX), Math.max(minX, b.width - MIN_VISIBLE)),
-      y: Math.min(Math.max(y, minY), Math.max(minY, b.height - MIN_VISIBLE)),
+      v: 2, title: '', paint: 'salon', shape: 'wide', light: true,
+      wallpaper: null, pieces: [], nextId: 1, maxZ: 0,
     };
   }
+  const W = () => SHAPES[board.shape].w;
+  const H = () => SHAPES[board.shape].h;
+  const paint = () => PAINTS.find(p => p.id === board.paint) || PAINTS[0];
+  const isPhone = () => window.matchMedia('(max-width: 760px)').matches;
+  const byId = (id) => board.pieces.find(p => p.id === id);
+  const domOf = (id) => piecesEl.querySelector(`[data-id="${id}"]`);
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
-  // Placement clamp is stricter: a brand-new item must be fully in view and
-  // clear of the floating toolbar.
-  function clampPlacement(x, y, w, h, b) {
-    b = b || canvasBounds();
-    const maxX = Math.max(PLACEMENT_EDGE_INSET, b.width - w - PLACEMENT_EDGE_INSET);
-    const maxY = Math.max(PLACEMENT_EDGE_INSET, b.height - h - PLACEMENT_BOTTOM_INSET);
-    return {
-      x: Math.round(Math.min(Math.max(x, PLACEMENT_EDGE_INSET), maxX)),
-      y: Math.round(Math.min(Math.max(y, PLACEMENT_EDGE_INSET), maxY)),
-    };
-  }
-
-  // A caller-supplied position (a drawing, a duplicate) keeps its spot but is
-  // pulled fully inside the canvas.
-  function clampInside(x, y, w, h, b) {
-    b = b || canvasBounds();
-    return {
-      x: Math.round(Math.min(Math.max(x, 0), Math.max(0, b.width - w))),
-      y: Math.round(Math.min(Math.max(y, 0), Math.max(0, b.height - h))),
-    };
-  }
-
-  // Deterministic phyllotaxis spiral outward from the middle of the usable
-  // canvas. Replaces the random placement that regularly dropped the first item
-  // off-canvas or under the toolbar.
-  function nextPlacement(w, h) {
-    const b = canvasBounds();
-    const usableH = Math.max(h + PLACEMENT_EDGE_INSET * 2, b.height - PLACEMENT_BOTTOM_INSET);
-    const n = elements.length;
-    const step = Math.min(b.width, usableH) * 0.17;
-    const angle = n * 2.39996323; // golden angle, radians
-    const radius = step * Math.sqrt(n);
-    const x = b.width / 2 + radius * Math.cos(angle) - w / 2;
-    const y = usableH / 2 + radius * Math.sin(angle) - h / 2;
-    return clampPlacement(x, y, w, h, b);
-  }
-
-  // Any panel that is about to open changes the canvas box, so settle panel
-  // state BEFORE choosing a position. selectElement() used to open the 300px
-  // Intentions panel after the position was already picked.
-  function ensureModePanels() {
-    const isMobile = window.innerWidth <= 768;
-    if (!intentionsPanelOpen && mode === 'intentional' && !isMobile) {
-      intentionsPanelOpen = true;
-      intentionsPanel.classList.remove('hidden');
-      btnIntentions.style.display = 'inline-flex';
-      btnIntentions.classList.add('active-outline');
-      void canvas.offsetWidth; // force reflow so the rect below is the new one
+  // ===== Storage: IndexedDB, with localStorage as a fallback =====
+  // localStorage caps out around 5MB and a few phone photos fill it; when that
+  // happened in v1 the save failed and later changes quietly vanished on
+  // reload. IndexedDB holds hundreds of megabytes.
+  let dbPromise = null;
+  function db() {
+    if (!dbPromise) {
+      dbPromise = new Promise((resolve, reject) => {
+        if (!('indexedDB' in window)) return reject(new Error('no indexedDB'));
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = () => req.result.createObjectStore(DB_STORE);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
     }
+    return dbPromise;
   }
-
-  // Re-resolve every element from its fractions. Called whenever the canvas box
-  // changes: panel open/close, window resize, orientation change.
-  function relayoutElements() {
-    elements.forEach(el => {
-      const dom = canvas.querySelector(`[data-id="${el.id}"]`);
-      if (dom) applyElementStyle(dom, el);
+  async function idbGet(key) {
+    const d = await db();
+    return new Promise((resolve, reject) => {
+      const r = d.transaction(DB_STORE, 'readonly').objectStore(DB_STORE).get(key);
+      r.onsuccess = () => resolve(r.result);
+      r.onerror = () => reject(r.error);
     });
   }
-
-  function scheduleRelayout() {
-    clearTimeout(relayoutTimer);
-    relayoutTimer = setTimeout(relayoutElements, 60);
+  async function idbSet(key, value) {
+    const d = await db();
+    return new Promise((resolve, reject) => {
+      const tx = d.transaction(DB_STORE, 'readwrite');
+      tx.objectStore(DB_STORE).put(value, key);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error);
+    });
   }
+  function lsGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+  function lsSet(key, v) { try { localStorage.setItem(key, v); return true; } catch (e) { return false; } }
 
-  // ===== Persistence =====
-  function saveBoard() {
-    clearTimeout(saveTimeout);
-    saveTimeout = setTimeout(writeBoard, 500);
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(writeBoard, 400);
   }
-
-  function writeBoard() {
-    const bounds = canvasBounds();
-    const data = {
-      // Elements carry their image data URLs so a reloaded board still renders
-      // with no network. Those bytes are downscaled on the way in (prepareImage)
-      // rather than stored at full resolution.
-      elements: elements.map(el => ({ ...el })),
-      backgroundId: currentBg.id,
-      customBgImage,
-      boardTitle: boardTitle.value,
-      mode,
-      showIntentionsOnBoard,
-      nextId,
-      maxZ,
-      // Canvas size at save time, so pre-fraction boards can be migrated.
-      canvasW: bounds.width,
-      canvasH: bounds.height,
-    };
+  async function writeBoard() {
+    board.title = showTitle.value.trim();
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      quotaWarned = false;
+      await idbSet(BOARD_KEY, board);
+      saveWarned = false;
     } catch (e) {
-      console.warn('Save failed:', e);
-      if (!quotaWarned) {
-        quotaWarned = true;
-        showToast(
-          'This board is too large to save on this device. Recent changes will be lost if you reload. Deleting a couple of images will fix it.',
-          'error',
-          10000
-        );
+      // Last resort. It may also fail on a big board; say so if it does.
+      if (!lsSet(BOARD_KEY, JSON.stringify(board)) && !saveWarned) {
+        saveWarned = true;
+        toast('This wall could not be saved on this device. Saving a copy with Hang the show keeps it safe.', { error: true, ms: 10000 });
       }
     }
   }
 
-  function loadBoard() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const data = JSON.parse(raw);
-      elements = data.elements || [];
-      nextId = data.nextId || elements.length + 1;
-      maxZ = data.maxZ || 0;
-      boardTitle.value = data.boardTitle || 'My Vision Board';
-      if (data.mode) mode = data.mode;
-      if (data.customBgImage) customBgImage = data.customBgImage;
-      if (data.showIntentionsOnBoard) {
-        showIntentionsOnBoard = true;
-        canvas.classList.add('show-intentions');
-        const toggle = $('#toggle-show-intentions');
-        if (toggle) toggle.checked = true;
+  async function loadBoard() {
+    let data = null;
+    try { data = await idbGet(BOARD_KEY); } catch (e) { /* fall through */ }
+    if (!data) {
+      const raw = lsGet(BOARD_KEY);
+      if (raw) { try { data = JSON.parse(raw); } catch (e) { /* ignore */ } }
+    }
+    let migrated = false;
+    if (!data) {
+      const legacy = lsGet(LEGACY_KEY);
+      if (legacy) {
+        try { data = migrateV1(JSON.parse(legacy)); migrated = true; } catch (e) { data = null; }
       }
-      const bg = BACKGROUNDS.find(b => b.id === data.backgroundId);
-      if (bg) currentBg = bg;
-      applyBackground();
-
-      // One-time migration: boards saved before fractional positions existed
-      // only have px. Convert using the canvas size they were saved at.
-      const live = canvasBounds();
-      const savedW = data.canvasW || live.width;
-      const savedH = data.canvasH || live.height;
-      elements.forEach(el => {
-        if (typeof el.fx !== 'number' && savedW > 0) el.fx = (el.x || 0) / savedW;
-        if (typeof el.fy !== 'number' && savedH > 0) el.fy = (el.y || 0) / savedH;
-      });
-
-      elements.forEach(el => renderElement(el));
-    } catch (e) {
-      console.warn('Load failed:', e);
     }
+    if (data && data.v === 2) {
+      board = Object.assign(emptyBoard(), data);
+      board.pieces = (board.pieces || []).map(normalizePiece);
+    }
+    return migrated;
   }
 
-  function clearBoard() {
-    if (!confirm('Clear the entire board? This cannot be undone.')) return;
-    elements = [];
-    selectedId = null;
-    nextId = 1;
-    maxZ = 0;
-    customBgImage = null;
-    currentBg = BACKGROUNDS[0];
-    applyBackground();
-    canvas.querySelectorAll('.canvas-element').forEach(el => el.remove());
-    // Clear any active drawing
-    const drawCanvas = $('#draw-canvas');
-    if (drawCanvas) {
-      const ctx = drawCanvas.getContext('2d');
-      ctx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-    }
-    drawStrokes = [];
-    if (!$('#draw-overlay').classList.contains('hidden')) {
-      $('#draw-overlay').classList.add('hidden');
-      $('#toolbar-bottom').style.display = 'flex';
-    }
-    drawCtx = null;
-    localStorage.removeItem('visionbort-mode');
-    localStorage.removeItem(STORAGE_KEY);
-    if (intentionsPanelOpen) {
-      intentionsPanelOpen = false;
-      intentionsPanel.classList.add('hidden');
-      btnIntentions.classList.remove('active-outline');
-    }
-    closeSidebar();
-    updateUI();
-    openModal(welcomeModal, $('#welcome-intentional'));
+  // ===== v1 migration =====
+  function migrateV1(d) {
+    const savedW = d.canvasW || 1280;
+    const savedH = d.canvasH || 720;
+    const shape = savedH > savedW * 1.1 ? 'tall' : 'wide';
+    const { w: WW, h: HH } = SHAPES[shape];
+    // v1 sizes were screen pixels on a canvas of savedW x savedH. Scale them
+    // uniformly so a piece keeps its size relative to the board.
+    const k = clamp(Math.min(WW / savedW, HH / savedH), 0.6, 2.4);
+    const oldBg = d.backgroundId || 'warm';
+    const paintMap = { warm: 'white', blush: 'white', ocean: 'white', sunset: 'white', lavender: 'white', cork: 'ochre', forest: 'salon', midnight: 'charcoal' };
+    const pieces = (d.elements || []).map((el, i) => {
+      const w = (el.width || 200) * k;
+      const h = (el.height || 200) * k;
+      const fx = typeof el.fx === 'number' ? el.fx : (el.x || 0) / savedW;
+      const fy = typeof el.fy === 'number' ? el.fy : (el.y || 0) / savedH;
+      const p = {
+        id: 'p-' + (i + 1),
+        type: el.type,
+        x: fx * WW, y: fy * HH, w, h,
+        rot: el.rotation || 0,
+        z: el.zIndex || i + 1,
+        why: el.intention || '',
+        name: '', by: '', dot: false,
+      };
+      if (el.type === 'image') {
+        p.src = el.src;
+        p.alt = el.label || '';
+        if (el.label === 'Drawing') { p.kind = 'drawing'; p.frame = 'none'; }
+        else if (el.clipShape === 'polaroid') p.frame = 'polaroid';
+        else if (el.clipShape === 'circle') p.frame = 'circle';
+        else if (el.clipShape === 'torn') { p.frame = 'torn'; p.clip = el.clipPath; }
+        else if (['star', 'heart', 'diamond'].includes(el.clipShape)) p.frame = el.clipShape;
+        else p.frame = 'none';
+      } else if (el.type === 'sticker') {
+        p.src = el.src;
+      } else if (el.type === 'text') {
+        p.content = el.content || '';
+        p.family = el.fontFamily || FONTS[0].family;
+        p.size = (el.fontSize || 32) * k;
+        p.color = el.color || '#1c1b19';
+        p.weight = el.fontWeight === 'bold' ? 700 : 400;
+        p.italic = el.fontStyle === 'italic';
+      }
+      return p;
+    });
+    const b = emptyBoard();
+    b.title = d.boardTitle && d.boardTitle !== 'My Vision Board' ? d.boardTitle : '';
+    b.paint = paintMap[oldBg] || 'white';
+    b.shape = shape;
+    if (d.customBgImage && d.customBgImage.src) b.wallpaper = d.customBgImage.src;
+    b.pieces = pieces.map(normalizePiece);
+    b.nextId = pieces.length + 1;
+    b.maxZ = Math.max(0, ...pieces.map(p => p.z || 0));
+    return b;
   }
 
-  // ===== Undo =====
+  function normalizePiece(p) {
+    const n = Object.assign({ rot: 0, z: 1, why: '', name: '', by: '', dot: false }, p);
+    if (n.type === 'image' && !n.frame) n.frame = 'none';
+    return n;
+  }
+
+  // ===== Undo / redo =====
+  // Snapshots copy each piece object but share the image strings, which are
+  // never mutated in place. Thirty deep copies of a photo board used to cost
+  // tens of megabytes; this costs almost nothing.
+  function snapshot() {
+    return Object.assign({}, board, {
+      title: showTitle.value.trim(),
+      pieces: board.pieces.map(p => Object.assign({}, p)),
+    });
+  }
+  function restore(snap) {
+    board = Object.assign({}, snap, { pieces: snap.pieces.map(p => Object.assign({}, p)) });
+    showTitle.value = board.title || '';
+    if (!byId(selectedId)) selectedId = null;
+    closeCard();
+    applyWall();
+    renderAll();
+    refreshUI();
+    save();
+  }
   function pushUndo() {
-    const snapshot = {
-      elements: JSON.parse(JSON.stringify(elements)),
-      customBgImage: customBgImage ? { ...customBgImage } : null,
-      bgId: currentBg.id,
-      nextId,
-      maxZ,
-    };
-    undoStack.push(snapshot);
-    while (undoStack.length > MAX_UNDO) undoStack.shift();
-    // Image bytes are heavy — 30 deep clones of a board full of photos is tens
-    // of megabytes. Cap how many snapshots may carry them.
-    while (undoStack.filter(snapshotHasImages).length > MAX_IMAGE_UNDO) undoStack.shift();
-    updateUndoButton();
+    undoStack.push(snapshot());
+    if (undoStack.length > MAX_UNDO) undoStack.shift();
+    redoStack = [];
+    updateUndoButtons();
   }
-
-  function isDataUrl(src) {
-    return typeof src === 'string' && src.slice(0, 5) === 'data:';
-  }
-
-  function snapshotHasImages(snap) {
-    if (snap.customBgImage && isDataUrl(snap.customBgImage.src)) return true;
-    return snap.elements.some(el => el.type === 'image' && isDataUrl(el.src));
-  }
-
   function undo() {
-    if (undoStack.length === 0) return;
-    const snapshot = undoStack.pop();
-
-    // Restore state
-    elements = snapshot.elements;
-    customBgImage = snapshot.customBgImage;
-    const bg = BACKGROUNDS.find(b => b.id === snapshot.bgId);
-    if (bg) currentBg = bg;
-    nextId = snapshot.nextId;
-    maxZ = snapshot.maxZ;
-    selectedId = null;
-
-    // Re-render all elements
-    canvas.querySelectorAll('.canvas-element').forEach(el => el.remove());
-    elements.forEach(el => renderElement(el));
-    applyBackground();
-    updateUI();
-    updateUndoButton();
-    saveBoard();
+    if (!undoStack.length) return;
+    redoStack.push(snapshot());
+    restore(undoStack.pop());
+    updateUndoButtons();
+  }
+  function redo() {
+    if (!redoStack.length) return;
+    undoStack.push(snapshot());
+    restore(redoStack.pop());
+    updateUndoButtons();
+  }
+  function updateUndoButtons() {
+    $('#btn-undo').disabled = !undoStack.length;
+    $('#btn-redo').disabled = !redoStack.length;
   }
 
-  function updateUndoButton() {
-    const btn = $('#btn-undo');
-    btn.style.display = undoStack.length > 0 ? 'inline-flex' : 'none';
-  }
-
-  // ===== Element CRUD =====
-  function addElement(props) {
-    if (mode === 'intentional' && !props._skipIntention && props.type !== 'text') {
-      // Show intention prompt before adding
-      pendingElement = { ...props };
-      intentionPromptText.textContent = INTENTION_PROMPTS[Math.floor(Math.random() * INTENTION_PROMPTS.length)];
-      intentionInput.value = '';
-      // Show "use as background" toggle only for images
-      const bgToggleWrap = $('#bg-toggle-wrap');
-      const bgCheckbox = $('#intention-set-bg');
-      if (props.type === 'image') {
-        bgToggleWrap.classList.remove('hidden');
-        bgCheckbox.checked = false;
-      } else {
-        bgToggleWrap.classList.add('hidden');
-      }
-      openModal(intentionModal, intentionInput);
-      return null;
-    }
-
-    delete props._skipIntention;
-
-    // Settle panel state first: opening the Intentions panel narrows the canvas,
-    // and placing before that is what pushed items off-screen.
-    ensureModePanels();
-
-    pushUndo();
-    // Ensure new element is always on top
-    maxZ = Math.max(maxZ, ...elements.map(e => e.zIndex || 0)) + 1;
-    const width = props.width || 200;
-    const height = props.height || 200;
-    const spot = (props.x != null && props.y != null)
-      ? clampInside(props.x, props.y, width, height)
-      : nextPlacement(width, height);
-    const el = {
-      rotation: props.rotation ?? randomInt(-8, 8),
-      intention: props.intention || '',
-      ...props,
-      id: 'el-' + nextId++,
-      width,
-      height,
-      x: spot.x,
-      y: spot.y,
-      zIndex: maxZ, // ensure this isn't overridden by spread
+  // ===== View: pan and zoom =====
+  function insets() {
+    const phone = isPhone();
+    const views = phone ? 56 : 0;
+    return {
+      top: 20 + views,
+      bottom: (phone ? 86 : 104),
+      left: (!phone && panelTab) ? 364 : 20,
+      right: 20,
     };
-    syncFractions(el);
-    elements.push(el);
-    renderElement(el, true);
-    selectElement(el.id);
-    updateUI();
-    renderIntentionsPanel();
-    saveBoard();
-    return el;
+  }
+  function computeFit() {
+    const r = stage.getBoundingClientRect();
+    const i = insets();
+    const aw = Math.max(80, r.width - i.left - i.right);
+    const ah = Math.max(80, r.height - i.top - i.bottom);
+    const s = Math.min(aw / W(), ah / H());
+    return { s, tx: i.left + (aw - W() * s) / 2, ty: i.top + (ah - H() * s) / 2 };
+  }
+  function fit() {
+    const f = computeFit();
+    fitS = f.s;
+    userZoomed = false;
+    setView(f.s, f.tx, f.ty);
+  }
+  function setView(s, tx, ty) {
+    const r = stage.getBoundingClientRect();
+    // Keep part of the wall on screen whatever happens.
+    const keep = 80;
+    tx = clamp(tx, keep - W() * s, r.width - keep);
+    ty = clamp(ty, keep - H() * s, r.height - keep);
+    view = { s, tx, ty };
+    wall.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
+    wall.style.setProperty('--s', s);
+    const zoomed = Math.abs(s / fitS - 1) > 0.02;
+    document.body.classList.toggle('zoomed', zoomed);
+    const fitBtn = $('#zoom-fit');
+    fitBtn.textContent = zoomed ? Math.round(s / fitS * 100) + '%' : 'Fit';
+    fitBtn.setAttribute('aria-label', zoomed ? `Fit the wall to the screen (now ${Math.round(s / fitS * 100)}%)` : 'Fit the wall to the screen');
+    positionCtx();
+  }
+  function zoomAt(factor, cx, cy) {
+    const r = stage.getBoundingClientRect();
+    const px = cx - r.left, py = cy - r.top;
+    const s = clamp(view.s * factor, fitS * 0.5, Math.max(4, fitS * 8));
+    const k = s / view.s;
+    userZoomed = true;
+    setView(s, px - (px - view.tx) * k, py - (py - view.ty) * k);
+  }
+  function zoomBy(factor) {
+    const r = stage.getBoundingClientRect();
+    zoomAt(factor, r.left + r.width / 2, r.top + r.height / 2);
+  }
+  function clientToWorld(cx, cy) {
+    const r = stage.getBoundingClientRect();
+    return { x: (cx - r.left - view.tx) / view.s, y: (cy - r.top - view.ty) / view.s };
+  }
+  // The middle of whatever part of the wall is on screen, for placing new pieces.
+  function visibleCenter() {
+    const r = stage.getBoundingClientRect();
+    const i = insets();
+    const c = clientToWorld(r.left + (i.left + r.width - i.right) / 2, r.top + (i.top + r.height - i.bottom) / 2);
+    return { x: clamp(c.x, 0, W()), y: clamp(c.y, 0, H()) };
+  }
+  function refitIfAuto() {
+    if (!userZoomed && viewMode !== 'walk') fit();
+    else setView(view.s, view.tx, view.ty);
   }
 
-  function updateElement(id, updates) {
-    const el = elements.find(e => e.id === id);
-    if (!el) return;
-    Object.assign(el, updates);
-    const dom = canvas.querySelector(`[data-id="${id}"]`);
-    if (dom) applyElementStyle(dom, el);
-    saveBoard();
-  }
-
-  function removeElement(id) {
-    pushUndo();
-    elements = elements.filter(e => e.id !== id);
-    const dom = canvas.querySelector(`[data-id="${id}"]`);
-    if (dom) dom.remove();
-    if (selectedId === id) selectedId = null;
-    updateUI();
-    saveBoard();
-  }
-
-  function bringToFront(id) {
-    maxZ++;
-    updateElement(id, { zIndex: maxZ });
-  }
-
-  function sendToBack(id) {
-    const minZ = Math.min(...elements.map(e => e.zIndex));
-    updateElement(id, { zIndex: minZ - 1 });
+  // ===== Wall =====
+  function applyWall() {
+    wall.style.width = W() + 'px';
+    wall.style.height = H() + 'px';
+    wall.dataset.paint = paint().id;
+    wall.dataset.tone = board.wallpaper ? 'dark' : paint().tone;
+    wall.classList.toggle('no-light', !board.light);
+    wallPaper.style.backgroundImage = board.wallpaper ? `url("${board.wallpaper}")` : '';
+    stage.style.setProperty('--paint-hex', paint().hex);
+    $('#wp-clear').hidden = !board.wallpaper;
+    $('#opt-light').checked = board.light;
+    document.querySelectorAll('#paint-grid .paint').forEach(b => b.setAttribute('aria-checked', String(b.dataset.paint === board.paint && !board.wallpaper)));
+    document.querySelectorAll('#shape-seg button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.shape === board.shape)));
   }
 
   // ===== Rendering =====
-  // `animate` is opt-in: pop-in used to be baked into every render, so it
-  // replayed on every page load and on every structural re-render.
-  function renderElement(el, animate) {
-    // Remove existing DOM if re-rendering
-    const existing = canvas.querySelector(`[data-id="${el.id}"]`);
-    if (existing) existing.remove();
-
-    const div = document.createElement('div');
-    div.className = 'canvas-element' + (animate ? ' pop-in' : '');
-    if (animate) {
-      const clearPop = () => div.classList.remove('pop-in');
-      div.addEventListener('animationend', clearPop, { once: true });
-      // animationend never fires if the animation is paused (hidden tab) or
-      // suppressed (prefers-reduced-motion), and the 0% keyframe is scale(0.5).
-      // The timer guarantees the class comes off either way.
-      setTimeout(clearPop, 600);
-    }
-    div.dataset.id = el.id;
-    div.dataset.type = el.type;
-
-    const content = document.createElement('div');
-    content.className = 'element-content';
-
-    if (el.type === 'image') {
-      if (el.clipShape === 'polaroid') {
-        const frame = document.createElement('div');
-        frame.className = 'polaroid-frame';
-        const img = document.createElement('img');
-        img.src = el.src;
-        img.draggable = false;
-        img.alt = el.label || '';
-        frame.appendChild(img);
-        content.appendChild(frame);
-      } else {
-        const img = document.createElement('img');
-        img.src = el.src;
-        img.draggable = false;
-        img.alt = el.label || '';
-        if (el.clipShape && el.clipPath) {
-          img.style.clipPath = el.clipPath;
-        }
-        content.appendChild(img);
-      }
-    } else if (el.type === 'sticker') {
-      const span = document.createElement('div');
-      span.className = 'sticker-content';
-      span.style.fontSize = Math.min(el.width, el.height) * 0.75 + 'px';
-      span.textContent = el.src;
-      content.appendChild(span);
-    } else if (el.type === 'text') {
-      const textDiv = document.createElement('div');
-      textDiv.className = 'text-content';
-      textDiv.textContent = el.content;
-      textDiv.style.fontSize = (el.fontSize || 32) + 'px';
-      textDiv.style.fontFamily = el.fontFamily || 'serif';
-      textDiv.style.color = el.color || '#1a1a2e';
-      textDiv.style.fontWeight = el.fontWeight || 'bold';
-      textDiv.style.fontStyle = el.fontStyle || 'normal';
-      content.appendChild(textDiv);
-    }
-
-    div.appendChild(content);
-    canvas.appendChild(div);
-    applyElementStyle(div, el);
-
-    // Event listeners
-    div.addEventListener('pointerdown', (e) => handlePointerDown(e, el.id));
-    div.addEventListener('dblclick', (e) => handleDoubleClick(e, el.id));
+  function renderAll() {
+    piecesEl.innerHTML = '';
+    labelsEl.innerHTML = '';
+    board.pieces.forEach(p => renderPiece(p));
+    renderLabels();
+    updateEmpty();
   }
 
-  function applyElementStyle(dom, el) {
-    const pos = resolvePosition(el);
-    dom.style.left = pos.x + 'px';
-    dom.style.top = pos.y + 'px';
-    dom.style.width = el.width + 'px';
-    dom.style.height = el.height + 'px';
-    dom.style.zIndex = el.zIndex;
-    // --el-rot lets the pop-in keyframes carry the tilt instead of flattening it
-    dom.style.setProperty('--el-rot', (el.rotation || 0) + 'deg');
-    dom.style.transform = `rotate(${el.rotation || 0}deg)`;
-
-    // Intention tooltip
-    if (el.intention) {
-      dom.title = el.intention;
-      // Add or update intention label for export
-      let intentLabel = dom.querySelector('.intention-label');
-      if (!intentLabel) {
-        intentLabel = document.createElement('div');
-        intentLabel.className = 'intention-label';
-        dom.querySelector('.element-content').appendChild(intentLabel);
+  function renderPiece(p, animate) {
+    let dom = domOf(p.id);
+    if (!dom) {
+      dom = document.createElement('div');
+      dom.className = 'piece';
+      dom.dataset.id = p.id;
+      dom.tabIndex = 0;
+      dom.setAttribute('role', 'button');
+      dom.setAttribute('aria-roledescription', 'piece');
+      piecesEl.appendChild(dom);
+      if (animate) {
+        dom.classList.add('pop-in');
+        const clear = () => dom.classList.remove('pop-in');
+        dom.addEventListener('animationend', clear, { once: true });
+        setTimeout(clear, 600);
       }
-      intentLabel.textContent = el.intention;
+    }
+    dom.dataset.type = p.type;
+    dom.dataset.frame = p.type === 'image' ? (p.frame || 'none') : '';
+    dom.classList.toggle('cutout', !!p.cutout);
+    dom.classList.toggle('ink', p.kind === 'drawing');
+    dom.style.left = p.x + 'px';
+    dom.style.top = p.y + 'px';
+    dom.style.width = p.w + 'px';
+    dom.style.height = p.h + 'px';
+    dom.style.zIndex = p.z;
+    dom.style.setProperty('--rot', (p.rot || 0) + 'deg');
+    dom.style.transform = `rotate(${p.rot || 0}deg)`;
+    dom.setAttribute('aria-label', describe(p));
+
+    // Content is rebuilt only when it actually changes, so dragging stays cheap.
+    const sig = contentSig(p);
+    if (dom.dataset.sig !== sig) {
+      dom.dataset.sig = sig;
+      dom.querySelectorAll('.art').forEach(n => n.remove());
+      dom.insertBefore(buildArt(p), dom.firstChild);
     } else {
-      dom.title = '';
-      const existing = dom.querySelector('.intention-label');
-      if (existing) existing.remove();
+      styleArt(dom.querySelector('.art'), p);
     }
+    renderSelection(dom, p);
+  }
 
-    // Clip path / polaroid for images
-    if (el.type === 'image') {
-      const hasPolaroid = !!dom.querySelector('.polaroid-frame');
-      const needsPolaroid = el.clipShape === 'polaroid';
-      if (hasPolaroid !== needsPolaroid) {
-        // Structure changed, re-render
-        renderElement(el);
-        return;
+  function contentSig(p) {
+    if (p.type === 'image') return ['i', p.frame, p.cutout ? 1 : 0, p.kind || '', p.src.length, p.src.slice(-24)].join('|');
+    if (p.type === 'sticker') return 's|' + p.src;
+    return 't|' + p.content;
+  }
+
+  function buildArt(p) {
+    const art = document.createElement('div');
+    art.className = 'art';
+    if (p.type === 'image') {
+      const img = document.createElement('img');
+      img.src = p.src;
+      img.alt = '';
+      img.draggable = false;
+      const framed = ['black', 'oak', 'white', 'oval'].includes(p.frame) && !p.cutout;
+      if (framed) {
+        const mat = document.createElement('div');
+        mat.className = 'mat';
+        mat.appendChild(img);
+        art.appendChild(mat);
+      } else {
+        art.appendChild(img);
       }
-      if (!needsPolaroid) {
-        const img = dom.querySelector('img');
-        if (img) img.style.clipPath = (el.clipShape && el.clipPath) ? el.clipPath : '';
+    } else if (p.type === 'sticker') {
+      art.textContent = p.src;
+    } else {
+      art.textContent = p.content;
+    }
+    styleArt(art, p);
+    return art;
+  }
+
+  function styleArt(art, p) {
+    if (!art) return;
+    const dom = art.parentElement;
+    if (p.type === 'image') {
+      const m = Math.min(p.w, p.h);
+      art.style.setProperty('--fw', clamp(m * 0.045, 8, 26) + 'px');
+      art.style.setProperty('--mw', clamp(m * 0.09, 10, 44) + 'px');
+      const clip = clipFor(p);
+      const img = art.querySelector('img');
+      if (img) img.style.clipPath = clip;
+      if (dom) dom.classList.toggle('clipped', !!clip);
+    } else if (p.type === 'sticker') {
+      art.style.fontSize = Math.min(p.w, p.h) * 0.8 + 'px';
+    } else {
+      art.style.fontFamily = p.family || FONTS[0].family;
+      art.style.fontSize = (p.size || WORDS_SIZE) + 'px';
+      art.style.color = p.color || paint().ink;
+      art.style.fontWeight = p.weight || 600;
+      art.style.fontStyle = p.italic ? 'italic' : 'normal';
+    }
+  }
+
+  // Torn edges are stored as percentages, so they scale. The older star, heart
+  // and diamond clips are regenerated for the current size.
+  function clipFor(p) {
+    if (p.cutout || p.kind === 'drawing') return '';
+    if (p.frame === 'torn') return p.clip || (p.clip = tornPath());
+    if (p.frame === 'star' || p.frame === 'heart' || p.frame === 'diamond') return legacyClip(p.frame, p.w, p.h);
+    return '';
+  }
+
+  function describe(p) {
+    let what;
+    if (p.type === 'image') what = p.kind === 'drawing' ? 'Drawing' : (p.cutout ? 'Cutout' : 'Photo');
+    else if (p.type === 'sticker') what = 'Sticker, ' + (STICKER_NAMES[p.src] || 'emoji');
+    else what = 'Words, ' + (p.content || '');
+    const name = p.name || (p.type === 'image' ? p.alt : '');
+    let s = name ? `${what}: ${name}` : what;
+    if (p.dot) s += '. Marked yours';
+    return s;
+  }
+
+  function renderSelection(dom, p) {
+    dom.querySelectorAll('.sel-box').forEach(n => n.remove());
+    const on = p.id === selectedId && viewMode !== 'walk' && editingTextId !== p.id;
+    dom.classList.toggle('selected', on);
+    if (!on) return;
+    const box = document.createElement('div');
+    box.className = 'sel-box';
+    ['nw', 'ne', 'sw', 'se'].forEach(c => {
+      const h = document.createElement('div');
+      h.className = 'h ' + c;
+      h.dataset.handle = c;
+      box.appendChild(h);
+    });
+    const stalk = document.createElement('div');
+    stalk.className = 'rot-stalk';
+    box.appendChild(stalk);
+    const rot = document.createElement('div');
+    rot.className = 'h rot';
+    rot.dataset.handle = 'rot';
+    box.appendChild(rot);
+    dom.appendChild(box);
+  }
+
+  function updateEmpty() {
+    const has = board.pieces.length > 0;
+    wallEmpty.hidden = has;
+    $('#btn-hang').disabled = !has;
+  }
+
+  // ===== Wall labels =====
+  function hasLabel(p) { return !!(p.name || p.why || p.by || p.dot); }
+
+  // Axis-aligned bounds of a rotated piece, for placing its label.
+  function bbox(p) {
+    const r = (p.rot || 0) * Math.PI / 180;
+    const c = Math.abs(Math.cos(r)), s = Math.abs(Math.sin(r));
+    const bw = p.w * c + p.h * s, bh = p.w * s + p.h * c;
+    const cx = p.x + p.w / 2, cy = p.y + p.h / 2;
+    return { x: cx - bw / 2, y: cy - bh / 2, w: bw, h: bh };
+  }
+
+  function renderLabels(justDottedId) {
+    labelsEl.innerHTML = '';
+    const full = viewMode === 'labels';
+    board.pieces.forEach(p => {
+      if (!hasLabel(p)) return;
+      const el = document.createElement('div');
+      el.className = 'lbl';
+      el.dataset.for = p.id;
+      // Compact: a title (or the start of the why) and the date. Wall text
+      // view: the whole why.
+      const nameText = p.name || (full ? '' : shorten(p.why, 54));
+      const whyText = full ? p.why : '';
+      if (!nameText && !whyText && !p.by) el.classList.add('solo-dot');
+      if (nameText) addLine(el, 'lbl-name', nameText);
+      if (whyText) addLine(el, 'lbl-why', whyText);
+      if (p.by) addLine(el, 'lbl-by', p.by);
+      if (p.dot) {
+        const d = document.createElement('span');
+        d.className = 'lbl-dot';
+        el.appendChild(d);
+        if (p.id === justDottedId) el.classList.add('just-dotted');
       }
-    }
-
-    // Update inner content styles
-    if (el.type === 'sticker') {
-      const sc = dom.querySelector('.sticker-content');
-      if (sc) sc.style.fontSize = Math.min(el.width, el.height) * 0.75 + 'px';
-    }
-    if (el.type === 'text') {
-      const tc = dom.querySelector('.text-content');
-      if (tc) {
-        tc.style.fontSize = (el.fontSize || 32) + 'px';
-        tc.style.fontFamily = el.fontFamily || 'serif';
-        tc.style.color = el.color || '#1a1a2e';
-        tc.style.fontWeight = el.fontWeight || 'bold';
-        tc.style.fontStyle = el.fontStyle || 'normal';
-      }
-    }
-
-    // Selection UI
-    dom.classList.toggle('selected', el.id === selectedId);
-    updateSelectionUI(dom, el);
-  }
-
-  function updateSelectionUI(dom, el) {
-    // Remove old handles and action bar
-    dom.querySelectorAll('.resize-handle, .rotate-handle, .element-actions').forEach(h => h.remove());
-
-    if (el.id !== selectedId) return;
-
-    // Resize handles
-    ['nw', 'ne', 'sw', 'se'].forEach(pos => {
-      const handle = document.createElement('div');
-      handle.className = `resize-handle ${pos}`;
-      handle.dataset.noExport = 'true';
-      handle.addEventListener('pointerdown', (e) => {
-        e.stopPropagation();
-        startResize(e, el.id, pos);
-      });
-      dom.querySelector('.element-content').appendChild(handle);
+      labelsEl.appendChild(el);
+      placeLabel(el, p);
     });
-
-    // Rotate handle
-    const rotateHandle = document.createElement('div');
-    rotateHandle.className = 'rotate-handle';
-    rotateHandle.dataset.noExport = 'true';
-    rotateHandle.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e07caa" stroke-width="2.5"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/></svg>';
-    rotateHandle.addEventListener('pointerdown', (e) => {
-      e.stopPropagation();
-      startRotate(e, el.id);
-    });
-    dom.querySelector('.element-content').appendChild(rotateHandle);
-
-    // Action bar
-    const actions = document.createElement('div');
-    actions.className = 'element-actions';
-    actions.dataset.noExport = 'true';
-
-    // Bring to front
-    actions.appendChild(makeActionBtn(
-      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>',
-      'Bring to front',
-      () => bringToFront(el.id)
-    ));
-
-    // Send to back
-    actions.appendChild(makeActionBtn(
-      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg>',
-      'Send to back',
-      () => sendToBack(el.id)
-    ));
-
-    // Image-specific actions
-    if (el.type === 'image') {
-      // Shape clipping
-      const shapeBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 19 8.5 17 17.5 7 17.5 5 8.5"/></svg>',
-        'Change shape',
-        () => toggleShapeSelector(actions, el.id)
-      );
-      actions.appendChild(shapeBtn);
-    }
-
-    // Text-specific actions
-    if (el.type === 'text') {
-      // Edit text button
-      const editBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
-        'Edit text',
-        () => handleDoubleClick({ stopPropagation: () => {} }, el.id)
-      );
-      actions.appendChild(editBtn);
-
-      // Font selector
-      const fontBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>',
-        'Change font',
-        () => toggleFontSelector(actions, el.id)
-      );
-      actions.appendChild(fontBtn);
-
-      // Bold toggle
-      const boldBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>',
-        'Toggle bold',
-        () => {
-          const newWeight = el.fontWeight === 'bold' ? 'normal' : 'bold';
-          updateElement(el.id, { fontWeight: newWeight });
-        }
-      );
-      actions.appendChild(boldBtn);
-
-      // Italic toggle
-      const italicBtn = makeActionBtn(
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>',
-        'Toggle italic',
-        () => {
-          const newStyle = el.fontStyle === 'italic' ? 'normal' : 'italic';
-          updateElement(el.id, { fontStyle: newStyle });
-        }
-      );
-      actions.appendChild(italicBtn);
-
-      // Color picker
-      const colorInput = document.createElement('input');
-      colorInput.type = 'color';
-      colorInput.className = 'color-input';
-      colorInput.value = el.color || '#1a1a2e';
-      colorInput.title = 'Text color';
-      colorInput.addEventListener('input', (e) => {
-        updateElement(el.id, { color: e.target.value });
-      });
-      colorInput.addEventListener('pointerdown', (e) => e.stopPropagation());
-      actions.appendChild(colorInput);
-    }
-
-    // Duplicate
-    actions.appendChild(makeActionBtn(
-      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
-      'Duplicate',
-      () => {
-        const clone = { ...el, x: el.x + 20, y: el.y + 20 };
-        delete clone.id;
-        delete clone.zIndex;
-        addElement(clone);
-      }
-    ));
-
-    // Delete
-    const deleteBtn = makeActionBtn(
-      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>',
-      'Delete',
-      () => removeElement(el.id)
-    );
-    deleteBtn.classList.add('danger');
-    actions.appendChild(deleteBtn);
-
-    dom.querySelector('.element-content').appendChild(actions);
-    positionActionBar(dom, el);
   }
 
-  // Keep the action bar reachable. Above the element it slides under the fixed
-  // top toolbar when the element sits near the canvas top, and centring it pushes
-  // it past the canvas edge for elements near the left/right sides.
-  function positionActionBar(dom, el) {
-    const actions = dom.querySelector('.element-actions');
-    if (!actions) return;
-    const cvRect = canvas.getBoundingClientRect();
-    const barH = actions.offsetHeight || 40;
-
-    // Vertical: flip below when there is no room above.
-    actions.classList.toggle('below', el.y < barH + 8);
-
-    // Horizontal: start centred, then correct by the measured overflow. Measuring
-    // rather than computing from el.x keeps this correct for rotated elements,
-    // whose rendered bar is offset from the unrotated geometry. Two passes is
-    // enough to converge.
-    actions.classList.remove('shifted');
-    actions.style.left = '50%';
-    const inset = 4;
-    for (let pass = 0; pass < 2; pass++) {
-      const bar = actions.getBoundingClientRect();
-      let shift = 0;
-      if (bar.left < cvRect.left + inset) shift = (cvRect.left + inset) - bar.left;
-      else if (bar.right > cvRect.right - inset) shift = (cvRect.right - inset) - bar.right;
-      if (Math.abs(shift) < 0.5) break;
-      const currentLeft = actions.classList.contains('shifted')
-        ? parseFloat(actions.style.left) || 0
-        : el.width / 2 - bar.width / 2;
-      actions.classList.add('shifted');
-      actions.style.left = (currentLeft + shift) + 'px';
+  // Gallery-style: under the piece, left-aligned to it. Above it when there
+  // is no room below. A lone red dot sits on the piece's lower right corner.
+  function placeLabel(el, p) {
+    const b = bbox(p);
+    const lw = el.offsetWidth, lh = el.offsetHeight;
+    let x, y;
+    if (el.classList.contains('solo-dot')) {
+      x = b.x + b.w - lw / 2 - 6;
+      y = b.y + b.h - lh / 2 - 6;
+    } else {
+      x = clamp(b.x, 8, W() - lw - 8);
+      y = b.y + b.h + LABEL_GAP;
+      if (y + lh > H() - 8) y = Math.max(8, b.y - LABEL_GAP - lh);
     }
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.style.zIndex = (p.z || 1);
   }
 
-  function makeActionBtn(svg, title, onClick) {
-    const btn = document.createElement('button');
-    btn.className = 'action-btn';
-    btn.innerHTML = svg;
-    btn.title = title;
-    btn.addEventListener('click', (e) => { e.stopPropagation(); onClick(); });
-    btn.addEventListener('pointerdown', (e) => e.stopPropagation());
-    return btn;
+  function shorten(s, n) {
+    s = String(s || '').trim();
+    if (s.length <= n) return s;
+    const cut = s.slice(0, n);
+    return cut.slice(0, Math.max(cut.lastIndexOf(' '), n - 12)).replace(/[,.;:]$/, '') + '...';
   }
 
-  function toggleFontSelector(actionsEl, elId) {
-    let dropdown = actionsEl.querySelector('.font-selector');
-    if (dropdown) {
-      dropdown.classList.toggle('hidden');
-      return;
-    }
-    dropdown = document.createElement('div');
-    dropdown.className = 'font-selector';
-    const el = elements.find(e => e.id === elId);
-    FONTS.forEach(font => {
-      const btn = document.createElement('button');
-      btn.className = 'font-option';
-      if (el && el.fontFamily === font.family) btn.classList.add('active');
-      btn.style.fontFamily = font.family;
-      btn.textContent = font.label;
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        updateElement(elId, { fontFamily: font.family });
-        dropdown.classList.add('hidden');
-        selectElement(elId); // Re-render actions
-      });
-      btn.addEventListener('pointerdown', (e) => e.stopPropagation());
-      dropdown.appendChild(btn);
-    });
-    actionsEl.appendChild(dropdown);
+  // ===== Pieces: add, change, remove =====
+  function nextSpot(w, h) {
+    const c = visibleCenter();
+    const n = board.pieces.length % 18;
+    const step = Math.min(W(), H()) * 0.11;
+    const a = n * 2.39996323;
+    const r = step * Math.sqrt(n);
+    return clampInside(c.x + r * Math.cos(a) - w / 2, c.y + r * Math.sin(a) - h / 2, w, h);
+  }
+  function clampInside(x, y, w, h) {
+    return {
+      x: Math.round(clamp(x, 16, Math.max(16, W() - w - 16))),
+      y: Math.round(clamp(y, 16, Math.max(16, H() - h - 16))),
+    };
+  }
+  function clampOnWall(p) {
+    p.x = clamp(p.x, MIN_ON_WALL - p.w, W() - MIN_ON_WALL);
+    p.y = clamp(p.y, MIN_ON_WALL - p.h, H() - MIN_ON_WALL);
   }
 
-  function toggleShapeSelector(actionsEl, elId) {
-    let dropdown = actionsEl.querySelector('.font-selector');
-    if (dropdown) {
-      dropdown.classList.toggle('hidden');
-      return;
-    }
-    dropdown = document.createElement('div');
-    dropdown.className = 'font-selector';
-    const el = elements.find(e => e.id === elId);
-    CLIP_SHAPES.forEach(shape => {
-      const btn = document.createElement('button');
-      btn.className = 'font-option';
-      if (el && el.clipShape === shape.id) btn.classList.add('active');
-      btn.textContent = shape.label;
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (shape.id === 'none') {
-          updateElement(elId, { clipShape: null, clipPath: '' });
-        } else if (shape.id === 'polaroid') {
-          const size = Math.min(el.width, el.height);
-          updateElement(elId, { clipShape: 'polaroid', clipPath: '', width: size, height: size * 1.15 });
-        } else if (shape.id === 'torn') {
-          // Torn keeps original dimensions
-          const clipPath = getClipPath('torn', el.width, el.height);
-          updateElement(elId, { clipShape: 'torn', clipPath });
-        } else {
-          // Circle, star, heart, diamond — make square so shape isn't distorted
-          const size = Math.min(el.width, el.height);
-          const clipPath = getClipPath(shape.id, size, size);
-          updateElement(elId, { clipShape: shape.id, clipPath, width: size, height: size });
-        }
-        dropdown.classList.add('hidden');
-        selectElement(elId);
-      });
-      btn.addEventListener('pointerdown', (e) => e.stopPropagation());
-      dropdown.appendChild(btn);
-    });
-    actionsEl.appendChild(dropdown);
+  function addPiece(props, opts) {
+    opts = opts || {};
+    if (!opts.noUndo) pushUndo();
+    const w = props.w, h = props.h;
+    const spot = (props.x != null && props.y != null) ? { x: props.x, y: props.y } : nextSpot(w, h);
+    board.maxZ += 1;
+    const p = normalizePiece(Object.assign({
+      rot: props.type === 'image' && !props.kind ? (Math.random() * 4 - 2) : 0,
+    }, props, { id: 'p-' + board.nextId++, x: spot.x, y: spot.y, z: board.maxZ }));
+    board.pieces.push(p);
+    renderPiece(p, true);
+    renderLabels();
+    if (!opts.noSelect) select(p.id);
+    updateEmpty();
+    save();
+    return p;
   }
 
-  function selectElement(id) {
+  function updatePiece(id, changes, opts) {
+    const p = byId(id);
+    if (!p) return;
+    Object.assign(p, changes);
+    renderPiece(p);
+    if (!opts || !opts.skipLabels) renderLabels();
+    positionCtx();
+    save();
+  }
+
+  function removePiece(id) {
+    pushUndo();
+    board.pieces = board.pieces.filter(p => p.id !== id);
+    const dom = domOf(id);
+    if (dom) dom.remove();
+    if (selectedId === id) select(null);
+    if (cardForId === id) closeCard();
+    renderLabels();
+    updateEmpty();
+    save();
+    toast('Taken down.', { action: 'Undo', onAction: undo });
+  }
+
+  function duplicatePiece(id) {
+    const p = byId(id);
+    if (!p) return;
+    const copy = Object.assign({}, p, { x: p.x + 28, y: p.y + 28, dot: false, name: '', why: '', by: '' });
+    delete copy.id; delete copy.z;
+    addPiece(copy);
+  }
+
+  function bringToFront(id) {
+    pushUndo();
+    board.maxZ += 1;
+    updatePiece(id, { z: board.maxZ });
+  }
+  function sendToBack(id) {
+    pushUndo();
+    const min = Math.min(...board.pieces.map(p => p.z || 0));
+    updatePiece(id, { z: min - 1 });
+  }
+
+  // ===== Selection and the context bar =====
+  function select(id) {
+    if (editingTextId && editingTextId !== id) commitTextEdit();
     const prev = selectedId;
     selectedId = id;
-
-    // Update previous
-    if (prev && prev !== id) {
-      const prevEl = elements.find(e => e.id === prev);
-      const prevDom = canvas.querySelector(`[data-id="${prev}"]`);
-      if (prevDom && prevEl) {
-        // If text was being edited, save content
-        const tc = prevDom.querySelector('.text-content[contenteditable="true"]');
-        if (tc) {
-          tc.contentEditable = 'false';
-          if (tc.textContent !== prevEl.content) pushUndo();
-          updateElement(prev, { content: tc.textContent });
-        }
-        prevDom.classList.remove('selected');
-        prevDom.querySelectorAll('.resize-handle, .rotate-handle, .element-actions').forEach(h => h.remove());
-      }
-    }
-
-    // Update current
-    if (id) {
-      const el = elements.find(e => e.id === id);
-      const dom = canvas.querySelector(`[data-id="${id}"]`);
-      if (dom && el) {
-        dom.classList.add('selected');
-        updateSelectionUI(dom, el);
-      }
-      // Auto-open intentions panel if it's closed and mode is intentional (desktop only)
-      const wasOpen = intentionsPanelOpen;
-      ensureModePanels();
-      if (!wasOpen && intentionsPanelOpen) relayoutElements();
-      if (intentionsPanelOpen) {
-        renderIntentionsPanel();
-        // Scroll to selected item
-        const selectedItem = intentionsList.querySelector('.intention-item.selected');
-        if (selectedItem) selectedItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-    }
+    [prev, id].forEach(x => {
+      const p = x && byId(x);
+      const dom = x && domOf(x);
+      if (p && dom) renderSelection(dom, p);
+    });
+    closePop();
+    buildCtx();
+    if (cardForId && id && cardForId !== id) openCard(id);
+    if (!id && cardForId && !isPhone()) closeCard();
   }
 
-  // ===== Drag =====
-  let dragState = null;
-
-  function handlePointerDown(e, id) {
-    if (e.target.closest('.element-actions') || e.target.closest('.resize-handle') || e.target.closest('.rotate-handle')) return;
-    if (e.target.closest('.text-content[contenteditable="true"]')) return;
-
-    e.preventDefault();
-    const wasSelected = selectedId === id;
-    selectElement(id);
-
-    const el = elements.find(e => e.id === id);
-    if (!el) return;
-
-    // On mobile, tap already-selected text to edit
-    if (wasSelected && el.type === 'text' && window.innerWidth <= 768) {
-      dragState = { id, tapToEdit: true, startX: e.clientX, startY: e.clientY };
-      document.addEventListener('pointermove', handleDragMove);
-      document.addEventListener('pointerup', handleDragEnd);
-      return;
-    }
-
-    dragState = {
-      id,
-      startX: e.clientX,
-      startY: e.clientY,
-      origX: el.x,
-      origY: el.y,
-    };
-
-    document.addEventListener('pointermove', handleDragMove);
-    document.addEventListener('pointerup', handleDragEnd);
+  function cb(icon, label, onClick, extra) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'cb' + (extra && extra.cls ? ' ' + extra.cls : '');
+    if (icon) b.innerHTML = icon.startsWith('<') ? icon : `<svg aria-hidden="true"><use href="#i-${icon}"/></svg>`;
+    const t = document.createElement('span');
+    t.textContent = label;
+    b.appendChild(t);
+    if (extra && extra.pressed != null) b.setAttribute('aria-pressed', String(extra.pressed));
+    if (extra && extra.popup) { b.setAttribute('aria-haspopup', 'true'); b.setAttribute('aria-expanded', 'false'); }
+    b.addEventListener('click', (e) => { e.stopPropagation(); onClick(b); });
+    return b;
   }
+  function sep() { const s = document.createElement('span'); s.className = 'cb-sep'; return s; }
 
-  function handleDragMove(e) {
-    if (!dragState) return;
-    // The tap-to-edit state carries no origX/origY; running the drag maths
-    // against it wrote `left: NaNpx`.
-    if (dragState.tapToEdit) return;
-
-    const el = elements.find(x => x.id === dragState.id);
-    if (!el) return;
-
-    // Snapshot on the first real movement, while the element still holds its
-    // pre-drag position.
-    if (!dragState.moved) {
-      dragState.moved = true;
-      pushUndo();
+  function buildCtx() {
+    ctxBar.innerHTML = '';
+    const p = selectedId && byId(selectedId);
+    if (!p || viewMode === 'walk' || editingTextId) { ctxBar.hidden = true; return; }
+    ctxBar.appendChild(cb('note-pencil', 'Wall text', () => openCard(p.id), { cls: cardForId === p.id ? 'on' : '' }));
+    if (p.type === 'image' && p.kind !== 'drawing' && !p.cutout) {
+      ctxBar.appendChild(cb('frame-corners', 'Frame', (b) => framePop(b, p.id), { popup: true }));
     }
-
-    const dx = e.clientX - dragState.startX;
-    const dy = e.clientY - dragState.startY;
-    const spot = clampPosition(dragState.origX + dx, dragState.origY + dy, el.width, el.height);
-    el.x = spot.x;
-    el.y = spot.y;
-    syncFractions(el);
-
-    const dom = canvas.querySelector(`[data-id="${dragState.id}"]`);
-    if (dom) {
-      dom.style.left = el.x + 'px';
-      dom.style.top = el.y + 'px';
-      positionActionBar(dom, el);
+    if (p.type === 'text') {
+      ctxBar.appendChild(cb('text-t', 'Edit', () => startTextEdit(p.id)));
+      ctxBar.appendChild(cb('<span class="font-opt" aria-hidden="true" style="font-family:' + attr(p.family || FONTS[0].family) + '">Aa</span>', 'Font', (b) => fontPop(b, p.id), { popup: true }));
+      ctxBar.appendChild(cb('text-b', 'Bold', () => { pushUndo(); updatePiece(p.id, { weight: (p.weight || 600) >= 600 ? 400 : 700 }); buildCtx(); }, { pressed: (p.weight || 600) >= 600 }));
+      ctxBar.appendChild(cb('text-italic', 'Italic', () => { pushUndo(); updatePiece(p.id, { italic: !p.italic }); buildCtx(); }, { pressed: !!p.italic }));
+      ctxBar.appendChild(cb(`<span class="sw" aria-hidden="true" style="background:${attr(p.color || paint().ink)}"></span>`, 'Color', (b) => colorPop(b, p.id), { popup: true }));
     }
+    ctxBar.appendChild(sep());
+    ctxBar.appendChild(cb('arrow-line-up', 'Front', () => bringToFront(p.id)));
+    ctxBar.appendChild(cb('arrow-line-down', 'Back', () => sendToBack(p.id)));
+    ctxBar.appendChild(cb('copy', 'Copy', () => duplicatePiece(p.id)));
+    ctxBar.appendChild(cb('trash', 'Take down', () => removePiece(p.id), { cls: 'danger' }));
+    ctxBar.hidden = false;
+    positionCtx();
   }
+  function attr(s) { return String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
-  function handleDragEnd(e) {
-    if (dragState) {
-      // Check if this was a tap (barely moved) on a text element for edit
-      if (dragState.tapToEdit && e) {
-        const dx = Math.abs(e.clientX - dragState.startX);
-        const dy = Math.abs(e.clientY - dragState.startY);
-        if (dx < 5 && dy < 5) {
-          handleDoubleClick({}, dragState.id);
-        }
-      }
-      saveBoard();
-      dragState = null;
-    }
-    document.removeEventListener('pointermove', handleDragMove);
-    document.removeEventListener('pointerup', handleDragEnd);
-  }
-
-  // ===== Resize =====
-  let resizeState = null;
-
-  function startResize(e, id, corner) {
-    e.preventDefault();
-    const el = elements.find(e => e.id === id);
-    if (!el) return;
-
-    resizeState = {
-      id,
-      corner,
-      startX: e.clientX,
-      startY: e.clientY,
-      origX: el.x,
-      origY: el.y,
-      origW: el.width,
-      origH: el.height,
-      aspect: el.type !== 'text' ? el.width / el.height : 0,
-    };
-
-    document.addEventListener('pointermove', handleResizeMove);
-    document.addEventListener('pointerup', handleResizeEnd);
-  }
-
-  function handleResizeMove(e) {
-    if (!resizeState) return;
-    if (!resizeState.moved) {
-      resizeState.moved = true;
-      pushUndo(); // element still holds its pre-resize geometry
-    }
-    const { id, corner, startX, startY, origX, origY, origW, origH, aspect } = resizeState;
-    let dx = e.clientX - startX;
-    let dy = e.clientY - startY;
-    let newX = origX, newY = origY, newW = origW, newH = origH;
-
-    if (corner === 'se') {
-      newW = Math.max(40, origW + dx);
-      newH = aspect ? newW / aspect : Math.max(30, origH + dy);
-    } else if (corner === 'sw') {
-      newW = Math.max(40, origW - dx);
-      newH = aspect ? newW / aspect : Math.max(30, origH + dy);
-      newX = origX + origW - newW;
-    } else if (corner === 'ne') {
-      newW = Math.max(40, origW + dx);
-      newH = aspect ? newW / aspect : Math.max(30, origH - dy);
-      newY = origY + origH - newH;
-    } else if (corner === 'nw') {
-      newW = Math.max(40, origW - dx);
-      newH = aspect ? newW / aspect : Math.max(30, origH - dy);
-      newX = origX + origW - newW;
-      newY = origY + origH - newH;
-    }
-
-    const el = elements.find(e => e.id === id);
-    if (!el) return;
-    const spot = clampPosition(newX, newY, newW, newH);
-    el.x = spot.x;
-    el.y = spot.y;
-    el.width = newW;
-    el.height = newH;
-    syncFractions(el);
-
-    const dom = canvas.querySelector(`[data-id="${id}"]`);
-    if (dom) applyElementStyle(dom, el);
-  }
-
-  function handleResizeEnd() {
-    if (resizeState) {
-      // Recalculate clip path for new dimensions
-      const el = elements.find(e => e.id === resizeState.id);
-      if (el && el.clipShape) {
-        el.clipPath = getClipPath(el.clipShape, el.width, el.height);
-        const dom = canvas.querySelector(`[data-id="${el.id}"]`);
-        if (dom) applyElementStyle(dom, el);
-      }
-    }
-    resizeState = null;
-    saveBoard();
-    document.removeEventListener('pointermove', handleResizeMove);
-    document.removeEventListener('pointerup', handleResizeEnd);
-  }
-
-  // ===== Rotate =====
-  let rotateState = null;
-
-  function startRotate(e, id) {
-    e.preventDefault();
-    const dom = canvas.querySelector(`[data-id="${id}"]`);
+  function positionCtx() {
+    if (ctxBar.hidden || !selectedId) return;
+    if (isPhone()) { ctxBar.style.left = ''; ctxBar.style.top = ''; return; }
+    const dom = domOf(selectedId);
     if (!dom) return;
-
-    const rect = dom.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const startAngle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
-    const el = elements.find(e => e.id === id);
-
-    rotateState = {
-      id,
-      centerX,
-      centerY,
-      startAngle,
-      origRotation: el ? el.rotation : 0,
-    };
-
-    document.addEventListener('pointermove', handleRotateMove);
-    document.addEventListener('pointerup', handleRotateEnd);
+    const pr = dom.getBoundingClientRect();
+    const sr = stage.getBoundingClientRect();
+    const bw = ctxBar.offsetWidth, bh = ctxBar.offsetHeight;
+    let left = pr.left + pr.width / 2 - bw / 2;
+    left = clamp(left, sr.left + 8, sr.right - bw - 8 - (cardForId ? 336 : 0));
+    let top = pr.top - bh - 30;
+    if (top < sr.top + 8) top = pr.bottom + 14;
+    top = clamp(top, sr.top + 8, sr.bottom - bh - 96);
+    ctxBar.style.left = Math.round(left) + 'px';
+    ctxBar.style.top = Math.round(top) + 'px';
   }
 
-  function handleRotateMove(e) {
-    if (!rotateState) return;
-    if (!rotateState.moved) {
-      rotateState.moved = true;
-      pushUndo(); // element still holds its pre-rotation angle
+  // ===== Popovers =====
+  let popAnchor = null;
+  function openPop(anchor, build) {
+    if (popAnchor === anchor && !pop.hidden) { closePop(); return; }
+    closePop();
+    pop.innerHTML = '';
+    build(pop);
+    pop.hidden = false;
+    popAnchor = anchor;
+    anchor.setAttribute('aria-expanded', 'true');
+    const ar = anchor.getBoundingClientRect();
+    const pw = pop.offsetWidth, ph = pop.offsetHeight;
+    let left = clamp(ar.left + ar.width / 2 - pw / 2, 8, window.innerWidth - pw - 8);
+    let top = ar.top - ph - 8;
+    if (top < 60) top = ar.bottom + 8;
+    pop.style.left = left + 'px';
+    pop.style.top = top + 'px';
+    const first = pop.querySelector('[aria-checked="true"]') || pop.querySelector('button');
+    if (first) first.focus({ preventScroll: true });
+  }
+  function closePop() {
+    if (pop.hidden) return;
+    pop.hidden = true;
+    if (popAnchor) { popAnchor.setAttribute('aria-expanded', 'false'); }
+    popAnchor = null;
+  }
+  function optBtn(label, checked, onPick, lead) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt';
+    b.setAttribute('role', 'menuitemradio');
+    b.setAttribute('aria-checked', String(!!checked));
+    if (lead) b.appendChild(lead);
+    const t = document.createElement('span');
+    t.textContent = label;
+    b.appendChild(t);
+    b.addEventListener('click', (e) => { e.stopPropagation(); onPick(); });
+    return b;
+  }
+  function framePop(anchor, id) {
+    openPop(anchor, (el) => {
+      el.setAttribute('role', 'menu');
+      el.setAttribute('aria-label', 'Frame');
+      const p = byId(id);
+      FRAMES.forEach(f => {
+        const chip = document.createElement('span');
+        chip.className = 'frame-chip ' + f.id;
+        el.appendChild(optBtn(f.label, p.frame === f.id, () => setFrame(id, f.id), chip));
+      });
+    });
+  }
+  function setFrame(id, frame) {
+    const p = byId(id);
+    if (!p || p.frame === frame) { closePop(); return; }
+    pushUndo();
+    const changes = { frame };
+    // Shapes that read wrong when stretched get squared up, keeping the center.
+    if (frame === 'circle') {
+      const m = Math.min(p.w, p.h);
+      Object.assign(changes, { w: m, h: m, x: p.x + (p.w - m) / 2, y: p.y + (p.h - m) / 2 });
     }
-    const { id, centerX, centerY, startAngle, origRotation } = rotateState;
-    const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
-    const delta = (angle - startAngle) * (180 / Math.PI);
-    const el = elements.find(e => e.id === id);
-    if (!el) return;
+    if (frame === 'torn') changes.clip = tornPath();
+    updatePiece(id, changes);
+    closePop();
+    buildCtx();
+  }
+  function fontPop(anchor, id) {
+    openPop(anchor, (el) => {
+      el.setAttribute('role', 'menu');
+      el.setAttribute('aria-label', 'Font');
+      const p = byId(id);
+      FONTS.forEach(f => {
+        const b = optBtn(f.label, p.family === f.family, () => {
+          pushUndo();
+          updatePiece(id, { family: f.family });
+          fitTextBox(byId(id));
+          closePop();
+          buildCtx();
+        });
+        b.style.fontFamily = f.family;
+        b.style.fontSize = '18px';
+        el.appendChild(b);
+      });
+    });
+  }
+  function colorPop(anchor, id) {
+    openPop(anchor, (el) => {
+      el.setAttribute('role', 'menu');
+      el.setAttribute('aria-label', 'Color');
+      const p = byId(id);
+      const grid = document.createElement('div');
+      grid.className = 'swatches';
+      grid.setAttribute('role', 'radiogroup');
+      INKS.forEach(c => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('role', 'radio');
+        b.setAttribute('aria-label', INK_NAMES[c] || c);
+        b.setAttribute('aria-checked', String((p.color || paint().ink).toLowerCase() === c));
+        b.style.setProperty('--sw', c);
+        b.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pushUndo();
+          updatePiece(id, { color: c });
+          closePop();
+          buildCtx();
+        });
+        grid.appendChild(b);
+      });
+      el.appendChild(grid);
+    });
+  }
 
-    el.rotation = origRotation + delta;
-    const dom = canvas.querySelector(`[data-id="${id}"]`);
-    if (dom) {
-      dom.style.setProperty('--el-rot', el.rotation + 'deg');
-      dom.style.transform = `rotate(${el.rotation}deg)`;
+  // ===== Wall text card =====
+  function openCard(id) {
+    const p = byId(id);
+    if (!p) return;
+    const wasOpen = !!cardForId;
+    cardForId = id;
+    cardDirty = false;
+    if (selectedId !== id) { selectedId = id; renderAll(); }
+    const thumb = $('#card-thumb');
+    thumb.className = 'card-thumb';
+    thumb.style.backgroundImage = '';
+    thumb.textContent = '';
+    if (p.type === 'image') thumb.style.backgroundImage = `url("${p.src}")`;
+    else if (p.type === 'sticker') thumb.textContent = p.src;
+    else { thumb.classList.add('text'); thumb.textContent = p.content; thumb.style.fontFamily = p.family; }
+    $('#card-why').value = p.why || '';
+    $('#card-why').placeholder = WHY_PROMPTS[(parseInt(p.id.slice(2), 10) || 0) % WHY_PROMPTS.length];
+    $('#card-name').value = p.name || '';
+    $('#card-by').value = p.by || '';
+    setDotUI(!!p.dot);
+    card.hidden = false;
+    buildCtx();
+    if (!wasOpen) positionCtx();
+    return card;
+  }
+  function closeCard() {
+    if (!cardForId) return;
+    cardForId = null;
+    card.hidden = true;
+    buildCtx();
+  }
+  function setDotUI(on) {
+    const b = $('#card-dot');
+    b.setAttribute('aria-pressed', String(on));
+    b.querySelector('strong').textContent = on ? 'Yours' : 'Mark it yours';
+  }
+  function cardEdit(field, value) {
+    const p = byId(cardForId);
+    if (!p) return;
+    if (!cardDirty) { pushUndo(); cardDirty = true; }
+    p[field] = value;
+    const dom = domOf(p.id);
+    if (dom) dom.setAttribute('aria-label', describe(p));
+    renderLabels();
+    save();
+  }
+
+  // ===== Words =====
+  function addWords() {
+    const p = addPiece({
+      type: 'text', content: 'Your words', family: FONTS[0].family, size: WORDS_SIZE,
+      color: paint().ink, weight: 600, italic: false, w: 420, h: 100,
+    });
+    fitTextBox(p);
+    renderPiece(p);
+    startTextEdit(p.id, true);
+  }
+
+  // The box hugs the text, measured with the real font.
+  const measurer = document.createElement('div');
+  function fitTextBox(p) {
+    if (!p || p.type !== 'text') return;
+    if (!measurer.parentNode) {
+      measurer.style.cssText = 'position:absolute;left:-99999px;top:0;white-space:pre;line-height:1.05;visibility:hidden';
+      document.body.appendChild(measurer);
     }
+    measurer.style.fontFamily = p.family;
+    measurer.style.fontSize = p.size + 'px';
+    measurer.style.fontWeight = p.weight || 600;
+    measurer.style.fontStyle = p.italic ? 'italic' : 'normal';
+    measurer.textContent = p.content || ' ';
+    const cx = p.x + p.w / 2, cy = p.y + p.h / 2;
+    const w = clamp(measurer.offsetWidth + p.size * 0.4, 60, W());
+    const h = clamp(measurer.offsetHeight + p.size * 0.2, 30, H());
+    Object.assign(p, { w, h, x: cx - w / 2, y: cy - h / 2 });
+    clampOnWall(p);
   }
 
-  function handleRotateEnd() {
-    rotateState = null;
-    saveBoard();
-    document.removeEventListener('pointermove', handleRotateMove);
-    document.removeEventListener('pointerup', handleRotateEnd);
-  }
-
-  // ===== Double-click (text edit) =====
-  function handleDoubleClick(e, id) {
-    const el = elements.find(e => e.id === id);
-    if (!el || el.type !== 'text') return;
-
-    const dom = canvas.querySelector(`[data-id="${id}"]`);
-    const tc = dom.querySelector('.text-content');
-    if (!tc) return;
-
-    tc.contentEditable = 'true';
-    tc.focus();
-
-    // Select all text
+  function startTextEdit(id, fresh) {
+    const p = byId(id);
+    if (!p || p.type !== 'text') return;
+    editingTextId = id;
+    const dom = domOf(id);
+    renderSelection(dom, p);
+    buildCtx();
+    const art = dom.querySelector('.art');
+    art.contentEditable = 'true';
+    art.spellcheck = false;
+    art.focus();
     const range = document.createRange();
-    range.selectNodeContents(tc);
+    range.selectNodeContents(art);
     const sel = window.getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
-
-    tc.addEventListener('blur', () => {
-      tc.contentEditable = 'false';
-      const next = tc.textContent || 'Text';
-      if (next !== el.content) pushUndo(); // snapshot still has the old string
-      updateElement(id, { content: next });
-      if (intentionsPanelOpen) renderIntentionsPanel();
-    }, { once: true });
-
-    tc.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        tc.blur();
-      }
-    });
+    art.dataset.fresh = fresh ? '1' : '';
+    art.dataset.before = p.content;
+    art.addEventListener('blur', commitTextEdit, { once: true });
   }
-
-  // ===== Image adding =====
-
-  // Re-encode an image down to roughly 2x its display size before it can reach
-  // localStorage. Storing originals is what blew the quota: a single Unsplash
-  // add took the store from 395 to 264,316 characters.
-  function prepareImage(src, maxW, maxH) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => {
-        try {
-          const scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight, 1);
-          const targetW = Math.max(1, Math.round(img.naturalWidth * scale));
-          const targetH = Math.max(1, Math.round(img.naturalHeight * scale));
-          const off = document.createElement('canvas');
-          off.width = targetW;
-          off.height = targetH;
-          const ctx = off.getContext('2d');
-          ctx.drawImage(img, 0, 0, targetW, targetH);
-          // JPEG flattens alpha, so keep PNG for anything that is see-through.
-          resolve(hasTransparency(ctx, targetW, targetH)
-            ? off.toDataURL('image/png')
-            : off.toDataURL('image/jpeg', IMAGE_STORE_QUALITY));
-        } catch (e) {
-          resolve(src); // tainted canvas or unsupported codec — keep the original
-        }
-      };
-      img.onerror = () => resolve(src);
-      img.src = src;
-    });
-  }
-
-  function hasTransparency(ctx, w, h) {
-    try {
-      const data = ctx.getImageData(0, 0, w, h).data;
-      for (let i = 3; i < data.length; i += 4 * 7) { // sample every 7th pixel
-        if (data[i] < 250) return true;
+  function commitTextEdit() {
+    const id = editingTextId;
+    if (!id) return;
+    editingTextId = null;
+    const p = byId(id);
+    const dom = domOf(id);
+    if (!p || !dom) return;
+    const art = dom.querySelector('.art');
+    art.contentEditable = 'false';
+    const next = (art.innerText || '').replace(/\n{3,}/g, '\n\n').trim();
+    const before = art.dataset.before;
+    if (!next) {
+      // An emptied text piece is a removal. A fresh one that was never typed
+      // in leaves no trace in undo either.
+      board.pieces = board.pieces.filter(x => x.id !== id);
+      dom.remove();
+      if (art.dataset.fresh !== '1') {
+        toast('Words taken down.', { action: 'Undo', onAction: undo });
+      } else {
+        undoStack.pop(); // the add itself, so nothing is left behind
+        updateUndoButtons();
       }
-      return false;
-    } catch (e) {
-      return false;
+      selectedId = null;
+      buildCtx();
+      renderLabels();
+      updateEmpty();
+      save();
+      return;
     }
+    if (next !== before && art.dataset.fresh !== '1') pushUndo();
+    p.content = next;
+    fitTextBox(p);
+    dom.dataset.sig = '';
+    renderPiece(p);
+    renderLabels();
+    buildCtx();
+    save();
   }
 
-  function readFileAsDataUrl(file) {
+  // ===== Images =====
+  function readAsDataUrl(blob) {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(file);
+      const r = new FileReader();
+      r.onload = () => resolve(r.result);
+      r.onerror = () => reject(r.error);
+      r.readAsDataURL(blob);
     });
   }
-
-  function measureImage(src) {
+  function loadImg(src) {
     return new Promise((resolve, reject) => {
       const img = new Image();
+      img.decoding = 'async';
       img.onload = () => resolve(img);
       img.onerror = () => reject(new Error('not an image'));
       img.src = src;
     });
   }
-
-  function addImageFromFile(file) {
-    readFileAsDataUrl(file)
-      .then(measureImage)
-      .then(img => {
-        const ratio = Math.min(MAX_IMAGE_SIZE / img.width, MAX_IMAGE_SIZE / img.height, 1);
-        const width = Math.round(img.width * ratio);
-        const height = Math.round(img.height * ratio);
-        return prepareImage(img.src, width * IMAGE_STORE_SCALE, height * IMAGE_STORE_SCALE)
-          .then(src => addElement({ type: 'image', src, width, height, label: file.name }));
-      })
-      .catch(() => showToast('That file could not be read as an image.', 'error'));
-  }
-
-  function addImageFromUrl(url, w, h, label) {
-    const ratio = Math.min(MAX_IMAGE_SIZE / (w || 300), MAX_IMAGE_SIZE / (h || 300), 1);
-    const width = Math.round((w || 300) * ratio);
-    const height = Math.round((h || 300) * ratio);
-
-    // Convert to a data URL so export isn't blocked by CORS, then downscale.
-    fetch(url)
-      .then(res => res.blob())
-      .then(readFileAsDataUrl)
-      .then(dataUrl => prepareImage(dataUrl, width * IMAGE_STORE_SCALE, height * IMAGE_STORE_SCALE))
-      .then(src => addElement({ type: 'image', src, width, height, label: label || '' }))
-      .catch(() => {
-        // Fallback to direct URL if fetch fails
-        addElement({ type: 'image', src: url, width, height, label: label || '' });
-      });
-  }
-
-  // Backgrounds cover the whole canvas, so they get their own (larger) budget.
-  function prepareBackground(src) {
-    const b = canvasBounds();
-    const maxW = Math.min(MAX_BG_STORE_SIZE, Math.max(1200, Math.round(b.width * IMAGE_STORE_SCALE)));
-    const maxH = Math.min(MAX_BG_STORE_SIZE, Math.max(1200, Math.round(b.height * IMAGE_STORE_SCALE)));
-    return prepareImage(src, maxW, maxH);
-  }
-
-  function addSticker(emoji) {
-    addElement({ type: 'sticker', src: emoji, width: 80, height: 80, rotation: 0 });
-  }
-
-  let nextFontIndex = 0;
-
-  function addText() {
-    const phrase = TEXT_PHRASES[Math.floor(Math.random() * TEXT_PHRASES.length)];
-    const font = FONTS[nextFontIndex % FONTS.length];
-    nextFontIndex++;
-    const darkBgs = ['midnight'];
-    const textColor = darkBgs.includes(currentBg.id) ? '#f8fafc' : '#1a1a2e';
-    addElement({
-      type: 'text',
-      content: phrase,
-      fontSize: 32,
-      fontFamily: font.family,
-      color: textColor,
-      fontWeight: 'bold',
-      fontStyle: 'normal',
-      width: 220,
-      height: 60,
-      rotation: 0,
-    });
-  }
-
-  // ===== Background =====
-  const BG_STYLES = {
-    warm: '#faf9f6',
-    cork: '#d4b896',
-    midnight: '#1a1a2e',
-    blush: 'linear-gradient(to bottom right, #fce4ec, #f3e5f5)',
-    ocean: 'linear-gradient(to bottom right, #e0f7fa, #e8eaf6)',
-    sunset: 'linear-gradient(to bottom right, #fff3e0, #fce4ec)',
-    forest: 'linear-gradient(to bottom right, #e8f5e9, #f1f8e9)',
-    lavender: 'linear-gradient(to bottom right, #ede7f6, #e8eaf6)',
-  };
-
-  let customBgImage = null; // { src, intention }
-
-  function applyBackground() {
-    if (customBgImage) {
-      canvas.style.background = `url("${customBgImage.src}") center/cover no-repeat`;
-    } else {
-      const style = BG_STYLES[currentBg.id] || '#faf9f6';
-      canvas.style.background = style;
-    }
-    // Update bg grid selection
-    document.querySelectorAll('.bg-card').forEach(card => {
-      card.classList.toggle('active', !customBgImage && card.dataset.bgId === currentBg.id);
-    });
-  }
-
-  function setImageBackground(src, intention) {
-    pushUndo();
-    customBgImage = { src, intention: intention || '' };
-    applyBackground();
-    updateUI();
-    saveBoard();
-  }
-
-  // ===== Search =====
-  async function searchImages(query) {
-    const resultsDiv = $('#search-results');
-    const emptyDiv = $('#search-empty');
-    const loadingDiv = $('#search-loading');
-
-    if (!query.trim()) return;
-
-    emptyDiv.classList.add('hidden');
-    loadingDiv.classList.remove('hidden');
-    resultsDiv.innerHTML = '';
-
+  // How much of the image is see-through. A lifted subject is mostly
+  // transparent around the edges; a regular photo is 0.
+  function transparency(ctx, w, h) {
     try {
-      const res = await fetch(`${UNSPLASH_PROXY}/search?query=${encodeURIComponent(query)}&per_page=20`);
+      const d = ctx.getImageData(0, 0, w, h).data;
+      let clear = 0, n = 0;
+      for (let i = 3; i < d.length; i += 4 * 9) { n++; if (d[i] < 200) clear++; }
+      return n ? clear / n : 0;
+    } catch (e) { return 0; }
+  }
+  // Re-encode at roughly 2x the size it will hang at. Cutouts get a white
+  // die-cut edge baked into their pixels, so it survives every export.
+  async function prepareImage(src, maxW, maxH) {
+    const img = await loadImg(src);
+    const scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight, 1);
+    const w = Math.max(1, Math.round(img.naturalWidth * scale));
+    const h = Math.max(1, Math.round(img.naturalHeight * scale));
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    const clear = transparency(ctx, w, h);
+    if (clear > 0.06) {
+      const cut = dieCut(c);
+      return { src: cut.url, cutout: true, ratio: cut.w / cut.h };
+    }
+    try {
+      return { src: c.toDataURL('image/jpeg', STORE_QUALITY), ratio: w / h };
+    } catch (e) {
+      return { src, ratio: w / h };
+    }
+  }
+  function dieCut(source) {
+    const r = Math.max(4, Math.round(Math.max(source.width, source.height) * 0.018));
+    const pad = r + 2;
+    const out = document.createElement('canvas');
+    out.width = source.width + pad * 2;
+    out.height = source.height + pad * 2;
+    const o = out.getContext('2d');
+    // Stamp the silhouette in a ring to grow it by r, then paint it white.
+    const steps = 28;
+    for (let i = 0; i < steps; i++) {
+      const a = (i / steps) * Math.PI * 2;
+      o.drawImage(source, pad + Math.cos(a) * r, pad + Math.sin(a) * r);
+    }
+    o.globalCompositeOperation = 'source-in';
+    o.fillStyle = '#ffffff';
+    o.fillRect(0, 0, out.width, out.height);
+    o.globalCompositeOperation = 'source-over';
+    o.drawImage(source, pad, pad);
+    return { url: out.toDataURL('image/png'), w: out.width, h: out.height };
+  }
+
+  function sizeFor(ratio, edge) {
+    return ratio >= 1 ? { w: edge, h: Math.round(edge / ratio) } : { w: Math.round(edge * ratio), h: edge };
+  }
+
+  async function hangBlob(blob, extra) {
+    const dataUrl = await readAsDataUrl(blob);
+    return hangSrc(dataUrl, extra);
+  }
+  async function hangSrc(src, extra) {
+    const probe = await loadImg(src);
+    const ratio0 = probe.naturalWidth / probe.naturalHeight;
+    const size = sizeFor(ratio0, PHOTO_EDGE);
+    const prepared = await prepareImage(src, size.w * STORE_SCALE, size.h * STORE_SCALE);
+    const s2 = sizeFor(prepared.ratio || ratio0, prepared.cutout ? PHOTO_EDGE * 0.85 : PHOTO_EDGE);
+    return addPiece(Object.assign({
+      type: 'image', src: prepared.src, w: s2.w, h: s2.h,
+      frame: 'none', cutout: !!prepared.cutout,
+    }, extra || {}), { noSelect: true });
+  }
+
+  async function hangFiles(files) {
+    const list = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (!list.length) return;
+    const added = [];
+    for (const f of list) {
+      try { added.push(await hangBlob(f, { alt: cleanName(f.name) })); }
+      catch (e) { toast(`${f.name || 'That file'} could not be read as an image.`, { error: true }); }
+    }
+    afterHang(added);
+  }
+  function cleanName(n) {
+    return String(n || '').replace(/\.[a-z0-9]+$/i, '').replace(/[_-]+/g, ' ').replace(/^(IMG|DSC|PXL|Screenshot)\s?\d.*$/i, '').trim();
+  }
+  function afterHang(added) {
+    if (!added.length) return;
+    const last = added[added.length - 1];
+    select(last.id);
+    if (added.length > 1) {
+      toast(`Hung ${added.length} pieces. Select one to give it wall text.`);
+    } else if (askWhy) {
+      openCard(last.id);
+      setTimeout(() => $('#card-why').focus(), 60);
+    }
+  }
+
+  // ===== Find (Unsplash) =====
+  let findTimer = null;
+  let findSeq = 0;
+  async function find(query) {
+    const seq = ++findSeq;
+    const results = $('#find-results');
+    const status = $('#find-status');
+    status.textContent = 'Looking...';
+    try {
+      const res = await fetch(`${UNSPLASH_PROXY}/search?query=${encodeURIComponent(query)}&per_page=24`);
       const data = await res.json();
-
-      loadingDiv.classList.add('hidden');
-
-      if (!data.results || data.results.length === 0) {
-        emptyDiv.querySelector('p').textContent = 'No images found. Try a different search.';
-        emptyDiv.classList.remove('hidden');
+      if (seq !== findSeq) return;
+      results.innerHTML = '';
+      if (!data.results || !data.results.length) {
+        status.textContent = 'Nothing for that. Try a simpler word.';
         return;
       }
-
+      status.textContent = 'Photos from Unsplash. Tap one to hang it.';
       data.results.forEach(photo => {
-        const item = document.createElement('button');
-        item.type = 'button';
-        item.className = 'image-grid-item';
-        const description = photo.alt_description || 'Untitled';
-        item.setAttribute('aria-label', `Add image: ${description}, by ${photo.user.name}`);
-
+        const b = document.createElement('button');
+        b.type = 'button';
+        const alt = photo.alt_description || 'Photo';
+        b.setAttribute('aria-label', `Hang: ${alt}, by ${photo.user.name}`);
         const img = document.createElement('img');
         img.src = photo.urls.small;
         img.alt = '';
         img.loading = 'lazy';
-        item.appendChild(img);
-
-        const credit = document.createElement('div');
+        img.width = 200;
+        img.height = Math.round(200 * photo.height / photo.width);
+        b.appendChild(img);
+        const credit = document.createElement('span');
         credit.className = 'credit';
         credit.textContent = photo.user.name;
-        item.appendChild(credit);
-
-        item.addEventListener('click', () => {
-          // Carry the description through so the board element has a real alt
-          addImageFromUrl(photo.urls.regular, photo.width, photo.height, photo.alt_description || '');
-          if (window.innerWidth <= 768) closeSidebar();
-        });
-
-        resultsDiv.appendChild(item);
+        b.appendChild(credit);
+        b.addEventListener('click', () => hangFromUrl(photo, b));
+        results.appendChild(b);
       });
     } catch (e) {
-      loadingDiv.classList.add('hidden');
-      emptyDiv.querySelector('p').textContent = 'Search failed. Please try again.';
-      emptyDiv.classList.remove('hidden');
-      console.error('Search error:', e);
+      if (seq === findSeq) status.textContent = 'Search is not answering right now. Try again in a moment.';
     }
   }
-
-  // ===== Background Search =====
-  async function searchBgImages(query) {
-    const resultsDiv = $('#bg-search-results');
-    resultsDiv.innerHTML = '<div class="panel-empty"><div class="spinner"></div><p>Searching...</p></div>';
-
+  async function hangFromUrl(photo, btn) {
+    btn.disabled = true;
+    const extra = { alt: photo.alt_description || '', credit: { name: photo.user.name, url: photo.user.links && photo.user.links.html } };
     try {
-      const res = await fetch(`${UNSPLASH_PROXY}/search?query=${encodeURIComponent(query)}&per_page=12`);
-      const data = await res.json();
-      resultsDiv.innerHTML = '';
-
-      if (!data.results || data.results.length === 0) {
-        resultsDiv.innerHTML = '<div class="panel-empty"><p>No images found</p></div>';
-        return;
-      }
-
-      data.results.forEach(photo => {
-        const item = document.createElement('button');
-        item.type = 'button';
-        item.className = 'image-grid-item';
-        const description = photo.alt_description || 'Untitled';
-        item.setAttribute('aria-label', `Use as background: ${description}, by ${photo.user.name}`);
-        const img = document.createElement('img');
-        img.src = photo.urls.small;
-        img.alt = '';
-        img.loading = 'lazy';
-        item.appendChild(img);
-        const credit = document.createElement('div');
-        credit.className = 'credit';
-        credit.textContent = photo.user.name;
-        item.appendChild(credit);
-        item.addEventListener('click', () => {
-          // Convert to data URL for export compatibility, downscaled for storage
-          fetch(photo.urls.regular)
-            .then(res => res.blob())
-            .then(readFileAsDataUrl)
-            .then(prepareBackground)
-            .then(src => setImageBackground(src, ''))
-            .catch(() => setImageBackground(photo.urls.regular, ''));
-          if (window.innerWidth <= 768) closeSidebar();
-        });
-        resultsDiv.appendChild(item);
-      });
+      const blob = await (await fetch(photo.urls.regular)).blob();
+      const p = await hangBlob(blob, extra);
+      if (isPhone()) closePanel();
+      afterHang([p]);
     } catch (e) {
-      resultsDiv.innerHTML = '<div class="panel-empty"><p>Search failed</p></div>';
-    }
-  }
-
-  // ===== Export =====
-  function renderAsWallpaper(sourceDataUrl) {
-    return new Promise((resolve) => {
-      const WALLPAPER_W = 1170;
-      const WALLPAPER_H = 2532;
-
-      // This promise must always settle. It used to resolve only from
-      // img.onload, so any decode failure (e.g. an empty capture) left the
-      // export hanging forever with the button stuck disabled.
-      let settled = false;
-      const finish = (value) => {
-        if (settled) return;
-        settled = true;
-        resolve(value);
-      };
-      const bail = () => finish(sourceDataUrl); // fall back to the plain export
-      setTimeout(bail, 10000);
-
-      const img = new Image();
-      img.onerror = bail;
-      img.onload = () => {
-        const wpCanvas = document.createElement('canvas');
-        wpCanvas.width = WALLPAPER_W;
-        wpCanvas.height = WALLPAPER_H;
-        const ctx = wpCanvas.getContext('2d');
-
-        // Fill background with the current canvas background
-        if (customBgImage) {
-          // Draw custom bg image to fill
-          const bgImg = new Image();
-          bgImg.onerror = bail;
-          bgImg.onload = () => {
-            // Cover fill
-            const scale = Math.max(WALLPAPER_W / bgImg.width, WALLPAPER_H / bgImg.height);
-            const w = bgImg.width * scale;
-            const h = bgImg.height * scale;
-            ctx.drawImage(bgImg, (WALLPAPER_W - w) / 2, (WALLPAPER_H - h) / 2, w, h);
-            // Draw board content centered
-            drawBoardOnWallpaper(ctx, img, WALLPAPER_W, WALLPAPER_H);
-            finish(wpCanvas.toDataURL('image/png'));
-          };
-          bgImg.src = customBgImage.src;
-        } else {
-          // Solid/gradient background — sample from the canvas style
-          const bgStyle = BG_STYLES[currentBg.id] || '#faf9f6';
-          if (bgStyle.includes('gradient')) {
-            // Parse gradient colors for a simple fill
-            const colors = bgStyle.match(/#[a-fA-F0-9]{6}/g) || ['#faf9f6'];
-            const grad = ctx.createLinearGradient(0, 0, WALLPAPER_W, WALLPAPER_H);
-            colors.forEach((c, i) => grad.addColorStop(i / Math.max(colors.length - 1, 1), c));
-            ctx.fillStyle = grad;
-          } else {
-            ctx.fillStyle = bgStyle;
-          }
-          ctx.fillRect(0, 0, WALLPAPER_W, WALLPAPER_H);
-          // Draw board content centered
-          drawBoardOnWallpaper(ctx, img, WALLPAPER_W, WALLPAPER_H);
-          finish(wpCanvas.toDataURL('image/png'));
-        }
-      };
-      img.src = sourceDataUrl;
-    });
-  }
-
-  function drawBoardOnWallpaper(ctx, sourceImg, wpW, wpH) {
-    // Scale the board to fit the wallpaper width with some padding
-    const padding = wpW * 0.05;
-    const availW = wpW - padding * 2;
-    const scale = availW / sourceImg.width;
-    const drawW = sourceImg.width * scale;
-    const drawH = sourceImg.height * scale;
-    // Center vertically
-    const x = (wpW - drawW) / 2;
-    const y = (wpH - drawH) / 2;
-    ctx.drawImage(sourceImg, x, y, drawW, drawH);
-  }
-
-  let exportIdleHTML = null;
-
-  // Export takes ~half a second on a small board and longer on a full one, with
-  // no feedback before this. Disable the button and show a spinner.
-  function setExportBusy(busy) {
-    if (exportIdleHTML === null) exportIdleHTML = btnExport.innerHTML;
-    btnExport.disabled = busy;
-    btnExport.setAttribute('aria-busy', busy ? 'true' : 'false');
-    btnExport.innerHTML = busy
-      ? '<span class="btn-spinner" aria-hidden="true"></span><span class="btn-label">Exporting</span>'
-      : exportIdleHTML;
-  }
-
-  async function exportBoard() {
-    if (btnExport.getAttribute('aria-busy') === 'true') return;
-    const hasContent = elements.length > 0 || customBgImage;
-    if (!hasContent) return;
-
-    // A zero-area canvas captures to an empty image, which is a useless download.
-    const area = canvasBounds();
-    if (area.width < 1 || area.height < 1) {
-      showToast('The board has no size to export yet. Try again in a moment.', 'error');
-      return;
-    }
-
-    setExportBusy(true);
-    const isMobile = window.innerWidth <= 768;
-
-    // Deselect and close sidebars to show full canvas
-    const prevSelected = selectedId;
-    selectElement(null);
-    const sidebarWasOpen = sidebarTab;
-    const intentionsWasOpen = intentionsPanelOpen;
-    if (sidebarTab) closeSidebar();
-    if (intentionsPanelOpen) {
-      intentionsPanelOpen = false;
-      intentionsPanel.classList.add('hidden');
-      btnIntentions.classList.remove('active-outline');
-    }
-
-    // Hide empty state and show intention labels for export
-    emptyState.classList.add('hidden');
-    canvas.querySelectorAll('.intention-label').forEach(l => l.style.opacity = '1');
-
-    try {
-      // Capture the canvas as-is
-      const canvasDataUrl = await htmlToImage.toPng(canvas, {
-        quality: 1,
-        pixelRatio: 2,
-        filter: (node) => {
-          if (node.dataset && node.dataset.noExport !== undefined) return false;
-          return true;
-        },
-      });
-
-      let finalDataUrl = canvasDataUrl;
-
-      // On mobile, render into wallpaper dimensions
-      if (isMobile) {
-        finalDataUrl = await renderAsWallpaper(canvasDataUrl);
-      }
-
-      const link = document.createElement('a');
-      link.download = `${boardTitle.value || 'vision-board'}${isMobile ? '-wallpaper' : ''}.png`;
-      link.href = finalDataUrl;
-      link.click();
-    } catch (e) {
-      console.error('Export failed:', e);
-      showToast('Export failed. Please try again.', 'error');
+      toast('That photo would not load. Try another.', { error: true });
     } finally {
-      // Reset intention labels to hover-only
-      canvas.querySelectorAll('.intention-label').forEach(l => l.style.opacity = '');
-
-      // Restore sidebars
-      if (sidebarWasOpen) openSidebar(sidebarWasOpen);
-      if (intentionsWasOpen) {
-        intentionsPanelOpen = true;
-        intentionsPanel.classList.remove('hidden');
-        btnIntentions.classList.add('active-outline');
-      }
-      setExportBusy(false);
-      relayoutElements();
-      if (prevSelected) selectElement(prevSelected);
-      updateUI();
+      btn.disabled = false;
     }
   }
 
-  // ===== Sidebar =====
-  function openSidebar(tab) {
-    if (sidebarTab === tab) {
-      closeSidebar();
-      return;
-    }
-    sidebarTab = tab;
-    sidebar.classList.remove('hidden');
-
-    // Update title
-    const titles = { search: 'Search Images', stickers: 'Stickers', backgrounds: 'Backgrounds' };
-    sidebarTitle.textContent = titles[tab] || tab;
-
-    // Show correct panel
-    document.querySelectorAll('.sidebar-panel').forEach(p => p.classList.add('hidden'));
-    $(`#panel-${tab}`).classList.remove('hidden');
-
-    // Update tool buttons
-    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-    $(`#tool-${tab}`).classList.add('active');
-
-    // The canvas box just narrowed — re-resolve element positions from fractions
-    relayoutElements();
-
-    // Focus search input
-    if (tab === 'search') {
-      setTimeout(() => $('#search-input').focus(), 100);
-    }
+  // ===== Panels =====
+  const PANEL_TITLES = { find: 'Find photos', stickers: 'Stickers', wall: 'The wall' };
+  function openPanel(tab) {
+    if (panelTab === tab) { closePanel(); return; }
+    if (isPhone() && cardForId) closeCard();
+    panelTab = tab;
+    panel.hidden = false;
+    $('#panel-title').textContent = PANEL_TITLES[tab];
+    panel.querySelectorAll('.pane').forEach(p => { p.hidden = p.dataset.pane !== tab; });
+    ['find', 'stickers', 'wall'].forEach(t => $('#tool-' + t).setAttribute('aria-expanded', String(t === tab)));
+    refitIfAuto();
+    if (tab === 'find') setTimeout(() => $('#find-input').focus(), 80);
   }
-
-  function closeSidebar() {
-    const wasOpen = sidebarTab !== null;
-    sidebarTab = null;
-    sidebar.classList.add('hidden');
-    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-    if (wasOpen) relayoutElements();
+  function closePanel() {
+    if (!panelTab) return;
+    panelTab = null;
+    panel.hidden = true;
+    ['find', 'stickers', 'wall'].forEach(t => $('#tool-' + t).setAttribute('aria-expanded', 'false'));
+    refitIfAuto();
   }
-
-  // ===== Render sidebar panels =====
   function renderStickers() {
     const grid = $('#sticker-grid');
-    STICKERS.forEach(emoji => {
-      const btn = document.createElement('button');
-      btn.className = 'sticker-btn';
-      btn.textContent = emoji;
-      btn.addEventListener('click', () => {
-        addSticker(emoji);
-        if (window.innerWidth <= 768) closeSidebar();
+    STICKERS.forEach(e => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = e;
+      b.setAttribute('aria-label', STICKER_NAMES[e] || 'Sticker');
+      b.addEventListener('click', () => {
+        const p = addPiece({ type: 'sticker', src: e, w: STICKER_SIZE, h: STICKER_SIZE, rot: Math.round(Math.random() * 16 - 8) }, { noSelect: true });
+        if (isPhone()) closePanel();
+        select(p.id);
       });
-      grid.appendChild(btn);
+      grid.appendChild(b);
     });
   }
-
-  function renderBackgrounds() {
-    const grid = $('#bg-grid');
-    const darkBgs = ['midnight', 'cork'];
-    BACKGROUNDS.forEach(bg => {
-      const card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'bg-card';
-      card.setAttribute('aria-label', `${bg.label} background`);
-      card.style.background = BG_STYLES[bg.id] || '#faf9f6';
-      card.dataset.bgId = bg.id;
-      if (bg.id === currentBg.id) card.classList.add('active');
-
-      const label = document.createElement('span');
-      label.className = 'bg-card-label';
-      label.textContent = bg.label;
-      if (darkBgs.includes(bg.id)) {
-        label.style.color = 'rgba(255,255,255,0.7)';
-        label.style.textShadow = '0 1px 2px rgba(0,0,0,0.4)';
-      }
-      card.appendChild(label);
-
-      const check = document.createElement('div');
-      check.className = 'check-mark';
-      check.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
-      card.appendChild(check);
-
-      card.addEventListener('click', () => {
-        if (bg.id === currentBg.id && !customBgImage) return;
+  function renderPaints() {
+    const grid = $('#paint-grid');
+    PAINTS.forEach(pt => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'paint';
+      b.dataset.paint = pt.id;
+      b.setAttribute('role', 'radio');
+      b.style.setProperty('--sw', pt.hex);
+      const s = document.createElement('span');
+      s.textContent = pt.label;
+      b.appendChild(s);
+      b.addEventListener('click', () => {
+        if (board.paint === pt.id && !board.wallpaper) return;
         pushUndo();
-        currentBg = bg;
-        customBgImage = null; // Clear custom image when picking a preset
-        applyBackground();
-        updateUI();
-        saveBoard();
-        if (window.innerWidth <= 768) closeSidebar();
+        const oldInk = paint().ink;
+        board.paint = pt.id;
+        board.wallpaper = null;
+        // Words still in the old default color follow the new paint.
+        board.pieces.forEach(p => { if (p.type === 'text' && (!p.color || p.color === oldInk)) p.color = pt.ink; });
+        applyWall();
+        renderAll();
+        save();
       });
-
-      grid.appendChild(card);
+      grid.appendChild(b);
     });
   }
-
-  // ===== Example board =====
-  // A pre-composed board so a first-time visitor sees the finished thing in one
-  // click instead of a blank canvas. Positions are fractions of the canvas box.
-  const EXAMPLE_ELEMENTS = [
-    { type: 'text', content: 'Dream big', fontFamily: "'Playfair Display', serif", fontSize: 52,
-      fontWeight: 'bold', fontStyle: 'normal', color: '#1a1a2e', width: 300, height: 72,
-      fx: 0.07, fy: 0.09, rotation: -3, intention: 'The headline for this year.' },
-    { type: 'sticker', src: '🚀', width: 110, height: 110, fx: 0.45, fy: 0.05, rotation: 9,
-      intention: 'Ship the thing I keep almost starting.' },
-    { type: 'sticker', src: '💎', width: 88, height: 88, fx: 0.85, fy: 0.11, rotation: -8, intention: '' },
-    { type: 'text', content: 'Make it happen', fontFamily: "'Caveat', cursive", fontSize: 46,
-      fontWeight: 'bold', fontStyle: 'normal', color: '#b84a78', width: 280, height: 66,
-      fx: 0.60, fy: 0.30, rotation: 4, intention: '' },
-    { type: 'sticker', src: '🏔️', width: 118, height: 118, fx: 0.12, fy: 0.38, rotation: -6,
-      intention: 'One real climb, actually booked.' },
-    { type: 'sticker', src: '🌻', width: 94, height: 94, fx: 0.39, fy: 0.50, rotation: 5, intention: '' },
-    { type: 'text', content: 'Believe', fontFamily: "'Bebas Neue', sans-serif", fontSize: 58,
-      fontWeight: 'normal', fontStyle: 'normal', color: '#1a1a2e', width: 230, height: 74,
-      fx: 0.67, fy: 0.58, rotation: -2, intention: '' },
-    { type: 'sticker', src: '🌊', width: 104, height: 104, fx: 0.24, fy: 0.63, rotation: 3, intention: '' },
-  ];
-
-  function loadExampleBoard() {
+  function setShape(shape) {
+    if (board.shape === shape) return;
     pushUndo();
-    ensureModePanels();
-
-    canvas.querySelectorAll('.canvas-element').forEach(node => node.remove());
-    elements = [];
-    selectedId = null;
-    nextId = 1;
-    maxZ = 0;
-    customBgImage = null;
-    currentBg = BACKGROUNDS.find(b => b.id === 'blush') || BACKGROUNDS[0];
-    applyBackground();
-
-    const b = canvasBounds();
-    EXAMPLE_ELEMENTS.forEach(spec => {
-      maxZ++;
-      const el = { ...spec, id: 'el-' + nextId++, zIndex: maxZ };
-      const spot = clampPosition(spec.fx * b.width, spec.fy * b.height, el.width, el.height, b);
-      el.x = spot.x;
-      el.y = spot.y;
-      elements.push(el);
-      renderElement(el, true);
+    const from = SHAPES[board.shape], to = SHAPES[shape];
+    const kx = to.w / from.w, ky = to.h / from.h, k = Math.min(kx, ky);
+    // Keep each piece's center in the same relative spot; shrink sizes only
+    // as much as the tighter side needs.
+    board.pieces.forEach(p => {
+      const cx = (p.x + p.w / 2) * kx, cy = (p.y + p.h / 2) * ky;
+      p.w *= k; p.h *= k;
+      if (p.type === 'text') p.size *= k;
+      p.x = cx - p.w / 2; p.y = cy - p.h / 2;
+      clampOnWall(p);
     });
-
-    updateUI();
-    renderIntentionsPanel();
-    saveBoard();
-    showToast('Loaded an example board. Drag anything around, or hit Clear to start fresh.');
+    board.shape = shape;
+    applyWall();
+    renderAll();
+    fit();
+    save();
   }
 
-  // ===== UI Updates =====
-  function updateUI() {
-    const hasContent = elements.length > 0 || customBgImage;
-    emptyState.classList.toggle('hidden', hasContent);
-    btnClear.style.display = hasContent ? 'inline-flex' : 'none';
-    btnExport.disabled = !hasContent;
-    btnIntentions.style.display = hasContent ? 'inline-flex' : 'none';
-    if (intentionsPanelOpen) renderIntentionsPanel();
-  }
-
-  // ===== Event Binding =====
-  function bindEvents() {
-    // Welcome modal — mode selection
-    $('#welcome-intentional').addEventListener('click', () => chooseMode('intentional'));
-    $('#welcome-freeform').addEventListener('click', () => chooseMode('freeform'));
-
-    // Empty state — load a finished board in one click
-    $('#btn-example').addEventListener('click', (e) => {
-      e.stopPropagation();
-      loadExampleBoard();
-    });
-
-    // Intention prompt
-    $('#intention-save').addEventListener('click', () => {
-      commitPendingElement(intentionInput.value.trim());
-    });
-    $('#intention-skip').addEventListener('click', () => {
-      commitPendingElement('');
-    });
-    intentionInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        commitPendingElement(intentionInput.value.trim());
-      }
-    });
-
-    // Intentions panel toggle
-    btnIntentions.addEventListener('click', toggleIntentionsPanel);
-
-    // Show intentions on board toggle
-    $('#toggle-show-intentions').addEventListener('change', (e) => {
-      showIntentionsOnBoard = e.target.checked;
-      canvas.classList.toggle('show-intentions', showIntentionsOnBoard);
-      saveBoard();
-    });
-
-    // Canvas click (deselect)
-    canvas.addEventListener('pointerdown', (e) => {
-      if (e.target === canvas || e.target === emptyState || e.target.closest('#canvas-empty')) {
-        selectElement(null);
-      }
-    });
-
-    // Keyboard
-    document.addEventListener('keydown', (e) => {
-      const modal = openModalOverlay();
-
-      // Keep Tab inside an open dialog, as aria-modal promises.
-      if (e.key === 'Tab' && modal) {
-        trapFocus(modal, e);
-        return;
-      }
-
-      // Escape is handled before the input guard below. The old handler bailed
-      // out for INPUT/TEXTAREA, so Escape never reached either modal.
-      if (e.key === 'Escape') {
-        if (modal === intentionModal) {
-          e.preventDefault();
-          commitPendingElement(''); // same as the Skip button
-          return;
-        }
-        if (modal === welcomeModal) {
-          e.preventDefault();
-          chooseMode('freeform'); // dismissing picks the lighter-touch default
-          return;
-        }
-        selectElement(null);
-        closeSidebar();
-        return;
-      }
-
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.contentEditable === 'true') return;
-      if (modal) return;
-
-      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId) {
-        e.preventDefault();
-        removeElement(selectedId);
-      }
-      if (e.key === 'z' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        undo();
-      }
-    });
-
-    // Canvas box changes with the window, and positions are fractional, so
-    // re-resolve them. Also re-cache the draw canvas rect if drawing is open.
-    window.addEventListener('resize', () => {
-      scheduleRelayout();
-      if (drawCtx) drawRect = $('#draw-canvas').getBoundingClientRect();
-    });
-
-    // File input
-    fileInput.addEventListener('change', (e) => {
-      Array.from(e.target.files).forEach(f => {
-        if (f.type.startsWith('image/')) addImageFromFile(f);
-      });
-      e.target.value = '';
-    });
-
-    // Toolbar buttons
-    $('#tool-upload').addEventListener('click', () => fileInput.click());
-    $('#tool-search').addEventListener('click', () => openSidebar('search'));
-    $('#tool-stickers').addEventListener('click', () => openSidebar('stickers'));
-    $('#tool-draw').addEventListener('click', () => enterDrawMode());
-    $('#tool-text').addEventListener('click', () => addText());
-    $('#tool-backgrounds').addEventListener('click', () => openSidebar('backgrounds'));
-
-    // Background upload
-    const bgFileInput = $('#bg-file-input');
-    $('#bg-upload').addEventListener('click', () => bgFileInput.click());
-    bgFileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file || !file.type.startsWith('image/')) return;
-      readFileAsDataUrl(file)
-        .then(prepareBackground)
-        .then(src => setImageBackground(src, ''))
-        .catch(() => showToast('That file could not be read as an image.', 'error'));
-      e.target.value = '';
-    });
-
-    // Background search
-    const bgSearchWrap = $('#bg-search-wrap');
-    $('#bg-search').addEventListener('click', () => {
-      bgSearchWrap.classList.toggle('hidden');
-      if (!bgSearchWrap.classList.contains('hidden')) {
-        setTimeout(() => $('#bg-search-input').focus(), 100);
-      }
-    });
-
-    let bgSearchTimeout = null;
-    $('#bg-search-input').addEventListener('input', (e) => {
-      clearTimeout(bgSearchTimeout);
-      const query = e.target.value.trim();
-      if (query.length < 2) return;
-      bgSearchTimeout = setTimeout(() => searchBgImages(query), 400);
-    });
-
-    // Drawing toolbar
-    $('#draw-done').addEventListener('click', () => exitDrawMode(true));
-    $('#draw-cancel').addEventListener('click', () => exitDrawMode(false));
-    $('#draw-undo').addEventListener('click', drawUndo);
-    document.querySelectorAll('.stroke-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        drawSize = parseInt(btn.dataset.size);
-        document.querySelectorAll('.stroke-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-
-    // Top toolbar
-    btnClear.addEventListener('click', clearBoard);
-    $('#btn-undo').addEventListener('click', undo);
-    btnExport.addEventListener('click', exportBoard);
-    boardTitle.addEventListener('input', () => saveBoard());
-
-    // Sidebar close
-    $('#sidebar-close').addEventListener('click', closeSidebar);
-
-    // Search
-    $('#search-input').addEventListener('input', (e) => {
-      clearTimeout(searchTimeout);
-      const query = e.target.value.trim();
-      if (query.length < 2) return;
-      searchTimeout = setTimeout(() => searchImages(query), 400);
-    });
-
-    // Drag & drop on canvas
-    canvasContainer.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropOverlay.classList.remove('hidden');
-    });
-    canvasContainer.addEventListener('dragleave', (e) => {
-      if (!canvasContainer.contains(e.relatedTarget)) {
-        dropOverlay.classList.add('hidden');
-      }
-    });
-    canvasContainer.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropOverlay.classList.add('hidden');
-      Array.from(e.dataTransfer.files).forEach(f => {
-        if (f.type.startsWith('image/')) addImageFromFile(f);
-      });
-    });
-  }
-
-  // ===== Drawing =====
-  let isDrawing = false;
-  let drawCtx = null;
-  let drawStrokes = []; // array of stroke arrays for undo
-  let currentStroke = [];
-  // Black, not white: the default canvas is #faf9f6, so a white first stroke was
-  // invisible and read as "drawing is broken".
-  let drawColor = '#000000';
-  let drawSize = 6;
-  let drawRect = null; // cached draw-canvas rect; drawMove runs on every pointermove
-  const DRAW_COLORS = [
-    '#ffffff', '#000000', '#ef4444', '#f97316', '#facc15',
-    '#22c55e', '#3b82f6', '#a855f7', '#ec4899', '#06b6d4',
-  ];
-  const DRAW_COLOR_NAMES = {
-    '#ffffff': 'White', '#000000': 'Black', '#ef4444': 'Red', '#f97316': 'Orange',
-    '#facc15': 'Yellow', '#22c55e': 'Green', '#3b82f6': 'Blue', '#a855f7': 'Purple',
-    '#ec4899': 'Pink', '#06b6d4': 'Cyan',
+  // ===== Example show =====
+  const EXAMPLE = {
+    title: '2027',
+    paint: 'salon',
+    wide: [
+      { t: 'image', f: 'lisbon', frame: 'black', x: 110, y: 90, w: 270, h: 360, name: 'Lisbon in the spring', why: 'Two weeks, no laptop. Ride the 28 end to end and eat the custard tarts warm.', by: 'April 2027' },
+      { t: 'image', f: 'swim', frame: 'oak', x: 470, y: 110, w: 420, h: 250, rot: -1, name: 'Open water mile', why: 'A full mile in a lake without stopping.', by: 'August', dot: true },
+      { t: 'image', f: 'pottery', frame: 'polaroid', x: 985, y: 96, w: 250, h: 270, rot: 3, name: 'Wheel class', why: 'Make one bowl I would actually eat from.', by: 'Fall' },
+      { t: 'image', f: 'run', frame: 'white', x: 1320, y: 88, w: 200, h: 300, name: 'Queens 10K', by: 'June' },
+      { t: 'text', content: 'Say yes\nmore.', x: 84, y: 620, size: 84, rot: -3 },
+      { t: 'image', f: 'cabin', frame: 'oval', x: 470, y: 480, w: 230, h: 300, name: 'A week at a cabin', why: 'Somewhere with a wood stove and no plans.', by: 'Winter' },
+      { t: 'image', f: 'dinner', frame: 'black', x: 790, y: 500, w: 230, h: 300, name: 'Monthly dinner', why: 'First Sunday, our place, whoever can come.', dot: true },
+      { t: 'image', f: 'books-cut', cut: true, x: 1060, y: 500, w: 200, h: 248, rot: -5, name: '24 books', why: 'Two a month, on paper.' },
+      { t: 'text', content: '2027', x: 1300, y: 540, size: 116, rot: 0, color: '#c4122f' },
+    ],
+    tall: [
+      { t: 'text', content: '2027', x: 70, y: 70, size: 150, color: '#c4122f' },
+      { t: 'text', content: 'Say yes\nmore.', x: 560, y: 80, size: 70, rot: -3 },
+      { t: 'image', f: 'lisbon', frame: 'black', x: 70, y: 300, w: 310, h: 410, name: 'Lisbon in the spring', why: 'Two weeks, no laptop. Ride the 28 end to end and eat the custard tarts warm.', by: 'April 2027' },
+      { t: 'image', f: 'swim', frame: 'oak', x: 450, y: 320, w: 470, h: 280, rot: -1, name: 'Open water mile', why: 'A full mile in a lake without stopping.', by: 'August', dot: true },
+      { t: 'image', f: 'run', frame: 'white', x: 580, y: 730, w: 250, h: 360, name: 'Queens 10K', by: 'June' },
+      { t: 'image', f: 'pottery', frame: 'polaroid', x: 80, y: 860, w: 310, h: 330, rot: -3, name: 'Wheel class', why: 'Make one bowl I would actually eat from.', by: 'Fall' },
+      { t: 'image', f: 'dinner', frame: 'black', x: 560, y: 1200, w: 260, h: 300, name: 'Monthly dinner', why: 'First Sunday, our place, whoever can come.', dot: true },
+      { t: 'image', f: 'books-cut', cut: true, x: 130, y: 1270, w: 200, h: 248, rot: -5, name: '24 books', why: 'Two a month, on paper.' },
+    ],
   };
-
-  function enterDrawMode() {
-    const overlay = $('#draw-overlay');
-    const drawCanvas = $('#draw-canvas');
-    // The overlay is viewport-fixed and full width. Closing the left sidebar
-    // keeps its box aligned with the canvas box (exitDrawMode also corrects for
-    // any remaining offset).
-    closeSidebar();
-    overlay.classList.remove('hidden');
-    emptyState.classList.add('hidden');
-    $('#toolbar-bottom').style.display = 'none';
-
-    // Size canvas to match container
-    const rect = overlay.getBoundingClientRect();
-    drawCanvas.width = rect.width * 2; // retina
-    drawCanvas.height = rect.height * 2;
-    drawCanvas.style.width = rect.width + 'px';
-    drawCanvas.style.height = rect.height + 'px';
-
-    drawCtx = drawCanvas.getContext('2d');
-    drawCtx.scale(2, 2);
-    drawCtx.lineCap = 'round';
-    drawCtx.lineJoin = 'round';
-    drawStrokes = [];
-    currentStroke = [];
-    drawRect = drawCanvas.getBoundingClientRect();
-
-    // Render color swatches
-    const colorRow = $('#draw-colors');
-    colorRow.innerHTML = '';
-    DRAW_COLORS.forEach(c => {
-      const swatch = document.createElement('button');
-      swatch.type = 'button';
-      swatch.className = 'draw-color-swatch';
-      swatch.setAttribute('aria-label', (DRAW_COLOR_NAMES[c] || c) + ' pen');
-      if (c === drawColor) {
-        swatch.classList.add('active');
-        swatch.setAttribute('aria-pressed', 'true');
+  async function loadExample() {
+    pushUndo();
+    const shape = isPhone() ? 'tall' : 'wide';
+    const spec = EXAMPLE[shape];
+    let credits = {};
+    try { credits = await (await fetch('example/credits.json')).json(); } catch (e) { /* credits are a nicety */ }
+    const pieces = [];
+    for (const [i, s] of spec.entries()) {
+      const base = { id: 'p-' + (i + 1), x: s.x, y: s.y, rot: s.rot || 0, z: i + 1, name: s.name || '', why: s.why || '', by: s.by || '', dot: !!s.dot };
+      if (s.t === 'image') {
+        const file = `example/${s.f}.${s.cut ? 'png' : 'jpg'}`;
+        let src;
+        try { src = await readAsDataUrl(await (await fetch(file)).blob()); } catch (e) { continue; }
+        const c = credits[s.f] || {};
+        pieces.push(Object.assign(base, { type: 'image', src, w: s.w, h: s.h, frame: s.frame || 'none', cutout: !!s.cut, alt: c.alt || '', credit: c.name ? { name: c.name, url: c.profile } : undefined }));
+      } else {
+        pieces.push(Object.assign(base, { type: 'text', content: s.content, family: FONTS[0].family, size: s.size, color: s.color || PAINTS[0].ink, weight: 600, italic: false, w: 300, h: 100 }));
       }
-      swatch.style.background = c;
-      if (c === '#ffffff') swatch.style.borderColor = '#d1d5db';
-      swatch.addEventListener('click', () => {
-        drawColor = c;
-        colorRow.querySelectorAll('.draw-color-swatch').forEach(s => {
-          s.classList.remove('active');
-          s.setAttribute('aria-pressed', 'false');
-        });
-        swatch.classList.add('active');
-        swatch.setAttribute('aria-pressed', 'true');
-      });
-      colorRow.appendChild(swatch);
+    }
+    board = Object.assign(emptyBoard(), { title: EXAMPLE.title, paint: EXAMPLE.paint, shape, pieces: pieces.map(normalizePiece), nextId: pieces.length + 1, maxZ: pieces.length });
+    showTitle.value = board.title;
+    selectedId = null;
+    closeCard();
+    applyWall();
+    // Words need their real width, which needs the font.
+    try { await document.fonts.load(`600 72px "Funnel Display"`); } catch (e) { /* ok */ }
+    board.pieces.forEach(p => {
+      if (p.type !== 'text') return;
+      const x = p.x, y = p.y;
+      fitTextBox(p);
+      Object.assign(p, clampInside(x, y, p.w, p.h));
     });
-
-    // Pointer events
-    drawCanvas.addEventListener('pointerdown', drawStart);
-    drawCanvas.addEventListener('pointermove', drawMove);
-    drawCanvas.addEventListener('pointerup', drawEnd);
-    drawCanvas.addEventListener('pointerleave', drawEnd);
+    renderAll();
+    fit();
+    refreshUI();
+    save();
+    toast('This is an example show. Change anything, or start a new wall from the menu.', { ms: 6000 });
   }
 
-  function exitDrawMode(save) {
-    const overlay = $('#draw-overlay');
-    const drawCanvas = $('#draw-canvas');
+  // ===== New wall =====
+  function newWall() {
+    pushUndo();
+    const keepShape = board.shape;
+    board = emptyBoard();
+    board.shape = keepShape;
+    showTitle.value = '';
+    selectedId = null;
+    closeCard();
+    closePanel();
+    applyWall();
+    renderAll();
+    fit();
+    refreshUI();
+    save();
+    toast('New wall.', { action: 'Undo', onAction: undo, ms: 8000 });
+  }
 
-    // Stroke coordinates are relative to the viewport-fixed overlay, but they
-    // get handed to addElement as canvas-relative. Convert, or the drawing lands
-    // off by the width of whatever panel is open.
-    const canvasRect = canvas.getBoundingClientRect();
-    const overlayRect = drawRect || drawCanvas.getBoundingClientRect();
-    const offsetX = overlayRect.left - canvasRect.left;
-    const offsetY = overlayRect.top - canvasRect.top;
+  // ===== Pointer input: pan, pinch, drag, resize, rotate =====
+  const pointers = new Map();
+  let gesture = null;      // { kind: 'pan'|'drag'|'resize'|'rot'|'pinch', ... }
+  let lastTap = { t: 0, x: 0, y: 0 };
 
-    drawCanvas.removeEventListener('pointerdown', drawStart);
-    drawCanvas.removeEventListener('pointermove', drawMove);
-    drawCanvas.removeEventListener('pointerup', drawEnd);
-    drawCanvas.removeEventListener('pointerleave', drawEnd);
+  function onPointerDown(e) {
+    if (viewMode === 'walk') { walkPointerDown(e); return; }
+    if (e.button && e.button !== 0) return;
+    if (editingTextId && e.target.closest('.art[contenteditable="true"]')) return;
+    closePop();
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-    if (save && drawStrokes.length > 0) {
-      // Calculate bounding box of all strokes
-      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-      drawStrokes.forEach(stroke => {
-        const pad = stroke.size * 3; // account for glow
-        stroke.points.forEach(pt => {
-          minX = Math.min(minX, pt.x - pad);
-          minY = Math.min(minY, pt.y - pad);
-          maxX = Math.max(maxX, pt.x + pad);
-          maxY = Math.max(maxY, pt.y + pad);
-        });
-      });
-      minX = Math.max(0, minX);
-      minY = Math.max(0, minY);
-      const cropW = maxX - minX;
-      const cropH = maxY - minY;
+    if (pointers.size === 2) { startPinch(); return; }
+    if (pointers.size > 2) return;
 
-      // Create a cropped canvas
-      const cropCanvas = document.createElement('canvas');
-      cropCanvas.width = cropW * 2;
-      cropCanvas.height = cropH * 2;
-      const cropCtx = cropCanvas.getContext('2d');
-      cropCtx.scale(2, 2);
-      cropCtx.lineCap = 'round';
-      cropCtx.lineJoin = 'round';
-
-      // Redraw strokes offset to the crop origin
-      drawStrokes.forEach(stroke => {
-        cropCtx.strokeStyle = stroke.color;
-        cropCtx.lineWidth = stroke.size;
-        cropCtx.shadowColor = stroke.color;
-        cropCtx.shadowBlur = stroke.size * 2;
-        cropCtx.beginPath();
-        stroke.points.forEach((pt, i) => {
-          const x = pt.x - minX;
-          const y = pt.y - minY;
-          if (i === 0) cropCtx.moveTo(x, y);
-          else {
-            cropCtx.lineTo(x, y);
-            cropCtx.stroke();
-            cropCtx.beginPath();
-            cropCtx.moveTo(x, y);
-          }
-        });
-      });
-
-      const dataUrl = cropCanvas.toDataURL('image/png');
-
-      overlay.classList.add('hidden');
-      $('#toolbar-bottom').style.display = 'flex';
-
-      addElement({
-        type: 'image',
-        src: dataUrl,
-        x: Math.round(minX + offsetX),
-        y: Math.round(minY + offsetY),
-        width: Math.round(cropW),
-        height: Math.round(cropH),
-        rotation: 0,
-        label: 'Drawing',
-      });
+    const handle = e.target.closest('[data-handle]');
+    const pieceDom = e.target.closest('.piece');
+    if (handle && selectedId) {
+      e.preventDefault();
+      const p = byId(selectedId);
+      if (handle.dataset.handle === 'rot') startRotate(e, p);
+      else startResize(e, p, handle.dataset.handle);
+    } else if (pieceDom) {
+      e.preventDefault();
+      const id = pieceDom.dataset.id;
+      const p = byId(id);
+      const wasSelected = selectedId === id;
+      if (!wasSelected) select(id);
+      gesture = { kind: 'drag', id, sx: e.clientX, sy: e.clientY, ox: p.x, oy: p.y, moved: false, wasSelected };
     } else {
-      overlay.classList.add('hidden');
-      $('#toolbar-bottom').style.display = 'flex';
+      gesture = { kind: 'pan', sx: e.clientX, sy: e.clientY, ox: view.tx, oy: view.ty, moved: false };
+      stage.classList.add('panning');
     }
-
-    drawCtx = null;
-    drawRect = null;
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
   }
 
-  function drawStart(e) {
-    isDrawing = true;
-    btnClear.style.display = 'inline-flex';
-    const rect = drawRect || e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    currentStroke = [{ x, y }];
-    drawCtx.strokeStyle = drawColor;
-    drawCtx.lineWidth = drawSize;
-    drawCtx.shadowColor = drawColor;
-    drawCtx.shadowBlur = drawSize * 2;
-    drawCtx.beginPath();
-    drawCtx.moveTo(x, y);
-  }
+  function onPointerMove(e) {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (!gesture) return;
+    if (gesture.kind === 'pinch') { movePinch(); return; }
+    const dx = e.clientX - gesture.sx, dy = e.clientY - gesture.sy;
+    if (!gesture.moved && Math.hypot(dx, dy) < 4) return;
 
-  function drawMove(e) {
-    if (!isDrawing) return;
-    // Cached in enterDrawMode — this used to force layout on every pointermove.
-    const rect = drawRect || e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    currentStroke.push({ x, y });
-    drawCtx.lineTo(x, y);
-    drawCtx.stroke();
-    drawCtx.beginPath();
-    drawCtx.moveTo(x, y);
-  }
-
-  function drawEnd() {
-    if (!isDrawing) return;
-    isDrawing = false;
-    if (currentStroke.length > 0) {
-      drawStrokes.push({ points: currentStroke, color: drawColor, size: drawSize });
-      currentStroke = [];
+    if (gesture.kind === 'pan') {
+      gesture.moved = true;
+      userZoomed = true;
+      setView(view.s, gesture.ox + dx, gesture.oy + dy);
+    } else if (gesture.kind === 'drag') {
+      const p = byId(gesture.id);
+      if (!p) return;
+      if (!gesture.moved) {
+        gesture.moved = true;
+        pushUndo();
+        domOf(p.id).classList.add('dragging');
+        ctxBar.hidden = true;
+        closeCardOnPhone();
+      }
+      p.x = gesture.ox + dx / view.s;
+      p.y = gesture.oy + dy / view.s;
+      clampOnWall(p);
+      const dom = domOf(p.id);
+      dom.style.left = p.x + 'px';
+      dom.style.top = p.y + 'px';
+      const lbl = labelsEl.querySelector(`[data-for="${p.id}"]`);
+      if (lbl) placeLabel(lbl, p);
+    } else if (gesture.kind === 'resize') {
+      moveResize(e);
+    } else if (gesture.kind === 'rot') {
+      moveRotate(e);
     }
   }
 
-  function drawUndo() {
-    if (drawStrokes.length === 0) return;
-    drawStrokes.pop();
-    redrawStrokes();
-  }
-
-  function redrawStrokes() {
-    const drawCanvas = $('#draw-canvas');
-    const rect = drawCanvas.getBoundingClientRect();
-    drawCtx.clearRect(0, 0, rect.width, rect.height);
-    drawStrokes.forEach(stroke => {
-      drawCtx.strokeStyle = stroke.color;
-      drawCtx.lineWidth = stroke.size;
-      drawCtx.shadowColor = stroke.color;
-      drawCtx.shadowBlur = stroke.size * 2;
-      drawCtx.beginPath();
-      stroke.points.forEach((pt, i) => {
-        if (i === 0) drawCtx.moveTo(pt.x, pt.y);
-        else {
-          drawCtx.lineTo(pt.x, pt.y);
-          drawCtx.stroke();
-          drawCtx.beginPath();
-          drawCtx.moveTo(pt.x, pt.y);
-        }
-      });
-    });
-  }
-
-  // ===== Intentions =====
-  function chooseMode(next) {
-    mode = next;
-    localStorage.setItem('visionbort-mode', next);
-    closeModal(welcomeModal);
-    saveBoard();
-  }
-
-  function commitPendingElement(intention) {
-    if (!pendingElement) return;
-    const setAsBg = $('#intention-set-bg').checked && pendingElement.type === 'image';
-    if (setAsBg) {
-      setImageBackground(pendingElement.src, intention || '');
-      pendingElement = null;
-      closeModal(intentionModal);
+  function onPointerUp(e) {
+    pointers.delete(e.pointerId);
+    if (gesture && gesture.kind === 'pinch') {
+      if (pointers.size < 2) gesture = null;
+      if (!pointers.size) detach();
       return;
     }
-    pendingElement.intention = intention || '';
-    pendingElement._skipIntention = true;
-    addElement(pendingElement);
-    pendingElement = null;
-    closeModal(intentionModal);
+    const g = gesture;
+    gesture = null;
+    stage.classList.remove('panning');
+    if (g) {
+      if (g.kind === 'pan' && !g.moved) {
+        // A tap on the empty wall: deselect, and a double tap fits or zooms.
+        const now = Date.now();
+        if (now - lastTap.t < 320 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 24) {
+          if (Math.abs(view.s / fitS - 1) > 0.02) fit(); else zoomAt(2.2, e.clientX, e.clientY);
+          lastTap.t = 0;
+        } else {
+          lastTap = { t: now, x: e.clientX, y: e.clientY };
+          if (selectedId) select(null);
+          if (isPhone()) { closePanel(); closeCard(); }
+        }
+      } else if (g.kind === 'drag') {
+        const dom = domOf(g.id);
+        if (dom) dom.classList.remove('dragging');
+        if (g.moved) { renderLabels(); save(); buildCtx(); }
+        else if (g.wasSelected) {
+          const p = byId(g.id);
+          // Tapping a selected piece: words go into editing, anything else
+          // opens its wall text.
+          if (p && p.type === 'text' && (e.pointerType !== 'mouse')) startTextEdit(p.id);
+          else if (p && e.pointerType !== 'mouse') openCard(p.id);
+        }
+      } else if (g.kind === 'resize' || g.kind === 'rot') {
+        if (g.moved) {
+          const p = byId(g.id);
+          if (p && p.frame === 'torn') { /* percentage path still fits */ }
+          renderLabels();
+          save();
+        }
+        buildCtx();
+      }
+    }
+    if (!pointers.size) detach();
+  }
+  function detach() {
+    window.removeEventListener('pointermove', onPointerMove);
+    window.removeEventListener('pointerup', onPointerUp);
+    window.removeEventListener('pointercancel', onPointerUp);
+  }
+  function closeCardOnPhone() { if (isPhone() && cardForId) closeCard(); }
+
+  function startPinch() {
+    // A second finger turns whatever was happening into a pinch.
+    if (gesture && gesture.kind === 'drag') {
+      const dom = domOf(gesture.id);
+      if (dom) dom.classList.remove('dragging');
+      if (gesture.moved) { renderLabels(); save(); }
+    }
+    const [a, b] = [...pointers.values()];
+    const r = stage.getBoundingClientRect();
+    gesture = {
+      kind: 'pinch',
+      d0: Math.hypot(a.x - b.x, a.y - b.y) || 1,
+      mx: (a.x + b.x) / 2 - r.left, my: (a.y + b.y) / 2 - r.top,
+      s0: view.s, tx0: view.tx, ty0: view.ty,
+    };
+    stage.classList.remove('panning');
+  }
+  function movePinch() {
+    const [a, b] = [...pointers.values()];
+    if (!a || !b) return;
+    const r = stage.getBoundingClientRect();
+    const d = Math.hypot(a.x - b.x, a.y - b.y);
+    const mx = (a.x + b.x) / 2 - r.left, my = (a.y + b.y) / 2 - r.top;
+    const g = gesture;
+    const s = clamp(g.s0 * d / g.d0, fitS * 0.5, Math.max(4, fitS * 8));
+    const k = s / g.s0;
+    userZoomed = true;
+    setView(s, mx - (g.mx - g.tx0) * k, my - (g.my - g.ty0) * k);
   }
 
-  function renderIntentionsPanel() {
-    if (!intentionsList) return;
-    // Don't rebuild if user is editing an intention
-    const activeEl = document.activeElement;
-    if (activeEl && activeEl.classList.contains('intention-edit')) return;
-    intentionsList.innerHTML = '';
+  // Resize in the piece's own rotated frame, holding the opposite corner still.
+  function startResize(e, p, corner) {
+    const sx = corner.includes('e') ? 1 : -1;
+    const sy = corner.includes('s') ? 1 : -1;
+    const r = (p.rot || 0) * Math.PI / 180;
+    const cx = p.x + p.w / 2, cy = p.y + p.h / 2;
+    const ax = -sx * p.w / 2, ay = -sy * p.h / 2;
+    gesture = {
+      kind: 'resize', id: p.id, sx: e.clientX, sy: e.clientY, moved: false,
+      dirx: sx, diry: sy, r, w0: p.w, h0: p.h, size0: p.size,
+      ax: cx + ax * Math.cos(r) - ay * Math.sin(r),
+      ay: cy + ax * Math.sin(r) + ay * Math.cos(r),
+      free: p.type === 'image' && !p.cutout && p.frame !== 'circle' && p.kind !== 'drawing',
+    };
+  }
+  function moveResize(e) {
+    const g = gesture;
+    const p = byId(g.id);
+    if (!p) return;
+    if (!g.moved) { g.moved = true; pushUndo(); ctxBar.hidden = true; }
+    const w = clientToWorld(e.clientX, e.clientY);
+    const vx = w.x - g.ax, vy = w.y - g.ay;
+    const lx = vx * Math.cos(-g.r) - vy * Math.sin(-g.r);
+    const ly = vx * Math.sin(-g.r) + vy * Math.cos(-g.r);
+    let nw, nh;
+    // Photos can be cropped freely with Shift; everything else keeps its shape.
+    if (g.free && e.shiftKey) {
+      nw = Math.max(40, g.dirx * lx);
+      nh = Math.max(40, g.diry * ly);
+    } else {
+      const k = Math.max(0.08, (g.dirx * lx * g.w0 + g.diry * ly * g.h0) / (g.w0 * g.w0 + g.h0 * g.h0));
+      nw = g.w0 * k; nh = g.h0 * k;
+      if (p.type === 'text') p.size = g.size0 * k;
+    }
+    const hx = g.dirx * nw / 2, hy = g.diry * nh / 2;
+    const cx = g.ax + hx * Math.cos(g.r) - hy * Math.sin(g.r);
+    const cy = g.ay + hx * Math.sin(g.r) + hy * Math.cos(g.r);
+    Object.assign(p, { w: nw, h: nh, x: cx - nw / 2, y: cy - nh / 2 });
+    renderPiece(p);
+    const lbl = labelsEl.querySelector(`[data-for="${p.id}"]`);
+    if (lbl) placeLabel(lbl, p);
+  }
 
-    const withNotes = elements.filter(e => e.intention);
-    intentionsCount.textContent = `${withNotes.length} / ${elements.length}`;
-    intentionsEmpty.classList.toggle('hidden', elements.length > 0);
+  function startRotate(e, p) {
+    const dom = domOf(p.id);
+    const rect = dom.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+    gesture = { kind: 'rot', id: p.id, sx: e.clientX, sy: e.clientY, cx, cy, a0: Math.atan2(e.clientY - cy, e.clientX - cx), r0: p.rot || 0, moved: false };
+  }
+  function moveRotate(e) {
+    const g = gesture;
+    const p = byId(g.id);
+    if (!p) return;
+    if (!g.moved) { g.moved = true; pushUndo(); ctxBar.hidden = true; }
+    let deg = g.r0 + (Math.atan2(e.clientY - g.cy, e.clientX - g.cx) - g.a0) * 180 / Math.PI;
+    deg = ((deg + 180) % 360 + 360) % 360 - 180;
+    if (e.shiftKey) deg = Math.round(deg / 15) * 15;
+    else for (const snap of [-180, -90, 0, 90, 180]) if (Math.abs(deg - snap) < 3) deg = snap;
+    p.rot = deg;
+    const dom = domOf(p.id);
+    dom.style.setProperty('--rot', deg + 'deg');
+    dom.style.transform = `rotate(${deg}deg)`;
+    const lbl = labelsEl.querySelector(`[data-for="${p.id}"]`);
+    if (lbl) placeLabel(lbl, p);
+  }
 
-    elements.forEach(el => {
-      const item = document.createElement('div');
-      item.className = 'intention-item';
-      if (el.id === selectedId) item.classList.add('selected');
+  function onWheel(e) {
+    if (viewMode === 'walk') return;
+    e.preventDefault();
+    if (e.ctrlKey || e.metaKey) {
+      zoomAt(Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0085)), e.clientX, e.clientY);
+    } else {
+      userZoomed = true;
+      const m = e.deltaMode ? 24 : 1;
+      setView(view.s, view.tx - e.deltaX * m, view.ty - e.deltaY * m);
+    }
+  }
 
-      const preview = document.createElement('div');
-      preview.className = 'intention-item-preview';
+  // ===== Keyboard =====
+  function onKey(e) {
+    const mod = e.metaKey || e.ctrlKey;
+    if (openDialog) {
+      if (e.key === 'Tab') trapFocus(openDialog, e);
+      if (e.key === 'Escape') { e.preventDefault(); closeDialog(); }
+      return;
+    }
+    if (viewMode === 'walk') {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); walkStep(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); walkStep(-1); }
+      else if (e.key === 'Escape') { e.preventDefault(); setViewMode(prevMode); }
+      return;
+    }
+    if (e.key === 'Escape') {
+      if (!pop.hidden) { closePop(); return; }
+      if (editingTextId) { domOf(editingTextId).querySelector('.art').blur(); return; }
+      if (!$('#more-menu').hidden) { closeMenu(); return; }
+      if (cardForId) { closeCard(); const d = domOf(selectedId); if (d) d.focus(); return; }
+      if (panelTab) { closePanel(); return; }
+      if (selectedId) { select(null); return; }
+      return;
+    }
+    const typing = e.target.closest && e.target.closest('input, textarea, [contenteditable="true"]');
+    if (mod && e.key.toLowerCase() === 'z' && !typing) { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
+    if (mod && e.key.toLowerCase() === 'y' && !typing) { e.preventDefault(); redo(); return; }
+    if (mod && (e.key === '=' || e.key === '+')) { e.preventDefault(); zoomBy(1.25); return; }
+    if (mod && e.key === '-') { e.preventDefault(); zoomBy(0.8); return; }
+    if (mod && e.key === '0') { e.preventDefault(); fit(); return; }
+    if (typing) {
+      if (editingTextId && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); e.target.blur(); }
+      return;
+    }
+    const p = selectedId && byId(selectedId);
+    if (!p) return;
+    if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removePiece(p.id); return; }
+    if (mod && e.key.toLowerCase() === 'd') { e.preventDefault(); duplicatePiece(p.id); return; }
+    if (e.key === 'Enter') { e.preventDefault(); if (p.type === 'text' && !e.shiftKey) startTextEdit(p.id); else openCard(p.id); return; }
+    const step = e.shiftKey ? 20 : 4;
+    const moves = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+    if (moves[e.key]) {
+      e.preventDefault();
+      if (!e.repeat) pushUndo();
+      p.x += moves[e.key][0]; p.y += moves[e.key][1];
+      clampOnWall(p);
+      renderPiece(p);
+      renderLabels();
+      positionCtx();
+      save();
+    }
+  }
 
-      const thumb = document.createElement('div');
-      thumb.className = 'intention-thumb';
-      if (el.type === 'image') {
-        const img = document.createElement('img');
-        img.src = el.src;
-        img.alt = '';
-        thumb.appendChild(img);
-      } else if (el.type === 'sticker') {
-        thumb.textContent = el.src;
-      } else if (el.type === 'text') {
-        thumb.textContent = 'T';
-        thumb.style.fontWeight = '700';
-        thumb.style.color = '#6b7280';
-        thumb.style.fontSize = '16px';
-      }
-      preview.appendChild(thumb);
+  // ===== Dialogs =====
+  function showDialog(el, focusEl) {
+    dialogReturnFocus = document.activeElement;
+    openDialog = el;
+    scrim.hidden = false;
+    el.hidden = false;
+    setTimeout(() => (focusEl || el.querySelector('input, button')).focus(), 40);
+  }
+  function closeDialog() {
+    if (!openDialog) return;
+    const el = openDialog;
+    openDialog = null;
+    el.hidden = true;
+    scrim.hidden = true;
+    if (el.id === 'dlg-welcome') finishWelcome();
+    if (el.id === 'dlg-hang') stopFilm();
+    if (dialogReturnFocus && document.contains(dialogReturnFocus)) dialogReturnFocus.focus();
+  }
+  function trapFocus(container, e) {
+    const nodes = [...container.querySelectorAll('button, [href], input, textarea, [tabindex]:not([tabindex="-1"])')]
+      .filter(n => !n.disabled && n.offsetParent !== null);
+    if (!nodes.length) return;
+    const first = nodes[0], last = nodes[nodes.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
 
-      const label = document.createElement('span');
-      label.className = 'intention-item-label';
-      if (el.type === 'text') label.textContent = el.content;
-      else if (el.type === 'sticker') label.textContent = stickerName(el.src);
-      else label.textContent = el.label || 'Image';
-      preview.appendChild(label);
+  function finishWelcome() {
+    lsSet(WELCOMED_KEY, '1');
+    askWhy = $('#welcome-ask').checked;
+    lsSet(ASK_KEY, askWhy ? '1' : '0');
+    updateAskUI();
+    const t = $('#welcome-title').value.trim();
+    if (t && !showTitle.value) { showTitle.value = t; save(); }
+  }
 
-      item.appendChild(preview);
+  // ===== Menu =====
+  function openMenu() {
+    const m = $('#more-menu');
+    m.hidden = false;
+    $('#btn-more').setAttribute('aria-expanded', 'true');
+    m.querySelector('button').focus();
+  }
+  function closeMenu() {
+    $('#more-menu').hidden = true;
+    $('#btn-more').setAttribute('aria-expanded', 'false');
+  }
+  function updateAskUI() { $('#opt-ask').setAttribute('aria-checked', String(askWhy)); }
 
-      // Editable intention textarea
-      const noteWrap = document.createElement('div');
-      noteWrap.className = 'intention-edit-wrap';
-      const textarea = document.createElement('textarea');
-      textarea.className = 'intention-edit';
-      textarea.placeholder = 'Add an intention...';
-      textarea.value = el.intention || '';
-      textarea.rows = 2;
-      textarea.addEventListener('input', () => {
-        updateElement(el.id, { intention: textarea.value });
+  // ===== View modes =====
+  let prevMode = 'arrange';
+  function setViewMode(mode) {
+    if (mode === viewMode) return;
+    if (mode === 'walk') {
+      if (!board.pieces.length) { toast('Hang something first, then walk through it.'); syncViewSeg(); return; }
+      prevMode = viewMode;
+    }
+    const leaving = viewMode;
+    viewMode = mode;
+    document.body.dataset.view = mode;
+    syncViewSeg();
+    if (mode === 'walk') { if (editingTextId) commitTextEdit(); closePop(); closeMenu(); startWalk(); }
+    if (leaving === 'walk') { endWalk(); }
+    board.pieces.forEach(p => { const d = domOf(p.id); if (d) renderSelection(d, p); });
+    buildCtx();
+    renderLabels();
+  }
+  function syncViewSeg() {
+    document.querySelectorAll('#views button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.view === viewMode)));
+  }
+
+  // ===== Walk through =====
+  let walkOrder = [];
+  let walkIdx = -1;
+  let walkSwipe = null;
+  function walkList() {
+    // Read the wall like a visitor: left to right, top to bottom, labeled
+    // pieces first if there are any.
+    const order = board.pieces.slice().sort((a, b) => {
+      const ba = bbox(a), bb = bbox(b);
+      const rowA = Math.round((ba.y + ba.h / 2) / (H() / 3)), rowB = Math.round((bb.y + bb.h / 2) / (H() / 3));
+      return rowA - rowB || (ba.x - bb.x);
+    });
+    const labeled = order.filter(hasLabel);
+    return labeled.length ? labeled : order.filter(p => p.type !== 'text');
+  }
+  function startWalk() {
+    walkOrder = walkList();
+    walkIdx = -1;
+    $('#walk').hidden = false;
+    select(null);
+    closePanel();
+    closeCard();
+    requestAnimationFrame(() => walkShow());
+  }
+  function endWalk() {
+    $('#walk').hidden = true;
+    $('#walk-label').innerHTML = '';
+    wall.style.transition = '';
+    fit();
+  }
+  function walkStep(d) {
+    walkIdx = clamp(walkIdx + d, -1, walkOrder.length);
+    walkShow();
+  }
+  function walkShow() {
+    const label = $('#walk-label');
+    label.className = 'walk-label';
+    label.innerHTML = '';
+    const total = walkOrder.length;
+    $('#walk-prev').disabled = walkIdx <= -1;
+    $('#walk-next').disabled = walkIdx >= total;
+    $('#walk-count').textContent = walkIdx < 0 ? 'Opening' : walkIdx >= total ? 'Closing' : `${walkIdx + 1} of ${total}`;
+    const r = stage.getBoundingClientRect();
+    if (walkIdx < 0 || walkIdx >= total) {
+      const f = computeFitFor(r.width, r.height, 0.08);
+      setView(f.s, f.tx, f.ty);
+      label.classList.add('end');
+      const dots = board.pieces.filter(p => p.dot).length;
+      addLine(label, 'w-name', walkIdx < 0 ? (showTitle.value.trim() || 'Untitled show') : 'That is the show.');
+      if (walkIdx < 0) addLine(label, 'w-why', `${board.pieces.length} pieces. Use the arrows, or swipe, to walk the wall.`);
+      else addLine(label, 'w-why', dots ? `${dots} of ${board.pieces.length} have a red dot so far.` : 'No red dots yet. Give it time.');
+      if (dots && walkIdx >= total) label.appendChild(Object.assign(document.createElement('span'), { className: 'w-dot' }));
+      return;
+    }
+    const p = walkOrder[walkIdx];
+    const b = bbox(p);
+    // Frame the piece in the space the label leaves free.
+    const phone = isPhone();
+    const freeTop = 24, freeBottom = phone ? 260 : 120;
+    const freeLeft = phone ? 16 : 480, freeRight = 40;
+    const aw = r.width - freeLeft - freeRight, ah = r.height - freeTop - freeBottom;
+    const s = Math.min(aw / b.w, ah / b.h, fitS * 6) * 0.86;
+    const tx = freeLeft + aw / 2 - (b.x + b.w / 2) * s;
+    const ty = freeTop + ah / 2 - (b.y + b.h / 2) * s;
+    setView(s, tx, ty);
+    if (p.name || p.why || p.by) {
+      if (p.name) addLine(label, 'w-name', p.name);
+      if (p.why) addLine(label, p.name ? 'w-why' : 'w-name', p.why);
+      if (p.by) addLine(label, 'w-by', p.by);
+    } else {
+      addLine(label, 'w-name', describe(p));
+    }
+    if (p.dot) label.appendChild(Object.assign(document.createElement('span'), { className: 'w-dot', title: 'Yours' }));
+  }
+  function addLine(parent, cls, text) {
+    const el = document.createElement('p');
+    el.className = cls;
+    el.textContent = text;
+    parent.appendChild(el);
+  }
+  function computeFitFor(w, h, pad) {
+    const s = Math.min(w * (1 - pad * 2) / W(), h * (1 - pad * 2 - (isPhone() ? 0.2 : 0.08)) / H());
+    return { s, tx: (w - W() * s) / 2, ty: (h * (isPhone() ? 0.78 : 0.94) - H() * s) / 2 };
+  }
+  function walkPointerDown(e) {
+    if (e.target.closest('.walk-nav, .walk-label')) return;
+    walkSwipe = { x: e.clientX, y: e.clientY };
+    const up = (ev) => {
+      window.removeEventListener('pointerup', up);
+      if (!walkSwipe) return;
+      const dx = ev.clientX - walkSwipe.x;
+      walkSwipe = null;
+      if (Math.abs(dx) > 50) walkStep(dx < 0 ? 1 : -1);
+      else walkStep(ev.clientX > window.innerWidth / 2 ? 1 : -1);
+    };
+    window.addEventListener('pointerup', up);
+  }
+
+  // ===== Draw =====
+  let drawCtx = null, drawRect = null, strokes = [], stroke = null;
+  let drawColor = '#1c1b19', drawSize = 8;
+  function enterDraw() {
+    select(null);
+    closePanel();
+    closeCard();
+    const el = $('#draw');
+    el.hidden = false;
+    $('#dock').hidden = true;
+    const c = $('#draw-canvas');
+    drawRect = c.getBoundingClientRect();
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    c.width = drawRect.width * dpr;
+    c.height = drawRect.height * dpr;
+    drawCtx = c.getContext('2d');
+    drawCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawCtx.lineCap = 'round';
+    drawCtx.lineJoin = 'round';
+    strokes = [];
+    drawColor = paint().ink === '#1c1b19' ? '#1c1b19' : '#f1ede4';
+    const row = $('#draw-colors');
+    row.innerHTML = '';
+    INKS.slice(0, 7).forEach(col => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role', 'radio');
+      b.setAttribute('aria-label', INK_NAMES[col]);
+      b.setAttribute('aria-checked', String(col === drawColor));
+      b.style.setProperty('--sw', col);
+      b.addEventListener('click', () => {
+        drawColor = col;
+        row.querySelectorAll('button').forEach(x => x.setAttribute('aria-checked', String(x === b)));
       });
-      textarea.addEventListener('blur', () => {
-        updateElement(el.id, { intention: textarea.value.trim() });
-      });
-      textarea.addEventListener('pointerdown', (e) => e.stopPropagation());
-      textarea.addEventListener('click', (e) => e.stopPropagation());
-      textarea.addEventListener('focus', (e) => e.stopPropagation());
-      noteWrap.appendChild(textarea);
-      item.appendChild(noteWrap);
-
-      item.addEventListener('click', (e) => {
-        // Don't re-select if clicking inside the textarea
-        if (e.target.closest('.intention-edit')) return;
-        selectElement(el.id);
-      });
-      intentionsList.appendChild(item);
+      row.appendChild(b);
     });
   }
-
-  // Give stickers friendly names instead of showing duplicate emojis
-  const STICKER_NAMES = {
-    '⭐':'Star','✨':'Sparkles','💫':'Dizzy','🌟':'Glow','💖':'Heart','🔥':'Fire',
-    '🌈':'Rainbow','🎯':'Target','🏆':'Trophy','💪':'Strength','🚀':'Rocket','🌸':'Blossom',
-    '🦋':'Butterfly','🌺':'Hibiscus','🍀':'Clover','💎':'Gem','👑':'Crown','🎨':'Art',
-    '🎵':'Music','📸':'Camera','✈️':'Travel','🏠':'Home','🌍':'World','💰':'Wealth',
-    '📚':'Books','🧘':'Zen','❤️':'Love','🎉':'Party','🌅':'Sunrise','🏔️':'Mountain',
-    '🌊':'Wave','🎭':'Theater','🥂':'Cheers','🎓':'Graduate','💐':'Bouquet','🕊️':'Peace',
-    '🌻':'Sunflower','⚡':'Energy','🎪':'Circus','🗝️':'Key'
-  };
-  function stickerName(emoji) {
-    return STICKER_NAMES[emoji] || 'Sticker';
+  function exitDraw(keep) {
+    const c = $('#draw-canvas');
+    if (keep && strokes.length) {
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      strokes.forEach(s => s.pts.forEach(pt => {
+        minX = Math.min(minX, pt.x - s.size); minY = Math.min(minY, pt.y - s.size);
+        maxX = Math.max(maxX, pt.x + s.size); maxY = Math.max(maxY, pt.y + s.size);
+      }));
+      const cw = maxX - minX, ch = maxY - minY;
+      // Render at the resolution it will hang at (at least 2x of the wall).
+      const k = Math.max(2, 2 / view.s * 0.5);
+      const crop = document.createElement('canvas');
+      crop.width = Math.ceil(cw * k); crop.height = Math.ceil(ch * k);
+      const cx = crop.getContext('2d');
+      cx.scale(k, k);
+      cx.lineCap = 'round'; cx.lineJoin = 'round';
+      strokes.forEach(s => paintStroke(cx, s, -minX, -minY));
+      const tl = clientToWorld(drawRect.left + minX, drawRect.top + minY);
+      addPiece({
+        type: 'image', kind: 'drawing', frame: 'none', src: crop.toDataURL('image/png'),
+        x: tl.x, y: tl.y, w: cw / view.s, h: ch / view.s, rot: 0, alt: 'Drawing',
+      });
+    }
+    $('#draw').hidden = true;
+    $('#dock').hidden = false;
+    drawCtx = null;
+    strokes = [];
+    c.width = c.width; // clear
+  }
+  function paintStroke(ctx, s, ox, oy) {
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = s.size;
+    ctx.beginPath();
+    s.pts.forEach((pt, i) => {
+      const x = pt.x + (ox || 0), y = pt.y + (oy || 0);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    if (s.pts.length === 1) ctx.lineTo(s.pts[0].x + (ox || 0) + 0.01, s.pts[0].y + (oy || 0));
+    ctx.stroke();
+  }
+  function redrawStrokes() {
+    const c = $('#draw-canvas');
+    drawCtx.clearRect(0, 0, c.width, c.height);
+    strokes.forEach(s => paintStroke(drawCtx, s));
   }
 
-  function toggleIntentionsPanel() {
-    intentionsPanelOpen = !intentionsPanelOpen;
-    intentionsPanel.classList.toggle('hidden', !intentionsPanelOpen);
-    btnIntentions.classList.toggle('active-outline', intentionsPanelOpen);
-    if (intentionsPanelOpen) renderIntentionsPanel();
-    relayoutElements(); // canvas box changed
+  // ===== Hang the show (export) =====
+  let hangFmt = 'poster';
+  let hangCache = {};
+  let hangBlobs = {};
+  let filmStop = null;
+  const FILM_MAX = 7, FILM_OPEN = 1500, FILM_HOLD = 1300, FILM_CLOSE = 1700, FILM_MOVE = 600;
+
+  async function captureWall(withLabels) {
+    const key = withLabels ? 'labels' : 'bare';
+    if (hangCache[key]) return hangCache[key];
+    const prevSel = selectedId;
+    select(null);
+    labelsEl.style.display = withLabels ? '' : 'none';
+    try {
+      if (!window.htmlToImage) throw new Error('export library not loaded');
+      if (fontEmbedCSS === null) {
+        try { fontEmbedCSS = await htmlToImage.getFontEmbedCSS(wall); } catch (e) { fontEmbedCSS = ''; }
+      }
+      const opts = {
+        pixelRatio: 2,
+        width: W(), height: H(),
+        style: { transform: 'none', left: '0', top: '0' },
+        fontEmbedCSS: fontEmbedCSS || undefined,
+        filter: (n) => !(n.classList && (n.classList.contains('sel-box') || n.id === 'wall-empty')),
+      };
+      // Safari draws foreignObject images lazily; the first pass often comes
+      // back with holes where photos should be.
+      if (/Apple/.test(navigator.vendor)) { try { await htmlToImage.toCanvas(wall, Object.assign({}, opts, { pixelRatio: 0.25 })); } catch (e) { /* warm-up only */ } }
+      const url = await htmlToImage.toPng(wall, opts);
+      const img = await loadImg(url);
+      hangCache[key] = img;
+      return img;
+    } finally {
+      labelsEl.style.display = '';
+      if (prevSel && byId(prevSel)) select(prevSel);
+    }
+  }
+
+  async function fontsReady() {
+    try {
+      await Promise.all([
+        document.fonts.load('600 120px "Funnel Display"'),
+        document.fonts.load('400 40px "Host Grotesk"'),
+        document.fonts.load('italic 500 40px "Host Grotesk"'),
+        document.fonts.load('600 40px "Host Grotesk"'),
+      ]);
+    } catch (e) { /* draw with fallbacks */ }
+  }
+
+  function wrapText(ctx, text, maxW) {
+    const words = String(text).split(/\s+/);
+    const lines = [];
+    let line = '';
+    words.forEach(w => {
+      const t = line ? line + ' ' + w : w;
+      if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; }
+      else line = t;
+    });
+    if (line) lines.push(line);
+    return lines;
+  }
+  function today() {
+    return new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  }
+
+  async function renderPoster() {
+    const img = await captureWall(false);
+    await fontsReady();
+    const PW = 3600, PH = 4800, M = 240;
+    const c = document.createElement('canvas');
+    c.width = PW; c.height = PH;
+    const x = c.getContext('2d');
+    x.fillStyle = '#f4f1ea';
+    x.fillRect(0, 0, PW, PH);
+    // Kicker with the red dot
+    x.fillStyle = '#c4122f';
+    x.beginPath(); x.arc(M + 22, M + 22, 22, 0, Math.PI * 2); x.fill();
+    x.fillStyle = '#55524b';
+    x.font = '600 52px "Host Grotesk", sans-serif';
+    x.textBaseline = 'middle';
+    x.fillText('VISIONBORT', M + 68, M + 24);
+    x.textAlign = 'right';
+    x.fillText(today().toUpperCase(), PW - M, M + 24);
+    x.textAlign = 'left';
+    // Title
+    const title = showTitle.value.trim() || 'Untitled show';
+    let fs = 340;
+    x.font = `600 ${fs}px "Funnel Display", sans-serif`;
+    while (x.measureText(title).width > PW - M * 2 && fs > 120) { fs -= 10; x.font = `600 ${fs}px "Funnel Display", sans-serif`; }
+    x.fillStyle = '#1c1b19';
+    x.textBaseline = 'alphabetic';
+    x.fillText(title, M - fs * 0.04, M + 120 + fs * 0.82);
+    // The wall
+    const top = M + 220 + fs;
+    const listH = 1100;
+    const availW = PW - M * 2, availH = PH - top - listH - M;
+    const k = Math.min(availW / img.width, availH / img.height);
+    const ww = img.width * k, wh = img.height * k;
+    const wx = (PW - ww) / 2, wy = top;
+    x.save();
+    x.shadowColor = 'rgba(0,0,0,0.28)'; x.shadowBlur = 60; x.shadowOffsetY = 24;
+    x.drawImage(img, wx, wy, ww, wh);
+    x.restore();
+    // Wall text in the margin, two columns
+    const items = walkList().filter(hasLabel);
+    const colW = (PW - M * 2 - 160) / 2;
+    let col = 0, cy = wy + wh + 170;
+    const startY = cy;
+    const maxY = PH - M - 120;
+    items.forEach((p, i) => {
+      x.font = '500 italic 58px "Host Grotesk", sans-serif';
+      const name = p.name || shorten(p.why, 60);
+      const nameLines = wrapText(x, name, colW - 110);
+      x.font = '400 46px "Host Grotesk", sans-serif';
+      const whyLines = p.name && p.why ? wrapText(x, p.why, colW - 110).slice(0, 3) : [];
+      const hBlock = nameLines.length * 70 + whyLines.length * 60 + (p.by ? 70 : 0) + 70;
+      if (cy + hBlock > maxY) { if (col === 0) { col = 1; cy = startY; } else return; }
+      const cx0 = M + col * (colW + 160);
+      x.fillStyle = '#8a867e';
+      x.font = '600 44px "Host Grotesk", sans-serif';
+      x.fillText(String(i + 1).padStart(2, '0'), cx0, cy + 50);
+      if (p.dot) { x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cx0 + 30, cy + 100, 17, 0, Math.PI * 2); x.fill(); }
+      let ly = cy + 50;
+      x.fillStyle = '#1c1b19';
+      x.font = '500 italic 58px "Host Grotesk", sans-serif';
+      nameLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 70; });
+      x.fillStyle = '#55524b';
+      x.font = '400 46px "Host Grotesk", sans-serif';
+      whyLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 60; });
+      if (p.by) {
+        x.font = '600 38px "Host Grotesk", sans-serif';
+        x.fillStyle = '#6f6b63';
+        x.fillText(p.by.toUpperCase(), cx0 + 110, ly + 6);
+        ly += 70;
+      }
+      cy = ly + 50;
+    });
+    // Footer
+    x.fillStyle = '#8a867e';
+    x.font = '500 40px "Host Grotesk", sans-serif';
+    x.fillText('Hung with Visionbort, middleton.io/visionbort', M, PH - M + 60);
+    return c;
+  }
+
+  async function renderLock() {
+    const img = await captureWall(false);
+    await fontsReady();
+    const LW = 1179, LH = 2556;
+    const c = document.createElement('canvas');
+    c.width = LW; c.height = LH;
+    const x = c.getContext('2d');
+    if (board.wallpaper) {
+      const bg = await loadImg(board.wallpaper);
+      const k = Math.max(LW / bg.width, LH / bg.height);
+      x.drawImage(bg, (LW - bg.width * k) / 2, (LH - bg.height * k) / 2, bg.width * k, bg.height * k);
+      x.fillStyle = 'rgba(0,0,0,0.25)'; x.fillRect(0, 0, LW, LH);
+    } else {
+      x.fillStyle = paint().hex;
+      x.fillRect(0, 0, LW, LH);
+      const g = x.createRadialGradient(LW / 2, -LH * 0.1, 10, LW / 2, LH * 0.1, LH * 0.7);
+      g.addColorStop(0, 'rgba(255,246,225,0.22)'); g.addColorStop(1, 'rgba(255,246,225,0)');
+      x.fillStyle = g; x.fillRect(0, 0, LW, LH);
+    }
+    // Clock and widgets live in the top third; leave it alone.
+    const top = LH * 0.34, bottom = LH * 0.88, M = 64;
+    const k = Math.min((LW - M * 2) / img.width, (bottom - top) / img.height);
+    const ww = img.width * k, wh = img.height * k;
+    x.save();
+    x.shadowColor = 'rgba(0,0,0,0.35)'; x.shadowBlur = 40; x.shadowOffsetY = 16;
+    x.drawImage(img, (LW - ww) / 2, top + (bottom - top - wh) / 2, ww, wh);
+    x.restore();
+    const title = showTitle.value.trim();
+    if (title) {
+      x.fillStyle = paint().tone === 'light' && !board.wallpaper ? '#1c1b19' : '#f1ede4';
+      x.font = '600 52px "Funnel Display", sans-serif';
+      x.textAlign = 'center';
+      x.fillText(title, LW / 2, LH * 0.925);
+    }
+    return c;
+  }
+
+  async function renderWallOnly() {
+    const img = await captureWall(true);
+    const c = document.createElement('canvas');
+    c.width = img.width; c.height = img.height;
+    c.getContext('2d').drawImage(img, 0, 0);
+    return c;
+  }
+
+  function canvasBlob(c, type, q) {
+    return new Promise((resolve) => c.toBlob(resolve, type || 'image/png', q));
+  }
+
+  // ----- The film: real-time render of a canvas into MediaRecorder -----
+  function filmMime() {
+    const types = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'];
+    return (window.MediaRecorder && types.find(t => MediaRecorder.isTypeSupported(t))) || '';
+  }
+  async function renderFilm(onProgress) {
+    const mime = filmMime();
+    if (!mime) throw new Error('This browser cannot record video.');
+    const img = await captureWall(false);
+    await fontsReady();
+    const FW = 1080, FH = 1920;
+    const c = document.createElement('canvas');
+    c.width = FW; c.height = FH;
+    const x = c.getContext('2d');
+    const list = walkList().slice(0, FILM_MAX);
+    const k0 = img.width / W(); // capture pixels per world unit
+    const bg = board.wallpaper ? '#1c1b19' : paint().hex;
+    // Shots: an establishing view, each piece, then the closing view.
+    const overview = () => {
+      const s = Math.min(FW * 0.9 / img.width, FH * 0.55 / img.height);
+      return { s, cx: img.width / 2, cy: img.height / 2 };
+    };
+    const shots = [{ cam: overview(), hold: FILM_OPEN, kind: 'open' }];
+    list.forEach(p => {
+      const b = bbox(p);
+      const s = Math.min(FW * 0.78 / (b.w * k0), FH * 0.5 / (b.h * k0));
+      shots.push({ cam: { s, cx: (b.x + b.w / 2) * k0, cy: (b.y + b.h / 2) * k0 }, hold: FILM_HOLD, p });
+    });
+    shots.push({ cam: overview(), hold: FILM_CLOSE, kind: 'close' });
+    const MOVE = FILM_MOVE;
+    const total = shots.reduce((t, s) => t + s.hold + MOVE, 0);
+    const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const camAt = (ms) => {
+      let t = 0;
+      for (let i = 0; i < shots.length; i++) {
+        const sh = shots[i];
+        const prev = shots[i - 1] ? shots[i - 1].cam : sh.cam;
+        if (ms < t + MOVE) {
+          const u = ease((ms - t) / MOVE);
+          const s = prev.s + (sh.cam.s - prev.s) * u;
+          return { cam: { s, cx: prev.cx + (sh.cam.cx - prev.cx) * u, cy: prev.cy + (sh.cam.cy - prev.cy) * u }, shot: sh, settle: 0 };
+        }
+        t += MOVE;
+        if (ms < t + sh.hold) return { cam: sh.cam, shot: sh, settle: (ms - t) / sh.hold };
+        t += sh.hold;
+      }
+      const last = shots[shots.length - 1];
+      return { cam: last.cam, shot: last, settle: 1 };
+    };
+    const title = showTitle.value.trim() || 'Untitled show';
+    const drawFrame = (ms) => {
+      const { cam, shot, settle } = camAt(ms);
+      x.fillStyle = bg; x.fillRect(0, 0, FW, FH);
+      const cy = FH * 0.42;
+      x.save();
+      x.translate(FW / 2, cy);
+      x.scale(cam.s, cam.s);
+      x.translate(-cam.cx, -cam.cy);
+      x.shadowColor = 'rgba(0,0,0,0.35)'; x.shadowBlur = 30 / cam.s;
+      x.drawImage(img, 0, 0);
+      x.restore();
+      const alpha = Math.min(1, settle * 4);
+      if (alpha <= 0) return;
+      x.globalAlpha = alpha;
+      const cardX = 72, cardW = FW - 144;
+      if (shot.kind) {
+        x.fillStyle = '#fbfaf7';
+        const ch = shot.kind === 'open' ? 300 : 300;
+        x.fillRect(cardX, FH - 120 - ch, cardW, ch);
+        x.fillStyle = '#1c1b19';
+        x.font = '600 76px "Funnel Display", sans-serif';
+        x.fillText(shot.kind === 'open' ? title : 'That is the show.', cardX + 48, FH - 120 - ch + 120, cardW - 96);
+        x.fillStyle = '#55524b';
+        x.font = '400 40px "Host Grotesk", sans-serif';
+        const dots = board.pieces.filter(p => p.dot).length;
+        const sub = shot.kind === 'open' ? `${list.length} pieces on the wall` : (dots ? `${dots} red dots so far` : 'Hung with Visionbort');
+        x.fillText(sub, cardX + 48, FH - 120 - ch + 200, cardW - 96);
+        if (shot.kind === 'close' && dots) { x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cardX + cardW - 10, FH - 120 - ch + 10, 24, 0, Math.PI * 2); x.fill(); }
+      } else if (shot.p) {
+        const p = shot.p;
+        x.font = '500 italic 54px "Host Grotesk", sans-serif';
+        const nameLines = wrapText(x, p.name || shorten(p.why, 70) || describe(p), cardW - 96).slice(0, 2);
+        x.font = '400 38px "Host Grotesk", sans-serif';
+        const whyLines = p.name && p.why ? wrapText(x, p.why, cardW - 96).slice(0, 3) : [];
+        const ch = 80 + nameLines.length * 66 + whyLines.length * 52 + (p.by ? 70 : 0) + 30;
+        const top = FH - 120 - ch;
+        x.fillStyle = '#fbfaf7';
+        x.fillRect(cardX, top, cardW, ch);
+        let ly = top + 96;
+        x.fillStyle = '#1c1b19';
+        x.font = '500 italic 54px "Host Grotesk", sans-serif';
+        nameLines.forEach(l => { x.fillText(l, cardX + 48, ly); ly += 66; });
+        x.fillStyle = '#55524b';
+        x.font = '400 38px "Host Grotesk", sans-serif';
+        whyLines.forEach(l => { x.fillText(l, cardX + 48, ly); ly += 52; });
+        if (p.by) { x.font = '600 32px "Host Grotesk", sans-serif'; x.fillText(p.by.toUpperCase(), cardX + 48, ly + 20); }
+        if (p.dot) {
+          x.fillStyle = '#fbfaf7'; x.beginPath(); x.arc(cardX + cardW - 6, top + 6, 30, 0, Math.PI * 2); x.fill();
+          x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cardX + cardW - 6, top + 6, 24, 0, Math.PI * 2); x.fill();
+        }
+      }
+      x.globalAlpha = 1;
+    };
+    drawFrame(0);
+    const stream = c.captureStream(30);
+    const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 6000000 });
+    const chunks = [];
+    rec.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+    const done = new Promise((resolve) => { rec.onstop = resolve; });
+    let stopped = false;
+    filmStop = () => { stopped = true; if (rec.state !== 'inactive') rec.stop(); };
+    rec.start(250);
+    const t0 = performance.now();
+    await new Promise((resolve) => {
+      const tick = () => {
+        if (stopped) return resolve();
+        const ms = performance.now() - t0;
+        drawFrame(Math.min(ms, total));
+        if (onProgress) onProgress(Math.min(1, ms / total));
+        if (ms >= total + 200) return resolve();
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+    if (rec.state !== 'inactive') rec.stop();
+    await done;
+    filmStop = null;
+    if (stopped && !chunks.length) return null;
+    return new Blob(chunks, { type: mime.split(';')[0] });
+  }
+  function stopFilm() { if (filmStop) filmStop(); }
+  function filmSeconds() {
+    const n = walkList().slice(0, FILM_MAX).length;
+    return Math.round((FILM_OPEN + FILM_CLOSE + n * FILM_HOLD + (n + 2) * FILM_MOVE) / 1000);
+  }
+
+  async function openHang() {
+    if (!board.pieces.length) return;
+    if (editingTextId) commitTextEdit();
+    hangCache = {};
+    hangBlobs = {};
+    showDialog($('#dlg-hang'), $(`.hang-choice[data-fmt="${hangFmt}"]`));
+    previewHang();
+  }
+  let hangSeq = 0;
+  async function previewHang() {
+    const seq = ++hangSeq;
+    const frame = $('#hang-frame');
+    const cap = $('#hang-cap');
+    const saveBtn = $('#hang-save');
+    stopFilm();
+    saveBtn.disabled = true;
+    document.querySelectorAll('.hang-choice').forEach(b => b.setAttribute('aria-checked', String(b.dataset.fmt === hangFmt)));
+    frame.innerHTML = '<div class="spinner" aria-hidden="true"></div>';
+    if (hangBlobs[hangFmt]) return showHangResult(hangBlobs[hangFmt]);
+    try {
+      let blob;
+      if (hangFmt === 'film') {
+        cap.textContent = 'Filming the walkthrough. This plays in real time.';
+        blob = await renderFilm((u) => { if (seq === hangSeq) cap.textContent = `Filming the walkthrough, ${Math.round(u * 100)}%`; });
+        if (!blob) return;
+      } else {
+        cap.textContent = 'Preparing a preview';
+        const c = hangFmt === 'poster' ? await renderPoster() : hangFmt === 'lock' ? await renderLock() : await renderWallOnly();
+        blob = await canvasBlob(c, 'image/jpeg', 0.92);
+      }
+      if (seq !== hangSeq) return;
+      hangBlobs[hangFmt] = blob;
+      showHangResult(blob);
+    } catch (e) {
+      if (seq !== hangSeq) return;
+      frame.innerHTML = '';
+      cap.textContent = hangFmt === 'film' && !filmMime()
+        ? 'This browser cannot record video. Try Chrome or Safari on a computer.'
+        : 'That did not render. Try again, or pick another format.';
+    }
+  }
+  function showHangResult(blob) {
+    const frame = $('#hang-frame');
+    const url = URL.createObjectURL(blob);
+    frame.innerHTML = '';
+    if (hangFmt === 'film') {
+      const v = document.createElement('video');
+      v.src = url; v.controls = true; v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true;
+      frame.appendChild(v);
+    } else {
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = 'Preview';
+      frame.appendChild(img);
+    }
+    const caps = { poster: '18 by 24 inches at 200 dpi, ready to print', lock: 'Sized for a phone lock screen', wall: 'The whole wall at 2x', film: `A vertical walkthrough, about ${filmSeconds()} seconds` };
+    $('#hang-cap').textContent = caps[hangFmt];
+    $('#hang-save').disabled = false;
+  }
+  async function saveHang() {
+    const blob = hangBlobs[hangFmt];
+    if (!blob) return;
+    const base = (showTitle.value.trim() || 'visionbort').replace(/[^\w\s-]+/g, '').trim().replace(/\s+/g, '-').toLowerCase() || 'visionbort';
+    const ext = hangFmt === 'film' ? (blob.type.includes('mp4') ? 'mp4' : 'webm') : 'jpg';
+    const name = `${base}-${hangFmt === 'lock' ? 'lock-screen' : hangFmt}.${ext}`;
+    const file = new File([blob], name, { type: blob.type });
+    // On phones the share sheet is where Save Image lives.
+    const touch = window.matchMedia('(pointer: coarse)').matches;
+    if (touch && navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], title: showTitle.value.trim() || 'Visionbort' }); return; }
+      catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast('Saved ' + name);
+  }
+
+  // ===== Toasts =====
+  function toast(msg, opts) {
+    opts = opts || {};
+    const region = $('#toasts');
+    const t = document.createElement('div');
+    t.className = 'toast' + (opts.error ? ' error' : '');
+    const s = document.createElement('span');
+    s.textContent = msg;
+    t.appendChild(s);
+    if (opts.action) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = opts.action;
+      b.addEventListener('click', () => { t.remove(); opts.onAction(); });
+      t.appendChild(b);
+    }
+    region.appendChild(t);
+    while (region.children.length > 2) region.firstChild.remove();
+    setTimeout(() => t.remove(), opts.ms || 4500);
+  }
+
+  function refreshUI() {
+    updateEmpty();
+    updateUndoButtons();
+    buildCtx();
+  }
+
+  // ===== Events =====
+  function bind() {
+    stage.addEventListener('pointerdown', onPointerDown);
+    stage.addEventListener('wheel', onWheel, { passive: false });
+    stage.addEventListener('dblclick', (e) => {
+      const pd = e.target.closest('.piece');
+      if (!pd) return;
+      const p = byId(pd.dataset.id);
+      if (p && p.type === 'text') startTextEdit(p.id);
+      else if (p) openCard(p.id);
+    });
+    // Safari's own pinch gestures fight ours.
+    ['gesturestart', 'gesturechange'].forEach(t => document.addEventListener(t, (e) => e.preventDefault()));
+    document.addEventListener('keydown', onKey);
+    piecesEl.addEventListener('focusin', (e) => {
+      const pd = e.target.closest('.piece');
+      if (pd && pd.dataset.id !== selectedId && !gesture) select(pd.dataset.id);
+    });
+    window.addEventListener('resize', () => { refitIfAuto(); positionCtx(); });
+
+    // Paste images, including subjects lifted out of photos.
+    document.addEventListener('paste', (e) => {
+      if (e.target.closest && e.target.closest('input, textarea, [contenteditable="true"]')) return;
+      const files = [...(e.clipboardData ? e.clipboardData.items : [])].filter(i => i.kind === 'file' && i.type.startsWith('image/')).map(i => i.getAsFile());
+      if (files.length) { e.preventDefault(); hangFiles(files); }
+    });
+    // Drag and drop
+    let dragDepth = 0;
+    window.addEventListener('dragenter', (e) => { if ([...e.dataTransfer.types].includes('Files')) { dragDepth++; $('#drop-hint').hidden = false; } });
+    window.addEventListener('dragleave', () => { dragDepth = Math.max(0, dragDepth - 1); if (!dragDepth) $('#drop-hint').hidden = true; });
+    window.addEventListener('dragover', (e) => e.preventDefault());
+    window.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dragDepth = 0;
+      $('#drop-hint').hidden = true;
+      if (e.dataTransfer.files.length) hangFiles(e.dataTransfer.files);
+    });
+
+    // Top bar
+    showTitle.addEventListener('input', save);
+    showTitle.addEventListener('keydown', (e) => { if (e.key === 'Enter') showTitle.blur(); });
+    $('#btn-undo').addEventListener('click', undo);
+    $('#btn-redo').addEventListener('click', redo);
+    $('#btn-hang').addEventListener('click', openHang);
+    $('#btn-more').addEventListener('click', (e) => { e.stopPropagation(); $('#more-menu').hidden ? openMenu() : closeMenu(); });
+    document.addEventListener('click', (e) => {
+      if (!$('#more-menu').hidden && !e.target.closest('.menu-wrap')) closeMenu();
+      if (!pop.hidden && !e.target.closest('#pop') && !e.target.closest('#ctx')) closePop();
+    });
+    $('#opt-ask').addEventListener('click', () => { askWhy = !askWhy; lsSet(ASK_KEY, askWhy ? '1' : '0'); updateAskUI(); });
+    $('#opt-example').addEventListener('click', () => { closeMenu(); loadExample(); });
+    $('#opt-new').addEventListener('click', () => { closeMenu(); showDialog($('#dlg-new'), $('#new-cancel')); });
+    $('#new-cancel').addEventListener('click', closeDialog);
+    $('#new-go').addEventListener('click', () => { closeDialog(); newWall(); });
+    document.querySelectorAll('#views button').forEach(b => b.addEventListener('click', () => setViewMode(b.dataset.view)));
+
+    // Zoom
+    $('#zoom-in').addEventListener('click', () => zoomBy(1.25));
+    $('#zoom-out').addEventListener('click', () => zoomBy(0.8));
+    $('#zoom-fit').addEventListener('click', fit);
+
+    // Dock
+    $('#tool-photos').addEventListener('click', () => fileInput.click());
+    $('#tool-find').addEventListener('click', () => openPanel('find'));
+    $('#tool-stickers').addEventListener('click', () => openPanel('stickers'));
+    $('#tool-words').addEventListener('click', () => { if (isPhone()) closePanel(); addWords(); });
+    $('#tool-draw').addEventListener('click', enterDraw);
+    $('#tool-wall').addEventListener('click', () => openPanel('wall'));
+    fileInput.addEventListener('change', () => { hangFiles(fileInput.files); fileInput.value = ''; });
+
+    // Panel
+    $('#panel-close').addEventListener('click', closePanel);
+    $('#find-input').addEventListener('input', (e) => {
+      clearTimeout(findTimer);
+      const q = e.target.value.trim();
+      if (q.length < 2) return;
+      findTimer = setTimeout(() => find(q), 380);
+    });
+    document.querySelectorAll('#shape-seg button').forEach(b => b.addEventListener('click', () => setShape(b.dataset.shape)));
+    $('#wp-upload').addEventListener('click', () => wallpaperInput.click());
+    wallpaperInput.addEventListener('change', async () => {
+      const f = wallpaperInput.files[0];
+      wallpaperInput.value = '';
+      if (!f) return;
+      try {
+        const src = await readAsDataUrl(f);
+        const img = await loadImg(src);
+        const k = Math.min(WALLPAPER_EDGE / img.naturalWidth, WALLPAPER_EDGE / img.naturalHeight, 1);
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        pushUndo();
+        board.wallpaper = c.toDataURL('image/jpeg', 0.84);
+        applyWall();
+        save();
+      } catch (e) { toast('That file could not be read as an image.', { error: true }); }
+    });
+    $('#wp-clear').addEventListener('click', () => { pushUndo(); board.wallpaper = null; applyWall(); save(); });
+    $('#opt-light').addEventListener('change', (e) => { pushUndo(); board.light = e.target.checked; applyWall(); save(); });
+
+    // Card
+    $('#card-close').addEventListener('click', () => { closeCard(); });
+    $('#card-why').addEventListener('input', (e) => cardEdit('why', e.target.value));
+    $('#card-name').addEventListener('input', (e) => cardEdit('name', e.target.value));
+    $('#card-by').addEventListener('input', (e) => cardEdit('by', e.target.value));
+    ['#card-why', '#card-name', '#card-by'].forEach(s => $(s).addEventListener('blur', (e) => {
+      const p = byId(cardForId);
+      const field = { 'card-why': 'why', 'card-name': 'name', 'card-by': 'by' }[e.target.id];
+      if (p && p[field] !== p[field].trim()) { p[field] = p[field].trim(); renderLabels(); save(); }
+    }));
+    $('#card-name').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#card-by').focus(); });
+    $('#card-by').addEventListener('keydown', (e) => { if (e.key === 'Enter') closeCard(); });
+    $('#card-dot').addEventListener('click', () => {
+      const p = byId(cardForId);
+      if (!p) return;
+      pushUndo();
+      cardDirty = true;
+      p.dot = !p.dot;
+      p.dotAt = p.dot ? new Date().toISOString().slice(0, 10) : undefined;
+      setDotUI(p.dot);
+      renderLabels(p.dot ? p.id : null);
+      const dom = domOf(p.id);
+      if (dom) dom.setAttribute('aria-label', describe(p));
+      save();
+      if (p.dot) toast('Red dot. It’s yours.');
+    });
+
+    // Walk
+    $('#walk-prev').addEventListener('click', () => walkStep(-1));
+    $('#walk-next').addEventListener('click', () => walkStep(1));
+    $('#walk-exit').addEventListener('click', () => setViewMode(prevMode));
+
+    // Draw
+    const dc = $('#draw-canvas');
+    dc.addEventListener('pointerdown', (e) => {
+      if (!drawCtx) return;
+      dc.setPointerCapture(e.pointerId);
+      stroke = { pts: [{ x: e.clientX - drawRect.left, y: e.clientY - drawRect.top }], color: drawColor, size: drawSize };
+      strokes.push(stroke);
+      redrawStrokes();
+    });
+    dc.addEventListener('pointermove', (e) => {
+      if (!stroke) return;
+      stroke.pts.push({ x: e.clientX - drawRect.left, y: e.clientY - drawRect.top });
+      const n = stroke.pts.length;
+      drawCtx.strokeStyle = stroke.color;
+      drawCtx.lineWidth = stroke.size;
+      drawCtx.beginPath();
+      drawCtx.moveTo(stroke.pts[n - 2].x, stroke.pts[n - 2].y);
+      drawCtx.lineTo(stroke.pts[n - 1].x, stroke.pts[n - 1].y);
+      drawCtx.stroke();
+    });
+    const endStroke = () => { stroke = null; };
+    dc.addEventListener('pointerup', endStroke);
+    dc.addEventListener('pointercancel', endStroke);
+    $('#draw-undo').addEventListener('click', () => { strokes.pop(); redrawStrokes(); });
+    $('#draw-cancel').addEventListener('click', () => exitDraw(false));
+    $('#draw-done').addEventListener('click', () => exitDraw(true));
+    document.querySelectorAll('.draw-sizes button').forEach(b => b.addEventListener('click', () => {
+      drawSize = +b.dataset.size;
+      document.querySelectorAll('.draw-sizes button').forEach(x => x.setAttribute('aria-checked', String(x === b)));
+    }));
+
+    // Dialogs
+    scrim.addEventListener('click', () => { if (openDialog && openDialog.id !== 'dlg-welcome') closeDialog(); });
+    $('#welcome-photos').addEventListener('click', () => { closeDialog(); fileInput.click(); });
+    $('#welcome-empty').addEventListener('click', closeDialog);
+    $('#welcome-example').addEventListener('click', () => { closeDialog(); loadExample(); });
+    $('#welcome-title').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); closeDialog(); } });
+    $('#hang-close').addEventListener('click', closeDialog);
+    document.querySelectorAll('.hang-choice').forEach(b => b.addEventListener('click', () => {
+      if (hangFmt === b.dataset.fmt) return;
+      hangFmt = b.dataset.fmt;
+      previewHang();
+    }));
+    $('#hang-save').addEventListener('click', saveHang);
   }
 
   // ===== Helpers =====
-  function randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  function generateTornPath() {
+  function tornPath() {
     const pts = [];
-    const steps = 16;
-    // Top edge — subtle tear (1-3% variation)
-    for (let i = 0; i <= steps; i++) pts.push(`${(i/steps*100).toFixed(1)}% ${randomInt(0,3)}%`);
-    // Right edge
-    for (let i = 1; i <= steps; i++) pts.push(`${randomInt(97,100)}% ${(i/steps*100).toFixed(1)}%`);
-    // Bottom edge
-    for (let i = steps; i >= 0; i--) pts.push(`${(i/steps*100).toFixed(1)}% ${randomInt(97,100)}%`);
-    // Left edge
-    for (let i = steps - 1; i >= 1; i--) pts.push(`${randomInt(0,3)}% ${(i/steps*100).toFixed(1)}%`);
+    const steps = 18;
+    const r = (a, b) => (a + Math.random() * (b - a)).toFixed(1);
+    for (let i = 0; i <= steps; i++) pts.push(`${(i / steps * 100).toFixed(1)}% ${r(0, 3)}%`);
+    for (let i = 1; i <= steps; i++) pts.push(`${r(97, 100)}% ${(i / steps * 100).toFixed(1)}%`);
+    for (let i = steps; i >= 0; i--) pts.push(`${(i / steps * 100).toFixed(1)}% ${r(97, 100)}%`);
+    for (let i = steps - 1; i >= 1; i--) pts.push(`${r(0, 3)}% ${(i / steps * 100).toFixed(1)}%`);
+    return `polygon(${pts.join(', ')})`;
+  }
+  function legacyClip(shape, w, h) {
+    const m = Math.min(w, h), cx = w / 2, cy = h / 2;
+    if (shape === 'diamond') return `polygon(${cx}px ${cy - m * 0.48}px, ${cx + m * 0.48}px ${cy}px, ${cx}px ${cy + m * 0.48}px, ${cx - m * 0.48}px ${cy}px)`;
+    const pts = [];
+    if (shape === 'star') {
+      const R = m * 0.48, r = m * 0.2;
+      for (let i = 0; i < 5; i++) {
+        const a = (i * 72 - 90) * Math.PI / 180, b = (i * 72 + 36 - 90) * Math.PI / 180;
+        pts.push(`${cx + R * Math.cos(a)}px ${cy + R * Math.sin(a)}px`, `${cx + r * Math.cos(b)}px ${cy + r * Math.sin(b)}px`);
+      }
+    } else {
+      const r = m * 0.45;
+      for (let i = 0; i <= 30; i++) {
+        const t = i / 30 * Math.PI * 2;
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+        pts.push(`${cx + x * r / 17}px ${cy + y * r / 17 - r * 0.1}px`);
+      }
+    }
     return `polygon(${pts.join(', ')})`;
   }
 
   // ===== Boot =====
+  async function init() {
+    renderStickers();
+    renderPaints();
+    bind();
+    const legacyMode = lsGet(LEGACY_MODE_KEY);
+    const ask = lsGet(ASK_KEY);
+    askWhy = ask != null ? ask === '1' : legacyMode ? legacyMode === 'intentional' : true;
+    updateAskUI();
+    const migrated = await loadBoard();
+    showTitle.value = board.title || '';
+    applyWall();
+    renderAll();
+    document.body.dataset.view = viewMode;
+    fit();
+    refreshUI();
+    // Words were measured before the web fonts arrived; measure again.
+    document.fonts && document.fonts.ready.then(() => {
+      board.pieces.forEach(p => { if (p.type === 'text') { const d = domOf(p.id); if (d) renderPiece(p); } });
+      renderLabels();
+    });
+    if (migrated) {
+      save();
+      toast('Your board is hanging on a gallery wall now. Everything came with it.', { ms: 7000 });
+      lsSet(WELCOMED_KEY, '1');
+    } else if (!board.pieces.length && !lsGet(WELCOMED_KEY) && !legacyMode) {
+      $('#welcome-ask').checked = askWhy;
+      showDialog($('#dlg-welcome'), $('#welcome-title'));
+    }
+  }
   init();
 })();

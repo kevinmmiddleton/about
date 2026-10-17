@@ -2,28 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visionbort: Create Your Vision Board</title>
-  <meta name="description" content="Create vision boards that inspire you. Drag, draw, and arrange your dreams.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Visionbort: Hang the Year You Want</title>
+  <meta name="description" content="Make a vision board you can hang. Photos, cutouts, and words on a gallery wall, with a label for why each piece matters and a red dot when it comes true.">
+  <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1f1e1c" media="(prefers-color-scheme: dark)">
   <link rel="canonical" href="https://middleton.io/visionbort/">
     <!-- Identity verification: same profiles the homepage claims, so this page
          resolves to one entity. Wikidata is the disambiguating anchor. -->
     <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
     <link rel="me" href="https://github.com/kevinmmiddleton">
     <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+  <link rel="icon" href="mark.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Visionbort: Create Your Vision Board">
-  <meta property="og:description" content="Create vision boards that inspire you. Drag, draw, and arrange your dreams.">
+  <meta property="og:title" content="Visionbort: Hang the Year You Want">
+  <meta property="og:description" content="Make a vision board you can hang. Photos, cutouts, and words on a gallery wall, with a label for why each piece matters and a red dot when it comes true.">
   <meta property="og:image" content="https://middleton.io/visionbort/og-image.png">
   <meta property="og:url" content="https://middleton.io/visionbort/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Visionbort: Create Your Vision Board">
-  <meta name="twitter:description" content="Create vision boards that inspire you. Drag, draw, and arrange your dreams.">
+  <meta name="twitter:title" content="Visionbort: Hang the Year You Want">
+  <meta name="twitter:description" content="Make a vision board you can hang. Photos, cutouts, and words on a gallery wall, with a label for why each piece matters and a red dot when it comes true.">
   <meta name="twitter:image" content="https://middleton.io/visionbort/og-image.png">
-  <link rel="stylesheet" href="styles.css?v=75a586b5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&family=Bebas+Neue&family=Caveat:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <!-- UI: Funnel Display + Host Grotesk. Board lettering: the six faces boards
+       already use. Noto Color Emoji makes stickers look the same on every OS. -->
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;500;600;700&family=Host+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Bebas+Neue&family=Caveat:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Noto+Color+Emoji&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css?v=cdf67ac0">
   <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js" defer></script>
     <!-- JSON-LD -->
     <script type="application/ld+json">
@@ -31,7 +36,7 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Visionbort",
-  "description": "Create vision boards that inspire you. Drag, draw, and arrange your dreams.",
+  "description": "Make a vision board you can hang. Photos, cutouts, and words on a gallery wall, with a label for why each piece matters and a red dot when it comes true.",
   "url": "https://middleton.io/visionbort/",
   "isPartOf": {
     "@type": "WebSite",
@@ -55,238 +60,280 @@
 </script>
 </head>
 <body>
-  <!-- Welcome Modal -->
-  <div id="welcome-modal" class="modal-overlay">
-    <div class="welcome-container" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
-      <div class="welcome-header">
-        <div class="welcome-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-          </svg>
-        </div>
-        <h1 id="welcome-title">Visionbort</h1>
-        <p>Create a vision board that inspires you</p>
-      </div>
-      <div class="welcome-body">
-        <p class="welcome-subtitle">How would you like to create?</p>
-        <div class="mode-buttons">
-          <button id="welcome-intentional" class="mode-btn">
-            <span class="mode-icon">&#x1F9D8;</span>
-            <span class="mode-label">Intentional</span>
-            <span class="mode-desc">Reflect on each item you add with a personal intention</span>
-          </button>
-          <button id="welcome-freeform" class="mode-btn">
-            <span class="mode-icon">&#x26A1;</span>
-            <span class="mode-label">Freeform</span>
-            <span class="mode-desc">Jump right in and create freely without prompts</span>
-          </button>
-        </div>
-        <p class="welcome-privacy">Your board is stored locally on this device. Nothing is tracked, no accounts, no analytics. Just you and your vision.</p>
-      </div>
-    </div>
-  </div>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-arrow-clockwise" viewBox="0 0 256 256"><path d="M240,56v48a8,8,0,0,1-8,8H184a8,8,0,0,1,0-16H211.4L184.81,71.64l-.25-.24a80,80,0,1,0-1.67,114.78,8,8,0,0,1,11,11.63A95.44,95.44,0,0,1,128,224h-1.32A96,96,0,1,1,195.75,60L224,85.8V56a8,8,0,1,1,16,0Z"/></symbol>
+  <symbol id="i-arrow-counter-clockwise" viewBox="0 0 256 256"><path d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"/></symbol>
+  <symbol id="i-arrow-line-down" viewBox="0 0 256 256"><path d="M50.34,117.66a8,8,0,0,1,11.32-11.32L120,164.69V32a8,8,0,0,1,16,0V164.69l58.34-58.35a8,8,0,0,1,11.32,11.32l-72,72a8,8,0,0,1-11.32,0ZM216,208H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></symbol>
+  <symbol id="i-arrow-line-up" viewBox="0 0 256 256"><path d="M205.66,138.34a8,8,0,0,1-11.32,11.32L136,91.31V224a8,8,0,0,1-16,0V91.31L61.66,149.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0ZM216,32H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></symbol>
+  <symbol id="i-caret-left" viewBox="0 0 256 256"><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/></symbol>
+  <symbol id="i-caret-right" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 256 256"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol>
+  <symbol id="i-circle-fill" viewBox="0 0 256 256"><path d="M232,128A104,104,0,1,1,128,24,104.13,104.13,0,0,1,232,128Z"/></symbol>
+  <symbol id="i-circle" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Z"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 256 256"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></symbol>
+  <symbol id="i-corners-out" viewBox="0 0 256 256"><path d="M216,48V88a8,8,0,0,1-16,0V56H168a8,8,0,0,1,0-16h40A8,8,0,0,1,216,48ZM88,200H56V168a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H88a8,8,0,0,0,0-16Zm120-40a8,8,0,0,0-8,8v32H168a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V168A8,8,0,0,0,208,160ZM88,40H48a8,8,0,0,0-8,8V88a8,8,0,0,0,16,0V56H88a8,8,0,0,0,0-16Z"/></symbol>
+  <symbol id="i-crop" viewBox="0 0 256 256"><path d="M240,192a8,8,0,0,1-8,8H200v32a8,8,0,0,1-16,0V200H64a8,8,0,0,1-8-8V72H24a8,8,0,0,1,0-16H56V24a8,8,0,0,1,16,0V184H232A8,8,0,0,1,240,192ZM96,72h88v88a8,8,0,0,0,16,0V64a8,8,0,0,0-8-8H96a8,8,0,0,0,0,16Z"/></symbol>
+  <symbol id="i-device-mobile" viewBox="0 0 256 256"><path d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16ZM72,64H184V192H72Zm8-32h96a8,8,0,0,1,8,8v8H72V40A8,8,0,0,1,80,32Zm96,192H80a8,8,0,0,1-8-8v-8H184v8A8,8,0,0,1,176,224Z"/></symbol>
+  <symbol id="i-dots-three" viewBox="0 0 256 256"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm56-12a12,12,0,1,0,12,12A12,12,0,0,0,196,116ZM60,116a12,12,0,1,0,12,12A12,12,0,0,0,60,116Z"/></symbol>
+  <symbol id="i-download-simple" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></symbol>
+  <symbol id="i-film-strip" viewBox="0 0 256 256"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,88h80v80H40Zm96-16V56h32V72Zm-16,0H88V56h32Zm0,112v16H88V184Zm16,0h32v16H136Zm0-16V88h80v80Zm80-96H184V56h32ZM72,56V72H40V56ZM40,184H72v16H40Zm176,16H184V184h32v16Z"/></symbol>
+  <symbol id="i-frame-corners" viewBox="0 0 256 256"><path d="M200,80v32a8,8,0,0,1-16,0V88H160a8,8,0,0,1,0-16h32A8,8,0,0,1,200,80ZM96,168H72V144a8,8,0,0,0-16,0v32a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16ZM232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></symbol>
+  <symbol id="i-image-square" viewBox="0 0 256 256"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM48,48H208v77.38l-24.69-24.7a16,16,0,0,0-22.62,0L53.37,208H48ZM208,208H76l96-96,36,36v60ZM96,120A24,24,0,1,0,72,96,24,24,0,0,0,96,120Zm0-32a8,8,0,1,1-8,8A8,8,0,0,1,96,88Z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 256 256"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V158.75l-26.07-26.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L40,149.37V56ZM40,172l52-52,80,80H40Zm176,28H194.63l-36-36,20-20L216,181.38V200ZM144,100a12,12,0,1,1,12,12A12,12,0,0,1,144,100Z"/></symbol>
+  <symbol id="i-magnifying-glass" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"/></symbol>
+  <symbol id="i-note-pencil" viewBox="0 0 256 256"><path d="M229.66,58.34l-32-32a8,8,0,0,0-11.32,0l-96,96A8,8,0,0,0,88,128v32a8,8,0,0,0,8,8h32a8,8,0,0,0,5.66-2.34l96-96A8,8,0,0,0,229.66,58.34ZM124.69,152H104V131.31l64-64L188.69,88ZM200,76.69,179.31,56,192,43.31,212.69,64ZM224,128v80a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h80a8,8,0,0,1,0,16H48V208H208V128a8,8,0,0,1,16,0Z"/></symbol>
+  <symbol id="i-paint-roller" viewBox="0 0 256 256"><path d="M232,88H216V64a16,16,0,0,0-16-16H48A16,16,0,0,0,32,64V88H16a8,8,0,0,0,0,16H32v24a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V104h16v50L131.6,182.65A16.07,16.07,0,0,0,120,198v34a8,8,0,0,0,16,0V198l100.4-28.68A16.07,16.07,0,0,0,248,154V104A16,16,0,0,0,232,88Zm-32,40H48V64H200v64Z"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 256 256"><path d="M200.77,53.89A103.27,103.27,0,0,0,128,24h-1.07A104,104,0,0,0,24,128c0,43,26.58,79.06,69.36,94.17A32,32,0,0,0,136,192a16,16,0,0,1,16-16h46.21a31.81,31.81,0,0,0,31.2-24.88,104.43,104.43,0,0,0,2.59-24A103.28,103.28,0,0,0,200.77,53.89Zm13,93.71A15.89,15.89,0,0,1,198.21,160H152a32,32,0,0,0-32,32,16,16,0,0,1-21.31,15.07C62.49,194.3,40,164,40,128a88,88,0,0,1,87.09-88h.9a88.35,88.35,0,0,1,88,87.25A88.86,88.86,0,0,1,213.81,147.6ZM140,76a12,12,0,1,1-12-12A12,12,0,0,1,140,76ZM96,100A12,12,0,1,1,84,88,12,12,0,0,1,96,100Zm0,56a12,12,0,1,1-12-12A12,12,0,0,1,96,156Zm88-56a12,12,0,1,1-12-12A12,12,0,0,1,184,100Z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 256 256"><path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></symbol>
+  <symbol id="i-scribble" viewBox="0 0 256 256"><path d="M205.67,189.66a14.61,14.61,0,0,0,0,20.68,8,8,0,0,1-11.32,11.32,30.64,30.64,0,0,1,0-43.32l9.38-9.37A14.63,14.63,0,0,0,183,148.28L116.28,215A30.63,30.63,0,0,1,73,171.72L171.72,73A14.63,14.63,0,0,0,151,52.28L84.28,119A30.63,30.63,0,0,1,41,75.72L82.34,34.34A8,8,0,0,1,93.65,45.66L52.27,87A14.63,14.63,0,0,0,73,107.72L139.72,41A30.63,30.63,0,0,1,183,84.28L84.28,183A14.63,14.63,0,0,0,105,203.72L171.72,137A30.63,30.63,0,0,1,215,180.28Z"/></symbol>
+  <symbol id="i-squares-four" viewBox="0 0 256 256"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/></symbol>
+  <symbol id="i-sticker" viewBox="0 0 256 256"><path d="M168,32H88A56.06,56.06,0,0,0,32,88v80a56.06,56.06,0,0,0,56,56h48a8.07,8.07,0,0,0,2.53-.41c26.23-8.75,76.31-58.83,85.06-85.06A8.07,8.07,0,0,0,224,136V88A56.06,56.06,0,0,0,168,32ZM48,168V88A40,40,0,0,1,88,48h80a40,40,0,0,1,40,40v40H184a56.06,56.06,0,0,0-56,56v24H88A40,40,0,0,1,48,168Zm96,35.14V184a40,40,0,0,1,40-40h19.14C191,163.5,163.5,191,144,203.14Z"/></symbol>
+  <symbol id="i-text-b" viewBox="0 0 256 256"><path d="M178.48,115.7A44,44,0,0,0,148,40H80a8,8,0,0,0-8,8V200a8,8,0,0,0,8,8h80a48,48,0,0,0,18.48-92.3ZM88,56h60a28,28,0,0,1,0,56H88Zm72,136H88V128h72a32,32,0,0,1,0,64Z"/></symbol>
+  <symbol id="i-text-italic" viewBox="0 0 256 256"><path d="M200,56a8,8,0,0,1-8,8H157.77L115.1,192H144a8,8,0,0,1,0,16H64a8,8,0,0,1,0-16H98.23L140.9,64H112a8,8,0,0,1,0-16h80A8,8,0,0,1,200,56Z"/></symbol>
+  <symbol id="i-text-t" viewBox="0 0 256 256"><path d="M208,56V88a8,8,0,0,1-16,0V64H136V192h24a8,8,0,0,1,0,16H96a8,8,0,0,1,0-16h24V64H64V88a8,8,0,0,1-16,0V56a8,8,0,0,1,8-8H200A8,8,0,0,1,208,56Z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></symbol>
+  <symbol id="i-upload-simple" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0ZM93.66,77.66,120,51.31V144a8,8,0,0,0,16,0V51.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,77.66Z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol>
+</svg>
 
-  <!-- Intention Prompt Modal -->
-  <div id="intention-modal" class="modal-overlay hidden">
-    <div class="intention-container" role="dialog" aria-modal="true" aria-labelledby="intention-prompt-text">
-      <div class="intention-header">
-        <h2 id="intention-prompt-text">What does this represent for you?</h2>
-      </div>
-      <div class="intention-body">
-        <textarea id="intention-input" placeholder="Write your intention..." rows="3"></textarea>
-        <label id="bg-toggle-wrap" class="bg-toggle-label hidden">
-          <input type="checkbox" id="intention-set-bg">
-          <span>Use as canvas background</span>
-        </label>
-        <div class="intention-actions">
-          <button id="intention-skip" class="btn-secondary">Skip</button>
-          <button id="intention-save" class="btn-primary">Save & Add</button>
+  <!-- ===== Top bar ===== -->
+  <header id="bar" class="chrome">
+    <a class="mark" href="https://middleton.io/visionbort/" aria-label="Visionbort">
+      <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+        <rect x="4" y="5" width="21" height="22" rx="1.5" fill="none" stroke="currentColor" stroke-width="2.2"/>
+        <rect x="8.5" y="9.5" width="12" height="13" fill="currentColor" opacity=".16"/>
+        <circle cx="25.5" cy="25.5" r="4.5" fill="var(--dot)" stroke="var(--stock)" stroke-width="2"/>
+      </svg>
+    </a>
+    <label class="vh" for="show-title">Show title</label>
+    <input id="show-title" type="text" maxlength="48" placeholder="Name your show" autocomplete="off" spellcheck="false">
+
+    <div id="views" class="seg" role="radiogroup" aria-label="View">
+      <button type="button" role="radio" data-view="arrange" aria-checked="true">Arrange</button>
+      <button type="button" role="radio" data-view="labels" aria-checked="false">Wall text</button>
+      <button type="button" role="radio" data-view="walk" aria-checked="false">Walk through</button>
+    </div>
+
+    <div class="bar-end">
+      <button type="button" id="btn-undo" class="ib" aria-label="Undo" title="Undo (Cmd+Z)" disabled><svg><use href="#i-arrow-counter-clockwise"/></svg></button>
+      <button type="button" id="btn-redo" class="ib" aria-label="Redo" title="Redo (Shift+Cmd+Z)" disabled><svg><use href="#i-arrow-clockwise"/></svg></button>
+      <div class="menu-wrap">
+        <button type="button" id="btn-more" class="ib" aria-label="More" aria-haspopup="menu" aria-expanded="false" aria-controls="more-menu"><svg><use href="#i-dots-three"/></svg></button>
+        <div id="more-menu" class="menu chrome" role="menu" hidden>
+          <button type="button" role="menuitemcheckbox" id="opt-ask" aria-checked="true">
+            <span class="menu-check"><svg><use href="#i-check"/></svg></span>Ask why when I add a piece
+          </button>
+          <button type="button" role="menuitem" id="opt-example">See an example show</button>
+          <hr>
+          <button type="button" role="menuitem" id="opt-new" class="danger-text">Start a new wall</button>
+          <hr>
+          <p class="menu-note">Everything stays on this device. No account, no tracking.</p>
+          <p class="menu-note">Built by <a href="https://middleton.io" target="_blank" rel="noopener">Kevin Middleton<span class="vh"> (opens in a new tab)</span></a></p>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Top Toolbar -->
-  <header id="toolbar-top">
-    <div class="toolbar-left">
-      <div class="logo-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-        </svg>
-      </div>
-      <input id="board-title" type="text" value="My Vision Board" placeholder="Board title..." maxlength="40">
-    </div>
-    <div class="toolbar-right">
-      <button id="btn-undo" class="btn-secondary btn-sm" style="display:none" title="Undo">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-        <span class="btn-label">Undo</span>
-      </button>
-      <button id="btn-intentions" class="btn-secondary btn-sm" style="display:none">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        <span class="btn-label">Intentions</span>
-      </button>
-      <button id="btn-clear" class="btn-secondary btn-sm" style="display:none">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-        <span class="btn-label">Clear</span>
-      </button>
-      <button id="btn-export" class="btn-accent btn-sm" disabled>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span class="btn-label">Export</span>
+      <button type="button" id="btn-hang" class="btn primary" aria-label="Hang the show" disabled>
+        <svg aria-hidden="true"><use href="#i-frame-corners"/></svg><span class="lg-only" aria-hidden="true">Hang the show</span><span class="sm-only" aria-hidden="true">Hang</span>
       </button>
     </div>
   </header>
 
-  <!-- Main Layout -->
-  <main id="app-main">
-    <!-- Sidebar -->
-    <aside id="sidebar" class="hidden">
-      <div id="sidebar-header">
-        <h2 id="sidebar-title">Search</h2>
-        <button id="sidebar-close" class="btn-icon-sm" aria-label="Close panel" title="Close panel">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-      <div id="sidebar-content">
-        <!-- Search Panel -->
-        <div id="panel-search" class="sidebar-panel">
-          <div class="search-input-wrap">
-            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input id="search-input" type="text" placeholder="Search images..." autocomplete="off">
-          </div>
-          <div id="search-results" class="image-grid"></div>
-          <div id="search-empty" class="panel-empty">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <p>Search for images to add to your board</p>
-          </div>
-          <div id="search-loading" class="panel-empty hidden">
-            <div class="spinner"></div>
-            <p>Searching...</p>
-          </div>
-        </div>
-        <!-- Stickers Panel -->
-        <div id="panel-stickers" class="sidebar-panel hidden">
-          <div class="sticker-grid" id="sticker-grid"></div>
-        </div>
-        <!-- Backgrounds Panel -->
-        <div id="panel-backgrounds" class="sidebar-panel hidden">
-          <div class="bg-custom-actions">
-            <button id="bg-upload" class="btn-secondary btn-sm bg-action-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              Upload image
-            </button>
-            <button id="bg-search" class="btn-secondary btn-sm bg-action-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              Search image
-            </button>
-          </div>
-          <div id="bg-search-wrap" class="hidden">
-            <div class="search-input-wrap">
-              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input id="bg-search-input" type="text" placeholder="Search background images..." autocomplete="off">
-            </div>
-            <div id="bg-search-results" class="image-grid"></div>
-          </div>
-          <p class="bg-section-label">Presets</p>
-          <div class="bg-grid" id="bg-grid"></div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Canvas -->
-    <div id="canvas-container">
-      <div id="canvas" data-canvas="true">
-        <!-- Empty state -->
-        <div id="canvas-empty">
-          <div class="empty-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e07caa"/><stop offset="100%" stop-color="#7c5ce0"/></linearGradient></defs>
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-            </svg>
-          </div>
-          <h3>Start your vision board</h3>
-          <p>Drag & drop images, or use the toolbar below</p>
-          <button id="btn-example" class="btn-primary btn-example">Start from an example</button>
-        </div>
-        <!-- Drop overlay -->
-        <div id="drop-overlay" class="hidden">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#e07caa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <p>Drop images here</p>
-        </div>
+  <!-- ===== Stage: the wall lives here, panned and zoomed ===== -->
+  <main id="stage" aria-label="Wall">
+    <div id="wall" data-paint="salon">
+      <div id="wall-paper" aria-hidden="true"></div>
+      <div id="wall-light" aria-hidden="true"></div>
+      <div id="pieces"></div>
+      <div id="labels" aria-hidden="true"></div>
+      <div id="wall-empty">
+        <p class="we-kicker">An empty wall</p>
+        <p class="we-line">Drop photos here, paste a cutout, or start from the dock below.</p>
       </div>
     </div>
-
-    <!-- Intentions Panel (right sidebar) -->
-    <aside id="intentions-panel" class="hidden">
-      <div id="intentions-header">
-        <h2>Intentions</h2>
-        <div class="intentions-header-right">
-          <label class="toggle-label" title="Show intentions on the board">
-            <input type="checkbox" id="toggle-show-intentions">
-            <span class="toggle-text">Show on board</span>
-          </label>
-          <span id="intentions-count" class="intentions-badge">0 / 0</span>
-        </div>
-      </div>
-      <div id="intentions-list"></div>
-      <div id="intentions-empty" class="panel-empty">
-        <span style="font-size:32px">&#x1F9D8;</span>
-        <p>Add items to your board and set intentions for each one</p>
-      </div>
-    </aside>
+    <div id="drop-hint" hidden><span>Drop to hang</span></div>
   </main>
 
-  <!-- Floating Bottom Toolbar -->
-  <div id="toolbar-bottom">
-    <button class="tool-btn" id="tool-upload" title="Upload images">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/><line x1="14" y1="3" x2="14" y2="8"/><line x1="11.5" y1="5.5" x2="16.5" y2="5.5"/></svg>
-    </button>
-    <button class="tool-btn" id="tool-search" title="Search images">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    </button>
-    <button class="tool-btn" id="tool-stickers" title="Add stickers">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V7l-4.5-5z"/><polyline points="14 2 14 8 20 8"/></svg>
-    </button>
-    <button class="tool-btn" id="tool-draw" title="Draw">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-    </button>
-    <button class="tool-btn" id="tool-text" title="Add text">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-    </button>
-    <button class="tool-btn" id="tool-backgrounds" title="Change background">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15h18"/><path d="M3 9h18"/></svg>
-    </button>
+  <!-- Zoom -->
+  <div id="zoom" class="chrome pill">
+    <button type="button" class="ib sm" id="zoom-out" aria-label="Zoom out"><svg><use href="#i-minus"/></svg></button>
+    <button type="button" class="zoom-fit" id="zoom-fit" aria-label="Fit the wall to the screen">Fit</button>
+    <button type="button" class="ib sm" id="zoom-in" aria-label="Zoom in"><svg><use href="#i-plus"/></svg></button>
   </div>
 
-  <!-- Drawing overlay -->
-  <div id="draw-overlay" class="hidden">
-    <canvas id="draw-canvas"></canvas>
-    <div id="draw-toolbar">
-      <div id="draw-colors" class="draw-color-row"></div>
-      <div class="draw-divider"></div>
-      <div class="stroke-options">
-        <button class="stroke-btn" data-size="3" title="Thin"><span style="width:4px;height:4px"></span></button>
-        <button class="stroke-btn active" data-size="6" title="Medium"><span style="width:8px;height:8px"></span></button>
-        <button class="stroke-btn" data-size="12" title="Thick"><span style="width:14px;height:14px"></span></button>
+  <!-- ===== Dock ===== -->
+  <nav id="dock" class="chrome" aria-label="Add to the wall">
+    <button type="button" class="tool" id="tool-photos"><svg><use href="#i-image"/></svg><span>Photos</span></button>
+    <button type="button" class="tool" id="tool-find" aria-controls="panel" aria-expanded="false"><svg><use href="#i-magnifying-glass"/></svg><span>Find</span></button>
+    <button type="button" class="tool" id="tool-stickers" aria-controls="panel" aria-expanded="false"><svg><use href="#i-sticker"/></svg><span>Stickers</span></button>
+    <button type="button" class="tool" id="tool-words"><svg><use href="#i-text-t"/></svg><span>Words</span></button>
+    <button type="button" class="tool" id="tool-draw"><svg><use href="#i-scribble"/></svg><span>Draw</span></button>
+    <button type="button" class="tool" id="tool-wall" aria-controls="panel" aria-expanded="false"><svg><use href="#i-paint-roller"/></svg><span>Wall</span></button>
+  </nav>
+
+  <!-- ===== Side panel / bottom sheet ===== -->
+  <aside id="panel" class="chrome sheet" hidden aria-labelledby="panel-title">
+    <div class="sheet-grip" aria-hidden="true"></div>
+    <header class="panel-head">
+      <h2 id="panel-title">Find</h2>
+      <button type="button" class="ib sm" id="panel-close" aria-label="Close"><svg><use href="#i-x"/></svg></button>
+    </header>
+
+    <section class="pane" data-pane="find">
+      <div class="field-search">
+        <svg aria-hidden="true"><use href="#i-magnifying-glass"/></svg>
+        <label class="vh" for="find-input">Search photos</label>
+        <input id="find-input" type="search" placeholder="Lisbon, open water, a cabin" autocomplete="off">
       </div>
-      <div class="draw-divider"></div>
-      <button id="draw-undo" class="btn-icon-sm" title="Undo">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+      <div id="find-results" class="grid-photos"></div>
+      <p id="find-status" class="pane-note">Photos from Unsplash. Tap one to hang it.</p>
+    </section>
+
+    <section class="pane" data-pane="stickers" hidden>
+      <div id="sticker-grid" class="grid-stickers"></div>
+      <p class="pane-note">Tip: lift a subject out of a photo on your iPhone or Mac (touch and hold it), copy, then paste here. It hangs as a die-cut sticker.</p>
+    </section>
+
+    <section class="pane" data-pane="wall" hidden>
+      <h3 class="pane-h">Paint</h3>
+      <div id="paint-grid" class="grid-paint" role="radiogroup" aria-label="Wall paint"></div>
+      <h3 class="pane-h">Shape</h3>
+      <div class="seg seg-block" id="shape-seg" role="radiogroup" aria-label="Wall shape">
+        <button type="button" role="radio" data-shape="wide" aria-checked="true">Wide</button>
+        <button type="button" role="radio" data-shape="tall" aria-checked="false">Tall, for a phone</button>
+      </div>
+      <h3 class="pane-h">Wallpaper</h3>
+      <div class="row-btns">
+        <button type="button" class="btn" id="wp-upload"><svg aria-hidden="true"><use href="#i-upload-simple"/></svg><span>Use a photo</span></button>
+        <button type="button" class="btn" id="wp-clear" hidden><svg aria-hidden="true"><use href="#i-x"/></svg><span>Remove</span></button>
+      </div>
+      <label class="check"><input type="checkbox" id="opt-light" checked><span>Gallery lighting</span></label>
+    </section>
+  </aside>
+
+  <!-- ===== Context bar for the selected piece ===== -->
+  <div id="ctx" class="chrome pill" role="toolbar" aria-label="Selected piece" hidden></div>
+  <div id="pop" class="chrome popover" hidden></div>
+
+  <!-- ===== Wall text card (replaces the old modal) ===== -->
+  <aside id="card" class="chrome sheet card" hidden aria-labelledby="card-title">
+    <div class="sheet-grip" aria-hidden="true"></div>
+    <header class="panel-head">
+      <h2 id="card-title">Wall text</h2>
+      <button type="button" class="ib sm" id="card-close" aria-label="Done"><svg><use href="#i-check"/></svg></button>
+    </header>
+    <div class="card-body">
+      <div class="card-thumb" id="card-thumb" aria-hidden="true"></div>
+      <label class="fld"><span>Why it matters</span>
+        <textarea id="card-why" rows="3" placeholder="What would having this mean to you?"></textarea>
+      </label>
+      <label class="fld"><span>Title</span>
+        <input id="card-name" type="text" maxlength="60" placeholder="Lisbon in the spring">
+      </label>
+      <label class="fld"><span>By when</span>
+        <input id="card-by" type="text" maxlength="30" placeholder="March 2027">
+      </label>
+      <button type="button" class="dot-toggle" id="card-dot" aria-pressed="false">
+        <span class="dot-swatch" aria-hidden="true"></span>
+        <span class="dot-text"><strong>Mark it yours</strong><small>In a gallery, a red dot means it's sold. Here it means it came true.</small></span>
       </button>
-      <button id="draw-done" class="btn-accent btn-sm">Done</button>
-      <button id="draw-cancel" class="btn-secondary btn-sm">Cancel</button>
+    </div>
+  </aside>
+
+  <!-- ===== Walk through overlay ===== -->
+  <div id="walk" hidden>
+    <div id="walk-label" class="walk-label" aria-live="polite"></div>
+    <div class="walk-nav chrome pill">
+      <button type="button" class="ib" id="walk-prev" aria-label="Previous piece"><svg><use href="#i-caret-left"/></svg></button>
+      <span id="walk-count">1 of 1</span>
+      <button type="button" class="ib" id="walk-next" aria-label="Next piece"><svg><use href="#i-caret-right"/></svg></button>
+      <button type="button" class="btn" id="walk-exit">Done</button>
     </div>
   </div>
 
-  <!-- Byline -->
-  <p id="byline">Built by <a href="https://middleton.io" target="_blank" rel="noopener">Kevin Middleton</a></p>
+  <!-- ===== Draw ===== -->
+  <div id="draw" hidden>
+    <canvas id="draw-canvas"></canvas>
+    <div id="draw-bar" class="chrome pill">
+      <div id="draw-colors" class="draw-colors" role="radiogroup" aria-label="Pen color"></div>
+      <div class="draw-sizes" role="radiogroup" aria-label="Pen size">
+        <button type="button" role="radio" data-size="4" aria-label="Thin" aria-checked="false"><i style="--d:4px"></i></button>
+        <button type="button" role="radio" data-size="8" aria-label="Medium" aria-checked="true"><i style="--d:8px"></i></button>
+        <button type="button" role="radio" data-size="16" aria-label="Thick" aria-checked="false"><i style="--d:14px"></i></button>
+      </div>
+      <button type="button" class="ib sm" id="draw-undo" aria-label="Undo stroke"><svg><use href="#i-arrow-counter-clockwise"/></svg></button>
+      <button type="button" class="btn" id="draw-cancel">Cancel</button>
+      <button type="button" class="btn primary" id="draw-done">Hang it</button>
+    </div>
+  </div>
 
-  <!-- Toast region for save/quota notices -->
-  <div id="toast-region" role="status" aria-live="polite"></div>
+  <!-- ===== Dialogs ===== -->
+  <div id="scrim" hidden></div>
 
-  <!-- Hidden file input -->
-  <input type="file" id="file-input" accept="image/*" multiple style="display:none">
-  <input type="file" id="bg-file-input" accept="image/*" style="display:none">
+  <section id="dlg-welcome" class="dlg chrome" role="dialog" aria-modal="true" aria-labelledby="welcome-h" hidden>
+    <p class="kicker">Visionbort</p>
+    <h1 id="welcome-h">Hang the year you want.</h1>
+    <p class="lede">Make a wall of photos, cutouts, and words. Give each piece a label that says why it matters, and give it a red dot when it comes true.</p>
+    <label class="fld"><span>Name your show</span>
+      <input id="welcome-title" type="text" maxlength="48" placeholder="2027, or The Year of Yes" autocomplete="off">
+    </label>
+    <label class="check"><input type="checkbox" id="welcome-ask" checked><span>Ask me why each piece matters as I add it</span></label>
+    <div class="dlg-actions">
+      <button type="button" class="btn primary lg" id="welcome-photos"><svg aria-hidden="true"><use href="#i-image"/></svg><span>Choose photos</span></button>
+      <button type="button" class="btn lg" id="welcome-empty">Start with an empty wall</button>
+    </div>
+    <button type="button" class="link" id="welcome-example">Or see an example show first</button>
+    <p class="fine">Everything stays on this device. No account, no tracking.</p>
+  </section>
 
-  <script src="app.js?v=ecdb1d68"></script>
+  <section id="dlg-new" class="dlg chrome sm" role="alertdialog" aria-modal="true" aria-labelledby="new-h" aria-describedby="new-p" hidden>
+    <h2 id="new-h">Start a new wall?</h2>
+    <p id="new-p">This takes everything down. You can undo it right after.</p>
+    <div class="dlg-actions row">
+      <button type="button" class="btn" id="new-cancel">Keep this wall</button>
+      <button type="button" class="btn danger" id="new-go">Start new</button>
+    </div>
+  </section>
+
+  <section id="dlg-hang" class="dlg chrome wide" role="dialog" aria-modal="true" aria-labelledby="hang-h" hidden>
+    <header class="dlg-head">
+      <h2 id="hang-h">Hang the show</h2>
+      <button type="button" class="ib sm" id="hang-close" aria-label="Close"><svg><use href="#i-x"/></svg></button>
+    </header>
+    <div class="hang-body">
+      <div class="hang-choices" role="radiogroup" aria-label="Format">
+        <button type="button" role="radio" class="hang-choice" data-fmt="poster" aria-checked="true">
+          <svg aria-hidden="true"><use href="#i-image-square"/></svg>
+          <span><strong>Poster</strong><small>18 by 24, with the wall text in the margin</small></span>
+        </button>
+        <button type="button" role="radio" class="hang-choice" data-fmt="lock" aria-checked="false">
+          <svg aria-hidden="true"><use href="#i-device-mobile"/></svg>
+          <span><strong>Lock screen</strong><small>Phone size, clock area kept clear</small></span>
+        </button>
+        <button type="button" role="radio" class="hang-choice" data-fmt="wall" aria-checked="false">
+          <svg aria-hidden="true"><use href="#i-frame-corners"/></svg>
+          <span><strong>The wall</strong><small>Exactly as you hung it</small></span>
+        </button>
+        <button type="button" role="radio" class="hang-choice" data-fmt="film" aria-checked="false">
+          <svg aria-hidden="true"><use href="#i-film-strip"/></svg>
+          <span><strong>Walkthrough film</strong><small>A short vertical video that visits each piece</small></span>
+        </button>
+      </div>
+      <figure class="hang-preview">
+        <div id="hang-frame" class="hang-frame"><div class="spinner" aria-hidden="true"></div></div>
+        <figcaption id="hang-cap">Preparing a preview</figcaption>
+      </figure>
+    </div>
+    <div class="dlg-actions row end">
+      <button type="button" class="btn primary lg" id="hang-save" disabled><svg aria-hidden="true"><use href="#i-download-simple"/></svg><span>Save</span></button>
+    </div>
+  </section>
+
+  <div id="toasts" role="status" aria-live="polite"></div>
+
+  <input type="file" id="file-photos" accept="image/*" multiple hidden>
+  <input type="file" id="file-wallpaper" accept="image/*" hidden>
+
+  <script src="app.js?v=3148593f"></script>
 </body>
 </html>
