@@ -203,7 +203,12 @@
     board.savedAt = Date.now();
     const slim = Object.assign({}, board, {
       refs: true,
-      pieces: board.pieces.map(p => (p.src && p.src.length > 2048 && base.srcs.get(p.id) === srcSig(p.src)) ? Object.assign({}, p, { src: REF }) : p),
+      pieces: board.pieces.map(p => {
+        let q = p;
+        if (p.src && p.src.length > 2048 && base.srcs.get(p.id) === srcSig(p.src)) q = Object.assign({}, q, { src: REF });
+        if (p.orig && p.orig.length > 2048 && base.srcs.get(p.id + '#orig') === srcSig(p.orig)) q = Object.assign({}, q, { orig: REF });
+        return q;
+      }),
       wallpaper: board.wallpaper && board.wallpaper.length > 2048 && base.wallpaperSig === srcSig(board.wallpaper) ? REF : board.wallpaper,
     });
     lsSet(BOARD_KEY, JSON.stringify(slim));
@@ -238,12 +243,12 @@
   let base = { fields: {}, pieces: new Map(), srcs: new Map(), wallpaperSig: '' };
   const FIELDS = ['title', 'paint', 'shape', 'light', 'wallpaper'];
   function pieceSig(p) {
-    return JSON.stringify(Object.assign({}, p, { src: p.src ? String(p.src).length + ':' + String(p.src).slice(-32) : '' }));
+    return JSON.stringify(Object.assign({}, p, { src: srcSig(p.src), orig: srcSig(p.orig) }));
   }
   function setBase(b) {
     base = { fields: {}, pieces: new Map(), srcs: new Map(), wallpaperSig: srcSig(b.wallpaper) };
     FIELDS.forEach(f => { base.fields[f] = b[f]; });
-    (b.pieces || []).forEach(p => { base.pieces.set(p.id, pieceSig(p)); base.srcs.set(p.id, srcSig(p.src)); });
+    (b.pieces || []).forEach(p => { base.pieces.set(p.id, pieceSig(p)); base.srcs.set(p.id, srcSig(p.src)); base.srcs.set(p.id + '#orig', srcSig(p.orig)); });
   }
   function mergeInto(theirs) {
     // Changing the wall's shape moves every piece, so piece-by-piece merging
@@ -351,8 +356,14 @@
     const ok = (d) => d && d.v === 2 && Array.isArray(d.pieces);
     // A flush copy carries references to image bytes in the IndexedDB copy.
     if (ok(ls) && ls.refs) {
-      const srcs = new Map(((idb && idb.pieces) || []).map(p => [p.id, p.src]));
-      ls.pieces = ls.pieces.map(p => p.src === REF ? (srcs.has(p.id) ? Object.assign({}, p, { src: srcs.get(p.id) }) : null) : p).filter(Boolean);
+      const stored = new Map(((idb && idb.pieces) || []).map(p => [p.id, p]));
+      ls.pieces = ls.pieces.map(p => {
+        const from = stored.get(p.id);
+        let q = p;
+        if (p.src === REF) { if (!from) return null; q = Object.assign({}, q, { src: from.src }); }
+        if (p.orig === REF) q = Object.assign({}, q, { orig: from ? from.orig : undefined });
+        return q;
+      }).filter(Boolean);
       if (ls.wallpaper === REF) ls.wallpaper = idb ? idb.wallpaper : null;
       delete ls.refs;
     }
@@ -1115,6 +1126,13 @@
     ctxBar.appendChild(cb('note-pencil', 'Wall text', () => openCard(p.id), { cls: cardForId === p.id ? 'on' : '' }));
     if (p.type === 'image' && p.kind !== 'drawing' && !p.cutout) {
       ctxBar.appendChild(cb('frame-corners', 'Frame', (b) => framePop(b, p.id), { popup: true }));
+    }
+    // Cut out any photo; a cut-out photo can be cut again or put back.
+    if (p.type === 'image' && p.kind !== 'drawing' && (!p.cutout || p.orig)) {
+      ctxBar.appendChild(cb('scissors', 'Cut out', () => openCut(p.id)));
+    }
+    if (p.type === 'image' && p.cutout && p.orig) {
+      ctxBar.appendChild(cb('arrow-u-up-left', 'Original', () => restoreOriginal(p.id)));
     }
     if (p.type === 'text') {
       ctxBar.appendChild(cb('text-t', 'Edit', () => startTextEdit(p.id)));
@@ -2304,6 +2322,7 @@
     scrim.hidden = true;
     if (el.id === 'dlg-welcome') finishWelcome();
     if (el.id === 'dlg-hang') stopFilm();
+    if (el.id === 'dlg-cut') cut = null;
     const back = dialogReturnFocus;
     if (back && document.contains(back) && back.offsetParent !== null) back.focus();
     else if (el.id === 'dlg-new') $('#btn-more').focus();
@@ -3084,6 +3103,296 @@
     toast('Saved ' + name);
   }
 
+  // ===== Cut out =====
+  // Tap-to-lift on the device: MediaPipe's MagicTouch model (Apache 2.0),
+  // hosted with the site, run by @mediapipe/tasks-vision from jsdelivr. The
+  // engine loads on first use only. Keep taps add to the selection, Remove
+  // taps take away; patches not connected to anything tapped are dropped.
+  const MP_BASE = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.0.1';
+  let segmenterPromise = null;
+  function getSegmenter() {
+    if (!segmenterPromise) {
+      segmenterPromise = (async () => {
+        const mp = await import(`${MP_BASE}/vision_bundle.mjs`);
+        const files = await mp.FilesetResolver.forVisionTasks(`${MP_BASE}/wasm`);
+        return mp.InteractiveSegmenterLegacy.createFromOptions(files, {
+          baseOptions: { modelAssetPath: new URL('models/magic_touch.tflite', location.href).href, delegate: 'CPU' },
+          outputConfidenceMasks: true,
+          outputCategoryMask: false,
+        });
+      })();
+      segmenterPromise.catch(() => { segmenterPromise = null; });
+    }
+    return segmenterPromise;
+  }
+
+  // ops, in order: { type: 'tap', x, y, mask } adds what the model finds there;
+  // { type: 'erase' | 'paint', pts, r } brushes alpha off or back on.
+  let cut = null; // { id, img, w, h, ops, alpha, mode, reticle }
+  async function openCut(id) {
+    const p = byId(id);
+    if (!p || p.type !== 'image') return;
+    closePop();
+    const img = await loadImg(p.orig || p.src).catch(() => null);
+    if (!img) { toast('That photo could not be opened for cutting out.', { error: true }); return; }
+    cut = { id, img, w: img.naturalWidth, h: img.naturalHeight, ops: [], alpha: null, mode: 'keep', reticle: { x: 0.5, y: 0.5 }, showReticle: false };
+    setCutMode('keep');
+    $('#cut-undo').disabled = true;
+    $('#cut-keep').disabled = true;
+    showDialog($('#dlg-cut'), $('#cut-canvas'));
+    requestAnimationFrame(sizeCutCanvas);
+    const loading = $('#cut-loading');
+    if (!segmenterPromise) {
+      loading.hidden = false;
+      $('#cut-status').textContent = 'Getting the cutout tool ready. It downloads once, about 18 MB.';
+    }
+    try {
+      await getSegmenter();
+      loading.hidden = true;
+    } catch (e) {
+      $('#cut-status').textContent = 'The cutout tool did not load. Check the connection and try again.';
+    }
+  }
+  function sizeCutCanvas() {
+    if (!cut) return;
+    const stageEl = $('#cut-stage');
+    const c = $('#cut-canvas');
+    const sw = stageEl.clientWidth, sh = stageEl.clientHeight;
+    const k = Math.min(sw / cut.w, sh / cut.h);
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    c.style.width = Math.round(cut.w * k) + 'px';
+    c.style.height = Math.round(cut.h * k) + 'px';
+    c.width = Math.round(cut.w * k * dpr);
+    c.height = Math.round(cut.h * k * dpr);
+    drawCut();
+  }
+  function setCutMode(mode) {
+    if (!cut) return;
+    cut.mode = mode;
+    document.querySelectorAll('#cut-mode button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.mode === mode)));
+  }
+
+  // The model's confidence for one tap, at the photo's own size.
+  async function maskForTap(x, y) {
+    const seg = await getSegmenter();
+    let out = null;
+    seg.segment(cut.img, { keypoint: { x, y } }, (res) => {
+      const masks = res.confidenceMasks || [];
+      // Some builds return [background, foreground]; take the one that is
+      // high where the tap is.
+      for (const m of masks) {
+        const a = m.getAsFloat32Array();
+        const idx = Math.min(a.length - 1, Math.floor(y * m.height) * m.width + Math.floor(x * m.width));
+        if (!out || a[idx] > out.a[out.idx]) out = { a: new Float32Array(a), w: m.width, h: m.height, idx };
+      }
+    });
+    return out;
+  }
+
+  async function addCutTap(x, y) {
+    if (!cut) return;
+    if (cut.mode === 'remove') { cut.ops.push({ type: 'erase', pts: [{ x, y }], r: brushR() }); afterOp(); return; }
+    const op = { type: 'tap', x, y, mask: null };
+    cut.ops.push(op);
+    drawCut();
+    try { op.mask = await maskForTap(x, y); }
+    catch (e) { cut.ops.pop(); toast('That tap could not be read. Try again.', { error: true }); drawCut(); return; }
+    afterOp();
+  }
+  // Brush radius in normalized units: about 18 screen pixels, whatever the zoom.
+  function brushR() {
+    const c = $('#cut-canvas');
+    return 18 / Math.max(1, parseFloat(c.style.width) || c.width);
+  }
+  function afterOp() {
+    refineCut();
+    $('#cut-undo').disabled = !cut.ops.length;
+    drawCut();
+  }
+  function undoCutTap() {
+    if (!cut || !cut.ops.length) return;
+    cut.ops.pop();
+    afterOp();
+  }
+
+  // Replay the ops into one alpha mask: model taps add what they find (soft
+  // threshold for clean edges), brushes erase or paint, then only what
+  // connects to a Keep tap or a painted stroke survives. Erasing the link
+  // between a subject and something stuck to it (a shadow) lets the stuck
+  // part fall away on its own.
+  function refineCut() {
+    const tapOps = cut.ops.filter(o => o.type === 'tap' && o.mask);
+    const first = tapOps[0];
+    const w = first ? first.mask.w : cut.w, h = first ? first.mask.h : cut.h;
+    const a = new Float32Array(w * h);
+    const seeds = [];
+    const brush = (o, val) => {
+      const rpx = o.r * w;
+      o.pts.forEach((pt, i) => {
+        // Fill between samples so a fast drag leaves no gaps.
+        const prev = o.pts[i - 1] || pt;
+        const steps = Math.max(1, Math.ceil(Math.hypot((pt.x - prev.x) * w, (pt.y - prev.y) * h) / (rpx / 2)));
+        for (let k = 0; k <= steps; k++) {
+          const cx = (prev.x + (pt.x - prev.x) * k / steps) * w, cy = (prev.y + (pt.y - prev.y) * k / steps) * h;
+          const x0 = Math.max(0, Math.floor(cx - rpx)), x1 = Math.min(w - 1, Math.ceil(cx + rpx));
+          const y0 = Math.max(0, Math.floor(cy - rpx)), y1 = Math.min(h - 1, Math.ceil(cy + rpx));
+          for (let yy = y0; yy <= y1; yy++) for (let xx = x0; xx <= x1; xx++) {
+            if ((xx - cx) * (xx - cx) + (yy - cy) * (yy - cy) <= rpx * rpx) a[yy * w + xx] = val;
+          }
+        }
+      });
+    };
+    cut.ops.forEach(o => {
+      if (o.type === 'tap' && o.mask) {
+        const m = o.mask.a;
+        for (let i = 0; i < a.length; i++) {
+          const v = (m[i] - 0.35) / 0.3;
+          const sm = v <= 0 ? 0 : v >= 1 ? 1 : v * v * (3 - 2 * v);
+          if (sm > a[i]) a[i] = sm;
+        }
+        seeds.push({ x: o.x, y: o.y });
+      } else if (o.type === 'erase') {
+        brush(o, 0);
+      } else if (o.type === 'paint') {
+        brush(o, 1);
+        o.pts.forEach(pt => seeds.push(pt));
+      }
+    });
+    if (!seeds.length) { cut.alpha = null; $('#cut-keep').disabled = true; return; }
+    // Flood from each seed through solid pixels; drop the rest.
+    const keep = new Uint8Array(w * h);
+    const stack = [];
+    seeds.forEach(t => {
+      const sx = Math.floor(t.x * w), sy = Math.floor(t.y * h);
+      let found = false;
+      for (let r = 0; r <= 10 && !found; r++) for (let dy = -r; dy <= r && !found; dy++) for (let dx = -r; dx <= r && !found; dx++) {
+        const xx = sx + dx, yy = sy + dy;
+        if (xx >= 0 && yy >= 0 && xx < w && yy < h && a[yy * w + xx] > 0.5) { stack.push(yy * w + xx); found = true; }
+      }
+    });
+    while (stack.length) {
+      const i = stack.pop();
+      if (keep[i] || a[i] <= 0.5) continue;
+      keep[i] = 1;
+      const x = i % w, y = (i - x) / w;
+      if (x > 0) stack.push(i - 1);
+      if (x < w - 1) stack.push(i + 1);
+      if (y > 0) stack.push(i - w);
+      if (y < h - 1) stack.push(i + w);
+    }
+    // Let the soft edge back in around what was kept (2px).
+    for (let pass = 0; pass < 2; pass++) {
+      const grow = keep.slice();
+      for (let i = 0; i < keep.length; i++) {
+        if (keep[i]) continue;
+        const x = i % w;
+        if ((x > 0 && keep[i - 1]) || (x < w - 1 && keep[i + 1]) || (i >= w && keep[i - w]) || (i + w < keep.length && keep[i + w])) grow[i] = a[i] > 0 ? 1 : 0;
+      }
+      keep.set(grow);
+    }
+    let any = false;
+    for (let i = 0; i < a.length; i++) { if (!keep[i]) a[i] = 0; else if (a[i] > 0.5) any = true; }
+    cut.alpha = any ? { a, w, h } : null;
+    $('#cut-keep').disabled = !any;
+  }
+
+  // The photo dims; the kept part stays at full brightness.
+  function drawCut() {
+    if (!cut) return;
+    const c = $('#cut-canvas');
+    const x = c.getContext('2d');
+    const W = c.width, Hh = c.height;
+    x.clearRect(0, 0, W, Hh);
+    x.drawImage(cut.img, 0, 0, W, Hh);
+    if (cut.alpha) {
+      x.fillStyle = 'rgba(20, 19, 17, 0.62)';
+      x.fillRect(0, 0, W, Hh);
+      x.drawImage(cutoutCanvas(), 0, 0, W, Hh);
+    }
+    const dpr = W / parseFloat(c.style.width || W);
+    cut.ops.filter(o => o.type !== 'tap').forEach(o => {
+      x.save();
+      x.lineCap = 'round'; x.lineJoin = 'round';
+      x.lineWidth = o.r * 2 * W;
+      x.strokeStyle = o.type === 'erase' ? 'rgba(196, 18, 47, 0.28)' : 'rgba(255, 255, 255, 0.28)';
+      x.beginPath();
+      o.pts.forEach((pt, i) => { if (i) x.lineTo(pt.x * W, pt.y * Hh); else x.moveTo(pt.x * W, pt.y * Hh); });
+      if (o.pts.length === 1) x.lineTo(o.pts[0].x * W + 0.1, o.pts[0].y * Hh);
+      x.stroke();
+      x.restore();
+    });
+    cut.ops.filter(o => o.type === 'tap').forEach(t => {
+      const px = t.x * W, py = t.y * Hh, r = 11 * dpr;
+      x.beginPath(); x.arc(px, py, r, 0, Math.PI * 2);
+      x.fillStyle = '#ffffff'; x.fill();
+      x.lineWidth = 2 * dpr; x.strokeStyle = 'rgba(20,19,17,0.6)'; x.stroke();
+      x.strokeStyle = '#1c1b19'; x.lineWidth = 2.4 * dpr;
+      x.beginPath(); x.moveTo(px - r * 0.5, py); x.lineTo(px + r * 0.5, py);
+      x.moveTo(px, py - r * 0.5); x.lineTo(px, py + r * 0.5);
+      x.stroke();
+    });
+    if (cut.showReticle) {
+      const px = cut.reticle.x * W, py = cut.reticle.y * Hh, r = 16 * dpr;
+      x.lineWidth = 2 * dpr; x.strokeStyle = '#ffffff';
+      x.beginPath(); x.arc(px, py, r, 0, Math.PI * 2); x.stroke();
+      x.strokeStyle = 'rgba(20,19,17,0.7)'; x.beginPath(); x.arc(px, py, r + 2 * dpr, 0, Math.PI * 2); x.stroke();
+    }
+  }
+  // The photo at its own size with the refined mask as alpha.
+  function cutoutCanvas() {
+    const { a, w, h } = cut.alpha;
+    const o = document.createElement('canvas');
+    o.width = w; o.height = h;
+    const ox = o.getContext('2d');
+    ox.drawImage(cut.img, 0, 0, w, h);
+    const d = ox.getImageData(0, 0, w, h);
+    for (let i = 0; i < w * h; i++) d.data[i * 4 + 3] = Math.round(d.data[i * 4 + 3] * a[i]);
+    ox.putImageData(d, 0, 0);
+    return o;
+  }
+
+  function keepCut() {
+    if (!cut || !cut.alpha) return;
+    const p = byId(cut.id);
+    if (!p) { closeDialog(); return; }
+    const piece = dieCut(trimAlpha(cutoutCanvas()));
+    pushUndo();
+    const cx = p.x + p.w / 2, cy = p.y + p.h / 2;
+    const longest = Math.max(p.w, p.h);
+    const ratio = piece.w / piece.h;
+    const w = ratio >= 1 ? longest : longest * ratio;
+    const h = ratio >= 1 ? longest / ratio : longest;
+    Object.assign(p, { orig: p.orig || p.src, src: piece.url, cutout: true, frame: 'none', w, h, x: cx - w / 2, y: cy - h / 2 });
+    delete p.clip;
+    Object.assign(p, clampInside(p.x, p.y, p.w, p.h));
+    closeDialog();
+    renderPiece(p);
+    renderLabels();
+    buildCtx();
+    save();
+    toast('Cut out. Original brings the photo back.', { action: 'Undo', onAction: undo, ms: 7000 });
+  }
+  // Back to the full photo, at the same size it was hanging.
+  async function restoreOriginal(id) {
+    const p = byId(id);
+    if (!p || !p.orig) return;
+    const img = await loadImg(p.orig).catch(() => null);
+    if (!img) return;
+    pushUndo();
+    const cx = p.x + p.w / 2, cy = p.y + p.h / 2;
+    const longest = Math.max(p.w, p.h);
+    const ratio = img.naturalWidth / img.naturalHeight;
+    const w = ratio >= 1 ? longest : longest * ratio;
+    const h = ratio >= 1 ? longest / ratio : longest;
+    Object.assign(p, { src: p.orig, cutout: false, w, h, x: cx - w / 2, y: cy - h / 2 });
+    delete p.orig;
+    Object.assign(p, clampInside(p.x, p.y, p.w, p.h));
+    renderPiece(p);
+    renderLabels();
+    buildCtx();
+    save();
+  }
+
   // ===== Calendar reminders =====
   // No backend: "Remind me" writes a standard calendar file (.ics) and the
   // person's own calendar does the nudging. Nothing leaves the device.
@@ -3411,6 +3720,60 @@
     }));
     $('#card-name').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#card-by').focus(); });
     $('#card-by').addEventListener('keydown', (e) => { if (e.key === 'Enter') closeCard(); });
+    $('#cut-close').addEventListener('click', closeDialog);
+    $('#cut-cancel').addEventListener('click', closeDialog);
+    $('#cut-keep').addEventListener('click', keepCut);
+    $('#cut-undo').addEventListener('click', undoCutTap);
+    document.querySelectorAll('#cut-mode button').forEach(b => b.addEventListener('click', () => setCutMode(b.dataset.mode)));
+    const cc = $('#cut-canvas');
+    // A tap in Keep asks the model; a drag brushes (paint back in Keep,
+    // erase in Remove). A tap in Remove erases a dot.
+    let cutDown = null, cutRaf = 0;
+    const norm = (e) => { const r = cc.getBoundingClientRect(); return { x: clamp((e.clientX - r.left) / r.width, 0, 1), y: clamp((e.clientY - r.top) / r.height, 0, 1) }; };
+    cc.addEventListener('pointerdown', (e) => {
+      if (!cut) return;
+      try { cc.setPointerCapture(e.pointerId); } catch (err) { /* nicety */ }
+      cut.showReticle = false;
+      cutDown = { x: e.clientX, y: e.clientY, stroke: null };
+    });
+    cc.addEventListener('pointermove', (e) => {
+      if (!cutDown || !cut) return;
+      if (!cutDown.stroke) {
+        if (Math.hypot(e.clientX - cutDown.x, e.clientY - cutDown.y) < 8) return;
+        const r = cc.getBoundingClientRect();
+        const start = { x: clamp((cutDown.x - r.left) / r.width, 0, 1), y: clamp((cutDown.y - r.top) / r.height, 0, 1) };
+        cutDown.stroke = { type: cut.mode === 'remove' ? 'erase' : 'paint', pts: [start], r: brushR() };
+        cut.ops.push(cutDown.stroke);
+      }
+      cutDown.stroke.pts.push(norm(e));
+      if (!cutRaf) cutRaf = requestAnimationFrame(() => { cutRaf = 0; if (cut) afterOp(); });
+    });
+    cc.addEventListener('pointerup', (e) => {
+      if (!cutDown || !cut) { cutDown = null; return; }
+      const d = cutDown; cutDown = null;
+      if (d.stroke) { afterOp(); return; }
+      const pt = norm(e);
+      addCutTap(pt.x, pt.y);
+    });
+    cc.addEventListener('pointercancel', () => { cutDown = null; });
+    // Keyboard: arrows move a ring over the photo, Enter or Space taps there.
+    cc.addEventListener('keydown', (e) => {
+      if (!cut) return;
+      const d = e.shiftKey ? 0.1 : 0.025;
+      const mv = { ArrowLeft: [-d, 0], ArrowRight: [d, 0], ArrowUp: [0, -d], ArrowDown: [0, d] }[e.key];
+      if (mv) {
+        e.preventDefault(); e.stopPropagation();
+        cut.showReticle = true;
+        cut.reticle.x = clamp(cut.reticle.x + mv[0], 0, 1);
+        cut.reticle.y = clamp(cut.reticle.y + mv[1], 0, 1);
+        drawCut();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault(); e.stopPropagation();
+        addCutTap(cut.reticle.x, cut.reticle.y);
+      }
+    });
+    cc.addEventListener('focus', () => { if (cut) { cut.showReticle = true; drawCut(); } });
+    window.addEventListener('resize', () => { if (cut && !$('#dlg-cut').hidden) sizeCutCanvas(); });
     $('#card-remind').addEventListener('click', () => toggleRemindRow());
     $('#remind-save').addEventListener('click', saveRemind);
     $('#remind-date').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); saveRemind(); } });

@@ -685,6 +685,27 @@ body[data-view="labels"] .lbl { width: 230px; }
 @keyframes fade { from { opacity: 0; } }
 @keyframes rise { from { opacity: 0; transform: translate(-50%, calc(-50% + 12px)); } }
 
+/* Cut out */
+.cut-hint { margin: 0 0 12px; font-size: 14.5px; color: var(--ink-2); }
+.cut-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.cut-stage {
+  position: relative;
+  height: min(56vh, 520px);
+  display: grid; place-items: center;
+  border-radius: var(--radius);
+  /* The usual checkerboard for "transparent": one conic tile, repeated by size */
+  background: conic-gradient(var(--stock-3) 25%, var(--stock-2) 0 50%, var(--stock-3) 0 75%, var(--stock-2) 0) 0 0 / 20px 20px;
+  overflow: hidden;
+}
+#cut-canvas { display: block; cursor: crosshair; touch-action: none; border-radius: 4px; }
+#cut-canvas:focus-visible { outline: 2px solid var(--dot); outline-offset: 3px; }
+.cut-loading {
+  position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px;
+  background: color-mix(in srgb, var(--stock) 82%, transparent); text-align: center; padding: 20px;
+}
+.cut-loading p { margin: 0; max-width: 300px; font-size: 14px; color: var(--ink-2); }
+.cut-note { margin: 10px 0 0; font-size: 12.5px; color: var(--ink-3); }
+
 /* Hang the show */
 .hang-body { display: grid; grid-template-columns: 290px 1fr; gap: 20px; }
 .hang-choices { display: grid; gap: 8px; align-content: start; grid-auto-rows: 1fr; }
@@ -875,4 +896,13 @@ body.drawing #bar, body.drawing #zoom { opacity: 0.45; }
 @media (max-width: 1000px) and (min-height: 501px) and (min-width: 761px) {
   #panel, #card { top: calc(var(--bar-h) + 62px); }
   #card { max-height: calc(100% - var(--bar-h) - var(--dock-h) - 96px); }
+}
+
+@media (max-width: 760px) {
+  .cut-stage { height: 46dvh; }
+  .cut-hint { font-size: 14px; }
+}
+@media (max-height: 500px) {
+  .cut-stage { height: 52vh; }
+  .cut-hint, .cut-note { display: none; }
 }

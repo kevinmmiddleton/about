@@ -28,7 +28,7 @@
   <!-- UI: Funnel Display + Host Grotesk. Board lettering: the six faces boards
        already use. Noto Color Emoji makes stickers look the same on every OS. -->
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;500;600;700&family=Host+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Bebas+Neue&family=Caveat:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Noto+Color+Emoji&display=swap" rel="stylesheet" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles.css?v=42a06853">
+  <link rel="stylesheet" href="styles.css?v=377bc7bd">
   <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js" defer></script>
     <!-- JSON-LD -->
     <script type="application/ld+json">
@@ -324,6 +324,30 @@
     </div>
   </section>
 
+  <section id="dlg-cut" class="dlg chrome wide" role="dialog" aria-modal="true" aria-labelledby="cut-h" aria-describedby="cut-hint" hidden>
+    <header class="dlg-head">
+      <h2 id="cut-h">Cut out</h2>
+      <button type="button" class="ib sm" id="cut-close" aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    </header>
+    <p id="cut-hint" class="cut-hint">Tap what you want to keep; tap again to add more of it. Switch to Remove and brush over anything to take it away.</p>
+    <div class="cut-bar">
+      <div class="seg" id="cut-mode" role="radiogroup" aria-label="Tap to">
+        <button type="button" role="radio" data-mode="keep" aria-checked="true">Keep</button>
+        <button type="button" role="radio" data-mode="remove" aria-checked="false">Remove</button>
+      </div>
+      <button type="button" class="btn" id="cut-undo" disabled><svg aria-hidden="true"><use href="#i-arrow-counter-clockwise"/></svg><span>Undo</span></button>
+    </div>
+    <div class="cut-stage" id="cut-stage">
+      <canvas id="cut-canvas" tabindex="0" role="application" aria-label="Photo to cut out. Tap the part to keep; with a keyboard, move the ring with the arrow keys and press Enter."></canvas>
+      <div class="cut-loading" id="cut-loading" hidden><div class="spinner" aria-hidden="true"></div><p id="cut-status" aria-live="polite">Getting the cutout tool ready</p></div>
+    </div>
+    <p class="cut-note">Runs on this device; the photo isn't uploaded anywhere.</p>
+    <div class="dlg-actions row end">
+      <button type="button" class="btn" id="cut-cancel">Cancel</button>
+      <button type="button" class="btn primary lg" id="cut-keep" disabled><svg aria-hidden="true"><use href="#i-scissors"/></svg><span>Hang the cutout</span></button>
+    </div>
+  </section>
+
   <section id="dlg-hang" class="dlg chrome wide" role="dialog" aria-modal="true" aria-labelledby="hang-h" hidden>
     <header class="dlg-head">
       <h2 id="hang-h">Hang the show</h2>
@@ -363,6 +387,6 @@
   <input type="file" id="file-photos" accept="image/*" multiple hidden>
   <input type="file" id="file-wallpaper" accept="image/*" hidden>
 
-  <script src="app.js?v=94c46298"></script>
+  <script src="app.js?v=687d94a1"></script>
 </body>
 </html>
