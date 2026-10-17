@@ -214,6 +214,14 @@
 
 /* ---------- DIVIDERS ---------- */
 
+.fixer-divider:empty::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  border-top: 1px solid currentColor;
+  vertical-align: middle;
+}
+
 .fixer-divider {
   text-align: left;
   font-size: 1rem;
