@@ -188,32 +188,87 @@
     clearTimeout(saveTimer);
     saveTimer = setTimeout(writeBoard, 250);
   }
-  // Write now. Used when the tab is about to go away, where a pending
-  // debounce would otherwise drop the last edit.
+  // Write now. Used when the tab is about to go away. An IndexedDB write is
+  // asynchronous and dies with the page on a reload, so a synchronous
+  // localStorage copy goes down first; readStored() takes whichever is newer,
+  // and the next good IndexedDB write clears it.
   function flushSave() {
-    if (!saveTimer) return;
+    if (!saveTimer || loadFailed) return;
     clearTimeout(saveTimer);
-    writeBoard();
-  }
-  async function writeBoard() {
-    saveTimer = null;
-    if (loadFailed) return;
     board.title = showTitle.value.trim();
     board.savedAt = Date.now();
+    lsSet(BOARD_KEY, JSON.stringify(board));
+    writeBoard(board.savedAt);
+  }
+
+  // Three-way merge for two tabs. `base` is what this tab last loaded or
+  // wrote. If storage moved on since then (another tab saved), keep their
+  // version of everything this tab didn't touch, and this tab's version of
+  // what it did.
+  let base = { fields: {}, pieces: new Map() };
+  const FIELDS = ['title', 'paint', 'shape', 'light', 'wallpaper'];
+  function pieceSig(p) {
+    return JSON.stringify(Object.assign({}, p, { src: p.src ? String(p.src).length + ':' + String(p.src).slice(-32) : '' }));
+  }
+  function setBase(b) {
+    base = { fields: {}, pieces: new Map() };
+    FIELDS.forEach(f => { base.fields[f] = b[f]; });
+    (b.pieces || []).forEach(p => base.pieces.set(p.id, pieceSig(p)));
+  }
+  function mergeInto(theirs) {
+    const merged = Object.assign({}, theirs);
+    FIELDS.forEach(f => { if (board[f] !== base.fields[f]) merged[f] = board[f]; });
+    const ours = new Map(board.pieces.map(p => [p.id, p]));
+    const result = new Map((theirs.pieces || []).map(p => [p.id, p]));
+    ours.forEach((p, id) => {
+      const was = base.pieces.get(id);
+      if (was === undefined || was !== pieceSig(p)) result.set(id, p); // added or changed here
+    });
+    base.pieces.forEach((sig, id) => { if (!ours.has(id)) result.delete(id); }); // removed here
+    merged.pieces = [...result.values()];
+    merged.nextId = Math.max(theirs.nextId || 1, board.nextId || 1,
+      ...merged.pieces.map(p => (parseInt(String(p.id).slice(2), 10) || 0) + 1));
+    merged.maxZ = Math.max(0, ...merged.pieces.map(p => p.z || 0));
+    return merged;
+  }
+
+  async function writeBoard(stamp) {
+    saveTimer = null;
+    if (loadFailed) return;
+    // Another tab may have saved since this one last loaded or wrote.
+    let mergedFromOther = false;
+    try {
+      const { data } = await readStored();
+      if (data && data.savedAt > lastSavedAt && data.savedAt !== stamp) {
+        board = Object.assign(emptyBoard(), mergeInto(data));
+        board.pieces = board.pieces.map(normalizePiece).filter(Boolean);
+        mergedFromOther = true;
+      }
+    } catch (e) { /* write what we have */ }
+    if (!mergedFromOther) board.title = showTitle.value.trim();
+    board.savedAt = stamp || Date.now();
     lastSavedAt = board.savedAt;
     let ok = false;
     try {
       await idbSet(BOARD_KEY, board);
       ok = true;
-      // A fallback copy from a bad day is now stale; don't let it win later.
+      // A fallback or flush copy is now stale; don't let it win later.
       try { localStorage.removeItem(BOARD_KEY); } catch (e) { /* fine */ }
     } catch (e) {
       ok = lsSet(BOARD_KEY, JSON.stringify(board));
     }
     if (ok) {
       saveWarned = false;
+      setBase(board);
       lsSet(V2_FLAG, '1');
       if (channel) channel.postMessage({ savedAt: board.savedAt });
+      if (mergedFromOther) {
+        showTitle.value = board.title || '';
+        if (!byId(selectedId)) selectedId = null;
+        applyWall();
+        renderAll();
+        refreshUI();
+      }
     } else if (!saveWarned) {
       saveWarned = true;
       toast('This wall could not be saved on this device. Saving a copy with Hang the show keeps it safe.', { error: true, ms: 10000 });
@@ -255,7 +310,8 @@
       board.pieces = (board.pieces || []).map(normalizePiece).filter(Boolean);
       lastSavedAt = board.savedAt || 0;
     }
-    return { migrated, migrateFailed, loadFailed };
+    setBase(migrated ? emptyBoard() : board);
+    return { migrated, migrateFailed, loadFailed, skipped: migrated ? (data._skipped || 0) : 0 };
   }
 
   // ===== v1 migration =====
@@ -280,13 +336,20 @@
     // v1's default inks, which should follow the new paint instead.
     const defaultInks = ['#1a1a2e', '#f8fafc'];
     const pieces = [];
+    let skipped = (Array.isArray(d.elements) ? d.elements.length : 0) - els.length;
     els.forEach((el, i) => {
-      try {
+      const before = pieces.length;
+      try { migrateOne(el, i); } catch (e) { /* skip just this element */ }
+      if (pieces.length === before) skipped++;
+    });
+    function migrateOne(el, i) {
         const num = (v, dflt) => (typeof v === 'number' && isFinite(v)) ? v : dflt;
         let w = num(el.width, 200) * k;
         let h = num(el.height, 200) * k;
-        // Nothing bigger than most of the wall, keeping its shape.
-        const fitK = Math.min(1, (WW * 0.9) / w, (HH * 0.9) / h);
+        // Nothing bigger than about half the wall, keeping its shape. A board
+        // made on a laptop and last saved on a phone came out with photos
+        // nearly as wide as the wall.
+        const fitK = Math.min(1, (WW * 0.55) / w, (HH * 0.55) / h);
         w *= fitK; h *= fitK;
         const hasPos = typeof el.fx === 'number' || typeof el.x === 'number';
         const fx = typeof el.fx === 'number' ? el.fx : num(el.x, 0) / savedW;
@@ -328,9 +391,9 @@
           return;
         }
         pieces.push(p);
-      } catch (e) { /* skip just this element */ }
-    });
+    }
     const b = emptyBoard();
+    b._skipped = skipped;
     b.title = typeof d.boardTitle === 'string' && d.boardTitle !== 'My Vision Board' ? d.boardTitle : '';
     b.paint = paintMap[oldBg] || 'white';
     b.shape = shape;
@@ -357,8 +420,8 @@
         board.pieces = placed.slice();
         Object.assign(p, nextSpot(p.w, p.h));
         board.pieces = others;
-        delete p._noPos;
       }
+      delete p._noPos;
       Object.assign(p, clampInside(p.x, p.y, p.w, p.h));
       placed.push(p);
     });
@@ -422,6 +485,31 @@
     $('#btn-redo').disabled = !redoStack.length;
   }
 
+  // The saved wall exists but can't be read right now. Anything done here
+  // would be thrown away, so say so plainly and take the editing tools away
+  // until a reload (or another tab) brings the wall back.
+  let readOnlyBanner = null;
+  function setReadOnly(on) {
+    loadFailed = on;
+    ['#stage', '#dock', '#ctx', '#show-title', '#btn-hang', '#views', '#zoom'].forEach(q => { const el = $(q); if (el) el.inert = on; });
+    document.body.classList.toggle('read-only', on);
+    if (on && !readOnlyBanner) {
+      readOnlyBanner = document.createElement('div');
+      readOnlyBanner.className = 'toast error banner';
+      readOnlyBanner.setAttribute('role', 'alert');
+      readOnlyBanner.innerHTML = '<span>Your saved wall could not be opened in this browser right now. Nothing has been changed. </span>';
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = 'Reload';
+      b.addEventListener('click', () => location.reload());
+      readOnlyBanner.appendChild(b);
+      $('#toasts').appendChild(readOnlyBanner);
+    } else if (!on && readOnlyBanner) {
+      readOnlyBanner.remove();
+      readOnlyBanner = null;
+    }
+  }
+
   // Another tab saved a newer wall. Adopt it before this tab can overwrite it
   // with a stale copy. Called when this tab comes back into view and when
   // another tab announces a save.
@@ -432,6 +520,8 @@
     board = Object.assign(emptyBoard(), data);
     board.pieces = board.pieces.map(normalizePiece).filter(Boolean);
     lastSavedAt = board.savedAt;
+    setBase(board);
+    if (loadFailed) setReadOnly(false);
     showTitle.value = board.title || '';
     undoStack = []; redoStack = [];
     selectedId = null;
@@ -446,7 +536,7 @@
   // ===== View: pan and zoom =====
   // The view switcher floats over the wall below 1000px, where it would
   // otherwise collide with Undo in the top bar (tablets).
-  const viewsFloat = () => window.matchMedia('(max-width: 1000px)').matches;
+  const viewsFloat = () => window.matchMedia('(max-width: 1000px) and (min-height: 501px)').matches;
   function insets() {
     const phone = isPhone();
     const top = 20 + (viewsFloat() ? 56 : 0);
@@ -455,8 +545,8 @@
     // into what's left so paint and shape changes are visible as you make them.
     const sheet = phone && (panelTab ? panel : cardForId ? card : null);
     if (sheet && !sheet.hidden) {
-      const sr = stage.getBoundingClientRect();
-      bottom = Math.max(bottom, sr.bottom - sheet.getBoundingClientRect().top + 12);
+      // offsetHeight, not the rect: the sheet is mid slide-up animation here.
+      bottom = Math.max(bottom, sheet.offsetHeight + 16);
     }
     return { top, bottom, left: (!phone && panelTab) ? 364 : 20, right: 20 };
   }
@@ -666,8 +756,9 @@
     else what = 'Words, ' + (p.content || '');
     const name = p.name || (p.type === 'image' ? p.alt : '');
     let s = name ? `${what}: ${name}` : what;
-    if (p.why) s += `. Why it matters: ${p.why}`;
-    if (p.by) s += `. By ${p.by}`;
+    const tidy = (t) => String(t).trim().replace(/[.!?]+$/, '');
+    if (p.why) s += `. Why it matters: ${tidy(p.why)}`;
+    if (p.by) s += `. By ${tidy(p.by)}`;
     if (p.dot) s += '. Marked yours';
     return s;
   }
@@ -699,6 +790,7 @@
     const has = board.pieces.length > 0;
     wallEmpty.hidden = has;
     $('#btn-hang').disabled = !has;
+    syncTabStops();
   }
 
   // ===== Wall labels =====
@@ -793,6 +885,7 @@
     }
     return best.spot;
   }
+  function overlap(a, b) { return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h; }
   function clampInside(x, y, w, h) {
     return {
       x: Math.round(clamp(x, 16, Math.max(16, W() - w - 16))),
@@ -838,7 +931,8 @@
     const gone = board.pieces[idx];
     board.pieces = board.pieces.filter(p => p.id !== id);
     const dom = domOf(id);
-    const hadFocus = dom && dom.contains(document.activeElement);
+    const ae = document.activeElement;
+    const hadFocus = (dom && dom.contains(ae)) || ctxBar.contains(ae) || card.contains(ae) || ae === document.body;
     if (dom) dom.remove();
     if (selectedId === id) select(null);
     if (cardForId === id) closeCard();
@@ -912,6 +1006,7 @@
     const t = document.createElement('span');
     t.textContent = label;
     b.appendChild(t);
+    b.title = label;
     if (extra && extra.pressed != null) b.setAttribute('aria-pressed', String(extra.pressed));
     if (extra && extra.popup) { b.setAttribute('aria-haspopup', 'true'); b.setAttribute('aria-expanded', 'false'); }
     b.addEventListener('click', (e) => {
@@ -970,10 +1065,18 @@
     // Panned off screen: the bar goes with it.
     const offscreen = pr.right < sr.left || pr.left > sr.right || pr.bottom < sr.top || pr.top > sr.bottom;
     ctxBar.style.visibility = offscreen ? 'hidden' : '';
-    const bw = ctxBar.offsetWidth, bh = ctxBar.offsetHeight;
     // The room the bar may use: right of an open panel, left of the card.
     const minL = (panelTab ? panel.getBoundingClientRect().right : sr.left) + 8;
     const maxR = (cardForId ? card.getBoundingClientRect().left : sr.right) - 8;
+    // Too wide for that room: labels go (each button keeps its name), and if
+    // it still doesn't fit, it wraps to a second row.
+    ctxBar.classList.remove('compact');
+    ctxBar.style.maxWidth = '';
+    if (ctxBar.offsetWidth > maxR - minL) {
+      ctxBar.classList.add('compact');
+      ctxBar.style.maxWidth = Math.max(160, maxR - minL) + 'px';
+    }
+    const bw = ctxBar.offsetWidth, bh = ctxBar.offsetHeight;
     let left = pr.left + pr.width / 2 - bw / 2;
     left = clamp(left, minL, Math.max(minL, maxR - bw));
     // Above the piece, clear of the rotate handle (about 40px up), or below.
@@ -1132,7 +1235,7 @@
     $('#card-why').placeholder = WHY_PROMPTS[(parseInt(p.id.slice(2), 10) || 0) % WHY_PROMPTS.length];
     $('#card-name').value = p.name || '';
     $('#card-by').value = p.by || '';
-    setDotUI(!!p.dot);
+    setDotUI(!!p.dot, p);
     card.hidden = false;
     buildCtx();
     if (!wasOpen) { if (isPhone()) refitIfAuto(); positionCtx(); }
@@ -1167,9 +1270,16 @@
     if (isPhone()) refitIfAuto();
     if (wasFocusInCard) focusPiece(id);
   }
-  function setDotUI(on) {
+  const DOT_NOTE_OFF = 'Galleries put a red dot on a piece that has found its home. Add one when this comes true.';
+  function setDotUI(on, p) {
     const b = $('#card-dot');
     b.setAttribute('aria-pressed', String(on));
+    let when = '';
+    if (on && p && p.dotAt) {
+      const d = new Date(p.dotAt + 'T12:00:00');
+      if (!isNaN(d)) when = ' on ' + d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+    $('#dot-note').textContent = on ? `Marked yours${when}. Press again to take the dot off.` : DOT_NOTE_OFF;
   }
   function cardEdit(field, value) {
     const p = byId(cardForId);
@@ -1218,7 +1328,7 @@
     const w = clamp(measurer.offsetWidth + p.size * 0.4, 60, W());
     const h = clamp(measurer.offsetHeight + p.size * 0.2, 30, H());
     Object.assign(p, { w, h, x: cx - w / 2, y: cy - h / 2 });
-    if (!noClamp) clampOnWall(p);
+    if (!noClamp) Object.assign(p, (w <= W() - 32 && h <= H() - 32) ? clampInside(p.x, p.y, w, h) : (clampOnWall(p), {}));
   }
 
   function startTextEdit(id, fresh) {
@@ -1293,6 +1403,15 @@
     if (next !== before && !fresh) pushUndo();
     p.content = next;
     fitTextBox(p);
+    if (fresh) {
+      // It grew while being typed; find it a spot that fits what it became.
+      const others = board.pieces;
+      board.pieces = others.filter(q => q.id !== p.id);
+      const spot = nextSpot(p.w, p.h);
+      board.pieces = others;
+      const overlapsSomething = others.some(q => q.id !== p.id && overlap(bbox(q), bbox(p)));
+      if (overlapsSomething) Object.assign(p, spot);
+    }
     dom.dataset.sig = '';
     renderPiece(p);
     renderLabels();
@@ -1556,26 +1675,40 @@
       grid.appendChild(b);
     });
   }
+  // Switching shape scales positions to the new wall and sizes by the
+  // tighter side, so nothing piles up. Switching back restores the exact
+  // previous layout for every piece that wasn't moved in between, so a
+  // Wide-Tall-Wide round trip is lossless.
   function setShape(shape) {
     if (board.shape === shape) return;
     pushUndo();
-    const from = SHAPES[board.shape], to = SHAPES[shape];
-    const kx = to.w / from.w, ky = to.h / from.h;
-    // Both shapes have the same area, so pieces keep their size and only their
-    // centers move. Scaling sizes by the tighter side shrank everything to 39%
-    // after a Wide-Tall-Wide round trip. Only a piece too big for the new
-    // wall is shrunk, keeping its shape.
+    const from = board.shape;
+    const F = SHAPES[from], T = SHAPES[shape];
+    const kx = T.w / F.w, ky = T.h / F.h, k = Math.min(kx, ky);
+    const memo = board.shapeMemo;
+    const geom = (p) => ({ x: p.x, y: p.y, w: p.w, h: p.h, size: p.size });
+    const same = (a, b) => a && b && ['x', 'y', 'w', 'h'].every(f => Math.abs(a[f] - b[f]) < 0.5);
+    const before = {};
     board.pieces.forEach(p => {
-      const cx = (p.x + p.w / 2) * kx, cy = (p.y + p.h / 2) * ky;
-      const fitK = Math.min(1, (to.w * 0.92) / p.w, (to.h * 0.92) / p.h);
-      p.w *= fitK; p.h *= fitK;
-      if (p.type === 'text') p.size *= fitK;
-      p.x = cx - p.w / 2; p.y = cy - p.h / 2;
-      board.shape = shape;
-      Object.assign(p, clampInside(p.x, p.y, p.w, p.h));
-      board.shape = from === SHAPES.wide ? 'wide' : 'tall';
+      before[p.id] = geom(p);
+      const back = memo && memo.to === from && memo.from === shape && same(geom(p), memo.after[p.id]) && memo.before[p.id];
+      if (back) {
+        Object.assign(p, back);
+      } else {
+        const cx = (p.x + p.w / 2) * kx, cy = (p.y + p.h / 2) * ky;
+        p.w *= k; p.h *= k;
+        if (p.type === 'text') p.size *= k;
+        p.x = cx - p.w / 2; p.y = cy - p.h / 2;
+      }
     });
     board.shape = shape;
+    const after = {};
+    board.pieces.forEach(p => {
+      Object.assign(p, clampInside(p.x, p.y, p.w, p.h));
+      if (p.type !== 'text') delete p.size;
+      after[p.id] = geom(p);
+    });
+    board.shapeMemo = { from, to: shape, before, after };
     applyWall();
     renderAll();
     fit();
@@ -1644,6 +1777,7 @@
     fit();
     refreshUI();
     save();
+    focusStage();
     toast('This is an example show. Change anything, or start a new wall from the menu.', { ms: 6000 });
   }
 
@@ -2002,7 +2136,9 @@
       const group = radio.closest('[role="radiogroup"]');
       if (!group) return false;
       items = [...group.querySelectorAll('[role="radio"]')].filter(n => !n.disabled && n.offsetParent !== null);
-      activate = true;
+      // Repainting, reshaping or rendering an export on every arrow press is
+      // too costly; those groups move focus, and Space or Enter picks.
+      activate = !group.hasAttribute('data-manual');
     } else if (menu) {
       items = [...menu.querySelectorAll('button')].filter(n => !n.disabled && n.offsetParent !== null);
     } else {
@@ -2010,8 +2146,14 @@
     }
     const i = items.indexOf(radio || t.closest('button'));
     if (i < 0 && !items.length) return false;
+    // In a grid, up and down move a whole row.
+    const cols = items.length > 1 ? items.filter(n => n.offsetTop === items[0].offsetTop).length : 1;
+    const vertical = e.key === 'ArrowUp' || e.key === 'ArrowDown';
+    const step = vertical && cols > 1 && cols < items.length ? cols : 1;
     const back = e.key === 'ArrowUp' || e.key === 'ArrowLeft';
-    let n = e.key === 'Home' ? 0 : e.key === 'End' ? items.length - 1 : (i + (back ? -1 : 1) + items.length) % items.length;
+    let n = e.key === 'Home' ? 0 : e.key === 'End' ? items.length - 1
+      : step > 1 ? clamp(i + (back ? -step : step), 0, items.length - 1)
+      : (i + (back ? -1 : 1) + items.length) % items.length;
     e.preventDefault();
     items[n].focus();
     if (activate) items[n].click();
@@ -2027,18 +2169,28 @@
     select(next.id);
     focusPiece(next.id);
   }
+  // Reading order: group pieces into rows by vertical overlap (a piece joins
+  // a row when its middle falls inside the row's band), rows top to bottom,
+  // then left to right in each row. Bands of a third of the wall jumbled any
+  // grid with more than three rows.
   function readingOrder() {
-    return board.pieces.slice().sort((a, b) => {
-      const ba = bbox(a), bb = bbox(b);
-      const rowA = Math.round((ba.y + ba.h / 2) / (H() / 3)), rowB = Math.round((bb.y + bb.h / 2) / (H() / 3));
-      return rowA - rowB || (ba.x - bb.x);
+    const items = board.pieces.map(p => ({ p, b: bbox(p) })).sort((a, b) => a.b.y - b.b.y);
+    const rows = [];
+    items.forEach(it => {
+      const mid = it.b.y + it.b.h / 2;
+      const row = rows.find(r => mid >= r.top && mid <= r.bottom);
+      if (row) { row.items.push(it); row.bottom = Math.max(row.bottom, it.b.y + it.b.h * 0.6); }
+      else rows.push({ top: it.b.y, bottom: it.b.y + it.b.h * 0.85, items: [it] });
     });
+    return rows.flatMap(r => r.items.sort((a, b) => a.b.x - b.b.x).map(it => it.p));
   }
+
   // One tab stop for the whole wall: the selected piece, or the first one.
   // Tab from there goes to the selected piece's context bar, which sits
   // right after the wall in the page. Alt with an arrow key walks the pieces.
   function syncTabStops() {
-    const stop = selectedId && byId(selectedId) ? selectedId : (readingOrder()[0] || {}).id;
+    // Walk through is a presentation; its own controls are the tab stops.
+    const stop = viewMode === 'walk' ? null : (selectedId && byId(selectedId) ? selectedId : (readingOrder()[0] || {}).id);
     piecesEl.querySelectorAll('.piece').forEach(d => { d.tabIndex = d.dataset.id === stop ? 0 : -1; });
   }
 
@@ -2112,6 +2264,7 @@
     board.pieces.forEach(p => { const d = domOf(p.id); if (d) renderSelection(d, p); });
     buildCtx();
     renderLabels();
+    syncTabStops();
   }
   function syncViewSeg() {
     document.querySelectorAll('#views button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.view === viewMode)));
@@ -2167,7 +2320,7 @@
       const dots = board.pieces.filter(p => p.dot).length;
       addLine(label, 'w-name', walkIdx < 0 ? (showTitle.value.trim() || 'Untitled show') : 'That is the show.');
       if (walkIdx < 0) {
-        const stops = total === n ? '' : ` This walk stops at the ${plural(total, 'one', 'ones')} with wall text.`;
+        const stops = total === n ? '' : ` The walk visits the ${total === 1 ? 'one' : total} with wall text.`;
         addLine(label, 'w-why', `${plural(n, 'piece')} on the wall.${stops} Use the arrows, or swipe, to walk it.`);
       } else {
         addLine(label, 'w-why', dots ? `${dots} of ${n} have a red dot so far.` : 'No red dots yet. Give it time.');
@@ -2182,16 +2335,9 @@
     }
     const p = walkOrder[walkIdx];
     const b = bbox(p);
-    // Frame the piece in the space the label leaves free: beside it on wide
-    // screens, above it on narrow ones (phones and portrait tablets).
-    const compact = viewsFloat() || r.height < 520;
-    const freeTop = 24, freeBottom = compact ? Math.min(r.height * 0.42, 280) : 120;
-    const freeLeft = compact ? 16 : 480, freeRight = compact ? 16 : 40;
-    const aw = r.width - freeLeft - freeRight, ah = r.height - freeTop - freeBottom;
-    const s = Math.min(aw / b.w, ah / b.h, fitS * 6) * 0.86;
-    const tx = freeLeft + aw / 2 - (b.x + b.w / 2) * s;
-    const ty = freeTop + ah / 2 - (b.y + b.h / 2) * s;
-    setView(s, tx, ty);
+    // Write the label first, then frame the piece in the space it leaves:
+    // beside it on wide screens, above it on narrow or short ones. Measuring
+    // the real label is what keeps it off the piece on a landscape phone.
     if (p.name || p.why || p.by) {
       if (p.name) addLine(label, 'w-name', p.name);
       if (p.why) addLine(label, p.name ? 'w-why' : 'w-name', p.why);
@@ -2200,6 +2346,17 @@
       addLine(label, 'w-name', describe(p));
     }
     if (p.dot) label.appendChild(Object.assign(document.createElement('span'), { className: 'w-dot', title: 'Yours' }));
+    const lr = label.getBoundingClientRect();
+    const besideRoom = r.width - lr.right - 40;
+    const beside = besideRoom > r.width * 0.45;
+    const freeTop = 24, freeRight = beside ? 40 : 16;
+    const freeLeft = beside ? lr.right - r.left + 40 : 16;
+    const freeBottom = beside ? 120 : Math.max(96, r.bottom - lr.top + 16);
+    const aw = Math.max(80, r.width - freeLeft - freeRight), ah = Math.max(60, r.height - freeTop - freeBottom);
+    const s = Math.min(aw / b.w, ah / b.h, fitS * 6) * 0.9;
+    const tx = freeLeft + aw / 2 - (b.x + b.w / 2) * s;
+    const ty = freeTop + ah / 2 - (b.y + b.h / 2) * s;
+    setView(s, tx, ty);
   }
   function addLine(parent, cls, text) {
     const el = document.createElement('p');
@@ -2445,41 +2602,52 @@
     const items = walkList().filter(hasLabel);
     const colGap = 160, colW = (PW - M * 2 - colGap) / 2, textW = colW - 110;
     const footerY = PH - M + 60;
-    // Measure each entry at a given scale.
+    // Each entry's lines and its exact drawn height at a type scale.
     const measureAt = (sc) => items.map(p => {
       x.font = `500 italic ${58 * sc}px "Host Grotesk", sans-serif`;
       const nameLines = clampLines(x, wrapText(x, p.name || shorten(p.why, 70) || describe(p), textW), 2, textW);
       x.font = `400 ${46 * sc}px "Host Grotesk", sans-serif`;
       const whyLines = p.name && p.why ? clampLines(x, wrapText(x, p.why, textW), 3, textW) : [];
-      const h = (nameLines.length * 70 + whyLines.length * 60 + (p.by ? 70 : 0) + 70) * sc;
+      // Same arithmetic as the drawing below: 50 above, lines, by-line, 50 after.
+      const h = (50 + nameLines.length * 70 + whyLines.length * 60 + (p.by ? 70 : 0) + 50) * sc;
       return { p, nameLines, whyLines, h };
     });
-    // Pour entries into two columns in order. Returns how many fit.
-    const pour = (ms, height) => {
-      let col = 0, used = 0, n = 0;
-      for (const m of ms) {
-        if (used + m.h > height) { if (col === 0) { col = 1; used = 0; } else break; }
-        if (used + m.h > height) break;
-        used += m.h; n++;
+    // Split entries, in order, into two columns no taller than `room`,
+    // keeping the columns as even as possible. Returns null if they don't fit.
+    const split = (ms, room) => {
+      const total = ms.reduce((t, m) => t + m.h, 0);
+      let best = null, acc = 0;
+      for (let i = 0; i <= ms.length; i++) {
+        const left = acc, right = total - acc;
+        if (left <= room && right <= room) {
+          const tall = Math.max(left, right);
+          if (!best || tall < best.tall) best = { at: i, tall };
+        }
+        if (i < ms.length) acc += ms[i].h;
       }
-      return n;
+      return best;
     };
     const minWallH = 1500;
-    let scale = 1, measured = measureAt(1), listH = 0;
+    const room = footerY - 140 - top - minWallH - 170;
+    let scale = 1, measured = [], layout = null, shown = items.length;
     if (items.length) {
-      const room = footerY - 140 - top - minWallH - 170;
-      // Shrink the type until everything fits, down to a floor; then list
-      // what fits, in order, and say how many more are on the wall.
+      // Shrink the type until everything fits, down to a floor; then show as
+      // many as fit, in order, and say how many more are on the wall.
       for (const sc of [1, 0.88, 0.76, 0.66]) {
         scale = sc; measured = measureAt(sc);
-        if (pour(measured, room / 1) >= items.length) break;
+        layout = split(measured, room);
+        if (layout) break;
       }
-      const tallestCol = (() => { let a = 0, b = 0, col = 0; for (const m of measured) { if (col === 0 && a + m.h > room) col = 1; if (col === 0) a += m.h; else b += m.h; } return Math.min(room, Math.max(a, b)); })();
-      listH = Math.max(0, tallestCol);
+      while (!layout && shown > 1) {
+        shown--;
+        layout = split(measured.slice(0, shown), room - 90 * scale);
+      }
+      if (!layout) { shown = 0; layout = { at: 0, tall: 0 }; }
     }
+    const listH = items.length ? layout.tall + (shown < items.length ? 90 * scale : 0) : 0;
     // The wall
     const availW = PW - M * 2;
-    const availH = (items.length ? footerY - 140 - top - listH - 170 : footerY - 160 - top);
+    const availH = items.length ? footerY - 140 - top - listH - 170 : footerY - 160 - top;
     const k = Math.min(availW / img.width, availH / img.height);
     const ww = img.width * k, wh = img.height * k;
     const wx = (PW - ww) / 2;
@@ -2491,35 +2659,35 @@
 
     if (items.length) {
       const startY = wy + wh + 170;
-      const height = footerY - 140 - startY;
-      const fits = pour(measured, height);
-      let col = 0, cy = startY;
-      measured.slice(0, fits).forEach(m => {
-        if (cy + m.h > startY + height) { col = 1; cy = startY; }
-        const cx0 = M + col * (colW + colGap);
-        const sc = scale;
-        const { p } = m;
-        if (p.dot) { x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cx0 + 30, cy + 32 * sc, 19 * sc, 0, Math.PI * 2); x.fill(); }
-        let ly = cy + 50 * sc;
-        x.fillStyle = '#1c1b19';
-        x.font = `500 italic ${58 * sc}px "Host Grotesk", sans-serif`;
-        m.nameLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 70 * sc; });
-        x.fillStyle = '#55524b';
-        x.font = `400 ${46 * sc}px "Host Grotesk", sans-serif`;
-        m.whyLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 60 * sc; });
-        if (p.by) {
-          x.font = `600 ${38 * sc}px "Host Grotesk", sans-serif`;
-          x.fillStyle = '#6f6b63';
-          x.fillText(p.by.toUpperCase(), cx0 + 110, ly + 6 * sc);
-          ly += 70 * sc;
-        }
-        cy = ly + 50 * sc;
+      const cols = [measured.slice(0, layout.at), measured.slice(layout.at, shown)];
+      const sc = scale;
+      cols.forEach((col, ci) => {
+        let cy = startY;
+        const cx0 = M + ci * (colW + colGap);
+        col.forEach(m => {
+          const { p } = m;
+          if (p.dot) { x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cx0 + 30, cy + 32 * sc, 19 * sc, 0, Math.PI * 2); x.fill(); }
+          let ly = cy + 50 * sc;
+          x.fillStyle = '#1c1b19';
+          x.font = `500 italic ${58 * sc}px "Host Grotesk", sans-serif`;
+          m.nameLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 70 * sc; });
+          x.fillStyle = '#55524b';
+          x.font = `400 ${46 * sc}px "Host Grotesk", sans-serif`;
+          m.whyLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 60 * sc; });
+          if (p.by) {
+            x.font = `600 ${38 * sc}px "Host Grotesk", sans-serif`;
+            x.fillStyle = '#6f6b63';
+            x.fillText(p.by.toUpperCase(), cx0 + 110, ly + 6 * sc);
+            ly += 70 * sc;
+          }
+          cy = ly + 50 * sc;
+        });
       });
-      const more = items.length - fits;
+      const more = items.length - shown;
       if (more > 0) {
         x.fillStyle = '#55524b';
-        x.font = `500 italic ${46 * scale}px "Host Grotesk", sans-serif`;
-        x.fillText(`And ${plural(more, 'more piece')} on the wall.`, M + (col === 0 ? colW + colGap : colW + colGap) + 110, startY + height - 10);
+        x.font = `500 italic ${46 * sc}px "Host Grotesk", sans-serif`;
+        x.fillText(`And ${plural(more, 'more piece')} on the wall.`, M + 110, startY + layout.tall + 60 * sc);
       }
     }
     // Footer
@@ -2802,7 +2970,8 @@
   async function saveHang() {
     const blob = hangBlobs[hangFmt];
     if (!blob) return;
-    const base = (showTitle.value.trim() || 'visionbort').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s-]+/g, '').trim().replace(/\s+/g, '-').toLowerCase() || 'visionbort';
+    const translit = { 'æ': 'ae', 'Æ': 'Ae', 'ø': 'o', 'Ø': 'O', 'ß': 'ss', 'œ': 'oe', 'Œ': 'Oe', 'đ': 'd', 'Đ': 'D', 'ł': 'l', 'Ł': 'L', 'þ': 'th', 'Þ': 'Th', 'ð': 'd', 'Ð': 'D' };
+    const base = (showTitle.value.trim() || 'visionbort').replace(/[æÆøØßœŒđĐłŁþÞðÐ]/g, c => translit[c]).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s-]+/g, '').trim().replace(/\s+/g, '-').toLowerCase() || 'visionbort';
     const ext = hangFmt === 'film' ? (blob.type.includes('mp4') ? 'mp4' : 'webm') : 'jpg';
     const name = `${base}-${hangFmt === 'lock' ? 'lock-screen' : hangFmt}.${ext}`;
     const file = new File([blob], name, { type: blob.type });
@@ -2839,7 +3008,8 @@
       t.appendChild(b);
     }
     region.appendChild(t);
-    while (region.children.length > 2) region.firstChild.remove();
+    const plain = [...region.children].filter(n => !n.classList.contains('banner'));
+    while (plain.length > 2) plain.shift().remove();
     setTimeout(() => t.remove(), opts.ms || 4500);
   }
 
@@ -2880,8 +3050,10 @@
     // Paste images, including subjects lifted out of photos.
     document.addEventListener('paste', (e) => {
       if (e.target.closest && e.target.closest('input, textarea, [contenteditable="true"]')) return;
-      const files = [...(e.clipboardData ? e.clipboardData.items : [])].filter(i => i.kind === 'file' && i.type.startsWith('image/')).map(i => i.getAsFile());
+      const all = [...(e.clipboardData ? e.clipboardData.items : [])];
+      const files = all.filter(i => i.kind === 'file' && i.type.startsWith('image/')).map(i => i.getAsFile());
       if (files.length) { e.preventDefault(); hangFiles(files); }
+      else if (all.length) toast('Paste a photo or a cutout to hang it. For words, use Words in the dock.');
     });
     // Drag and drop
     let dragDepth = 0;
@@ -2976,7 +3148,7 @@
       cardDirty = true;
       p.dot = !p.dot;
       p.dotAt = p.dot ? new Date().toISOString().slice(0, 10) : undefined;
-      setDotUI(p.dot);
+      setDotUI(p.dot, p);
       renderLabels(p.dot ? p.id : null);
       const dom = domOf(p.id);
       if (dom) dom.setAttribute('aria-label', describe(p));
@@ -3077,7 +3249,8 @@
     const ask = lsGet(ASK_KEY);
     askWhy = ask != null ? ask === '1' : legacyMode ? legacyMode === 'intentional' : true;
     updateAskUI();
-    const { migrated, migrateFailed, loadFailed: unreadable } = await loadBoard();
+    const { migrated, migrateFailed, loadFailed: unreadable, skipped } = await loadBoard();
+    delete board._skipped;
     showTitle.value = board.title || '';
     applyWall();
     renderAll();
@@ -3097,11 +3270,13 @@
       renderLabels();
     });
     if (unreadable) {
-      toast('Your saved wall could not be opened in this browser right now. Reload to try again; nothing has been changed.', { error: true, ms: 15000 });
+      setReadOnly(true);
       lsSet(WELCOMED_KEY, '1');
     } else if (migrated) {
       save();
-      toast('Your board is hanging on a gallery wall now. Everything came with it.', { ms: 7000 });
+      toast(skipped
+        ? `Your board is hanging on a gallery wall now. ${plural(skipped, 'piece')} could not be read and ${skipped === 1 ? 'was' : 'were'} left out; your old board is still saved in this browser.`
+        : 'Your board is hanging on a gallery wall now. Everything came with it.', { ms: skipped ? 12000 : 7000 });
       lsSet(WELCOMED_KEY, '1');
     } else if (migrateFailed) {
       toast('Your old board could not be read, so it was left exactly as it was.', { error: true, ms: 10000 });

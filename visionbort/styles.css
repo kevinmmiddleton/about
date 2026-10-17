@@ -199,18 +199,24 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 #show-title:focus-visible { outline: 2px solid var(--dot); outline-offset: 1px; }
 #show-title::placeholder { color: var(--ink-3); }
 #views { position: absolute; left: 50%; transform: translateX(-50%); }
-@media (max-width: 1000px) {
+/* Below 1000px the view switcher floats over the wall (in the bar it
+   collided with Undo on tablets). On short screens, landscape phones, it
+   stays in the bar so the wall keeps its height. Keep app.js viewsFloat()
+   in step with this query. */
+@media (max-width: 1000px) and (min-height: 501px) {
   #views {
     position: fixed; left: 50%; top: calc(var(--bar-h) + 10px); transform: translateX(-50%); z-index: 25;
     box-shadow: var(--shadow-chrome); background: var(--stock);
   }
-  /* Walk through on narrow screens: the label sits under the piece. */
-  .walk-label { left: 12px; right: 12px; width: auto; max-width: 640px; margin: 0 auto; bottom: calc(84px + var(--safe-b)); }
 }
-@media (max-height: 520px) {
-  .walk-label { padding: 12px 16px; bottom: calc(70px + var(--safe-b)); }
-  .walk-label .w-name { font-size: 20px; }
-  .walk-label .w-why { font-size: 14px; margin-top: 6px; }
+@media (max-width: 1000px) and (min-height: 501px) and (min-width: 761px) {
+  /* Tablets: side sheets start below the floating switcher. */
+  #panel, #card { top: calc(var(--bar-h) + 62px); }
+  #card { max-height: calc(100% - var(--bar-h) - var(--dock-h) - 96px); }
+}
+@media (max-width: 1000px) and (max-height: 500px) {
+  #show-title { max-width: calc(50vw - 160px); }
+  #views button { height: 30px; padding: 0 9px; font-size: 12px; }
 }
 .sm-only { display: none; }
 @media (max-width: 1100px) and (min-width: 761px) {
@@ -598,6 +604,13 @@ body[data-view="labels"] .lbl { width: 230px; }
 .cb.on { background: var(--ink); color: var(--stock); }
 .cb.danger { color: var(--dot-ink); }
 .cb-sep { width: 1px; height: 20px; margin: 0 4px; background: var(--rule-2); flex: none; }
+/* Not enough room beside the panel and card: icons only (names stay as
+   accessible names and tooltips), wrapping if it must. */
+#ctx.compact { flex-wrap: wrap; border-radius: 16px; }
+#ctx.compact .cb { padding: 0 9px; }
+#ctx.compact .cb > span:not(.sw):not(.font-opt) {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
 .cb .sw { width: 18px; height: 18px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--rule-2); }
 
 .popover {
@@ -658,6 +671,11 @@ body[data-view="labels"] .lbl { width: 230px; }
 .dlg-actions { display: grid; gap: 10px; }
 .dlg-actions.row { display: flex; justify-content: flex-end; gap: 10px; }
 .dlg-actions.end { margin-top: 16px; }
+.dlg.wide .dlg-actions { position: sticky; bottom: -24px; padding: 12px 0 0; background: var(--stock); }
+@media (max-height: 500px) {
+  .hang-frame { --hf: 38vh; }
+  .dlg { padding: 18px; }
+}
 #welcome-example { display: block; margin: 12px auto 0; }
 .dlg .fine { margin: 16px 0 0; font-size: 12.5px; text-align: center; color: var(--ink-3); }
 .dlg-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
@@ -824,7 +842,7 @@ body.drawing #bar, body.drawing #zoom { opacity: 0.45; }
   .walk-label .w-name { font-size: 22px; }
   .walk-label .w-why { font-size: 15px; }
   /* Bottom of the screen belongs to the dock, context bar and sheets */
-  #toasts { bottom: auto; top: calc(var(--bar-h) + 52px); }
+  #toasts { bottom: auto; top: calc(var(--bar-h) + 62px); }
 }
 @keyframes sheet-up { from { transform: translateY(24px); opacity: 0; } }
 @keyframes sheet-up-dlg { from { transform: translate(-50%, 24px); opacity: 0; } }
@@ -836,4 +854,16 @@ body.drawing #bar, body.drawing #zoom { opacity: 0.45; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
   body[data-view="walk"] #wall { transition: none; }
+}
+
+/* ===== Walk label on narrow and short screens =====
+   Kept last: the base .walk-label rule above would otherwise win. */
+@media (max-width: 1000px) {
+  .walk-label { left: 12px; right: 12px; width: auto; max-width: 640px; margin: 0 auto; bottom: calc(84px + var(--safe-b)); }
+}
+@media (max-height: 520px) {
+  .walk-label { left: 12px; right: auto; width: min(380px, 46vw); max-width: none; margin: 0; padding: 12px 16px; bottom: calc(70px + var(--safe-b)); }
+  .walk-label .w-name { font-size: 18px; }
+  .walk-label .w-why { font-size: 13.5px; margin-top: 6px; }
+  .walk-label .w-by { margin-top: 8px; }
 }

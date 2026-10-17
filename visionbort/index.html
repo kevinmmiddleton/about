@@ -28,7 +28,7 @@
   <!-- UI: Funnel Display + Host Grotesk. Board lettering: the six faces boards
        already use. Noto Color Emoji makes stickers look the same on every OS. -->
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;500;600;700&family=Host+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Bebas+Neue&family=Caveat:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Noto+Color+Emoji&display=swap" rel="stylesheet" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles.css?v=20031644">
+  <link rel="stylesheet" href="styles.css?v=cd9dbc88">
   <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js" defer></script>
     <!-- JSON-LD -->
     <script type="application/ld+json">
@@ -202,9 +202,9 @@
 
     <section class="pane" data-pane="wall" hidden>
       <h3 class="pane-h">Paint</h3>
-      <div id="paint-grid" class="grid-paint" role="radiogroup" aria-label="Wall paint"></div>
+      <div id="paint-grid" class="grid-paint" role="radiogroup" aria-label="Wall paint" data-manual></div>
       <h3 class="pane-h">Shape</h3>
-      <div class="seg seg-block" id="shape-seg" role="radiogroup" aria-label="Wall shape">
+      <div class="seg seg-block" id="shape-seg" role="radiogroup" aria-label="Wall shape" data-manual>
         <button type="button" role="radio" data-shape="wide" aria-checked="true">Wide</button>
         <button type="button" role="radio" data-shape="tall" aria-checked="false">Tall, for a phone</button>
       </div>
@@ -236,9 +236,9 @@
       <label class="fld"><span>By when</span>
         <input id="card-by" type="text" maxlength="30" placeholder="March 2027">
       </label>
-      <button type="button" class="dot-toggle" id="card-dot" aria-pressed="false">
+      <button type="button" class="dot-toggle" id="card-dot" aria-pressed="false" aria-label="Mark it yours">
         <span class="dot-swatch" aria-hidden="true"></span>
-        <span class="dot-text"><strong>Mark it yours</strong><small>Galleries put a red dot on a piece that has found its home. Add one when this comes true.</small></span>
+        <span class="dot-text"><strong>Mark it yours</strong><small id="dot-note">Galleries put a red dot on a piece that has found its home. Add one when this comes true.</small></span>
       </button>
     </div>
   </aside>
@@ -304,7 +304,7 @@
       <button type="button" class="ib sm" id="hang-close" aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
     </header>
     <div class="hang-body">
-      <div class="hang-choices" role="radiogroup" aria-label="Format">
+      <div class="hang-choices" role="radiogroup" aria-label="Format" data-manual>
         <button type="button" role="radio" class="hang-choice" data-fmt="poster" aria-checked="true">
           <svg aria-hidden="true"><use href="#i-image-square"/></svg>
           <span><strong>Poster</strong><small>18 by 24, with the wall text in the margin</small></span>
@@ -337,6 +337,6 @@
   <input type="file" id="file-photos" accept="image/*" multiple hidden>
   <input type="file" id="file-wallpaper" accept="image/*" hidden>
 
-  <script src="app.js?v=76bf872a"></script>
+  <script src="app.js?v=8e7334a1"></script>
 </body>
 </html>
