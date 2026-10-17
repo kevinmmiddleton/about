@@ -510,7 +510,7 @@ ${sections.map((sec) => `                <li><a href="#${sec.id}">${esc(sec.text
     // llms.txt and the KevBot worker missed the generator, so the claim stayed
     // live at the foot of all 16 posts after it stopped being true. Keep it
     // status-free, and avoid implying a current role indirectly too.
-    `<div class="article-bio">\n  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help product teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>\n</div>`;
+    `<div class="article-bio">\n  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>\n</div>`;
   // every link in the article body opens in a new tab
   const bodyLinked = bodyAnchored.replace(/<a (?![^>]*\btarget=)/g, '<a target="_blank" rel="noopener" ');
 
