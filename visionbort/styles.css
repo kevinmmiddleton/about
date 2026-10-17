@@ -129,7 +129,7 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 /* ===== Buttons ===== */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  height: 38px; padding: 0 14px;
+  min-height: 38px; padding: 8px 14px;
   border: 1px solid var(--rule-2); border-radius: var(--radius-pill);
   background: var(--stock); color: var(--ink);
   font-weight: 500; font-size: 14px; white-space: nowrap;
@@ -141,7 +141,7 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 .btn.primary:hover:not(:disabled) { background: var(--dot-hover); border-color: var(--dot-hover); }
 .btn.primary:disabled { background: var(--stock-3); border-color: var(--stock-3); color: var(--ink-3); }
 .btn.danger { background: var(--danger); border-color: var(--danger); color: var(--on-dot); }
-.btn.lg { height: 46px; padding: 0 20px; font-size: 15px; }
+.btn.lg { min-height: 46px; padding: 11px 20px; font-size: 15px; }
 .ib {
   display: inline-grid; place-items: center;
   width: 38px; height: 38px; padding: 0;
@@ -235,9 +235,7 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
   overflow: hidden;
   touch-action: none;
   cursor: grab;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.18), transparent 60%),
-    var(--room);
+  background: var(--room);
 }
 #stage.panning { cursor: grabbing; }
 #wall {
@@ -256,16 +254,20 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 #wall[data-paint="ochre"] { --paint: var(--paint-ochre); }
 #wall[data-paint="charcoal"] { --paint: var(--paint-charcoal); }
 #wall-paper { position: absolute; inset: 0; background-position: center; background-size: cover; background-repeat: no-repeat; }
+/* Gallery lighting: a wall-wash from ceiling fixtures, falling off toward
+   the floor, and the corners going a little darker. */
 #wall-light {
   position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 70% 55% at 50% -12%, rgba(255, 246, 225, 0.22), transparent 70%),
-    radial-gradient(ellipse 120% 90% at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.22) 100%);
+  background: linear-gradient(to bottom, var(--wash-top), transparent 38%, transparent 72%, var(--wash-floor));
+  box-shadow: inset 0 0 120px var(--wash-edge);
+  --wash-top: rgba(255, 246, 225, 0.16);
+  --wash-floor: rgba(0, 0, 0, 0.16);
+  --wash-edge: rgba(0, 0, 0, 0.22);
 }
 #wall[data-tone="light"] #wall-light {
-  background:
-    radial-gradient(ellipse 70% 55% at 50% -12%, rgba(255, 250, 238, 0.5), transparent 70%),
-    radial-gradient(ellipse 120% 90% at 50% 45%, transparent 60%, rgba(60, 50, 30, 0.12) 100%);
+  --wash-top: rgba(255, 250, 238, 0.45);
+  --wash-floor: rgba(60, 50, 30, 0.08);
+  --wash-edge: rgba(60, 50, 30, 0.12);
 }
 #wall.no-light #wall-light { display: none; }
 #pieces, #labels { position: absolute; inset: 0; }
@@ -406,7 +408,7 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 
 .pop-in { animation: pop-in 280ms var(--ease) both; }
 @keyframes pop-in {
-  from { opacity: 0; transform: rotate(var(--rot, 0deg)) scale(0.92) translateY(12px); }
+  from { opacity: 0.4; transform: rotate(var(--rot, 0deg)) scale(0.94) translateY(10px); }
   to { opacity: 1; transform: rotate(var(--rot, 0deg)) scale(1); }
 }
 
@@ -483,7 +485,7 @@ body[data-view="labels"] .lbl { width: 230px; }
 .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 10px 6px 16px; }
 .panel-head h2 { margin: 0; font-family: var(--font-display); font-size: 18px; font-weight: 600; }
 .pane { flex: 1; overflow-y: auto; padding: 4px 16px 16px; overscroll-behavior: contain; }
-.pane-h { margin: 16px 0 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.pane-h { margin: 18px 0 8px; font-size: 14px; font-weight: 600; color: var(--ink-2); }
 .pane-h:first-child { margin-top: 4px; }
 .pane-note { margin: 12px 0 0; font-size: 13px; color: var(--ink-3); }
 
@@ -537,7 +539,7 @@ body[data-view="labels"] .lbl { width: 230px; }
 .card-thumb { height: 96px; border-radius: var(--radius-sm); background: var(--stock-2) center/contain no-repeat; display: grid; place-items: center; font-size: 48px; font-family: var(--font-emoji); }
 .card-thumb.text { font-family: var(--font-display); font-size: 22px; padding: 0 12px; text-align: center; overflow: hidden; }
 .fld { display: grid; gap: 6px; }
-.fld > span { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.fld > span { font-size: 14px; font-weight: 600; color: var(--ink-2); }
 .fld input, .fld textarea {
   width: 100%; padding: 10px 12px;
   border: 1px solid var(--rule-2); border-radius: var(--radius-sm);
@@ -614,7 +616,7 @@ body[data-view="labels"] .lbl { width: 230px; }
 .font-opt { font-size: 18px; }
 
 /* ===== Dialogs ===== */
-#scrim { position: fixed; inset: 0; z-index: 70; background: var(--scrim); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: fade var(--t) var(--ease); }
+#scrim { position: fixed; inset: 0; z-index: 70; background: var(--scrim); animation: fade var(--t) var(--ease); }
 .dlg {
   position: fixed; left: 50%; top: 50%; z-index: 71;
   transform: translate(-50%, -50%);
@@ -626,7 +628,8 @@ body[data-view="labels"] .lbl { width: 230px; }
 }
 .dlg.sm { width: min(380px, calc(100vw - 24px)); padding: 24px; }
 .dlg.wide { width: min(880px, calc(100vw - 24px)); padding: 20px 24px 24px; }
-.dlg h1 { margin: 0 0 10px; font-family: var(--font-display); font-size: 40px; line-height: 1.02; font-weight: 600; letter-spacing: -0.025em; }
+.dlg h1 { margin: 0 0 10px; font-family: var(--font-display); font-size: 40px; line-height: 1.02; font-weight: 600; letter-spacing: -0.025em; text-wrap: balance; }
+.walk-label .w-name, .lbl-name { text-wrap: balance; }
 .dlg h2 { margin: 0 0 8px; font-family: var(--font-display); font-size: 22px; font-weight: 600; }
 .dlg p { margin: 0 0 16px; color: var(--ink-2); }
 .dlg .kicker { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
@@ -756,7 +759,7 @@ body[data-view="walk"] #wall { transition: transform 900ms var(--ease); }
   #views button { height: 30px; padding: 0 11px; font-size: 12.5px; }
   .ib { width: 36px; height: 36px; }
   #btn-redo { display: none; }
-  .bar-end .btn.primary { height: 36px; padding: 0 12px; margin-left: 4px; }
+  .bar-end .btn.primary { min-height: 36px; padding: 7px 12px; margin-left: 4px; }
   .lg-only { display: none; }
   .sm-only { display: inline; }
 

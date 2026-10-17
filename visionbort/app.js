@@ -1311,15 +1311,15 @@
       { t: 'image', f: 'swim', frame: 'oak', x: 470, y: 110, w: 420, h: 250, rot: -1, name: 'Open water mile', why: 'A full mile in a lake without stopping.', by: 'August', dot: true },
       { t: 'image', f: 'pottery', frame: 'polaroid', x: 985, y: 96, w: 250, h: 270, rot: 3, name: 'Wheel class', why: 'Make one bowl I would actually eat from.', by: 'Fall' },
       { t: 'image', f: 'run', frame: 'white', x: 1320, y: 88, w: 200, h: 300, name: 'Queens 10K', by: 'June' },
-      { t: 'text', content: 'Say yes\nmore.', x: 84, y: 620, size: 84, rot: -3 },
+      { t: 'text', content: 'Say yes\nmore.', x: 84, y: 610, size: 104, rot: -3, family: "'Cormorant Garamond', serif", italic: true, weight: 400 },
       { t: 'image', f: 'cabin', frame: 'oval', x: 470, y: 480, w: 230, h: 300, name: 'A week at a cabin', why: 'Somewhere with a wood stove and no plans.', by: 'Winter' },
       { t: 'image', f: 'dinner', frame: 'black', x: 790, y: 500, w: 230, h: 300, name: 'Monthly dinner', why: 'First Sunday, our place, whoever can come.', dot: true },
       { t: 'image', f: 'books-cut', cut: true, x: 1060, y: 500, w: 200, h: 248, rot: -5, name: '24 books', why: 'Two a month, on paper.' },
-      { t: 'text', content: '2027', x: 1300, y: 540, size: 116, rot: 0, color: '#c4122f' },
+      { t: 'text', content: '2027', x: 1300, y: 540, size: 116, rot: 0 },
     ],
     tall: [
-      { t: 'text', content: '2027', x: 70, y: 70, size: 150, color: '#c4122f' },
-      { t: 'text', content: 'Say yes\nmore.', x: 560, y: 80, size: 70, rot: -3 },
+      { t: 'text', content: '2027', x: 70, y: 70, size: 150 },
+      { t: 'text', content: 'Say yes\nmore.', x: 560, y: 70, size: 84, rot: -3, family: "'Cormorant Garamond', serif", italic: true, weight: 400 },
       { t: 'image', f: 'lisbon', frame: 'black', x: 70, y: 300, w: 310, h: 410, name: 'Lisbon in the spring', why: 'Two weeks, no laptop. Ride the 28 end to end and eat the custard tarts warm.', by: 'April 2027' },
       { t: 'image', f: 'swim', frame: 'oak', x: 450, y: 320, w: 470, h: 280, rot: -1, name: 'Open water mile', why: 'A full mile in a lake without stopping.', by: 'August', dot: true },
       { t: 'image', f: 'run', frame: 'white', x: 580, y: 730, w: 250, h: 360, name: 'Queens 10K', by: 'June' },
@@ -1344,7 +1344,7 @@
         const c = credits[s.f] || {};
         pieces.push(Object.assign(base, { type: 'image', src, w: s.w, h: s.h, frame: s.frame || 'none', cutout: !!s.cut, alt: c.alt || '', credit: c.name ? { name: c.name, url: c.profile } : undefined }));
       } else {
-        pieces.push(Object.assign(base, { type: 'text', content: s.content, family: FONTS[0].family, size: s.size, color: s.color || PAINTS[0].ink, weight: 600, italic: false, w: 300, h: 100 }));
+        pieces.push(Object.assign(base, { type: 'text', content: s.content, family: s.family || FONTS[0].family, size: s.size, color: s.color || PAINTS[0].ink, weight: s.weight || 600, italic: !!s.italic, w: 300, h: 100 }));
       }
     }
     board = Object.assign(emptyBoard(), { title: EXAMPLE.title, paint: EXAMPLE.paint, shape, pieces: pieces.map(normalizePiece), nextId: pieces.length + 1, maxZ: pieces.length });
@@ -1353,7 +1353,7 @@
     closeCard();
     applyWall();
     // Words need their real width, which needs the font.
-    try { await document.fonts.load(`600 72px "Funnel Display"`); } catch (e) { /* ok */ }
+    try { await Promise.all([document.fonts.load('600 72px "Funnel Display"'), document.fonts.load('italic 400 72px "Cormorant Garamond"')]); } catch (e) { /* ok */ }
     board.pieces.forEach(p => {
       if (p.type !== 'text') return;
       const x = p.x, y = p.y;
@@ -2036,7 +2036,7 @@
     let col = 0, cy = wy + wh + 170;
     const startY = cy;
     const maxY = PH - M - 120;
-    items.forEach((p, i) => {
+    items.forEach((p) => {
       x.font = '500 italic 58px "Host Grotesk", sans-serif';
       const name = p.name || shorten(p.why, 60);
       const nameLines = wrapText(x, name, colW - 110);
@@ -2045,10 +2045,7 @@
       const hBlock = nameLines.length * 70 + whyLines.length * 60 + (p.by ? 70 : 0) + 70;
       if (cy + hBlock > maxY) { if (col === 0) { col = 1; cy = startY; } else return; }
       const cx0 = M + col * (colW + 160);
-      x.fillStyle = '#8a867e';
-      x.font = '600 44px "Host Grotesk", sans-serif';
-      x.fillText(String(i + 1).padStart(2, '0'), cx0, cy + 50);
-      if (p.dot) { x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cx0 + 30, cy + 100, 17, 0, Math.PI * 2); x.fill(); }
+      if (p.dot) { x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cx0 + 30, cy + 32, 19, 0, Math.PI * 2); x.fill(); }
       let ly = cy + 50;
       x.fillStyle = '#1c1b19';
       x.font = '500 italic 58px "Host Grotesk", sans-serif';
@@ -2596,7 +2593,6 @@
     return `polygon(${pts.join(', ')})`;
   }
 
-  window.__vbDebug = { state: () => ({ selectedId, editingTextId, viewMode, cardForId, gesture: gesture && gesture.kind, pointers: pointers.size }) };
   // ===== Boot =====
   async function init() {
     renderStickers();
