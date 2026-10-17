@@ -209,13 +209,8 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
     box-shadow: var(--shadow-chrome); background: var(--stock);
   }
 }
-@media (max-width: 1000px) and (min-height: 501px) and (min-width: 761px) {
-  /* Tablets: side sheets start below the floating switcher. */
-  #panel, #card { top: calc(var(--bar-h) + 62px); }
-  #card { max-height: calc(100% - var(--bar-h) - var(--dock-h) - 96px); }
-}
 @media (max-width: 1000px) and (max-height: 500px) {
-  #show-title { max-width: calc(50vw - 160px); }
+  #show-title { max-width: calc(50vw - 195px); }
   #views button { height: 30px; padding: 0 9px; font-size: 12px; }
 }
 .sm-only { display: none; }
@@ -862,8 +857,15 @@ body.drawing #bar, body.drawing #zoom { opacity: 0.45; }
   .walk-label { left: 12px; right: 12px; width: auto; max-width: 640px; margin: 0 auto; bottom: calc(84px + var(--safe-b)); }
 }
 @media (max-height: 520px) {
-  .walk-label { left: 12px; right: auto; width: min(380px, 46vw); max-width: none; margin: 0; padding: 12px 16px; bottom: calc(70px + var(--safe-b)); }
+  .walk-label { left: 12px; right: auto; width: min(380px, 46vw); max-width: none; margin: 0; padding: 12px 16px; bottom: calc(80px + var(--safe-b)); }
   .walk-label .w-name { font-size: 18px; }
   .walk-label .w-why { font-size: 13.5px; margin-top: 6px; }
   .walk-label .w-by { margin-top: 8px; }
+}
+
+/* Tablets: side sheets start below the floating switcher. Kept last so the
+   base #panel and #card rules don't win the cascade. */
+@media (max-width: 1000px) and (min-height: 501px) and (min-width: 761px) {
+  #panel, #card { top: calc(var(--bar-h) + 62px); }
+  #card { max-height: calc(100% - var(--bar-h) - var(--dock-h) - 96px); }
 }

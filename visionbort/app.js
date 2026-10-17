@@ -192,30 +192,70 @@
   // asynchronous and dies with the page on a reload, so a synchronous
   // localStorage copy goes down first; readStored() takes whichever is newer,
   // and the next good IndexedDB write clears it.
+  // The synchronous copy has to fit in localStorage, which a board of photos
+  // doesn't. Image bytes already in the last IndexedDB write are replaced by
+  // a reference; readStored() fills them back in from that copy.
+  const REF = '@saved';
   function flushSave() {
     if (!saveTimer || loadFailed) return;
     clearTimeout(saveTimer);
     board.title = showTitle.value.trim();
     board.savedAt = Date.now();
-    lsSet(BOARD_KEY, JSON.stringify(board));
+    const slim = Object.assign({}, board, {
+      refs: true,
+      pieces: board.pieces.map(p => (p.src && p.src.length > 2048 && base.srcs.get(p.id) === srcSig(p.src)) ? Object.assign({}, p, { src: REF }) : p),
+      wallpaper: board.wallpaper && board.wallpaper.length > 2048 && base.wallpaperSig === srcSig(board.wallpaper) ? REF : board.wallpaper,
+    });
+    lsSet(BOARD_KEY, JSON.stringify(slim));
     writeBoard(board.savedAt);
+  }
+  function srcSig(src) { return src ? String(src).length + ':' + String(src).slice(-48) : ''; }
+
+  // The v1 board is kept as a backup, but in localStorage it can fill the
+  // whole quota and starve the reload-safety copy. Once a v2 wall is safely
+  // in IndexedDB, the backup moves there too (verified before the old copy
+  // is removed). It is never discarded.
+  let legacyMoved = false;
+  async function moveLegacyBackup() {
+    if (legacyMoved) return;
+    legacyMoved = true;
+    const raw = lsGet(LEGACY_KEY);
+    if (!raw) return;
+    try {
+      const existing = await idbGet('legacy-v1');
+      if (existing !== raw) {
+        await idbSet('legacy-v1', raw);
+        if ((await idbGet('legacy-v1')) !== raw) return;
+      }
+      localStorage.removeItem(LEGACY_KEY);
+    } catch (e) { /* leave it where it is */ }
   }
 
   // Three-way merge for two tabs. `base` is what this tab last loaded or
   // wrote. If storage moved on since then (another tab saved), keep their
   // version of everything this tab didn't touch, and this tab's version of
   // what it did.
-  let base = { fields: {}, pieces: new Map() };
+  let base = { fields: {}, pieces: new Map(), srcs: new Map(), wallpaperSig: '' };
   const FIELDS = ['title', 'paint', 'shape', 'light', 'wallpaper'];
   function pieceSig(p) {
     return JSON.stringify(Object.assign({}, p, { src: p.src ? String(p.src).length + ':' + String(p.src).slice(-32) : '' }));
   }
   function setBase(b) {
-    base = { fields: {}, pieces: new Map() };
+    base = { fields: {}, pieces: new Map(), srcs: new Map(), wallpaperSig: srcSig(b.wallpaper) };
     FIELDS.forEach(f => { base.fields[f] = b[f]; });
-    (b.pieces || []).forEach(p => base.pieces.set(p.id, pieceSig(p)));
+    (b.pieces || []).forEach(p => { base.pieces.set(p.id, pieceSig(p)); base.srcs.set(p.id, srcSig(p.src)); });
   }
   function mergeInto(theirs) {
+    // Changing the wall's shape moves every piece, so piece-by-piece merging
+    // across two shapes puts things off the wall. The tab that changed the
+    // shape wins the layout; the other tab's pieces it didn't have are
+    // converted onto it.
+    const weChangedShape = board.shape !== base.fields.shape;
+    if (theirs.shape !== board.shape) {
+      if (weChangedShape) return Object.assign({}, board, { title: board.title });
+      mergeNotice = 'Your other tab changed the wall\u2019s shape, so this tab is showing that version.';
+      return Object.assign({}, theirs);
+    }
     const merged = Object.assign({}, theirs);
     FIELDS.forEach(f => { if (board[f] !== base.fields[f]) merged[f] = board[f]; });
     const ours = new Map(board.pieces.map(p => [p.id, p]));
@@ -226,11 +266,11 @@
     });
     base.pieces.forEach((sig, id) => { if (!ours.has(id)) result.delete(id); }); // removed here
     merged.pieces = [...result.values()];
-    merged.nextId = Math.max(theirs.nextId || 1, board.nextId || 1,
-      ...merged.pieces.map(p => (parseInt(String(p.id).slice(2), 10) || 0) + 1));
+    merged.nextId = Math.max(theirs.nextId || 1, board.nextId || 1);
     merged.maxZ = Math.max(0, ...merged.pieces.map(p => p.z || 0));
     return merged;
   }
+  let mergeNotice = null;
 
   async function writeBoard(stamp) {
     saveTimer = null;
@@ -242,6 +282,7 @@
       if (data && data.savedAt > lastSavedAt && data.savedAt !== stamp) {
         board = Object.assign(emptyBoard(), mergeInto(data));
         board.pieces = board.pieces.map(normalizePiece).filter(Boolean);
+        board.pieces.forEach(p => Object.assign(p, clampInside(p.x, p.y, p.w, p.h)));
         mergedFromOther = true;
       }
     } catch (e) { /* write what we have */ }
@@ -261,13 +302,19 @@
       saveWarned = false;
       setBase(board);
       lsSet(V2_FLAG, '1');
+      moveLegacyBackup();
       if (channel) channel.postMessage({ savedAt: board.savedAt });
       if (mergedFromOther) {
+        // Undo snapshots predate the merge; restoring one would throw away
+        // the other tab's changes, so history starts over here.
+        undoStack = []; redoStack = [];
         showTitle.value = board.title || '';
         if (!byId(selectedId)) selectedId = null;
         applyWall();
         renderAll();
+        fit();
         refreshUI();
+        if (mergeNotice) { toast(mergeNotice); mergeNotice = null; }
       }
     } else if (!saveWarned) {
       saveWarned = true;
@@ -284,6 +331,13 @@
     const raw = lsGet(BOARD_KEY);
     if (raw) { try { ls = JSON.parse(raw); } catch (e) { /* ignore */ } }
     const ok = (d) => d && d.v === 2 && Array.isArray(d.pieces);
+    // A flush copy carries references to image bytes in the IndexedDB copy.
+    if (ok(ls) && ls.refs) {
+      const srcs = new Map(((idb && idb.pieces) || []).map(p => [p.id, p.src]));
+      ls.pieces = ls.pieces.map(p => p.src === REF ? (srcs.has(p.id) ? Object.assign({}, p, { src: srcs.get(p.id) }) : null) : p).filter(Boolean);
+      if (ls.wallpaper === REF) ls.wallpaper = idb ? idb.wallpaper : null;
+      delete ls.refs;
+    }
     const pick = [idb, ls].filter(ok).sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0))[0] || null;
     return { data: pick, idbError };
   }
@@ -491,7 +545,7 @@
   let readOnlyBanner = null;
   function setReadOnly(on) {
     loadFailed = on;
-    ['#stage', '#dock', '#ctx', '#show-title', '#btn-hang', '#views', '#zoom'].forEach(q => { const el = $(q); if (el) el.inert = on; });
+    ['#stage', '#dock', '#ctx', '#show-title', '#btn-hang', '#views', '#zoom', '#btn-undo', '#btn-redo', '.menu-wrap'].forEach(q => { const el = $(q); if (el) el.inert = on; });
     document.body.classList.toggle('read-only', on);
     if (on && !readOnlyBanner) {
       readOnlyBanner = document.createElement('div');
@@ -897,6 +951,12 @@
     p.y = clamp(p.y, MIN_ON_WALL - p.h, H() - MIN_ON_WALL);
   }
 
+  // Ids are unique across tabs: a counter alone gave two tabs the same id
+  // for two different new pieces, and the merge kept only one.
+  function newId() {
+    board.nextId = (board.nextId || 1) + 1;
+    return 'p-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
   function addPiece(props, opts) {
     opts = opts || {};
     if (!opts.noUndo) pushUndo();
@@ -905,7 +965,7 @@
     board.maxZ = Math.max(board.maxZ, ...board.pieces.map(q => q.z || 0)) + 1;
     const p = normalizePiece(Object.assign({
       rot: props.type === 'image' && !props.kind ? (Math.random() * 4 - 2) : 0,
-    }, props, { id: 'p-' + board.nextId++, x: spot.x, y: spot.y, z: board.maxZ }));
+    }, props, { id: newId(), x: spot.x, y: spot.y, z: board.maxZ }));
     board.pieces.push(p);
     renderPiece(p, true);
     renderLabels();
@@ -1232,7 +1292,7 @@
     else if (p.type === 'sticker') thumb.textContent = p.src;
     else { thumb.classList.add('text'); thumb.textContent = p.content; thumb.style.fontFamily = p.family; }
     $('#card-why').value = p.why || '';
-    $('#card-why').placeholder = WHY_PROMPTS[(parseInt(p.id.slice(2), 10) || 0) % WHY_PROMPTS.length];
+    $('#card-why').placeholder = WHY_PROMPTS[[...p.id].reduce((a, c) => a + c.charCodeAt(0), 0) % WHY_PROMPTS.length];
     $('#card-name').value = p.name || '';
     $('#card-by').value = p.by || '';
     setDotUI(!!p.dot, p);
@@ -1409,8 +1469,14 @@
       board.pieces = others.filter(q => q.id !== p.id);
       const spot = nextSpot(p.w, p.h);
       board.pieces = others;
-      const overlapsSomething = others.some(q => q.id !== p.id && overlap(bbox(q), bbox(p)));
-      if (overlapsSomething) Object.assign(p, spot);
+      // Move only if the new spot covers less than where it is now.
+      const coverAt = (x, y) => others.filter(q => q.id !== p.id).reduce((t, q) => {
+        const a = bbox(q), b = { x, y, w: p.w, h: p.h };
+        const ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+        const oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+        return t + (ox > 0 && oy > 0 ? ox * oy * (q.type === 'text' ? 2 : 1) : 0);
+      }, 0);
+      if (coverAt(spot.x, spot.y) < coverAt(p.x, p.y)) Object.assign(p, spot);
     }
     dom.dataset.sig = '';
     renderPiece(p);
@@ -1691,9 +1757,18 @@
     const before = {};
     board.pieces.forEach(p => {
       before[p.id] = geom(p);
-      const back = memo && memo.to === from && memo.from === shape && same(geom(p), memo.after[p.id]) && memo.before[p.id];
-      if (back) {
-        Object.assign(p, back);
+      const returning = memo && memo.to === from && memo.from === shape && memo.before[p.id] && memo.after[p.id];
+      if (returning && same(geom(p), memo.after[p.id])) {
+        // Untouched since the last switch: put it back exactly.
+        Object.assign(p, memo.before[p.id]);
+      } else if (returning) {
+        // Moved or resized meanwhile: undo the earlier shrink on its size and
+        // carry its new spot across.
+        const r = memo.before[p.id].w / memo.after[p.id].w || 1;
+        const cx = (p.x + p.w / 2) * kx, cy = (p.y + p.h / 2) * ky;
+        p.w *= r; p.h *= r;
+        if (p.type === 'text') p.size *= r;
+        p.x = cx - p.w / 2; p.y = cy - p.h / 2;
       } else {
         const cx = (p.x + p.w / 2) * kx, cy = (p.y + p.h / 2) * ky;
         p.w *= k; p.h *= k;
@@ -1743,7 +1818,7 @@
   };
   async function loadExample() {
     pushUndo();
-    const shape = isPhone() ? 'tall' : 'wide';
+    const shape = window.innerHeight > window.innerWidth ? 'tall' : 'wide';
     const spec = EXAMPLE[shape];
     let credits = {};
     try { credits = await (await fetch('example/credits.json')).json(); } catch (e) { /* credits are a nicety */ }
@@ -2152,7 +2227,7 @@
     const step = vertical && cols > 1 && cols < items.length ? cols : 1;
     const back = e.key === 'ArrowUp' || e.key === 'ArrowLeft';
     let n = e.key === 'Home' ? 0 : e.key === 'End' ? items.length - 1
-      : step > 1 ? clamp(i + (back ? -step : step), 0, items.length - 1)
+      : step > 1 ? ((i + (back ? -step : step) < 0 || i + (back ? -step : step) > items.length - 1) ? i : i + (back ? -step : step))
       : (i + (back ? -1 : 1) + items.length) % items.length;
     e.preventDefault();
     items[n].focus();
@@ -2621,7 +2696,7 @@
         const left = acc, right = total - acc;
         if (left <= room && right <= room) {
           const tall = Math.max(left, right);
-          if (!best || tall < best.tall) best = { at: i, tall };
+          if (!best || tall <= best.tall) best = { at: i, tall }; // ties go left
         }
         if (i < ms.length) acc += ms[i].h;
       }
