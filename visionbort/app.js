@@ -176,49 +176,100 @@
   function lsGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
   function lsSet(key, v) { try { localStorage.setItem(key, v); return true; } catch (e) { return false; } }
 
+  // A v2 board has been written in this browser at least once. After that,
+  // the v1 board is history: if storage can't be read on some later load,
+  // the answer is "try again", never "quietly restore last year's board".
+  const V2_FLAG = 'visionbort-v2';
+  let lastSavedAt = 0;      // savedAt of the board this tab last loaded or wrote
+  let loadFailed = false;   // storage unreadable: don't overwrite what's there
+  const channel = ('BroadcastChannel' in window) ? new BroadcastChannel('visionbort') : null;
+
   function save() {
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(writeBoard, 400);
+    saveTimer = setTimeout(writeBoard, 250);
+  }
+  // Write now. Used when the tab is about to go away, where a pending
+  // debounce would otherwise drop the last edit.
+  function flushSave() {
+    if (!saveTimer) return;
+    clearTimeout(saveTimer);
+    writeBoard();
   }
   async function writeBoard() {
+    saveTimer = null;
+    if (loadFailed) return;
     board.title = showTitle.value.trim();
+    board.savedAt = Date.now();
+    lastSavedAt = board.savedAt;
+    let ok = false;
     try {
       await idbSet(BOARD_KEY, board);
-      saveWarned = false;
+      ok = true;
+      // A fallback copy from a bad day is now stale; don't let it win later.
+      try { localStorage.removeItem(BOARD_KEY); } catch (e) { /* fine */ }
     } catch (e) {
-      // Last resort. It may also fail on a big board; say so if it does.
-      if (!lsSet(BOARD_KEY, JSON.stringify(board)) && !saveWarned) {
-        saveWarned = true;
-        toast('This wall could not be saved on this device. Saving a copy with Hang the show keeps it safe.', { error: true, ms: 10000 });
-      }
+      ok = lsSet(BOARD_KEY, JSON.stringify(board));
     }
+    if (ok) {
+      saveWarned = false;
+      lsSet(V2_FLAG, '1');
+      if (channel) channel.postMessage({ savedAt: board.savedAt });
+    } else if (!saveWarned) {
+      saveWarned = true;
+      toast('This wall could not be saved on this device. Saving a copy with Hang the show keeps it safe.', { error: true, ms: 10000 });
+    }
+  }
+
+  // Read both stores and take the newer: a localStorage fallback written
+  // while IndexedDB was failing must beat an older IndexedDB copy.
+  async function readStored() {
+    let idb = null, idbError = false;
+    try { idb = await idbGet(BOARD_KEY); } catch (e) { idbError = true; }
+    let ls = null;
+    const raw = lsGet(BOARD_KEY);
+    if (raw) { try { ls = JSON.parse(raw); } catch (e) { /* ignore */ } }
+    const ok = (d) => d && d.v === 2 && Array.isArray(d.pieces);
+    const pick = [idb, ls].filter(ok).sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0))[0] || null;
+    return { data: pick, idbError };
   }
 
   async function loadBoard() {
-    let data = null;
-    try { data = await idbGet(BOARD_KEY); } catch (e) { /* fall through */ }
-    if (!data) {
-      const raw = lsGet(BOARD_KEY);
-      if (raw) { try { data = JSON.parse(raw); } catch (e) { /* ignore */ } }
-    }
+    const { data: stored, idbError } = await readStored();
+    let data = stored;
     let migrated = false;
-    if (!data) {
+    let migrateFailed = false;
+    if (!data && idbError && lsGet(V2_FLAG)) {
+      // There is a saved wall; this browser just can't read it right now.
+      loadFailed = true;
+      return { migrated, migrateFailed, loadFailed };
+    }
+    if (!data && !lsGet(V2_FLAG)) {
       const legacy = lsGet(LEGACY_KEY);
       if (legacy) {
-        try { data = migrateV1(JSON.parse(legacy)); migrated = true; } catch (e) { data = null; }
+        try { data = migrateV1(JSON.parse(legacy)); migrated = true; }
+        catch (e) { migrateFailed = true; data = null; }
       }
     }
-    if (data && data.v === 2) {
+    if (data) {
       board = Object.assign(emptyBoard(), data);
-      board.pieces = (board.pieces || []).map(normalizePiece);
+      board.pieces = (board.pieces || []).map(normalizePiece).filter(Boolean);
+      lastSavedAt = board.savedAt || 0;
     }
-    return migrated;
+    return { migrated, migrateFailed, loadFailed };
   }
 
   // ===== v1 migration =====
+  // v1 data is whatever a year of an earlier app wrote. Every element is
+  // migrated on its own, so one odd element can't take the board with it.
   function migrateV1(d) {
-    const savedW = d.canvasW || 1280;
-    const savedH = d.canvasH || 720;
+    if (!d || typeof d !== 'object') throw new Error('not a board');
+    const els = (Array.isArray(d.elements) ? d.elements : []).filter(el => el && typeof el === 'object');
+    // Boards saved before canvas size was recorded: infer it from how far
+    // the pieces reach, never smaller than the old default canvas.
+    const reachW = Math.max(0, ...els.map(el => (Number(el.x) || 0) + (Number(el.width) || 0)));
+    const reachH = Math.max(0, ...els.map(el => (Number(el.y) || 0) + (Number(el.height) || 0)));
+    const savedW = Number(d.canvasW) || Math.max(1280, reachW);
+    const savedH = Number(d.canvasH) || Math.max(720, reachH);
     const shape = savedH > savedW * 1.1 ? 'tall' : 'wide';
     const { w: WW, h: HH } = SHAPES[shape];
     // v1 sizes were screen pixels on a canvas of savedW x savedH. Scale them
@@ -226,54 +277,101 @@
     const k = clamp(Math.min(WW / savedW, HH / savedH), 0.6, 2.4);
     const oldBg = d.backgroundId || 'warm';
     const paintMap = { warm: 'white', blush: 'white', ocean: 'white', sunset: 'white', lavender: 'white', cork: 'ochre', forest: 'salon', midnight: 'charcoal' };
-    const pieces = (d.elements || []).map((el, i) => {
-      const w = (el.width || 200) * k;
-      const h = (el.height || 200) * k;
-      const fx = typeof el.fx === 'number' ? el.fx : (el.x || 0) / savedW;
-      const fy = typeof el.fy === 'number' ? el.fy : (el.y || 0) / savedH;
-      const p = {
-        id: 'p-' + (i + 1),
-        type: el.type,
-        x: fx * WW, y: fy * HH, w, h,
-        rot: el.rotation || 0,
-        z: el.zIndex || i + 1,
-        why: el.intention || '',
-        name: '', by: '', dot: false,
-      };
-      if (el.type === 'image') {
-        p.src = el.src;
-        p.alt = el.label || '';
-        if (el.label === 'Drawing') { p.kind = 'drawing'; p.frame = 'none'; }
-        else if (el.clipShape === 'polaroid') p.frame = 'polaroid';
-        else if (el.clipShape === 'circle') p.frame = 'circle';
-        else if (el.clipShape === 'torn') { p.frame = 'torn'; p.clip = el.clipPath; }
-        else if (['star', 'heart', 'diamond'].includes(el.clipShape)) p.frame = el.clipShape;
-        else p.frame = 'none';
-      } else if (el.type === 'sticker') {
-        p.src = el.src;
-      } else if (el.type === 'text') {
-        p.content = el.content || '';
-        p.family = el.fontFamily || FONTS[0].family;
-        p.size = (el.fontSize || 32) * k;
-        p.color = el.color || '#1c1b19';
-        p.weight = el.fontWeight === 'bold' ? 700 : 400;
-        p.italic = el.fontStyle === 'italic';
-      }
-      return p;
+    // v1's default inks, which should follow the new paint instead.
+    const defaultInks = ['#1a1a2e', '#f8fafc'];
+    const pieces = [];
+    els.forEach((el, i) => {
+      try {
+        const num = (v, dflt) => (typeof v === 'number' && isFinite(v)) ? v : dflt;
+        let w = num(el.width, 200) * k;
+        let h = num(el.height, 200) * k;
+        // Nothing bigger than most of the wall, keeping its shape.
+        const fitK = Math.min(1, (WW * 0.9) / w, (HH * 0.9) / h);
+        w *= fitK; h *= fitK;
+        const hasPos = typeof el.fx === 'number' || typeof el.x === 'number';
+        const fx = typeof el.fx === 'number' ? el.fx : num(el.x, 0) / savedW;
+        const fy = typeof el.fy === 'number' ? el.fy : num(el.y, 0) / savedH;
+        const p = {
+          id: 'p-' + (pieces.length + 1),
+          type: el.type,
+          x: fx * WW, y: fy * HH, w, h,
+          rot: num(el.rotation, 0),
+          z: num(el.zIndex, i + 1),
+          why: typeof el.intention === 'string' ? el.intention : '',
+          name: '', by: '', dot: false,
+          _noPos: !hasPos,
+        };
+        if (el.type === 'image') {
+          if (typeof el.src !== 'string' || !el.src) return;
+          p.src = el.src;
+          p.alt = el.label || '';
+          if (el.label === 'Drawing') { p.kind = 'drawing'; p.frame = 'none'; }
+          else if (el.clipShape === 'polaroid') p.frame = 'polaroid';
+          else if (el.clipShape === 'circle') p.frame = 'circle';
+          else if (el.clipShape === 'torn') { p.frame = 'torn'; p.clip = el.clipPath; }
+          else if (['star', 'heart', 'diamond'].includes(el.clipShape)) p.frame = el.clipShape;
+          else p.frame = 'none';
+        } else if (el.type === 'sticker') {
+          if (typeof el.src !== 'string' || !el.src) return;
+          p.src = el.src;
+        } else if (el.type === 'text') {
+          p.content = typeof el.content === 'string' ? el.content : String(el.content || '');
+          if (!p.content.trim()) return;
+          p.family = el.fontFamily || FONTS[0].family;
+          p.size = num(el.fontSize, 32) * k * fitK;
+          p.color = (!el.color || defaultInks.includes(String(el.color).toLowerCase())) ? null : el.color;
+          // v1 drew text bold unless it was explicitly set to normal.
+          p.weight = el.fontWeight === 'normal' ? 400 : 700;
+          p.italic = el.fontStyle === 'italic';
+          p._fit = true;
+        } else {
+          return;
+        }
+        pieces.push(p);
+      } catch (e) { /* skip just this element */ }
     });
     const b = emptyBoard();
-    b.title = d.boardTitle && d.boardTitle !== 'My Vision Board' ? d.boardTitle : '';
+    b.title = typeof d.boardTitle === 'string' && d.boardTitle !== 'My Vision Board' ? d.boardTitle : '';
     b.paint = paintMap[oldBg] || 'white';
     b.shape = shape;
-    if (d.customBgImage && d.customBgImage.src) b.wallpaper = d.customBgImage.src;
-    b.pieces = pieces.map(normalizePiece);
-    b.nextId = pieces.length + 1;
-    b.maxZ = Math.max(0, ...pieces.map(p => p.z || 0));
+    if (d.customBgImage && typeof d.customBgImage.src === 'string') {
+      b.wallpaper = d.customBgImage.src;
+      if (d.customBgImage.intention) b.wallpaperNote = d.customBgImage.intention;
+    }
+    b.pieces = pieces.map(normalizePiece).filter(Boolean);
+    b.nextId = b.pieces.length + 1;
+    b.maxZ = Math.max(0, ...b.pieces.map(p => p.z || 0));
     return b;
   }
 
+  // After a migration renders: words get boxes that fit them, pieces with no
+  // position at all get a real spot, and everything is pulled onto the wall.
+  function settleMigrated() {
+    board.pieces.forEach(p => {
+      if (p._fit) { const x = p.x, y = p.y; fitTextBox(p); Object.assign(p, { x, y }); delete p._fit; }
+    });
+    const placed = [];
+    board.pieces.forEach(p => {
+      if (p._noPos) {
+        const others = board.pieces;
+        board.pieces = placed.slice();
+        Object.assign(p, nextSpot(p.w, p.h));
+        board.pieces = others;
+        delete p._noPos;
+      }
+      Object.assign(p, clampInside(p.x, p.y, p.w, p.h));
+      placed.push(p);
+    });
+  }
+
+  // Anything that can't render is dropped here rather than crashing render.
   function normalizePiece(p) {
+    if (!p || typeof p !== 'object') return null;
+    if (p.type === 'image' || p.type === 'sticker') { if (typeof p.src !== 'string' || !p.src) return null; }
+    else if (p.type === 'text') { if (typeof p.content !== 'string') p.content = String(p.content || ''); }
+    else return null;
     const n = Object.assign({ rot: 0, z: 1, why: '', name: '', by: '', dot: false }, p);
+    ['x', 'y', 'w', 'h', 'rot', 'z'].forEach(k => { if (typeof n[k] !== 'number' || !isFinite(n[k])) n[k] = k === 'w' || k === 'h' ? 200 : 0; });
     if (n.type === 'image' && !n.frame) n.frame = 'none';
     return n;
   }
@@ -282,19 +380,22 @@
   // Snapshots copy each piece object but share the image strings, which are
   // never mutated in place. Thirty deep copies of a photo board used to cost
   // tens of megabytes; this costs almost nothing.
+  //
+  // The show title is not part of undo: it isn't an undoable step, so
+  // restoring it would quietly throw away whatever was typed since.
   function snapshot() {
-    return Object.assign({}, board, {
-      title: showTitle.value.trim(),
-      pieces: board.pieces.map(p => Object.assign({}, p)),
-    });
+    const s = Object.assign({}, board, { pieces: board.pieces.map(p => Object.assign({}, p)) });
+    delete s.title;
+    return s;
   }
   function restore(snap) {
-    board = Object.assign({}, snap, { pieces: snap.pieces.map(p => Object.assign({}, p)) });
-    showTitle.value = board.title || '';
+    const shapeChanged = snap.shape !== board.shape;
+    board = Object.assign({}, snap, { title: showTitle.value.trim(), pieces: snap.pieces.map(p => Object.assign({}, p)) });
     if (!byId(selectedId)) selectedId = null;
     closeCard();
     applyWall();
     renderAll();
+    if (shapeChanged) fit();
     refreshUI();
     save();
   }
@@ -321,16 +422,43 @@
     $('#btn-redo').disabled = !redoStack.length;
   }
 
+  // Another tab saved a newer wall. Adopt it before this tab can overwrite it
+  // with a stale copy. Called when this tab comes back into view and when
+  // another tab announces a save.
+  async function adoptNewerFromStorage() {
+    if (saveTimer || editingTextId || gesture) return;
+    const { data } = await readStored();
+    if (!data || !(data.savedAt > lastSavedAt)) return;
+    board = Object.assign(emptyBoard(), data);
+    board.pieces = board.pieces.map(normalizePiece).filter(Boolean);
+    lastSavedAt = board.savedAt;
+    showTitle.value = board.title || '';
+    undoStack = []; redoStack = [];
+    selectedId = null;
+    closeCard();
+    applyWall();
+    renderAll();
+    fit();
+    refreshUI();
+    toast('Updated with changes from your other tab.');
+  }
+
   // ===== View: pan and zoom =====
+  // The view switcher floats over the wall below 1000px, where it would
+  // otherwise collide with Undo in the top bar (tablets).
+  const viewsFloat = () => window.matchMedia('(max-width: 1000px)').matches;
   function insets() {
     const phone = isPhone();
-    const views = phone ? 56 : 0;
-    return {
-      top: 20 + views,
-      bottom: (phone ? 86 : 104),
-      left: (!phone && panelTab) ? 364 : 20,
-      right: 20,
-    };
+    const top = 20 + (viewsFloat() ? 56 : 0);
+    let bottom = phone ? 86 : 104;
+    // On phones, an open sheet takes the bottom of the screen; fit the wall
+    // into what's left so paint and shape changes are visible as you make them.
+    const sheet = phone && (panelTab ? panel : cardForId ? card : null);
+    if (sheet && !sheet.hidden) {
+      const sr = stage.getBoundingClientRect();
+      bottom = Math.max(bottom, sr.bottom - sheet.getBoundingClientRect().top + 12);
+    }
+    return { top, bottom, left: (!phone && panelTab) ? 364 : 20, right: 20 };
   }
   function computeFit() {
     const r = stage.getBoundingClientRect();
@@ -340,11 +468,18 @@
     const s = Math.min(aw / W(), ah / H());
     return { s, tx: i.left + (aw - W() * s) / 2, ty: i.top + (ah - H() * s) / 2 };
   }
+  let fitView = null;
   function fit() {
     const f = computeFit();
     fitS = f.s;
+    fitView = f;
     userZoomed = false;
     setView(f.s, f.tx, f.ty);
+  }
+  // "Fitted" means the same scale and the same place. A pan at fit scale
+  // counts as moved, so Fit appears and a double tap brings the wall back.
+  function isFitted() {
+    return fitView && Math.abs(view.s / fitS - 1) <= 0.02 && Math.abs(view.tx - fitView.tx) < 6 && Math.abs(view.ty - fitView.ty) < 6;
   }
   function setView(s, tx, ty) {
     const r = stage.getBoundingClientRect();
@@ -356,7 +491,7 @@
     wall.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
     wall.style.setProperty('--s', s);
     const zoomed = Math.abs(s / fitS - 1) > 0.02;
-    document.body.classList.toggle('zoomed', zoomed);
+    document.body.classList.toggle('zoomed', !isFitted());
     const fitBtn = $('#zoom-fit');
     fitBtn.textContent = zoomed ? Math.round(s / fitS * 100) + '%' : 'Fit';
     fitBtn.setAttribute('aria-label', zoomed ? `Fit the wall to the screen (now ${Math.round(s / fitS * 100)}%)` : 'Fit the wall to the screen');
@@ -407,11 +542,15 @@
 
   // ===== Rendering =====
   function renderAll() {
+    const focusedId = document.activeElement && document.activeElement.closest && document.activeElement.closest('.piece') ? document.activeElement.closest('.piece').dataset.id : null;
     piecesEl.innerHTML = '';
     labelsEl.innerHTML = '';
     board.pieces.forEach(p => renderPiece(p));
     renderLabels();
     updateEmpty();
+    syncTabStops();
+    // Keep keyboard focus on the same piece across a rebuild (undo, redo).
+    if (focusedId) { if (byId(focusedId)) focusPiece(focusedId); else focusStage(); }
   }
 
   function renderPiece(p, animate) {
@@ -420,9 +559,10 @@
       dom = document.createElement('div');
       dom.className = 'piece';
       dom.dataset.id = p.id;
-      dom.tabIndex = 0;
+      dom.tabIndex = -1;
       dom.setAttribute('role', 'button');
-      dom.setAttribute('aria-roledescription', 'piece');
+      dom.setAttribute('aria-roledescription', 'piece on the wall');
+      dom.setAttribute('aria-describedby', 'piece-help');
       piecesEl.appendChild(dom);
       if (animate) {
         dom.classList.add('pop-in');
@@ -457,7 +597,7 @@
   }
 
   function contentSig(p) {
-    if (p.type === 'image') return ['i', p.frame, p.cutout ? 1 : 0, p.kind || '', p.src.length, p.src.slice(-24)].join('|');
+    if (p.type === 'image') return ['i', p.frame, p.cutout ? 1 : 0, p.kind || '', String(p.src).length, String(p.src).slice(-24)].join('|');
     if (p.type === 'sticker') return 's|' + p.src;
     return 't|' + p.content;
   }
@@ -526,6 +666,8 @@
     else what = 'Words, ' + (p.content || '');
     const name = p.name || (p.type === 'image' ? p.alt : '');
     let s = name ? `${what}: ${name}` : what;
+    if (p.why) s += `. Why it matters: ${p.why}`;
+    if (p.by) s += `. By ${p.by}`;
     if (p.dot) s += '. Marked yours';
     return s;
   }
@@ -667,7 +809,7 @@
     if (!opts.noUndo) pushUndo();
     const w = props.w, h = props.h;
     const spot = (props.x != null && props.y != null) ? { x: props.x, y: props.y } : nextSpot(w, h);
-    board.maxZ += 1;
+    board.maxZ = Math.max(board.maxZ, ...board.pieces.map(q => q.z || 0)) + 1;
     const p = normalizePiece(Object.assign({
       rot: props.type === 'image' && !props.kind ? (Math.random() * 4 - 2) : 0,
     }, props, { id: 'p-' + board.nextId++, x: spot.x, y: spot.y, z: board.maxZ }));
@@ -692,16 +834,35 @@
 
   function removePiece(id) {
     pushUndo();
+    const idx = board.pieces.findIndex(p => p.id === id);
+    const gone = board.pieces[idx];
     board.pieces = board.pieces.filter(p => p.id !== id);
     const dom = domOf(id);
+    const hadFocus = dom && dom.contains(document.activeElement);
     if (dom) dom.remove();
     if (selectedId === id) select(null);
     if (cardForId === id) closeCard();
     renderLabels();
     updateEmpty();
     save();
-    toast('Taken down.', { action: 'Undo', onAction: undo });
+    if (hadFocus) focusStage();
+    toast('Taken down.', { action: 'Undo', onAction: () => putBack(gone, idx), ms: 8000 });
   }
+  // The toast's Undo puts back the piece it names, even if other edits
+  // happened since.
+  function putBack(p, idx) {
+    if (!p || byId(p.id)) return;
+    pushUndo();
+    board.pieces.splice(Math.min(idx, board.pieces.length), 0, Object.assign({}, p));
+    renderPiece(byId(p.id), true);
+    renderLabels();
+    updateEmpty();
+    select(p.id);
+    focusPiece(p.id);
+    save();
+  }
+  function focusStage() { stage.focus({ preventScroll: true }); }
+  function focusPiece(id) { const d = domOf(id); if (d) d.focus({ preventScroll: true }); }
 
   function duplicatePiece(id) {
     const p = byId(id);
@@ -711,16 +872,20 @@
     addPiece(copy);
   }
 
-  function bringToFront(id) {
+  // Restack as 1..n so z never goes negative (which put pieces behind the
+  // wallpaper and out of reach) and never grows without bound.
+  function restack(id, toFront) {
     pushUndo();
-    board.maxZ += 1;
-    updatePiece(id, { z: board.maxZ });
+    const order = board.pieces.slice().sort((a, b) => (a.z || 0) - (b.z || 0)).filter(p => p.id !== id);
+    const p = byId(id);
+    if (toFront) order.push(p); else order.unshift(p);
+    order.forEach((q, i) => { q.z = i + 1; const d = domOf(q.id); if (d) d.style.zIndex = q.z; });
+    board.maxZ = order.length;
+    renderLabels();
+    save();
   }
-  function sendToBack(id) {
-    pushUndo();
-    const min = Math.min(...board.pieces.map(p => p.z || 0));
-    updatePiece(id, { z: min - 1 });
-  }
+  function bringToFront(id) { restack(id, true); }
+  function sendToBack(id) { restack(id, false); }
 
   // ===== Selection and the context bar =====
   function select(id) {
@@ -734,6 +899,7 @@
     });
     closePop();
     buildCtx();
+    syncTabStops();
     if (cardForId && id && cardForId !== id) openCard(id);
     if (!id && cardForId && !isPhone()) closeCard();
   }
@@ -748,12 +914,28 @@
     b.appendChild(t);
     if (extra && extra.pressed != null) b.setAttribute('aria-pressed', String(extra.pressed));
     if (extra && extra.popup) { b.setAttribute('aria-haspopup', 'true'); b.setAttribute('aria-expanded', 'false'); }
-    b.addEventListener('click', (e) => { e.stopPropagation(); onClick(b); });
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMenu();
+      if (!(extra && extra.popup)) closePop();
+      onClick(b);
+    });
     return b;
   }
   function sep() { const s = document.createElement('span'); s.className = 'cb-sep'; return s; }
 
   function buildCtx() {
+    // Rebuilding the bar would drop keyboard focus on the floor; put it back
+    // on the button with the same name.
+    const had = ctxBar.contains(document.activeElement) ? document.activeElement.textContent : null;
+    buildCtxInner();
+    if (had != null && !ctxBar.hidden) {
+      const same = [...ctxBar.querySelectorAll('button')].find(b => b.textContent === had);
+      if (same) same.focus({ preventScroll: true });
+      else if (selectedId) focusPiece(selectedId);
+    }
+  }
+  function buildCtxInner() {
     ctxBar.innerHTML = '';
     const p = selectedId && byId(selectedId);
     if (!p || viewMode === 'walk' || editingTextId) { ctxBar.hidden = true; return; }
@@ -785,10 +967,17 @@
     if (!dom) return;
     const pr = dom.getBoundingClientRect();
     const sr = stage.getBoundingClientRect();
+    // Panned off screen: the bar goes with it.
+    const offscreen = pr.right < sr.left || pr.left > sr.right || pr.bottom < sr.top || pr.top > sr.bottom;
+    ctxBar.style.visibility = offscreen ? 'hidden' : '';
     const bw = ctxBar.offsetWidth, bh = ctxBar.offsetHeight;
+    // The room the bar may use: right of an open panel, left of the card.
+    const minL = (panelTab ? panel.getBoundingClientRect().right : sr.left) + 8;
+    const maxR = (cardForId ? card.getBoundingClientRect().left : sr.right) - 8;
     let left = pr.left + pr.width / 2 - bw / 2;
-    left = clamp(left, sr.left + 8, sr.right - bw - 8 - (cardForId ? 336 : 0));
-    let top = pr.top - bh - 30;
+    left = clamp(left, minL, Math.max(minL, maxR - bw));
+    // Above the piece, clear of the rotate handle (about 40px up), or below.
+    let top = pr.top - bh - 50;
     if (top < sr.top + 8) top = pr.bottom + 14;
     top = clamp(top, sr.top + 8, sr.bottom - bh - 96);
     ctxBar.style.left = Math.round(left) + 'px';
@@ -815,11 +1004,16 @@
     const first = pop.querySelector('[aria-checked="true"]') || pop.querySelector('button');
     if (first) first.focus({ preventScroll: true });
   }
-  function closePop() {
+  function closePop(returnFocus) {
     if (pop.hidden) return;
+    const label = popAnchor && popAnchor.textContent;
     pop.hidden = true;
     if (popAnchor) { popAnchor.setAttribute('aria-expanded', 'false'); }
     popAnchor = null;
+    if (returnFocus || pop.contains(document.activeElement)) {
+      const btn = [...ctxBar.querySelectorAll('button')].find(b => b.textContent === label);
+      if (btn) btn.focus({ preventScroll: true }); else if (selectedId) focusPiece(selectedId);
+    }
   }
   function optBtn(label, checked, onPick, lead) {
     const b = document.createElement('button');
@@ -839,7 +1033,10 @@
       el.setAttribute('role', 'menu');
       el.setAttribute('aria-label', 'Frame');
       const p = byId(id);
-      FRAMES.forEach(f => {
+      // Boards from the first version can carry star, heart or diamond clips.
+      // They aren't offered for new photos, but stay pickable where they exist.
+      const legacy = { star: 'Star', heart: 'Heart', diamond: 'Diamond' }[p.frame];
+      (legacy ? FRAMES.concat([{ id: p.frame, label: legacy }]) : FRAMES).forEach(f => {
         const chip = document.createElement('span');
         chip.className = 'frame-chip ' + f.id;
         el.appendChild(optBtn(f.label, p.frame === f.id, () => setFrame(id, f.id), chip));
@@ -848,7 +1045,7 @@
   }
   function setFrame(id, frame) {
     const p = byId(id);
-    if (!p || p.frame === frame) { closePop(); return; }
+    if (!p || p.frame === frame) { closePop(true); return; }
     pushUndo();
     const changes = { frame };
     // Shapes that read wrong when stretched get squared up, keeping the center.
@@ -858,7 +1055,7 @@
     }
     if (frame === 'torn') changes.clip = tornPath();
     updatePiece(id, changes);
-    closePop();
+    closePop(true);
     buildCtx();
   }
   function fontPop(anchor, id) {
@@ -867,12 +1064,20 @@
       el.setAttribute('aria-label', 'Font');
       const p = byId(id);
       FONTS.forEach(f => {
-        const b = optBtn(f.label, p.family === f.family, () => {
+        const b = optBtn(f.label, p.family === f.family, async () => {
           pushUndo();
           updatePiece(id, { family: f.family });
-          fitTextBox(byId(id));
-          closePop();
+          closePop(true);
           buildCtx();
+          // Size the box with the new face, not the one it replaced.
+          try { await document.fonts.load(`${p.italic ? 'italic ' : ''}${p.weight || 600} ${Math.round(p.size)}px ${f.family}`); } catch (e) { /* fallback metrics */ }
+          const q = byId(id);
+          if (!q) return;
+          fitTextBox(q);
+          renderPiece(q);
+          renderLabels();
+          positionCtx();
+          save();
         });
         b.style.fontFamily = f.family;
         b.style.fontSize = '18px';
@@ -887,11 +1092,10 @@
       const p = byId(id);
       const grid = document.createElement('div');
       grid.className = 'swatches';
-      grid.setAttribute('role', 'radiogroup');
       INKS.forEach(c => {
         const b = document.createElement('button');
         b.type = 'button';
-        b.setAttribute('role', 'radio');
+        b.setAttribute('role', 'menuitemradio');
         b.setAttribute('aria-label', INK_NAMES[c] || c);
         b.setAttribute('aria-checked', String((p.color || paint().ink).toLowerCase() === c));
         b.style.setProperty('--sw', c);
@@ -899,7 +1103,7 @@
           e.stopPropagation();
           pushUndo();
           updatePiece(id, { color: c });
-          closePop();
+          closePop(true);
           buildCtx();
         });
         grid.appendChild(b);
@@ -909,9 +1113,10 @@
   }
 
   // ===== Wall text card =====
-  function openCard(id) {
+  function openCard(id, opts) {
     const p = byId(id);
     if (!p) return;
+    if (opts && opts.focus) setTimeout(() => $('#card-why').focus(), 30);
     const wasOpen = !!cardForId;
     cardForId = id;
     cardDirty = false;
@@ -930,19 +1135,41 @@
     setDotUI(!!p.dot);
     card.hidden = false;
     buildCtx();
-    if (!wasOpen) positionCtx();
+    if (!wasOpen) { if (isPhone()) refitIfAuto(); positionCtx(); }
+    keepInView(id);
     return card;
+  }
+  // Slide the wall so the piece being labeled isn't under the card.
+  function keepInView(id) {
+    const dom = domOf(id);
+    if (!dom || viewMode === 'walk') return;
+    const pr = dom.getBoundingClientRect();
+    const sr = stage.getBoundingClientRect();
+    let dx = 0, dy = 0;
+    if (isPhone()) {
+      const limit = card.getBoundingClientRect().top - 16;
+      if (pr.bottom > limit) dy = limit - pr.bottom;
+      if (pr.top + dy < sr.top + 70) dy = sr.top + 70 - pr.top;
+    } else {
+      const limit = card.getBoundingClientRect().left - 24;
+      if (pr.right > limit) dx = limit - pr.right;
+      if (pr.left + dx < sr.left + 20) dx = sr.left + 20 - pr.left;
+    }
+    if (dx || dy) { userZoomed = true; setView(view.s, view.tx + dx, view.ty + dy); }
   }
   function closeCard() {
     if (!cardForId) return;
+    const wasFocusInCard = card.contains(document.activeElement);
+    const id = cardForId;
     cardForId = null;
     card.hidden = true;
     buildCtx();
+    if (isPhone()) refitIfAuto();
+    if (wasFocusInCard) focusPiece(id);
   }
   function setDotUI(on) {
     const b = $('#card-dot');
     b.setAttribute('aria-pressed', String(on));
-    b.querySelector('strong').textContent = on ? 'Yours' : 'Mark it yours';
   }
   function cardEdit(field, value) {
     const p = byId(cardForId);
@@ -956,24 +1183,32 @@
   }
 
   // ===== Words =====
+  let redoBeforeWords = null;
   function addWords() {
-    const p = addPiece({
+    // Measure first, so the open-space search places the real box. Placing a
+    // 420x100 guess and then resizing let new words land on each other.
+    const props = {
       type: 'text', content: 'Your words', family: FONTS[0].family, size: WORDS_SIZE,
-      color: paint().ink, weight: 600, italic: false, w: 420, h: 100,
-    });
-    fitTextBox(p);
-    renderPiece(p);
+      color: null, weight: 600, italic: false, x: 0, y: 0, w: 420, h: 100,
+    };
+    fitTextBox(props, true);
+    delete props.x; delete props.y;
+    redoBeforeWords = redoStack.slice();
+    const p = addPiece(props);
     startTextEdit(p.id, true);
   }
 
-  // The box hugs the text, measured with the real font.
+  // The box hugs the text, measured with the real font. Very long lines wrap
+  // at 1200 units instead of running off the wall.
   const measurer = document.createElement('div');
-  function fitTextBox(p) {
+  const WORDS_MAX_W = 1200;
+  function fitTextBox(p, noClamp) {
     if (!p || p.type !== 'text') return;
     if (!measurer.parentNode) {
-      measurer.style.cssText = 'position:absolute;left:-99999px;top:0;white-space:pre;line-height:1.05;visibility:hidden';
+      measurer.style.cssText = 'position:absolute;left:-99999px;top:0;display:inline-block;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.05;visibility:hidden';
       document.body.appendChild(measurer);
     }
+    measurer.style.maxWidth = WORDS_MAX_W + 'px';
     measurer.style.fontFamily = p.family;
     measurer.style.fontSize = p.size + 'px';
     measurer.style.fontWeight = p.weight || 600;
@@ -983,7 +1218,7 @@
     const w = clamp(measurer.offsetWidth + p.size * 0.4, 60, W());
     const h = clamp(measurer.offsetHeight + p.size * 0.2, 30, H());
     Object.assign(p, { w, h, x: cx - w / 2, y: cy - h / 2 });
-    clampOnWall(p);
+    if (!noClamp) clampOnWall(p);
   }
 
   function startTextEdit(id, fresh) {
@@ -996,6 +1231,9 @@
     const art = dom.querySelector('.art');
     art.contentEditable = 'true';
     art.spellcheck = false;
+    art.setAttribute('role', 'textbox');
+    art.setAttribute('aria-label', 'Words');
+    dom.classList.add('editing');
     art.focus();
     const range = document.createRange();
     range.selectNodeContents(art);
@@ -1005,6 +1243,15 @@
     art.dataset.fresh = fresh ? '1' : '';
     art.dataset.before = p.content;
     art.addEventListener('blur', commitTextEdit, { once: true });
+  }
+  // Escape: put the words back the way they were. A fresh piece goes away.
+  function cancelTextEdit() {
+    const id = editingTextId;
+    if (!id) return;
+    const dom = domOf(id);
+    const art = dom && dom.querySelector('.art');
+    if (art) art.textContent = art.dataset.fresh === '1' ? '' : art.dataset.before;
+    commitTextEdit();
   }
   function commitTextEdit() {
     const id = editingTextId;
@@ -1016,27 +1263,34 @@
     const art = dom.querySelector('.art');
     art.removeEventListener('blur', commitTextEdit);
     art.contentEditable = 'false';
+    art.removeAttribute('role');
+    art.removeAttribute('aria-label');
+    dom.classList.remove('editing');
     const next = (art.innerText || '').replace(/\n{3,}/g, '\n\n').trim();
     const before = art.dataset.before;
+    const fresh = art.dataset.fresh === '1';
     if (!next) {
-      // An emptied text piece is a removal. A fresh one that was never typed
-      // in leaves no trace in undo either.
-      board.pieces = board.pieces.filter(x => x.id !== id);
-      dom.remove();
-      if (art.dataset.fresh !== '1') {
-        toast('Words taken down.', { action: 'Undo', onAction: undo });
-      } else {
-        undoStack.pop(); // the add itself, so nothing is left behind
+      if (fresh) {
+        // Never typed in: leave no trace, and give back the redo history the
+        // add cleared.
+        undoStack.pop();
+        if (redoBeforeWords) redoStack = redoBeforeWords;
         updateUndoButtons();
+        board.pieces = board.pieces.filter(x => x.id !== id);
+        dom.remove();
+        selectedId = null;
+        buildCtx(); renderLabels(); updateEmpty(); save();
+        focusStage();
+      } else {
+        // Emptying words is taking them down: undoable like any other.
+        art.textContent = before;
+        removePiece(id);
       }
-      selectedId = null;
-      buildCtx();
-      renderLabels();
-      updateEmpty();
-      save();
+      redoBeforeWords = null;
       return;
     }
-    if (next !== before && art.dataset.fresh !== '1') pushUndo();
+    redoBeforeWords = null;
+    if (next !== before && !fresh) pushUndo();
     p.content = next;
     fitTextBox(p);
     dom.dataset.sig = '';
@@ -1088,7 +1342,7 @@
     ctx.drawImage(img, 0, 0, w, h);
     const clear = transparency(ctx, w, h);
     if (clear > 0.06) {
-      const cut = dieCut(c);
+      const cut = dieCut(trimAlpha(c));
       return { src: cut.url, cutout: true, ratio: cut.w / cut.h };
     }
     try {
@@ -1096,6 +1350,23 @@
     } catch (e) {
       return { src, ratio: w / h };
     }
+  }
+  // Crop to the visible pixels. A lifted subject often arrives with a wide
+  // transparent margin, which became an invisible box that blocked clicks.
+  function trimAlpha(c) {
+    try {
+      const { width: w, height: h } = c;
+      const d = c.getContext('2d').getImageData(0, 0, w, h).data;
+      let x0 = w, y0 = h, x1 = -1, y1 = -1;
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        if (d[(y * w + x) * 4 + 3] > 16) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      }
+      if (x1 < 0 || (x0 === 0 && y0 === 0 && x1 === w - 1 && y1 === h - 1)) return c;
+      const out = document.createElement('canvas');
+      out.width = x1 - x0 + 1; out.height = y1 - y0 + 1;
+      out.getContext('2d').drawImage(c, -x0, -y0);
+      return out;
+    } catch (e) { return c; }
   }
   function dieCut(source) {
     const r = Math.max(4, Math.round(Math.max(source.width, source.height) * 0.018));
@@ -1129,9 +1400,11 @@
   async function hangSrc(src, extra) {
     const probe = await loadImg(src);
     const ratio0 = probe.naturalWidth / probe.naturalHeight;
-    const size = sizeFor(ratio0, PHOTO_EDGE);
+    // Small images hang small instead of being blown up into mush.
+    const edge = Math.min(PHOTO_EDGE, Math.max(80, Math.max(probe.naturalWidth, probe.naturalHeight)));
+    const size = sizeFor(ratio0, edge);
     const prepared = await prepareImage(src, size.w * STORE_SCALE, size.h * STORE_SCALE);
-    const s2 = sizeFor(prepared.ratio || ratio0, prepared.cutout ? PHOTO_EDGE * 0.85 : PHOTO_EDGE);
+    const s2 = sizeFor(prepared.ratio || ratio0, prepared.cutout ? edge * 0.85 : edge);
     return addPiece(Object.assign({
       type: 'image', src: prepared.src, w: s2.w, h: s2.h,
       frame: 'none', cutout: !!prepared.cutout,
@@ -1149,7 +1422,9 @@
     afterHang(added);
   }
   function cleanName(n) {
-    return String(n || '').replace(/\.[a-z0-9]+$/i, '').replace(/[_-]+/g, ' ').replace(/^(IMG|DSC|PXL|Screenshot)\s?\d.*$/i, '').trim();
+    const t = String(n || '').replace(/\.[a-z0-9]+$/i, '').replace(/[_-]+/g, ' ').replace(/^(IMG|DSC|PXL|Screenshot)\s?\d.*$/i, '').trim();
+    // Clipboard images arrive named "image" or "image.png"; that isn't a name.
+    return /^(image|pasted image|untitled)$/i.test(t) ? '' : t;
   }
   function afterHang(added) {
     if (!added.length) return;
@@ -1285,15 +1560,20 @@
     if (board.shape === shape) return;
     pushUndo();
     const from = SHAPES[board.shape], to = SHAPES[shape];
-    const kx = to.w / from.w, ky = to.h / from.h, k = Math.min(kx, ky);
-    // Keep each piece's center in the same relative spot; shrink sizes only
-    // as much as the tighter side needs.
+    const kx = to.w / from.w, ky = to.h / from.h;
+    // Both shapes have the same area, so pieces keep their size and only their
+    // centers move. Scaling sizes by the tighter side shrank everything to 39%
+    // after a Wide-Tall-Wide round trip. Only a piece too big for the new
+    // wall is shrunk, keeping its shape.
     board.pieces.forEach(p => {
       const cx = (p.x + p.w / 2) * kx, cy = (p.y + p.h / 2) * ky;
-      p.w *= k; p.h *= k;
-      if (p.type === 'text') p.size *= k;
+      const fitK = Math.min(1, (to.w * 0.92) / p.w, (to.h * 0.92) / p.h);
+      p.w *= fitK; p.h *= fitK;
+      if (p.type === 'text') p.size *= fitK;
       p.x = cx - p.w / 2; p.y = cy - p.h / 2;
-      clampOnWall(p);
+      board.shape = shape;
+      Object.assign(p, clampInside(p.x, p.y, p.w, p.h));
+      board.shape = from === SHAPES.wide ? 'wide' : 'tall';
     });
     board.shape = shape;
     applyWall();
@@ -1370,6 +1650,8 @@
   // ===== New wall =====
   function newWall() {
     pushUndo();
+    const before = undoStack[undoStack.length - 1];
+    const titleBefore = showTitle.value;
     const keepShape = board.shape;
     board = emptyBoard();
     board.shape = keepShape;
@@ -1382,7 +1664,8 @@
     fit();
     refreshUI();
     save();
-    toast('New wall.', { action: 'Undo', onAction: undo, ms: 8000 });
+    // The toast's Undo brings back the wall it took down, even after edits.
+    toast('New wall.', { action: 'Undo', onAction: () => { pushUndo(); showTitle.value = titleBefore; restore(before); fit(); }, ms: 10000 });
   }
 
   // ===== Pointer input: pan, pinch, drag, resize, rotate =====
@@ -1415,10 +1698,12 @@
       const p = byId(id);
       const wasSelected = selectedId === id;
       if (!wasSelected) select(id);
+      pieceDom.focus({ preventScroll: true });
       gesture = { kind: 'drag', id, sx: e.clientX, sy: e.clientY, ox: p.x, oy: p.y, moved: false, wasSelected };
     } else {
       gesture = { kind: 'pan', sx: e.clientX, sy: e.clientY, ox: view.tx, oy: view.ty, moved: false };
       stage.classList.add('panning');
+      if (document.activeElement && document.activeElement.closest && document.activeElement.closest('#bar input, #panel input')) focusStage();
     }
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
@@ -1465,7 +1750,7 @@
   function onPointerUp(e) {
     pointers.delete(e.pointerId);
     if (gesture && gesture.kind === 'pinch') {
-      if (pointers.size < 2) gesture = null;
+      if (pointers.size < 2) { gesture = null; buildCtx(); }
       if (!pointers.size) detach();
       return;
     }
@@ -1477,7 +1762,7 @@
         // A tap on the empty wall: deselect, and a double tap fits or zooms.
         const now = Date.now();
         if (now - lastTap.t < 320 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 24) {
-          if (Math.abs(view.s / fitS - 1) > 0.02) fit(); else zoomAt(2.2, e.clientX, e.clientY);
+          if (!isFitted()) fit(); else zoomAt(2.2, e.clientX, e.clientY);
           lastTap.t = 0;
         } else {
           lastTap = { t: now, x: e.clientX, y: e.clientY };
@@ -1614,7 +1899,7 @@
     if (viewMode === 'walk') return;
     e.preventDefault();
     if (e.ctrlKey || e.metaKey) {
-      zoomAt(Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0085)), e.clientX, e.clientY);
+      zoomAt(clamp(Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0085)), 0.8, 1.25), e.clientX, e.clientY);
     } else {
       userZoomed = true;
       const m = e.deltaMode ? 24 : 1;
@@ -1623,25 +1908,43 @@
   }
 
   // ===== Keyboard =====
+  // Keys belong to whatever has focus. Piece shortcuts only fire when a
+  // piece (or the bare wall) has focus; buttons, fields, menus and radio
+  // groups keep their own Enter, Space and arrows. The first version took
+  // Enter and Backspace from every button while a piece was selected.
+  const CONTROL_SEL = 'button, a[href], input, textarea, select, [role="radio"], [role="menuitem"], [role="menuitemradio"], [contenteditable="true"]';
   function onKey(e) {
     const mod = e.metaKey || e.ctrlKey;
+    const t = e.target && e.target.closest ? e.target : document.body;
+    const onControl = !!t.closest(CONTROL_SEL);
+
     if (openDialog) {
       if (e.key === 'Tab') trapFocus(openDialog, e);
-      if (e.key === 'Escape') { e.preventDefault(); closeDialog(); }
+      else if (e.key === 'Escape') { e.preventDefault(); closeDialog(); }
+      else arrowNav(e, t);
+      return;
+    }
+    if (drawing) {
+      if (e.key === 'Escape') { e.preventDefault(); exitDraw(false); }
+      else if (mod && e.key.toLowerCase() === 'z') { e.preventDefault(); strokes.pop(); redrawStrokes(); }
+      else arrowNav(e, t);
       return;
     }
     if (viewMode === 'walk') {
+      if (e.key === 'Escape') { e.preventDefault(); setViewMode(prevMode); return; }
+      if (onControl && (e.key === 'Enter' || e.key === ' ')) return; // let the button do its job
       if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); walkStep(1); }
       else if (e.key === 'ArrowLeft') { e.preventDefault(); walkStep(-1); }
-      else if (e.key === 'Escape') { e.preventDefault(); setViewMode(prevMode); }
       return;
     }
+    if (arrowNav(e, t)) return;
+
     if (e.key === 'Escape') {
-      if (!pop.hidden) { closePop(); return; }
-      if (editingTextId) { commitTextEdit(); return; }
-      if (!$('#more-menu').hidden) { closeMenu(); return; }
-      if (cardForId) { closeCard(); const d = domOf(selectedId); if (d) d.focus(); return; }
-      if (panelTab) { closePanel(); return; }
+      if (!pop.hidden) { closePop(true); return; }
+      if (editingTextId) { cancelTextEdit(); return; }
+      if (!$('#more-menu').hidden) { closeMenu(); $('#btn-more').focus(); return; }
+      if (cardForId) { const id = cardForId; closeCard(); focusPiece(id); return; }
+      if (panelTab) { const tab = panelTab; closePanel(); $('#tool-' + tab).focus(); return; }
       if (selectedId) { select(null); return; }
       return;
     }
@@ -1649,18 +1952,30 @@
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitTextEdit(); }
       return;
     }
-    const typing = e.target.closest && e.target.closest('input, textarea, [contenteditable="true"]');
+    const typing = !!t.closest('input, textarea, [contenteditable="true"]');
     if (mod && e.key.toLowerCase() === 'z' && !typing) { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
     if (mod && e.key.toLowerCase() === 'y' && !typing) { e.preventDefault(); redo(); return; }
-    if (mod && (e.key === '=' || e.key === '+')) { e.preventDefault(); zoomBy(1.25); return; }
-    if (mod && e.key === '-') { e.preventDefault(); zoomBy(0.8); return; }
-    if (mod && e.key === '0') { e.preventDefault(); fit(); return; }
-    if (typing) return;
+    // Browser zoom (Cmd plus or minus) stays the browser's. The wall zooms
+    // with plain + - 0 while the wall has focus.
+    const onWall = !onControl && (t.closest('.piece') || t === stage || t === document.body);
+    if (!onWall) return;
+    if (!mod && (e.key === '=' || e.key === '+')) { e.preventDefault(); zoomBy(1.25); return; }
+    if (!mod && e.key === '-') { e.preventDefault(); zoomBy(0.8); return; }
+    if (!mod && e.key === '0') { e.preventDefault(); fit(); return; }
     const p = selectedId && byId(selectedId);
-    if (!p) return;
+    if (!p) {
+      if (e.altKey && /^Arrow/.test(e.key)) { e.preventDefault(); stepPiece(1); }
+      return;
+    }
+    if (e.altKey && /^Arrow/.test(e.key)) { e.preventDefault(); stepPiece(e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 1); return; }
     if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removePiece(p.id); return; }
     if (mod && e.key.toLowerCase() === 'd') { e.preventDefault(); duplicatePiece(p.id); return; }
-    if (e.key === 'Enter') { e.preventDefault(); if (p.type === 'text' && !e.shiftKey) startTextEdit(p.id); else openCard(p.id); return; }
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (p.type === 'text' && e.key === 'Enter' && !e.shiftKey) startTextEdit(p.id);
+      else openCard(p.id, { focus: true });
+      return;
+    }
     const step = e.shiftKey ? 20 : 4;
     const moves = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
     if (moves[e.key]) {
@@ -1673,6 +1988,58 @@
       positionCtx();
       save();
     }
+  }
+
+  // Arrow keys inside menus, popovers and radio groups move between their
+  // items (radio groups also select, as native radios do). Returns true if
+  // it handled the key.
+  function arrowNav(e, t) {
+    if (!/^(ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Home|End)$/.test(e.key)) return false;
+    let items, activate = false;
+    const radio = t.closest('[role="radio"]');
+    const menu = t.closest('#pop, #more-menu');
+    if (radio) {
+      const group = radio.closest('[role="radiogroup"]');
+      if (!group) return false;
+      items = [...group.querySelectorAll('[role="radio"]')].filter(n => !n.disabled && n.offsetParent !== null);
+      activate = true;
+    } else if (menu) {
+      items = [...menu.querySelectorAll('button')].filter(n => !n.disabled && n.offsetParent !== null);
+    } else {
+      return false;
+    }
+    const i = items.indexOf(radio || t.closest('button'));
+    if (i < 0 && !items.length) return false;
+    const back = e.key === 'ArrowUp' || e.key === 'ArrowLeft';
+    let n = e.key === 'Home' ? 0 : e.key === 'End' ? items.length - 1 : (i + (back ? -1 : 1) + items.length) % items.length;
+    e.preventDefault();
+    items[n].focus();
+    if (activate) items[n].click();
+    return true;
+  }
+
+  // Move selection to the next or previous piece in reading order.
+  function stepPiece(d) {
+    const order = readingOrder();
+    if (!order.length) return;
+    const i = order.findIndex(p => p.id === selectedId);
+    const next = order[i < 0 ? 0 : (i + d + order.length) % order.length];
+    select(next.id);
+    focusPiece(next.id);
+  }
+  function readingOrder() {
+    return board.pieces.slice().sort((a, b) => {
+      const ba = bbox(a), bb = bbox(b);
+      const rowA = Math.round((ba.y + ba.h / 2) / (H() / 3)), rowB = Math.round((bb.y + bb.h / 2) / (H() / 3));
+      return rowA - rowB || (ba.x - bb.x);
+    });
+  }
+  // One tab stop for the whole wall: the selected piece, or the first one.
+  // Tab from there goes to the selected piece's context bar, which sits
+  // right after the wall in the page. Alt with an arrow key walks the pieces.
+  function syncTabStops() {
+    const stop = selectedId && byId(selectedId) ? selectedId : (readingOrder()[0] || {}).id;
+    piecesEl.querySelectorAll('.piece').forEach(d => { d.tabIndex = d.dataset.id === stop ? 0 : -1; });
   }
 
   // ===== Dialogs =====
@@ -1691,10 +2058,14 @@
     scrim.hidden = true;
     if (el.id === 'dlg-welcome') finishWelcome();
     if (el.id === 'dlg-hang') stopFilm();
-    if (dialogReturnFocus && document.contains(dialogReturnFocus)) dialogReturnFocus.focus();
+    const back = dialogReturnFocus;
+    if (back && document.contains(back) && back.offsetParent !== null) back.focus();
+    else if (el.id === 'dlg-new') $('#btn-more').focus();
+    else focusStage();
   }
   function trapFocus(container, e) {
-    const nodes = [...container.querySelectorAll('button, [href], input, textarea, [tabindex]:not([tabindex="-1"])')]
+    // a[href], not [href]: SVG <use href> matched and broke the trap.
+    const nodes = [...container.querySelectorAll('button, a[href], input, textarea, select, [tabindex]:not([tabindex="-1"])')]
       .filter(n => !n.disabled && n.offsetParent !== null);
     if (!nodes.length) return;
     const first = nodes[0], last = nodes[nodes.length - 1];
@@ -1722,7 +2093,7 @@
     $('#more-menu').hidden = true;
     $('#btn-more').setAttribute('aria-expanded', 'false');
   }
-  function updateAskUI() { $('#opt-ask').setAttribute('aria-checked', String(askWhy)); }
+  function updateAskUI() { $('#opt-ask').setAttribute('aria-pressed', String(askWhy)); }
 
   // ===== View modes =====
   let prevMode = 'arrange';
@@ -1751,16 +2122,15 @@
   let walkIdx = -1;
   let walkSwipe = null;
   function walkList() {
-    // Read the wall like a visitor: left to right, top to bottom, labeled
-    // pieces first if there are any.
-    const order = board.pieces.slice().sort((a, b) => {
-      const ba = bbox(a), bb = bbox(b);
-      const rowA = Math.round((ba.y + ba.h / 2) / (H() / 3)), rowB = Math.round((bb.y + bb.h / 2) / (H() / 3));
-      return rowA - rowB || (ba.x - bb.x);
-    });
+    // Read the wall like a visitor: left to right, top to bottom. Labeled
+    // pieces if there are any, else every piece that isn't words, else all.
+    const order = readingOrder();
     const labeled = order.filter(hasLabel);
-    return labeled.length ? labeled : order.filter(p => p.type !== 'text');
+    if (labeled.length) return labeled;
+    const art = order.filter(p => p.type !== 'text');
+    return art.length ? art : order;
   }
+  const plural = (n, one, many) => `${n} ${n === 1 ? one : (many || one + 's')}`;
   function startWalk() {
     walkOrder = walkList();
     walkIdx = -1;
@@ -1768,13 +2138,15 @@
     select(null);
     closePanel();
     closeCard();
-    requestAnimationFrame(() => walkShow());
+    requestAnimationFrame(() => { walkShow(); $('#walk-next').focus({ preventScroll: true }); });
   }
   function endWalk() {
     $('#walk').hidden = true;
     $('#walk-label').innerHTML = '';
     wall.style.transition = '';
     fit();
+    const b = $(`#views [data-view="${viewMode}"]`);
+    if (b) b.focus({ preventScroll: true });
   }
   function walkStep(d) {
     walkIdx = clamp(walkIdx + d, -1, walkOrder.length);
@@ -1790,22 +2162,31 @@
     $('#walk-count').textContent = walkIdx < 0 ? 'Opening' : walkIdx >= total ? 'Closing' : `${walkIdx + 1} of ${total}`;
     const r = stage.getBoundingClientRect();
     if (walkIdx < 0 || walkIdx >= total) {
-      const f = computeFitFor(r.width, r.height, 0.08);
-      setView(f.s, f.tx, f.ty);
       label.classList.add('end');
+      const n = board.pieces.length;
       const dots = board.pieces.filter(p => p.dot).length;
       addLine(label, 'w-name', walkIdx < 0 ? (showTitle.value.trim() || 'Untitled show') : 'That is the show.');
-      if (walkIdx < 0) addLine(label, 'w-why', `${board.pieces.length} pieces. Use the arrows, or swipe, to walk the wall.`);
-      else addLine(label, 'w-why', dots ? `${dots} of ${board.pieces.length} have a red dot so far.` : 'No red dots yet. Give it time.');
+      if (walkIdx < 0) {
+        const stops = total === n ? '' : ` This walk stops at the ${plural(total, 'one', 'ones')} with wall text.`;
+        addLine(label, 'w-why', `${plural(n, 'piece')} on the wall.${stops} Use the arrows, or swipe, to walk it.`);
+      } else {
+        addLine(label, 'w-why', dots ? `${dots} of ${n} have a red dot so far.` : 'No red dots yet. Give it time.');
+      }
       if (dots && walkIdx >= total) label.appendChild(Object.assign(document.createElement('span'), { className: 'w-dot' }));
+      // Fit the wall into the space above the card, so the card covers nothing.
+      const lr = label.getBoundingClientRect();
+      const availH = (lr.top > 0 ? lr.top - r.top : r.height * 0.7) - 40;
+      const sFit = Math.min((r.width - 64) / W(), availH / H());
+      setView(sFit, (r.width - W() * sFit) / 2, 24 + (availH - H() * sFit) / 2);
       return;
     }
     const p = walkOrder[walkIdx];
     const b = bbox(p);
-    // Frame the piece in the space the label leaves free.
-    const phone = isPhone();
-    const freeTop = 24, freeBottom = phone ? 260 : 120;
-    const freeLeft = phone ? 16 : 480, freeRight = 40;
+    // Frame the piece in the space the label leaves free: beside it on wide
+    // screens, above it on narrow ones (phones and portrait tablets).
+    const compact = viewsFloat() || r.height < 520;
+    const freeTop = 24, freeBottom = compact ? Math.min(r.height * 0.42, 280) : 120;
+    const freeLeft = compact ? 16 : 480, freeRight = compact ? 16 : 40;
     const aw = r.width - freeLeft - freeRight, ah = r.height - freeTop - freeBottom;
     const s = Math.min(aw / b.w, ah / b.h, fitS * 6) * 0.86;
     const tx = freeLeft + aw / 2 - (b.x + b.w / 2) * s;
@@ -1826,10 +2207,6 @@
     el.textContent = text;
     parent.appendChild(el);
   }
-  function computeFitFor(w, h, pad) {
-    const s = Math.min(w * (1 - pad * 2) / W(), h * (1 - pad * 2 - (isPhone() ? 0.2 : 0.08)) / H());
-    return { s, tx: (w - W() * s) / 2, ty: (h * (isPhone() ? 0.78 : 0.94) - H() * s) / 2 };
-  }
   function walkPointerDown(e) {
     if (e.target.closest('.walk-nav, .walk-label')) return;
     walkSwipe = { x: e.clientX, y: e.clientY };
@@ -1846,14 +2223,20 @@
 
   // ===== Draw =====
   let drawCtx = null, drawRect = null, strokes = [], stroke = null;
+  let drawing = false;
   let drawColor = '#1c1b19', drawSize = 8;
   function enterDraw() {
     select(null);
     closePanel();
     closeCard();
+    closeMenu();
     const el = $('#draw');
     el.hidden = false;
     $('#dock').hidden = true;
+    drawing = true;
+    document.body.classList.add('drawing');
+    ['#stage', '#bar', '#zoom'].forEach(q => { $(q).inert = true; });
+    setTimeout(() => { const b = $('#draw-colors [aria-checked="true"]'); if (b) b.focus(); }, 30);
     const c = $('#draw-canvas');
     drawRect = c.getBoundingClientRect();
     const dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -1891,7 +2274,7 @@
       }));
       const cw = maxX - minX, ch = maxY - minY;
       // Render at the resolution it will hang at (at least 2x of the wall).
-      const k = Math.max(2, 2 / view.s * 0.5);
+      const k = clamp(2 / view.s, 2, 6);
       const crop = document.createElement('canvas');
       crop.width = Math.ceil(cw * k); crop.height = Math.ceil(ch * k);
       const cx = crop.getContext('2d');
@@ -1906,6 +2289,10 @@
     }
     $('#draw').hidden = true;
     $('#dock').hidden = false;
+    drawing = false;
+    document.body.classList.remove('drawing');
+    ['#stage', '#bar', '#zoom'].forEach(q => { $(q).inert = false; });
+    $('#tool-draw').focus({ preventScroll: true });
     drawCtx = null;
     strokes = [];
     c.width = c.width; // clear
@@ -1934,7 +2321,13 @@
   let filmStop = null;
   const FILM_MAX = 7, FILM_OPEN = 1500, FILM_HOLD = 1300, FILM_CLOSE = 1700, FILM_MOVE = 600;
 
-  async function captureWall(withLabels) {
+  let captureChain = Promise.resolve();
+  function captureWall(withLabels) {
+    const run = captureChain.then(() => captureWallNow(withLabels));
+    captureChain = run.catch(() => {});
+    return run;
+  }
+  async function captureWallNow(withLabels) {
     const key = withLabels ? 'labels' : 'bare';
     if (hangCache[key]) return hangCache[key];
     const prevSel = selectedId;
@@ -1977,16 +2370,35 @@
   }
 
   function wrapText(ctx, text, maxW) {
-    const words = String(text).split(/\s+/);
     const lines = [];
-    let line = '';
-    words.forEach(w => {
-      const t = line ? line + ' ' + w : w;
-      if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; }
-      else line = t;
+    String(text).split(/\n/).forEach(para => {
+      let line = '';
+      para.split(/\s+/).filter(Boolean).forEach(word => {
+        // A word wider than the line is broken by characters.
+        while (ctx.measureText(word).width > maxW && word.length > 1) {
+          let i = word.length - 1;
+          while (i > 1 && ctx.measureText((line ? line + ' ' : '') + word.slice(0, i)).width > maxW) i--;
+          if (line && ctx.measureText(line + ' ' + word.slice(0, i)).width > maxW) { lines.push(line); line = ''; continue; }
+          lines.push((line ? line + ' ' : '') + word.slice(0, i));
+          line = '';
+          word = word.slice(i);
+        }
+        const t = line ? line + ' ' + word : word;
+        if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = word; }
+        else line = t;
+      });
+      if (line) lines.push(line);
     });
-    if (line) lines.push(line);
     return lines;
+  }
+  // Keep at most n lines; the last one ends in an ellipsis if text was cut.
+  function clampLines(ctx, lines, n, maxW) {
+    if (lines.length <= n) return lines;
+    const out = lines.slice(0, n);
+    let last = out[n - 1];
+    while (last.length > 1 && ctx.measureText(last + '...').width > maxW) last = last.slice(0, -1);
+    out[n - 1] = last.replace(/[\s,.;:]+$/, '') + '...';
+    return out;
   }
   function today() {
     return new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
@@ -2011,60 +2423,109 @@
     x.textAlign = 'right';
     x.fillText(today().toUpperCase(), PW - M, M + 24);
     x.textAlign = 'left';
-    // Title
+    // Title: as big as fits on one line; a long one wraps to two lines.
     const title = showTitle.value.trim() || 'Untitled show';
-    let fs = 340;
-    x.font = `600 ${fs}px "Funnel Display", sans-serif`;
-    while (x.measureText(title).width > PW - M * 2 && fs > 120) { fs -= 10; x.font = `600 ${fs}px "Funnel Display", sans-serif`; }
+    const maxTW = PW - M * 2;
+    let fs = 340, lines = [title];
+    const setF = () => { x.font = `600 ${fs}px "Funnel Display", sans-serif`; };
+    setF();
+    while (x.measureText(title).width > maxTW && fs > 200) { fs -= 10; setF(); }
+    if (x.measureText(title).width > maxTW) {
+      lines = wrapText(x, title, maxTW);
+      while (lines.length > 2 && fs > 120) { fs -= 10; setF(); lines = wrapText(x, title, maxTW); }
+      lines = clampLines(x, lines, 2, maxTW);
+    }
     x.fillStyle = '#1c1b19';
     x.textBaseline = 'alphabetic';
-    x.fillText(title, M - fs * 0.04, M + 120 + fs * 0.82);
+    let ty = M + 120;
+    lines.forEach(l => { ty += fs * 0.92; x.fillText(l, M - fs * 0.04, ty); });
+    const top = ty + 140;
+
+    // Wall text, laid out before the wall so the wall gets whatever is left.
+    const items = walkList().filter(hasLabel);
+    const colGap = 160, colW = (PW - M * 2 - colGap) / 2, textW = colW - 110;
+    const footerY = PH - M + 60;
+    // Measure each entry at a given scale.
+    const measureAt = (sc) => items.map(p => {
+      x.font = `500 italic ${58 * sc}px "Host Grotesk", sans-serif`;
+      const nameLines = clampLines(x, wrapText(x, p.name || shorten(p.why, 70) || describe(p), textW), 2, textW);
+      x.font = `400 ${46 * sc}px "Host Grotesk", sans-serif`;
+      const whyLines = p.name && p.why ? clampLines(x, wrapText(x, p.why, textW), 3, textW) : [];
+      const h = (nameLines.length * 70 + whyLines.length * 60 + (p.by ? 70 : 0) + 70) * sc;
+      return { p, nameLines, whyLines, h };
+    });
+    // Pour entries into two columns in order. Returns how many fit.
+    const pour = (ms, height) => {
+      let col = 0, used = 0, n = 0;
+      for (const m of ms) {
+        if (used + m.h > height) { if (col === 0) { col = 1; used = 0; } else break; }
+        if (used + m.h > height) break;
+        used += m.h; n++;
+      }
+      return n;
+    };
+    const minWallH = 1500;
+    let scale = 1, measured = measureAt(1), listH = 0;
+    if (items.length) {
+      const room = footerY - 140 - top - minWallH - 170;
+      // Shrink the type until everything fits, down to a floor; then list
+      // what fits, in order, and say how many more are on the wall.
+      for (const sc of [1, 0.88, 0.76, 0.66]) {
+        scale = sc; measured = measureAt(sc);
+        if (pour(measured, room / 1) >= items.length) break;
+      }
+      const tallestCol = (() => { let a = 0, b = 0, col = 0; for (const m of measured) { if (col === 0 && a + m.h > room) col = 1; if (col === 0) a += m.h; else b += m.h; } return Math.min(room, Math.max(a, b)); })();
+      listH = Math.max(0, tallestCol);
+    }
     // The wall
-    const top = M + 220 + fs;
-    const listH = 1100;
-    const availW = PW - M * 2, availH = PH - top - listH - M;
+    const availW = PW - M * 2;
+    const availH = (items.length ? footerY - 140 - top - listH - 170 : footerY - 160 - top);
     const k = Math.min(availW / img.width, availH / img.height);
     const ww = img.width * k, wh = img.height * k;
-    const wx = (PW - ww) / 2, wy = top;
+    const wx = (PW - ww) / 2;
+    const wy = items.length ? top : top + (availH - wh) / 2;
     x.save();
     x.shadowColor = 'rgba(0,0,0,0.28)'; x.shadowBlur = 60; x.shadowOffsetY = 24;
     x.drawImage(img, wx, wy, ww, wh);
     x.restore();
-    // Wall text in the margin, two columns
-    const items = walkList().filter(hasLabel);
-    const colW = (PW - M * 2 - 160) / 2;
-    let col = 0, cy = wy + wh + 170;
-    const startY = cy;
-    const maxY = PH - M - 120;
-    items.forEach((p) => {
-      x.font = '500 italic 58px "Host Grotesk", sans-serif';
-      const name = p.name || shorten(p.why, 60);
-      const nameLines = wrapText(x, name, colW - 110);
-      x.font = '400 46px "Host Grotesk", sans-serif';
-      const whyLines = p.name && p.why ? wrapText(x, p.why, colW - 110).slice(0, 3) : [];
-      const hBlock = nameLines.length * 70 + whyLines.length * 60 + (p.by ? 70 : 0) + 70;
-      if (cy + hBlock > maxY) { if (col === 0) { col = 1; cy = startY; } else return; }
-      const cx0 = M + col * (colW + 160);
-      if (p.dot) { x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cx0 + 30, cy + 32, 19, 0, Math.PI * 2); x.fill(); }
-      let ly = cy + 50;
-      x.fillStyle = '#1c1b19';
-      x.font = '500 italic 58px "Host Grotesk", sans-serif';
-      nameLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 70; });
-      x.fillStyle = '#55524b';
-      x.font = '400 46px "Host Grotesk", sans-serif';
-      whyLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 60; });
-      if (p.by) {
-        x.font = '600 38px "Host Grotesk", sans-serif';
-        x.fillStyle = '#6f6b63';
-        x.fillText(p.by.toUpperCase(), cx0 + 110, ly + 6);
-        ly += 70;
+
+    if (items.length) {
+      const startY = wy + wh + 170;
+      const height = footerY - 140 - startY;
+      const fits = pour(measured, height);
+      let col = 0, cy = startY;
+      measured.slice(0, fits).forEach(m => {
+        if (cy + m.h > startY + height) { col = 1; cy = startY; }
+        const cx0 = M + col * (colW + colGap);
+        const sc = scale;
+        const { p } = m;
+        if (p.dot) { x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cx0 + 30, cy + 32 * sc, 19 * sc, 0, Math.PI * 2); x.fill(); }
+        let ly = cy + 50 * sc;
+        x.fillStyle = '#1c1b19';
+        x.font = `500 italic ${58 * sc}px "Host Grotesk", sans-serif`;
+        m.nameLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 70 * sc; });
+        x.fillStyle = '#55524b';
+        x.font = `400 ${46 * sc}px "Host Grotesk", sans-serif`;
+        m.whyLines.forEach(l => { x.fillText(l, cx0 + 110, ly); ly += 60 * sc; });
+        if (p.by) {
+          x.font = `600 ${38 * sc}px "Host Grotesk", sans-serif`;
+          x.fillStyle = '#6f6b63';
+          x.fillText(p.by.toUpperCase(), cx0 + 110, ly + 6 * sc);
+          ly += 70 * sc;
+        }
+        cy = ly + 50 * sc;
+      });
+      const more = items.length - fits;
+      if (more > 0) {
+        x.fillStyle = '#55524b';
+        x.font = `500 italic ${46 * scale}px "Host Grotesk", sans-serif`;
+        x.fillText(`And ${plural(more, 'more piece')} on the wall.`, M + (col === 0 ? colW + colGap : colW + colGap) + 110, startY + height - 10);
       }
-      cy = ly + 50;
-    });
+    }
     // Footer
     x.fillStyle = '#8a867e';
     x.font = '500 40px "Host Grotesk", sans-serif';
-    x.fillText('Hung with Visionbort, middleton.io/visionbort', M, PH - M + 60);
+    x.fillText('Hung with Visionbort, middleton.io/visionbort', M, footerY);
     return c;
   }
 
@@ -2098,9 +2559,11 @@
     const title = showTitle.value.trim();
     if (title) {
       x.fillStyle = paint().tone === 'light' && !board.wallpaper ? '#1c1b19' : '#f1ede4';
-      x.font = '600 52px "Funnel Display", sans-serif';
+      let fs = 52;
+      x.font = `600 ${fs}px "Funnel Display", sans-serif`;
+      while (x.measureText(title).width > LW - 120 && fs > 30) { fs -= 2; x.font = `600 ${fs}px "Funnel Display", sans-serif`; }
       x.textAlign = 'center';
-      x.fillText(title, LW / 2, LH * 0.925);
+      x.fillText(clampLines(x, wrapText(x, title, LW - 120), 1, LW - 120)[0], LW / 2, LH * 0.925);
     }
     return c;
   }
@@ -2187,20 +2650,24 @@
         const ch = shot.kind === 'open' ? 300 : 300;
         x.fillRect(cardX, FH - 120 - ch, cardW, ch);
         x.fillStyle = '#1c1b19';
-        x.font = '600 76px "Funnel Display", sans-serif';
-        x.fillText(shot.kind === 'open' ? title : 'That is the show.', cardX + 48, FH - 120 - ch + 120, cardW - 96);
+        let tfs = 76;
+        const headline = shot.kind === 'open' ? title : 'That is the show.';
+        x.font = `600 ${tfs}px "Funnel Display", sans-serif`;
+        while (x.measureText(headline).width > cardW - 96 && tfs > 52) { tfs -= 4; x.font = `600 ${tfs}px "Funnel Display", sans-serif`; }
+        const hl = clampLines(x, wrapText(x, headline, cardW - 96), 1, cardW - 96)[0];
+        x.fillText(hl, cardX + 48, FH - 120 - ch + 120);
         x.fillStyle = '#55524b';
         x.font = '400 40px "Host Grotesk", sans-serif';
         const dots = board.pieces.filter(p => p.dot).length;
-        const sub = shot.kind === 'open' ? `${list.length} pieces on the wall` : (dots ? `${dots} red dots so far` : 'Hung with Visionbort');
-        x.fillText(sub, cardX + 48, FH - 120 - ch + 200, cardW - 96);
+        const sub = shot.kind === 'open' ? `${plural(board.pieces.length, 'piece')} on the wall` : (dots ? `${plural(dots, 'red dot')} so far` : 'Hung with Visionbort');
+        x.fillText(sub, cardX + 48, FH - 120 - ch + 200);
         if (shot.kind === 'close' && dots) { x.fillStyle = '#c4122f'; x.beginPath(); x.arc(cardX + cardW - 10, FH - 120 - ch + 10, 24, 0, Math.PI * 2); x.fill(); }
       } else if (shot.p) {
         const p = shot.p;
         x.font = '500 italic 54px "Host Grotesk", sans-serif';
-        const nameLines = wrapText(x, p.name || shorten(p.why, 70) || describe(p), cardW - 96).slice(0, 2);
+        const nameLines = clampLines(x, wrapText(x, p.name || shorten(p.why, 70) || describe(p), cardW - 96), 2, cardW - 96);
         x.font = '400 38px "Host Grotesk", sans-serif';
-        const whyLines = p.name && p.why ? wrapText(x, p.why, cardW - 96).slice(0, 3) : [];
+        const whyLines = p.name && p.why ? clampLines(x, wrapText(x, p.why, cardW - 96), 3, cardW - 96) : [];
         const ch = 80 + nameLines.length * 66 + whyLines.length * 52 + (p.by ? 70 : 0) + 30;
         const top = FH - 120 - ch;
         x.fillStyle = '#fbfaf7';
@@ -2325,7 +2792,7 @@
     } else {
       const img = document.createElement('img');
       img.src = url;
-      img.alt = 'Preview';
+      img.alt = { poster: 'Poster preview', lock: 'Lock screen preview', wall: 'Preview of the wall' }[hangFmt] || 'Preview';
       frame.appendChild(img);
     }
     const caps = { poster: '18 by 24 inches at 200 dpi, ready to print', lock: 'Sized for a phone lock screen', wall: 'The whole wall at 2x', film: `A vertical walkthrough, about ${filmSeconds()} seconds` };
@@ -2335,7 +2802,7 @@
   async function saveHang() {
     const blob = hangBlobs[hangFmt];
     if (!blob) return;
-    const base = (showTitle.value.trim() || 'visionbort').replace(/[^\w\s-]+/g, '').trim().replace(/\s+/g, '-').toLowerCase() || 'visionbort';
+    const base = (showTitle.value.trim() || 'visionbort').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s-]+/g, '').trim().replace(/\s+/g, '-').toLowerCase() || 'visionbort';
     const ext = hangFmt === 'film' ? (blob.type.includes('mp4') ? 'mp4' : 'webm') : 'jpg';
     const name = `${base}-${hangFmt === 'lock' ? 'lock-screen' : hangFmt}.${ext}`;
     const file = new File([blob], name, { type: blob.type });
@@ -2401,6 +2868,14 @@
       if (pd && pd.dataset.id !== selectedId && !gesture) select(pd.dataset.id);
     });
     window.addEventListener('resize', () => { refitIfAuto(); positionCtx(); });
+    // A pending debounced save would be lost if the tab closes or the phone
+    // switches apps right after an edit.
+    window.addEventListener('pagehide', flushSave);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) flushSave();
+      else adoptNewerFromStorage();
+    });
+    if (channel) channel.onmessage = (e) => { if (e.data && e.data.savedAt > lastSavedAt) adoptNewerFromStorage(); };
 
     // Paste images, including subjects lifted out of photos.
     document.addEventListener('paste', (e) => {
@@ -2602,21 +3077,34 @@
     const ask = lsGet(ASK_KEY);
     askWhy = ask != null ? ask === '1' : legacyMode ? legacyMode === 'intentional' : true;
     updateAskUI();
-    const migrated = await loadBoard();
+    const { migrated, migrateFailed, loadFailed: unreadable } = await loadBoard();
     showTitle.value = board.title || '';
     applyWall();
     renderAll();
     document.body.dataset.view = viewMode;
     fit();
     refreshUI();
+    if (migrated) {
+      // Words need their real fonts to size their boxes before anything is
+      // clamped onto the wall.
+      try { await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 2500))]); } catch (e) { /* ok */ }
+      settleMigrated();
+      renderAll();
+    }
     // Words were measured before the web fonts arrived; measure again.
     document.fonts && document.fonts.ready.then(() => {
       board.pieces.forEach(p => { if (p.type === 'text') { const d = domOf(p.id); if (d) renderPiece(p); } });
       renderLabels();
     });
-    if (migrated) {
+    if (unreadable) {
+      toast('Your saved wall could not be opened in this browser right now. Reload to try again; nothing has been changed.', { error: true, ms: 15000 });
+      lsSet(WELCOMED_KEY, '1');
+    } else if (migrated) {
       save();
       toast('Your board is hanging on a gallery wall now. Everything came with it.', { ms: 7000 });
+      lsSet(WELCOMED_KEY, '1');
+    } else if (migrateFailed) {
+      toast('Your old board could not be read, so it was left exactly as it was.', { error: true, ms: 10000 });
       lsSet(WELCOMED_KEY, '1');
     } else if (!board.pieces.length && !lsGet(WELCOMED_KEY) && !legacyMode) {
       $('#welcome-ask').checked = askWhy;
