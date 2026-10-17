@@ -117,13 +117,13 @@
     </div>
 
     <div class="bar-end">
-      <button type="button" id="btn-undo" class="ib" aria-label="Undo" title="Undo (Cmd+Z)" disabled><svg><use href="#i-arrow-counter-clockwise"/></svg></button>
-      <button type="button" id="btn-redo" class="ib" aria-label="Redo" title="Redo (Shift+Cmd+Z)" disabled><svg><use href="#i-arrow-clockwise"/></svg></button>
+      <button type="button" id="btn-undo" class="ib" aria-label="Undo" title="Undo (Cmd+Z)" disabled><svg aria-hidden="true"><use href="#i-arrow-counter-clockwise"/></svg></button>
+      <button type="button" id="btn-redo" class="ib" aria-label="Redo" title="Redo (Shift+Cmd+Z)" disabled><svg aria-hidden="true"><use href="#i-arrow-clockwise"/></svg></button>
       <div class="menu-wrap">
-        <button type="button" id="btn-more" class="ib" aria-label="More" aria-haspopup="menu" aria-expanded="false" aria-controls="more-menu"><svg><use href="#i-dots-three"/></svg></button>
+        <button type="button" id="btn-more" class="ib" aria-label="More" aria-haspopup="menu" aria-expanded="false" aria-controls="more-menu"><svg aria-hidden="true"><use href="#i-dots-three"/></svg></button>
         <div id="more-menu" class="menu chrome" role="menu" hidden>
           <button type="button" role="menuitemcheckbox" id="opt-ask" aria-checked="true">
-            <span class="menu-check"><svg><use href="#i-check"/></svg></span>Ask why when I add a piece
+            <span class="menu-check"><svg aria-hidden="true"><use href="#i-check"/></svg></span>Ask why when I add a piece
           </button>
           <button type="button" role="menuitem" id="opt-example">See an example show</button>
           <hr>
@@ -156,19 +156,19 @@
 
   <!-- Zoom -->
   <div id="zoom" class="chrome pill">
-    <button type="button" class="ib sm" id="zoom-out" aria-label="Zoom out"><svg><use href="#i-minus"/></svg></button>
+    <button type="button" class="ib sm" id="zoom-out" aria-label="Zoom out"><svg aria-hidden="true"><use href="#i-minus"/></svg></button>
     <button type="button" class="zoom-fit" id="zoom-fit" aria-label="Fit the wall to the screen">Fit</button>
-    <button type="button" class="ib sm" id="zoom-in" aria-label="Zoom in"><svg><use href="#i-plus"/></svg></button>
+    <button type="button" class="ib sm" id="zoom-in" aria-label="Zoom in"><svg aria-hidden="true"><use href="#i-plus"/></svg></button>
   </div>
 
   <!-- ===== Dock ===== -->
   <nav id="dock" class="chrome" aria-label="Add to the wall">
-    <button type="button" class="tool" id="tool-photos"><svg><use href="#i-image"/></svg><span>Photos</span></button>
-    <button type="button" class="tool" id="tool-find" aria-controls="panel" aria-expanded="false"><svg><use href="#i-magnifying-glass"/></svg><span>Find</span></button>
-    <button type="button" class="tool" id="tool-stickers" aria-controls="panel" aria-expanded="false"><svg><use href="#i-sticker"/></svg><span>Stickers</span></button>
-    <button type="button" class="tool" id="tool-words"><svg><use href="#i-text-t"/></svg><span>Words</span></button>
-    <button type="button" class="tool" id="tool-draw"><svg><use href="#i-scribble"/></svg><span>Draw</span></button>
-    <button type="button" class="tool" id="tool-wall" aria-controls="panel" aria-expanded="false"><svg><use href="#i-paint-roller"/></svg><span>Wall</span></button>
+    <button type="button" class="tool" id="tool-photos"><svg aria-hidden="true"><use href="#i-image"/></svg><span>Photos</span></button>
+    <button type="button" class="tool" id="tool-find" aria-controls="panel" aria-expanded="false"><svg aria-hidden="true"><use href="#i-magnifying-glass"/></svg><span>Find</span></button>
+    <button type="button" class="tool" id="tool-stickers" aria-controls="panel" aria-expanded="false"><svg aria-hidden="true"><use href="#i-sticker"/></svg><span>Stickers</span></button>
+    <button type="button" class="tool" id="tool-words"><svg aria-hidden="true"><use href="#i-text-t"/></svg><span>Words</span></button>
+    <button type="button" class="tool" id="tool-draw"><svg aria-hidden="true"><use href="#i-scribble"/></svg><span>Draw</span></button>
+    <button type="button" class="tool" id="tool-wall" aria-controls="panel" aria-expanded="false"><svg aria-hidden="true"><use href="#i-paint-roller"/></svg><span>Wall</span></button>
   </nav>
 
   <!-- ===== Side panel / bottom sheet ===== -->
@@ -176,7 +176,7 @@
     <div class="sheet-grip" aria-hidden="true"></div>
     <header class="panel-head">
       <h2 id="panel-title">Find</h2>
-      <button type="button" class="ib sm" id="panel-close" aria-label="Close"><svg><use href="#i-x"/></svg></button>
+      <button type="button" class="ib sm" id="panel-close" aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
     </header>
 
     <section class="pane" data-pane="find">
@@ -220,7 +220,7 @@
     <div class="sheet-grip" aria-hidden="true"></div>
     <header class="panel-head">
       <h2 id="card-title">Wall text</h2>
-      <button type="button" class="ib sm" id="card-close" aria-label="Done"><svg><use href="#i-check"/></svg></button>
+      <button type="button" class="ib sm" id="card-close" aria-label="Done"><svg aria-hidden="true"><use href="#i-check"/></svg></button>
     </header>
     <div class="card-body">
       <div class="card-thumb" id="card-thumb" aria-hidden="true"></div>
@@ -244,9 +244,9 @@
   <div id="walk" hidden>
     <div id="walk-label" class="walk-label" aria-live="polite"></div>
     <div class="walk-nav chrome pill">
-      <button type="button" class="ib" id="walk-prev" aria-label="Previous piece"><svg><use href="#i-caret-left"/></svg></button>
+      <button type="button" class="ib" id="walk-prev" aria-label="Previous piece"><svg aria-hidden="true"><use href="#i-caret-left"/></svg></button>
       <span id="walk-count">1 of 1</span>
-      <button type="button" class="ib" id="walk-next" aria-label="Next piece"><svg><use href="#i-caret-right"/></svg></button>
+      <button type="button" class="ib" id="walk-next" aria-label="Next piece"><svg aria-hidden="true"><use href="#i-caret-right"/></svg></button>
       <button type="button" class="btn" id="walk-exit">Done</button>
     </div>
   </div>
@@ -261,7 +261,7 @@
         <button type="button" role="radio" data-size="8" aria-label="Medium" aria-checked="true"><i style="--d:8px"></i></button>
         <button type="button" role="radio" data-size="16" aria-label="Thick" aria-checked="false"><i style="--d:14px"></i></button>
       </div>
-      <button type="button" class="ib sm" id="draw-undo" aria-label="Undo stroke"><svg><use href="#i-arrow-counter-clockwise"/></svg></button>
+      <button type="button" class="ib sm" id="draw-undo" aria-label="Undo stroke"><svg aria-hidden="true"><use href="#i-arrow-counter-clockwise"/></svg></button>
       <button type="button" class="btn" id="draw-cancel">Cancel</button>
       <button type="button" class="btn primary" id="draw-done">Hang it</button>
     </div>
@@ -298,7 +298,7 @@
   <section id="dlg-hang" class="dlg chrome wide" role="dialog" aria-modal="true" aria-labelledby="hang-h" hidden>
     <header class="dlg-head">
       <h2 id="hang-h">Hang the show</h2>
-      <button type="button" class="ib sm" id="hang-close" aria-label="Close"><svg><use href="#i-x"/></svg></button>
+      <button type="button" class="ib sm" id="hang-close" aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
     </header>
     <div class="hang-body">
       <div class="hang-choices" role="radiogroup" aria-label="Format">
@@ -334,6 +334,6 @@
   <input type="file" id="file-photos" accept="image/*" multiple hidden>
   <input type="file" id="file-wallpaper" accept="image/*" hidden>
 
-  <script src="app.js?v=3148593f"></script>
+  <script src="app.js?v=9b51de18"></script>
 </body>
 </html>

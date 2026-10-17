@@ -625,13 +625,31 @@
   }
 
   // ===== Pieces: add, change, remove =====
+  // Walk a spiral out from the middle of what's on screen and take the first
+  // spot that covers nothing (labels included). If the wall is full, take the
+  // spot that covers least.
   function nextSpot(w, h) {
     const c = visibleCenter();
-    const n = board.pieces.length % 18;
-    const step = Math.min(W(), H()) * 0.11;
-    const a = n * 2.39996323;
-    const r = step * Math.sqrt(n);
-    return clampInside(c.x + r * Math.cos(a) - w / 2, c.y + r * Math.sin(a) - h / 2, w, h);
+    const taken = board.pieces.map(p => {
+      const b = bbox(p);
+      return hasLabel(p) ? { x: b.x, y: b.y, w: Math.max(b.w, 200), h: b.h + 90 } : b;
+    });
+    const step = Math.min(W(), H()) * 0.06;
+    let best = null;
+    for (let n = 0; n < 160; n++) {
+      const a = n * 2.39996323, r = step * Math.sqrt(n);
+      const spot = clampInside(c.x + r * Math.cos(a) - w / 2, c.y + r * Math.sin(a) - h / 2, w, h);
+      const pad = 18;
+      let cover = 0;
+      for (const t of taken) {
+        const ox = Math.min(spot.x + w + pad, t.x + t.w) - Math.max(spot.x - pad, t.x);
+        const oy = Math.min(spot.y + h + pad, t.y + t.h) - Math.max(spot.y - pad, t.y);
+        if (ox > 0 && oy > 0) cover += ox * oy;
+      }
+      if (cover === 0) return spot;
+      if (!best || cover < best.cover) best = { cover, spot };
+    }
+    return best.spot;
   }
   function clampInside(x, y, w, h) {
     return {
@@ -996,6 +1014,7 @@
     const dom = domOf(id);
     if (!p || !dom) return;
     const art = dom.querySelector('.art');
+    art.removeEventListener('blur', commitTextEdit);
     art.contentEditable = 'false';
     const next = (art.innerText || '').replace(/\n{3,}/g, '\n\n').trim();
     const before = art.dataset.before;
@@ -1024,6 +1043,7 @@
     renderPiece(p);
     renderLabels();
     buildCtx();
+    if (document.activeElement === art || document.activeElement === document.body) dom.focus({ preventScroll: true });
     save();
   }
 
@@ -1374,6 +1394,8 @@
     if (viewMode === 'walk') { walkPointerDown(e); return; }
     if (e.button && e.button !== 0) return;
     if (editingTextId && e.target.closest('.art[contenteditable="true"]')) return;
+    // Don't rely on blur alone to finish editing words; it doesn't always fire.
+    if (editingTextId) commitTextEdit();
     closePop();
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
@@ -1616,11 +1638,15 @@
     }
     if (e.key === 'Escape') {
       if (!pop.hidden) { closePop(); return; }
-      if (editingTextId) { domOf(editingTextId).querySelector('.art').blur(); return; }
+      if (editingTextId) { commitTextEdit(); return; }
       if (!$('#more-menu').hidden) { closeMenu(); return; }
       if (cardForId) { closeCard(); const d = domOf(selectedId); if (d) d.focus(); return; }
       if (panelTab) { closePanel(); return; }
       if (selectedId) { select(null); return; }
+      return;
+    }
+    if (editingTextId) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitTextEdit(); }
       return;
     }
     const typing = e.target.closest && e.target.closest('input, textarea, [contenteditable="true"]');
@@ -1629,10 +1655,7 @@
     if (mod && (e.key === '=' || e.key === '+')) { e.preventDefault(); zoomBy(1.25); return; }
     if (mod && e.key === '-') { e.preventDefault(); zoomBy(0.8); return; }
     if (mod && e.key === '0') { e.preventDefault(); fit(); return; }
-    if (typing) {
-      if (editingTextId && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); e.target.blur(); }
-      return;
-    }
+    if (typing) return;
     const p = selectedId && byId(selectedId);
     if (!p) return;
     if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removePiece(p.id); return; }
@@ -2209,18 +2232,38 @@
     let stopped = false;
     filmStop = () => { stopped = true; if (rec.state !== 'inactive') rec.stop(); };
     rec.start(250);
-    const t0 = performance.now();
+    // The film records in real time, and browsers stop animating hidden tabs.
+    // Pause the recorder and the clock together while the tab is hidden, so
+    // switching away doesn't leave a frozen stretch in the middle of the film.
+    let t0 = performance.now();
+    let hiddenAt = null;
+    let resumeTick = null;
+    const onVis = () => {
+      if (document.hidden) {
+        if (hiddenAt === null) { hiddenAt = performance.now(); if (rec.state === 'recording') rec.pause(); }
+      } else if (hiddenAt !== null) {
+        t0 += performance.now() - hiddenAt;
+        hiddenAt = null;
+        if (rec.state === 'paused') rec.resume();
+        if (resumeTick) requestAnimationFrame(resumeTick);
+      }
+    };
+    document.addEventListener('visibilitychange', onVis);
+    onVis();
     await new Promise((resolve) => {
       const tick = () => {
         if (stopped) return resolve();
+        if (hiddenAt !== null) { resumeTick = tick; return; }
         const ms = performance.now() - t0;
         drawFrame(Math.min(ms, total));
         if (onProgress) onProgress(Math.min(1, ms / total));
         if (ms >= total + 200) return resolve();
         requestAnimationFrame(tick);
       };
-      requestAnimationFrame(tick);
+      resumeTick = tick;
+      if (hiddenAt === null) requestAnimationFrame(tick);
     });
+    document.removeEventListener('visibilitychange', onVis);
     if (rec.state !== 'inactive') rec.stop();
     await done;
     filmStop = null;
@@ -2255,7 +2298,7 @@
     try {
       let blob;
       if (hangFmt === 'film') {
-        cap.textContent = 'Filming the walkthrough. This plays in real time.';
+        cap.textContent = 'Filming the walkthrough in real time. Keep this tab open.';
         blob = await renderFilm((u) => { if (seq === hangSeq) cap.textContent = `Filming the walkthrough, ${Math.round(u * 100)}%`; });
         if (!blob) return;
       } else {
@@ -2478,7 +2521,7 @@
     const dc = $('#draw-canvas');
     dc.addEventListener('pointerdown', (e) => {
       if (!drawCtx) return;
-      dc.setPointerCapture(e.pointerId);
+      try { dc.setPointerCapture(e.pointerId); } catch (err) { /* capture is a nicety */ }
       stroke = { pts: [{ x: e.clientX - drawRect.left, y: e.clientY - drawRect.top }], color: drawColor, size: drawSize };
       strokes.push(stroke);
       redrawStrokes();
@@ -2553,6 +2596,7 @@
     return `polygon(${pts.join(', ')})`;
   }
 
+  window.__vbDebug = { state: () => ({ selectedId, editingTextId, viewMode, cardForId, gesture: gesture && gesture.kind, pointers: pointers.size }) };
   // ===== Boot =====
   async function init() {
     renderStickers();
