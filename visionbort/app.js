@@ -1677,12 +1677,12 @@
         status.textContent = 'Nothing for that. Try a simpler word.';
         return;
       }
-      status.textContent = 'Photos from Unsplash. Tap one to hang it.';
+      status.textContent = findStatus();
       data.results.forEach(photo => {
         const b = document.createElement('button');
         b.type = 'button';
-        const alt = photo.alt_description || 'Photo';
-        b.setAttribute('aria-label', `Hang: ${alt}, by ${photo.user.name}`);
+        b._photo = photo;
+        b.setAttribute('aria-label', findLabel(photo));
         const img = document.createElement('img');
         img.src = photo.urls.small;
         img.alt = '';
@@ -1694,12 +1694,50 @@
         credit.className = 'credit';
         credit.textContent = photo.user.name;
         b.appendChild(credit);
-        b.addEventListener('click', () => hangFromUrl(photo, b));
+        b.addEventListener('click', () => (findFor === 'wallpaper' ? wallpaperFromUrl : hangFromUrl)(photo, b));
         results.appendChild(b);
       });
     } catch (e) {
       if (seq === findSeq) status.textContent = 'Search is not answering right now. Try again in a moment.';
     }
+  }
+  // Find hangs a photo, or (opened from the Wall panel) puts one up as the
+  // wallpaper, as the first version's background search did.
+  let findFor = 'piece';
+  const findStatus = () => findFor === 'wallpaper' ? 'Photos from Unsplash. Tap one to use it as the wallpaper.' : 'Photos from Unsplash. Tap one to hang it.';
+  const findLabel = (photo) => `${findFor === 'wallpaper' ? 'Use as wallpaper' : 'Hang'}: ${photo.alt_description || 'Photo'}, by ${photo.user.name}`;
+  function setFindFor(mode) {
+    findFor = mode;
+    $('#panel-title').textContent = mode === 'wallpaper' ? 'Find a wallpaper' : 'Find photos';
+    const status = $('#find-status');
+    if (status && /^Photos from Unsplash/.test(status.textContent)) status.textContent = findStatus();
+    document.querySelectorAll('#find-results button').forEach(b => { if (b._photo) b.setAttribute('aria-label', findLabel(b._photo)); });
+  }
+  async function wallpaperFromUrl(photo, btn) {
+    btn.disabled = true;
+    try {
+      const blob = await (await fetch(photo.urls.regular)).blob();
+      await setWallpaperFrom(await readAsDataUrl(blob), { name: photo.user.name, url: photo.user.links && photo.user.links.html });
+      if (isPhone()) closePanel();
+      toast(`Wallpaper up. Photo by ${photo.user.name} on Unsplash.`);
+    } catch (e) {
+      toast('That photo would not load. Try another.', { error: true });
+    } finally {
+      btn.disabled = false;
+    }
+  }
+  // Downscale and put up a wallpaper photo, undoably.
+  async function setWallpaperFrom(src, credit) {
+    const img = await loadImg(src);
+    const k = Math.min(WALLPAPER_EDGE / img.naturalWidth, WALLPAPER_EDGE / img.naturalHeight, 1);
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    pushUndo();
+    board.wallpaper = c.toDataURL('image/jpeg', 0.84);
+    board.wallpaperCredit = credit || null;
+    applyWall();
+    save();
   }
   async function hangFromUrl(photo, btn) {
     btn.disabled = true;
@@ -1718,12 +1756,14 @@
 
   // ===== Panels =====
   const PANEL_TITLES = { find: 'Find photos', stickers: 'Stickers', wall: 'The wall' };
-  function openPanel(tab) {
-    if (panelTab === tab) { closePanel(); return; }
+  function openPanel(tab, opts) {
+    const wantFor = tab === 'find' ? ((opts && opts.for) || 'piece') : null;
+    if (panelTab === tab && (tab !== 'find' || wantFor === findFor)) { closePanel(); return; }
     if (isPhone() && cardForId) closeCard();
     panelTab = tab;
     panel.hidden = false;
     $('#panel-title').textContent = PANEL_TITLES[tab];
+    if (tab === 'find') setFindFor(wantFor);
     panel.querySelectorAll('.pane').forEach(p => { p.hidden = p.dataset.pane !== tab; });
     ['find', 'stickers', 'wall'].forEach(t => $('#tool-' + t).setAttribute('aria-expanded', String(t === tab)));
     refitIfAuto();
@@ -3692,20 +3732,11 @@
       const f = wallpaperInput.files[0];
       wallpaperInput.value = '';
       if (!f) return;
-      try {
-        const src = await readAsDataUrl(f);
-        const img = await loadImg(src);
-        const k = Math.min(WALLPAPER_EDGE / img.naturalWidth, WALLPAPER_EDGE / img.naturalHeight, 1);
-        const c = document.createElement('canvas');
-        c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
-        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        pushUndo();
-        board.wallpaper = c.toDataURL('image/jpeg', 0.84);
-        applyWall();
-        save();
-      } catch (e) { toast('That file could not be read as an image.', { error: true }); }
+      try { await setWallpaperFrom(await readAsDataUrl(f), null); }
+      catch (e) { toast('That file could not be read as an image.', { error: true }); }
     });
-    $('#wp-clear').addEventListener('click', () => { pushUndo(); board.wallpaper = null; applyWall(); save(); });
+    $('#wp-find').addEventListener('click', () => openPanel('find', { for: 'wallpaper' }));
+    $('#wp-clear').addEventListener('click', () => { pushUndo(); board.wallpaper = null; board.wallpaperCredit = null; applyWall(); save(); });
     $('#opt-light').addEventListener('change', (e) => { pushUndo(); board.light = e.target.checked; applyWall(); save(); });
 
     // Card
