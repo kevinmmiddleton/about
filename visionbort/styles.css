@@ -14,13 +14,19 @@
   --rule-2: rgba(28, 27, 25, 0.2);
   --room: #d9d5cd;           /* the room around the wall */
 
-  /* The one accent: the gallery red dot */
+  /* Red means one thing here: it came true. In a gallery a red dot beside
+     a work means it has been sold, that it found its home. Nothing else in
+     the interface is red: actions are ink, warnings are ink. */
   --dot: #c4122f;            /* white on it: 5.9:1 */
   --dot-hover: #a50e27;
   --dot-ink: #a50e27;        /* red text on stock: 6.9:1 */
   --dot-wash: rgba(196, 18, 47, 0.1);
   --on-dot: #ffffff;
-  --danger: var(--dot);
+  /* Actions and focus are ink, so red stays the dot's alone. */
+  --act: var(--ink);
+  --act-hover: #3a3833;
+  --on-act: var(--stock);
+  --focus: var(--ink);
 
   /* Selection lives on any paint, so it is white with a dark halo */
   --sel: #ffffff;
@@ -90,6 +96,7 @@
     --dot-hover: #e0304c;
     --dot-ink: #ff7d90;      /* red text on stock: 6.4:1 */
     --dot-wash: rgba(255, 125, 144, 0.14);
+    --act-hover: #d9d5cd;     /* ink is light in dark mode; hover lightens toward it */
     --shadow-chrome: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 12px 32px rgba(0, 0, 0, 0.5);
     --shadow-dlg: 0 30px 80px rgba(0, 0, 0, 0.6);
     --scrim: rgba(0, 0, 0, 0.6);
@@ -119,7 +126,7 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
   position: absolute !important; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
 }
-:focus-visible { outline: 2px solid var(--dot); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 .chrome {
   background: var(--stock);
@@ -137,10 +144,10 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 }
 .btn svg { width: 18px; height: 18px; }
 .btn:hover:not(:disabled) { background: var(--stock-2); }
-.btn.primary { background: var(--dot); border-color: var(--dot); color: var(--on-dot); }
-.btn.primary:hover:not(:disabled) { background: var(--dot-hover); border-color: var(--dot-hover); }
+.btn.primary { background: var(--act); border-color: var(--act); color: var(--on-act); }
+.btn.primary:hover:not(:disabled) { background: var(--act-hover); border-color: var(--act-hover); }
 .btn.primary:disabled { background: var(--stock-3); border-color: var(--stock-3); color: var(--ink-3); }
-.btn.danger { background: var(--danger); border-color: var(--danger); color: var(--on-dot); }
+.btn.danger { background: var(--act); border-color: var(--act); color: var(--on-act); }
 .btn.lg { min-height: 46px; padding: 11px 20px; font-size: 15px; }
 .ib {
   display: inline-grid; place-items: center;
@@ -155,7 +162,7 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 .ib.sm svg { width: 18px; height: 18px; }
 .link {
   border: 0; background: none; padding: 6px 2px;
-  color: var(--dot-ink); font-weight: 500; text-decoration: underline;
+  color: var(--ink); font-weight: 500; text-decoration: underline;
   text-underline-offset: 3px; text-decoration-thickness: 1px;
 }
 .pill { border-radius: var(--radius-pill); box-shadow: var(--shadow-chrome); }
@@ -196,7 +203,7 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 }
 #show-title:hover { border-color: var(--rule); }
 #show-title:focus { border-color: var(--rule-2); background: var(--stock-2); outline: none; }
-#show-title:focus-visible { outline: 2px solid var(--dot); outline-offset: 1px; }
+#show-title:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
 #show-title::placeholder { color: var(--ink-3); }
 #views { position: absolute; left: 50%; transform: translateX(-50%); }
 /* Below 1000px the view switcher floats over the wall (in the bar it
@@ -242,7 +249,7 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 .menu hr { border: 0; border-top: 1px solid var(--rule); margin: 6px 4px; }
 .menu-note { margin: 6px 10px; font-size: 12.5px; color: var(--ink-3); }
 .menu-note a { color: var(--ink-2); }
-.danger-text { color: var(--dot-ink) !important; }
+.danger-text { color: var(--ink); }
 
 /* ===== Stage and wall ===== */
 #stage {
@@ -390,7 +397,7 @@ svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
   white-space: pre-wrap; overflow-wrap: anywhere;
   user-select: none;
 }
-.piece[data-type="text"] .art[contenteditable="true"] { user-select: text; cursor: text; outline: none; caret-color: var(--dot); }
+.piece[data-type="text"] .art[contenteditable="true"] { user-select: text; cursor: text; outline: none; caret-color: currentColor; }
 
 /* Selection: a separate box so frames keep their own shadows */
 .sel-box {
@@ -515,7 +522,7 @@ body[data-view="labels"] .lbl { width: 230px; }
   border: 1px solid var(--rule-2); border-radius: var(--radius-pill);
   background: var(--stock-2);
 }
-.field-search input:focus { outline: 2px solid var(--dot); outline-offset: 1px; background: var(--stock); }
+.field-search input:focus { outline: 2px solid var(--focus); outline-offset: 1px; background: var(--stock); }
 
 .grid-photos { columns: 2; column-gap: 8px; }
 .grid-photos button {
@@ -565,7 +572,7 @@ body[data-view="labels"] .lbl { width: 230px; }
   background: var(--stock-2); resize: vertical;
 }
 .fld input { height: 42px; }
-.fld input:focus, .fld textarea:focus { outline: 2px solid var(--dot); outline-offset: 1px; background: var(--stock); }
+.fld input:focus, .fld textarea:focus { outline: 2px solid var(--focus); outline-offset: 1px; background: var(--stock); }
 .fld input::placeholder, .fld textarea::placeholder { color: var(--ink-3); }
 #card-name { font-style: italic; }
 /* Remind me: a calendar file, no backend */
@@ -604,7 +611,7 @@ body[data-view="labels"] .lbl { width: 230px; }
 .cb svg { width: 18px; height: 18px; }
 .cb:hover { background: var(--stock-2); }
 .cb.on { background: var(--ink); color: var(--stock); }
-.cb.danger { color: var(--dot-ink); }
+.cb.danger { color: var(--ink-2); }
 .cb-sep { width: 1px; height: 20px; margin: 0 4px; background: var(--rule-2); flex: none; }
 /* Not enough room beside the panel and card: icons only (names stay as
    accessible names and tooltips), wrapping if it must. */
@@ -698,7 +705,7 @@ body[data-view="labels"] .lbl { width: 230px; }
   overflow: hidden;
 }
 #cut-canvas { display: block; cursor: crosshair; touch-action: none; border-radius: 4px; }
-#cut-canvas:focus-visible { outline: 2px solid var(--dot); outline-offset: 3px; }
+#cut-canvas:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .cut-loading {
   position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px;
   background: color-mix(in srgb, var(--stock) 82%, transparent); text-align: center; padding: 20px;
@@ -751,7 +758,12 @@ body[data-view="labels"] .lbl { width: 230px; }
   pointer-events: auto;
   animation: rise-t var(--t) var(--ease);
 }
-.toast.error { background: var(--dot); color: var(--on-dot); }
+.toast.error { background: var(--ink); color: var(--stock); }
+.toast.error::before {
+  content: '!'; flex: none; display: grid; place-items: center;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--stock); color: var(--ink); font-weight: 700; font-size: 13px;
+}
 .toast button { border: 0; background: transparent; color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; padding: 4px 8px; }
 @keyframes rise-t { from { opacity: 0; transform: translateY(8px); } }
 
@@ -905,4 +917,17 @@ body.drawing #bar, body.drawing #zoom { opacity: 0.45; }
 @media (max-height: 500px) {
   .cut-stage { height: 52vh; }
   .cut-hint, .cut-note { display: none; }
+}
+
+/* The red dot's key, shown in the Wall text view when a dot is on the wall */
+#dot-key {
+  position: fixed; left: 16px; bottom: calc(16px + var(--safe-b)); z-index: 20;
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px 8px 10px; border-radius: var(--radius-pill);
+  background: var(--stock); color: var(--ink-2); font-size: 13px;
+  box-shadow: var(--shadow-chrome);
+}
+#dot-key i { width: 12px; height: 12px; border-radius: 50%; background: var(--dot); flex: none; }
+@media (max-width: 760px) {
+  #dot-key { left: 50%; transform: translateX(-50%); bottom: calc(var(--dock-h) + 22px + var(--safe-b)); white-space: nowrap; }
 }

@@ -59,9 +59,10 @@
     { id: 'dancing', label: 'Dancing Script', family: "'Dancing Script', cursive" },
     { id: 'helvetica', label: 'Helvetica', family: "'Helvetica Neue', Helvetica, Arial, sans-serif" },
   ];
-  const INKS = ['#1c1b19', '#f1ede4', '#c4122f', '#d29a2e', '#7d9b76', '#86a7c2', '#b07aa1', '#ffffff'];
+  // No red here: on this wall red means a goal came true, and nothing else.
+  const INKS = ['#1c1b19', '#f1ede4', '#b8623f', '#d29a2e', '#7d9b76', '#86a7c2', '#b07aa1', '#ffffff'];
   const INK_NAMES = {
-    '#1c1b19': 'Black', '#f1ede4': 'Bone', '#c4122f': 'Gallery red', '#d29a2e': 'Gold',
+    '#1c1b19': 'Black', '#f1ede4': 'Bone', '#b8623f': 'Terracotta', '#d29a2e': 'Gold',
     '#7d9b76': 'Sage', '#86a7c2': 'Sky', '#b07aa1': 'Mauve', '#ffffff': 'White',
   };
   const STICKERS = [
@@ -890,6 +891,7 @@
 
   function renderLabels(justDottedId) {
     labelsEl.innerHTML = '';
+    updateDotKey();
     const full = viewMode === 'labels';
     board.pieces.forEach(p => {
       if (!hasLabel(p)) return;
@@ -2419,6 +2421,11 @@
     renderLabels();
     syncTabStops();
   }
+  // In the Wall text view, a key explains the dot whenever one is on the wall.
+  function updateDotKey() {
+    const key = document.getElementById('dot-key');
+    if (key) key.hidden = !(viewMode === 'labels' && board.pieces.some(p => p.dot));
+  }
   function syncViewSeg() {
     document.querySelectorAll('#views button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.view === viewMode)));
   }
@@ -2476,7 +2483,7 @@
         const stops = total === n ? '' : ` The walk visits the ${total === 1 ? 'one' : total} with wall text.`;
         addLine(label, 'w-why', `${plural(n, 'piece')} on the wall.${stops} Use the arrows, or swipe, to walk it.`);
       } else {
-        addLine(label, 'w-why', dots ? `${dots} of ${n} have a red dot so far.` : 'No red dots yet. Give it time.');
+        addLine(label, 'w-why', dots ? `${dots} of ${n} have a red dot so far, one for each thing that came true.` : 'No red dots yet. When something comes true, give it one.');
       }
       if (dots && walkIdx >= total) label.appendChild(Object.assign(document.createElement('span'), { className: 'w-dot' }));
       // Fit the wall into the space above the card, so the card covers nothing.
@@ -2847,6 +2854,14 @@
     x.fillStyle = '#8a867e';
     x.font = '500 40px "Host Grotesk", sans-serif';
     x.fillText('Hung with Visionbort, middleton.io/visionbort', M, footerY);
+    if (board.pieces.some(p => p.dot)) {
+      x.textAlign = 'right';
+      const key = 'A red dot means it came true.';
+      x.fillText(key, PW - M, footerY);
+      const kw = x.measureText(key).width;
+      x.fillStyle = '#c4122f'; x.beginPath(); x.arc(PW - M - kw - 34, footerY - 14, 16, 0, Math.PI * 2); x.fill();
+      x.textAlign = 'left';
+    }
     return c;
   }
 
@@ -3354,7 +3369,7 @@
       x.save();
       x.lineCap = 'round'; x.lineJoin = 'round';
       x.lineWidth = o.r * 2 * W;
-      x.strokeStyle = o.type === 'erase' ? 'rgba(196, 18, 47, 0.28)' : 'rgba(255, 255, 255, 0.28)';
+      x.strokeStyle = o.type === 'erase' ? 'rgba(20, 19, 17, 0.4)' : 'rgba(255, 255, 255, 0.32)';
       x.beginPath();
       o.pts.forEach((pt, i) => { if (i) x.lineTo(pt.x * W, pt.y * Hh); else x.moveTo(pt.x * W, pt.y * Hh); });
       if (o.pts.length === 1) x.lineTo(o.pts[0].x * W + 0.1, o.pts[0].y * Hh);
@@ -3823,7 +3838,13 @@
       const dom = domOf(p.id);
       if (dom) dom.setAttribute('aria-label', describe(p));
       save();
-      if (p.dot) toast('Red dot. It’s yours.');
+      if (p.dot) {
+        const first = !lsGet('visionbort-dot-seen');
+        lsSet('visionbort-dot-seen', '1');
+        toast(first
+          ? 'Red dot. In a gallery it means a piece has found its home; on your wall it means this came true.'
+          : 'Red dot. It came true.', { ms: first ? 9000 : 4500 });
+      }
     });
 
     // Walk
