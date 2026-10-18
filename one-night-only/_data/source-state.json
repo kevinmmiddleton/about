@@ -5,8 +5,8 @@
       "label": "Elevent (goelevent.com)",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-10-17T09:28:23Z",
-      "last_ok_count": 93,
+      "last_change_at": "2026-10-17T21:30:34Z",
+      "last_ok_count": 92,
       "high_water": 104,
       "consecutive_failures": 0,
       "last_error": null
@@ -25,8 +25,8 @@
       "label": "NYC Parks (NYC Open Data w3wp-dpdi)",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-10-13T01:24:27Z",
-      "last_ok_count": 22,
+      "last_change_at": "2026-10-17T21:30:34Z",
+      "last_ok_count": 19,
       "high_water": 53,
       "consecutive_failures": 0,
       "last_error": null
@@ -43,20 +43,20 @@
     },
     "luma": {
       "label": "Luma calendars (programmer tier)",
-      "status": "failed",
+      "status": "empty",
       "stale": true,
       "last_change_at": "2026-08-22T19:40:17Z",
       "last_ok_count": 1,
       "high_water": 5,
-      "consecutive_failures": 90,
-      "last_error": "luma: parsed 1 raw items and produced ZERO usable start times (0 dropped for an unparseable time).\n  This is the Film Forum failure mode: well-formed records, empty times.\n  Refusing to report success. Fix the time parse before publishing."
+      "consecutive_failures": 91,
+      "last_error": "returned zero screenings (below the veto floor)"
     },
     "alamo": {
       "label": "Alamo Drafthouse",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-10-17T09:28:23Z",
-      "last_ok_count": 1201,
+      "last_change_at": "2026-10-17T21:30:34Z",
+      "last_ok_count": 1127,
       "high_water": 1662,
       "consecutive_failures": 0,
       "last_error": null
@@ -65,8 +65,8 @@
       "label": "Rooftop Cinema Club",
       "status": "ok",
       "stale": false,
-      "last_change_at": "2026-10-17T09:28:23Z",
-      "last_ok_count": 50,
+      "last_change_at": "2026-10-17T21:30:34Z",
+      "last_ok_count": 47,
       "high_water": 118,
       "consecutive_failures": 0,
       "last_error": null
