@@ -24,7 +24,7 @@ linkedin_url: ''
 
 This week a stranger on LinkedIn posted two emails from the same company. One said "thanks for applying," the other said "we've decided to move forward with other candidates," and both were stamped 2:02 PM. His caption: "Actually, this was an AI filter, and their resume got rejected automatically." His headline: "Optimize Your Resume to Get Past AI Filters." His profile had a link to his store.
 
-I said in the comments what most likely happened (it was probably a knockout question, not AI). He blocked me.
+I said in the comments what most likely happened (it was probably a knockout question, not AI). **He blocked me.**
 
 Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at Lever, one of the applicant tracking systems (ATS) that sit behind the Apply button. So here's the tour I wish every job seeker got: what happens to your application, step by step, from someone who helped build the software.
 
