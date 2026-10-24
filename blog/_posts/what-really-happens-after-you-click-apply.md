@@ -16,8 +16,8 @@ tags:
 featured: false
 sort_order: null
 excerpt: I worked at Lever, one of the big applicant tracking systems. Here's the tour of what happens to your application after you hit submit, where AI really shows up in late 2026, and why the math rejects more people than any robot.
-cover_image: ''
-cover_alt: ''
+cover_image: /blog/images/what-really-happens-after-you-click-apply-cover.gif
+cover_alt: 'An illustrated stack of resumes on a swipe-style app. The top resume gets a red X and a NOPE stamp and flies off to the left, then the next one gets a heart and a YES stamp and flies off to the right, above a row of X, star, and heart buttons.'
 lede_align: left
 linkedin_url: ''
 ---
