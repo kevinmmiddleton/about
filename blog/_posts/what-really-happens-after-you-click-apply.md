@@ -15,20 +15,20 @@ tags:
   - AI
 featured: false
 sort_order: null
-excerpt: Here's what happens when you click Apply, where AI actually shows up, and what's really going on when you get rejected.
+excerpt: Here's what happens when you click Apply, where AI actually appears in the recruiting process, and what's really going on when you get rejected.
 cover_image: /blog/images/what-really-happens-after-you-click-apply-cover.gif
-cover_alt: 'An illustrated stack of resumes on a swipe-style app. The top resume gets a red X and a NOPE stamp and flies off to the left, then the next one gets a heart and a YES stamp and flies off to the right, above a row of X, star, and heart buttons.'
+cover_alt: An illustrated stack of resumes on a swipe-style app. The top resume gets a red X and a NOPE stamp and flies off to the left, then the next one gets a heart and a YES stamp and flies off to the right, above a row of X, star, and heart buttons.
 lede_align: left
 linkedin_url: ''
 ---
 
 This week a stranger on LinkedIn posted two emails from the same company. One said "thanks for applying," the other said "we've decided to move forward with other candidates," and both were stamped 2:02 PM. His caption: "Actually, this was an AI filter, and their resume got rejected automatically." His headline: "Optimize Your Resume to Get Past AI Filters." His profile had a link to his store.
 
-I said in the comments what actually happened. He blocked me.
+I said in the comments what most likely happened (it was probably a knockout question, not AI). He blocked me.
 
-Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at Lever, one of the applicant tracking systems (ATS) that sit behind the Apply button. So here's the tour I wish every job seeker got: what happens to your application, step by step, from the side that built the software.
+Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at Lever, one of the applicant tracking systems (ATS) that sit behind the Apply button. So here's the tour I wish every job seeker got: what happens to your application, step by step, from someone who helped build the software.
 
-## Step 1: Your application becomes a record
+### Step 1: Your application record is created
 
 When you hit submit, the ATS creates a candidate record. Your resume gets parsed into fields like name, email, past titles and dates, so the recruiter can see them at a glance. In most systems, parsing is for the recruiter's convenience. It fills in boxes. It doesn't grade you.
 
@@ -36,7 +36,7 @@ Parsing can be messy, and a two-column resume with a fancy header might come out
 
 An ATS is a database with a workflow on top. For most of its history it's been a digital filing cabinet, and for most companies it still is.
 
-## Step 2: The knockout questions run
+### Step 2: The knockout questions run
 
 This is the one place where an instant rejection really happens, and it's the one the "AI filter" crowd keeps missing.
 
@@ -48,7 +48,7 @@ That's what those 2:02 PM emails were. The employer wrote a rule, the candidate'
 
 So read those questions carefully, and answer them honestly. If a role needs you in the office and you can't be there, the knockout just saved you a few weeks of waiting.
 
-## Step 3: A recruiter swipes through the queue
+### Step 3: A recruiter swipes through the queue
 
 Everyone who gets past the knockouts lands in the New Applicant stage for that role. In Lever, the recruiter sees every open role with a count of unreviewed applicants next to it, and clicks Start Review to open something called Fast Resume Review.
 
@@ -64,13 +64,13 @@ Two details matter for you. Fast Resume Review shows applicants oldest to newest
 
 Here's the part nobody likes to hear. Plenty of roles get more than 1,000 applicants now. Even if only 10% of them are qualified, that's 100 strong people for one job, and the recruiter is often running five other roles at the same time.
 
-## Step 4: A person searches and filters
+### Step 4: A person searches and filters
 
 Most ATS platforms let a recruiter search candidates by keyword, title, or location. People hear "keyword search" and imagine a secret filter deleting their resume. It works more like searching your own inbox: a recruiter types "Salesforce" because the hiring manager said Salesforce matters, and looks at who comes up.
 
 That's a human choosing what to look for. Write your resume so a person searching for the skills the role needs can find them, in plain words, without stuffing.
 
-## Step 5: Where AI really shows up in late 2026
+### Step 5: Where AI really shows up in late 2026
 
 I'll be straight about this, because it changed this year. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even Lever, where I used to work, sells AI screening now. The filing cabinet grew a brain.
 
@@ -82,19 +82,19 @@ Three things are worth knowing:
 
 The other kind of AI you might run into is fraud detection. Some systems now flag applications that look automated or fake, and I've been flagged myself. I wrote about [why privacy choices can look like fraud](https://middleton.io/blog/privacy-is-a-fraud-signal/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply).
 
-## Step 6: The math does the rest
+### Step 6: The math does the rest
 
 Put it together. A thousand people apply. Some answer a knockout question wrong. A recruiter reads the rest, as many as time allows, and picks maybe ten for a first call. Three or four get to the final round, and one gets the offer.
 
 Every step of that rejects far more people than any robot. That's the brutal part: you can do everything right and still not get the job, because 99 other strong people applied too. It's also the hopeful part, because the math is something you can play.
 
-## If you got a same-minute rejection
+### If you got a same-minute rejection
 
 It's almost always one of two things. Sometimes a recruiter really is at their desk, swiping through the queue, looking for specific experience, and in this market, if you don't have it, you're out fast. Or you answered a knockout question the "wrong" way: you said remote and the role is in the office, or you said four years of experience and they asked for five.
 
 Neither one is a robot reading your resume.
 
-## What I'd do instead of paying to beat the ATS
+### Here's how you really "beat the ATS"
 
 - **Read the knockout questions twice.** Most instant rejections live there.
 - **Keep one strong resume.** A clear story about who you are and the impact you've had, good enough for most of the roles you want. Here's [how I overhauled mine](https://middleton.io/blog/its-almost-always-the-resume/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply).
@@ -102,12 +102,12 @@ Neither one is a robot reading your resume.
 - **Apply where you fit.** If you match 80% or more of the key requirements, your odds are real. If you match 40%, no rewrite will close that gap.
 - **Ask where the scary stat came from.** The famous "75% of resumes are rejected by the ATS" traces back to a 2012 press release from a company that no longer exists, and it never cited a source.
 
-## The one lever you control
+### Your best defense is a great resume
 
 You can't control how many people apply, or how busy the recruiter is, or whether a hiring manager changes their mind. You can control which roles you spend your energy on.
 
 That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It reads a job posting against your background and tells you if you're a match before you apply, using the same resume every time so you can compare scores. When it says skip, you get that time back for a role where the math works in your favor. The plugin is free and runs in the Claude desktop app, which needs a paid Claude plan.
 
-![The Recruiter BFF mascot, a giant iced tea cup with glasses, shaking ice cubes out next to the words "Everyone needs a Recruiter BFF" and a link to middleton.io/recruiter-bff.](/blog/images/recruiter-bff-giant-shake.gif "Recruiter BFF: find out if you're a match before you apply.")
+[![The Recruiter BFF mascot, a giant iced tea cup with glasses, shaking ice cubes out next to the words "Everyone needs a Recruiter BFF" and a link to middleton.io/recruiter-bff.](/blog/images/recruiter-bff-giant-shake.gif "Recruiter BFF: find out if you're a match before you apply.")](https://middleton.io/recruiter-bff/)
 
 A human is reading your resume. Send it where it's worth reading.
