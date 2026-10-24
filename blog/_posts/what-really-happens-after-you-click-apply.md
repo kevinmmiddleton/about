@@ -1,7 +1,7 @@
 ---
 title: What really happens after you click Apply
 slug: what-really-happens-after-you-click-apply
-status: draft
+status: ready
 published_at: 2026-10-26
 updated_at: ''
 topic: Job Search
