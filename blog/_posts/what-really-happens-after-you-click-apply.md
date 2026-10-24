@@ -108,4 +108,6 @@ You can't control how many people apply, or how busy the recruiter is, or whethe
 
 That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It reads a job posting against your background and tells you if you're a match before you apply, using the same resume every time so you can compare scores. When it says skip, you get that time back for a role where the math works in your favor. The plugin is free and runs in the Claude desktop app, which needs a paid Claude plan.
 
+![The Recruiter BFF mascot, a giant iced tea cup with glasses, shaking ice cubes out next to the words "Everyone needs a Recruiter BFF" and a link to middleton.io/recruiter-bff.](/blog/images/recruiter-bff-giant-shake.gif "Recruiter BFF: find out if you're a match before you apply.")
+
 A human is reading your resume. Send it where it's worth reading.
