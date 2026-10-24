@@ -40,19 +40,29 @@ An ATS is a database with a workflow on top. For most of its history it's been a
 
 This is the one place where an instant rejection really happens, and it's the one the "AI filter" crowd keeps missing.
 
-Applications often ask yes/no questions: "Are you authorized to work in the US?" "Can you be in our office three days a week?" "Do you have five years of experience with Salesforce?" The employer can mark one answer as a dealbreaker. Pick it, and the system sends the rejection on its own, often in the same minute.
+Applications often ask yes/no questions: "Are you authorized to work in the US?" "Can you be in our office three days a week?" "Do you have five years of experience with Salesforce?" The employer can mark an answer as a dealbreaker. Pick it, and the system sends the rejection on its own, often in the same minute. Lever's own guidance tells employers to "use knockout rules only for clear, job-related requirements," like work authorization or location.
+
+![The Application Questions tab in Lever, showing a candidate's answers: "More than 5 years" of experience, a bachelor's degree, and "Yes" to working remotely.](/blog/images/lever-application-questions.png "Your answers to the application questions sit right next to your resume. Questions like these are where knockout rules live. (Screenshot: Lever Help Center, sample candidate.)")
 
 That's what those 2:02 PM emails were. The employer wrote a rule, the candidate's answer hit it, and the template went out. Nobody read a resume, human or robot.
 
 So read those questions carefully, and answer them honestly. If a role needs you in the office and you can't be there, the knockout just saved you a few weeks of waiting.
 
-## Step 3: You land in a queue
+## Step 3: A recruiter swipes through the queue
 
-Everyone who gets past the knockouts goes into a list for that role. A recruiter opens it and works through it, usually newest or oldest first, reading each one and moving it forward, passing, or coming back later.
+Everyone who gets past the knockouts lands in the New Applicant stage for that role. In Lever, the recruiter sees every open role with a count of unreviewed applicants next to it, and clicks Start Review to open something called Fast Resume Review.
 
-Here's the part nobody likes to hear. Plenty of roles get more than 1,000 applicants now. Even if only 10% of them are qualified, that's 100 strong people for one job. The recruiter is often reading while also running interviews for five other roles, and many roles start scheduling calls from the first good batch.
+Honestly, it's Tinder for resumes. Your resume fills the screen, your answers to the application questions sit one tab over, and there are three buttons at the top: Skip, Advance, and Archive.
 
-That's why applying early matters more than any keyword trick. A strong resume that shows up on day two gets read while the role is fresh.
+![Lever's Fast Resume Review: the candidate's resume on the left, their profile on the right, and Skip, Advance, and Archive buttons along the top.](/blog/images/lever-fast-resume-review.png "Fast Resume Review in Lever. One resume at a time, three buttons. (Screenshot: Lever Help Center, sample candidate.)")
+
+Archive is how a rejection happens. The recruiter picks a reason, like "under-qualified," and can send an email in the same click. That email comes from a template the company wrote. Some are kind ("this was a very competitive group"), some are short. Advance moves you to the next stage, usually with a "we'd love to talk, here's a link to schedule" template.
+
+![The Archive menu in Fast Resume Review, with "Under-qualified" selected as the reason and an "Archive + Email" button.](/blog/images/lever-archive-reason.png "A rejection is a reason picked from a menu, plus an email template. (Screenshot: Lever Help Center.)")
+
+Two details matter for you. Fast Resume Review shows applicants oldest to newest, so applying early really does put you near the front of the line. And a person is looking at your resume the whole time.
+
+Here's the part nobody likes to hear. Plenty of roles get more than 1,000 applicants now. Even if only 10% of them are qualified, that's 100 strong people for one job, and the recruiter is often running five other roles at the same time.
 
 ## Step 4: A person searches and filters
 
@@ -66,7 +76,7 @@ I'll be straight about this, because it changed this year. Some hiring software 
 
 Three things are worth knowing:
 
-- **It ranks, and a person still decides.** The vendors' own sales pages say a recruiter still reviews and makes the call. A low rank puts you further down the list, which is a real cost, but you're still in it.
+- **It ranks, and a person still decides.** Lever's own AI page says "Recruiters always have the final say in decision-making," and its guide to AI screening says "AI should never make the final call on any hiring decisions." A low rank puts you further down the list, which is a real cost, but you're still in it.
 - **It reads for fit.** These tools compare what you've done to what the role needs. Stuffing a resume with keywords you can't back up doesn't help, and recruiters can tell.
 - **There are rules now.** New York City requires companies that use automated tools in hiring decisions to have them audited for bias and to tell candidates. If you're in NYC, you can ask.
 
@@ -77,6 +87,12 @@ The other kind of AI you might run into is fraud detection. Some systems now fla
 Put it together. A thousand people apply. Some answer a knockout question wrong. A recruiter reads the rest, as many as time allows, and picks maybe ten for a first call. Three or four get to the final round, and one gets the offer.
 
 Every step of that rejects far more people than any robot. That's the brutal part: you can do everything right and still not get the job, because 99 other strong people applied too. It's also the hopeful part, because the math is something you can play.
+
+## If you got a same-minute rejection
+
+It's almost always one of two things. Sometimes a recruiter really is at their desk, swiping through the queue, looking for specific experience, and in this market, if you don't have it, you're out fast. Or you answered a knockout question the "wrong" way: you said remote and the role is in the office, or you said four years of experience and they asked for five.
+
+Neither one is a robot reading your resume.
 
 ## What I'd do instead of paying to beat the ATS
 
