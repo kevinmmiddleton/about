@@ -30,23 +30,23 @@ Misinformation about hiring is everywhere right now, and a lot of it is selling 
 
 ### Step 1: Your application record is created
 
-When you hit submit, the ATS creates a candidate record. Your resume gets parsed into fields like name, email, past titles and dates, so the recruiter can see them at a glance. In most systems, parsing is for the recruiter's convenience. It fills in boxes. It doesn't grade you.
+When you hit submit, the ATS creates a candidate record. Your resume gets parsed into fields like name, email, past titles and dates. That helps the recruiter search and sort. It doesn't grade you.
 
-Parsing can be messy, and a two-column resume with a fancy header might come out a little scrambled. That's annoying, and it's worth keeping your resume simple. But a scrambled field still lands in front of a person.
+And a bad parse won't get you rejected. If a two-column layout or a fancy header comes out scrambled, that's annoying, but you won't get lost. The recruiter doesn't read the parsed version anyway. They see your actual resume, the file you uploaded, laid out exactly the way you designed it. You'll see that in the screenshot below.
 
 An ATS is a database with a workflow on top. For most of its history it's been a digital filing cabinet, and for most companies it still is.
 
 ### Step 2: The knockout questions run
 
-This is the one place where an instant rejection really happens, and it's the one the "AI filter" crowd keeps missing.
+This is the one place where an instant rejection can really happen, and it's the one the "AI filter" and "beat the ATS" folks keep spreading misinformation about.
 
-Applications often ask yes/no questions: "Are you authorized to work in the US?" "Can you be in our office three days a week?" "Do you have five years of experience with Salesforce?" The employer can mark an answer as a dealbreaker. Pick it, and the system sends the rejection on its own, often in the same minute. Lever's own guidance tells employers to "use knockout rules only for clear, job-related requirements," like work authorization or location.
+Applications often ask yes/no questions: "Are you authorized to work in the US?" "Can you be in our office three days a week?" "Do you have five years of experience with Salesforce?" The employer can mark an answer as a dealbreaker. Pick an answer that the employer isn't looking for, and the system sends will send you an automated rejection, ad often pretty quickly. Lever's own guidance tells employers to "use knockout rules only for clear, job-related requirements," like work authorization or location.
 
 ![The Application Questions tab in Lever, showing a candidate's answers: "More than 5 years" of experience, a bachelor's degree, and "Yes" to working remotely.](/blog/images/lever-application-questions.png "Your answers to the application questions sit right next to your resume. Questions like these are where knockout rules live. (Screenshot: Lever Help Center, sample candidate.)")
 
-That's what those 2:02 PM emails were. The employer wrote a rule, the candidate's answer hit it, and the template went out. Nobody read a resume, human or robot.
+That's what those same minute rejection emails were. The employer wrote a rejection rule, the candidate's answer triggered it, and the rejection template went out. And in this case, it's true that due to the candidate's answers on the application, nobody read that resume, not a human or robot.
 
-So read those questions carefully, and answer them honestly. If a role needs you in the office and you can't be there, the knockout just saved you a few weeks of waiting.
+So read those questions carefully, and answer them honestly. If a role needs you in the office and you can only work remotely, the knockout just saved you a few weeks of waiting. They were looking for in-office only, even if you were a great fit for the role.
 
 ### Step 3: A recruiter swipes through the queue
 
@@ -56,13 +56,13 @@ Honestly, it's Tinder for resumes. Your resume fills the screen, your answers to
 
 ![Lever's Fast Resume Review: the candidate's resume on the left, their profile on the right, and Skip, Advance, and Archive buttons along the top.](/blog/images/lever-fast-resume-review.png "Fast Resume Review in Lever. One resume at a time, three buttons. (Screenshot: Lever Help Center, sample candidate.)")
 
-Archive is how a rejection happens. The recruiter picks a reason, like "under-qualified," and can send an email in the same click. That email comes from a template the company wrote. Some are kind ("this was a very competitive group"), some are short. Advance moves you to the next stage, usually with a "we'd love to talk, here's a link to schedule" template.
+Archive is how a rejection happens. The recruiter picks a reason, like "under-qualified," and can send an email in the same click. That email comes from a template the company wrote. Some are kind ("this was a competitive process, and the decision wasn't easy."), some are short. Advance moves you to the next stage, usually with a "we'd love to talk, here's a link to schedule" template.
 
 ![The Archive menu in Fast Resume Review, with "Under-qualified" selected as the reason and an "Archive + Email" button.](/blog/images/lever-archive-reason.png "A rejection is a reason picked from a menu, plus an email template. (Screenshot: Lever Help Center.)")
 
-Two details matter for you. Fast Resume Review shows applicants oldest to newest, so applying early really does put you near the front of the line. And a person is looking at your resume the whole time.
+Two details matter for you. Fast Resume Review shows applicants oldest to newest, so applying early really does put you near the front of the line. And a real recruiter is looking at your resume!
 
-Here's the part nobody likes to hear. Plenty of roles get more than 1,000 applicants now. Even if only 10% of them are qualified, that's 100 strong people for one job, and the recruiter is often running five other roles at the same time.
+Here's the part nobody likes to hear. **Plenty of roles get more than 1,000 applicants now.** Even if only 10% of them are qualified, that's 100 strong people for one job, and the recruiter is often running five other roles at the same time.
 
 ### Step 4: A person searches and filters
 
@@ -72,11 +72,11 @@ That's a human choosing what to look for. Write your resume so a person searchin
 
 ### Step 5: Where AI really shows up in late 2026
 
-I'll be straight about this, because it changed this year. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even Lever, where I used to work, sells AI screening now. The filing cabinet grew a brain.
+I'll be direct about this, because AI has crept into hiring this year, but probably not how you might think. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even Lever, where I used to work, sells AI screening now. The filing cabinet grew a brain! 🧠
 
 Three things are worth knowing:
 
-- **It ranks, and a person still decides.** Lever's own AI page says "Recruiters always have the final say in decision-making," and its guide to AI screening says "AI should never make the final call on any hiring decisions." A low rank puts you further down the list, which is a real cost, but you're still in it.
+- **It ranks, but a person still decides.** Lever's own AI page says "Recruiters always have the final say in decision-making," and its guide to AI screening says "AI should never make the final call on any hiring decisions." A low rank puts you further down the list, which is a real cost, but you're still in it.
 - **It reads for fit.** These tools compare what you've done to what the role needs. Stuffing a resume with keywords you can't back up doesn't help, and recruiters can tell.
 - **There are rules now.** New York City requires companies that use automated tools in hiring decisions to have them audited for bias and to tell candidates. If you're in NYC, you can ask.
 
@@ -84,11 +84,11 @@ The other kind of AI you might run into is fraud detection. Some systems now fla
 
 ### Step 6: The math does the rest
 
-Put it together. A thousand people apply. Some answer a knockout question wrong. A recruiter reads the rest, as many as time allows, and picks maybe ten for a first call. Three or four get to the final round, and one gets the offer.
+Let's put it all together. A thousand people apply. Some answer a knockout question wrong. A recruiter reads the rest, as many as time allows, and picks maybe ten matches for a first call. Three or four get to the final round, and one gets the offer. This is why applying early matters and why custom resumes will slow you down and make you less competitive.
 
-Every step of that rejects far more people than any robot. That's the brutal part: you can do everything right and still not get the job, because 99 other strong people applied too. It's also the hopeful part, because the math is something you can play.
+Fit, math, and timing reject far more people than any robot. That's the brutal part: you can do everything right and still not get the job, because 99 other strong people applied too. It's also the hopeful part, because the math is something you can play.
 
-### If you got a same-minute rejection
+### If you got a quick rejection
 
 It's almost always one of two things. Sometimes a recruiter really is at their desk, swiping through the queue, looking for specific experience, and in this market, if you don't have it, you're out fast. Or you answered a knockout question the "wrong" way: you said remote and the role is in the office, or you said four years of experience and they asked for five.
 
@@ -100,13 +100,13 @@ Neither one is a robot reading your resume.
 - **Keep one strong resume.** A clear story about who you are and the impact you've had, good enough for most of the roles you want. Here's [how I overhauled mine](https://middleton.io/blog/its-almost-always-the-resume/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply).
 - **Apply early.** Day two beats day twelve.
 - **Apply where you fit.** If you match 80% or more of the key requirements, your odds are real. If you match 40%, no rewrite will close that gap.
-- **Ask where the scary stat came from.** The famous "75% of resumes are rejected by the ATS" traces back to a 2012 press release from a company that no longer exists, and it never cited a source.
+- **Don't fall for resume scams.** The famous "75% of resumes are rejected by the ATS" traces back to a 2012 press release from a company that no longer exists, and it never cited a source.
 
 ### Your best defense is a great resume
 
 You can't control how many people apply, or how busy the recruiter is, or whether a hiring manager changes their mind. You can control which roles you spend your energy on.
 
-That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It reads a job posting against your background and tells you if you're a match before you apply, using the same resume every time so you can compare scores. When it says skip, you get that time back for a role where the math works in your favor. The plugin is free and runs in the Claude desktop app, which needs a paid Claude plan.
+That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It compars job postings against your background and tells you if you're a match before you apply, so you can focus on applying to the best roles that match your background. When your Recruiter BFF says skip, you get that time back for a role where the math works in your favor. Recruiter BFF is free and runs in the Claude desktop app, which needs a paid Claude plan.
 
 [![The Recruiter BFF mascot, a giant iced tea cup with glasses, shaking ice cubes out next to the words "Everyone needs a Recruiter BFF" and a link to middleton.io/recruiter-bff.](/blog/images/recruiter-bff-giant-shake.gif "Recruiter BFF: find out if you're a match before you apply.")](https://middleton.io/recruiter-bff/)
 
