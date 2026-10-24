@@ -40,13 +40,13 @@ An ATS is a database with a workflow on top. For most of its history it's been a
 
 This is the one place where an instant rejection can really happen, and it's the one the "AI filter" and "beat the ATS" folks keep spreading misinformation about.
 
-Applications often ask yes/no questions: "Are you authorized to work in the US?" "Can you be in our office three days a week?" "Do you have five years of experience with Salesforce?" The employer can mark an answer as a dealbreaker. Pick an answer that the employer isn't looking for, and the system sends will send you an automated rejection, ad often pretty quickly. Lever's own guidance tells employers to "use knockout rules only for clear, job-related requirements," like work authorization or location.
+Applications often ask yes/no questions: "Are you authorized to work in the US?" "Can you be in our office three days a week?" "Do you have five years of experience with Salesforce?" The employer can mark an answer as a dealbreaker. Pick an answer that the employer isn't looking for, and the system sends an automated rejection, often within minutes. Lever's own guidance tells employers to "use knockout rules only for clear, job-related requirements," like work authorization or location.
 
 ![The Application Questions tab in Lever, showing a candidate's answers: "More than 5 years" of experience, a bachelor's degree, and "Yes" to working remotely.](/blog/images/lever-application-questions.png "Your answers to the application questions sit right next to your resume. Questions like these are where knockout rules live. (Screenshot: Lever Help Center, sample candidate.)")
 
-That's what those same minute rejection emails were. The employer wrote a rejection rule, the candidate's answer triggered it, and the rejection template went out. And in this case, it's true that due to the candidate's answers on the application, nobody read that resume, not a human or robot.
+That's what those same-minute rejection emails were. The employer wrote a rejection rule, the candidate's answer triggered it, and the rejection template went out. Because of the candidate's answers, nobody read that resume, human or robot.
 
-So read those questions carefully, and answer them honestly. If a role needs you in the office and you can only work remotely, the knockout just saved you a few weeks of waiting. They were looking for in-office only, even if you were a great fit for the role.
+So read those questions carefully, and answer them honestly. If a role needs you in the office and you can only work remotely, the knockout just saved you a few weeks of waiting. They wanted someone in the office, even if you were a great fit for the role.
 
 ### Step 3: A recruiter swipes through the queue
 
@@ -56,7 +56,7 @@ Honestly, it's Tinder for resumes. Your resume fills the screen, your answers to
 
 ![Lever's Fast Resume Review: the candidate's resume on the left, their profile on the right, and Skip, Advance, and Archive buttons along the top.](/blog/images/lever-fast-resume-review.png "Fast Resume Review in Lever. One resume at a time, three buttons. (Screenshot: Lever Help Center, sample candidate.)")
 
-Archive is how a rejection happens. The recruiter picks a reason, like "under-qualified," and can send an email in the same click. That email comes from a template the company wrote. Some are kind ("this was a competitive process, and the decision wasn't easy."), some are short. Advance moves you to the next stage, usually with a "we'd love to talk, here's a link to schedule" template.
+Archive is how a rejection happens. The recruiter picks a reason, like "under-qualified," and can send an email in the same click. That email comes from a template the company wrote. Some are kind ("this was a competitive process, and the decision wasn't easy"), some are short. Advance moves you to the next stage, usually with a "we'd love to talk, here's a link to schedule" template.
 
 ![The Archive menu in Fast Resume Review, with "Under-qualified" selected as the reason and an "Archive + Email" button.](/blog/images/lever-archive-reason.png "A rejection is a reason picked from a menu, plus an email template. (Screenshot: Lever Help Center.)")
 
@@ -102,11 +102,11 @@ Neither one is a robot reading your resume.
 - **Apply where you fit.** If you match 80% or more of the key requirements, your odds are real. If you match 40%, no rewrite will close that gap.
 - **Don't fall for resume scams.** The famous "75% of resumes are rejected by the ATS" traces back to a 2012 press release from a company that no longer exists, and it never cited a source.
 
-### Your best defense is a great resume
+### Your best defense is applying where you fit
 
 You can't control how many people apply, or how busy the recruiter is, or whether a hiring manager changes their mind. You can control which roles you spend your energy on.
 
-That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It compars job postings against your background and tells you if you're a match before you apply, so you can focus on applying to the best roles that match your background. When your Recruiter BFF says skip, you get that time back for a role where the math works in your favor. Recruiter BFF is free and runs in the Claude desktop app, which needs a paid Claude plan.
+That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It compares job postings against your background and tells you if you're a match before you apply, so you can focus on the roles where you're a real match. When your Recruiter BFF says skip, you get that time back for a role where the math works in your favor. Recruiter BFF is free and runs in the Claude desktop app, which needs a paid Claude plan.
 
 [![The Recruiter BFF mascot, a giant iced tea cup with glasses, shaking ice cubes out next to the words "Everyone needs a Recruiter BFF" and a link to middleton.io/recruiter-bff.](/blog/images/recruiter-bff-giant-shake.gif "Recruiter BFF: find out if you're a match before you apply.")](https://middleton.io/recruiter-bff/)
 
