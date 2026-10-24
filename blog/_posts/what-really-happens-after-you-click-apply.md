@@ -15,7 +15,7 @@ tags:
   - AI
 featured: false
 sort_order: null
-excerpt: I worked at a company that makes recruiting software. Here's the tour of what happens to your application after you hit submit, where AI really shows up in late 2026, and why the math rejects more people than any robot.
+excerpt: I worked at Lever, one of the big applicant tracking systems. Here's the tour of what happens to your application after you hit submit, where AI really shows up in late 2026, and why the math rejects more people than any robot.
 cover_image: ''
 cover_alt: ''
 lede_align: left
@@ -26,7 +26,7 @@ This week a stranger on LinkedIn posted two emails from the same company. One sa
 
 I said in the comments what actually happened. He blocked me.
 
-Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at a company that makes recruiting software, the applicant tracking system (ATS) that sits behind the Apply button. So here's the tour I wish every job seeker got: what happens to your application, step by step, from the side that built the software.
+Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at Lever, one of the applicant tracking systems (ATS) that sit behind the Apply button. So here's the tour I wish every job seeker got: what happens to your application, step by step, from the side that built the software.
 
 ## Step 1: Your application becomes a record
 
@@ -62,7 +62,7 @@ That's a human choosing what to look for. Write your resume so a person searchin
 
 ## Step 5: Where AI really shows up in late 2026
 
-I'll be straight about this, because it changed this year. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even the company I used to work for sells AI screening now. The filing cabinet grew a brain.
+I'll be straight about this, because it changed this year. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even Lever, where I used to work, sells AI screening now. The filing cabinet grew a brain.
 
 Three things are worth knowing:
 
