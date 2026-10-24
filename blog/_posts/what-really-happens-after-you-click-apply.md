@@ -50,7 +50,7 @@ So read those questions carefully, and answer them honestly. If a role needs you
 
 ### Step 3: A recruiter swipes through the queue
 
-Everyone who gets past the knockouts lands in the New Applicant stage for that role. In Lever, the recruiter sees every open role with a count of unreviewed applicants next to it, and clicks Start Review to open something called Fast Resume Review.
+Everyone who gets past the knockouts lands in the New Applicant stage for that role. In Lever, the recruiter sees every open role with a count of unreviewed applicants next to it, and clicks Start Review to open something called [Fast Resume Review](https://help.lever.co/s/article/Screening-applicants-using-Fast-Resume-Review).
 
 Honestly, it's Tinder for resumes. Your resume fills the screen, your answers to the application questions sit one tab over, and there are three buttons at the top: Skip, Advance, and Archive.
 
