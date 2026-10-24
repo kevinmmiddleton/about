@@ -15,7 +15,7 @@ tags:
   - AI
 featured: false
 sort_order: null
-excerpt: I worked at Lever. Here's what really happens to your application after you click Apply, and where AI actually shows up.
+excerpt: Here's what happens when you click Apply, where AI actually shows up, and what's really going on when you get rejected.
 cover_image: /blog/images/what-really-happens-after-you-click-apply-cover.gif
 cover_alt: 'An illustrated stack of resumes on a swipe-style app. The top resume gets a red X and a NOPE stamp and flies off to the left, then the next one gets a heart and a YES stamp and flies off to the right, above a row of X, star, and heart buttons.'
 lede_align: left
