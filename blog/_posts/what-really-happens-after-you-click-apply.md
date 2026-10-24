@@ -84,7 +84,7 @@ Every step of that rejects far more people than any robot. That's the brutal par
 - **Keep one strong resume.** A clear story about who you are and the impact you've had, good enough for most of the roles you want. Here's [how I overhauled mine](https://middleton.io/blog/its-almost-always-the-resume/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply).
 - **Apply early.** Day two beats day twelve.
 - **Apply where you fit.** If you match 80% or more of the key requirements, your odds are real. If you match 40%, no rewrite will close that gap.
-- **Ask where the scary stat came from.** The famous "75% of resumes are rejected by the ATS" traces back to a 2012 press release from a company that no longer exists, and they never showed their math.
+- **Ask where the scary stat came from.** The famous "75% of resumes are rejected by the ATS" traces back to a 2012 press release from a company that no longer exists, and it never cited a source.
 
 ## The one lever you control
 
