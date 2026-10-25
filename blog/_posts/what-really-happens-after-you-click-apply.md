@@ -106,7 +106,7 @@ Neither one is a robot reading your resume.
 
 You can't control how many people apply, or how busy the recruiter is, or whether a hiring manager changes their mind. You can control which roles you spend your energy on.
 
-That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It compares job postings against your background and tells you if you're a match before you apply, so you can focus on the roles where you're a real match. When your **Recruiter BFF** says skip, you get that time back for a role where the math works in your favor. Recruiter BFF is free and runs in the **Claude** desktop app, which needs a paid Claude plan.
+That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It compares job postings against your background and tells you if you're a match before you apply, so you can focus on the roles where you're a real match. When your **Recruiter BFF** says skip, you get that time back for a role where the math works in your favor. Recruiter BFF is free and runs in **Claude** or **Codex**, and there's a no-install kit for ChatGPT or any AI chat. A paid Claude or ChatGPT plan works best.
 
 [![The Recruiter BFF mascot, a giant iced tea cup with glasses, shaking ice cubes out next to the words "Everyone needs a Recruiter BFF" and a link to middleton.io/recruiter-bff.](/blog/images/recruiter-bff-giant-shake.gif "Recruiter BFF: find out if you're a match before you apply.")](https://middleton.io/recruiter-bff/)
 
