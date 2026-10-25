@@ -764,20 +764,23 @@ figcaption {
   margin-bottom: 2.4rem;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  /* 0.46, not 16:9. At a full 16:9 the lede stood 585px tall and ate roughly
-     two thirds of a laptop viewport before a single word of the piece. This is
-     a letterboxed slice, which is the proportion a feature opener usually
-     runs at. The frame still grows past this when a headline needs it. */
-  min-height: min(480px, calc((100vw - 48px) * 0.46));
-  background: #0b0b0d;
+  /* Caption below the art since 2026-10-25 (Kevin picked "L2" from five
+     mockups). The text used to sit on a dark band over the bottom of the
+     cover; now the cover shows whole and untouched, and the title block is a
+     panel underneath that follows the page mode like everything else. Nothing
+     overlaps, so no cover can hurt legibility, title cards included. */
+  display: block;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
 }
 .article-lede .article-hero {
-  position: absolute;
-  inset: 0;
+  display: block;
   width: 100%;
-  height: 100%;
+  /* 0.46, not 16:9. At a full 16:9 the cover stood 585px tall and ate roughly
+     two thirds of a laptop viewport before a single word of the piece. This is
+     a letterboxed slice, which is the proportion a feature opener usually
+     runs at. */
+  height: min(480px, calc((100vw - 48px) * 0.46));
   object-fit: cover;
   margin: 0;
   border: 0;
@@ -787,43 +790,19 @@ figcaption {
 .article-lede-in {
   position: relative;
   width: 100%;
-  padding: 1.4rem 2.1rem;
-  /* The site's own dark surface, not near-black. #0a0a0c read as a void cut
-     into the page; #161b22 is the same colour the footer and code blocks use in
-     dark mode, so the band reads as a panel belonging to the site rather than
-     a void cut into it. That colour change is what makes it lighter.
-
-     Opaque, not translucent. Every partial value let a title-card cover ghost
-     its own wordmark and pill row through, directly behind the dek, and that
-     noise is not worth the sliver of tone it buys. Lightness comes from the
-     colour, legibility from the opacity: they are separate levers and they
-     were fighting each other while this was rgba. */
-  /* 85%. Lightness comes from the colour (#161b22, the site's dark surface);
-     this is the separate transparency lever, letting a little of the cover
-     through the band. Watch the title-card covers: their own wordmark is what
-     shows first as this drops. */
-  background: rgba(22, 27, 34, .85);
-  border-top: 2px solid var(--lede-topic, var(--c1-line));
+  padding: 1.4rem 2.1rem 1.6rem;
 }
 
-/* Pinned light-on-dark in both schemes, because the band is always dark, and
-   LIFTED above the dark-mode set. Those values are tuned for a #0F0F12 page; a
-   band at 85% composites to roughly rgb(57,61,67) over a bright cover, which is
-   lighter, and the eyebrow measured 3.49-4.36 against it on three of four
-   covers. The title and dek were never at risk: they were 10.9-13.7.
-   This is the cost of the transparency, paid in the one place it was due. */
-.hue-1 .article-lede-in{--lede-topic:#F5C65F} .hue-2 .article-lede-in{--lede-topic:#F5A0AC}
-.hue-3 .article-lede-in{--lede-topic:#82D2BA} .hue-4 .article-lede-in{--lede-topic:#AECBF0}
-.hue-5 .article-lede-in{--lede-topic:#CFBEF0} .hue-6 .article-lede-in{--lede-topic:#EFA8D8}
-
-.article-lede-in .article-eyebrow { color: var(--lede-topic, #E8A317); }
+/* The panel follows the page mode, so the topic hues do too: --topic is the
+   light-mode ink on light ground and the dark-mode set on dark ground. */
+.article-lede-in .article-eyebrow { color: var(--topic, var(--c1-text)); }
 /* The series name links to Part 1. Only the name underlines, not the
    "- Part N of M" run after it, so the target reads as one thing. */
 .article-lede-in .article-eyebrow a { color: inherit; text-decoration: none; padding-block: .25rem; }
 .article-lede-in .article-eyebrow a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .article-eyebrow .kick-sep { opacity: .55; margin: 0 .15em; }
 .article-lede-in .article-title {
-  color: #fff;
+  color: var(--text-primary);
   font-size: 1.95rem;
   /* 26ch forced a 486px measure, so "Product Management is dead. Long live
      Product Management." broke across three lines with an awkward turn, while
@@ -835,12 +814,11 @@ figcaption {
   margin: .35rem 0 .5rem;
 }
 .article-lede-in .article-dek {
-  color: rgba(255,255,255,.87);
-  border-left-color: var(--lede-topic, #E8A317);
+  color: var(--text-secondary);
+  border-left-color: var(--topic-line, var(--c1-line));
   font-size: 1rem;
-  /* Wider than the body measure on purpose. At 56ch the dek ran to three lines
-     inside a 973px band, which made the band 53% of the hero and left the art
-     with less than half. The band is a caption, not a reading column. */
+  /* Wider than the body measure on purpose: the panel is a caption, not a
+     reading column, and a three-line dek made it too tall. */
   max-width: 78ch;
   /* pretty, not balance: balance evens the line lengths, which is right for a
      headline. pretty specifically prevents a last line short enough to read as
@@ -848,12 +826,11 @@ figcaption {
   text-wrap: pretty;
   margin-bottom: .5rem;
 }
-/* The byline is the last thing in the band and carried a trailing margin, so
-   the space below it measured 62px against 32px above: nearly double the
-   padding, and the dead space at the bottom of the frame. */
+/* The byline is the last thing in the panel and carried a trailing margin, so
+   the space below it measured 62px against 32px above. */
 .article-lede-in > *:last-child { margin-bottom: 0; }
-.article-lede-in .article-meta { color: rgba(255,255,255,.76); margin-bottom: 0; }
-.article-lede-in .article-meta a { color: rgba(255,255,255,.92); }
+.article-lede-in .article-meta { color: var(--text-muted); margin-bottom: 0; }
+.article-lede-in .article-meta a { color: var(--text-primary); }
 
 /* Phones do not get the overlay. Measured at 390px it was not running the
    pattern anyway: the band needed 267-291px of a 320px frame, so the cover was
@@ -865,33 +842,9 @@ figcaption {
    absolutely positioned inside a flex frame. Dropping that is the entire fix,
    with no generator change. The band keeps its measured contrast because it is
    opaque either way, and nothing now overlaps it. */
-/* Per-post: put the lede text on the right instead of the left. Set from
-   Sveltia as "Lede text side", for covers whose subject sits on the left and
-   leaves the other side open.
-
-   Desktop only. On a phone the band is full width under the image and there is
-   no subject to avoid, so right-aligned text would just be harder to read: the
-   eye starts a line on the left.
-
-   The dek's accent rule has to travel with the text. Left-aligned it sits to
-   the left of the copy; right-aligned it belongs on the right, or it reads as a
-   stray mark floating away from what it marks. Same for the margin that pushes
-   the capped boxes over: text-align alone right-aligns the words inside a box
-   that is still anchored left, which would leave the rule stranded mid-band. */
-@media (min-width: 761px) {
-  .article-lede-in.lede-right { text-align: right; }
-  .article-lede-in.lede-right .article-title,
-  .article-lede-in.lede-right .article-dek { margin-left: auto; }
-  /* .article-meta is a flex row, so text-align cannot move it and the date sat
-     alone at the bottom left while everything above it had gone right. */
-  .article-lede-in.lede-right .article-meta { justify-content: flex-end; }
-  .article-lede-in.lede-right .article-dek {
-    border-left: 0;
-    border-right: 2px solid var(--lede-topic, #E8A317);
-    padding-left: 0;
-    padding-right: 1rem;
-  }
-}
+/* "Lede text side" (lede-right) is retired: it moved the title off the
+   cover's subject, and since 2026-10-25 the title sits below the cover. The
+   class can stay in old frontmatter; nothing styles it. */
 
 @media (max-width: 760px) {
   .article-lede {
