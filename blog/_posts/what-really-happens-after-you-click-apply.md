@@ -72,7 +72,7 @@ That's a human choosing what to look for. Write your resume so a person searchin
 
 ### Step 5: AI usage in 2026
 
-I'll be direct about this, because AI has crept into hiring this year, but probably not how you might think. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even **Lever**, where I used to work, sells AI screening now. The filing cabinet grew a brain! 🧠
+I'll be direct about this, because AI has crept into hiring this year, but probably not how you might think. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even **Lever**, where I used to work, sells AI screening now.
 
 In Lever it's called Talent Fit. It reads the job description, turns it into a list of requirements, and gives each applicant a match score. Recruiters can sort the list by that score.
 
