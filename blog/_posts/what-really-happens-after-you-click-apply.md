@@ -74,7 +74,7 @@ That's a human choosing what to look for. Write your resume so a person searchin
 
 I'll be direct about this, because AI has crept into hiring this year, but probably not how you might think. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even **Lever**, where I used to work, sells AI screening now.
 
-In Lever it's called Talent Fit. It reads the job description, turns it into a list of requirements, and gives each applicant a match score. Recruiters can sort the list by that score.
+In Lever it's called [Talent Fit](https://help.lever.co/s/article/Talent-Fit-in-Lever). It reads the job description, turns it into a list of requirements, and gives each applicant a match score. Recruiters can sort the list by that score.
 
 ![Lever's candidate list with a Talent Fit column: one applicant scored 71% (7 of 12 requirements, 3 unclear), another 46% (1 of 12, 9 unclear).](/blog/images/lever-talent-fit-scores.png "Talent Fit scores in Lever's candidate list, sortable by score. (Screenshot: Lever Help Center, sample candidates.)")
 
