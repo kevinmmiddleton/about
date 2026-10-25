@@ -6,7 +6,136 @@
     <atom:link href="https://middleton.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Essays on building with AI, product, and the systems in between.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 11 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>What really happens after you click Apply</title>
+      <link>https://middleton.io/blog/what-really-happens-after-you-click-apply/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/what-really-happens-after-you-click-apply/</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <description>So many people think AI robots are auto-rejecting resumes. The real process is far more boring. Here's what really happens to your resume.</description>
+      <enclosure url="https://middleton.io/blog/images/what-really-happens-after-you-click-apply-cover.gif" type="image/gif" length="1615398"/>
+      <media:content url="https://middleton.io/blog/images/what-really-happens-after-you-click-apply-cover.gif" medium="image" type="image/gif"/>
+      <media:thumbnail url="https://middleton.io/blog/images/what-really-happens-after-you-click-apply-cover.gif"/>
+      <content:encoded><![CDATA[<p>This week a stranger on <strong>LinkedIn</strong> posted two emails from the same company. One said "thanks for applying," the other said "we've decided to move forward with other candidates," and both were stamped 2:02 PM. His caption: "Actually, this was an AI filter, and their resume got rejected automatically." His LinkedIn headline: "Optimize Your Resume to Get Past AI Filters." His profile also had a link to his store.</p>
+
+<p>I said in the comments what most likely happened (it was probably a knockout question that led to the rejection, not AI). <strong>He blocked me.</strong></p>
+
+<p>Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at <strong>Lever</strong>, one of the applicant tracking systems (ATS) that sit behind the Apply button. So here's the behind-the-scenes intel I wish every job seeker could see: what happens to your application, step by step, from someone who helped build the software.</p>
+
+<h2>Step 1: Your application record is created</h2>
+
+<p>When you hit submit, the ATS creates a candidate record. Your resume gets parsed into fields like name, email, past titles and dates. That helps the recruiter search and sort. It doesn't grade you.</p>
+
+<p>And a bad parse won't get you rejected. If a two-column layout or a fancy header comes out scrambled, that's annoying, but you won't get lost. The recruiter doesn't read the parsed version anyway. They see your actual resume, the file you uploaded, laid out exactly the way you designed it. You'll see that in the screenshot below.</p>
+
+<p>An ATS is a database with a workflow on top. For most of its history it's been a digital filing cabinet, and for most companies it still is.</p>
+
+<h2>Step 2: Knockout questions</h2>
+
+<p>This is the one place where an instant rejection can really happen, and it's the one the "AI filter" and "beat the ATS" folks keep spreading misinformation about.</p>
+
+<p>Applications often ask yes/no questions: "Are you authorized to work in the US?" "Can you be in our office three days a week?" "Do you have five years of experience with Salesforce?" The employer can mark an answer as a dealbreaker. Pick an answer that the employer isn't looking for, and the system sends an automated rejection, often within minutes. <strong>Lever</strong>'s own guidance tells employers to "use knockout rules only for clear, job-related requirements," like work authorization or location.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/lever-application-questions.png" width="1600" height="871" alt="The Application Questions tab in Lever, showing a candidate's answers: &quot;More than 5 years&quot; of experience, a bachelor's degree, and &quot;Yes&quot; to working remotely." loading="lazy">
+  <figcaption>Your answers to the application questions sit right next to your resume. Questions like these are where knockout rules live. (Screenshot: Lever Help Center, sample candidate.)</figcaption>
+</figure>
+
+<p>That's what those same-minute rejection emails were. The employer wrote a rejection rule, the candidate's answer triggered it, and the rejection template went out. Because of the candidate's answers, nobody read that resume, human or robot.</p>
+
+<p>So read those questions carefully, and answer them honestly. If a role needs you in the office and you can only work remotely, the knockout just saved you a few weeks of waiting. They wanted someone in the office, even if you were a great fit for the role.</p>
+
+<h2>Step 3: Recruiters swipe through the queue</h2>
+
+<p>Everyone who gets past the knockouts lands in the New Applicant stage for that role. In <strong>Lever</strong>, the recruiter sees every open role with a count of unreviewed applicants next to it, and clicks Start Review to open something called <a href="https://help.lever.co/s/article/Screening-applicants-using-Fast-Resume-Review">Fast Resume Review</a>.</p>
+
+<p>Honestly, it's Tinder for resumes. Your resume fills the screen, your answers to the application questions sit one tab over, and there are three buttons at the top: Skip, Advance, and Archive.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/lever-fast-resume-review.png" width="1600" height="857" alt="Lever's Fast Resume Review: the candidate's resume on the left, their profile on the right, and Skip, Advance, and Archive buttons along the top." loading="lazy">
+  <figcaption>Fast Resume Review in Lever. One resume at a time, three buttons. (Screenshot: Lever Help Center, sample candidate.)</figcaption>
+</figure>
+
+<p>Archive is how a rejection happens. The recruiter picks a reason, like "under-qualified," and can send an email in the same click. That email comes from a template the company wrote. Some are kind ("this was a competitive process, and the decision wasn't easy"), some are short. Advance moves you to the next stage, usually with a "we'd love to talk, here's a link to schedule" template.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/lever-archive-reason.png" width="1088" height="680" alt="The Archive menu in Fast Resume Review, with &quot;Under-qualified&quot; selected as the reason and an &quot;Archive + Email&quot; button." loading="lazy">
+  <figcaption>A rejection is a reason picked from a menu, plus an email template. (Screenshot: Lever Help Center.)</figcaption>
+</figure>
+
+<p>Two details matter for you. Fast Resume Review shows applicants oldest to newest, so applying early really does put you near the front of the line. And a real recruiter is looking at your resume!</p>
+
+<p>Here's the part nobody likes to hear. <strong>Plenty of roles get more than 1,000 applicants now.</strong> Even if only 10% of them are qualified, that's 100 strong people for one job, and the recruiter is often running five other roles at the same time.</p>
+
+<h2>Step 4: Searches and filters</h2>
+
+<p>Most ATS platforms let a recruiter search candidates by keyword, title, or location. People hear "keyword search" and imagine a secret filter deleting their resume. It works more like searching your own inbox: a recruiter types "Salesforce" because the hiring manager said Salesforce matters, and looks at who comes up.</p>
+
+<p>That's a human choosing what to look for. Write your resume so a person searching for the skills the role needs can find them, in plain words, without stuffing.</p>
+
+<h2>Step 5: AI usage in 2026</h2>
+
+<p>I'll be direct about this, because AI has crept into hiring this year, but probably not how you might think. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even <strong>Lever</strong>, where I used to work, sells AI screening now.</p>
+
+<p>In Lever it's called <a href="https://help.lever.co/s/article/Talent-Fit-in-Lever">Talent Fit</a>. It reads the job description, turns it into a list of requirements, and gives each applicant a match score. Recruiters can sort the list by that score.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/lever-talent-fit-scores.png" width="1080" height="613" alt="Lever's candidate list with a Talent Fit column: one applicant scored 71% (7 of 12 requirements, 3 unclear), another 46% (1 of 12, 9 unclear)." loading="lazy">
+  <figcaption>Talent Fit scores in Lever's candidate list, sortable by score. (Screenshot: Lever Help Center, sample candidates.)</figcaption>
+</figure>
+
+<p>Three things are worth knowing:</p>
+
+<ul>
+<li><strong>It ranks, but a person still decides.</strong> Lever's own AI page says "Recruiters always have the final say in decision-making," and its guide to AI screening says "AI should never make the final call on any hiring decisions." A low rank puts you further down the list, which is a real cost, but you're still in it.</li>
+<li><strong>It reads for fit.</strong> These tools compare what you've done to what the role needs. Stuffing a resume with keywords you can't back up doesn't help, and recruiters can tell.</li>
+<li><strong>There are rules now.</strong> New York City requires companies that use automated tools in hiring decisions to have them audited for bias and to tell candidates. If you're in NYC, you can ask.</li>
+</ul>
+
+<p>Each score shows its work. For every requirement, Talent Fit quotes your resume as evidence, or says it found none. If you have the skill, make it easy to find.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/lever-talent-fit-evidence.png" width="814" height="873" alt="A candidate's Talent Fit breakdown in Lever: a 71% score, priority skills each marked &quot;Evidence found&quot; with a quote from the resume, and Location marked &quot;No evidence found&quot; with the question &quot;Can you work from there?&quot;" loading="lazy">
+  <figcaption>Each requirement gets evidence from the resume, or a flag when there isn't any. (Screenshot: Lever Help Center, sample candidate.)</figcaption>
+</figure>
+
+<p>The other kind of AI you might run into is fraud detection. Some systems now flag applications that look automated or fake, and I've been flagged myself. I wrote about <a href="https://middleton.io/blog/privacy-is-a-fraud-signal/?utm_source=blog&amp;utm_campaign=what-really-happens-after-you-click-apply">why privacy choices can look like fraud</a>.</p>
+
+<h2>Step 6: Application math (the real villain)</h2>
+
+<p>Let's put it all together. A thousand people apply. Some answer a knockout question wrong. A recruiter reads the rest, as many as time allows, and picks maybe ten matches for a first call. Three or four get to the final round, and one gets the offer. This is why applying early matters and why custom resumes will slow you down and make you less competitive.</p>
+
+<p>Fit, math, and timing reject far more people than any robot. That's the brutal part: you can do everything right and still not get the job, because 99 other strong people applied too. It's also the hopeful part, because the math is something you can play.</p>
+
+<h2>If you got a quick rejection</h2>
+
+<p>It's almost always one of two things. Sometimes a recruiter really is at their desk, swiping through the queue, looking for specific experience, and in this market, if you don't have it, you're out fast. Or you answered a knockout question the "wrong" way: you said remote and the role is in the office, or you said four years of experience and they asked for five.</p>
+
+<p>Neither one is a robot reading your resume.</p>
+
+<h2>Here's how you really "beat the ATS"</h2>
+
+<ul>
+<li><strong>Read the knockout questions twice.</strong> Most instant rejections live there.</li>
+<li><strong>Keep one strong resume.</strong> A clear story about who you are and the impact you've had, good enough for most of the roles you want. Here's <a href="https://middleton.io/blog/its-almost-always-the-resume/?utm_source=blog&amp;utm_campaign=what-really-happens-after-you-click-apply">how I overhauled mine</a>.</li>
+<li><strong>Apply early.</strong> Day two beats day twelve.</li>
+<li><strong>Apply where you fit.</strong> If you match 80% or more of the key requirements, your odds are real. If you match 40%, no rewrite will close that gap.</li>
+<li><strong>Don't fall for resume scams.</strong> The famous "75% of resumes are rejected by the ATS" traces back to a 2012 press release from a company that no longer exists, and it never cited a source.</li>
+</ul>
+
+<h2>Your best defense is applying where you fit</h2>
+
+<p>You can't control how many people apply, or how busy the recruiter is, or whether a hiring manager changes their mind. You can control which roles you spend your energy on.</p>
+
+<p>That's why I built <a href="https://middleton.io/recruiter-bff/?utm_source=blog&amp;utm_campaign=what-really-happens-after-you-click-apply">Recruiter BFF</a>. It compares job postings against your background and tells you if you're a match before you apply, so you can focus on the roles where you're a real match. When your <strong>Recruiter BFF</strong> says skip, you get that time back for a role where the math works in your favor. Recruiter BFF is free and runs in <strong>Claude</strong> or <strong>Codex</strong>, and there's a no-install kit for ChatGPT or any AI chat. A paid Claude or ChatGPT plan works best.</p>
+
+<figure>
+  <a href="https://middleton.io/recruiter-bff/" target="_blank" rel="noopener noreferrer"><img src="https://middleton.io/blog/images/recruiter-bff-giant-shake.gif" width="540" height="675" alt="The Recruiter BFF mascot, a giant iced tea cup with glasses, shaking ice cubes out next to the words &quot;Everyone needs a Recruiter BFF&quot; and a link to middleton.io/recruiter-bff." loading="lazy"></a>
+  <figcaption>Recruiter BFF: find out if you're a match before you apply.</figcaption>
+</figure>
+
+<p>A human is reading your resume. Send it where it's worth reading.</p>]]></content:encoded>
+    </item>
     <item>
       <title>Stop prompting from scratch. Start building a second brain.</title>
       <link>https://middleton.io/blog/build-a-second-brain-for-work/</link>
@@ -1306,73 +1435,6 @@ through it one step at a time. Use this open-source project as a starting point:
 <p>We'll get there. The pieces are starting to come together. But right now, we're in the awkward middle: too advanced for most people, not advanced enough for it to not matter.</p>
 
 <p>The people building AI tools have a choice: keep building for each other, or start building for everyone. I know which one I'm hoping for.</p>]]></content:encoded>
-    </item>
-    <item>
-      <title>What Running an AI Job Scanner Daily Actually Looks Like</title>
-      <link>https://middleton.io/blog/ai-job-scanner-daily/</link>
-      <guid isPermaLink="true">https://middleton.io/blog/ai-job-scanner-daily/</guid>
-      <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
-      <description>Two weeks running my AI job scanner. The field report: extraction failures, a temporary block, duplicate noise, and what actually held up.</description>
-      <enclosure url="https://middleton.io/blog/images/ai-job-scanner-daily-cover.jpg" type="image/jpeg" length="94381"/>
-      <media:content url="https://middleton.io/blog/images/ai-job-scanner-daily-cover.jpg" medium="image" type="image/jpeg"/>
-      <media:thumbnail url="https://middleton.io/blog/images/ai-job-scanner-daily-cover.jpg"/>
-      <content:encoded><![CDATA[<p>My AI job scanner has been running for two weeks. It broke in interesting ways, and I learned things I didn't expect. Here's the field report.</p>
-
-<h2>When a Third of Your Results Are Noise</h2>
-
-<p>The system was built to scan 60 <strong>LinkedIn</strong> job cards per run, twice a day. Each scan sends those listings to an AI model along with my preferences, my skip list, and a de-dupe file containing every role I've already applied to, skipped, or been rejected from.</p>
-
-<p>In the first week, that de-dupe file was about 5KB. Two weeks later, it hit 32KB. That's roughly 670 company/role pairs the model has to cross-reference against every scan. The full prompt payload grew from 47KB to 73KB in the same period. Still well within the model's limits, but it's a trajectory worth watching.</p>
-
-<p>The real problem wasn't size. It was accuracy.</p>
-
-<p>The AI model was supposed to match incoming jobs against my de-dupe list, but it's fuzzy matching at best. Same company, slightly different role title? Comes through as "new." Same role reposted with a fresh URL? Also "new." On one scan, I got 24 results and at least 8 were duplicates of roles I'd already seen or applied to.</p>
-
-<p>When a third of your results are noise, the system is creating work instead of saving it.</p>
-
-<h2>Don't Ask the AI to Do What Code Can Do Better</h2>
-
-<p>This was the key insight. URL matching is a perfect deterministic task. No interpretation needed. Either you've seen this exact URL before or you haven't.</p>
-
-<p>So I built a pre-filter. A file called <code>seen_urls.txt</code> stores every <strong>LinkedIn</strong> job URL the scanner has ever encountered. Before the AI model even sees the listings, a Python script strips out any URLs already in that file. After the scan, all new URLs get appended, whether they were included or excluded.</p>
-
-<p>The first scan with the pre-filter active processed 60 jobs and filtered zero, because the seed file only had 50 URLs from that morning. But every scan after that catches repeats instantly. No model needed, no fuzzy matching, no cost.</p>
-
-<p>And if every job in a scan is a repeat? The system short-circuits entirely. No API call. It just texts me "No new PM roles." Saves the API cost for that run, which isn't much per scan, but adds up over weeks.</p>
-
-<p>The lesson: if a task has a definitive right answer, don't make the AI guess. Use code for what code is good at and save the model for what actually requires judgment.</p>
-
-<h2>What Broke (and What's Still Annoying)</h2>
-
-<p>Any system that scrapes a website is one HTML change away from failing. Two weeks gave me a solid reminder of that.</p>
-
-<p>On February 17th, <strong>LinkedIn</strong> returned 1.4MB of HTML but zero job cards extracted. The HTML structure had shifted slightly and my CSS selectors didn't match anymore. The scan failed three times that morning before I caught it and adjusted the selectors. Straightforward fix, but a reminder that scraping is always borrowed time.</p>
-
-<p>Three days later, a morning scan got back 39 bytes. Not 39KB. 39 bytes. LinkedIn had either rate-limited or temporarily blocked the request entirely. The evening scan worked fine. Probably a temporary IP thing, but that morning's data was just gone.</p>
-
-<p>Both times, the system handled the failure correctly. It texted me that something was wrong instead of silently returning nothing. That distinction matters more than it sounds. Silence meaning failure, not success, was one of the best design decisions in the whole build.</p>
-
-<p>The most annoying ongoing task is authentication. LinkedIn doesn't offer a public job search API, so the scanner requires periodic manual re-authentication every few days. I built a macOS Shortcut to make it quick, about 30 seconds, but it's still manual. Everything else runs hands-off.</p>
-
-<p>The other recurring annoyance: LinkedIn's location filter doesn't do what you think it does. I search for "New York, New York" explicitly. LinkedIn still returns roles in Jersey City, Newark, sometimes Philadelphia-area postings. The AI catches most of these and excludes them, but some slip through. This isn't a bug in my system. It's a known behavior with LinkedIn's search. Worth knowing if you build something similar.</p>
-
-<h2>What's Working Well</h2>
-
-<p>The three-file system has held up. A Google Sheet acts as my master tracker (400+ rows and growing). A local text file handles de-dupe for the scanner. A markdown file serves as a staging area for new scan results. Three locations, manually synced, but the separation is intentional. The scanner never touches my master data. If the scanner breaks, my sheet is fine.</p>
-
-<p>The interview pipeline is real. Multiple active interviews came directly through roles this system surfaced. The scanner found the initial postings, I applied manually, and the pipeline grew from there. Speed matters here. The system finds newly posted roles within about 12 hours of posting, and recruiters can start reviewing applications within days. Getting in early can make a difference.</p>
-
-<p>And the economics still work. The AI classification costs about $0.06 per day. The second model I use for a different classification pass is still free. For a system that processes roughly 1,800 job cards across 30+ scans and maintains a 97% success rate post-stabilization, that's a pretty good deal.</p>
-
-<h2>The Honest Take</h2>
-
-<p>Systems like this aren't "set it and forget it." In two weeks, I dealt with extraction failures, a temporary block, duplicate noise, cookie refreshes, and location filter weirdness. That's real maintenance.</p>
-
-<p>But the maintenance is minutes per week, not hours per day. And the alternative is manually checking <strong>LinkedIn</strong> twice a day, doom scrolling through 60 listings, and hoping I don't miss something. The scanner is imperfect, but it's consistently better than doing it by hand.</p>
-
-<p>I would not call any of this production-ready. But it's perfectly serviceable for me, and that's the point. I don't need it to scale. I need it to work. For personal projects, AI is incredible at unblocking things that would've been stuck behind access to engineering resources. There's never been a better time for the value you get from these tools.</p>
-
-<p>I've been thinking a lot about the data that flows through this system and why I'm sending all of it to cloud APIs. More on that here: <a href="https://middleton.io/blog/owning-your-context/">I Paid to Scrub My Data From Hundreds of Data Brokers. Then I Sent Even More to an AI.</a></p>]]></content:encoded>
     </item>
   </channel>
 </rss>
