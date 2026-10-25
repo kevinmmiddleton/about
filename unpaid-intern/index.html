@@ -377,7 +377,11 @@
 
         <div class="tier" role="tabpanel" id="install-codex" aria-labelledby="tab-codex" tabindex="0">
           <span class="num k">Two commands</span><h4>Codex</h4>
+          <p>In the ChatGPT desktop app or the Codex CLI. Type these in a terminal (Terminal on a Mac, PowerShell on Windows):</p>
           <div class="cmd"><div class="cmd-h"><span class="k">Type in your terminal</span></div><div class="row"><pre class="code" data-copy>codex plugin marketplace add kevinmmiddleton/unpaid-intern</pre></div><div class="row"><pre class="code" data-copy>codex plugin add unpaid-intern@unpaid-intern</pre></div></div>
+          <p>Terminal says <code>codex</code> isn&rsquo;t found? The ChatGPT desktop app doesn&rsquo;t add the command, so install it with OpenAI&rsquo;s one-line installer below (the first line on a Mac, the second in PowerShell on Windows), open a new terminal, and run both commands again. The plugin then shows up in the app too.</p>
+          <div class="cmd"><div class="cmd-h"><span class="k">Only if codex isn&rsquo;t found</span></div><div class="row"><pre class="code" data-copy>curl -fsSL https://chatgpt.com/codex/install.sh | sh</pre></div><div class="row"><pre class="code" data-copy>powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</pre></div></div>
+          <p>Then start a new Codex chat in an empty folder for your notes (in the app, File, then Open Folder) and say &ldquo;set me up.&rdquo;</p>
           <p>The plugin brings Atlassian and Notion connectors, so until you sign in to them, Codex logs a sign-in error for each when a session starts. That's harmless, and the README shows how to turn off one you don't use. In Codex, say commands in plain words (&ldquo;give me my briefing&rdquo;), since its terminal doesn't recognize slash commands like /briefing.</p>
         </div>
 
