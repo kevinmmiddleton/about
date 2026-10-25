@@ -20,7 +20,7 @@ My AI job scanner has been running for two weeks. It broke in interesting ways, 
 
 ## When a Third of Your Results Are Noise
 
-The system was built to scan 60 LinkedIn job cards per run, twice a day. Each scan sends those listings to an AI model along with my preferences, my skip list, and a de-dupe file containing every role I've already applied to, skipped, or been rejected from.
+The system was built to scan 60 **LinkedIn** job cards per run, twice a day. Each scan sends those listings to an AI model along with my preferences, my skip list, and a de-dupe file containing every role I've already applied to, skipped, or been rejected from.
 
 In the first week, that de-dupe file was about 5KB. Two weeks later, it hit 32KB. That's roughly 670 company/role pairs the model has to cross-reference against every scan. The full prompt payload grew from 47KB to 73KB in the same period. Still well within the model's limits, but it's a trajectory worth watching.
 
@@ -34,7 +34,7 @@ When a third of your results are noise, the system is creating work instead of s
 
 This was the key insight. URL matching is a perfect deterministic task. No interpretation needed. Either you've seen this exact URL before or you haven't.
 
-So I built a pre-filter. A file called `seen_urls.txt` stores every LinkedIn job URL the scanner has ever encountered. Before the AI model even sees the listings, a Python script strips out any URLs already in that file. After the scan, all new URLs get appended, whether they were included or excluded.
+So I built a pre-filter. A file called `seen_urls.txt` stores every **LinkedIn** job URL the scanner has ever encountered. Before the AI model even sees the listings, a Python script strips out any URLs already in that file. After the scan, all new URLs get appended, whether they were included or excluded.
 
 The first scan with the pre-filter active processed 60 jobs and filtered zero, because the seed file only had 50 URLs from that morning. But every scan after that catches repeats instantly. No model needed, no fuzzy matching, no cost.
 
@@ -46,7 +46,7 @@ The lesson: if a task has a definitive right answer, don't make the AI guess. Us
 
 Any system that scrapes a website is one HTML change away from failing. Two weeks gave me a solid reminder of that.
 
-On February 17th, LinkedIn returned 1.4MB of HTML but zero job cards extracted. The HTML structure had shifted slightly and my CSS selectors didn't match anymore. The scan failed three times that morning before I caught it and adjusted the selectors. Straightforward fix, but a reminder that scraping is always borrowed time.
+On February 17th, **LinkedIn** returned 1.4MB of HTML but zero job cards extracted. The HTML structure had shifted slightly and my CSS selectors didn't match anymore. The scan failed three times that morning before I caught it and adjusted the selectors. Straightforward fix, but a reminder that scraping is always borrowed time.
 
 Three days later, a morning scan got back 39 bytes. Not 39KB. 39 bytes. LinkedIn had either rate-limited or temporarily blocked the request entirely. The evening scan worked fine. Probably a temporary IP thing, but that morning's data was just gone.
 
@@ -68,7 +68,7 @@ And the economics still work. The AI classification costs about $0.06 per day. T
 
 Systems like this aren't "set it and forget it." In two weeks, I dealt with extraction failures, a temporary block, duplicate noise, cookie refreshes, and location filter weirdness. That's real maintenance.
 
-But the maintenance is minutes per week, not hours per day. And the alternative is manually checking LinkedIn twice a day, doom scrolling through 60 listings, and hoping I don't miss something. The scanner is imperfect, but it's consistently better than doing it by hand.
+But the maintenance is minutes per week, not hours per day. And the alternative is manually checking **LinkedIn** twice a day, doom scrolling through 60 listings, and hoping I don't miss something. The scanner is imperfect, but it's consistently better than doing it by hand.
 
 I would not call any of this production-ready. But it's perfectly serviceable for me, and that's the point. I don't need it to scale. I need it to work. For personal projects, AI is incredible at unblocking things that would've been stuck behind access to engineering resources. There's never been a better time for the value you get from these tools.
 

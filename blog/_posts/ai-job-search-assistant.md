@@ -23,7 +23,7 @@ cover_alt: 'Diagram of the job search automation: Apple Shortcuts triggers a Ter
 linkedin_url: https://www.linkedin.com/pulse/i-built-ai-job-search-assistant-texts-me-when-finds-roles-middleton-nawxe/
 ---
 
-Most job seekers refresh LinkedIn like it's a slot machine. Open the app, scroll, scroll, scroll, close the app, feel vaguely bad about it. Repeat three hours later.
+Most job seekers refresh **LinkedIn** like it's a slot machine. Open the app, scroll, scroll, scroll, close the app, feel vaguely bad about it. Repeat three hours later.
 
 I decided to stop doing that.
 
@@ -35,11 +35,11 @@ Here's how it works, what I learned testing five different AI models, and a prom
 
 Postings fill fast. A role that goes up at 9am might have 200 applicants by 5pm. If you're only checking once a day, you're already behind.
 
-A friend of mine manually checks LinkedIn three times a day on a schedule. He inspired me to automate this, because the thought of doing that manually wasn't something that exactly thrilled me.
+A friend of mine manually checks **LinkedIn** three times a day on a schedule. He inspired me to automate this, because the thought of doing that manually wasn't something that exactly thrilled me.
 
 ## How It Works
 
-My Mac Mini runs a script twice a day (8am and 6pm). The whole pipeline: the Mac Mini fires on schedule, `curl` fetches LinkedIn with a 12-hour time filter, Python strips the HTML and extracts the job data, an AI model classifies each role as INCLUDE or EXCLUDE, and a bridge server hands the results to Apple Shortcuts, which texts me over iMessage. (That last hop is a pattern from u/ai_brews on r/mac.)
+My Mac Mini runs a script twice a day (8am and 6pm). The whole pipeline: the Mac Mini fires on schedule, `curl` fetches **LinkedIn** with a 12-hour time filter, Python strips the HTML and extracts the job data, an AI model classifies each role as INCLUDE or EXCLUDE, and a bridge server hands the results to Apple Shortcuts, which texts me over iMessage. (That last hop is a pattern from u/ai_brews on r/mac.)
 
 New roles get saved to a file. If there's nothing new, it still texts me so I know it ran. Silence means something broke.
 
@@ -69,7 +69,7 @@ But I wanted to see if I could get it to zero.
 
 ## The Model Experiment
 
-I installed Ollama, which runs open-source AI models locally, and tested five models on the same LinkedIn scan.
+I installed Ollama, which runs open-source AI models locally, and tested five models on the same **LinkedIn** scan.
 
 - **Qwen 2.5 14B** timed out. Too large for my hardware.
 - **Qwen 2.5 7B** worked, but the one role it found was a coding bootcamp posting. It could follow the output format but couldn't tell the difference between "Product Manager" and "not a Product Manager."
@@ -79,7 +79,7 @@ I installed Ollama, which runs open-source AI models locally, and tested five mo
 
 The pattern: small models can follow a structured output format, but they can't do nuanced classification. My filter has real exceptions (ML PM roles are excluded, but AI tooling PM roles are fine; banks are good, but trading product PM roles are not). That's too much reasoning for a 7B model. I uninstalled Ollama and got 25GB of disk space back.
 
-Then I tried Gemini. Google's Gemini Flash has a free API tier. Not "free trial" free. Free as in no billing required. The first test: it correctly classified every single job. Accurate exclusion reasons. Not one mistake.
+Then I tried **Gemini**. Google's Gemini Flash has a free API tier. Not "free trial" free. Free as in no billing required. The first test: it correctly classified every single job. Accurate exclusion reasons. Not one mistake.
 
 So now I'm running both side by side: Haiku at six cents a day, Gemini at zero. Both produce accurate results. The whole system costs less per month than a single cup of coffee, and half of it is literally free.
 
@@ -87,17 +87,17 @@ So now I'm running both side by side: Haiku at six cents a day, Gemini at zero. 
 
 ## What Broke Along the Way
 
-I want to be honest: I didn't know how to fix any of these. I'm a product manager, not a systems engineer. Claude (Anthropic's AI assistant) walked me through every one, and actually wrote all of the code.
+I want to be honest: I didn't know how to fix any of these. I'm a product manager, not a systems engineer. **Claude** (Anthropic's AI assistant) walked me through every one, and actually wrote all of the code.
 
 **Claude diagnosed its own auth problem.** Claude Code uses OAuth through the macOS Keychain, which requires a UI. That doesn't exist at 8am when nobody's at the computer. Claude figured out its own authentication mechanism was the problem and told me to create an API key instead. There's something funny about an AI diagnosing why it can't authenticate itself.
 
-**Local models hallucinated URLs.** The Ollama models fabricated LinkedIn job URLs. Completely made-up sequential IDs that looked real but went nowhere. The fix was architectural: Python extracts the real URLs, the model only decides INCLUDE or EXCLUDE by job number, and the model never touches a URL. This made the whole pipeline more reliable regardless of which model does the filtering.
+**Local models hallucinated URLs.** The Ollama models fabricated **LinkedIn** job URLs. Completely made-up sequential IDs that looked real but went nowhere. The fix was architectural: Python extracts the real URLs, the model only decides INCLUDE or EXCLUDE by job number, and the model never touches a URL. This made the whole pipeline more reliable regardless of which model does the filtering.
 
 **Silent failures everywhere.** Most of the problems I hit produced zero error output. The automation just... didn't run, or ran and produced garbage. The single best decision was making the scan text me even when there are no new roles. If I don't get a text, I know something broke.
 
 ## Try It Yourself
 
-You don't need a Mac Mini or any code. Here's a prompt you can paste into Claude (or any AI assistant) right now:
+You don't need a Mac Mini or any code. Here's a prompt you can paste into **Claude** (or any AI assistant) right now:
 
 ```
 I want you to be my job search assistant. Here's my profile:

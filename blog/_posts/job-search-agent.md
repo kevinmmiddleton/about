@@ -30,15 +30,15 @@ But the biggest thing that really bothered me was that most of the people who ne
 
 A setup like mine takes a spare always-on machine, API keys, some patience with the command line, and time to debug when things break. Anyone hunting for a job already has none of those things. They've got rejection emails to triage, applications to send, recruiter pings to chase, and a low-grade hum of stress that doesn't turn off.
 
-So I started porting the useful parts of my personal setup into something anyone with Claude Code can install. Today it's live on [GitHub](https://github.com/kevinmmiddleton/job-search-agent), but you can download it directly here: [job-search-agent.plugin](https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin)
+So I started porting the useful parts of my personal setup into something anyone with **Claude Code** can install. Today it's live on [GitHub](https://github.com/kevinmmiddleton/job-search-agent), but you can download it directly here: [job-search-agent.plugin](https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin)
 
 It's open source and does the things you actually want a job-search assistant to do: scan job boards for roles that fit your career profile and goals, track your applications in a plain CSV you own, build interview guides from job descriptions. No always-on machine, no servers, no $200-a-month SaaS. Runs on whatever laptop you already have.
 
 ## Two paths if you want to try it
 
-1. Download [`job-search-agent.plugin`](https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin) and open it with Cowork. That's the whole install.
+1. Download [`job-search-agent.plugin`](https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin) and open it with **Cowork**. That's the whole install.
 
-2. Or hand the [GitHub](https://github.com/kevinmmiddleton/job-search-agent) link to Claude and ask it to help you get started. Building tools to install other tools is exactly what Claude is good at.
+2. Or hand the [GitHub](https://github.com/kevinmmiddleton/job-search-agent) link to **Claude** and ask it to help you get started. Building tools to install other tools is exactly what Claude is good at.
 
 If you fork it, improve it, or break it, tell me. Issues and PRs welcome.
 

@@ -19,7 +19,7 @@ cover_alt: ''
 linkedin_url: ''
 ---
 
-When I started my job search, I didn't want to constantly refresh LinkedIn all day, riding the little hit of dopamine when a new role popped up and the drop when it turned out to be one I'd already seen. I wanted my search to feel deliberate instead of compulsive, and I wanted to feel a sense of control of the process. So I built an agent and a dashboard to handle the search for me.
+When I started my job search, I didn't want to constantly refresh **LinkedIn** all day, riding the little hit of dopamine when a new role popped up and the drop when it turned out to be one I'd already seen. I wanted my search to feel deliberate instead of compulsive, and I wanted to feel a sense of control of the process. So I built an agent and a dashboard to handle the search for me.
 
 My personal job search agent reads my profile, pulls fresh roles that actually match, ignores the companies on my skip list, kills duplicates before I ever see them, scores what's left so the best ones sit on top, and pings me when something good lands. I use my personal dashboard instead of the job boards, which totally reframes a job search. It really makes it feel like it's more on your own terms, at least it does for me.
 
@@ -33,7 +33,7 @@ When I finally sat down to do it, the code turned out to be the easy part. The h
 
 ### Making it multi-user
 
-To turn my personal job search agent into a product other people could actually use, Shortlist, I had to build an invite screen, a settings page, some onboarding. About a day of work (shoutout to Claude Opus 5). The real work was deciding things: how to keep user data separate, how a new person sets up their own job search agent, and what subset of my tools should scale and which ones should hit the cutting room floor.
+To turn my personal job search agent into a product other people could actually use, Shortlist, I had to build an invite screen, a settings page, some onboarding. About a day of work (shoutout to **Claude** Opus 5). The real work was deciding things: how to keep user data separate, how a new person sets up their own job search agent, and what subset of my tools should scale and which ones should hit the cutting room floor.
 
 The launch features:
 

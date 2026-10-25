@@ -22,11 +22,11 @@ lede_align: left
 linkedin_url: ''
 ---
 
-This week a stranger on LinkedIn posted two emails from the same company. One said "thanks for applying," the other said "we've decided to move forward with other candidates," and both were stamped 2:02 PM. His caption: "Actually, this was an AI filter, and their resume got rejected automatically." His headline: "Optimize Your Resume to Get Past AI Filters." His profile had a link to his store.
+This week a stranger on **LinkedIn** posted two emails from the same company. One said "thanks for applying," the other said "we've decided to move forward with other candidates," and both were stamped 2:02 PM. His caption: "Actually, this was an AI filter, and their resume got rejected automatically." His headline: "Optimize Your Resume to Get Past AI Filters." His profile had a link to his store.
 
 I said in the comments what most likely happened (it was probably a knockout question, not AI). **He blocked me.**
 
-Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at Lever, one of the applicant tracking systems (ATS) that sit behind the Apply button. So here's the tour I wish every job seeker got: what happens to your application, step by step, from someone who helped build the software.
+Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at **Lever**, one of the applicant tracking systems (ATS) that sit behind the Apply button. So here's the tour I wish every job seeker got: what happens to your application, step by step, from someone who helped build the software.
 
 ### Step 1: Your application record is created
 
@@ -40,7 +40,7 @@ An ATS is a database with a workflow on top. For most of its history it's been a
 
 This is the one place where an instant rejection can really happen, and it's the one the "AI filter" and "beat the ATS" folks keep spreading misinformation about.
 
-Applications often ask yes/no questions: "Are you authorized to work in the US?" "Can you be in our office three days a week?" "Do you have five years of experience with Salesforce?" The employer can mark an answer as a dealbreaker. Pick an answer that the employer isn't looking for, and the system sends an automated rejection, often within minutes. Lever's own guidance tells employers to "use knockout rules only for clear, job-related requirements," like work authorization or location.
+Applications often ask yes/no questions: "Are you authorized to work in the US?" "Can you be in our office three days a week?" "Do you have five years of experience with Salesforce?" The employer can mark an answer as a dealbreaker. Pick an answer that the employer isn't looking for, and the system sends an automated rejection, often within minutes. **Lever**'s own guidance tells employers to "use knockout rules only for clear, job-related requirements," like work authorization or location.
 
 ![The Application Questions tab in Lever, showing a candidate's answers: "More than 5 years" of experience, a bachelor's degree, and "Yes" to working remotely.](/blog/images/lever-application-questions.png "Your answers to the application questions sit right next to your resume. Questions like these are where knockout rules live. (Screenshot: Lever Help Center, sample candidate.)")
 
@@ -50,7 +50,7 @@ So read those questions carefully, and answer them honestly. If a role needs you
 
 ### Step 3: A recruiter swipes through the queue
 
-Everyone who gets past the knockouts lands in the New Applicant stage for that role. In Lever, the recruiter sees every open role with a count of unreviewed applicants next to it, and clicks Start Review to open something called [Fast Resume Review](https://help.lever.co/s/article/Screening-applicants-using-Fast-Resume-Review).
+Everyone who gets past the knockouts lands in the New Applicant stage for that role. In **Lever**, the recruiter sees every open role with a count of unreviewed applicants next to it, and clicks Start Review to open something called [Fast Resume Review](https://help.lever.co/s/article/Screening-applicants-using-Fast-Resume-Review).
 
 Honestly, it's Tinder for resumes. Your resume fills the screen, your answers to the application questions sit one tab over, and there are three buttons at the top: Skip, Advance, and Archive.
 
@@ -72,7 +72,7 @@ That's a human choosing what to look for. Write your resume so a person searchin
 
 ### Step 5: Where AI really shows up in late 2026
 
-I'll be direct about this, because AI has crept into hiring this year, but probably not how you might think. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even Lever, where I used to work, sells AI screening now. The filing cabinet grew a brain! 🧠
+I'll be direct about this, because AI has crept into hiring this year, but probably not how you might think. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even **Lever**, where I used to work, sells AI screening now. The filing cabinet grew a brain! 🧠
 
 Three things are worth knowing:
 
@@ -106,7 +106,7 @@ Neither one is a robot reading your resume.
 
 You can't control how many people apply, or how busy the recruiter is, or whether a hiring manager changes their mind. You can control which roles you spend your energy on.
 
-That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It compares job postings against your background and tells you if you're a match before you apply, so you can focus on the roles where you're a real match. When your Recruiter BFF says skip, you get that time back for a role where the math works in your favor. Recruiter BFF is free and runs in the Claude desktop app, which needs a paid Claude plan.
+That's why I built [Recruiter BFF](https://middleton.io/recruiter-bff/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply). It compares job postings against your background and tells you if you're a match before you apply, so you can focus on the roles where you're a real match. When your **Recruiter BFF** says skip, you get that time back for a role where the math works in your favor. Recruiter BFF is free and runs in the **Claude** desktop app, which needs a paid Claude plan.
 
 [![The Recruiter BFF mascot, a giant iced tea cup with glasses, shaking ice cubes out next to the words "Everyone needs a Recruiter BFF" and a link to middleton.io/recruiter-bff.](/blog/images/recruiter-bff-giant-shake.gif "Recruiter BFF: find out if you're a match before you apply.")](https://middleton.io/recruiter-bff/)
 

@@ -58,7 +58,7 @@ Rejections happen for all kinds of reasons that have nothing to do with you:
 - The team was confused about what they actually wanted
 - You applied a little late, or you were the silver medalist who finished second to someone great
 
-You usually never find out which one it was, so spending your energy decoding it is a losing game. If you can stop refreshing LinkedIn every hour, that's a real start. Check it in the morning and the evening, and carve out parts of the day that belong only to you. The search is a marathon and your attention is the fuel. Don't burn it all staring at a notifications tab.
+You usually never find out which one it was, so spending your energy decoding it is a losing game. If you can stop refreshing **LinkedIn** every hour, that's a real start. Check it in the morning and the evening, and carve out parts of the day that belong only to you. The search is a marathon and your attention is the fuel. Don't burn it all staring at a notifications tab.
 
 ## If you want to stand out, stay in motion
 

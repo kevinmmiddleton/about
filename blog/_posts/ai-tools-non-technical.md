@@ -38,9 +38,9 @@ That's when I realized how far this was from something I could hand to someone.
 
 I met with her and we talked about the job market, how to stay sane during a search, and then I pulled up my automation. I immediately knew I'd need to scale it way down. My full setup requires hardware she doesn't have, technical concepts she hasn't encountered, and ongoing maintenance that would become a second job.
 
-So I assigned homework instead: get a $20 Claude subscription, install the Chrome extension, and just play with it. Get comfortable talking to an AI. We'd build from there.
+So I assigned homework instead: get a $20 **Claude** subscription, install the **Chrome** extension, and just play with it. Get comfortable talking to an AI. We'd build from there.
 
-To show her what was possible, I pointed Claude at my LinkedIn notification emails with a simple prompt: 
+To show her what was possible, I pointed Claude at my **LinkedIn** notification emails with a simple prompt: 
 
 ```
 Scan for LinkedIn emails, focus in on healthcare or adjacent roles, output direct URLs to interesting roles.
@@ -48,7 +48,7 @@ Scan for LinkedIn emails, focus in on healthcare or adjacent roles, output direc
 
 It worked. Claude pulled back a categorized list of healthcare-adjacent roles with direct links, organized by company type. No scrolling through LinkedIn. No clicking into 40 listings. Just the ones that mattered, ready to review.
 
-But that "simple" demo took 100+ steps for Claude in Chrome (thankfully automated). And it only works when you're sitting at the computer, actively running it. My version runs while I sleep. Hers requires her to be there, with a browser open, every time.
+But that "simple" demo took 100+ steps for **Claude in Chrome** (thankfully automated). And it only works when you're sitting at the computer, actively running it. My version runs while I sleep. Hers requires her to be there, with a browser open, every time.
 
 The gap between what I built and what most people can actually use is enormous. And she was motivated, smart, and actively looking for help. Imagine the gap for everyone else.
 
@@ -58,7 +58,7 @@ I want to be specific about what my system requires, because I think people unde
 
 - **Hardware:** An always-on Mac Mini. Not a laptop that sleeps when you close it. A dedicated machine that runs 24/7.
 - **Technical knowledge:** Shell scripting. Knowing what an API key is and how to create one. Understanding browser cookies well enough to open developer tools, find a specific cookie value, and paste it into a config file. Knowing what "inspect element" means. Basic Python. Familiarity with cron-like scheduling.
-- **Ongoing maintenance:** LinkedIn changes its HTML structure without warning, so my CSS selectors break and I have to fix them. The login cookie expires every few weeks and I have to manually grab a new one. LinkedIn occasionally rate-limits the requests. The AI model sometimes misclassifies roles and I have to refine the prompt.
+- **Ongoing maintenance:** LinkedIn changes its HTML structure without warning, so my CSS selectors break and I have to fix them. The login cookie expires every few weeks and I have to manually grab a new one. **LinkedIn** occasionally rate-limits the requests. The AI model sometimes misclassifies roles and I have to refine the prompt.
 
 Each one of those steps is a gate. Every gate filters out more people. By the time you get through all of them, you're left with a pretty small group: people who are both technical enough to build it and patient enough to maintain it.
 
@@ -90,7 +90,7 @@ We're not there yet. But the shape of it is starting to show up.
 
 ## Who Gets Left Behind
 
-I wrote a post recently about the AI knowledge gap: most people hear "AI" and think it means asking ChatGPT a question or using Gemini to make a fun image. They're not connecting it to what's actually possible. The AI conversation happening on LinkedIn is mostly people like me talking to other people like me.
+I wrote a post recently about the AI knowledge gap: most people hear "AI" and think it means asking **ChatGPT** a question or using **Gemini** to make a fun image. They're not connecting it to what's actually possible. The AI conversation happening on **LinkedIn** is mostly people like me talking to other people like me.
 
 This article is the other side of that coin. Even if someone understood what was possible, could they actually build it?
 

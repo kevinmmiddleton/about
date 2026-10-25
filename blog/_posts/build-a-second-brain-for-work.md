@@ -27,7 +27,7 @@ You have ten minutes before a meeting about a project you just inherited. You op
 
 I don't know many people who use AI the way I do, and that holds across roles: product managers, colleagues, executives. They're every bit as capable. They just use it one task at a time, because that's how chat taught all of us to use it. Summarize this email, rewrite this paragraph, draft these slides (you can start there, but please make edits), then close the tab and start over next time.
 
-But knowledge work depends on deep context. Projects move at their own pace, some every day and some every couple of weeks: a pricing refresh, a launch, a vendor review. Any one of them can pick up a new requirement in a morning meeting, a decision in a hallway, or a promise in a Slack thread. If AI only ever sees one task at a time, it can't help you keep any of that straight, so every prompt you give it starts from scratch.
+But knowledge work depends on deep context. Projects move at their own pace, some every day and some every couple of weeks: a pricing refresh, a launch, a vendor review. Any one of them can pick up a new requirement in a morning meeting, a decision in a hallway, or a promise in a **Slack** thread. If AI only ever sees one task at a time, it can't help you keep any of that straight, so every prompt you give it starts from scratch.
 
 With a little setup, those same one-offs can start from a knowledge base that already knows your projects, so they get faster and more accurate. That's what a lot of folks call a second brain, and it's the single biggest change in how I work now.
 
@@ -38,7 +38,7 @@ A second brain is a system that keeps track of every project you're on, stays up
 ![Animated, on a yellow wall of brains: eight scraps of work (a meeting transcript, an email asking about the launch date for the second time, a calendar invite, a Jira ticket, a Confluence page, a Google Doc, a to-do, and the question “Wait, who is Marco?”) sit above the caption “You drop in these…” and fly into a pink brain in glasses. It hands back a sorted desk, captioned “…it hands back this.”: morning briefing, meeting prep, follow-ups, requirements, a status update, and email replies. It ends on the Unpaid Intern logo.](/blog/images/unpaid-intern-s1-pile-yellow-wd.gif "Give your second brain the busy work. Then go get a Starbies.")
 
 - **Start with one folder.** It's your second brain's home: notes on each project and on the people you work with, a glossary, and a running memory of follow-ups and decisions.
-- **Feed it.** Drop in what comes at you: transcripts, PDFs, screenshots of chat threads, PowerPoint decks. If your company policy allows, connect email, calendar, chat, Jira, and Confluence so it can read those too.
+- **Feed it.** Drop in what comes at you: transcripts, PDFs, screenshots of chat threads, PowerPoint decks. If your company policy allows, connect email, calendar, chat, **Jira**, and **Confluence** so it can read those too.
 - **Let it create your knowledge base.** Your second brain reads everything you give it and saves away every fact where it belongs in your personal knowledge base. A decision goes into that project's notes, follow-ups are captured with owners and dates, and a new name gets added to the list of people you work with.
 - **Ask your second brain things all day.** Briefings, meeting prep, debriefs, status updates. Each one pulls from what it already knows about the project, so nothing starts from scratch. And the more you give it, the better context it will have.
 - **You make the calls.** Your second brain can draft emails and messages ready for you to send, but nothing goes out or gets deleted without your approval.
@@ -54,8 +54,8 @@ A second brain only helps if you use it consistently. I built a set of commands 
 - **Plans change: `/pulse`.** Only what changed since the briefing: new asks, collisions, and what resolved.
 - **Before a meeting: `/prep`.** The last decision, the open question, and outcomes to drive during the meeting.
 - **After the meeting: `/debrief`.** Paste in notes or a transcript to capture decisions and follow-ups with owners and dates, so next steps are clear.
-- **A new requirement: `/write-epic`.** Meeting notes, previously captured requirements, and transcripts can easily be turned into draft tickets for Jira or Linear.
-- **Something new: `/sync-kb`, or just "file my inbox."** All of your new learnings land in your knowledge base where they belong. If Confluence is connected, it can update corresponding pages too.
+- **A new requirement: `/write-epic`.** Meeting notes, previously captured requirements, and transcripts can easily be turned into draft tickets for **Jira** or Linear.
+- **Something new: `/sync-kb`, or just "file my inbox."** All of your new learnings land in your knowledge base where they belong. If **Confluence** is connected, it can update corresponding pages too.
 - **Catching up on a topic: `/learn`.** Need to onboard to a new area quickly? Just hand your second brain any docs you have and it can build a short lesson with a quiz to test your knowledge.
 - **End of day: `/close`.** Catch anything left dangling from the day and map out the first move for tomorrow.
 
@@ -65,7 +65,7 @@ Each one of those started as a standalone prompt that I found myself using so of
 
 ## I built a second brain you can start using today
 
-I built [Unpaid Intern](https://middleton.io/unpaid-intern/?utm_source=blog&utm_campaign=build-a-second-brain-for-work) to be your second brain, so you don't have to build one from scratch. It's free, and it's the only intern who should be unpaid. Say "set me up" and it walks you through the rest. You get a real result before it asks you to connect anything, and it's especially handy if you just started somewhere new: it learns who's who from an org chart screenshot and keeps a glossary of every acronym you nod along to. It runs in Claude and Codex, and there's a no-install kit for Copilot, ChatGPT, and Gemini. In 301 test runs across 44 everyday situations, with connectors simulated, it never sent or deleted anything on its own.
+I built [Unpaid Intern](https://middleton.io/unpaid-intern/?utm_source=blog&utm_campaign=build-a-second-brain-for-work) to be your second brain, so you don't have to build one from scratch. It's free, and it's the only intern who should be unpaid. Say "set me up" and it walks you through the rest. You get a real result before it asks you to connect anything, and it's especially handy if you just started somewhere new: it learns who's who from an org chart screenshot and keeps a glossary of every acronym you nod along to. It runs in **Claude** and **Codex**, and there's a no-install kit for **Copilot**, **ChatGPT**, and **Gemini**. In 301 test runs across 44 everyday situations, with connectors simulated, it never sent or deleted anything on its own.
 
 [See how it works and install it](https://middleton.io/unpaid-intern/?utm_source=blog&utm_campaign=build-a-second-brain-for-work), or [read the code on GitHub](https://github.com/kevinmmiddleton/unpaid-intern).
 
