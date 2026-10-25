@@ -1,7 +1,7 @@
 ---
 title: What really happens after you click Apply
 slug: what-really-happens-after-you-click-apply
-status: ready
+status: published
 published_at: 2026-10-26
 updated_at: ''
 topic: Job Search
@@ -15,7 +15,7 @@ tags:
   - AI
 featured: false
 sort_order: null
-excerpt: Here's what happens when you click Apply, where AI actually appears in the recruiting process, and what's really going on when you get rejected.
+excerpt: So many people think AI robots are auto-rejecting resumes. The real process is far more boring. Here's what really happens to your resume.
 cover_image: /blog/images/what-really-happens-after-you-click-apply-cover.gif
 cover_alt: An illustrated stack of resumes on a swipe-style app. The top resume gets a red X and a NOPE stamp and flies off to the left, then the next one gets a heart and a YES stamp and flies off to the right, above a row of X, star, and heart buttons.
 lede_align: left
