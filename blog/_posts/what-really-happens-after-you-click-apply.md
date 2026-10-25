@@ -22,11 +22,11 @@ lede_align: left
 linkedin_url: ''
 ---
 
-This week a stranger on **LinkedIn** posted two emails from the same company. One said "thanks for applying," the other said "we've decided to move forward with other candidates," and both were stamped 2:02 PM. His caption: "Actually, this was an AI filter, and their resume got rejected automatically." His headline: "Optimize Your Resume to Get Past AI Filters." His profile had a link to his store.
+This week a stranger on **LinkedIn** posted two emails from the same company. One said "thanks for applying," the other said "we've decided to move forward with other candidates," and both were stamped 2:02 PM. His caption: "Actually, this was an AI filter, and their resume got rejected automatically." His LinkedIn headline: "Optimize Your Resume to Get Past AI Filters." His profile also had a link to his store.
 
-I said in the comments what most likely happened (it was probably a knockout question, not AI). **He blocked me.**
+I said in the comments what most likely happened (it was probably a knockout question that led to the rejection, not AI). **He blocked me.**
 
-Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at **Lever**, one of the applicant tracking systems (ATS) that sit behind the Apply button. So here's the tour I wish every job seeker got: what happens to your application, step by step, from someone who helped build the software.
+Misinformation about hiring is everywhere right now, and a lot of it is selling something. I worked at **Lever**, one of the applicant tracking systems (ATS) that sit behind the Apply button. So here's the behind-the-scenes intel I wish every job seeker could see: what happens to your application, step by step, from someone who helped build the software.
 
 ### Step 1: Your application record is created
 
@@ -36,7 +36,7 @@ And a bad parse won't get you rejected. If a two-column layout or a fancy header
 
 An ATS is a database with a workflow on top. For most of its history it's been a digital filing cabinet, and for most companies it still is.
 
-### Step 2: The knockout questions run
+### Step 2: Knockout questions
 
 This is the one place where an instant rejection can really happen, and it's the one the "AI filter" and "beat the ATS" folks keep spreading misinformation about.
 
@@ -48,7 +48,7 @@ That's what those same-minute rejection emails were. The employer wrote a reject
 
 So read those questions carefully, and answer them honestly. If a role needs you in the office and you can only work remotely, the knockout just saved you a few weeks of waiting. They wanted someone in the office, even if you were a great fit for the role.
 
-### Step 3: A recruiter swipes through the queue
+### Step 3: Recruiters swipe through the queue
 
 Everyone who gets past the knockouts lands in the New Applicant stage for that role. In **Lever**, the recruiter sees every open role with a count of unreviewed applicants next to it, and clicks Start Review to open something called [Fast Resume Review](https://help.lever.co/s/article/Screening-applicants-using-Fast-Resume-Review).
 
@@ -64,13 +64,13 @@ Two details matter for you. Fast Resume Review shows applicants oldest to newest
 
 Here's the part nobody likes to hear. **Plenty of roles get more than 1,000 applicants now.** Even if only 10% of them are qualified, that's 100 strong people for one job, and the recruiter is often running five other roles at the same time.
 
-### Step 4: A person searches and filters
+### Step 4: Searches and filters
 
 Most ATS platforms let a recruiter search candidates by keyword, title, or location. People hear "keyword search" and imagine a secret filter deleting their resume. It works more like searching your own inbox: a recruiter types "Salesforce" because the hiring manager said Salesforce matters, and looks at who comes up.
 
 That's a human choosing what to look for. Write your resume so a person searching for the skills the role needs can find them, in plain words, without stuffing.
 
-### Step 5: Where AI really shows up in late 2026
+### Step 5: AI usage in 2026
 
 I'll be direct about this, because AI has crept into hiring this year, but probably not how you might think. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even **Lever**, where I used to work, sells AI screening now. The filing cabinet grew a brain! 🧠
 
@@ -90,7 +90,7 @@ Each score shows its work. For every requirement, Talent Fit quotes your resume 
 
 The other kind of AI you might run into is fraud detection. Some systems now flag applications that look automated or fake, and I've been flagged myself. I wrote about [why privacy choices can look like fraud](https://middleton.io/blog/privacy-is-a-fraud-signal/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply).
 
-### Step 6: The math does the rest
+### Step 6: Application math (the real villain)
 
 Let's put it all together. A thousand people apply. Some answer a knockout question wrong. A recruiter reads the rest, as many as time allows, and picks maybe ten matches for a first call. Three or four get to the final round, and one gets the offer. This is why applying early matters and why custom resumes will slow you down and make you less competitive.
 
