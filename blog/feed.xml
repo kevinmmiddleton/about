@@ -20,7 +20,7 @@
 
 <p>I don't know many people who use AI the way I do, and that holds across roles: product managers, colleagues, executives. They're every bit as capable. They just use it one task at a time, because that's how chat taught all of us to use it. Summarize this email, rewrite this paragraph, draft these slides (you can start there, but please make edits), then close the tab and start over next time.</p>
 
-<p>But knowledge work depends on deep context. Projects move at their own pace, some every day and some every couple of weeks: a pricing refresh, a launch, a vendor review. Any one of them can pick up a new requirement in a morning meeting, a decision in a hallway, or a promise in a Slack thread. If AI only ever sees one task at a time, it can't help you keep any of that straight, so every prompt you give it starts from scratch.</p>
+<p>But knowledge work depends on deep context. Projects move at their own pace, some every day and some every couple of weeks: a pricing refresh, a launch, a vendor review. Any one of them can pick up a new requirement in a morning meeting, a decision in a hallway, or a promise in a <strong>Slack</strong> thread. If AI only ever sees one task at a time, it can't help you keep any of that straight, so every prompt you give it starts from scratch.</p>
 
 <p>With a little setup, those same one-offs can start from a knowledge base that already knows your projects, so they get faster and more accurate. That's what a lot of folks call a second brain, and it's the single biggest change in how I work now.</p>
 
@@ -35,7 +35,7 @@
 
 <ul>
 <li><strong>Start with one folder.</strong> It's your second brain's home: notes on each project and on the people you work with, a glossary, and a running memory of follow-ups and decisions.</li>
-<li><strong>Feed it.</strong> Drop in what comes at you: transcripts, PDFs, screenshots of chat threads, PowerPoint decks. If your company policy allows, connect email, calendar, chat, Jira, and Confluence so it can read those too.</li>
+<li><strong>Feed it.</strong> Drop in what comes at you: transcripts, PDFs, screenshots of chat threads, PowerPoint decks. If your company policy allows, connect email, calendar, chat, <strong>Jira</strong>, and <strong>Confluence</strong> so it can read those too.</li>
 <li><strong>Let it create your knowledge base.</strong> Your second brain reads everything you give it and saves away every fact where it belongs in your personal knowledge base. A decision goes into that project's notes, follow-ups are captured with owners and dates, and a new name gets added to the list of people you work with.</li>
 <li><strong>Ask your second brain things all day.</strong> Briefings, meeting prep, debriefs, status updates. Each one pulls from what it already knows about the project, so nothing starts from scratch. And the more you give it, the better context it will have.</li>
 <li><strong>You make the calls.</strong> Your second brain can draft emails and messages ready for you to send, but nothing goes out or gets deleted without your approval.</li>
@@ -56,8 +56,8 @@
 <li><strong>Plans change: <code>/pulse</code>.</strong> Only what changed since the briefing: new asks, collisions, and what resolved.</li>
 <li><strong>Before a meeting: <code>/prep</code>.</strong> The last decision, the open question, and outcomes to drive during the meeting.</li>
 <li><strong>After the meeting: <code>/debrief</code>.</strong> Paste in notes or a transcript to capture decisions and follow-ups with owners and dates, so next steps are clear.</li>
-<li><strong>A new requirement: <code>/write-epic</code>.</strong> Meeting notes, previously captured requirements, and transcripts can easily be turned into draft tickets for Jira or Linear.</li>
-<li><strong>Something new: <code>/sync-kb</code>, or just "file my inbox."</strong> All of your new learnings land in your knowledge base where they belong. If Confluence is connected, it can update corresponding pages too.</li>
+<li><strong>A new requirement: <code>/write-epic</code>.</strong> Meeting notes, previously captured requirements, and transcripts can easily be turned into draft tickets for <strong>Jira</strong> or Linear.</li>
+<li><strong>Something new: <code>/sync-kb</code>, or just "file my inbox."</strong> All of your new learnings land in your knowledge base where they belong. If <strong>Confluence</strong> is connected, it can update corresponding pages too.</li>
 <li><strong>Catching up on a topic: <code>/learn</code>.</strong> Need to onboard to a new area quickly? Just hand your second brain any docs you have and it can build a short lesson with a quiz to test your knowledge.</li>
 <li><strong>End of day: <code>/close</code>.</strong> Catch anything left dangling from the day and map out the first move for tomorrow.</li>
 </ul>
@@ -71,7 +71,7 @@
 
 <h2>I built a second brain you can start using today</h2>
 
-<p>I built <a href="https://middleton.io/unpaid-intern/?utm_source=blog&amp;utm_campaign=build-a-second-brain-for-work">Unpaid Intern</a> to be your second brain, so you don't have to build one from scratch. It's free, and it's the only intern who should be unpaid. Say "set me up" and it walks you through the rest. You get a real result before it asks you to connect anything, and it's especially handy if you just started somewhere new: it learns who's who from an org chart screenshot and keeps a glossary of every acronym you nod along to. It runs in Claude and Codex, and there's a no-install kit for Copilot, ChatGPT, and Gemini. In 301 test runs across 44 everyday situations, with connectors simulated, it never sent or deleted anything on its own.</p>
+<p>I built <a href="https://middleton.io/unpaid-intern/?utm_source=blog&amp;utm_campaign=build-a-second-brain-for-work">Unpaid Intern</a> to be your second brain, so you don't have to build one from scratch. It's free, and it's the only intern who should be unpaid. Say "set me up" and it walks you through the rest. You get a real result before it asks you to connect anything, and it's especially handy if you just started somewhere new: it learns who's who from an org chart screenshot and keeps a glossary of every acronym you nod along to. It runs in <strong>Claude</strong> and <strong>Codex</strong>, and there's a no-install kit for <strong>Copilot</strong>, <strong>ChatGPT</strong>, and <strong>Gemini</strong>. In 301 test runs across 44 everyday situations, with connectors simulated, it never sent or deleted anything on its own.</p>
 
 <p><a href="https://middleton.io/unpaid-intern/?utm_source=blog&amp;utm_campaign=build-a-second-brain-for-work">See how it works and install it</a>, or <a href="https://github.com/kevinmmiddleton/unpaid-intern">read the code on GitHub</a>.</p>
 
@@ -447,7 +447,7 @@
       <enclosure url="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png" type="image/png" length="59781"/>
       <media:content url="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png" medium="image" type="image/png"/>
       <media:thumbnail url="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png"/>
-      <content:encoded><![CDATA[<p>When I started my job search, I didn't want to constantly refresh LinkedIn all day, riding the little hit of dopamine when a new role popped up and the drop when it turned out to be one I'd already seen. I wanted my search to feel deliberate instead of compulsive, and I wanted to feel a sense of control of the process. So I built an agent and a dashboard to handle the search for me.</p>
+      <content:encoded><![CDATA[<p>When I started my job search, I didn't want to constantly refresh <strong>LinkedIn</strong> all day, riding the little hit of dopamine when a new role popped up and the drop when it turned out to be one I'd already seen. I wanted my search to feel deliberate instead of compulsive, and I wanted to feel a sense of control of the process. So I built an agent and a dashboard to handle the search for me.</p>
 
 <p>My personal job search agent reads my profile, pulls fresh roles that actually match, ignores the companies on my skip list, kills duplicates before I ever see them, scores what's left so the best ones sit on top, and pings me when something good lands. I use my personal dashboard instead of the job boards, which totally reframes a job search. It really makes it feel like it's more on your own terms, at least it does for me.</p>
 
@@ -461,7 +461,7 @@
 
 <h2>Making it multi-user</h2>
 
-<p>To turn my personal job search agent into a product other people could actually use, Shortlist, I had to build an invite screen, a settings page, some onboarding. About a day of work (shoutout to Claude Opus 5). The real work was deciding things: how to keep user data separate, how a new person sets up their own job search agent, and what subset of my tools should scale and which ones should hit the cutting room floor.</p>
+<p>To turn my personal job search agent into a product other people could actually use, Shortlist, I had to build an invite screen, a settings page, some onboarding. About a day of work (shoutout to <strong>Claude</strong> Opus 5). The real work was deciding things: how to keep user data separate, how a new person sets up their own job search agent, and what subset of my tools should scale and which ones should hit the cutting room floor.</p>
 
 <p>The launch features:</p>
 
@@ -787,7 +787,7 @@ through it one step at a time. Use this open-source project as a starting point:
 <li>You applied a little late, or you were the silver medalist who finished second to someone great</li>
 </ul>
 
-<p>You usually never find out which one it was, so spending your energy decoding it is a losing game. If you can stop refreshing LinkedIn every hour, that's a real start. Check it in the morning and the evening, and carve out parts of the day that belong only to you. The search is a marathon and your attention is the fuel. Don't burn it all staring at a notifications tab.</p>
+<p>You usually never find out which one it was, so spending your energy decoding it is a losing game. If you can stop refreshing <strong>LinkedIn</strong> every hour, that's a real start. Check it in the morning and the evening, and carve out parts of the day that belong only to you. The search is a marathon and your attention is the fuel. Don't burn it all staring at a notifications tab.</p>
 
 <h2>If you want to stand out, stay in motion</h2>
 
@@ -1112,15 +1112,15 @@ through it one step at a time. Use this open-source project as a starting point:
 
 <p>A setup like mine takes a spare always-on machine, API keys, some patience with the command line, and time to debug when things break. Anyone hunting for a job already has none of those things. They've got rejection emails to triage, applications to send, recruiter pings to chase, and a low-grade hum of stress that doesn't turn off.</p>
 
-<p>So I started porting the useful parts of my personal setup into something anyone with Claude Code can install. Today it's live on <a href="https://github.com/kevinmmiddleton/job-search-agent">GitHub</a>, but you can download it directly here: <a href="https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin">job-search-agent.plugin</a></p>
+<p>So I started porting the useful parts of my personal setup into something anyone with <strong>Claude Code</strong> can install. Today it's live on <a href="https://github.com/kevinmmiddleton/job-search-agent">GitHub</a>, but you can download it directly here: <a href="https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin">job-search-agent.plugin</a></p>
 
 <p>It's open source and does the things you actually want a job-search assistant to do: scan job boards for roles that fit your career profile and goals, track your applications in a plain CSV you own, build interview guides from job descriptions. No always-on machine, no servers, no $200-a-month SaaS. Runs on whatever laptop you already have.</p>
 
 <h2>Two paths if you want to try it</h2>
 
 <ol>
-<li>Download <a href="https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin"><code>job-search-agent.plugin</code></a> and open it with Cowork. That's the whole install.</li>
-<li>Or hand the <a href="https://github.com/kevinmmiddleton/job-search-agent">GitHub</a> link to Claude and ask it to help you get started. Building tools to install other tools is exactly what Claude is good at.</li>
+<li>Download <a href="https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin"><code>job-search-agent.plugin</code></a> and open it with <strong>Cowork</strong>. That's the whole install.</li>
+<li>Or hand the <a href="https://github.com/kevinmmiddleton/job-search-agent">GitHub</a> link to <strong>Claude</strong> and ask it to help you get started. Building tools to install other tools is exactly what Claude is good at.</li>
 </ol>
 
 <p>If you fork it, improve it, or break it, tell me. Issues and PRs welcome.</p>
@@ -1207,15 +1207,15 @@ through it one step at a time. Use this open-source project as a starting point:
 
 <p>I met with her and we talked about the job market, how to stay sane during a search, and then I pulled up my automation. I immediately knew I'd need to scale it way down. My full setup requires hardware she doesn't have, technical concepts she hasn't encountered, and ongoing maintenance that would become a second job.</p>
 
-<p>So I assigned homework instead: get a $20 Claude subscription, install the Chrome extension, and just play with it. Get comfortable talking to an AI. We'd build from there.</p>
+<p>So I assigned homework instead: get a $20 <strong>Claude</strong> subscription, install the <strong>Chrome</strong> extension, and just play with it. Get comfortable talking to an AI. We'd build from there.</p>
 
-<p>To show her what was possible, I pointed Claude at my LinkedIn notification emails with a simple prompt: </p>
+<p>To show her what was possible, I pointed Claude at my <strong>LinkedIn</strong> notification emails with a simple prompt: </p>
 
 <div class="prompt-block">Scan for LinkedIn emails, focus in on healthcare or adjacent roles, output direct URLs to interesting roles.</div>
 
 <p>It worked. Claude pulled back a categorized list of healthcare-adjacent roles with direct links, organized by company type. No scrolling through LinkedIn. No clicking into 40 listings. Just the ones that mattered, ready to review.</p>
 
-<p>But that "simple" demo took 100+ steps for Claude in Chrome (thankfully automated). And it only works when you're sitting at the computer, actively running it. My version runs while I sleep. Hers requires her to be there, with a browser open, every time.</p>
+<p>But that "simple" demo took 100+ steps for <strong>Claude in Chrome</strong> (thankfully automated). And it only works when you're sitting at the computer, actively running it. My version runs while I sleep. Hers requires her to be there, with a browser open, every time.</p>
 
 <p>The gap between what I built and what most people can actually use is enormous. And she was motivated, smart, and actively looking for help. Imagine the gap for everyone else.</p>
 
@@ -1226,7 +1226,7 @@ through it one step at a time. Use this open-source project as a starting point:
 <ul>
 <li><strong>Hardware:</strong> An always-on Mac Mini. Not a laptop that sleeps when you close it. A dedicated machine that runs 24/7.</li>
 <li><strong>Technical knowledge:</strong> Shell scripting. Knowing what an API key is and how to create one. Understanding browser cookies well enough to open developer tools, find a specific cookie value, and paste it into a config file. Knowing what "inspect element" means. Basic Python. Familiarity with cron-like scheduling.</li>
-<li><strong>Ongoing maintenance:</strong> LinkedIn changes its HTML structure without warning, so my CSS selectors break and I have to fix them. The login cookie expires every few weeks and I have to manually grab a new one. LinkedIn occasionally rate-limits the requests. The AI model sometimes misclassifies roles and I have to refine the prompt.</li>
+<li><strong>Ongoing maintenance:</strong> LinkedIn changes its HTML structure without warning, so my CSS selectors break and I have to fix them. The login cookie expires every few weeks and I have to manually grab a new one. <strong>LinkedIn</strong> occasionally rate-limits the requests. The AI model sometimes misclassifies roles and I have to refine the prompt.</li>
 </ul>
 
 <p>Each one of those steps is a gate. Every gate filters out more people. By the time you get through all of them, you're left with a pretty small group: people who are both technical enough to build it and patient enough to maintain it.</p>
@@ -1265,7 +1265,7 @@ through it one step at a time. Use this open-source project as a starting point:
 
 <h2>Who Gets Left Behind</h2>
 
-<p>I wrote a post recently about the AI knowledge gap: most people hear "AI" and think it means asking ChatGPT a question or using Gemini to make a fun image. They're not connecting it to what's actually possible. The AI conversation happening on LinkedIn is mostly people like me talking to other people like me.</p>
+<p>I wrote a post recently about the AI knowledge gap: most people hear "AI" and think it means asking <strong>ChatGPT</strong> a question or using <strong>Gemini</strong> to make a fun image. They're not connecting it to what's actually possible. The AI conversation happening on <strong>LinkedIn</strong> is mostly people like me talking to other people like me.</p>
 
 <p>This article is the other side of that coin. Even if someone understood what was possible, could they actually build it?</p>
 
@@ -1320,7 +1320,7 @@ through it one step at a time. Use this open-source project as a starting point:
 
 <h2>When a Third of Your Results Are Noise</h2>
 
-<p>The system was built to scan 60 LinkedIn job cards per run, twice a day. Each scan sends those listings to an AI model along with my preferences, my skip list, and a de-dupe file containing every role I've already applied to, skipped, or been rejected from.</p>
+<p>The system was built to scan 60 <strong>LinkedIn</strong> job cards per run, twice a day. Each scan sends those listings to an AI model along with my preferences, my skip list, and a de-dupe file containing every role I've already applied to, skipped, or been rejected from.</p>
 
 <p>In the first week, that de-dupe file was about 5KB. Two weeks later, it hit 32KB. That's roughly 670 company/role pairs the model has to cross-reference against every scan. The full prompt payload grew from 47KB to 73KB in the same period. Still well within the model's limits, but it's a trajectory worth watching.</p>
 
@@ -1334,7 +1334,7 @@ through it one step at a time. Use this open-source project as a starting point:
 
 <p>This was the key insight. URL matching is a perfect deterministic task. No interpretation needed. Either you've seen this exact URL before or you haven't.</p>
 
-<p>So I built a pre-filter. A file called <code>seen_urls.txt</code> stores every LinkedIn job URL the scanner has ever encountered. Before the AI model even sees the listings, a Python script strips out any URLs already in that file. After the scan, all new URLs get appended, whether they were included or excluded.</p>
+<p>So I built a pre-filter. A file called <code>seen_urls.txt</code> stores every <strong>LinkedIn</strong> job URL the scanner has ever encountered. Before the AI model even sees the listings, a Python script strips out any URLs already in that file. After the scan, all new URLs get appended, whether they were included or excluded.</p>
 
 <p>The first scan with the pre-filter active processed 60 jobs and filtered zero, because the seed file only had 50 URLs from that morning. But every scan after that catches repeats instantly. No model needed, no fuzzy matching, no cost.</p>
 
@@ -1346,7 +1346,7 @@ through it one step at a time. Use this open-source project as a starting point:
 
 <p>Any system that scrapes a website is one HTML change away from failing. Two weeks gave me a solid reminder of that.</p>
 
-<p>On February 17th, LinkedIn returned 1.4MB of HTML but zero job cards extracted. The HTML structure had shifted slightly and my CSS selectors didn't match anymore. The scan failed three times that morning before I caught it and adjusted the selectors. Straightforward fix, but a reminder that scraping is always borrowed time.</p>
+<p>On February 17th, <strong>LinkedIn</strong> returned 1.4MB of HTML but zero job cards extracted. The HTML structure had shifted slightly and my CSS selectors didn't match anymore. The scan failed three times that morning before I caught it and adjusted the selectors. Straightforward fix, but a reminder that scraping is always borrowed time.</p>
 
 <p>Three days later, a morning scan got back 39 bytes. Not 39KB. 39 bytes. LinkedIn had either rate-limited or temporarily blocked the request entirely. The evening scan worked fine. Probably a temporary IP thing, but that morning's data was just gone.</p>
 
@@ -1368,7 +1368,7 @@ through it one step at a time. Use this open-source project as a starting point:
 
 <p>Systems like this aren't "set it and forget it." In two weeks, I dealt with extraction failures, a temporary block, duplicate noise, cookie refreshes, and location filter weirdness. That's real maintenance.</p>
 
-<p>But the maintenance is minutes per week, not hours per day. And the alternative is manually checking LinkedIn twice a day, doom scrolling through 60 listings, and hoping I don't miss something. The scanner is imperfect, but it's consistently better than doing it by hand.</p>
+<p>But the maintenance is minutes per week, not hours per day. And the alternative is manually checking <strong>LinkedIn</strong> twice a day, doom scrolling through 60 listings, and hoping I don't miss something. The scanner is imperfect, but it's consistently better than doing it by hand.</p>
 
 <p>I would not call any of this production-ready. But it's perfectly serviceable for me, and that's the point. I don't need it to scale. I need it to work. For personal projects, AI is incredible at unblocking things that would've been stuck behind access to engineering resources. There's never been a better time for the value you get from these tools.</p>
 
