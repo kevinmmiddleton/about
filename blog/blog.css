@@ -565,10 +565,10 @@ figcaption {
 
    The scrim is an inverted panel and does NOT follow the page mode. Light-mode
    --c4-text is #1F4B8F, a dark blue that would be invisible here, so the
-   overlay pins the dark-mode hue values. The scrim reaches rgba(0,0,0,.94)
-   behind the text, so even a pure white pixel underneath composites to about
-   20/255: measured worst case on the busiest cover is 17.0:1 for the headline
-   and 5.0:1 for the kicker.
+   overlay pins the dark-mode hue values. Since 2026-10-25 the scrim is
+   bottom-only (.88 at the foot, clear above the middle). Measured worst case
+   across three covers is 10.0:1 for the headline and 6.4:1 for the kicker,
+   which carries its own dark pill.
 
    grid-column: span 2, never 1 / -1. In an implicit grid -1 resolves to the end
    of the EXPLICIT grid and silently collapses the span. */
@@ -594,13 +594,23 @@ figcaption {
     position: absolute; inset: 0;
     display: flex; flex-direction: column; justify-content: flex-end;
     gap: .5rem; padding: 2.1rem;
-    /* Reaches the top rather than fading out: several covers are title cards
-       carrying their own large wordmark, and a bottom-only scrim left that type
-       arguing with the headline. */
+    /* Bottom-only, clear above the halfway mark (Kevin, 2026-10-25: "the
+       overall image should really not have much darkening"). The old scrim
+       reached the top at .52 and buried the art. Measured on the ATS, R.I.P.
+       Product Management (title card) and AI-guilt covers, the headline still
+       sits at 10:1 or better. */
     background: linear-gradient(to top,
-      rgba(0,0,0,.94) 0%, rgba(0,0,0,.90) 30%, rgba(0,0,0,.72) 58%, rgba(0,0,0,.52) 100%);
+      rgba(0,0,0,.88) 0%, rgba(0,0,0,.66) 24%, rgba(0,0,0,.18) 48%, rgba(0,0,0,.03) 70%, rgba(0,0,0,0) 100%);
   }
-  .band-lead .post-list > .post-card:first-child .post-eyebrow { color: var(--hero-topic); }
+  /* The kicker sits higher than the headline, where the lighter scrim leaves
+     it at 2.6:1 on a bright cover, so it carries its own small dark pill. */
+  .band-lead .post-list > .post-card:first-child .post-eyebrow {
+    color: var(--hero-topic);
+    align-self: flex-start;
+    background: rgba(0,0,0,.86);
+    padding: .22rem .55rem;
+    border-radius: 6px;
+  }
   .band-lead .post-list > .post-card:first-child :is(h2, h3) {
     color: #fff; font-size: 2.15rem; line-height: 1.08;
     letter-spacing: -.025em; max-width: 19ch; margin: 0;
