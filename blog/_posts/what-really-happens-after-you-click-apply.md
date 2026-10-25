@@ -74,11 +74,19 @@ That's a human choosing what to look for. Write your resume so a person searchin
 
 I'll be direct about this, because AI has crept into hiring this year, but probably not how you might think. Some hiring software now ships AI that summarizes, scores, or ranks candidates. Even **Lever**, where I used to work, sells AI screening now. The filing cabinet grew a brain! 🧠
 
+In Lever it's called Talent Fit. It reads the job description, turns it into a list of requirements, and gives each applicant a match score. Recruiters can sort the list by that score.
+
+![Lever's candidate list with a Talent Fit column: one applicant scored 71% (7 of 12 requirements, 3 unclear), another 46% (1 of 12, 9 unclear).](/blog/images/lever-talent-fit-scores.png "Talent Fit scores in Lever's candidate list, sortable by score. (Screenshot: Lever Help Center, sample candidates.)")
+
 Three things are worth knowing:
 
 - **It ranks, but a person still decides.** Lever's own AI page says "Recruiters always have the final say in decision-making," and its guide to AI screening says "AI should never make the final call on any hiring decisions." A low rank puts you further down the list, which is a real cost, but you're still in it.
 - **It reads for fit.** These tools compare what you've done to what the role needs. Stuffing a resume with keywords you can't back up doesn't help, and recruiters can tell.
 - **There are rules now.** New York City requires companies that use automated tools in hiring decisions to have them audited for bias and to tell candidates. If you're in NYC, you can ask.
+
+Each score shows its work. For every requirement, Talent Fit quotes your resume as evidence, or says it found none. If you have the skill, make it easy to find.
+
+![A candidate's Talent Fit breakdown in Lever: a 71% score, priority skills each marked "Evidence found" with a quote from the resume, and Location marked "No evidence found" with the question "Can you work from there?"](/blog/images/lever-talent-fit-evidence.png "Each requirement gets evidence from the resume, or a flag when there isn't any. (Screenshot: Lever Help Center, sample candidate.)")
 
 The other kind of AI you might run into is fraud detection. Some systems now flag applications that look automated or fake, and I've been flagged myself. I wrote about [why privacy choices can look like fraud](https://middleton.io/blog/privacy-is-a-fraud-signal/?utm_source=blog&utm_campaign=what-really-happens-after-you-click-apply).
 
