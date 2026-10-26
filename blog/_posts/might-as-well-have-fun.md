@@ -67,6 +67,8 @@ I walk through my work experience, and then I add, "and here's what I've been bu
 
 Clockwise from top left: [Office Hours](https://middleton.io/officehours/), [Unpaid Intern](https://middleton.io/unpaid-intern/), [KevinOS](https://middleton.io/kevinos/), and [Recruiter BFF](https://middleton.io/recruiter-bff/).
 
+I built these in my spare time, and I had so much fun doing it. Maybe they'll go somewhere. They probably won't. And that's okay!
+
 It might take one minute. In that minute they can see that you bring your experience and your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than a gap.
 
 ### People will notice, and those are your people
