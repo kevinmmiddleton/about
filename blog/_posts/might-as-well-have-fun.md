@@ -25,7 +25,7 @@ My philosophy on life is simple: if I have to do it anyway, I might as well have
 
 It colors almost everything I do. I updated my website because it was fun _and_ practical (it even has its own operating system, [KevinOS](https://middleton.io/kevinos/)). I once walked around the boroughs placing [70 QR stickers](https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/) that sent people to it so I could meet and network with people. I run [free office hours](https://middleton.io/officehours/). I've built and shared several web apps. I really like making things, and I'd rather enjoy the process.
 
-The stickers pointed to silly little mini sites, each one showing a different side of me: [/catdad](https://middleton.io/catdad/), [/nyc](https://middleton.io/nyc/), [/fixer](https://middleton.io/fixer/). [/kevin](https://middleton.io/kevin/) never even got a QR code. I made it just to laugh. [/officehours](https://middleton.io/officehours/) started as one of those mini sites and grew into its own thing. Every one of them led back to my main portfolio.
+The stickers pointed to four silly little mini sites, each one showing a different side of me: [/catdad](https://middleton.io/catdad/), [/nyc](https://middleton.io/nyc/), [/fixer](https://middleton.io/fixer/), and [/officehours](https://middleton.io/officehours/), which later grew into its own thing. Every one of them led back to my main portfolio. There's also [/kevin](https://middleton.io/kevin/), which never got a QR code at all. I made it just to laugh.
 
 I've described myself as [seriously unserious](https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/). I take the work seriously. We just don't have to be so serious all the time.
 
