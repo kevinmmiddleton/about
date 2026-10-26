@@ -55,7 +55,7 @@ With AI tools it has never been easier. You don't need permission or a budget. Y
 
 Even the "What I'm building" section of my site is a deck of cards you can drag around, flip over, and make a mess of. Making it was pure, silly fun.
 
-[![The "What I'm Building Now" section of middleton.io: a fanned stack of project cards for One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF and more.](/blog/images/might-as-well-have-fun-building.jpg "Ten side projects, all live. Go ahead, drag them around and make a mess.")](https://middleton.io/#building)
+[![The "What I'm Building Now" section of middleton.io: a fanned stack of project cards for One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF and more.](/blog/images/might-as-well-have-fun-building.jpg "You can have fun building and learn at the same time.")](https://middleton.io/#building)
 
 ### Make "what have you been working on?" fun to answer
 
