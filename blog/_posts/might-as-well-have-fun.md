@@ -15,15 +15,15 @@ tags:
 featured: false
 sort_order: null
 excerpt: If I have to do it anyway, I might as well have fun doing it. Building things for yourself fills gaps, gives you a one-minute answer in interviews, and finds your people.
-cover_image: null
-cover_alt: ''
+cover_image: /blog/images/might-as-well-have-fun-cover.jpg
+cover_alt: KevinOS, Kevin's portfolio built as a retro desktop operating system, in dark mode with a city skyline wallpaper.
 lede_align: left
 linkedin_url: ''
 ---
 
 My philosophy on life is simple: if I have to do it anyway, I might as well have fun doing it.
 
-It colors almost everything I do. I updated my website because it was fun _and_ practical. I once walked around the boroughs placing [70 QR stickers](https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/) that sent people to it so I could meet and network with people. I run free office hours. I've built and shared several web apps. I really like making things, and I'd rather enjoy the process.
+It colors almost everything I do. I updated my website because it was fun _and_ practical (it even has its own operating system, [KevinOS](https://middleton.io/kevinos/)). I once walked around the boroughs placing [70 QR stickers](https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/) that sent people to it so I could meet and network with people. I run [free office hours](https://middleton.io/officehours/). I've built and shared several web apps. I really like making things, and I'd rather enjoy the process.
 
 I've described myself as [seriously unserious](https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/). I take the work seriously. We just don't have to be so serious all the time.
 
@@ -49,6 +49,8 @@ You don't have to accept the gap just because you haven't been formally asked to
 
 With AI tools it has never been easier. You don't need permission or a budget. You need a little time and something you want to build.
 
+[![The "What I'm Building Now" section of middleton.io: a fanned stack of project cards for One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF and more.](/blog/images/might-as-well-have-fun-building.jpg "What I'm building now. Side projects, all live.")](https://middleton.io/#building)
+
 ### Make "what have you been working on?" fun to answer
 
 Recruiters and hiring managers have asked me "what have you been working on?" several times, and I love this question!
@@ -59,7 +61,7 @@ It might take one minute. In that minute they can see that you bring your experi
 
 ### People will notice, and those are your people
 
-My office hours started as something I made from nothing. GitHub Pages is free. Calendly is free. I put up a page and a booking link, and I've met dozens of people through it.
+My [office hours](https://middleton.io/officehours/) started as something I made from nothing. GitHub Pages is free. Calendly is free. I put up a page and a booking link, and I've met dozens of people through it.
 
 I get feedback on the things I'm building. I help people think through their problems, which keeps me sharp and current and teaches me new ways to dig into problems of my own. These are people I'll keep in touch with for years, people I can lean on and trade feedback with.
 
