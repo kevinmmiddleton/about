@@ -1,8 +1,8 @@
 ---
 title: Build for fun
 slug: built-it-for-fun
-status: ready
-published_at: ''
+status: published
+published_at: 2026-11-05
 updated_at: ''
 topic: Career
 topic_new: ''
