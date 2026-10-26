@@ -1,6 +1,6 @@
 ---
-title: Make it for yourself first
-slug: make-it-for-yourself-first
+title: You might as well have fun doing it
+slug: might-as-well-have-fun
 status: draft
 published_at: ''
 updated_at: ''
