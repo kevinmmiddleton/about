@@ -23,7 +23,7 @@ linkedin_url: ''
 
 My philosophy on life is simple: if I have to do it anyway, I might as well have fun doing it.
 
-It colors almost everything I do. I updated my website because it was fun and practical. I once walked around the boroughs placing 70 QR stickers that sent people to it. I run free office hours. None of it was part of a grand plan. I just like making things, and I'd rather make them than wait around.
+It colors almost everything I do. I updated my website because it was fun _and_ practical. I once walked around the boroughs placing 70 QR stickers that sent people to it. I run free office hours. None of it was part of a grand plan. I just like making things, and I'd rather make them than wait around.
 
 It's a throwback, really. Back in January I wrote that I call myself a [seriously unserious](https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/) product manager. I take the work seriously. We just don't have to be so serious all the time.
 
