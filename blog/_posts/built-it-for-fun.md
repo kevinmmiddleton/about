@@ -1,7 +1,7 @@
 ---
 title: Build for fun
 slug: built-it-for-fun
-status: draft
+status: ready
 published_at: ''
 updated_at: ''
 topic: Career
