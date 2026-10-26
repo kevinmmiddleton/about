@@ -23,9 +23,9 @@ linkedin_url: ''
 
 My philosophy on life is simple: if I have to do it anyway, I might as well have fun doing it.
 
-It colors almost everything I do. I updated my website because it was fun _and_ practical. I once walked around the boroughs placing [70 QR stickers](https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/) that sent people to it so I could meet and network with people. I run free office hours. I've built and shared several web apps. I really like making things, and I'd rather have fun doing it, especially if I have a choice.
+It colors almost everything I do. I updated my website because it was fun _and_ practical. I once walked around the boroughs placing [70 QR stickers](https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/) that sent people to it so I could meet and network with people. I run free office hours. I've built and shared several web apps. I really like making things, and I'd rather enjoy the process.
 
-I've described myself as [seriously unserious](https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/). I take the work seriously, we just don't have to be so serious all the time.
+I've described myself as [seriously unserious](https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/). I take the work seriously. We just don't have to be so serious all the time.
 
 Here's what I've learned from building the fun way.
 
@@ -37,7 +37,7 @@ When you make something for yourself first, the bar is whether it helped you, an
 
 ### It gives you something to do
 
-I think we often gloss over this part. Doing things occupies time and provides structure.
+I think we often gloss over this part. Doing things fills your time and gives your days some structure.
 
 If you're in a lull or between things, the days can blur together. Building something lets you set personal milestones. You can wake up with a next step. Think through a small problem during your walk. You're solving problems that you want to solve, and learning along the way. It's a win-win.
 
@@ -51,7 +51,7 @@ With AI tools it has never been easier. You don't need permission or a budget. Y
 
 ### Make "what have you been working on?" fun to answer
 
-Recruiters and hiring managers have asked "what have you been working on?" several times, and I love this question!
+Recruiters and hiring managers have asked me "what have you been working on?" several times, and I love this question!
 
 I walk through my work experience, and then I add, "and here's what I've been building lately." Usually I share my screen, pull up my own portfolio (which I also built, and had fun building), and show them a few things.
 
