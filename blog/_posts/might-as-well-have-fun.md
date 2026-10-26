@@ -25,9 +25,9 @@ My philosophy on life is simple: if I have to do it anyway, I might as well have
 
 It colors almost everything I do. I updated my website because it was fun _and_ practical (it even has its own operating system, [KevinOS](https://middleton.io/kevinos/)). I once walked around the boroughs placing [70 QR stickers](https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/) that sent people to it so I could meet and network with people. I run [free office hours](https://middleton.io/officehours/). I've built and shared several web apps. I really like making things, and I'd rather enjoy the process.
 
-The stickers pointed to four silly little mini sites, each one showing a different side of me: [/catdad](https://middleton.io/catdad/), [/nyc](https://middleton.io/nyc/), [/fixer](https://middleton.io/fixer/), and [/officehours](https://middleton.io/officehours/), which later grew into its own thing. Every one of them led back to my main portfolio. There's also [/kevin](https://middleton.io/kevin/), which never got a QR code at all. I made it just to laugh.
+The stickers pointed to four silly little mini sites, each one showing a different side of me: [/catdad](https://middleton.io/catdad/), [/nyc](https://middleton.io/nyc/), [/fixer](https://middleton.io/fixer/), and [/officehours](https://middleton.io/officehours/), which later grew into its own thing. Every one of them led back to my main portfolio. There's also [/kevin](https://middleton.io/kevin/), which never got a QR sticker at all. I made it just for fun.
 
-I've described myself as [seriously unserious](https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/). I take the work seriously. We just don't have to be so serious all the time.
+I describe myself as [seriously unserious](https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/). I take the work seriously, but we don't have to be so serious all the time.
 
 My site is also full of easter eggs. I'm not going to list them, because that would ruin the fun. There's no reason for them except that I love making them.
 
@@ -51,7 +51,7 @@ Most of us have a gap somewhere: a skill a dream job asks for that we haven't be
 
 You don't have to accept the gap just because you haven't been formally asked to solve that problem in a work setting. You can teach yourself something new in the most enjoyable way you can think of. Build something in your area of weakness and post about it. Write about the subject while you learn it. Team up with other people who want to learn it, too. You can do it however you decide. **_How cool is that?!_**
 
-With AI tools it has never been easier. You don't need permission or a budget. You need a little time and something you want to build.
+With AI tools it's never been easier. You don't need permission or even money. You need a little time and something you want to build.
 
 Even the "What I'm building" section of my site is a deck of cards you can drag around, flip over, and make a mess of. Making it was pure, silly fun.
 
@@ -69,7 +69,7 @@ Clockwise from top left: [Office Hours](https://middleton.io/officehours/), [Unp
 
 I built these in my spare time, and I had so much fun doing it. Maybe they'll go somewhere. They probably won't. And that's okay!
 
-It might take one minute. In that minute they can see that you bring your experience and your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than a gap.
+It might take one minute to talk about these with someone, but in that minute they can see that you bring your experience and your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than a gap.
 
 ### People will notice, and those are your people
 
