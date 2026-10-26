@@ -55,13 +55,17 @@ With AI tools it has never been easier. You don't need permission or a budget. Y
 
 Even the "What I'm building" section of my site is a deck of cards you can drag around, flip over, and make a mess of. Making it was pure, silly fun.
 
-[![The "What I'm Building Now" section of middleton.io: a fanned stack of project cards for One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF and more.](/blog/images/might-as-well-have-fun-building.jpg "What I'm building now. Side projects, all live.")](https://middleton.io/#building)
+[![The "What I'm Building Now" section of middleton.io: a fanned stack of project cards for One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF and more.](/blog/images/might-as-well-have-fun-building.jpg "Ten side projects, all live. Go ahead, drag them around and make a mess.")](https://middleton.io/#building)
 
 ### Make "what have you been working on?" fun to answer
 
 Recruiters and hiring managers have asked me "what have you been working on?" several times, and I love this question!
 
 I walk through my work experience, and then I add, "and here's what I've been building lately." Usually I share my screen, pull up my own portfolio (which I also built, and had fun building), and show them a few things.
+
+![A 2 by 2 grid of four of Kevin's sites on blueprint paper: Office Hours ("Bring a messy product or AI problem"), Unpaid Intern ("A second brain for work"), Recruiter BFF ("Find out if you're a match before you apply"), and KevinOS, his portfolio as a desktop operating system.](/blog/images/might-as-well-have-fun-four-things.jpg "A few things I pull up when someone asks.")
+
+Clockwise from top left: [Office Hours](https://middleton.io/officehours/), [Unpaid Intern](https://middleton.io/unpaid-intern/), [KevinOS](https://middleton.io/kevinos/), and [Recruiter BFF](https://middleton.io/recruiter-bff/).
 
 It might take one minute. In that minute they can see that you bring your experience and your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than a gap.
 
