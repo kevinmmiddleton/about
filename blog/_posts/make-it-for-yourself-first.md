@@ -69,7 +69,7 @@ When you make things and share them, the right people find you.
 
 Most people only network when they're in danger. They reach out the week they need a job, and it feels transactional because it is.
 
-What if we just did it all the time? A network is meant to be used regularly. Saving it for emergencies is what makes it feel awkward. Office hours turned networking into something I enjoy, so I actually do it. I found a way to make networking work for me, pun intended.
+What if we all just networked all the time? That's how networking is truly meant to be: a regular way to talk with people. Saving it for emergencies is what makes it feel awkward. Office hours turned networking into something I enjoy, so I actually do it. I found a way to make networking work for me, pun intended.
 
 ### So build something
 
