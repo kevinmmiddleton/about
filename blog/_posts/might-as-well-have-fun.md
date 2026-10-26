@@ -1,6 +1,6 @@
 ---
-title: Have fun doing it
-slug: might-as-well-have-fun
+title: Build for fun
+slug: built-it-for-fun
 status: draft
 published_at: ''
 updated_at: ''
