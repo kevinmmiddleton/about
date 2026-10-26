@@ -16,7 +16,7 @@ featured: false
 sort_order: null
 excerpt: If I have to do it anyway, I might as well have fun doing it. Building things for yourself fills gaps, gives you a one-minute answer in interviews, and finds your people.
 cover_image: /blog/images/might-as-well-have-fun-cover.jpg
-cover_alt: KevinOS, Kevin's portfolio built as a retro desktop operating system, in dark mode with a city skyline wallpaper.
+cover_alt: Kevin's side-project cards (One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF, Claude plugins, Writing) scattered on blueprint grid paper, with QR code stickers for his mini sites.
 lede_align: left
 linkedin_url: ''
 ---
