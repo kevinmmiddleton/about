@@ -1,5 +1,5 @@
 ---
-title: You might as well have fun doing it
+title: Have fun doing it
 slug: might-as-well-have-fun
 status: draft
 published_at: ''
