@@ -69,7 +69,7 @@ Clockwise from top left: [Office Hours](https://middleton.io/officehours/), [Unp
 
 I built these in my spare time, and I had so much fun doing it. Maybe they'll go somewhere. They probably won't. And that's okay!
 
-It might take one minute to talk about these with someone, but in that minute they can see your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than what you haven't done yet.
+It might take one minute to talk about these with someone, but in that minute they can see your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than the weather.
 
 ### People will notice, and those are your people
 
