@@ -14,7 +14,7 @@ tags:
   - Networking
 featured: false
 sort_order: null
-excerpt: If I have to do it anyway, I might as well have fun doing it. Building things for yourself fills gaps, gives you a one-minute answer in interviews, and finds your people.
+excerpt: Here's why I build things just for fun, and why you should too.
 cover_image: /blog/images/might-as-well-have-fun-cover.jpg
 cover_alt: Kevin's side-project cards (One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF, Claude plugins, Writing) scattered on blueprint grid paper, with QR code stickers for his mini sites.
 lede_align: left
