@@ -59,9 +59,9 @@ Even the "What I'm building" section of my site is a deck of cards you can drag 
 
 ### Make "what have you been working on?" fun to answer
 
-Recruiters and hiring managers have asked me "what have you been working on?" several times, and I love this question!
+People ask me "what have you been working on?" all the time, at office hours and over coffee, and I love this question!
 
-I walk through my work experience, and then I add, "and here's what I've been building lately." Usually I share my screen, pull up my own portfolio (which I also built, and had fun building), and show them a few things.
+I pull up my portfolio (which I also built, and had fun building) and show them a few things I've been building lately.
 
 ![A 2 by 2 grid of four of Kevin's sites on blueprint paper: Office Hours ("Bring a messy product or AI problem"), Unpaid Intern ("A second brain for work"), Recruiter BFF ("Find out if you're a match before you apply"), and KevinOS, his portfolio as a desktop operating system.](/blog/images/might-as-well-have-fun-four-things.jpg "A few things I pull up when someone asks.")
 
@@ -69,7 +69,7 @@ Clockwise from top left: [Office Hours](https://middleton.io/officehours/), [Unp
 
 I built these in my spare time, and I had so much fun doing it. Maybe they'll go somewhere. They probably won't. And that's okay!
 
-It might take one minute to talk about these with someone, but in that minute they can see that you bring your experience and your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than a gap.
+It might take one minute to talk about these with someone, but in that minute they can see your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than what you haven't done yet.
 
 ### People will notice, and those are your people
 
