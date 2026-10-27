@@ -601,3 +601,13 @@ ol.day li:nth-child(1), ol.day li:nth-child(5) { border-top: 0; padding-top: 0; 
   .cup-says { right: 0; top: calc(100% + 12px); max-width: 18ch; font-size: .8rem; transform-origin: 80% 0; }
   .cup-says::after { bottom: auto; top: -9px; right: 18%; transform: rotate(-135deg); }
 }
+
+/* ------------------------------------------------------------ real screenshots (#real) */
+.p-bff .shots { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; align-items: start; }
+@media (min-width: 860px) { .p-bff .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); } .p-bff .shot.wide { grid-column: 1 / -1; max-width: 920px; width: 100%; justify-self: center; } }
+.p-bff .shot { margin: 0; background: var(--ui-card); border: 2.5px solid var(--ui-line); border-radius: var(--r-card);
+  box-shadow: 6px 6px 0 var(--ui-hard); overflow: hidden; }
+.p-bff .shot a { display: block; background: #1F1F1F; }
+.p-bff .shot img { width: 100%; margin-inline: auto; border-bottom: 2px solid var(--ui-line); }
+.p-bff .shot figcaption { padding: .85rem 1.1rem 1rem; font-size: .95rem; line-height: 1.45; color: var(--ui-ink2); }
+.p-bff .shot figcaption b { color: var(--ui-ink); }
