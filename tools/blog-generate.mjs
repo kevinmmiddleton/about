@@ -279,11 +279,14 @@ const hueClass = (topic) => `hue-${TOPIC_HUE[topic] || 2}`;
 // homepage so a repo's clicks aggregate across both surfaces.
 const TAKEAWAYS = [
   ['Recruiter BFF', 'A recruiter that works for you. It scores any posting, preps you for the interview, and keeps your pipeline in a file you own.',
-   'https://github.com/kevinmmiddleton/recruiter-bff', 'Building+JobSearchAgent'],
+   'https://github.com/kevinmmiddleton/recruiter-bff', 'Building+JobSearchAgent',
+   { src: '/recruiter-bff/images/recruiter-bff-mark.svg', cls: 'take-art--bff' }],
   ['Personal Site', 'A website from an interview. Answer the questions, get a site you own.',
-   'https://github.com/kevinmmiddleton/personal-site', 'Building+PersonalSite'],
+   'https://github.com/kevinmmiddleton/personal-site', 'Building+PersonalSite',
+   { src: '/blog/images/personal-site-blog-cover.png' }],
   ['Build with Claude', 'Ship apps from your phone. No IDE, no laptop, just a message.',
-   'https://github.com/kevinmmiddleton/build-with-claude', 'Building+Claude'],
+   'https://github.com/kevinmmiddleton/build-with-claude', 'Building+Claude',
+   { src: '/blog/images/build-with-claude-cover.png' }],
 ];
 
 const SHORT_MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -292,6 +295,20 @@ function shortDate(iso) {
   const d = new Date(iso);
   return `${SHORT_MON[d.getUTCMonth()]} ${d.getUTCDate()}`;
 }
+
+// Index card date: "Oct 25", plus the year only when it is not this year (in
+// New York, same clock the publish gate uses). The daily build keeps it honest
+// across New Year.
+function cardDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const yr = d.getUTCFullYear();
+  return yr === Number(todayInNY().slice(0, 4)) ? shortDate(iso) : `${shortDate(iso)}, ${yr}`;
+}
+
+// "Tech & Society" -> "tech-and-society". Used for the chip ids and the bare
+// #topic-<slug> hash, so it has to be stable and URL-safe.
+const topicSlug = (t) => String(t).toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
 // topic_new wins when it is filled in, which is how a topic outside the
 // dropdown gets created. Trimmed, because a stray space would fork the
@@ -636,10 +653,11 @@ function hubPage(posts) {
   // are gone; the band carries the numbering.
   const card = (p, n) => {
     const eager = n < 3;
-    return `            <a class="post-card ${hueClass(topicOf(p))} plausible-event-name=Blog+Card+Click plausible-event-post=${p.slug}" href="/blog/${p.slug}/">
+    const date = cardDate(p.published_at);
+    return `            <a class="post-card ${hueClass(topicOf(p))} plausible-event-name=Blog+Card+Click plausible-event-post=${p.slug}" href="/blog/${p.slug}/" data-topic="${topicSlug(topicOf(p))}">
                 <img class="post-card__thumb" src="${escAttr(p.cover_image||'')}"${dimAttrs(p.cover_image)} alt=""${eager ? ' fetchpriority="high" decoding="async"' : ' loading="lazy" decoding="async"'}>
                 <div class="post-card__body">
-                    <p class="post-eyebrow">${esc(topicOf(p))}</p>
+                    <p class="post-eyebrow"><span>${esc(topicOf(p))}</span>${date ? `<time class="post-date" datetime="${isoDate(p.published_at)}">${date}</time>` : ''}</p>
                     <h3>${esc(p.title)}</h3>
                     <p>${esc(p.excerpt||'')}</p>
                 </div>
@@ -697,13 +715,35 @@ ${list.map((p, i) => `                <a class="ser-row ${hueClass(topicOf(p))} 
         <div class="band">
 ${bandHead('Things you can take', 'Free, on GitHub')}
             <div class="take">
-${TAKEAWAYS.map(([t, x, u, ev]) => `                <a class="plausible-event-name=${ev} plausible-event-source=blog" href="${u}" target="_blank" rel="noopener noreferrer">
-                    <span class="take-t">${esc(t)}</span>
-                    <span class="take-x">${esc(x)}</span>
-                    <span class="take-k">GitHub<span class="vh"> (opens in a new tab)</span></span>
+${TAKEAWAYS.map(([t, x, u, ev, art]) => `                <a class="take-card plausible-event-name=${ev} plausible-event-source=blog" href="${u}" target="_blank" rel="noopener noreferrer">
+                    <span class="take-art${art.cls ? ' ' + art.cls : ''}"><img src="${art.src}"${dimAttrs(art.src)} alt="" loading="lazy" decoding="async"></span>
+                    <span class="take-body">
+                        <span class="take-t">${esc(t)}</span>
+                        <span class="take-x">${esc(x)}</span>
+                        <span class="take-k">GitHub<span class="vh"> (opens in a new tab)</span></span>
+                    </span>
                 </a>`).join('\n')}
             </div>
         </div>`;
+
+  // Topic chips filter the archive grid in place. Built from the archive's own
+  // posts, so every chip has at least one card behind it. The row ships with
+  // `hidden` and blog-nav.js reveals it, so with JS off there is no dead
+  // control and every card simply shows.
+  const restTopics = new Map();
+  for (const p of restPosts) {
+    const t = topicOf(p);
+    if (t) restTopics.set(t, (restTopics.get(t) || 0) + 1);
+  }
+  const chipTopics = [...restTopics.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([t]) => t);
+  const chips = chipTopics.length > 1 ? `            <div class="topic-chips" role="group" aria-label="Filter by topic" hidden>
+                <div class="topic-chips-in">
+                    <button type="button" class="chip" data-topic="" aria-pressed="true">All <span class="chip-n">${restPosts.length}</span></button>
+${chipTopics.map((t) => `                    <button type="button" class="chip ${hueClass(t)}" data-topic="${topicSlug(t)}" aria-pressed="false">${esc(t)} <span class="chip-n">${restTopics.get(t)}</span></button>`).join('\n')}
+                </div>
+            </div>
+            <p class="vh" id="topic-status" role="status" aria-live="polite"></p>
+` : '';
 
   const bands = [
     `        <div class="band band-lead">
@@ -714,9 +754,9 @@ ${leadPosts.map((p, i) => card(p, i)).join('\n\n')}
         </div>`,
     seriesBand,
     takeBand,
-    restPosts.length ? `        <div class="band">
+    restPosts.length ? `        <div class="band band-more">
 ${bandHead('More writing')}
-            <div class="post-list">
+${chips}            <div class="post-list">
 ${restPosts.map((p, i) => card(p, i + leadPosts.length)).join('\n\n')}
             </div>
         </div>` : '',

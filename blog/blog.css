@@ -969,19 +969,76 @@ figcaption {
   .ser-d { grid-column: 2; }
 }
 
-/* ---- the takeaways, as furniture -----------------------------------------
-   Deliberately NOT a card: no card ground, no radius, no hover lift. If it
-   looks like a card the reader clicks expecting a post and feels sold to when
-   they get a repo. A rule and the mono register read as masthead furniture. */
-.take { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem 2.4rem; }
-.take a { text-decoration: none; display: block; padding-top: 1rem; border-top: 1px solid var(--rule-strong); }
-.take a:hover .take-t { text-decoration: underline; text-underline-offset: 3px; }
+/* ---- the takeaways, as small cards --------------------------------------
+   Until 2026-10-29 these were plain text links under a rule, kept off the card
+   ground so they would not read as posts. Kevin asked for them as small visual
+   cards with each project's art. The art strip keeps them distinct from post
+   cards: short, art centred on its own ground, no excerpt-length body. */
+.take { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.take-card {
+  display: flex; flex-direction: column; text-decoration: none;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius-md);
+  background: var(--card-bg); overflow: hidden;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.take-card:hover { border-color: var(--coral-text); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.take-card:hover .take-t { text-decoration: underline; text-underline-offset: 3px; }
+.take-art {
+  display: block; aspect-ratio: 2.45 / 1; overflow: hidden;
+  background: #1F1E2E; border-bottom: 1px solid var(--border);
+}
+.take-art img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+/* The cup mascot is tall and narrow, so it sits on the BFF yellow instead of
+   being cropped to fill. */
+.take-art--bff { background: #FFE14D; display: flex; align-items: center; justify-content: center; }
+.take-art--bff img { width: auto; height: 82%; object-fit: contain; }
+.take-body { display: flex; flex-direction: column; flex: 1; padding: 1rem 1.15rem 1.1rem; }
 .take-t { display: block; font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: .3rem; }
 .take-x { display: block; font-size: .88rem; line-height: 1.5; color: var(--text-secondary); }
 .take-k {
   display: block; font-family: var(--mono); font-size: .56rem; letter-spacing: .1em;
-  text-transform: uppercase; font-weight: 700; color: var(--c3-text); margin-top: .4rem;
+  text-transform: uppercase; font-weight: 700; color: var(--c3-text); margin-top: auto; padding-top: .6rem;
 }
+/* On a phone the three stack, so the art strip gets shorter and crops from the
+   bottom (the cover's pill row goes, the wordmark stays). */
+@media (max-width: 640px) { .take-art { aspect-ratio: 3.2 / 1; } }
+@media (prefers-reduced-motion: reduce) { .take-card { transition: none; } .take-card:hover { transform: none; } }
+
+/* ---- card dates ----------------------------------------------------------
+   Same mono line as the topic, pushed right and muted so the topic still
+   leads. In the hero the eyebrow is a dark pill, so the date goes light. */
+.post-eyebrow { display: flex; gap: .9rem; align-items: baseline; }
+.post-date { margin-left: auto; color: var(--text-muted); white-space: nowrap; }
+@media (min-width: 900px) {
+  .band-lead .post-list > .post-card:first-child .post-eyebrow { gap: .7rem; }
+  .band-lead .post-list > .post-card:first-child .post-date { margin-left: 0; color: rgba(255,255,255,.72); }
+}
+
+/* ---- topic chips ----------------------------------------------------------
+   Filter the archive grid in place (blog-nav.js). The row scrolls sideways in
+   its own box on a phone, so the page itself never overflows. */
+.topic-chips { margin: -8px 0 24px; }
+.topic-chips[hidden] { display: none; }
+.topic-chips-in {
+  display: flex; gap: .5rem; overflow-x: auto; overscroll-behavior-x: contain;
+  scrollbar-width: none; padding: 2px 2px 4px; margin: 0 -2px;
+}
+.topic-chips-in::-webkit-scrollbar { display: none; }
+.chip {
+  flex: none; display: inline-flex; align-items: baseline; gap: .45rem;
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .09em; text-transform: uppercase;
+  font-weight: 700; line-height: 1; color: var(--text-primary);
+  background: transparent; border: 1px solid var(--rule-strong); border-radius: 999px;
+  padding: .62rem .9rem; cursor: pointer; min-height: 36px;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.chip:hover { border-color: var(--topic, var(--text-primary)); color: var(--topic, var(--text-primary)); }
+.chip:focus-visible { outline: 2px solid var(--coral-text); outline-offset: 2px; }
+.chip-n { color: var(--text-muted); font-weight: 700; }
+.chip[aria-pressed="true"] { background: var(--text-primary); border-color: var(--text-primary); color: var(--card-bg); }
+.chip[aria-pressed="true"] .chip-n { color: inherit; opacity: .7; }
+.band-more .post-card[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) { .chip { transition: none; } }
 
 /* ---- the tail ------------------------------------------------------------ */
 .blog-tail {

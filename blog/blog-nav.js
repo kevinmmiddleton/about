@@ -167,3 +167,50 @@
   window.addEventListener('resize', update);
   if (rail.addEventListener) rail.addEventListener('change', update);
 })();
+
+// Topic chips on the index (2026-10-29). The chip row ships `hidden`, so with
+// JS off it never shows and every card stays visible. Selection is mirrored
+// into a bare #topic-<slug> hash so a filtered view can be linked; "All"
+// clears it. replaceState, so chip clicks do not pile up in history.
+(function () {
+  var row = document.querySelector('.topic-chips');
+  var band = document.querySelector('.band-more');
+  if (!row || !band) return;
+  var chips = Array.prototype.slice.call(row.querySelectorAll('.chip'));
+  var cards = Array.prototype.slice.call(band.querySelectorAll('.post-card'));
+  var status = document.getElementById('topic-status');
+
+  function apply(slug, fromUser) {
+    var match = chips.filter(function (c) { return c.getAttribute('data-topic') === slug; })[0];
+    if (!match) { slug = ''; match = chips[0]; }
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', c === match ? 'true' : 'false'); });
+    var shown = 0;
+    cards.forEach(function (card) {
+      var on = !slug || card.getAttribute('data-topic') === slug;
+      card.hidden = !on;
+      if (on) shown++;
+    });
+    if (fromUser) {
+      if (status) status.textContent = shown + (shown === 1 ? ' post' : ' posts') + (slug ? ' in ' + match.firstChild.textContent.trim() : '');
+      var hash = slug ? '#topic-' + slug : '';
+      if (history.replaceState) history.replaceState(null, '', location.pathname + location.search + hash);
+      if (typeof window.plausible === 'function') window.plausible('Blog Topic Filter', { props: { topic: slug || 'all' } });
+    }
+  }
+
+  function fromHash() {
+    var m = location.hash.match(/^#topic-([a-z0-9-]+)$/);
+    return m ? m[1] : '';
+  }
+
+  row.addEventListener('click', function (e) {
+    var chip = e.target.closest ? e.target.closest('.chip') : null;
+    if (chip) apply(chip.getAttribute('data-topic'), true);
+  });
+  window.addEventListener('hashchange', function () { apply(fromHash(), false); });
+
+  row.hidden = false;
+  apply(fromHash(), false);
+  // A linked filter should land on the archive, not the top of the page.
+  if (fromHash()) band.scrollIntoView();
+})();
