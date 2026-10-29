@@ -449,8 +449,12 @@ function articlePage(post, all) {
   const coverAbs = cover.startsWith('http') ? cover : `${SITE}${cover.startsWith('/')?'':'/'}${cover}`;
   // OG/Twitter share images must be raster (JPG/PNG). SVG or missing covers fall back to the
   // branded default so a shared link never previews blank.
-  const ogImage = (post.cover_image && !/\.svg(\?|#|$)/i.test(post.cover_image))
-    ? coverAbs : `${SITE}/images/kevin-middleton-og.png`;
+  // og_image (optional) overrides the share image, e.g. a still for an animated GIF cover,
+  // whose first frame may be empty.
+  const ogSrc = post.og_image || post.cover_image;
+  const ogAbs = ogSrc && (ogSrc.startsWith('http') ? ogSrc : `${SITE}${ogSrc.startsWith('/')?'':'/'}${ogSrc}`);
+  const ogImage = (ogSrc && !/\.svg(\?|#|$)/i.test(ogSrc))
+    ? ogAbs : `${SITE}/images/kevin-middleton-og.png`;
   const pub = isoDate(post.published_at);
   const mod = isoDate(post.updated_at) || pub;
   const next = readNext(post, all);

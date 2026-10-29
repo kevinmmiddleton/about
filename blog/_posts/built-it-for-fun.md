@@ -15,8 +15,9 @@ tags:
 featured: false
 sort_order: null
 excerpt: Here's why I build things just for fun, and why you should too.
-cover_image: /blog/images/might-as-well-have-fun-cover.jpg
-cover_alt: Kevin's side-project cards (One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF, Claude plugins, Writing) scattered on blueprint grid paper, with QR code stickers for his mini sites.
+cover_image: /blog/images/have-fun-doing-it-cover.gif
+og_image: /blog/images/have-fun-doing-it-og.jpg
+cover_alt: An animation on blueprint grid paper. Kevin's project cards deal out, QR stickers slap down, KevinOS boots, his 404 page glitches in, a cat paw swipes a card, a Cook Like a PM soup card slides in, the Unpaid Intern and Recruiter BFF mascots pop up, then confetti and the words Have fun doing it.
 lede_align: left
 linkedin_url: ''
 ---
