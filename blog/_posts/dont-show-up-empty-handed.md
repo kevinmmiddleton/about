@@ -22,6 +22,8 @@ lede_align: left
 linkedin_url: ''
 ---
 
+If you're leading or even attending meetings unprepared in 2026, that's fully on you.
+
 If you created the meeting and showed up with no agenda, no point of view, and no quick notes for anyone to browse as you kick it off, you shouldn't have scheduled it. You're not ready. If you're not ready to have the meeting, you shouldn't have the meeting. Full stop.
 
 With the current AI tools available, there's absolutely no reason for everyone not to show up prepared. These tools make it incredibly easy to create quick agendas, summarize notes, and come ready. We had excuses before, so the best of us, the more thoughtful of us, would come prepared. Now there's no excuse for everyone not to. And if you're not showing up prepared, what are you doing?
