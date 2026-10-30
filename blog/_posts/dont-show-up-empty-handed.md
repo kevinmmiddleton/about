@@ -1,5 +1,5 @@
 ---
-title: Don't show up empty handed
+title: Stop showing up empty handed
 slug: dont-show-up-empty-handed
 status: draft
 published_at: ''
