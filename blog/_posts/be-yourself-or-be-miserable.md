@@ -15,8 +15,8 @@ tags:
 featured: false
 sort_order: null
 excerpt: Everyone is rushing to fit the box. But you can't control the layoffs, the mission, or your next manager. You can control your day-to-day happiness, and that starts with being yourself.
-cover_image: /blog/images/job-scorecard-cover.jpg
-cover_alt: Kevin's 2021 Job Scorecard spreadsheet, Sendoso vs Salesforce across 23 weighted factors. Rapport with Boss, Overall Impressions and Excitement are highlighted, and Sendoso's total of 298.5 is circled against Salesforce's 290.5. A note reads, I was just trying to justify my decision.
+cover_image: null
+cover_alt: ''
 og_image: ''
 lede_align: left
 linkedin_url: ''
@@ -81,6 +81,8 @@ Ultimately, that's what we're all looking for, I think. We're looking for psycho
 Here's the 360 perspective. In 2021, I picked Sendoso, a Series B startup, over Salesforce. The hiring team at Salesforce, on MuleSoft, wanted me so badly. They set up a call with me and begged me to reconsider. And the people at Sendoso felt so genuine. Honestly, both teams were, which made it incredibly difficult. But something about the team at Sendoso swooned me and put me just over the edge.
 
 I even made a spreadsheet: 23 weighted factors, from "Company Reputation" to "Excitement." Sendoso won, 298.5 to 290.5. Looking at it now, I was just trying to justify my decision. Part of the reason I said no was that I didn't want to be, quote, a product manager of a marketing site. Which is so ridiculous, because I went on to do amazing work at HVAC.com later.
+
+![My Job Scorecard: Sendoso vs. Salesforce across 23 weighted factors, from Leadership Opportunities to Excitement. Rapport with Boss, Overall Impressions and Excitement are highlighted, and Sendoso's total of 298.5 is circled in red next to Salesforce's 290.5.](/blog/images/job-scorecard.jpg "The lengths I went to. So hilarious to me now, looking back.")
 
 Sendoso struggled to be profitable. I could see changes coming, with a recession on the way, so I left for Lever, and within two months there were massive layoffs. Looking back, I think it would have been the right choice to take the Salesforce job. The hiring manager kept in touch, and a year after I didn't take the role, he told me I was the one that got away. That was such a huge compliment.
 
