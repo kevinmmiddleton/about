@@ -74,6 +74,16 @@ I told the recruiter I'd ended the call early and wasn't interested. Then I wrot
 
 Ultimately, that's what we're all looking for, I think. We're looking for psychological safety. We're looking for the ability to make mistakes and recover from them. And we're looking to grow. And If the answer is no, I'm not in a place where I feel supported, I assume you're already one foot out of the door.
 
+### The one that got away
+
+Here's the 360 perspective. In 2021, I picked Sendoso, a Series B startup, over Salesforce. The hiring team at Salesforce, on MuleSoft, wanted me so badly. They set up a call with me and begged me to reconsider. And the people at Sendoso felt so genuine. Honestly, both teams were, which made it incredibly difficult. But something about the team at Sendoso swooned me and put me just over the edge.
+
+I even made a spreadsheet: 23 weighted factors, from "Company Reputation" to "Excitement." Sendoso won, 298.5 to 290.5. Looking at it now, I was just trying to justify my decision. Part of the reason I said no was that I didn't want to be, quote, a product manager of a marketing site. Which is so ridiculous, because I went on to do amazing work at HVAC.com later.
+
+Sendoso struggled to be profitable. I could see changes coming, with a recession on the way, so I left for Lever, and within two months there were massive layoffs. Looking back, I think it would have been the right choice to take the Salesforce job. The hiring manager kept in touch, and a year after I didn't take the role, he told me I was the one that got away. That was such a huge compliment.
+
+But I don't really look back in regrets. I've learned from every mistake I've made. Hindsight's 20/20, and you never know how things are going to work out. I think about that time infrequently, and fondly.
+
 ### The job hopper myth
 
 There's this through line, especially in tech, that nobody wants to say anywhere. That's ridiculous. If you look at companies who are known for shorter tenures, you'll see a [PIP](https://en.wikipedia.org/wiki/Performance_improvement#Performance_Improvement_Plans_\(PIPs\)) culture, [where they're always culling the bottom 20%](https://www.reddit.com/r/antiwork/comments/1ejt0d8/the_inhuman_pip_culture_of_meta_and_amazon/), or an environment that isn't conducive for people with families, or don't allow for internal transfers to continue career growth within the company. Maybe you do great work in one area of the company, and you see another area open up and you want to try it out. Maybe you try it, fail, and go back to your old area. Or you try it, fail, and move to another part of the company. I don't see enough companies championing this!
