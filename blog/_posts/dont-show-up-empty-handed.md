@@ -32,7 +32,7 @@ In some organizations, I felt like we were all rowing in the same direction. Mar
 
 But in some companies, you're the responsible one. I learned that really quickly by working with one of my managers: if we didn't put a stake in the ground, the work simply wouldn't move forward.
 
-### The template
+### A little effort and care can really pay off
 
 After an acquisition, I had to fill out a project template. I didn't know a lot of the answers, but I had some of the materials, and I was able to fill out about 75% of it with some certainty. Maybe 10% more was a question. The rest was left blank, because it started as a blank template.
 
@@ -58,19 +58,19 @@ Years ago, our leader Meg Bear introduced weekly goals emails to our group at Or
 
 If you have a decent grip on what you're working on, this shouldn't be a source of discomfort. It's the same group that "hates meetings" but is also blissfully unaware of org priorities. (To make it fun, I'd put a GIF of the Week link at the bottom of mine: a little fun in the routine, and a way to track how many people actually clicked it.)
 
-### Doing it live is passé
+### Doing it live is passé (and low key hostile)
 
 In meetings, have your agenda ahead of time and post it on the invite. If you have notes for a read-ahead, send them out. It's never been easier with AI to put together some quick notes and send them to people ahead of time. Or bring a visual you prototyped to share with the group. I've done that several times.
 
 This idea of "we're doing it live in the meeting" is becoming passé at this point. I don't think people are doing it anymore.
 
-### Nobody asked me to build it
+### Coming prepared means not being asked
 
 I've built several prototypes unprovoked. I built prototypes for [Bombas](/prototypes/bombas/) unasked for. I built prototypes for [Weight Watchers](/prototypes/ww/) unasked for. It showed that I was engaged. It showed that I was tuned in. It showed that I cared about the problems they were solving.
 
 I think that's proof positive that with AI, with being engaged, and with caring, you can actually show up very well prepared. I'm very proud of those prototypes. They show my product mind, they show my creativity, and they show that I care about the audience I'm talking to.
 
-### Be the change
+### Be the change you want to see
 
 This all goes back to engagement. When I talk to organizations about being engaged, what I mean is that we're all interested and tuned in to the work we're doing, and we're all pushing each other in the same direction so we're getting stuff done.
 
