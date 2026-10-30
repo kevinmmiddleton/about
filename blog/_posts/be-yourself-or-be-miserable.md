@@ -46,7 +46,7 @@ You can't control the project you work on, if the company mission changes, if th
 
 ### Be yourself now or pay later
 
-Maybe you're interviewing and trying to come off like a go-getter who works 9-9-6. Or you're trying to come off like you really fit the role. Then you get hired, and congratulations, you're on a time clock, because eventually who you really are is going to come out.
+Maybe you're interviewing and trying to come off like a go-getter who works [9-9-6](https://en.wikipedia.org/wiki/996_working_hour_system). Or you're trying to come off like you really fit the role. Then you get hired, and congratulations, you're on a time clock, because eventually who you really are is going to come out.
 
 It's either going to work with the culture or it won't. And if it doesn't, you're going to want to leave, no matter what you said in the beginning.
 
