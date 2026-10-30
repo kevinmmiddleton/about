@@ -24,7 +24,6 @@ linkedin_url: ''
 
 If you created the meeting and showed up with no agenda, no point of view, and no quick notes for anyone to browse as you kick it off, you shouldn't have scheduled it. You're not ready. If you're not ready to have the meeting, you shouldn't have the meeting. Full stop.
 
-
 With the current AI tools available, there's absolutely no reason for everyone not to show up prepared. These tools make it incredibly easy to create quick agendas, summarize notes, and come ready. We had excuses before, so the best of us, the more thoughtful of us, would come prepared. Now there's no excuse for everyone not to. And if you're not showing up prepared, what are you doing?
 
 I joke about meetings with 20 people in attendance and maybe one or two people actually "doing work". A lot of watchers, not a lot of doers.
@@ -54,6 +53,10 @@ Her point of view was that it wasn't her responsibility. I said that very well m
 My general view on one-on-ones, especially with your manager: you have your top projects, let's say your top three to five. Week to week, something should move. You should make some progress on your top projects.
 
 If one doesn't move for a week or two in a row, the update really needs to say why. Either it's deprioritized and why, or there's a blocker, or something else took priority. Otherwise, week over week, we should be seeing progress. This is the way you keep yourself accountable. That's what I mean when I say, don't show up empty handed.
+
+Years ago, our leader Meg Bear introduced weekly goals emails to our group at Oracle. Every Friday, we'd share what we worked on that week and what we were focused on next week, sent org-wide for visibility. Everyone was supposed to share theirs. Meg did. I did. But a lot of people complained about it. I never understood that.
+
+If you have a decent grip on what you're working on, this shouldn't be a source of discomfort. It's the same group that "hates meetings" but is also blissfully unaware of org priorities. (To make it fun, I'd put a GIF of the Week link at the bottom of mine: a little fun in the routine, and a way to track how many people actually clicked it.)
 
 ### Doing it live is passé
 
