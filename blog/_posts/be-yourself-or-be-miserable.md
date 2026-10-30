@@ -28,7 +28,7 @@ I don't think this is a new problem, but I do think it's becoming more and more 
 
 So you start to think about the things you give up to show up fully at work. What do you turn off? What are you code switching to be a certain way at work, to get through the day and make a living in what seems to be a world changing faster than it ever has?
 
-### You can do anything for a year
+### You can do anything for a year, but...
 
 When my mom first told me you could do anything for a year, it was my first job after college. I interviewed with a couple of consulting firms and made it to the end on one. I didn't quite get it. So I emailed the recruiter every week to keep the line open, and I think eventually she just wanted me to stop emailing. Hey, I'll take any victory I can get. Kind of sums up my whole career.
 
