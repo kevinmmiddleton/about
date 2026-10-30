@@ -30,6 +30,8 @@ With the current AI tools available, there's absolutely no reason for everyone n
 
 I joke about meetings with 20 people in attendance and maybe one or two people actually "doing work". A lot of watchers, not a lot of doers.
 
+![Britney Spears in the Circus video, backstage at a lit mirror, captioned: There's only two types of people in the world: the ones that entertain, and the ones that observe.](/blog/images/two-types-of-people.gif "Britney said it first.")
+
 In some organizations, I felt like we were all rowing in the same direction. Marketing would say, "I haven't heard from you yet." Design would say, "Do you want to get in a room?" We were all kind of reminding each other to stay on task.
 
 But in some companies, you're the responsible one. I learned that really quickly by working with one of my managers: if we didn't put a stake in the ground, the work simply wouldn't move forward.
