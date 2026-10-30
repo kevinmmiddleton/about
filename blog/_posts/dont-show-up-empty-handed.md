@@ -85,3 +85,5 @@ I often think you have to be the change you want to see. If I want other people 
 Don't show up empty handed. Put a stake in the ground.
 
 And if you're not showing up to meetings prepared, do I have a solution for you. [Unpaid Intern](https://middleton.io/unpaid-intern/?utm_source=blog&utm_campaign=dont-show-up-empty-handed) is my free second brain for work. It turns your meeting transcripts, docs, and tickets into meeting prep, a morning briefing, and follow-ups.
+
+[![Unpaid Intern answering /briefing with a morning briefing: what needs you, what you are waiting on from others, what is due today, and what landed in your inbox, ending on the Unpaid Intern logo.](/blog/images/unpaid-intern-s6-briefing-sq.gif "Start your day with a briefing, and walk into every meeting with something in hand.")](https://middleton.io/unpaid-intern/?utm_source=blog&utm_campaign=dont-show-up-empty-handed)
