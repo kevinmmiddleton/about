@@ -82,7 +82,7 @@ I even made a spreadsheet: 23 weighted factors, from "Company Reputation" to "Ex
 
 Sendoso struggled to be profitable. I could see changes coming, with a recession on the way, so I left for Lever, and within two months there were massive layoffs. Looking back, I think it would have been the right choice to take the Salesforce job. The hiring manager kept in touch, and a year after I didn't take the role, he told me I was the one that got away. That was such a huge compliment.
 
-But I don't really look back in regrets. I've learned from every mistake I've made. Hindsight's 20/20, and you never know how things are going to work out. I think about that time infrequently, and fondly.
+But I don't really look back in regret. I've learned from every mistake I've made. Hindsight's 20/20, and you never know how things are going to work out. I think about that time occasionally, and fondly.
 
 ### The job hopper myth
 
