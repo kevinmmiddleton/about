@@ -31,7 +31,7 @@ So you start to think about the things you give up to show up at work. What do y
 
 I saw something on Blind the other day. Somebody said they're extremely stressed at work, but they make over $700K.
 
-My POV in response: you can do anything for a year. What a privilege to be making so much money. Do it for a year, then move somewhere you can be more grounded. Take the money you saved and put it away as a nest egg or a down payment on a house.
+My POV in response was something my mom told me: you can do anything for a year. What a privilege to be making so much money. Do it for a year, then move somewhere you can be more grounded. Take the money you saved and put it away as a nest egg or a down payment on a house.
 
 But so often we're chasing big paychecks or prestige. This person took the job, and they already don't want it.
 
