@@ -26,6 +26,7 @@ sources -> collect.mjs -> one-night-only/_data/collected.json
 | `source-luma.mjs` | Luma calendars. The programmer tier. |
 | `source-alamo.mjs` | Alamo Drafthouse's public market API. Three NYC rooms, and the only source that reports a print. |
 | `source-rooftop.mjs` | Rooftop Cinema Club Midtown. One day page per date, in season. |
+| `source-fathom.mjs` | Fathom Entertainment's public events API. One-night and short-run events at AMC, Regal and Cinemark in the five boroughs. Chains only: the independents Fathom also books are already carried by other sources. |
 
 ## Running it
 

@@ -1199,6 +1199,12 @@ a{color:inherit}
 .bscroll{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:.45rem;
   overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;white-space:nowrap}
 .bscroll::-webkit-scrollbar{display:none}
+/* With the date select added, the row no longer fits at 390 and the last chip
+   runs off the edge. A hard cut mid-word reads as a bug; a fade reads as "there
+   is more this way". The script sets .ovf-r only while there is more to the
+   right, so a row that fits, or one scrolled to its end, is drawn plain. */
+.bscroll.ovf-r{-webkit-mask-image:linear-gradient(to right,#000 82%,transparent);
+  mask-image:linear-gradient(to right,#000 82%,transparent)}
 .tog{position:relative;display:inline-flex;flex:0 0 auto}
 .tog input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .tog label{font:700 .62rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
@@ -1211,6 +1217,24 @@ a{color:inherit}
 .tog input:checked + label{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .tog input:checked + label b{color:var(--bg)}
 .tog input:focus-visible + label{outline:3px solid var(--ink);outline-offset:2px}
+/* The date filter wears the chip's clothes: same type, border and height, and
+   the same inverted fill once it is narrowing the page, so "on" reads the same
+   way across all three controls. The caret is text, not an icon. */
+.when{position:relative;display:inline-flex;flex:0 0 auto}
+.when select{-webkit-appearance:none;appearance:none;font:700 .62rem/1 var(--mono);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:transparent;
+  border:2px solid var(--ink2);border-radius:0;padding:.45rem 1.5rem .45rem .6rem;
+  min-height:32px;cursor:pointer;
+  transition:background .12s ease,color .12s ease,border-color .12s ease}
+.when::after{content:"\25BE";position:absolute;right:.55rem;top:50%;transform:translateY(-50%);
+  font:700 .7rem/1 var(--mono);color:var(--ink2);pointer-events:none}
+.when.is-on select{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.when.is-on::after{color:var(--bg)}
+.when select:focus-visible,.when-d:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.when-d{flex:0 0 auto;font:700 .7rem/1 var(--mono);color:var(--ink);background:var(--bg);
+  border:2px solid var(--ink);border-radius:0;padding:.3rem .45rem;min-height:32px;
+  color-scheme:inherit}
+.when-d[hidden]{display:none}
 .months{display:flex;gap:.1rem;flex:0 0 auto;margin-left:.35rem}
 .months a{font:700 .62rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
   color:var(--ink2);text-decoration:none;padding:.5rem .55rem;min-height:32px;
@@ -1364,6 +1388,14 @@ body:has(#f-o:checked):has(#f-v:checked) .day-n .n-ov,body.f-o.f-v .day-n .n-ov{
 .bq{display:none;flex:0 1 15rem;min-width:0;align-items:center;gap:.35rem;height:34px;
   padding-inline:.5rem;background:var(--bg);border:2px solid var(--ink2)}
 html.js .bq{display:flex}
+/* The date select made the desktop bar one control fuller, and the search box
+   was the thing that gave: under a filter its placeholder ran into the count.
+   On a wide bar it holds its width and the chip row scrolls instead. */
+@media (min-width:64rem){.bq{flex:0 0 13.25rem}}
+/* Between the phone layout and a wide desktop the month jumps no longer fit
+   beside the date select, and a half-drawn month reads as a bug. The date
+   select does the same job better at that width, so the months step aside. */
+@media (max-width:72rem){.months{display:none}}
 /* The ring is on the wrapper so it sits concentric with the 2px box. The input's
    own outline is removed ONLY because this replaces it with a larger one. */
 .bq:focus-within{border-color:var(--ink);outline:3px solid var(--ink);outline-offset:2px}
@@ -1382,7 +1414,7 @@ html.js .bq{display:flex}
 .bq-x{flex:0 0 auto;display:none;width:26px;height:26px;place-items:center;border:0;
   background:transparent;color:var(--ink);cursor:pointer;font:700 1.1rem/1 var(--mono);padding:0}
 .bq-x:hover{background:var(--ink);color:var(--bg)}
-html.q-on .bq-x{display:grid}
+html.q-txt .bq-x{display:grid}
 
 /* Rows and days a search has excluded. A search hides by class; the two chips
    hide by :has(). Both resolve to display:none, so they compose without
@@ -1417,7 +1449,14 @@ html.q-on body:has(#f-v:checked) .day-n b.n-o,
 html.q-on body:has(#f-v:checked) .day-n b.n-v,
 html.q-on body:has(#f-v:checked) .day-n b.n-ov,
 html.q-on .day-n b.n-all,html.q-on .day-n b.n-o,
-html.q-on .day-n b.n-v,html.q-on .day-n b.n-ov{display:none}
+html.q-on .day-n b.n-v,html.q-on .day-n b.n-ov,
+/* Both chips on is the default, and its rule above carries TWO :has(), so it
+   outranks every single-:has() override here. That printed "34 listings34
+   listings" in the day header under any search. Matched at two :has(). */
+html.q-on body:has(#f-o:checked):has(#f-v:checked) .day-n b.n-o,
+html.q-on body:has(#f-o:checked):has(#f-v:checked) .day-n b.n-v,
+html.q-on body:has(#f-o:checked):has(#f-v:checked) .day-n b.n-ov,
+html.q-on body.f-o.f-v .day-n b.n-ov{display:none}
 html.q-on .day-n b.n-q{display:inline}
 
 /* content-visibility:auto is the page's biggest render win at this volume, and
@@ -1512,6 +1551,9 @@ footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center
   html.js .bsub{display:none}
   .bsub{display:none}
   .tog label{padding:.45rem .5rem;letter-spacing:.07em}
+  .when select{padding:.45rem 1.3rem .45rem .5rem;letter-spacing:.07em}
+  /* 16px or iOS zooms on focus, same as the search field. */
+  .when-d{font-size:16px}
   .s-h{font-size:1.08rem}
   .ono-band__lead{font-size:clamp(.9rem,4vw,1.2rem)}
 }
@@ -1532,7 +1574,7 @@ footer a{color:var(--ink);min-height:24px;display:inline-flex;align-items:center
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .s,.tog label,.btn,.copy,.months a,.bsub{transition:none}
+  .s,.tog label,.when select,.btn,.copy,.months a,.bsub{transition:none}
 }
 @media print{
   .bar,.ono-band__util,.subx,.copy,.qstat{display:none}
@@ -1679,7 +1721,7 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   // The timeout is the safety belt: it removes the hold on its own, so a tail
   // script that throws or never arrives cannot leave a blank page.
   w('<script>(function(){var r=document.documentElement;r.classList.add("js");');
-  w('try{if((new URLSearchParams(location.search).get("q")||"").trim()){');
+  w('try{var u=new URLSearchParams(location.search);if((u.get("q")||"").trim()||u.get("when")){');
   w('r.classList.add("pre-q");setTimeout(function(){r.classList.remove("pre-q")},2000)}}catch(e){}})();<\/script>');
   w('</head>');
   w('<body id="top">');
@@ -1752,6 +1794,29 @@ function buildHtml(records, credits = [], venues = {}, now = Date.now(), opts = 
   w('<button class="bq-x" id="q-clear" type="button" aria-label="Clear search">&#215;</button>');
   w('</form>');
   w('<div class="bscroll">');
+  // The date filter. A select rather than a row of chips: at 390px the bar has
+  // room for two chips and no more, and a select is one chip that holds six
+  // answers. Its own values are the deep-link vocabulary (?when=tonight), so
+  // the share URL and the control can never disagree about what they mean.
+  // "Pick a date" reveals a native date input bounded to the listed days.
+  {
+    const keys = [...byDate.keys()];
+    w('<span class="when">');
+    w('<label class="vh" for="f-w">When</label>');
+    w('<select id="f-w" autocomplete="off">' +
+      '<option value="">Any day</option>' +
+      '<option value="today">Today</option>' +
+      '<option value="tonight">Tonight</option>' +
+      '<option value="tomorrow">Tomorrow</option>' +
+      '<option value="weekend">Weekend</option>' +
+      '<option value="week">7 days</option>' +
+      '<option value="date">Pick date</option>' +
+      '</select>');
+    w('</span>');
+    w('<label class="vh" for="f-wd">Date</label>');
+    w('<input class="when-d" id="f-wd" type="date" autocomplete="off" hidden' +
+      (keys.length ? ` min="${esc(keys[0])}" max="${esc(keys[keys.length - 1])}"` : '') + '>');
+  }
   // Both boxes start checked. The unfiltered page is the audit view: it exists
   // so the collector's own work can be read, and it is not what anybody came
   // for. What they came for is what is in the calendar.
@@ -2070,6 +2135,8 @@ const PAGE_JS = String.raw`
   var bSend = document.getElementById('share-send');
   var fo    = document.getElementById('f-o');
   var fv    = document.getElementById('f-v');
+  var fw    = document.getElementById('f-w');
+  var fwd   = document.getElementById('f-wd');
   var months = [].slice.call(document.querySelectorAll('.months a'));
 
   var rows = null, days = null, tPass = 0, tUrl = 0, tSay = 0, jumped = false;
@@ -2277,7 +2344,7 @@ const PAGE_JS = String.raw`
       }
       if (trimDay(sec, cutoff)) changed = true;
     }
-    if (changed) { recount(); rows = null; days = null; if (box && box.value.trim()) pass(); }
+    if (changed) { recount(); rows = null; days = null; if (box && (box.value.trim() || whenOn())) pass(); }
   }
 
   /* Once now, then on a slow tick, then whenever the tab comes back. The tick
@@ -2289,6 +2356,19 @@ const PAGE_JS = String.raw`
   document.addEventListener('visibilitychange', function () {
     if (!document.hidden) trim();
   });
+
+  /* The chip row's edge fade. Cheap: a scroll listener and a resize listener
+     that each compare three numbers. */
+  var bs = document.querySelector('.bscroll');
+  function edge() {
+    if (!bs) return;
+    bs.classList.toggle('ovf-r', bs.scrollLeft + bs.clientWidth < bs.scrollWidth - 2);
+  }
+  if (bs) {
+    bs.addEventListener('scroll', edge, { passive: true });
+    window.addEventListener('resize', edge);
+    edge();
+  }
 
   /* ---- 2. the ICS copy button, and the shared copy behaviour ---- */
   /* An icon button cannot confirm by changing its word, so it confirms by
@@ -2377,6 +2457,66 @@ const PAGE_JS = String.raw`
      carries the generator's own prose -- "Runs 4 dates here.", "Not in the
      calendar." -- so including it would make "calendar", "run" and "dates" each
      match several hundred rows. That is a five-minute bug and an hour to find. */
+  /* ---- the date filter ----
+     Days are New York days, so "today" is New York's today whatever the
+     reader's own clock says, using the same formatter the time trim uses. If
+     that formatter failed the trim's checks it falls back to the device's own
+     date, which is right for nearly everyone reading a New York listing. */
+  function todayKey() {
+    var st = nyFmt ? nyStamp(Date.now()) : '';
+    if (st) return st.slice(0, 10);
+    var d = new Date();
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+  /* Calendar arithmetic on a YYYY-MM-DD key, at noon UTC so no offset can
+     carry it across midnight. */
+  function shiftKey(key, n) {
+    var d = new Date(key + 'T12:00:00Z');
+    d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
+  }
+  function weekdayOf(key) { return new Date(key + 'T12:00:00Z').getUTCDay(); }
+  var WHEN = { today: 1, tonight: 1, tomorrow: 1, weekend: 1, week: 1 };
+  /* The active window as { from, to, after, label }, or null for any day.
+     "Tonight" is today from 5pm. "This weekend" is Friday to Sunday: the one
+     in progress if it is Friday, Saturday or Sunday, otherwise the next one. */
+  function whenRange() {
+    var v = fw ? fw.value : '';
+    if (!v) return null;
+    var t = todayKey();
+    if (v === 'today') return { from: t, to: t, after: '', label: 'today' };
+    if (v === 'tonight') return { from: t, to: t, after: '17:00', label: 'tonight' };
+    if (v === 'tomorrow') { var m = shiftKey(t, 1); return { from: m, to: m, after: '', label: 'tomorrow' }; }
+    if (v === 'week') return { from: t, to: shiftKey(t, 6), after: '', label: 'in the next 7 days' };
+    if (v === 'weekend') {
+      var wd = weekdayOf(t);
+      var fri = wd === 0 ? shiftKey(t, -2) : shiftKey(t, 5 - wd);
+      var from = fri < t ? t : fri;
+      return { from: from, to: shiftKey(fri, 2), after: '', label: 'this weekend' };
+    }
+    if (v === 'date') {
+      var k = fwd ? fwd.value : '';
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(k)) return null;
+      return { from: k, to: k, after: '', label: 'on ' + dateWords(k) };
+    }
+    return null;
+  }
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var WDN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  function dateWords(k) {
+    return WDN[weekdayOf(k)] + ' ' + MON[parseInt(k.slice(5, 7), 10) - 1] + ' ' + parseInt(k.slice(8, 10), 10);
+  }
+  function whenOn() { return !!whenRange(); }
+  function inWhen(r, w) {
+    if (!w) return true;
+    if (r.d < w.from || r.d > w.to) return false;
+    if (w.after) {
+      var h = r.el.querySelector('.s-t time');
+      if (!h || at(h).slice(11, 16) < w.after) return false;
+    }
+    return true;
+  }
+
   function index() {
     if (rows) return;
     rows = [];
@@ -2395,7 +2535,7 @@ const PAGE_JS = String.raw`
         if (li.classList.contains('t-off')) continue;
         var parts = li.querySelectorAll('.s-h,.s-v,.s-c');
         for (var k = 0; k < parts.length; k++) text += ' ' + parts[k].textContent;
-        var rec = { el: li, hay: fold(text), hit: true,
+        var rec = { el: li, hay: fold(text), hit: true, d: sec.getAttribute('data-date') || '',
                     o: li.classList.contains('is-o'), v: li.classList.contains('is-v') };
         rows.push(rec);
         day.rows.push(rec);
@@ -2411,14 +2551,16 @@ const PAGE_JS = String.raw`
        it matches most of the page and materialises every day section at once.
        Wait for the second. */
     if (terms.length === 1 && terms[0].length < 2) terms = [];
-    var on = terms.length > 0;
+    var wr = whenRange();
+    if (fw && fw.parentNode) fw.parentNode.classList.toggle('is-on', !!wr);
+    var on = terms.length > 0 || !!wr;
     var oOn = fo && fo.checked, vOn = fv && fv.checked;
     var shown = 0, loose = 0, i, j, r, hit;
 
     for (i = 0; i < rows.length; i++) {
       r = rows[i];
-      hit = true;
-      for (j = 0; j < terms.length; j++) {
+      hit = inWhen(r, wr);
+      for (j = 0; hit && j < terms.length; j++) {
         if (r.hay.indexOf(terms[j]) < 0) { hit = false; break; }
       }
       if (hit) {
@@ -2452,14 +2594,17 @@ const PAGE_JS = String.raw`
     }
 
     root.classList.toggle('q-on', on);
+    /* The count and the clear button belong to the search box, so they show
+       for a typed query only. A date filter alone reports in the status line. */
+    root.classList.toggle('q-txt', terms.length > 0);
     lastShown = shown;
-    if (out) out.textContent = on ? String(shown) : '';
+    if (out) out.textContent = terms.length ? String(shown) : '';
     if (acts) acts.hidden = !(on || !oOn || !vOn);
 
     clearTimeout(tSay);
     /* Longer than the 120ms that drives the DOM, so a screen reader hears one
        answer instead of a seven-step countdown while the reader types. */
-    tSay = setTimeout(function () { say(box.value.trim(), shown, loose, oOn, vOn); }, 450);
+    tSay = setTimeout(function () { say(box.value.trim(), shown, loose, oOn, vOn, wr); }, 450);
 
     /* One jump, on the empty-to-non-empty transition only. Re-scrolling on every
        keystroke is the version readers hate. */
@@ -2471,11 +2616,22 @@ const PAGE_JS = String.raw`
     if (!on) jumped = false;
   }
 
-  function say(raw, shown, loose, oOn, vOn) {
+  function say(raw, shown, loose, oOn, vOn, wr) {
     if (!stat) return;
     stat.textContent = '';
-    if (!raw) return;
-    var q = '"' + raw + '"';
+    if (!raw && !wr) return;
+    if (!raw) {
+      /* Date filter alone. The zero case names the way out, like search does. */
+      if (shown > 0) {
+        stat.textContent = shown + (shown === 1 ? ' listing ' : ' listings ') + wr.label + '.';
+        return;
+      }
+      stat.textContent = 'Nothing listed ' + wr.label +
+        (loose > 0 ? ' with these filters. ' + loose + (loose === 1 ? ' listing' : ' listings') +
+          ' with the filters off.' : '. Try another day.');
+      return;
+    }
+    var q = '"' + raw + '"' + (wr ? ' ' + wr.label : '');
     if (shown > 0) {
       stat.textContent = shown + (shown === 1 ? ' listing matches ' : ' listings match ') + q + '.';
       return;
@@ -2511,6 +2667,9 @@ const PAGE_JS = String.raw`
     u.search = '';
     var q = box.value.trim();
     if (q) u.searchParams.set('q', q);
+    var wv = fw ? fw.value : '';
+    if (wv === 'date') { if (fwd && fwd.value) u.searchParams.set('when', fwd.value); }
+    else if (wv) u.searchParams.set('when', wv);
     /* The OFF state is encoded, not the on state, because both chips default to
        on: that keeps the common share -- the default view -- a bare URL with
        nothing appended. */
@@ -2541,6 +2700,8 @@ const PAGE_JS = String.raw`
     var bits = [];
 
     if (q) bits.push('\u201C' + q + '\u201D');
+    var wr = whenRange();
+    if (wr) bits.push(wr.label);
     /* Both chips on is the default and says nothing worth carrying. */
     if (!oOn && !vOn) bits.push('filters off');
     else if (!vOn) bits.push('rated O only');
@@ -2584,6 +2745,18 @@ const PAGE_JS = String.raw`
     });
   }
 
+  if (fw) fw.addEventListener('change', function () {
+    if (fwd) {
+      fwd.hidden = fw.value !== 'date';
+      if (!fwd.hidden && !fwd.value) {
+        var t = todayKey();
+        fwd.value = fwd.min && t < fwd.min ? fwd.min : t;
+      }
+    }
+    pass(); writeUrl();
+  });
+  if (fwd) fwd.addEventListener('change', function () { pass(); writeUrl(); });
+
   box.addEventListener('input', function () {
     clearTimeout(tPass);
     if (!box.value.trim()) { pass(); } else { tPass = setTimeout(pass, 120); }
@@ -2624,8 +2797,15 @@ const PAGE_JS = String.raw`
       if (fv && off.indexOf('v') >= 0) { fv.checked = false; document.body.classList.remove('f-v'); }
     }
     if (q0) { box.value = q0; }
-    if (q0 || off) pass();
-    if (link) link.hidden = !(q0 || (fo && !fo.checked) || (fv && !fv.checked));
+    /* ?when= is a preset name or a YYYY-MM-DD date. Anything else is ignored,
+       for the same reason ?off= is parsed forgivingly. */
+    var w0 = p ? (p.get('when') || '').toLowerCase().trim() : '';
+    if (w0 && fw) {
+      if (WHEN[w0]) { fw.value = w0; }
+      else if (/^\d{4}-\d{2}-\d{2}$/.test(w0) && fwd) { fw.value = 'date'; fwd.value = w0; fwd.hidden = false; }
+      else w0 = '';
+    }
+    if (q0 || off || w0) pass();
     /* The browser resolved the fragment during parse, while the listings were
        still held down. Finish the scroll it could not do. */
     if (location.hash.length > 1) {
