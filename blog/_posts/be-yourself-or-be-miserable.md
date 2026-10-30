@@ -15,8 +15,8 @@ tags:
 featured: false
 sort_order: null
 excerpt: Everyone is rushing to fit the box. But you can't control the layoffs, the mission, or your next manager. You can control your day-to-day happiness, and that starts with being yourself.
-cover_image: null
-cover_alt: ''
+cover_image: /blog/images/job-scorecard-cover.jpg
+cover_alt: Kevin's 2021 Job Scorecard spreadsheet, Sendoso vs Salesforce across 23 weighted factors. Rapport with Boss, Overall Impressions and Excitement are highlighted, and Sendoso's total of 298.5 is circled against Salesforce's 290.5. A note reads, I was just trying to justify my decision.
 og_image: ''
 lede_align: left
 linkedin_url: ''
@@ -71,6 +71,8 @@ We never want anything bad to happen. But if something catastrophic happened, ei
 A few years ago, I ended a hiring manager interview at minute seven. She never said hi or told me her name, and she said our conversation "wouldn't take the whole time." When I started talking about my experience, she interrupted me. She was going to be my manager, and someone treating me this way at the hiring manager stage was absolutely not going to advocate for me, care about me, or care about my psychological safety at work. I knew immediately this relationship was not going to go well if this is how she was greeting me. So I left the call.
 
 I told the recruiter I'd ended the call early and wasn't interested. Then I wrote to the CEO, because an empathetic leader is table stakes for me in every role going forward.
+
+Then I forwarded it to a friend with a note: "oops I did it again."
 
 Ultimately, that's what we're all looking for, I think. We're looking for psychological safety. We're looking for the ability to make mistakes and recover from them. And we're looking to grow. And If the answer is no, I'm not in a place where I feel supported, I assume you're already one foot out of the door.
 
