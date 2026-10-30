@@ -56,6 +56,12 @@ In meetings, have your agenda ahead of time and post it on the invite. If you ha
 
 This idea of "we're doing it live in the meeting" is becoming passé at this point. I don't think people are doing it anymore.
 
+### Nobody asked me to build it
+
+I've built several prototypes unprovoked. I built prototypes for [Bombas](/prototypes/bombas/) unasked for. I built prototypes for [Weight Watchers](/prototypes/ww/) unasked for. It showed that I was engaged. It showed that I was tuned in. It showed that I cared about the problems they were solving.
+
+I think that's proof positive that with AI, with being engaged, and with caring, you can actually show up very well prepared. I'm very proud of those prototypes. They show my product mind, they show my creativity, and they show that I care about the audience I'm talking to.
+
 ### Be the change
 
 This all goes back to engagement. When I talk to organizations about being engaged, what I mean is that we're all interested and tuned in to the work we're doing, and we're all pushing each other in the same direction so we're getting stuff done.

@@ -30,9 +30,15 @@ So you start to think about the things you give up to show up fully at work. Wha
 
 ### You can do anything for a year
 
-I saw something on Blind the other day. Somebody said they're extremely stressed at work, but they make over $700K and whether or not they should quit.
+When my mom first told me you could do anything for a year, it was my first job after college. I interviewed with a couple of consulting firms and made it to the end on one. I didn't quite get it. So I emailed the recruiter every week to keep the line open, and I think eventually she just wanted me to stop emailing. Hey, I'll take any victory I can get. Kind of sums up my whole career.
 
-My advice was something my mom told me: you can do anything for a year. What a privilege to be making so much money. Do it for a year, then move somewhere you can be more grounded. Take the money you save and put it away as a nest egg or a down payment on a house.
+I had told her originally I wasn't willing to work in rural Virginia, because I wanted to work in D.C. Around my fourth or fifth email (I think I wished her a happy new year), she called and asked if I was willing. I flipped and told her I was. That was a big blow, because I had a different life in mind for myself. My mom helped me move to Abingdon, Virginia, and she said, you can do anything for a year.
+
+Just shy of two years later, I got a job in D.C. and moved to Arlington. So it all ended up working out.
+
+I thought about that when I saw something on Blind the other day. Somebody said they're extremely stressed at work, but they make over $700K, and asked whether or not they should quit.
+
+My advice was the same thing my mom told me: you can do anything for a year. What a privilege to be making so much money. Do it for a year, then move somewhere you can be more grounded. Take the money you save and put it away as a nest egg or a down payment on a house.
 
 But so often we're chasing big paychecks or prestige. This person took a big job, and they already didn't want it.
 
@@ -61,6 +67,10 @@ If you're looking for a job, or for a specific team inside the company you alrea
 For me, bringing myself to work is knowing that everybody's a little bit weird. So is my weird compatible with this group? And is this group going to be supportive?
 
 We never want anything bad to happen. But if something catastrophic happened, either personally or professionally, would this group have my back and lift me up?
+
+A few years ago, I ended a hiring manager interview at minute seven. She never said hi or told me her name, and she said our conversation "wouldn't take the whole time." When I started talking about my experience, she interrupted me. She was going to be my manager, and someone treating me this way at the hiring manager stage was absolutely not going to advocate for me, care about me, or care about my psychological safety at work. I knew immediately this relationship was not going to go well if this is how she was greeting me. So I left the call.
+
+I told the recruiter I'd ended the call early and wasn't interested. Then I wrote to the CEO, because an empathetic leader is table stakes for me in every role going forward.
 
 Ultimately, that's what we're all looking for, I think. We're looking for psychological safety. We're looking for the ability to make mistakes and recover from them. And we're looking to grow. And If the answer is no, I'm not in a place where I feel supported, I assume you're already one foot out of the door.
 
