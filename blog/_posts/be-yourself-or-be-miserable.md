@@ -46,27 +46,27 @@ You can't control the project you work on, if the company mission changes, if th
 
 ### Be yourself now or pay later
 
-Maybe you're interviewing and trying to come off like a go-getter who works [9-9-6](https://en.wikipedia.org/wiki/996_working_hour_system). Or you're trying to come off like you really fit the role. Then you get hired, and congratulations, you're on a time clock, because eventually who you really are is going to come out.
+Maybe you're interviewing and trying to come off like a go-getter who works [9-9-6](https://en.wikipedia.org/wiki/996_working_hour_system) or you're trying to come off like you really fit the role (when you repeatedly held back eye-rolls during the interview). Then you get hired, and congratulations, you're on a time clock, because eventually who you really are and what you really want from your career is guaranteed to come out, even if only in a rare moment of frustration.
 
-It's either going to work with the culture or it won't. And if it doesn't, you're going to want to leave, no matter what you said in the beginning.
+For all of us, when it comes to work, it's either going to work with the culture or it won't. And if it doesn't, you're going to want to leave, no matter what you said in the beginning.
 
-What you want is really what you want. It may shift a little, because we change over time, but the core of what you want is probably going to stay the same.
+What we each want, our personal minimum requirements, are pretty well set. Our needs and preferences may shift a little, because we all change over time, but the core of what we each want is probably going to stay fairly stable.
 
-When I'm asked what I look for in a team, I say people, process, and product. Great people that collaborate and are open enough to talk about and improve the process of how we build great product.
+When I'm asked what I look for in a team, I say **people**, **process**, and **product**. Great people that collaborate and are open enough to talk about and improve the process of how we build great product. If you have a truly engaged team, access to the right levers to build and measure, and people who are working together on a shared mission, is there anything you _can't_ do? I don't think so.
 
-### Is my weird compatible with this group?
+### Is my weird compatible with yours?
 
-If you're looking for a job, or for a specific team inside the company you already work for, what you should really be looking for is where you can be yourself and maintain a level of happiness. Truly bring yourself to work, and optimize for the things you care about. Is it a collaborative culture? People who are engaged? People you can learn something from? Just an overall good vibe? We spend at least 40 hours a week at work, so this is an important part of your life.
+If you're looking for a job, or for a specific team inside the company you already work for, what you should really be looking for is where you can be yourself and maintain a level of happiness. Truly bring yourself to work, and optimize for the things you care about. Is it a collaborative culture? People who are really care? People you can learn something from? Just an overall good vibe? We spend at least 40 hours a week at work, so this is an important part of your life.
 
 For me, bringing myself to work is knowing that everybody's a little bit weird. So is my weird compatible with this group? And is this group going to be supportive?
 
-We never want anything bad to happen. But if something less than optimal happened to me, would I have a supportive group? Would they back me up? Would they cover for me? If I needed help, would they be there for me?
+We never want anything bad to happen. But if something catastrophic happened, either personally or professionally, would this group have my back and lift me up?
 
-Ultimately, that's what we're all looking for, I think. We're looking for psychological safety. We're looking for the ability to make mistakes and recover from them. And we're looking to grow.
+Ultimately, that's what we're all looking for, I think. We're looking for psychological safety. We're looking for the ability to make mistakes and recover from them. And we're looking to grow. And If the answer is no, I'm not in a place where I feel supported, I assume you're already one foot out of the door.
 
-### There's nothing wrong with staying
+### The job hopper myth
 
-Maybe you do great work in one area of the company, and you see another area open up. You want to try it out. Maybe you try it, fail, and go back to your old area. Or you try it, fail, and move to another part of the company.
+There's this through line, especially in tech, that nobody wants to say anywhere. That's ridiculous. If you look at companies who are known for shorter tenures, you'll see a [PIP](https://en.wikipedia.org/wiki/Performance_improvement#Performance_Improvement_Plans_\(PIPs\)) culture, [where they're always culling the bottom 20%](https://www.reddit.com/r/antiwork/comments/1ejt0d8/the_inhuman_pip_culture_of_meta_and_amazon/), or an environment that isn't conducive for people with families, or don't allow for internal transfers to continue career growth within the company. Maybe you do great work in one area of the company, and you see another area open up and you want to try it out. Maybe you try it, fail, and go back to your old area. Or you try it, fail, and move to another part of the company. I don't see enough companies championing this!
 
 There's a lot of criticism that we don't spend a long time at companies. I reject that. If companies offer enough enrichment, things to learn and areas to grow, there's nothing wrong with staying at the same company.
 
