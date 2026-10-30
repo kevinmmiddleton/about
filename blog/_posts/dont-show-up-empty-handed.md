@@ -22,7 +22,7 @@ lede_align: left
 linkedin_url: ''
 ---
 
-If you created the meeting and showed up with no agenda, no point of view, and no quick notes for anyone to browse as you kick it off, you shouldn't have scheduled it. You're not ready.
+If you created the meeting and showed up with no agenda, no point of view, and no quick notes for anyone to browse as you kick it off, you shouldn't have scheduled it. You're not ready. If you're not ready to have the meeting, you shouldn't have the meeting. Full stop.
 
 [![Miranda Priestly in The Devil Wears Prada, at a run-through where nothing is ready, holding a dress up next to an assistant.](/blog/images/why-is-no-one-ready.jpg "Miranda Priestly: “You people have had hours and hours to prepare.” Why is no one ready?")](https://www.youtube.com/watch?v=-rDTRuCOs9g)
 
