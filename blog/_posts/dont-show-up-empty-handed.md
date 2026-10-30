@@ -15,8 +15,8 @@ tags:
 featured: false
 sort_order: null
 excerpt: A lot of watchers, not a lot of doers. Put a stake in the ground before the meeting, and the work moves.
-cover_image: null
-cover_alt: ''
+cover_image: /blog/images/why-is-no-one-ready-cover.jpg
+cover_alt: Miranda Priestly in The Devil Wears Prada, unimpressed at a run-through, with the subtitle Why is no one ready?
 og_image: ''
 lede_align: left
 linkedin_url: ''
@@ -24,7 +24,6 @@ linkedin_url: ''
 
 If you created the meeting and showed up with no agenda, no point of view, and no quick notes for anyone to browse as you kick it off, you shouldn't have scheduled it. You're not ready. If you're not ready to have the meeting, you shouldn't have the meeting. Full stop.
 
-[![Miranda Priestly in The Devil Wears Prada, at a run-through where nothing is ready, holding a dress up next to an assistant.](/blog/images/why-is-no-one-ready.jpg "Miranda Priestly: “You people have had hours and hours to prepare.” Why is no one ready?")](https://www.youtube.com/watch?v=-rDTRuCOs9g)
 
 With the current AI tools available, there's absolutely no reason for everyone not to show up prepared. These tools make it incredibly easy to create quick agendas, summarize notes, and come ready. We had excuses before, so the best of us, the more thoughtful of us, would come prepared. Now there's no excuse for everyone not to. And if you're not showing up prepared, what are you doing?
 
