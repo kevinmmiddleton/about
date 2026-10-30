@@ -16,18 +16,19 @@ featured: false
 sort_order: null
 excerpt: A lot of watchers, not a lot of doers. Put a stake in the ground before the meeting, and the work moves.
 cover_image: null
-cover_alt: null
+cover_alt: ''
+og_image: ''
 lede_align: left
 linkedin_url: ''
 ---
 
-I joke about meetings with 20 people in attendance and maybe one or two people actually, quote unquote, doing work. A lot of watchers, not a lot of doers.
+I joke about meetings with 20 people in attendance and maybe one or two people actually "doing work". A lot of watchers, not a lot of doers.
 
 In some organizations, I felt like we were all rowing in the same direction. Marketing would say, "I haven't heard from you yet." Design would say, "Do you want to get in a room?" We were all kind of reminding each other to stay on task.
 
 But in some companies, you're the responsible one. I learned that really quickly by working with one of my managers: if we didn't put a stake in the ground, the work simply wouldn't move forward.
 
-## The template
+### The template
 
 After an acquisition, I had to fill out a project template. I didn't know a lot of the answers, but I had some of the materials, and I was able to fill out about 75% of it with some certainty. Maybe 10% more was a question. The rest was left blank, because it started as a blank template.
 
@@ -43,19 +44,19 @@ I met with her later. It was unsolicited, but I told her I noticed she struggled
 
 Her point of view was that it wasn't her responsibility. I said that very well may be true, but your project template isn't filled out. It may or may not be your responsibility, but it's all of our responsibility to get the work done.
 
-## One-on-ones
+### One-on-ones
 
 My general view on one-on-ones, especially with your manager: you have your top projects, let's say your top three to five. Week to week, something should move. You should make some progress on your top projects.
 
 If one doesn't move for a week or two in a row, the update really needs to say why. Either it's deprioritized and why, or there's a blocker, or something else took priority. Otherwise, week over week, we should be seeing progress. This is the way you keep yourself accountable. That's what I mean when I say, don't show up empty handed.
 
-## Meetings
+### Meetings
 
 In meetings, have your agenda ahead of time and post it on the invite. If you have notes for a read-ahead, send them out. It's never been easier with AI to put together some quick notes and send them to people ahead of time. Or bring a visual you prototyped to share with the group. I've done that several times.
 
 This idea of "we're doing it live in the meeting" is becoming passé at this point. I don't think people are doing it anymore.
 
-## Be the change
+### Be the change
 
 This all goes back to engagement. When I talk to organizations about being engaged, what I mean is that we're all interested and tuned in to the work we're doing, and we're all pushing each other in the same direction so we're getting stuff done.
 
