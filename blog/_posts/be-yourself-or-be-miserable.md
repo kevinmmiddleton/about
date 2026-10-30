@@ -16,36 +16,37 @@ featured: false
 sort_order: null
 excerpt: Everyone is rushing to fit the box. But you can't control the layoffs, the mission, or your next manager. You can control your day-to-day happiness, and that starts with being yourself.
 cover_image: null
-cover_alt: null
+cover_alt: ''
+og_image: ''
 lede_align: left
 linkedin_url: ''
 ---
 
 Everyone is rushing to make themselves fit into boxes. Then we work for companies that don't have a mission, and wonder why we get laid off so carelessly.
 
-I don't think this is a new problem, but I do think it's becoming more and more obvious to people. A lot of people in tech that I know, especially engineers, are having an identity crisis right now. What am I at work if I can be partially replaced? With all these AI layoffs, what is my value?
+I don't think this is a new problem, but I do think it's becoming more and more obvious to people. A lot of people in tech that I know, especially engineers, are having an identity crisis right now. What am I at work if I can be replaced? With all these AI layoffs, what is anyone worth?
 
-So you start to think about the things you give up to show up at work. What do you turn off? What are you code switching to be a certain way at work, to get through the day and make a living in this world?
+So you start to think about the things you give up to show up fully at work. What do you turn off? What are you code switching to be a certain way at work, to get through the day and make a living in what seems to be a world changing faster than it ever has?
 
-## You can do anything for a year
+### You can do anything for a year
 
-I saw something on Blind the other day. Somebody said they're extremely stressed at work, but they make over $700K.
+I saw something on Blind the other day. Somebody said they're extremely stressed at work, but they make over $700K and whether or not they should quit.
 
-My POV in response was something my mom told me: you can do anything for a year. What a privilege to be making so much money. Do it for a year, then move somewhere you can be more grounded. Take the money you saved and put it away as a nest egg or a down payment on a house.
+My advice was something my mom told me: you can do anything for a year. What a privilege to be making so much money. Do it for a year, then move somewhere you can be more grounded. Take the money you save and put it away as a nest egg or a down payment on a house.
 
-But so often we're chasing big paychecks or prestige. This person took the job, and they already don't want it.
+But so often we're chasing big paychecks or prestige. This person took a big job, and they already didn't want it.
 
-## The one thing you can control
+### Focus on what you can control
 
 Knowledge work is difficult. Keeping a consistent job in tech is difficult. If you look at all the layoffs, it's difficult to have tenure at a tech company right now.
 
 So if you can prioritize one thing, prioritize your day-to-day happiness and health. That's the one thing you have the most control of.
 
-You can't control the project you work on. You can't control if the company mission changes. You can't control if there are layoffs, or if you get a new manager. But you can control your day-to-day happiness.
+You can't control the project you work on, if the company mission changes, if there are layoffs, or if you get a new manager. But you can control your day-to-day happiness.
 
-## Who you really are is going to come out
+### Be yourself now or pay later
 
-Maybe you're interviewing and trying to come off like a go-getter who works 996. Or you're trying to come off like you really fit the role. Then you get hired, and congratulations, you're on a time clock, because eventually who you really are is going to come out.
+Maybe you're interviewing and trying to come off like a go-getter who works 9-9-6. Or you're trying to come off like you really fit the role. Then you get hired, and congratulations, you're on a time clock, because eventually who you really are is going to come out.
 
 It's either going to work with the culture or it won't. And if it doesn't, you're going to want to leave, no matter what you said in the beginning.
 
@@ -53,7 +54,7 @@ What you want is really what you want. It may shift a little, because we change 
 
 When I'm asked what I look for in a team, I say people, process, and product. Great people that collaborate and are open enough to talk about and improve the process of how we build great product.
 
-## Is my weird compatible with this group?
+### Is my weird compatible with this group?
 
 If you're looking for a job, or for a specific team inside the company you already work for, what you should really be looking for is where you can be yourself and maintain a level of happiness. Truly bring yourself to work, and optimize for the things you care about. Is it a collaborative culture? People who are engaged? People you can learn something from? Just an overall good vibe? We spend at least 40 hours a week at work, so this is an important part of your life.
 
@@ -63,7 +64,7 @@ We never want anything bad to happen. But if something less than optimal happene
 
 Ultimately, that's what we're all looking for, I think. We're looking for psychological safety. We're looking for the ability to make mistakes and recover from them. And we're looking to grow.
 
-## There's nothing wrong with staying
+### There's nothing wrong with staying
 
 Maybe you do great work in one area of the company, and you see another area open up. You want to try it out. Maybe you try it, fail, and go back to your old area. Or you try it, fail, and move to another part of the company.
 
