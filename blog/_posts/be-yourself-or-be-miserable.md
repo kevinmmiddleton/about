@@ -15,8 +15,8 @@ tags:
 featured: false
 sort_order: null
 excerpt: Everyone is rushing to fit the box. But you can't control the layoffs, the mission, or your next manager. You can control your day-to-day happiness, and that starts with being yourself.
-cover_image: null
-cover_alt: ''
+cover_image: /blog/images/stop-trying-to-make-fetch-happen-cover.jpg
+cover_alt: Regina George in Mean Girls, in a Santa hat, with the subtitle Stop trying to make fetch happen.
 og_image: ''
 lede_align: left
 linkedin_url: ''
