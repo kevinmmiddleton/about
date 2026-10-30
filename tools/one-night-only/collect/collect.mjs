@@ -77,12 +77,13 @@ import * as parisTheater from './source-paris-theater.mjs';
 import * as luma from './source-luma.mjs';
 import * as alamo from './source-alamo.mjs';
 import * as rooftop from './source-rooftop.mjs';
+import * as fathom from './source-fathom.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
 // Priority order. First one to claim a UID keeps it; later sources are treated
 // as duplicates of the same screening, not as a second screening.
-const SOURCES = [elevent, repertoryNyc, nycParks, parisTheater, luma, alamo, rooftop];
+const SOURCES = [elevent, repertoryNyc, nycParks, parisTheater, luma, alamo, rooftop, fathom];
 
 const GUARD = {
   // A source that has ever produced at least this many records may never
