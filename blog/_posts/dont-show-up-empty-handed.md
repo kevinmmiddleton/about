@@ -24,6 +24,8 @@ linkedin_url: ''
 
 If you created the meeting and showed up with no agenda, no point of view, and no quick notes for anyone to browse as you kick it off, you shouldn't have scheduled it. You're not ready.
 
+[![Miranda Priestly in The Devil Wears Prada, at a run-through where nothing is ready, holding a dress up next to an assistant.](/blog/images/why-is-no-one-ready.jpg "Miranda Priestly: “You people have had hours and hours to prepare.” Why is no one ready?")](https://www.youtube.com/watch?v=-rDTRuCOs9g)
+
 With the current AI tools available, there's absolutely no reason for everyone not to show up prepared. These tools make it incredibly easy to create quick agendas, summarize notes, and come ready. We had excuses before, so the best of us, the more thoughtful of us, would come prepared. Now there's no excuse for everyone not to. And if you're not showing up prepared, what are you doing?
 
 I joke about meetings with 20 people in attendance and maybe one or two people actually "doing work". A lot of watchers, not a lot of doers.
@@ -75,3 +77,5 @@ If we all thought about how we could be more engaged in how we interact with oth
 I often think you have to be the change you want to see. If I want other people to prepare like I do, I should keep doing what I'm doing when I work with them, as a way to inspire them to show up the same way.
 
 Don't show up empty handed. Put a stake in the ground.
+
+And if you're not showing up to meetings prepared, do I have a solution for you. [Unpaid Intern](https://middleton.io/unpaid-intern/?utm_source=blog&utm_campaign=dont-show-up-empty-handed) is my free second brain for work. It turns your meeting transcripts, docs, and tickets into meeting prep, a morning briefing, and follow-ups.
