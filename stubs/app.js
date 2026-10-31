@@ -918,9 +918,11 @@ async function viewInbox() {
       const a = g[0];
       const many = g.length > 1;
       const href = a.kind === 'screening' ? (many || !a.url ? `#/film/${a.film_id}` : a.url) : a.kind === 'added' ? `#/list/${a.list_id}` : `#/film/${a.film_id}`;
-      const venues = g.map((x) => x.title.split(' is playing at ')[1]).filter(Boolean);
-      const title = many ? `${a.stubs_films?.title ?? 'A film'} is playing at ${g.length} NYC theaters` : a.title;
-      const body = many ? `${venues.slice(0, 3).join(', ')}${venues.length > 3 ? ` and ${venues.length - 3} more` : ''}. ${a.body.split('.')[0]}.` : a.body;
+      const venues = [...new Set(g.map((x) => x.title.split(' is playing at ')[1]).filter(Boolean))];
+      const title = many && venues.length > 1 ? `${a.stubs_films?.title ?? 'A film'} is playing at ${venues.length} NYC theaters`
+        : many ? `${a.stubs_films?.title ?? 'A film'} is playing at ${venues[0]}` : a.title;
+      const body = many && venues.length > 1 ? `${venues.slice(0, 3).join(', ')}${venues.length > 3 ? ` and ${venues.length - 3} more` : ''}. ${a.body.split('.')[0]}.`
+        : many ? `${a.body.split(".")[0]}.` : a.body;
       return `<a class="alert ${g.some((x) => !x.read_at) ? 'unread' : ''}" href="${esc(href)}" ${href.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>
         ${poster(a.stubs_films)}
         <div><div class="k">${a.kind === 'screening' ? 'Playing in NYC' : a.kind === 'added' ? 'List add' : 'Import'}</div><div class="t">${esc(title)}</div>${body ? `<div class="b">${esc(body)}</div>` : ''}</div>
