@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stubs</title>
+<meta name="description" content="Keep a stub for every movie. Log what you watched, plan movie night with friends, and hear when your watchlist is playing in New York.">
+<link rel="canonical" href="https://middleton.io/stubs/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stubs">
+<meta property="og:title" content="Stubs: keep a stub for every movie">
+<meta property="og:description" content="Log what you watched, plan movie night with friends, and hear when your watchlist is playing in New York.">
+<meta property="og:url" content="https://middleton.io/stubs/">
+<meta property="og:image" content="https://middleton.io/stubs/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Stubs. Keep a stub for every movie.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Stubs">
+<meta name="theme-color" content="#F4ECDC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15120F" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="styles.css?v=72c1955c">
+<script>
+  // Theme before first paint: saved choice, else the system's.
+  try { const t = localStorage.getItem('stubs-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar" id="bar">
+  <a class="wordmark" href="#/" aria-label="Stubs home">
+    <span class="wordmark-ticket">STUBS</span>
+  </a>
+  <nav class="nav" aria-label="Main">
+    <a href="#/" data-nav="home">Home</a>
+    <a href="#/search" data-nav="search">Films</a>
+    <a href="#/lists" data-nav="lists">Lists</a>
+    <a href="#/diary" data-nav="diary">Diary</a>
+  </nav>
+  <div class="bar-right">
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch light or dark"><i class="ph ph-moon-stars" aria-hidden="true"></i></button>
+    <a class="icon-btn bell" href="#/inbox" aria-label="Alerts" id="bell"><i class="ph ph-bell-simple" aria-hidden="true"></i><span class="badge" id="badge" hidden></span></a>
+    <span id="who"></span>
+  </div>
+</header>
+
+<main id="main" tabindex="-1"></main>
+
+<nav class="tabs" aria-label="Main">
+  <a href="#/" data-nav="home"><i class="ph ph-house" aria-hidden="true"></i><span>Home</span></a>
+  <a href="#/search" data-nav="search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><span>Films</span></a>
+  <a href="#/lists" data-nav="lists"><i class="ph ph-users-three" aria-hidden="true"></i><span>Lists</span></a>
+  <a href="#/inbox" data-nav="inbox"><i class="ph ph-bell-simple" aria-hidden="true"></i><span>Alerts</span><span class="badge" id="badge-tab" hidden></span></a>
+  <a href="#/diary" data-nav="diary"><i class="ph ph-ticket" aria-hidden="true"></i><span>Diary</span></a>
+</nav>
+
+<footer class="foot">
+  <p><strong>Stubs</strong> is a demo built by Kevin's assistant on <a href="https://middleton.io/">middleton.io</a>. Accounts marked demo are sample data.</p>
+  <p>Film facts from <a href="https://www.wikidata.org/">Wikidata</a>, posters and summaries from <a href="https://en.wikipedia.org/">Wikipedia</a> (CC BY-SA). NYC showtimes from <a href="https://middleton.io/one-night-only/">One Night Only</a>. <span id="tmdb-note" hidden>This product uses the TMDB API but is not endorsed or certified by TMDB.</span></p>
+</footer>
+
+<div class="sheet-wrap" id="sheet" hidden>
+  <div class="sheet-scrim" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<script type="module" src="app.js?v=31adac31"></script>
+</body>
+</html>
