@@ -54,7 +54,8 @@ cook_time: 40 min
 total_time: 1 hr 10 min
 tags: eggs, pork, breakfast, main, project
 servings: 6-8 slices
-photo: https://middleton.io/recipes/images/sausag-cheese-quiche.jpg
+photo: https://middleton.io/recipes/images/sausage-cheese-quiche-wide.jpg
+photo_square: https://middleton.io/recipes/images/sausage-cheese-quiche.jpg
 notes: Blind bake the crust or the bottom will be soggy. I mean it.
 ---
 
