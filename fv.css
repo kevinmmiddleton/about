@@ -1907,9 +1907,12 @@ body.p-recipes .hero{margin:0;border-radius:var(--r);overflow:hidden;aspect-rati
 /* Square photos lose more from the bottom than the top: 35% keeps the dish in
    frame while still cropping mostly from the bottom (Kevin's crop rule). */
 body.p-recipes .hero img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 35%}
-/* photos too small to fill the hero (the quiche is 293px) show at their own size */
-body.p-recipes .hero.hero-contained{aspect-ratio:auto;background:none;border-radius:0;overflow:visible}
-body.p-recipes .hero.hero-contained img{width:auto;height:auto;max-width:100%;border-radius:var(--r)}
+/* photos too small to fill the hero (the quiche is 293px): same banner shape,
+   a blurred copy of the photo behind it, the photo itself sharp at its own size */
+body.p-recipes .hero.hero-contained{position:relative;display:grid;place-items:center;isolation:isolate}
+body.p-recipes .hero.hero-contained::before{content:"";position:absolute;inset:-48px;z-index:-1;
+  background:var(--hero-bg) center/cover no-repeat;filter:blur(32px) brightness(.85)}
+body.p-recipes .hero.hero-contained img{width:auto;height:auto;max-width:90%;max-height:88%;border-radius:var(--r)}
 
 /* ---------- recipe page: body ---------- */
 body.p-recipes .rp-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;margin-top:24px}
@@ -2034,7 +2037,6 @@ body.p-recipes .km-nav button:disabled{opacity:.4;cursor:default}
 @media (max-width:820px){
   body.p-recipes .brand-k{display:none}
   body.p-recipes .hero{margin:0 calc(-1 * var(--rc-pad));border-radius:0;aspect-ratio:4/3}
-  body.p-recipes .hero.hero-contained{margin:0}
   body.p-recipes .rp-layout{grid-template-columns:minmax(0,1fr);gap:8px;margin-top:20px}
   body.p-recipes .spec{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:0}
   body.p-recipes .spec div{border-right:0;margin-right:0;padding:10px 0;border-bottom:1px solid var(--rule)}

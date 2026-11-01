@@ -207,7 +207,10 @@ function page(r, css, kitchenStamp) {
     const size = imageSize(r.photo);
     const wide = size && size.w >= HERO_MIN_WIDTH;
     const dims = size ? ` width="${size.w}" height="${size.h}"` : '';
-    hero = `<figure class="hero${wide ? '' : ' hero-contained'}"><img src="${escAttr(localPath(r.photo))}" alt="${escAttr(r.title)}"${dims} fetchpriority="high" decoding="async"></figure>`;
+    // A small photo sits sharp and centered on a blurred copy of itself, so
+    // its banner keeps the same shape as the wide ones (Kevin, 2026-11-01).
+    const bg = wide ? '' : ` style="--hero-bg:url('${escAttr(localPath(r.photo))}')"`;
+    hero = `<figure class="hero${wide ? '' : ' hero-contained'}"${bg}><img src="${escAttr(localPath(r.photo))}" alt="${escAttr(r.title)}"${dims} fetchpriority="high" decoding="async"></figure>`;
   }
 
   const spec = [
