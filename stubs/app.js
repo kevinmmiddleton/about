@@ -1,4 +1,5 @@
-// Stubs: a movie diary with shared watchlists and NYC screening alerts.
+// Stubs: a movie diary with shared watchlists, plus alerts when a film on your
+// lists hits theaters or streaming (and exact showtimes in New York).
 // Static page + Supabase (auth, Postgres with RLS, Realtime, edge functions).
 // Only the publishable key lives here; every rule is enforced by RLS.
 
@@ -11,11 +12,11 @@ const sb = window.supabase.createClient(SB_URL, SB_KEY, {
   auth: { flowType: 'implicit', detectSessionInUrl: true, persistSession: true, storageKey: 'stubs-auth' },
 });
 
-const FILM = 'id,title,year,director,runtime_min,genres,overview,poster_url,source,wikidata_id';
+const FILM = 'id,title,year,director,runtime_min,genres,overview,poster_url,source,wikidata_id,tmdb_id';
 const LIST = 'id,owner_id,name,description,kind,is_public,lb_synced_at,lb_last_diff,created_at';
 const PROFILE = 'id,handle,display_name,bio,is_demo';
 
-const S = { session: null, me: null, unread: 0, channels: [] };
+const S = { session: null, me: null, settings: { home_zip: null, nyc_showtimes: true }, unread: 0, channels: [] };
 const main = document.getElementById('main');
 
 // ------------------------------------------------------------------ helpers
@@ -106,6 +107,15 @@ document.addEventListener('error', (e) => {
 
 const filmLine = (f) => `${esc(f.title)}${f.year ? ` <span class="y">${f.year}</span>` : ''}`;
 const skeleton = (n = 4) => `<div class="stubs">${'<div class="sk sk-stub"></div>'.repeat(n)}</div>`;
+// New York showtimes: on for NYC ZIPs, or no ZIP, unless switched off.
+const isNycZip = (z) => /^(10[0-4]|11[1-46])\d\d$/.test(z || '') || ['11004', '11005'].includes(z);
+const wantsNyc = () => S.settings.nyc_showtimes && (!S.settings.home_zip || isNycZip(S.settings.home_zip));
+const enc = encodeURIComponent;
+const showtimeLinks = (f) => [
+  { label: 'Fandango', url: `https://www.fandango.com/search?q=${enc(f.title)}&mode=general` },
+  { label: `Showtimes near ${S.settings.home_zip || 'me'}`, url: `https://www.google.com/search?q=${enc(`${f.title} showtimes near ${S.settings.home_zip || 'me'}`)}` },
+];
+const linkBtns = (links) => `<div class="out-links">${links.map((l, i) => `<a class="btn small ${i ? 'quiet' : 'primary'}" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}<i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>`).join('')}</div>`;
 const empty = (icon, text, action = '') => `<div class="empty"><i class="ph ph-${icon}" aria-hidden="true"></i><p>${text}</p>${action}</div>`;
 
 async function fn(name, body) {
@@ -199,9 +209,14 @@ function watchAlerts() {
 
 async function loadMe() {
   S.me = null;
+  S.settings = { home_zip: null, nyc_showtimes: true };
   if (!uid()) return;
-  const { data } = await sb.from('stubs_profiles').select(PROFILE).eq('id', uid()).maybeSingle();
+  const [{ data }, { data: st }] = await Promise.all([
+    sb.from('stubs_profiles').select(PROFILE).eq('id', uid()).maybeSingle(),
+    sb.from('stubs_settings').select('home_zip,nyc_showtimes').eq('user_id', uid()).maybeSingle(),
+  ]);
   S.me = data ?? null;
+  S.settings = st ?? { home_zip: null, nyc_showtimes: true };
 }
 
 // ------------------------------------------------------------------ router
@@ -293,7 +308,7 @@ async function viewHome() {
   <section class="hero">
     <div>
       <h1>Keep a stub for <em>every</em> movie.</h1>
-      <p class="lede">Log what you watched. Plan what's next with friends. Hear when your watchlist is playing in New York.</p>
+      <p class="lede">Log what you watched. Plan what's next with friends. Hear when your watchlist hits theaters or streaming.</p>
       <div class="row">
         <a class="btn primary" href="${demo ? `#/list/${demo.id}` : '#/lists'}"><i class="ph ph-users-three" aria-hidden="true"></i>See a shared list</a>
         <a class="btn" href="#/signin">Sign in</a>
@@ -320,7 +335,7 @@ async function viewHome() {
       ${next ? ticket(next, byId.get(next.film_id)) : ''}`)}
 
   ${shows.length ? `<section class="section">
-    <div class="section-head"><h2>Playing in NYC soon</h2><p>From the demo list, matched to real showtimes twice a day.</p></div>
+    <div class="section-head"><h2>Playing in New York soon</h2><p>From the demo list. Exact showtimes, checked twice a day.</p></div>
     <div class="tickets">${shows.slice(0, 8).map((s) => ticket(s, byId.get(s.film_id), 'paper')).join('')}</div>
   </section>` : ''}
 
@@ -329,13 +344,13 @@ async function viewHome() {
       <h2>Movie night, decided</h2>
       <ol>
         <li><div><b>Make a list together.</b><span class="muted">Share one link. Everyone adds films and votes on what they want to see.</span></div></li>
-        <li><div><b>Get a heads-up.</b><span class="muted">When a film on the list plays at Film Forum, IFC, Metrograph or anywhere else in the city, it lands in your alerts and your calendar.</span></div></li>
+        <li><div><b>Get a heads-up.</b><span class="muted">When a film on the list hits theaters near you or starts streaming, it lands in your alerts. In New York you also get exact showtimes, in your alerts and your calendar.</span></div></li>
         <li><div><b>Let the reel pick.</b><span class="muted">Can't agree? Spin for tonight's film. More votes, better odds.</span></div></li>
       </ol>
     </div>
     <div class="panel ink">
       <h2>Your Letterboxd watchlist, on alert</h2>
-      <p class="muted" style="margin-top:10px">Upload your Letterboxd export and Stubs watches it for NYC screenings. Upload a newer one any time and see exactly what changed.</p>
+      <p class="muted" style="margin-top:10px">Upload your Letterboxd export and Stubs tells you when those films hit theaters or streaming. Upload a newer one any time and see exactly what changed.</p>
       <div class="minilist">${films.slice(5, 10).map((f) => poster(f)).join('')}</div>
       <p style="margin-top:18px"><a class="btn primary" href="#/import">Import a watchlist</a></p>
     </div>
@@ -359,9 +374,14 @@ async function viewFeed() {
     sb.from('stubs_list_members').select(`role, stubs_lists(${LIST}, stubs_list_items(film_id))`).eq('user_id', S.me.id).then(must),
   ]);
   const myFilmIds = [...new Set(mem.flatMap((m) => (m.stubs_lists?.stubs_list_items ?? []).map((i) => i.film_id)))];
-  const shows = firstShowPerFilm(await upcomingFor(myFilmIds, 300)).slice(0, 8);
+  const [nyc, playing] = await Promise.all([
+    wantsNyc() ? upcomingFor(myFilmIds, 300) : [],
+    myFilmIds.length ? sb.from('stubs_film_watch').select(`film_id, stubs_films(${FILM})`).eq('in_theaters', true).in('film_id', myFilmIds.slice(0, 300)).limit(6).then(must) : [],
+  ]);
+  const shows = firstShowPerFilm(nyc).slice(0, 8);
   const films = shows.length ? must(await sb.from('stubs_films').select(FILM).in('id', shows.map((s) => s.film_id))) : [];
   const byId = new Map(films.map((f) => [f.id, f]));
+  const inTheaters = playing.map((w) => w.stubs_films).filter(Boolean);
   const feed = [
     ...logs.map((l) => ({ at: l.created_at, html: stubRow(l, { who: true }) })),
     ...adds.filter((a) => a.stubs_films).map((a) => ({ at: a.created_at, html: `<div class="stub linked">${poster(a.stubs_films)}<div class="main"><div class="title"><a class="film-link" href="#/list/${a.list_id}">${esc(a.title)}</a></div><div class="meta">${nameLink(a.actor)}<span class="mono">LIST ADD</span></div></div><div class="date"><span>${ago(a.created_at).toUpperCase()}</span></div></div>` })),
@@ -370,7 +390,9 @@ async function viewFeed() {
   main.innerHTML = `
     <div class="section-head" style="margin-bottom:8px"><h1 style="font-size:clamp(40px,6vw,64px)">Hi, ${esc(S.me.display_name.split(' ')[0])}.</h1>
       <div class="row"><a class="btn primary" href="#/search"><i class="ph ph-plus" aria-hidden="true"></i>Log a film</a></div></div>
-    ${shows.length ? `<section class="section" style="margin-top:28px"><div class="section-head"><h2>Playing soon from your lists</h2><a class="link" href="#/inbox">All alerts</a></div>
+    ${inTheaters.length ? `<section class="section" style="margin-top:28px"><div class="section-head"><h2>In theaters now</h2><p>From your lists. Open one for showtimes near you.</p></div>
+      <div class="grid-posters">${inTheaters.map(card).join('')}</div></section>` : ''}
+    ${shows.length ? `<section class="section" style="margin-top:28px"><div class="section-head"><h2>Playing near you soon</h2><a class="link" href="#/inbox">All alerts</a></div>
       <div class="tickets">${shows.map((s) => ticket(s, byId.get(s.film_id))).join('')}</div></section>` : ''}
     <section class="section" style="margin-top:36px"><div class="section-head"><h2>Your feed</h2></div>${suggest}
       <div class="stubs">${feed.length ? feed.map((x) => x.html).join('') : empty('ticket', 'Nothing here yet. Log a film you saw recently and it shows up here.', '<a class="btn" href="#/search">Find a film</a>')}</div></section>`;
@@ -422,16 +444,18 @@ async function viewFilm(id) {
   main.innerHTML = `<div class="film"><div class="poster sk"></div><div><div class="sk sk-line" style="height:60px;width:70%"></div><div class="sk sk-line"></div><div class="sk sk-line" style="width:80%"></div></div></div>`;
   const f = must(await sb.from('stubs_films').select(FILM).eq('id', id).maybeSingle());
   if (!f) { main.innerHTML = empty('film-slate', 'We could not find that film.', '<a class="btn" href="#/search">Search films</a>'); return; }
-  const [logs, shows] = await Promise.all([
+  const [logs, shows, watch] = await Promise.all([
     sb.from('stubs_logs').select(`id,user_id,watched_on,rating,liked,rewatch,review,created_at, stubs_films(${FILM}), stubs_profiles(${PROFILE})`)
       .eq('film_id', id).order('created_at', { ascending: false }).limit(40).then(must),
     upcomingFor([id], 60),
+    sb.from('stubs_film_watch').select('in_theaters,stream,rent_buy,watch_link').eq('film_id', id).maybeSingle().then(must),
   ]);
   const rated = logs.filter((l) => l.rating != null);
   const avg = rated.length ? (rated.reduce((s, l) => s + Number(l.rating), 0) / rated.length) : null;
   const mine = S.me ? logs.filter((l) => l.user_id === S.me.id) : [];
   const facts = [f.year, f.director ? `Directed by ${f.director}` : '', f.runtime_min ? `${f.runtime_min} min` : ''].filter(Boolean);
-  const wiki = f.source === 'wikidata' && f.wikidata_id ? `https://www.wikidata.org/wiki/${esc(f.wikidata_id)}` : '';
+  const wiki = f.source === 'tmdb' && f.tmdb_id ? `https://www.themoviedb.org/movie/${esc(f.tmdb_id)}`
+    : f.source === 'wikidata' && f.wikidata_id ? `https://www.wikidata.org/wiki/${esc(f.wikidata_id)}` : '';
   main.innerHTML = `
   <article class="film">
     ${poster(f, { flag: shows.length > 0, eager: true })}
@@ -450,7 +474,8 @@ async function viewFilm(id) {
         <div><b>${logs.filter((l) => l.liked).length}</b><span>Hearts</span></div>
         <div><b>${shows.length}</b><span>NYC shows</span></div>
       </div>
-      ${shows.length ? `<section class="section" style="margin-top:32px"><div class="section-head"><h2>Playing in NYC</h2><p>Showtimes from One Night Only. Tap for tickets.</p></div>
+      ${watchHtml(f, watch, shows.length > 0)}
+      ${shows.length ? `<section class="section" style="margin-top:32px"><div class="section-head"><h2>Playing near you</h2><p>Exact times in New York. Tap for tickets.</p></div>
         <div class="showlist">${shows.slice(0, 12).map((s) => { const p = parts(s.starts_at); return `<a class="show" href="${esc(s.url || '#')}" target="_blank" rel="noopener"><span class="d"><b>${p.mon} ${p.d}</b>${p.dow} ${p.time}</span><span class="v">${esc(s.venue_name)}<small>${esc([s.format, s.venue_address].filter(Boolean).join(' · '))}</small></span><i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>`; }).join('')}</div>
         ${shows.length > 12 ? `<p class="muted" style="margin-top:10px">${shows.length - 12} more showtimes. Add it to a list to get them all in your calendar.</p>` : ''}</section>` : ''}
       <section class="section" style="margin-top:36px"><div class="section-head"><h2>Stubs</h2></div>
@@ -460,6 +485,20 @@ async function viewFilm(id) {
   $('#log-btn').addEventListener('click', () => S.me ? logSheet(f) : (location.hash = '#/signin', store.set('stubs-next', `#/film/${id}`)));
   $('#add-btn').addEventListener('click', () => S.me ? addToListSheet(f) : (location.hash = '#/signin', store.set('stubs-next', `#/film/${id}`)));
   bindLogEdits();
+}
+
+// In theaters (nationwide) and where to watch, from TMDB. Streaming data is JustWatch's.
+function watchHtml(f, w, hasNyc) {
+  if (!w) return '';
+  const logos = (ps) => ps.slice(0, 8).map((p) => `<span class="prov">${p.logo ? `<img src="https://image.tmdb.org/t/p/w92${esc(p.logo)}" alt="" width="28" height="28" loading="lazy" referrerpolicy="no-referrer">` : ''}${esc(p.name)}</span>`).join('');
+  const theaters = w.in_theaters ? `<div class="watch-row"><span class="kind">In theaters</span>
+      <p>Playing in theaters across the US.${hasNyc ? ' Exact New York times are below.' : ''}</p>${linkBtns(showtimeLinks(f))}</div>` : '';
+  const stream = w.stream?.length ? `<div class="watch-row"><span class="kind">Stream</span><div class="provs">${logos(w.stream)}</div></div>` : '';
+  const rent = w.rent_buy?.length ? `<div class="watch-row"><span class="kind">Rent or buy</span><div class="provs">${logos(w.rent_buy)}</div></div>` : '';
+  if (!theaters && !stream && !rent) return '';
+  return `<section class="section watch" style="margin-top:32px"><div class="section-head"><h2>Where to watch</h2></div>
+    ${theaters}${stream}${rent}
+    ${stream || rent ? `<p class="muted credit">Where-to-watch info from <a class="link" href="${esc(w.watch_link || 'https://www.justwatch.com/us')}" target="_blank" rel="noopener">JustWatch</a>, in the US.</p>` : ''}</section>`;
 }
 
 function bindLogEdits() {
@@ -665,7 +704,7 @@ async function viewLists() {
     ${S.me ? `<section class="section" style="margin-top:24px"><div class="section-head"><h2>Yours</h2><p>Lists you made, joined or follow.</p></div>
       ${mine.length ? `<div class="list-cards">${mine.map(listCard).join('')}</div>` : empty('users-three', 'No lists yet. Start one and send the link to a friend.')}</section>`
       : `<div class="note" style="margin-top:20px">Sign in to start your own lists. A friend's invite link gets you in.</div>`}
-    <section class="section"><div class="section-head"><h2>Public lists</h2><p>Anyone can look. Follow one to get its screening alerts.</p></div>
+    <section class="section"><div class="section-head"><h2>Public lists</h2><p>Anyone can look. Follow one to get its alerts.</p></div>
       <div class="list-cards">${pub.filter((l) => !mineIds.has(l.id)).map(listCard).join('') || '<p class="muted">Nothing else public right now.</p>'}</div></section>`;
   $('#new-list')?.addEventListener('click', () => {
     openSheet(`<h2 id="sheet-title">New list</h2><p class="muted">Make it, then share the invite link with friends.</p>
@@ -711,7 +750,7 @@ async function viewList(id) {
     const filter = $('#only-nyc')?.checked;
     const rows = state.items.filter((i) => i.stubs_films && (!filter || playing.has(i.film_id)))
       .sort((a, b) => (votesBy.get(b.id)?.length ?? 0) - (votesBy.get(a.id)?.length ?? 0) || b.added_at.localeCompare(a.added_at));
-    if (!rows.length) return empty('film-reel', filter ? 'Nothing on this list is playing in NYC right now. We check twice a day.' : 'This list is empty. Add the first film.');
+    if (!rows.length) return empty('film-reel', filter ? 'Nothing on this list is playing in New York right now. We check twice a day.' : 'This list is empty. Add the first film.');
     const names = new Map(state.members.map((m) => [m.user_id, m.stubs_profiles?.display_name]));
     return rows.map((i) => {
       const f = i.stubs_films; const vs = votesBy.get(i.id) ?? []; const mine = vs.includes(uid());
@@ -835,7 +874,7 @@ async function viewList(id) {
   });
   $('#follow-list')?.addEventListener('click', async () => {
     must(await sb.from('stubs_list_members').insert({ list_id: id, user_id: uid(), role: 'follower' }));
-    toast('Following. Screening alerts for this list go to your inbox.'); render();
+    toast('Following. Alerts for this list go to your inbox.'); render();
   });
   $('#leave')?.addEventListener('click', async () => {
     if (!confirm('Leave this list?')) return;
@@ -892,11 +931,58 @@ async function viewJoin(token) {
 }
 
 // ------------------------------------------------------------------ inbox
+const KIND = { screening: 'Playing near you', theaters: 'In theaters', streaming: 'Now streaming', added: 'List add', import: 'Import' };
+// Alerts from before 2026-11-01 used an older phrase for a single show.
+const fixBody = (b) => String(b ?? '').replace(/One\snight\sonly\./g, 'Just one show.');
+
+// Home ZIP (private) and the New York showtimes switch.
+function whereHtml() {
+  const z = S.settings.home_zip || '';
+  return `<section class="where" aria-labelledby="where-h">
+    <div class="where-copy"><span class="kind">Where you watch</span>
+      <h2 id="where-h">${z ? `Near ${esc(z)}` : 'Add your ZIP'}</h2>
+      <p class="muted">When a film on your lists hits theaters anywhere in the US, your alert links to showtimes near this ZIP. Only you can see it.</p></div>
+    <form class="where-form" id="where-form">
+      <div class="field"><label for="zip">Home ZIP</label>
+        <div class="row"><input class="input mono" id="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" placeholder="11101" value="${esc(z)}">
+        <button class="btn" type="submit">Save</button></div></div>
+      <label class="toggle" id="nyc-wrap" ${z && !isNycZip(z) ? 'hidden' : ''}><input type="checkbox" id="nyc" ${S.settings.nyc_showtimes ? 'checked' : ''}>Exact New York showtimes too</label>
+      <p class="error" id="where-err" hidden></p>
+    </form>
+  </section>`;
+}
+async function saveSettings(patch) {
+  const row = { home_zip: S.settings.home_zip, nyc_showtimes: S.settings.nyc_showtimes, ...patch, updated_at: new Date().toISOString() };
+  const up = await sb.from('stubs_settings').update(row).eq('user_id', S.me.id).select('user_id');
+  if (up.error) throw up.error;
+  if (!up.data.length) must(await sb.from('stubs_settings').insert({ user_id: S.me.id, ...row }));
+  S.settings = { home_zip: row.home_zip, nyc_showtimes: row.nyc_showtimes };
+}
+function bindWhere() {
+  const err = $('#where-err');
+  const fail = (m) => { err.hidden = false; err.textContent = m; };
+  $('#where-form').addEventListener('submit', async (e) => {
+    e.preventDefault(); err.hidden = true;
+    const z = $('#zip').value.trim();
+    if (z && !/^\d{5}$/.test(z)) return fail('A ZIP is five numbers, like 11101.');
+    try {
+      await saveSettings({ home_zip: z || null });
+      $('#where-h').textContent = z ? `Near ${z}` : 'Add your ZIP';
+      $('#nyc-wrap').hidden = !!z && !isNycZip(z);
+      toast(z ? `Saved. Showtime links now point near ${z}.` : 'ZIP cleared.');
+    } catch (x) { fail(x.message || 'That did not save. Try again.'); }
+  });
+  $('#nyc').addEventListener('change', async (e) => {
+    try { await saveSettings({ nyc_showtimes: e.target.checked }); toast(e.target.checked ? 'New York showtimes on.' : 'New York showtimes off.'); }
+    catch (x) { e.target.checked = !e.target.checked; fail(x.message || 'That did not save. Try again.'); }
+  });
+}
+
 async function viewInbox() {
-  if (!S.me) { main.innerHTML = needSignIn('Alerts tell you when a film on your lists plays in NYC, and when a friend adds something.'); return; }
+  if (!S.me) { main.innerHTML = needSignIn('Alerts tell you when a film on your lists hits theaters or streaming, and when a friend adds something.'); return; }
   main.innerHTML = skeleton(4);
   const [alerts, tok] = await Promise.all([
-    sb.from('stubs_alerts').select(`id,kind,title,body,url,created_at,read_at,starts_at,film_id,list_id, stubs_films(${FILM})`).eq('user_id', S.me.id).order('created_at', { ascending: false }).limit(80).then(must),
+    sb.from('stubs_alerts').select(`id,kind,title,body,url,links,created_at,read_at,starts_at,film_id,list_id, stubs_films(${FILM})`).eq('user_id', S.me.id).order('created_at', { ascending: false }).limit(80).then(must),
     sb.from('stubs_feed_tokens').select('token').eq('user_id', S.me.id).maybeSingle().then(must),
   ]);
   // One card per film for screening alerts found in the same run; list adds stay one per add.
@@ -914,23 +1000,34 @@ async function viewInbox() {
   const rss = tok ? `${FN}stubs-feed?t=${tok.token}&f=rss` : '';
   main.innerHTML = `
     <div class="section-head"><h1>Alerts</h1><p>${alerts.filter((a) => !a.read_at).length} new</p></div>
-    <div class="alerts" style="margin-top:12px">${groups.length ? groups.map((g) => {
+    ${whereHtml()}
+    <div class="alerts" style="margin-top:22px">${groups.length ? groups.map((g) => {
       const a = g[0];
       const many = g.length > 1;
-      const href = a.kind === 'screening' ? (many || !a.url ? `#/film/${a.film_id}` : a.url) : a.kind === 'added' ? `#/list/${a.list_id}` : `#/film/${a.film_id}`;
+      const film = `#/film/${a.film_id}`;
+      const href = a.kind === 'screening' ? (many || !a.url ? film : a.url) : a.kind === 'added' ? `#/list/${a.list_id}` : film;
       const venues = [...new Set(g.map((x) => x.title.split(' is playing at ')[1]).filter(Boolean))];
-      const title = many && venues.length > 1 ? `${a.stubs_films?.title ?? 'A film'} is playing at ${venues.length} NYC theaters`
+      const body0 = fixBody(a.body);
+      const title = many && venues.length > 1 ? `${a.stubs_films?.title ?? 'A film'} is playing at ${venues.length} New York theaters`
         : many ? `${a.stubs_films?.title ?? 'A film'} is playing at ${venues[0]}` : a.title;
-      const body = many && venues.length > 1 ? `${venues.slice(0, 3).join(', ')}${venues.length > 3 ? ` and ${venues.length - 3} more` : ''}. ${a.body.split('.')[0]}.`
-        : many ? `${a.body.split(".")[0]}.` : a.body;
-      return `<a class="alert ${g.some((x) => !x.read_at) ? 'unread' : ''}" href="${esc(href)}" ${href.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>
+      const body = many && venues.length > 1 ? `${venues.slice(0, 3).join(', ')}${venues.length > 3 ? ` and ${venues.length - 3} more` : ''}. ${body0.split('.')[0]}.`
+        : many ? `${body0.split('.')[0]}.` : body0;
+      const unread = g.some((x) => !x.read_at) ? 'unread' : '';
+      const time = `<time datetime="${esc(a.created_at)}">${ago(a.created_at)}</time>`;
+      const k = `<div class="k">${KIND[a.kind] ?? 'Alert'}</div>`;
+      // Cards with outside links hold several links, so the card itself is not one.
+      if (Array.isArray(a.links) && a.links.length) {
+        return `<div class="alert ${unread}"><a href="${film}" tabindex="-1" aria-hidden="true">${poster(a.stubs_films)}</a>
+          <div>${k}<div class="t"><a href="${film}">${esc(title)}</a></div>${body ? `<div class="b">${esc(body)}</div>` : ''}${linkBtns(a.links)}</div>${time}</div>`;
+      }
+      return `<a class="alert ${unread}" href="${esc(href)}" ${href.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>
         ${poster(a.stubs_films)}
-        <div><div class="k">${a.kind === 'screening' ? 'Playing in NYC' : a.kind === 'added' ? 'List add' : 'Import'}</div><div class="t">${esc(title)}</div>${body ? `<div class="b">${esc(body)}</div>` : ''}</div>
-        <time datetime="${esc(a.created_at)}">${ago(a.created_at)}</time></a>`;
-    }).join('') : empty('bell-simple', 'Nothing yet. Add films to a list and we will tell you when they play in New York.')}</div>
+        <div>${k}<div class="t">${esc(title)}</div>${body ? `<div class="b">${esc(body)}</div>` : ''}</div>
+        ${time}</a>`;
+    }).join('') : empty('bell-simple', 'Nothing yet. Add films to a list and we will tell you when they hit theaters or streaming.')}</div>
     <section class="section"><div class="section-head"><h2>Take it with you</h2><p>Private links. Anyone with them can read your alerts, so keep them to yourself.</p></div>
       <div class="feeds">
-        <div class="feed-box"><b><i class="ph ph-calendar-blank" aria-hidden="true"></i> Calendar</b><p class="muted">Every upcoming NYC showtime for films on your lists, in Apple Calendar, Google or Outlook. It refreshes on its own.</p><code>${esc(ics)}</code>
+        <div class="feed-box"><b><i class="ph ph-calendar-blank" aria-hidden="true"></i> Calendar</b><p class="muted">Every upcoming New York showtime for films on your lists, in Apple Calendar, Google or Outlook. It refreshes on its own.</p><code>${esc(ics)}</code>
           <div class="row"><a class="btn small primary" href="${esc(ics.replace(/^https:/, 'webcal:'))}">Subscribe</a><button class="btn small quiet" type="button" data-copy="${esc(ics)}">Copy link</button></div></div>
         <div class="feed-box"><b><i class="ph ph-rss" aria-hidden="true"></i> RSS</b><p class="muted">These alerts in any feed reader.</p><code>${esc(rss)}</code>
           <div class="row"><button class="btn small quiet" type="button" data-copy="${esc(rss)}">Copy link</button></div></div>
@@ -939,6 +1036,7 @@ async function viewInbox() {
     </section>`;
   $$('[data-copy]').forEach((b) => b.addEventListener('click', async () => { try { await navigator.clipboard.writeText(b.dataset.copy); toast('Copied.'); } catch { toast('Copy did not work. Long-press the link instead.'); } }));
   $('#rotate').addEventListener('click', async () => { must(await sb.rpc('stubs_rotate_feed_token')); toast('New links made. The old ones stop working.'); render(); });
+  bindWhere();
   if (alerts.some((a) => !a.read_at)) {
     await sb.from('stubs_alerts').update({ read_at: new Date().toISOString() }).eq('user_id', S.me.id).is('read_at', null);
     S.unread = 0; paintChrome(route());
@@ -980,13 +1078,13 @@ async function readExport(file) {
 }
 
 async function viewImport() {
-  if (!S.me) { main.innerHTML = needSignIn('Import your Letterboxd watchlist and we watch it for NYC screenings.'); return; }
+  if (!S.me) { main.innerHTML = needSignIn('Import your Letterboxd watchlist and Stubs tells you when those films hit theaters or streaming.'); return; }
   const target = query().get('list');
   const mine = must(await sb.from('stubs_lists').select(LIST).eq('owner_id', S.me.id).eq('kind', 'letterboxd').order('created_at'));
   const tgt = mine.find((l) => l.id === target);
   main.innerHTML = `
     <h1>${tgt ? 'Refresh your watchlist' : 'Track your Letterboxd watchlist'}</h1>
-    <p class="lede" style="margin-top:12px">Stubs watches it for NYC screenings and sends them to your alerts and calendar. Upload a newer export any time to refresh it.</p>
+    <p class="lede" style="margin-top:12px">Stubs tells you when those films hit theaters or start streaming, with exact showtimes if you're in New York. Upload a newer export any time to refresh it.</p>
     <div class="steps">
       <div><b>1</b><p>On Letterboxd, open <a class="link" href="https://letterboxd.com/settings/data/" target="_blank" rel="noopener">Settings, then Data</a>. You need to be signed in there.</p></div>
       <div><b>2</b><p>Tap <strong>Export your data</strong>. Letterboxd downloads a .zip file to your device.</p></div>

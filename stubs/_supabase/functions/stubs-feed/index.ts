@@ -32,6 +32,14 @@ const VTZ = [
   'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU', 'END:STANDARD', 'END:VTIMEZONE',
 ];
 
+// Alerts from before 2026-11-01 used an older phrase for a single show.
+// deno-lint-ignore no-explicit-any
+const feedBody = (a: any) => {
+  const body = String(a.body ?? '').replace(/One\snight\sonly\./g, 'Just one show.');
+  const links = Array.isArray(a.links) ? a.links.map((l: any) => `${l.label}: ${l.url}`).join('\n') : '';
+  return links ? `${body}\n${links}` : body;
+};
+
 Deno.serve(async (req) => {
   const u = new URL(req.url);
   const t = u.searchParams.get('t') ?? '';
@@ -44,20 +52,20 @@ Deno.serve(async (req) => {
 
   if (f === 'rss') {
     const { data: alerts } = await admin.from('stubs_alerts')
-      .select('id,kind,title,body,url,created_at,film_id,list_id')
+      .select('id,kind,title,body,url,links,created_at,film_id,list_id')
       .eq('user_id', uid).order('created_at', { ascending: false }).limit(60);
     const items = (alerts ?? []).map((a) => `<item>
   <title>${xml(a.title)}</title>
   <link>${xml(a.url || `${APP}#/film/${a.film_id}`)}</link>
   <guid isPermaLink="false">stubs-alert-${a.id}</guid>
   <pubDate>${new Date(a.created_at).toUTCString()}</pubDate>
-  <description>${xml(a.body ?? '')}</description>
+  <description>${xml(feedBody(a))}</description>
 </item>`).join('\n');
     const body = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel>
 <title>Stubs alerts for ${xml(prof?.display_name ?? 'you')}</title>
 <link>${APP}#/inbox</link>
-<description>Films on your lists playing in NYC, and what your friends add.</description>
+<description>Films on your lists in theaters, on streaming, playing in New York, and what your friends add.</description>
 ${items}
 </channel></rss>`;
     return new Response(body, { headers: { 'Content-Type': 'application/rss+xml; charset=utf-8', 'Cache-Control': 'max-age=900' } });
@@ -93,7 +101,7 @@ ${items}
   }
   const lines = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//middleton.io//Stubs//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
-    `X-WR-CALNAME:${ics(`Stubs: ${prof?.display_name ?? 'my'} watchlist in NYC`)}`,
+    `X-WR-CALNAME:${ics(`Stubs: ${prof?.display_name ?? 'my'} watchlist in New York`)}`,
     'X-WR-TIMEZONE:America/New_York', 'REFRESH-INTERVAL;VALUE=DURATION:PT6H', 'X-PUBLISHED-TTL:PT6H',
     ...VTZ, ...events, 'END:VCALENDAR',
   ];

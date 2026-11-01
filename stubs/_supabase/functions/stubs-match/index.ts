@@ -1,9 +1,14 @@
-// stubs-match: twice a day, find NYC screenings of films that sit on any Stubs
-// list and turn them into alerts.
+// stubs-match: twice a day, find New York showtimes of films that sit on any
+// Stubs list and turn them into "Playing near you" alerts (only for people who
+// want New York times; see stubs_private.wants_nyc).
 //
-// Source: One Night Only's published screenings.json (middleton.io), matched by
-// normalized title + year (within one year; a screening with no year matches
-// on title alone). Called by pg_cron job "stubs-match" with a shared secret.
+// Source: the NYC showtimes dataset published at middleton.io (built by the
+// same repo's collector). It carries every confirmed NYC showing the collector
+// sees, regular runs and one-offs alike (Alamo NYC, repertory houses, Fathom
+// events, parks, rooftops), and this matches all of them: there is no
+// one-night or "limited" filter here. Matched by normalized title + year
+// (within one year; a screening with no year matches on title alone).
+// Called by pg_cron job "stubs-match" with a shared secret.
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const SRC = 'https://middleton.io/one-night-only/_data/screenings.json';

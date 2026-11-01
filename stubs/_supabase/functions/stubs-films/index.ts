@@ -1,14 +1,17 @@
 // stubs-films: film search, lookup and Letterboxd-row matching for Stubs.
 //
-// Data source: Wikidata (facts) + English Wikipedia (poster thumbnail and a
-// short summary). If a TMDB_API_KEY secret is ever set, TMDB is used instead:
-// it has better posters and coverage, and the rest of the app does not care
-// which one filled the row (stubs_films.source says).
+// Data source: TMDB first (posters, details), read server side with the token
+// from Supabase Vault (see ../_shared/tmdb.ts). If TMDB is not set up or fails,
+// Wikidata (facts) + English Wikipedia (poster thumbnail and a short summary)
+// fill in. The rest of the app does not care which one filled the row
+// (stubs_films.source says). A TMDB result that matches an existing Wikidata
+// row (by tmdb_id or wikidata_id) updates that row, so lists never split.
 //
 // Public endpoint (verify_jwt=false): it only reads public film data and
 // caches it in stubs_films. Inputs are capped so it can't be used to hammer
 // Wikidata on our behalf.
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { filmFromTmdb, tmdb as tmdbGet, tmdbToken, type Film } from '../_shared/tmdb.ts';
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -19,17 +22,11 @@ const json = (b: unknown, s = 200) =>
   new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
 
 const UA = 'Stubs/1.0 (https://middleton.io/stubs/; assistant@middleton.io)';
-const TMDB = Deno.env.get('TMDB_API_KEY') || '';
 // film, animated feature, documentary, TV film, short film
 const FILM_TYPES = 'haswbstatement:P31=Q11424|P31=Q29168811|P31=Q202866|P31=Q93204|P31=Q506240|P31=Q24862';
 
 const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
 
-type Film = {
-  wikidata_id?: string | null; tmdb_id?: number | null; title: string; year: number | null;
-  director: string | null; runtime_min: number | null; genres: string[]; overview: string | null;
-  poster_url: string | null; backdrop_url?: string | null; wiki_title: string | null; source: string;
-};
 
 export const norm = (s: string) => s.toLowerCase()
   .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
@@ -163,23 +160,10 @@ async function wdFilms(qids: string[]): Promise<Film[]> {
 }
 
 // ---------------------------------------------------------------- TMDB path
-const TMDB_IMG = 'https://image.tmdb.org/t/p/';
-async function tmdb(path: string, params: Record<string, string> = {}) {
-  const u = new URL(`https://api.themoviedb.org/3${path}`);
-  u.search = new URLSearchParams({ api_key: TMDB, language: 'en-US', ...params }).toString();
-  return getJSON(u.toString());
-}
+const tmdb = (path: string, params: Record<string, string> = {}) => tmdbGet(admin, path, params);
+const hasTmdb = async () => !!(await tmdbToken(admin));
 async function tmdbFilm(id: number): Promise<Film> {
-  const m = await tmdb(`/movie/${id}`, { append_to_response: 'credits' });
-  const dirs = (m.credits?.crew ?? []).filter((c: any) => c.job === 'Director').slice(0, 2).map((c: any) => c.name);
-  return {
-    tmdb_id: m.id, title: m.title, year: m.release_date ? parseInt(m.release_date.slice(0, 4), 10) : null,
-    director: dirs.join(', ') || null, runtime_min: m.runtime || null,
-    genres: (m.genres ?? []).slice(0, 3).map((g: any) => g.name), overview: m.overview || null,
-    poster_url: m.poster_path ? `${TMDB_IMG}w500${m.poster_path}` : null,
-    backdrop_url: m.backdrop_path ? `${TMDB_IMG}w1280${m.backdrop_path}` : null,
-    wiki_title: null, source: 'tmdb',
-  };
+  return filmFromTmdb(await tmdb(`/movie/${id}`, { append_to_response: 'credits,external_ids' }));
 }
 async function tmdbSearch(q: string, year?: number | null, limit = 10): Promise<number[]> {
   const p: Record<string, string> = { query: q, include_adult: 'false' };
@@ -192,17 +176,60 @@ async function tmdbSearch(q: string, year?: number | null, limit = 10): Promise<
 const COLS = 'id,title,year,director,runtime_min,genres,overview,poster_url,backdrop_url,source,wikidata_id,tmdb_id';
 async function upsert(films: Film[]) {
   if (!films.length) return [];
-  const key = TMDB ? 'tmdb_id' : 'wikidata_id';
-  const rows = films.map((f) => ({ ...f, updated_at: new Date().toISOString() }));
-  const { data, error } = await admin.from('stubs_films').upsert(rows, { onConflict: key }).select(COLS);
+  // Rows TMDB already filled stay as they are (Wikidata is only the fallback).
+  const wids = films.map((f) => f.wikidata_id).filter(Boolean) as string[];
+  const { data: kept } = wids.length
+    ? await admin.from('stubs_films').select(COLS).eq('source', 'tmdb').in('wikidata_id', wids)
+    : { data: [] as any[] };
+  const keep = new Set((kept ?? []).map((k: any) => k.wikidata_id));
+  const rows = films.filter((f) => !keep.has(f.wikidata_id)).map((f) => ({ ...f, updated_at: new Date().toISOString() }));
+  if (!rows.length) return kept ?? [];
+  const { data, error } = await admin.from('stubs_films').upsert(rows, { onConflict: 'wikidata_id' }).select(COLS);
   if (error) throw error;
-  return data ?? [];
+  return [...(data ?? []), ...(kept ?? [])];
+}
+
+// TMDB films: update the row we already have (same tmdb_id, or same Wikidata
+// item from an older import), else insert. Keeps a Wikipedia poster or summary
+// when TMDB has none. Returns rows in the order given.
+async function saveTmdb(films: Film[]) {
+  if (!films.length) return [];
+  const tids = films.map((f) => f.tmdb_id).filter(Boolean);
+  const wids = films.map((f) => f.wikidata_id).filter(Boolean) as string[];
+  const filter = [`tmdb_id.in.(${tids.join(',')})`, ...(wids.length ? [`wikidata_id.in.(${wids.join(',')})`] : [])].join(',');
+  const { data: have, error } = await admin.from('stubs_films').select('id,tmdb_id,wikidata_id,poster_url,overview').or(filter);
+  if (error) throw error;
+  const out: any[] = [];
+  for (const f of films) {
+    const ex = (have ?? []).find((h: any) => h.tmdb_id === f.tmdb_id)
+      ?? (have ?? []).find((h: any) => f.wikidata_id && h.wikidata_id === f.wikidata_id);
+    const row: any = { ...f, poster_url: f.poster_url ?? ex?.poster_url ?? null, overview: f.overview ?? ex?.overview ?? null,
+      updated_at: new Date().toISOString() };
+    // Never move a Wikidata id between rows (it is unique).
+    if (!f.wikidata_id || (ex && ex.wikidata_id) || (have ?? []).some((h: any) => h !== ex && h.wikidata_id === f.wikidata_id)) delete row.wikidata_id;
+    if (ex) delete row.wiki_title;
+    const res = ex
+      ? await admin.from('stubs_films').update(row).eq('id', ex.id).select(COLS).single()
+      : await admin.from('stubs_films').insert(row).select(COLS).single();
+    if (res.error) {
+      // Lost a race to another insert: use whatever is there now.
+      const { data: again } = await admin.from('stubs_films').select(COLS).eq('tmdb_id', f.tmdb_id!).maybeSingle();
+      if (again) out.push(again);
+      continue;
+    }
+    out.push(res.data);
+  }
+  return out;
 }
 
 async function search(q: string) {
-  if (TMDB) {
-    const ids = await tmdbSearch(q, null, 10);
-    return upsert(await Promise.all(ids.map(tmdbFilm)));
+  if (await hasTmdb()) {
+    try {
+      const ids = await tmdbSearch(q, null, 10);
+      return await saveTmdb(await Promise.all(ids.map(tmdbFilm)));
+    } catch (e) {
+      console.error('tmdb search failed, using wikidata', String(e));
+    }
   }
   const [wp, wd] = await Promise.all([wpSearch(`${q} film`, 12).catch(() => []), wdSearch(q, 8).catch(() => [])]);
   const qids = [...new Set([...wp, ...wd])].slice(0, 16);
@@ -213,7 +240,8 @@ async function search(q: string) {
 
 // Letterboxd rows -> film ids. Year must agree within a year when given.
 async function resolveOne(name: string, year: number | null): Promise<number | null> {
-  const key = `${TMDB ? 't' : 'w'}:${norm(name)}:${year ?? ''}`;
+  const useTmdb = await hasTmdb();
+  const key = `${useTmdb ? 't' : 'w'}:${norm(name)}:${year ?? ''}`;
   const { data: hit } = await admin.from('stubs_film_lookup').select('film_id').eq('key', key).maybeSingle();
   if (hit) return hit.film_id;
   const n = norm(name);
@@ -234,11 +262,16 @@ async function resolveOne(name: string, year: number | null): Promise<number | n
     if (f) id = f.id;
   }
   if (!id) {
-    if (TMDB) {
-      const ids = await tmdbSearch(name, year, 3);
-      const films = await upsert(await Promise.all(ids.map(tmdbFilm)));
-      id = pick(films)?.id ?? null;
-    } else {
+    if (useTmdb) {
+      try {
+        const ids = await tmdbSearch(name, year, 3);
+        const films = await saveTmdb(await Promise.all(ids.map(tmdbFilm)));
+        id = pick(films)?.id ?? null;
+      } catch (e) {
+        console.error('tmdb resolve failed', String(e));
+      }
+    }
+    if (!id) {
       const clean = name.replace(/"/g, '');
       const [wp, wd] = await Promise.all([
         wpSearch(`${clean} ${year ?? ''} film`, 6).catch(() => []),
@@ -288,7 +321,7 @@ Deno.serve(async (req) => {
       const { data: f } = await admin.from('stubs_films').select('id,wikidata_id,tmdb_id,updated_at').eq('id', id).maybeSingle();
       if (!f) return json({ error: 'not found' }, 404);
       if (Date.now() - new Date(f.updated_at).getTime() < 86400_000) return json({ ok: true, fresh: true });
-      if (f.tmdb_id && TMDB) await upsert([await tmdbFilm(f.tmdb_id)]);
+      if (f.tmdb_id && await hasTmdb()) await saveTmdb([await tmdbFilm(f.tmdb_id)]);
       else if (f.wikidata_id) await upsert(await wdFilms([f.wikidata_id]));
       return json({ ok: true });
     }
