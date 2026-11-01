@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Stubs</title>
-<meta name="description" content="Keep a stub for every movie. Log what you watched, plan movie night with friends, and hear when your watchlist is playing in New York.">
+<meta name="description" content="Keep a stub for every movie. Log what you watched, plan movie night with friends, and hear when your watchlist hits theaters or streaming.">
 <link rel="canonical" href="https://middleton.io/stubs/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Stubs">
 <meta property="og:title" content="Stubs: keep a stub for every movie">
-<meta property="og:description" content="Log what you watched, plan movie night with friends, and hear when your watchlist is playing in New York.">
+<meta property="og:description" content="Log what you watched, plan movie night with friends, and hear when your watchlist hits theaters or streaming.">
 <meta property="og:url" content="https://middleton.io/stubs/">
 <meta property="og:image" content="https://middleton.io/stubs/og.png">
 <meta property="og:image:width" content="1200">
@@ -26,7 +26,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-<link rel="stylesheet" href="styles.css?v=72c1955c">
+<link rel="stylesheet" href="styles.css?v=8c920ae1">
 <script>
   // Theme before first paint: saved choice, else the system's.
   try { const t = localStorage.getItem('stubs-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
@@ -63,7 +63,8 @@
 
 <footer class="foot">
   <p><strong>Stubs</strong> is a demo built by Kevin's assistant on <a href="https://middleton.io/">middleton.io</a>. Accounts marked demo are sample data.</p>
-  <p>Film facts from <a href="https://www.wikidata.org/">Wikidata</a>, posters and summaries from <a href="https://en.wikipedia.org/">Wikipedia</a> (CC BY-SA). NYC showtimes from <a href="https://middleton.io/one-night-only/">One Night Only</a>. <span id="tmdb-note" hidden>This product uses the TMDB API but is not endorsed or certified by TMDB.</span></p>
+  <p>Film details and posters from <a href="https://www.themoviedb.org/">TMDB</a>, with <a href="https://www.wikidata.org/">Wikidata</a> and <a href="https://en.wikipedia.org/">Wikipedia</a> (CC BY-SA) filling the gaps. Where-to-watch info from <a href="https://www.justwatch.com/us">JustWatch</a>.</p>
+  <p class="tmdb"><a href="https://www.themoviedb.org/" aria-label="TMDB"><img src="tmdb.svg" alt="TMDB logo" width="91" height="12"></a><span>This product uses the TMDB API but is not endorsed or certified by TMDB.</span></p>
 </footer>
 
 <div class="sheet-wrap" id="sheet" hidden>
@@ -73,6 +74,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
-<script type="module" src="app.js?v=5cfb8a00"></script>
+<script type="module" src="app.js?v=aeb61871"></script>
 </body>
 </html>
