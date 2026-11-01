@@ -38,8 +38,10 @@ test('scales amounts inside the line, not just the first', () => {
 
 test('scales a leading count with its weight', () => {
   assert.equal(scaleText('2 large eggs (about 100g)', 3), '6 large eggs (about 300g)');
-  assert.equal(scaleText('1 egg (~50g)', 2), '2 egg (~100g)');
-  assert.equal(scaleText('1 pie crust, blind baked', 2), '2 pie crust, blind baked');
+  assert.equal(scaleText('1 egg (~50g)', 2), '2 eggs (~100g)');
+  assert.equal(scaleText('1 pie crust, blind baked', 3), '3 pie crusts, blind baked');
+  assert.equal(scaleText('2 eggs', 2), '4 eggs');
+  assert.equal(scaleText('1 pie crust, blind baked', 2), '2 pie crusts, blind baked');
 });
 
 test('leaves words that merely start with g alone', () => {
