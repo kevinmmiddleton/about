@@ -40,11 +40,26 @@ export function scaleText(text, factor) {
     new RegExp(`(${NUM})(?:-(${NUM}))?(\\s?)(${UNIT})\\b`, 'g'),
     (_, a, b, sp, u) => `${f(a)}${b ? `-${f(b)}` : ''}${sp}${u}`,
   );
+  let single = false;
   out = out.replace(
     new RegExp(`^(~?)(${NUM})(?:-(${NUM}))?(?=\\s)(?!\\s${UNIT}\\b)`),
-    (_, t, a, b) => `${t}${f(a)}${b ? `-${f(b)}` : ''}`,
+    (_, t, a, b) => {
+      single = Number(a) === 1 && !b;
+      return `${t}${f(a)}${b ? `-${f(b)}` : ''}`;
+    },
   );
+  // "1 egg" at 2x reads "2 eggs": pluralize the last word of the noun, the
+  // words before a comma or parenthesis ("1 pie crust, blind baked").
+  if (single) out = out.replace(/^(~?\S+\s+)([^,(]*?[a-z])(?=\s*(?:[,(]|$))/i, (_, lead, noun) => lead + pluralizeLast(noun));
   return out;
+}
+
+function pluralizeLast(phrase) {
+  return phrase.replace(/([a-z]+)$/i, (w) => {
+    if (/(s|x|z|ch|sh)$/i.test(w)) return `${w}es`;
+    if (/[^aeiou]y$/i.test(w)) return `${w.slice(0, -1)}ies`;
+    return `${w}s`;
+  });
 }
 
 // Finds the times in a step so each can become a timer. A range ("2 to 3
