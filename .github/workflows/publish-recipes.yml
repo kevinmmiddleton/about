@@ -10,6 +10,8 @@ on:
     paths:
       - 'recipes/recipes.md'
       - 'tools/recipes-generate.mjs'
+      - 'recipes/kitchen.js'
+      - 'recipes/images/**'
       - 'fv.css'
   workflow_dispatch:
 

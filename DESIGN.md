@@ -192,14 +192,14 @@ chip contexts.
 
 | File | Bytes | Custom props (distinct/declared) | Blocks declaring `--ink` | `prefers-reduced-motion` blocks |
 |---|---|---|---|---|
-| `fv.css` | 220,981 | 165 / 636 | 6 | 16 |
+| `fv.css` | 218,744 | 141 / 609 | 6 | 17 |
 | `kevinos/kevinos.css` | 328,999 | 61 / 293 | 0 | 7 |
 | `blog/blog.css` | 51,059 | 26 / 58 | 0 | 7 |
 
 **Stylesheets each surface loads:**
 
-- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=d894eef8`
-- `blog` (/blog/index.html): `/fv.css?v=d894eef8`, `/blog/blog.css?v=6621488f`, `inline`
+- `homepage` (/index.htm): `inline`, `inline`, `/fv.css?v=36bee88a`
+- `blog` (/blog/index.html): `/fv.css?v=36bee88a`, `/blog/blog.css?v=6621488f`, `inline`
 - `kevinos` (/kevinos/index.html): `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap`, `/kevinos/kevinos.css?v=814af6a3`, `inline`
 
 <details><summary><strong>blog</strong>: 107 tokens, 47 flip between modes</summary>
@@ -476,7 +476,7 @@ in the generated block.
 `--radius-full: 99px` for pills.
 
 `[blog]` `[cases]` Other scopes redefine these. The blog sets `--radius-lg: 1.5rem`
-and `--radius-md: 1rem` on `:root`; `body.p-recipes` carries a full 8/12/20px ramp.
+and `--radius-md: 1rem` on `:root`. `body.p-recipes` uses the house `--r` (pills at 99px) since the 2026-11-01 redesign.
 There is no single site-wide radius ramp.
 
 ---

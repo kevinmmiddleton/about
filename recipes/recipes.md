@@ -455,7 +455,7 @@ Tastes like spaghetti and meatballs without the carbs.
 ## Instructions
 
 1. Preheat oven to 400°F / 200°C.
-2. Combine all meatball ingredients in a bowl. Mix gently—don't overwork.
+2. Combine all meatball ingredients in a bowl. Mix gently. Don't overwork.
 3. Roll into balls, about 30-35g each (makes ~14-16 meatballs).
 4. Place on a lined sheet pan. Bake 18-20 minutes until cooked through and browned.
 5. While meatballs bake, heat olive oil in a saucepan. Add garlic, cook 30 seconds.
@@ -476,8 +476,12 @@ cook_time: 30 min
 total_time: 40 min
 tags: chicken, pork, main, weeknight
 servings: 1
-photo: https://middleton.io/recipes/images/chicken-pancetta-orzo.jpg
-notes: Cold-start the pancetta. A hot pan seizes the meat before the fat renders. Toasting the orzo is what keeps it from going gluey. Don't skip it. The burner stays off from step 6. Parmesan above about 65C goes stringy instead of creamy. Pancetta carries 550mg sodium per 56g, which is why the chicken only gets 2g of salt. Macros: 941 kcal, 109P, 66C, 27F. About 2,300mg sodium.
+protein: 109
+carbs: 66
+fat: 27
+photo: https://middleton.io/recipes/images/chicken-pancetta-orzo-wide.jpg
+photo_square: https://middleton.io/recipes/images/chicken-pancetta-orzo.jpg
+notes: Cold-start the pancetta. A hot pan seizes the meat before the fat renders. Toasting the orzo is what keeps it from going gluey. The burner stays off from step 6. Parmesan above about 65C goes stringy instead of creamy. Pancetta carries 550mg sodium per 56g, which is why the chicken only gets 2g of salt. About 2,300mg sodium.
 ---
 
 Serves 1 generously. Double everything for 2.
