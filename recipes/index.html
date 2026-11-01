@@ -18,12 +18,12 @@
   <meta property="twitter:description" content="Measured. Tested. Minimal scrolling.">
   <meta property="twitter:image" content="https://middleton.io/recipes/images/recipes.png">
 
-  <meta name="theme-color" content="#fefcfd" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0d0d0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
 
   <link rel="icon" href="https://middleton.io/recipes/images/chef-technologist.webp">
   <link rel="apple-touch-icon" href="https://middleton.io/recipes/images/chef-technologist.webp">
-  <link rel="stylesheet" href="/fv.css?v=d894eef8">
+  <link rel="stylesheet" href="/fv.css?v=36bee88a">
   <style>body.p-recipes a.recipe-card { color: inherit; text-decoration: none; }</style>
 <script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
 <script>
@@ -35,6 +35,71 @@
     <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
     <link rel="me" href="https://github.com/kevinmmiddleton">
     <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+  <!-- RECIPE-ITEMLIST:START (written by tools/recipes-generate.mjs) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "url": "https://middleton.io/recipes/chicken-pancetta-orzo/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "url": "https://middleton.io/recipes/broccoli-potato-cheddar-soup/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "url": "https://middleton.io/recipes/chick-fil-a-style-chicken/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "url": "https://middleton.io/recipes/costco-style-blueberry-muffins/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "url": "https://middleton.io/recipes/crispy-pork-schnitzel/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "url": "https://middleton.io/recipes/herb-roasted-chicken-thighs-fingerling-potatoes/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "url": "https://middleton.io/recipes/honey-teriyaki-chicken-thighs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "url": "https://middleton.io/recipes/italian-pork-meatballs-over-cauliflower-rice/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "url": "https://middleton.io/recipes/one-pan-chicken-tenders-asparagus/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 10,
+      "url": "https://middleton.io/recipes/sausage-and-cheese-quiche/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 11,
+      "url": "https://middleton.io/recipes/slow-cooked-creamy-scrambled-eggs/"
+    }
+  ]
+}
+  </script>
+  <!-- RECIPE-ITEMLIST:END -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -55,49 +120,95 @@
 </head>
 <body class="p-recipes">
   <div class="page-wrapper">
-    <header>
-      <div class="header-title">
-        <img src="https://middleton.io/recipes/images/chef-technologist.webp" alt="" class="header-emoji">
-        <div class="header-text">
-          <h1><span class="title-line title-top">Cook Like a</span><span class="title-line title-pm">PM</span></h1>
-          <p class="subtitle">MEASURED. TESTED. MINIMAL SCROLLING.</p>
-        </div>
-      </div>
-
+    <header class="rc-head">
+      <img src="/recipes/images/chef-technologist.webp" alt="" class="header-emoji" width="96" height="96">
+      <h1><span class="title-line title-top">Cook Like a</span><span class="title-line title-pm">PM</span></h1>
+      <p class="subtitle">MEASURED. TESTED. MINIMAL SCROLLING.</p>
       <details class="preamble">
-        <summary>
-          <span class="preamble-icon">+</span>
-          Why does this exist?
-        </summary>
+        <summary><span class="preamble-icon" aria-hidden="true">+</span>Why does this exist?</summary>
         <div class="preamble-content">
           <p>I try to keep it easy in the kitchen. Instead of measuring cups, I use a food scale for everything. One of my biggest pet peeves when reading recipes: I don't want to scroll past someone's childhood memories to find the ingredient list and recipe.</p>
           <p>So I'm sharing some of my actual recipes without the stories. Some of these are original, some borrowed, adapted, adjusted. Enjoy them!</p>
         </div>
       </details>
-
-      <div class="controls">
-        <div class="search-wrapper">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="M21 21L16.65 16.65"/>
-          </svg>
-          <input type="text" id="search" placeholder="Search recipes..." autocomplete="off">
-        </div>
-        <div class="filters-wrapper">
-          <div class="filters" id="filters"></div>
-          <button class="clear-filters" id="clear-filters">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-            Clear
-          </button>
-        </div>
-      </div>
     </header>
 
+    <div class="controls">
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21L16.65 16.65"/>
+        </svg>
+        <input type="search" id="search" placeholder="Search recipes..." autocomplete="off" aria-label="Search recipes">
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Filter by tag">
+        <!-- RECIPE-FILTERS:START (written by tools/recipes-generate.mjs) -->
+          <button type="button" class="filter-btn" data-tag="" aria-pressed="true">all 11</button>
+          <button type="button" class="filter-btn" data-tag="asian" aria-pressed="false">asian</button>
+          <button type="button" class="filter-btn" data-tag="breakfast" aria-pressed="false">breakfast</button>
+          <button type="button" class="filter-btn" data-tag="chicken" aria-pressed="false">chicken</button>
+          <button type="button" class="filter-btn" data-tag="eggs" aria-pressed="false">eggs</button>
+          <button type="button" class="filter-btn" data-tag="low-carb" aria-pressed="false">low-carb</button>
+          <button type="button" class="filter-btn" data-tag="main" aria-pressed="false">main</button>
+          <button type="button" class="filter-btn" data-tag="pork" aria-pressed="false">pork</button>
+          <button type="button" class="filter-btn" data-tag="project" aria-pressed="false">project</button>
+          <button type="button" class="filter-btn" data-tag="snack" aria-pressed="false">snack</button>
+          <button type="button" class="filter-btn" data-tag="vegetarian" aria-pressed="false">vegetarian</button>
+          <button type="button" class="filter-btn" data-tag="weeknight" aria-pressed="false">weeknight</button>
+        <!-- RECIPE-FILTERS:END -->
+      </div>
+    </div>
+
     <main>
-      <div class="recipe-list" id="recipe-list"></div>
-      <div class="recipe-detail" id="recipe-detail"></div>
+      <div class="recipe-list" id="recipe-list">
+<!-- RECIPE-CARDS:START (written by tools/recipes-generate.mjs) -->
+      <a class="recipe-card is-feature" href="/recipes/chicken-pancetta-orzo/" data-tags="chicken pork main weeknight" data-search="chicken pancetta orzo chicken pork main weeknight 345g chicken breast tenderloins 56g diced pancetta 80g dry orzo 330g hot chicken bouillon (8g better than bouillon in 330g water) 100g spinach 20g parmesan, grated 8g butter 5g lemon juice 2g kosher salt 1g garlic powder 1g black pepper">
+        <span class="rc-ph"><img src="/recipes/images/chicken-pancetta-orzo-wide.jpg" alt="" width="1280" height="720" fetchpriority="high" decoding="async"></span>
+        <div class="rc-tx"><span class="rc-new">Newest</span><h2>Chicken Pancetta Orzo</h2><p class="meta"><b>40 min</b> · serves 1, 941 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/broccoli-potato-cheddar-soup/" data-tags="vegetarian main weeknight" data-search="broccoli potato cheddar soup vegetarian main weeknight 60g butter 6g garlic, minced 600g chicken broth (or water + 25g better than bouillon) 300g potatoes, peeled and diced into 1cm cubes 300g broccoli florets, chopped small (include tender inner stems) 3g onion powder 3g salt 2g black pepper 1g msg 0.5g cayenne 400g whole milk 20g flour 50g cold milk (for slurry) 225g sharp cheddar, shredded">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/potato-brocolli-cheddar-soup-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/potato-brocolli-cheddar-soup-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>Broccoli Potato Cheddar Soup</h2><p class="meta"><b>40 min</b> · serves 4, 510 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/chick-fil-a-style-chicken/" data-tags="chicken main project" data-search="chick-fil-a style chicken chicken main project 397g boneless skinless tenders, thighs, or breasts 1000ml water 67g morton's coarse kosher salt 12g msg 6g paprika 0.5g black pepper, coarse 5g mustard powder 1g cayenne 236ml skim milk 2 eggs 120g all-purpose flour 4.5g morton's coarse kosher salt 4g msg 11g nonfat milk powder 3.5g baking powder 0.5g white pepper 5g mustard powder 1g cayenne">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/chicken-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/chicken-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>Chick-fil-A Style Chicken</h2><p class="meta"><b>2 hr 35 min</b> · serves 2-3, 360 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/costco-style-blueberry-muffins/" data-tags="vegetarian breakfast snack project" data-search="costco-style blueberry muffins vegetarian breakfast snack project 300g all-purpose flour (plus 10g for tossing berries) 150g granulated sugar 10g baking powder 4g salt 140g unsalted butter, melted 2 large eggs (about 100g) 180ml whole milk 8g vanilla extract 220g fresh blueberries">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/blueberry-muffins-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/blueberry-muffins-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>Costco-Style Blueberry Muffins</h2><p class="meta"><b>50 min</b> · 8 large muffins, 390 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/crispy-pork-schnitzel/" data-tags="pork main weeknight" data-search="crispy pork schnitzel pork main weeknight 450g pork cutlets, pounded thin 60g all-purpose flour 2 large eggs (about 100g) 90g panko breadcrumbs 5g salt 2g black pepper 2g onion powder about 500ml neutral oil for frying">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/schnitzel-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/schnitzel-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>Crispy Pork Schnitzel</h2><p class="meta"><b>30 min</b> · serves 2, 710 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/herb-roasted-chicken-thighs-fingerling-potatoes/" data-tags="chicken main weeknight" data-search="herb roasted chicken thighs &amp; fingerling potatoes chicken main weeknight 567g boneless skinless chicken thighs 5g salt 2g black pepper 2g garlic powder 2g onion powder 2g dried thyme 2g dried rosemary, crushed 1g dried oregano 1g msg 15g olive oil 680g fingerling potatoes, halved lengthwise 4g salt 2g black pepper 2g garlic powder 2g dried thyme 1g dried rosemary, crushed 20g olive oil">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/herb-chicken-potatoes-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/herb-chicken-potatoes-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>Herb Roasted Chicken Thighs &amp; Fingerling Potatoes</h2><p class="meta"><b>45 min</b> · serves 2-3, 650 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/honey-teriyaki-chicken-thighs/" data-tags="chicken main asian weeknight" data-search="honey-teriyaki chicken thighs chicken main asian weeknight 680g boneless skinless chicken thighs 90g soy sauce 90g dry white wine 45g honey 10g garlic, minced 2g red pepper flakes 10g neutral oil">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/teriyaki-chicken-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/teriyaki-chicken-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>Honey-Teriyaki Chicken Thighs</h2><p class="meta"><b>1 hr</b> · serves 3-4, 360 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/italian-pork-meatballs-over-cauliflower-rice/" data-tags="pork main weeknight low-carb" data-search="italian pork meatballs over cauliflower rice pork main weeknight low-carb 454g ground pork 30g parmesan, grated 30g breadcrumbs (or panko) 1 egg (~50g) 6g garlic, minced 3g salt 2g fennel seeds (lightly crushed) 2g black pepper 2g onion powder 2g italian seasoning 1-2g red pepper flakes 1g msg 200g pizza sauce (or marinara) 100g chicken broth 15g olive oil 4g garlic, minced 1g italian seasoning 0.5g black pepper 0.5g red pepper flakes salt to taste 340g cauliflower rice 15g olive oil or butter 3g garlic, minced 2g salt 1g black pepper 1g italian seasoning 1g onion powder">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/pork-meatballs-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/pork-meatballs-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>Italian Pork Meatballs over Cauliflower Rice</h2><p class="meta"><b>40 min</b> · serves 3-4, 560 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/one-pan-chicken-tenders-asparagus/" data-tags="chicken main weeknight low-carb" data-search="one-pan chicken tenders &amp; asparagus chicken main weeknight low-carb 400g boneless skinless chicken tenders 3g salt 2g black pepper 2g garlic powder 1g onion powder 1g msg 15g olive oil or melted butter 350-400g asparagus, trimmed 10g olive oil or butter 2g salt 1g black pepper 1g garlic powder 80g chicken broth 15g butter">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/chicken-asparagus-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/chicken-asparagus-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>One-Pan Chicken Tenders &amp; Asparagus</h2><p class="meta"><b>30 min</b> · serves 2, 420 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/sausage-and-cheese-quiche/" data-tags="eggs pork breakfast main project" data-search="sausage and cheese quiche eggs pork breakfast main project 1 pie crust, blind baked 200g eggs 200g milk 30g butter, melted 3g garlic powder 3g onion powder black pepper to taste red pepper flakes to taste sage to taste parsley to taste 150-200g sausage 100-120g cheese, shredded">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/sausag-cheese-quiche-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/sausag-cheese-quiche-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>Sausage and Cheese Quiche</h2><p class="meta"><b>1 hr 10 min</b> · 6-8 slices, 400 cal</p></div>
+      </a>
+      <a class="recipe-card" href="/recipes/slow-cooked-creamy-scrambled-eggs/" data-tags="eggs breakfast weeknight" data-search="slow-cooked creamy scrambled eggs eggs breakfast weeknight 6 large eggs (about 300g) 30g unsalted butter 30ml whole milk 3g salt">
+        <picture class="rc-ph"><source media="(max-width: 720px)" srcset="/recipes/images/thumbs/eggs-192.jpg" width="192" height="192"><img src="/recipes/images/thumbs/eggs-640.jpg" alt="" width="640" height="480" loading="lazy" decoding="async"></picture>
+        <div class="rc-tx"><h2>Slow-Cooked Creamy Scrambled Eggs</h2><p class="meta"><b>12 min</b> · serves 2, 330 cal</p></div>
+      </a>
+<!-- RECIPE-CARDS:END -->
+      </div>
+      <p class="no-results" id="no-results" hidden>No recipes match your search.</p>
     </main>
 
     <footer>
@@ -105,7 +216,7 @@
     </footer>
   </div>
 
-  <script src="app.js?v=b9ef8a89"></script>
+  <script src="app.js?v=cf6f6339" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -132,9 +243,8 @@
   }
   </script>
 <script>
-  /* The recipe list is rendered by app.js after load, so the cards cannot carry
-     Plausible's tagged-class attributes at parse time. Delegate from document
-     instead, which also survives filtering and re-renders. */
+  /* Recipe Open / Recipe Filter goals, delegated from document so they keep
+     working when app.js hides and shows cards. */
   document.addEventListener('click', function (e) {
     var card = e.target.closest && e.target.closest('.recipe-card');
     if (!card || !window.plausible) return;

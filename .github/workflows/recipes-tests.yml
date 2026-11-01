@@ -1,0 +1,32 @@
+name: recipe tests
+
+# Kitchen mode's scaling and timer parsing (recipes/kitchen.js), and the Recipe
+# JSON-LD on every generated page (Google rich results + Safari Start Cooking).
+# node --test, no dependencies.
+on:
+  pull_request:
+    paths:
+      - 'recipes/**'
+      - 'tools/recipes-*.mjs'
+      - 'tests/**'
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/**'
+      - 'tools/recipes-*.mjs'
+      - 'tests/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      # The pages must already match recipes.md: regenerate and fail on a diff.
+      - name: Generated pages are current
+        run: |
+          node tools/recipes-generate.mjs
+          git diff --exit-code -- recipes sitemap.xml
+      - run: node --test tests/*.test.mjs
