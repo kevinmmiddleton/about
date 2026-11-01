@@ -107,7 +107,7 @@ function recipeSchema(r) {
     description: r.intro || r.notes || r.title,
   };
   if (r.photo) schema.image = [r.photo];
-  if (r.servings) schema.recipeYield = /^\d+(-\d+)?$/.test(r.servings) ? `${r.servings} servings` : r.servings;
+  if (r.servings) schema.recipeYield = /^\d+(-\d+)?$/.test(r.servings) ? `${r.servings} serving${r.servings === '1' ? '' : 's'}` : r.servings;
   for (const k of ['prepTime', 'cookTime', 'totalTime']) if (isoDuration(r[k])) schema[k] = isoDuration(r[k]);
   const course = r.tags.find((t) => COURSES[t]);
   if (course) schema.recipeCategory = COURSES[course];

@@ -463,3 +463,45 @@ Tastes like spaghetti and meatballs without the carbs.
 7. For the cauliflower rice: heat oil over medium-high, add garlic, cook 30 seconds.
 8. Add cauliflower rice, season, cook 4-5 min until tender.
 9. Serve cauliflower rice in bowls, spoon sauce over, top with meatballs and parmesan.
+
+---
+
+# Chicken Pancetta Orzo
+
+---
+cuisine: Italian-American
+calories: 941
+prep_time: 10 min
+cook_time: 30 min
+total_time: 40 min
+tags: chicken, pork, main, weeknight
+servings: 1
+photo: https://middleton.io/recipes/images/chicken-pancetta-orzo.jpg
+notes: Cold-start the pancetta. A hot pan seizes the meat before the fat renders. Toasting the orzo is what keeps it from going gluey. Don't skip it. The burner stays off from step 6. Parmesan above about 65C goes stringy instead of creamy. Pancetta carries 550mg sodium per 56g, which is why the chicken only gets 2g of salt. Macros: 941 kcal, 109P, 66C, 27F. About 2,300mg sodium.
+---
+
+Serves 1 generously. Double everything for 2.
+
+## Ingredients
+
+- 345g chicken breast tenderloins
+- 56g diced pancetta
+- 80g dry orzo
+- 330g hot chicken bouillon (8g Better Than Bouillon in 330g water)
+- 100g spinach
+- 20g parmesan, grated
+- 8g butter
+- 5g lemon juice
+- 2g kosher salt
+- 1g garlic powder
+- 1g black pepper
+
+## Instructions
+
+1. Bouillon into a small pot, bring to a simmer, keep it hot on a back burner.
+2. Pancetta into a cold skillet, medium-low. 8 minutes, until crisp and the fat has rendered. Scoop the pieces out onto paper towel, leave the fat in the pan.
+3. Season the chicken with the salt, garlic powder and pepper. Sear in the pancetta fat, 2 to 3 minutes per side. Out to a board to rest.
+4. Orzo into the pan, 2 minutes, stirring, until it smells nutty and turns a shade darker.
+5. Hot bouillon a ladle at a time, about 80g per addition, stirring. Wait until each is nearly absorbed before the next. 13 to 15 minutes total. Stop while the pan still looks loose.
+6. Off the heat: spinach, then parmesan, butter and lemon. Stir until the spinach wilts.
+7. Slice the chicken against the grain, lay it over, pancetta scattered last.
