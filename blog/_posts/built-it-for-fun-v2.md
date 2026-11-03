@@ -36,7 +36,7 @@ Here's what I've learned from building the fun way.
 
 Fun is what keeps me building. If something feels like homework, I put it off. If it's fun, I keep going, and everything else in this post comes from that.
 
-### Make it for yourself first
+### Let your silly side guide what you build next
 
 Build something because you find it useful. Write a post because you have something to say. Share it however you like, on LinkedIn or on a blog, and stop caring whether it gets likes. It probably won't get many, and that's okay.
 
