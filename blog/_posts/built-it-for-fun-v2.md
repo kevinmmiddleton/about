@@ -32,25 +32,27 @@ My site is also full of easter eggs. There's no reason for any of them except th
 
 Here's what I've learned from building the fun way.
 
+### Fun is what keeps me going
+
+Fun is what keeps me building. If something feels like homework, I put it off. If it's fun, I keep going, and everything else in this post comes from that.
+
 ### Make it for yourself first
 
 Build something because you find it useful. Write a post because you have something to say. Share it however you like, on LinkedIn or on a blog, and stop caring whether it gets likes. It probably won't get many, and that's okay.
 
 When you make something for yourself first, the bar is whether it helped you, and you can clear that bar every time. Hopefully someone else finds it helpful too. Repeat this and keep going.
 
-### It gives you something to do
-
-I think we often gloss over this part. Doing things fills your time and gives your days some structure.
-
-If you're in a lull or between things, the days can blur together. Building something lets you set personal milestones. You can wake up with a next step. Think through a small problem during your walk. You're solving problems that you want to solve, and learning along the way. It's a win-win.
-
-### Fill a gap intentionally
+### Learn something on purpose
 
 Most of us have a gap somewhere: a skill a dream job asks for that we haven't been asked to use in our current or previous roles, or a subject we want to know better.
 
 You don't have to accept the gap just because you haven't been formally asked to solve that problem in a work setting. You can teach yourself something new in the most enjoyable way you can think of. Build something in your area of weakness and post about it. Write about the subject while you learn it. Team up with other people who want to learn it, too. You can do it however you decide. **_How cool is that?!_**
 
 With AI tools it's never been easier. You don't need permission or even money. You need a little time and something you want to build.
+
+Learning this way also gives you something to do. If you're in a lull or between things, the days can blur together. Building something lets you set personal milestones. You can wake up with a next step. Think through a small problem during your walk. You're solving problems that you want to solve, and learning along the way. It's a win-win.
+
+And when it's fun, the learning sticks, because you actually want to come back to it.
 
 Even the "What I'm building" section of my site is a deck of cards you can drag around, flip over, and make a mess of. Making it was pure, silly fun.
 
@@ -78,16 +80,14 @@ I get feedback on the things I'm building. I help people think through their pro
 
 This week a senior analyst who'd been searching for almost a year messaged me after one of my posts. He'd been using AI to tailor every resume, and he could tell the results read like fluff. I gave him some feedback he can use on his resume. Neither of us was selling anything. He found me because I'd shared something I made.
 
-When you make things and share them, the right people find you.
-
-### Networking that "works"
-
 Most people only network when they're in danger. They reach out the week they need a job, and it feels transactional, because it is.
 
 What if we all just networked all the time? That's how networking is truly meant to be: a regular way to talk with people. Saving it for emergencies is what makes it feel awkward. Office hours turned networking into something I enjoy, so I actually do it. I found a way to make networking work for me, pun intended.
 
+When you make things and share them, the right people find you.
+
 ### So build something
 
-Pick something you want to make. Make it for yourself first. Share it without worrying about the likes. Keep going.
+Pick something you want to make. Make it for yourself first. Share it without worrying about the likes. Keep going, and have fun doing it.
 
 Someone will notice. Those are your people.
