@@ -38,6 +38,8 @@ Fun is what keeps me building. If something feels like homework, I put it off. I
 
 ### Let your silly side guide what you build next
 
+Have something you wanna build, or even a project you wanna kick off and have a fun way to go about it or work through it? Choose the fun path next time.
+
 Build something because you find it useful. Write a post because you have something to say. Share it however you like, on LinkedIn or on a blog, and stop caring whether it gets likes. It probably won't get many, and that's okay.
 
 When you make something for yourself first, the bar is whether it helped you, and you can clear that bar every time. Hopefully someone else finds it helpful too. Repeat this and keep going.
