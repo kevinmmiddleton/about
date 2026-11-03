@@ -16,21 +16,19 @@ featured: false
 sort_order: null
 excerpt: Here's why I build things just for fun, and why you should too.
 cover_image: /blog/images/have-fun-doing-it-cover.gif
-og_image: /blog/images/have-fun-doing-it-og.jpg
 cover_alt: An animation on blueprint grid paper. Kevin's project cards deal out, QR stickers slap down, KevinOS boots, his 404 page glitches in, a cat paw swipes a card, a Cook Like a PM soup card slides in, the Unpaid Intern and Recruiter BFF mascots pop up, then confetti and the words Have fun doing it.
+og_image: /blog/images/have-fun-doing-it-og.jpg
 lede_align: left
 linkedin_url: ''
 ---
 
-My philosophy on life is simple: if I have to do it anyway, I might as well have fun doing it.
+My philosophy on life: if I have to do it anyway, I might as well have fun doing it. And I describe myself as [seriously unserious](https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/). I take the work seriously, but we don't have to be so serious all the time.
 
-It colors almost everything I do. I updated my website because it was fun _and_ practical (it even has its own operating system, [KevinOS](https://middleton.io/kevinos/)). I once walked around the boroughs placing [70 QR stickers](https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/) that sent people to it so I could meet and network with people. I run [free office hours](https://middleton.io/officehours/). I've built and shared several web apps. I really like making things, and I'd rather enjoy the process.
+These ideas touch almost everything I do. I updated my website because it was fun _and_ practical (I even recreated my [portfolio as an operating system](https://middleton.io/kevinos/)). I spent several days exploring NYC's boroughs placing [70 QR stickers](https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/) that sent people to my website so I could meet and network with people. I run [free office hours](https://middleton.io/officehours/) and [I've built and shared several web apps](https://middleton.io/#building). I really like making things, and I want to have fun doing it.
 
-The stickers pointed to four silly little mini sites, each one showing a different side of me: [/catdad](https://middleton.io/catdad/), [/nyc](https://middleton.io/nyc/), [/fixer](https://middleton.io/fixer/), and [/officehours](https://middleton.io/officehours/), which later grew into its own thing. Every one of them led back to my main portfolio. There's also [/kevin](https://middleton.io/kevin/), which never got a QR sticker at all. I made it just for fun.
+The QR stickers pointed to four silly little mini sites, each one showing a different side of me: [/catdad](https://middleton.io/catdad/), [/nyc](https://middleton.io/nyc/), [/fixer](https://middleton.io/fixer/), and [/officehours](https://middleton.io/officehours/) (which later grew into its own thing). Every one of them led back to my main portfolio. There's also [/kevin](https://middleton.io/kevin/) which I made purely  for the fun of it.
 
-I describe myself as [seriously unserious](https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/). I take the work seriously, but we don't have to be so serious all the time.
-
-My site is also full of easter eggs. I'm not going to list them, because that would ruin the fun. There's no reason for them except that I love making them.
+My site is also full of easter eggs. There's no reason for any of them except that I love making them.
 
 Here's what I've learned from building the fun way.
 
