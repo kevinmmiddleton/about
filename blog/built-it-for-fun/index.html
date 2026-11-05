@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
+    <!-- No " | Kevin Middleton" suffix: it cost 18 chars of a ~60 char budget and
+         pushed real titles past the truncation point. og:title, twitter:title, the
+         h1, the blog card and the RSS item all use post.title directly, so nothing
+         visible changes. -->
+    <title>Build for fun</title>
+    <meta name="description" content="Here's why I build things just for fun, and why you should too.">
+
+    <link rel="canonical" href="https://middleton.io/blog/built-it-for-fun/">
+    <link rel="alternate" type="application/rss+xml" title="Kevin Middleton" href="https://middleton.io/blog/feed.xml">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://middleton.io/blog/built-it-for-fun/">
+    <meta property="og:title" content="Build for fun">
+    <meta property="og:description" content="Here's why I build things just for fun, and why you should too.">
+    <meta property="og:image" content="https://middleton.io/blog/images/have-fun-doing-it-og.jpg">
+    <meta property="og:site_name" content="Kevin Middleton">
+    <meta property="article:published_time" content="2026-11-05">
+    <meta property="article:author" content="Kevin Middleton">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Build for fun">
+    <meta name="twitter:description" content="Here's why I build things just for fun, and why you should too.">
+    <meta name="twitter:image" content="https://middleton.io/blog/images/have-fun-doing-it-og.jpg">
+
+    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
+         system stack, which is also why the old Inter/Epilogue links are gone. -->
+    <link rel="stylesheet" href="/fv.css?v=7b6f5410">
+    <link rel="stylesheet" href="/blog/blog.css?v=6621488f">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <!-- Identity verification. Same three profiles the homepage claims, so every
+         page resolves to one entity rather than a separate author blob.
+         Wikidata is the disambiguating anchor. -->
+    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+    <link rel="me" href="https://github.com/kevinmmiddleton">
+    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+
+    <!-- JSON-LD: Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Build for fun",
+        "description": "Here's why I build things just for fun, and why you should too.",
+        "author": {
+            "@type": "Person",
+            "@id": "https://middleton.io/#kevin",
+            "name": "Kevin Middleton",
+            "url": "https://middleton.io",
+            "sameAs": [
+                "https://www.linkedin.com/in/kevinmiddleton/",
+                "https://github.com/kevinmmiddleton",
+                "https://www.wikidata.org/wiki/Q140389537"
+            ]
+        },
+        "publisher": {
+            "@type": "Person",
+            "@id": "https://middleton.io/#kevin",
+            "name": "Kevin Middleton",
+            "url": "https://middleton.io"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://middleton.io/blog/built-it-for-fun/"
+        },
+        "url": "https://middleton.io/blog/built-it-for-fun/",
+        "image": "https://middleton.io/blog/images/have-fun-doing-it-cover.gif",
+        "articleSection": "Blog",
+        "keywords": [
+            "Career",
+            "Building",
+            "Networking"
+        ],
+        "wordCount": 1060,
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-05"
+    }
+    </script>
+
+    <!-- JSON-LD: Breadcrumb -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://middleton.io/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://middleton.io/blog/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Build for fun",
+                "item": "https://middleton.io/blog/built-it-for-fun/"
+            }
+        ]
+    }
+    </script>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+    <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+    </script>
+</head>
+<body class="p-post">
+    <a class="skip" href="#content">Skip to content</a>
+    <nav class="nav pad">
+        <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+        <span class="nav-l">
+          <a href="/#building">Building</a>
+          <a href="/#about">About</a>
+          <a href="/#record">Experience</a>
+          <a href="/#cases">Case Studies</a>
+          <a href="/blog/">Blog</a>
+        </span>
+        <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
+      </nav>
+
+    <main id="content" tabindex="-1">
+    <article class="article hue-1">
+        <!-- The lede. The headline sits ON the art rather than after it: the
+             image used to arrive below the eyebrow, title, dek and byline, at
+             exactly the text column's width, so it read as an illustration
+             dropped into the queue instead of an opening.
+
+             The hero is the LCP element on every post, so it is never lazy and
+             always high priority. alt is empty because the headline beside it
+             carries the meaning; a descriptive alt here would be read out
+             immediately before the same words in the h1. -->
+        <div class="article-lede">
+            <img class="article-hero" src="/blog/images/have-fun-doing-it-cover.gif" width="1200" height="675" alt="An animation on blueprint grid paper. Kevin's project cards deal out, QR stickers slap down, KevinOS boots, his 404 page glitches in, a cat paw swipes a card, a Cook Like a PM soup card slides in, the Unpaid Intern and Recruiter BFF mascots pop up, then confetti and the words Have fun doing it." fetchpriority="high" decoding="async">
+            <div class="article-lede-in">
+                <p class="article-eyebrow">Career</p>
+                <h1 class="article-title">Build for fun</h1>
+                <!-- The dek. Already written for every post as the excerpt
+                     field, already used on the index card and in
+                     og:description, and previously thrown away on the page
+                     where it does the most work. -->
+                <p class="article-dek">Here's why I build things just for fun, and why you should too.</p>
+                <!-- No byline. It is a single-author blog, the name is in the
+                     nav lockup and again in the bio at the foot, so a third
+                     printing of it only cost a line in the band. -->
+                <div class="article-meta">
+                    <time datetime="2026-11-05">November 5, 2026</time>
+                </div>
+            </div>
+        </div>
+
+
+        <nav class="toc" aria-label="Sections">
+            <p class="toc-lbl">In this piece</p>
+            <ol>
+                <li><a href="#make-it-for-yourself-first">Make it for yourself first</a></li>
+                <li><a href="#it-gives-you-something-to-do">It gives you something to do</a></li>
+                <li><a href="#fill-a-gap-intentionally">Fill a gap intentionally</a></li>
+                <li><a href="#make-what-have-you-been-working-on-fun-to-answer">Make "what have you been working on?" fun to answer</a></li>
+                <li><a href="#people-will-notice-and-those-are-your-people">People will notice, and those are your people</a></li>
+                <li><a href="#networking-that-works">Networking that "works"</a></li>
+                <li><a href="#so-build-something">So build something</a></li>
+            </ol>
+        </nav>
+
+        <div class="article-body">
+<p>My philosophy on life: if I have to do it anyway, I might as well have fun doing it. And I describe myself as <a target="_blank" rel="noopener" href="https://www.linkedin.com/feed/update/urn:li:activity:7415029966599389184/">seriously unserious</a>. I take the work seriously, but we don't have to be so serious all the time.</p>
+
+<p>These ideas touch almost everything I do. I updated my website because it was fun <em>and</em> practical (I even recreated my <a target="_blank" rel="noopener" href="https://middleton.io/kevinos/">portfolio as an operating system</a>). I spent several days exploring NYC's boroughs placing <a target="_blank" rel="noopener" href="https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/">70 QR stickers</a> that sent people to my website so I could meet and network with people. I run <a target="_blank" rel="noopener" href="https://middleton.io/officehours/">free office hours</a> and <a target="_blank" rel="noopener" href="https://middleton.io/#building">I've built and shared several web apps</a>. I really like making things, and I want to have fun doing it.</p>
+
+<p>The QR stickers pointed to four silly little mini sites, each one showing a different side of me: <a target="_blank" rel="noopener" href="https://middleton.io/catdad/">/catdad</a>, <a target="_blank" rel="noopener" href="https://middleton.io/nyc/">/nyc</a>, <a target="_blank" rel="noopener" href="https://middleton.io/fixer/">/fixer</a>, and <a target="_blank" rel="noopener" href="https://middleton.io/officehours/">/officehours</a> (which later grew into its own thing). Every one of them led back to my main portfolio. There's also <a target="_blank" rel="noopener" href="https://middleton.io/kevin/">/kevin</a> which I made purely  for the fun of it.</p>
+
+<p>My site is also full of easter eggs. There's no reason for any of them except that I love making them.</p>
+
+<p>Here's what I've learned from building the fun way.</p>
+
+<h2 id="make-it-for-yourself-first" class="sec">Make it for yourself first</h2>
+
+<p>Build something because you find it useful. Write a post because you have something to say. Share it however you like, on LinkedIn or on a blog, and stop caring whether it gets likes. It probably won't get many, and that's okay.</p>
+
+<p>When you make something for yourself first, the bar is whether it helped you, and you can clear that bar every time. Hopefully someone else finds it helpful too. Repeat this and keep going.</p>
+
+<h2 id="it-gives-you-something-to-do" class="sec">It gives you something to do</h2>
+
+<p>I think we often gloss over this part. Doing things fills your time and gives your days some structure.</p>
+
+<p>If you're in a lull or between things, the days can blur together. Building something lets you set personal milestones. You can wake up with a next step. Think through a small problem during your walk. You're solving problems that you want to solve, and learning along the way. It's a win-win.</p>
+
+<h2 id="fill-a-gap-intentionally" class="sec">Fill a gap intentionally</h2>
+
+<p>Most of us have a gap somewhere: a skill a dream job asks for that we haven't been asked to use in our current or previous roles, or a subject we want to know better.</p>
+
+<p>You don't have to accept the gap just because you haven't been formally asked to solve that problem in a work setting. You can teach yourself something new in the most enjoyable way you can think of. Build something in your area of weakness and post about it. Write about the subject while you learn it. Team up with other people who want to learn it, too. You can do it however you decide. <strong><em>How cool is that?!</em></strong></p>
+
+<p>With AI tools it's never been easier. You don't need permission or even money. You need a little time and something you want to build.</p>
+
+<p>Even the "What I'm building" section of my site is a deck of cards you can drag around, flip over, and make a mess of. Making it was pure, silly fun.</p>
+
+<figure>
+  <a href="https://middleton.io/#building" target="_blank" rel="noopener noreferrer"><img src="/blog/images/might-as-well-have-fun-building.jpg" width="2000" height="824" alt="The &quot;What I'm Building Now&quot; section of middleton.io: a fanned stack of project cards for One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF and more." loading="lazy"></a>
+  <figcaption>You can have fun building and learn at the same time.</figcaption>
+</figure>
+
+<h2 id="make-what-have-you-been-working-on-fun-to-answer" class="sec">Make "what have you been working on?" fun to answer</h2>
+
+<p>People ask me "what have you been working on?" all the time, at office hours and over coffee, and I love this question!</p>
+
+<p>I pull up my portfolio (which I also built, and had fun building) and show them a few things I've been building lately.</p>
+
+<figure>
+  <img src="/blog/images/might-as-well-have-fun-four-things.jpg" width="2000" height="1292" alt="A 2 by 2 grid of four of Kevin's sites on blueprint paper: Office Hours (&quot;Bring a messy product or AI problem&quot;), Unpaid Intern (&quot;A second brain for work&quot;), Recruiter BFF (&quot;Find out if you're a match before you apply&quot;), and KevinOS, his portfolio as a desktop operating system." loading="lazy">
+  <figcaption>A few things I pull up when someone asks.</figcaption>
+</figure>
+
+<p>Clockwise from top left: <a target="_blank" rel="noopener" href="https://middleton.io/officehours/">Office Hours</a>, <a target="_blank" rel="noopener" href="https://middleton.io/unpaid-intern/">Unpaid Intern</a>, <a target="_blank" rel="noopener" href="https://middleton.io/kevinos/">KevinOS</a>, and <a target="_blank" rel="noopener" href="https://middleton.io/recruiter-bff/">Recruiter BFF</a>.</p>
+
+<p>I built these in my spare time, and I had so much fun doing it. Maybe they'll go somewhere. They probably won't. And that's okay!</p>
+
+<p>It might take one minute to talk about these with someone, but in that minute they can see your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than the weather.</p>
+
+<h2 id="people-will-notice-and-those-are-your-people" class="sec">People will notice, and those are your people</h2>
+
+<p>My <a target="_blank" rel="noopener" href="https://middleton.io/officehours/">office hours</a> started as something I made from nothing. GitHub Pages is free. Calendly is free. I put up a page and a booking link, and I've met dozens of people through it.</p>
+
+<p>I get feedback on the things I'm building. I help people think through their problems, which keeps me sharp and current and teaches me new ways to dig into problems of my own. These are people I'll keep in touch with for years, people I can lean on and trade feedback with.</p>
+
+<p>This week a senior analyst who'd been searching for almost a year messaged me after one of my posts. He'd been using AI to tailor every resume, and he could tell the results read like fluff. I gave him some feedback he can use on his resume. Neither of us was selling anything. He found me because I'd shared something I made.</p>
+
+<p>When you make things and share them, the right people find you.</p>
+
+<h2 id="networking-that-works" class="sec">Networking that "works"</h2>
+
+<p>Most people only network when they're in danger. They reach out the week they need a job, and it feels transactional, because it is.</p>
+
+<p>What if we all just networked all the time? That's how networking is truly meant to be: a regular way to talk with people. Saving it for emergencies is what makes it feel awkward. Office hours turned networking into something I enjoy, so I actually do it. I found a way to make networking work for me, pun intended.</p>
+
+<h2 id="so-build-something" class="sec">So build something</h2>
+
+<p>Pick something you want to make. Make it for yourself first. Share it without worrying about the likes. Keep going.</p>
+
+<p>Someone will notice. Those are your people.</p>
+        </div>
+<nav class="readnext" aria-label="Read next">
+        <h2 class="rn-lbl">Read next</h2>
+        <div class="rn-grid">
+            <a class="rn hue-1" href="/blog/its-almost-always-the-resume/">
+                <span class="rn-k">More in Career</span>
+                <span class="rn-t">It's almost always the resume</span>
+                <span class="rn-x">When a search stalls, people blame the ATS, the AI, the economy. Almost every time I look, it's the resume. So I overhauled my own. Here's exactly what changed and why.</span>
+            </a>
+            <a class="rn hue-1" href="/blog/applying-for-jobs-is-like-stand-up-comedy/">
+                <span class="rn-k">More in Career</span>
+                <span class="rn-t">Applying for jobs is like stand-up comedy</span>
+                <span class="rn-x">A lot of the standard job search advice is bunk, and the rest is easier to follow if you treat the whole thing like an open mic. Go up rusty, test your material, learn to handle hecklers.</span>
+            </a>
+        </div>
+    </nav>
+        <p class="article-rail">More from Kevin: <a href="/casestudies/">Case studies</a> <span class="dot" aria-hidden="true">·</span> <a href="/#record">Experience</a> <span class="dot" aria-hidden="true">·</span> <a href="https://shortlist.middleton.io/" target="_blank" rel="noopener">Shortlist</a></p>
+        <div class="article-bio">
+  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
+</div>
+        <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+    </article>
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="container footer-content">
+            <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
+        </div>
+    </footer>
+
+    <script src="/blog/blog-nav.js?v=131ce6d0"></script>
+</body>
+</html>
