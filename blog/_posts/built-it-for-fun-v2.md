@@ -30,7 +30,7 @@ I even recreated my [portfolio as an operating system](https://middleton.io/kevi
 
 Here's what I've learned from building the fun way.
 
-### Nobody believed in the ice cream truck
+### Nobody believed in the ice cream truck (except me)
 
 My first job out of college was in rural Southwest Virginia, and I didn't have any friends there yet. Our office had only opened that January, the company's [first in rural America](https://www.cgi.com/en/cgi-dedicates-new-southwest-virginia-technology-center-excellence-governors-kaine-and-warner), and we were still working out of temporary space. I was part of the inaugural group, so when we put together a committee for the first annual company picnic, I volunteered, because I wanted to help.
 
@@ -40,7 +40,7 @@ We got face painting. We got a bounce house. But there was something magical mis
 
 I could not find an ice cream truck to save my life. So I opened the white pages and started calling anything close to an ice cream truck until someone knew of one. Meanwhile, the committee was getting frustrated with me. They thought I was obsessed with this ice cream truck, and they weren't wrong. I said "remember when you were a kid?" and they looked at me like I was crazy. I mean, I am, but I was right!
 
-The ice cream truck was the standout hit. The adults lined up. The kids lined up. Nobody had to pay for anything; they just got to enjoy ice cream. It was magical.
+The ice cream truck was the standout hit. The adults lined up. The kids lined up. Nobody had to pay for anything; they just got to enjoy ice cream. It was magical. ✨
 
 It took work, and I almost gave up. But I'm weirdly relentless like that. I really do care about fun. Almost twenty years later, that same coworker found a photo from the picnic and sent it to me. "You make everything amazing," she said.
 
