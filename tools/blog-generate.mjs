@@ -598,7 +598,7 @@ ${HEADER}
              carries the meaning; a descriptive alt here would be read out
              immediately before the same words in the h1. -->
         <div class="article-lede">
-            <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)} alt="${escAttr(post.cover_alt||'')}" fetchpriority="high" decoding="async">
+            <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)}${post.cover_full ? ' style="height:auto;aspect-ratio:16/9"' : ''} alt="${escAttr(post.cover_alt||'')}" fetchpriority="high" decoding="async">
             <div class="article-lede-in${post.lede_align === 'right' ? ' lede-right' : ''}">
                 <p class="article-eyebrow">${seriesKicker(post, all)}</p>
                 <h1 class="article-title">${esc(post.title)}</h1>
