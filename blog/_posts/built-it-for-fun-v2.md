@@ -44,6 +44,8 @@ The ice cream truck was the standout hit. The adults lined up. The kids lined up
 
 It took work, and I almost gave up. But I'm weirdly relentless like that. I really do care about fun. Almost twenty years later, that same coworker found a photo from the picnic and sent it to me. "You make everything amazing," she said.
 
+![Kevin at the first annual company picnic, dated August 13, 2006, in a brown "Block Island Crew" T-shirt with a "Kevin" name tag. The coworker next to him is blurred out.](/blog/images/ice-cream-picnic-2006.jpg "The first annual company picnic, August 13, 2006.")
+
 ### Fun is what keeps me going
 
 A former colleague, a UX lead, is emphatic about this: "You can make a button fun!" Any button, in any app. If a button can be fun, so can pretty much anything you're building.
