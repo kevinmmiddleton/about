@@ -5,49 +5,151 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager · middleton.io</title>
 
-  <!-- Editorial Ink: the admin, in the site's palette.
-       Sveltia builds its whole UI from --sui-* custom properties on :root. Its
-       neutral ramp carries a blue cast (10% saturation at hue 210); draining it
-       to 3% leaves the madder as the only colour in the room.
+  <!-- Editorial Ink v2: the admin, in the site's own tokens (fv.css), in BOTH
+       themes.
+       Sveltia builds its whole UI from --sui-* custom properties. Each theme
+       sets its ramps under :root[data-theme="dark"|"light"]; Sveltia always
+       puts data-theme on <html> (its "Automatic" setting resolves to one).
 
-       !important is not optional here. Sveltia injects its own stylesheet AFTER
-       this one, so a plain :root override loses silently: the button just stays
-       blue and nothing errors. Verified by measuring the rendered button.
+       v1 set dark values on bare :root with !important. !important beats every
+       selector, so the dark backgrounds also won in the light theme, where
+       Sveltia's near-black text landed on them at 1.2 to 1.9:1. Every colour
+       here is therefore scoped to a theme.
 
-       These are internal tokens, undocumented, and official theming is still an
-       open request. If a Sveltia release renames them, this block stops working
-       and the admin falls back to stock. Nothing else breaks. -->
+       !important is still required: Sveltia injects its stylesheet AFTER this
+       one, so a plain override loses silently.
+
+       High contrast: the neutral ramps sit behind
+       @media not (prefers-contrast: more) and :not([data-contrast="more"]), so
+       Sveltia's own high-contrast ramps win when macOS "Increase contrast" is
+       on. v1 pinned over them.
+
+       These are internal, undocumented tokens, and the script below is pinned
+       to the version they were measured on (0.261.0). Bump it on purpose and
+       re-run the contrast audit; if a release renames tokens the admin falls
+       back to stock and nothing else breaks. -->
   <style>
+    /* Theme-independent levers. Base hue 240 instead of Sveltia's 210 takes
+       the blue cast out of anything we do not override (alerts aside, which
+       carry their own hues), including the high-contrast ramps. */
     :root {
-      /* neutral ramp, desaturated */
-      --sui-background-color-1-hsl: 240 3% 7% !important;
-      --sui-background-color-2-hsl: 240 3% 9% !important;
-      --sui-background-color-3-hsl: 240 3% 12% !important;
-      --sui-background-color-4-hsl: 240 3% 15% !important;
-      --sui-background-color-5-hsl: 240 3% 25% !important;
-      --sui-border-color-1-hsl: 240 3% 40% !important;
-      --sui-border-color-2-hsl: 240 3% 24% !important;
-      --sui-border-color-3-hsl: 240 3% 19% !important;
-      /* Madder carries primary actions and selection, nothing else.
-         The accent is a FAMILY, not one value. Overriding only the fill leaves
-         every secondary button's label on the old blue, because those read
-         --sui-primary-accent-color-text, which is derived from --sui-base-hue
-         (still 210) rather than from the fill. All six move together.
-         -text and -light land on dark ground, so they run lighter than the
-         fill's 49%. The site's own dark accent-text is 62%, which measures
-         4.43:1 on a secondary button and misses the 4.5 floor; 65% clears it at
-         4.93:1. White on the fill measures 5.27:1. */
-      --sui-primary-accent-color: #C3384B !important;
-      --sui-primary-accent-color-text: hsl(351 54% 65%) !important;
-      --sui-primary-accent-color-light: hsl(352 55% 58%) !important;
-      --sui-primary-accent-color-dark: hsl(352 55% 38%) !important;
-      --sui-primary-accent-color-translucent: hsl(352 55% 49% / 60%) !important;
-      --sui-primary-accent-color-translucent-light: hsl(352 55% 49% / 40%) !important;
-      --sui-focus-ring-color: hsl(352 55% 49% / 60%) !important;
+      --sui-base-hue: 240 !important;
       /* the site's stack: fv.css ships no webfont and neither should this */
       --sui-font-family-default: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
       --sui-font-family-monospace: "SF Mono", Menlo, ui-monospace, "Cascadia Mono", Consolas, monospace !important;
+      /* the site's --r is 10px; Sveltia's default is height/8, about 4px */
+      --sui-control-medium-border-radius: 10px !important;
+      --sui-control-large-border-radius: 10px !important;
+      --sui-control-small-border-radius: 6px !important;
+      /* derived from the medium radius, which would make a 20px box a circle */
+      --sui-checkbox-border-radius: 5px !important;
+      --sui-focus-ring-width: 2px !important;
+      --sui-focus-ring-offset: 2px !important;
+      /* long-form text in the editor: closer to the article's 1.75 */
+      --sui-textbox-multiline-line-height: 1.7 !important;
     }
+
+    /* Accent and focus, per theme, in high contrast too (they already pass).
+       Madder fills primary actions only. -text is what secondary button labels
+       and UI links read, so it runs on ink, not madder. Focus is marigold,
+       the site's second hue: 8.2:1 on the dark pane; on light ground marigold
+       is 1.97:1, so light uses a deep marigold (4.7:1 on white, 3.7:1 on the
+       chrome). White on the madder fill is 5.27:1 in both. */
+    :root[data-theme="dark"] {
+      --sui-primary-accent-color: #C3384B !important;
+      --sui-primary-accent-color-light: hsl(352 55% 56%) !important;
+      --sui-primary-accent-color-dark: hsl(352 55% 40%) !important;
+      --sui-primary-accent-color-inverted: #FFFFFF !important;
+      --sui-primary-accent-color-text: #F2F2F4 !important;
+      --sui-primary-accent-color-translucent: hsl(352 55% 49% / 60%) !important;
+      --sui-primary-accent-color-translucent-light: hsl(352 55% 49% / 40%) !important;
+      --sui-focus-ring-color: #E8A317 !important;
+    }
+    :root[data-theme="light"] {
+      --sui-primary-accent-color: #C3384B !important;
+      --sui-primary-accent-color-light: hsl(352 55% 54%) !important;
+      --sui-primary-accent-color-dark: hsl(352 55% 40%) !important;
+      --sui-primary-accent-color-inverted: #FFFFFF !important;
+      --sui-primary-accent-color-text: #111113 !important;
+      --sui-primary-accent-color-translucent: hsl(352 55% 49% / 45%) !important;
+      --sui-primary-accent-color-translucent-light: hsl(352 55% 49% / 25%) !important;
+      --sui-focus-ring-color: #9A6B0E !important;
+    }
+
+    /* Neutral ramps. Roles as Sveltia uses them: bg-1 = inputs and the
+       editor (the site's --bg), bg-2 = working panes, bg-3 = chrome (top bar,
+       sidebar, sign-in), bg-4 = button fills, bg-5 = hover base.
+       v1 had five greys 1.04 to 1.18:1 apart, so nothing framed the writing.
+       Chrome to pane is now about 1.25:1 in both themes (measured as rendered:
+       the top bar and sidebar paint bg-3 at 80% alpha, so bg-3 sits a step
+       lighter than the target); inputs are framed by their
+       border instead (border-2 = the site's --rule-strong, 3.1:1 or better on
+       the pane, the 3:1 an input boundary needs). border-3 = --rule, for
+       hairline dividers only.
+       Text: fg-2 is the site's --ink (17:1), fg-4 its --ink2 for hints and
+       placeholders (6.5:1 or better on the pane). */
+    @media not (prefers-contrast: more) {
+      :root[data-theme="dark"]:not([data-contrast="more"]) {
+        --sui-background-color-1-hsl: 240 9.1% 6.5% !important;   /* #0F0F12 --bg  */
+        --sui-background-color-2-hsl: 240 8% 9.8% !important;     /* #17171B --bg2 */
+        --sui-background-color-3-hsl: 240 4% 20% !important;     /* #313135; chrome paints it at 80%, about #2B2B2F */
+        --sui-background-color-4-hsl: 240 7.9% 14.9% !important; /* #232329       */
+        --sui-background-color-5-hsl: 240 5.7% 30.8% !important;  /* #4A4A53       */
+        --sui-foreground-color-1-hsl: 0 0% 100% !important;
+        --sui-foreground-color-2-hsl: 240 8.3% 95.3% !important;  /* #F2F2F4 --ink */
+        --sui-foreground-color-3-hsl: 240 7.8% 80% !important;    /* #C8C8D0       */
+        --sui-foreground-color-4-hsl: 240 5.7% 65.5% !important;  /* #A2A2AC --ink2 */
+        --sui-foreground-color-5-hsl: 240 4.3% 45.9% !important;  /* #70707A       */
+        --sui-border-color-1-hsl: 240 4.4% 50.8% !important;      /* #7C7C87       */
+        --sui-border-color-2-hsl: 240 5.2% 41.8% !important;      /* #656570 --rule-strong */
+        --sui-border-color-3-hsl: 240 7.4% 18.6% !important;      /* #2C2C33 --rule */
+        /* hover 1.24:1 on the pane (v1: 1.05); selection is a marigold tint */
+        --sui-hover-background-color: hsl(240 5.7% 30.8% / 35%) !important;
+        --sui-selected-background-color: hsl(40 82% 50% / 22%) !important;
+        --sui-active-background-color: hsl(40 82% 50% / 30%) !important;
+      }
+      :root[data-theme="light"]:not([data-contrast="more"]) {
+        --sui-background-color-1-hsl: 0 0% 100% !important;       /* #FFFFFF       */
+        --sui-background-color-2-hsl: 240 14.3% 98.6% !important; /* #FBFBFC       */
+        --sui-background-color-3-hsl: 240 9.1% 89.2% !important;  /* #E1E1E6       */
+        --sui-background-color-4-hsl: 240 9.7% 93.9% !important;  /* #EEEEF1       */
+        --sui-background-color-5-hsl: 240 6.1% 74.1% !important;  /* #B9B9C1       */
+        --sui-foreground-color-1-hsl: 0 0% 0% !important;
+        --sui-foreground-color-2-hsl: 240 5.6% 7.1% !important;   /* #111113 --ink */
+        --sui-foreground-color-3-hsl: 240 4.9% 23.9% !important;  /* #3A3A40       */
+        --sui-foreground-color-4-hsl: 240 3.7% 37.1% !important;  /* #5B5B62 --ink2 */
+        --sui-foreground-color-5-hsl: 240 3.7% 57.3% !important;  /* #8E8E96       */
+        --sui-border-color-1-hsl: 240 3.1% 44.5% !important;      /* #6E6E75       */
+        --sui-border-color-2-hsl: 240 2.2% 55.5% !important;      /* #8B8B90 --rule-strong */
+        --sui-border-color-3-hsl: 240 6.8% 85.7% !important;      /* #D8D8DD --rule */
+        --sui-hover-background-color: hsl(240 6.1% 74.1% / 35%) !important;
+        --sui-selected-background-color: hsl(40 82% 50% / 30%) !important;
+        --sui-active-background-color: hsl(40 82% 50% / 40%) !important;
+      }
+    }
+
+    /* Field labels as the site's kickers: small mono caps with a little
+       tracking. Hooked on section[data-key-path], the attribute Sveltia
+       documents for per-field styling, never on svelte-* hashes. */
+    section[data-key-path] > header h4 {
+      font-family: var(--sui-font-family-monospace) !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: .08em !important;
+      text-transform: uppercase !important;
+    }
+
+    /* Writing comfort for Body: article-sized type and a readable measure.
+       The cap sits on the blocks inside the editor, not the editor box, so the
+       box still lines up with its toolbar. */
+    section[data-key-path="body"] [contenteditable="true"] {
+      font-size: 18px !important;
+      line-height: 1.7 !important;
+    }
+    section[data-key-path="body"] [contenteditable="true"] > * {
+      max-width: 68ch !important;
+    }
+
     /* The Sveltia mark on the sign-in screen. app_title in config.yml replaces
        the wordmark under it; there is no config option for the mark itself.
        Targeted by .logo alone on purpose: the svelte-* hash beside it in the
@@ -56,7 +158,8 @@
   </style>
 </head>
 <body>
-  <!-- Sveltia CMS — git-based editor. Loads from CDN; talks to GitHub via your PAT. -->
-  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js" type="module"></script>
+  <!-- Sveltia CMS, git-based editor. Pinned to the version the theme above was
+       measured on; bump deliberately and re-check contrast in both themes. -->
+  <script src="https://unpkg.com/@sveltia/cms@0.261.0/dist/sveltia-cms.js" type="module"></script>
 </body>
 </html>

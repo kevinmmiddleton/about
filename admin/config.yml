@@ -1,4 +1,4 @@
-# Sveltia CMS config — live (middleton.io/admin)
+# Sveltia CMS config, live at middleton.io/admin
 # A save commits to main; pushing to main rebuilds the blog + deploys via Pages.
 backend:
   name: github
@@ -12,6 +12,13 @@ backend:
 # adds a small "Powered by Sveltia CMS" line in the sign-in footer once this is
 # set; that attribution stays, it is an MIT project doing the work here.
 app_title: middleton.io
+
+# Where "View on Live Site" links point. Without it Sveltia uses the page's own
+# origin, which is wrong when the admin is opened from a local server.
+site_url: https://middleton.io
+# Default is already true; stated so the per-entry live links are not lost by
+# accident (they need preview_path on the collection, below).
+show_preview_links: true
 
 # One shared folder for all images, matching the live site convention.
 media_folder: blog/images
@@ -30,17 +37,29 @@ collections:
     slug: "{{fields.slug}}"
     summary: "{{title}}  ·  {{status}}"
     sortable_fields: [published_at, title, status]
+    # The Body field is already rich text, so the side-by-side preview only
+    # repeated it in Sveltia's generic layout (not the site's). Off for everyone;
+    # the editor's "View on Live Site" button (preview_path, next) opens the real page.
+    editor:
+      preview: false
+    # Live URL of each post. {{slug}} is the entry slug, which comes from the
+    # slug field (see `slug` above). Drafts are not built, so their link 404s
+    # until the post is published.
+    preview_path: "/blog/{{slug}}/"
     # Declare EVERY frontmatter field so Sveltia round-trips them (undeclared fields get dropped on save).
     fields:
       - { name: title, label: Title, widget: string }
       - name: slug
         label: Slug
         widget: string
-        hint: "URL: middleton.io/blog/<slug>/ — lowercase words with hyphens, e.g. show-me-economy. Set once; changing it after publish changes the URL."
+        hint: "URL: middleton.io/blog/your-slug/. Lowercase words with hyphens, e.g. show-me-economy. Set once: changing it after publish changes the URL."
         pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', 'lowercase letters/numbers with hyphens only']
       - { name: status, label: Status, widget: select, options: [draft, ready, published, archived], default: draft }
       - { name: published_at, label: Published date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { name: updated_at, label: Updated date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
+      # Body sits right after the essentials so writing is not 20 fields down.
+      # Order only: the frontmatter stays flat, which tools/blog-generate.mjs reads.
+      - { name: body, label: Body, widget: markdown }
       # Sveltia has no combobox: `select` is a fixed list and `relation` cannot
       # create entries from its UI. So the dropdown is the curated list, and
       # "New topic" below is the escape hatch. The build warns when the escape
@@ -57,6 +76,5 @@ collections:
       - { name: cover_alt, label: Cover alt text, widget: string, required: false }
       - { name: og_image, label: Share image (optional), widget: image, required: false, hint: "Still image for link previews. Use it when the cover is an animated GIF." }
       - { name: cover_full, label: Show the whole cover, widget: boolean, default: false, required: false, hint: "Off crops the cover to a short letterbox. Turn on for a cover (like an animated GIF) whose top or bottom matters." }
-      - { name: lede_align, label: Lede text side, widget: select, options: [left, right], default: left, required: false, hint: "Which side the kicker, headline and dek sit on inside the cover band. Desktop only — phones always stack to the left, where the eye starts a line." }
+      - { name: lede_align, label: Lede text side, widget: select, options: [left, right], default: left, required: false, hint: "Which side the kicker, headline and dek sit on inside the cover band. Desktop only. Phones always stack to the left, where the eye starts a line." }
       - { name: linkedin_url, label: LinkedIn URL, widget: string, required: false }
-      - { name: body, label: Body, widget: markdown }
