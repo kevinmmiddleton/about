@@ -30,6 +30,20 @@ I even recreated my [portfolio as an operating system](https://middleton.io/kevi
 
 Here's what I've learned from building the fun way.
 
+### Nobody believed in the ice cream truck
+
+My first job out of college was in rural Southwest Virginia, and I didn't have any friends there yet. Our office was brand new to the area, and I was part of the inaugural group, so we put together a committee for the first annual company picnic. I volunteered, because I wanted to help.
+
+We didn't have proper catering. A coworker and I went to Walmart and filled two carts absolutely stuffed with hot dogs, hamburgers, chips, and snacks. We had something like a $500 budget, and we literally DIY'd the whole thing.
+
+We got face painting. We got a bounce house. But there was something magical missing, and I was obsessing over it. Then it finally came to me: everyone loves an ice cream truck. Kids love it because it's ice cream, and adults love it because it reminds them of when they were a kid.
+
+I could not find an ice cream truck to save my life. So I opened the white pages and started calling anything close to an ice cream truck until someone knew of one. Meanwhile, the committee was getting frustrated with me. They thought I was obsessed with this ice cream truck, and they weren't wrong. I said "remember when you were a kid?" and they looked at me like I was crazy. I mean, I am, but I was right!
+
+The ice cream truck was the standout hit. The adults lined up. The kids lined up. Nobody had to pay for anything; they just got to enjoy ice cream. It was magical.
+
+It took work, and I almost gave up. But I'm weirdly relentless like that. I really do care about fun. Almost twenty years later, that same coworker found a photo from the picnic and sent it to me. "You make everything amazing," she said.
+
 ### Fun is what keeps me going
 
 A former colleague, a UX lead, is emphatic about this: "You can make a button fun!" Any button, in any app. If a button can be fun, so can pretty much anything you're building.
