@@ -32,7 +32,7 @@ Here's what I've learned from building the fun way.
 
 ### Nobody believed in the ice cream truck
 
-My first job out of college was in rural Southwest Virginia, and I didn't have any friends there yet. Our office was brand new to the area, and I was part of the inaugural group, so we put together a committee for the first annual company picnic. I volunteered, because I wanted to help.
+My first job out of college was in rural Southwest Virginia, and I didn't have any friends there yet. Our office had only opened that January, the company's [first in rural America](https://www.cgi.com/en/cgi-dedicates-new-southwest-virginia-technology-center-excellence-governors-kaine-and-warner), and we were still working out of temporary space. I was part of the inaugural group, so when we put together a committee for the first annual company picnic, I volunteered, because I wanted to help.
 
 We didn't have proper catering. A coworker and I went to Walmart and filled two carts absolutely stuffed with hot dogs, hamburgers, chips, and snacks. We had something like a $500 budget, and we literally DIY'd the whole thing.
 
