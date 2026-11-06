@@ -50,6 +50,8 @@ It took work, and I almost gave up. But I'm weirdly relentless like that. I real
 
 A former colleague, a UX lead, is emphatic about this: "You can make a button fun!" Any button, in any app. If a button can be fun, so can pretty much anything you're building.
 
+I also have to give a shout-out to my favorite Spanish teacher. Her wanton kookiness inspired me. She'd tell us they didn't pay her extra for the sound effects, they were free. Sound effects really are free, and I can't believe we don't get paid extra for them!
+
 Fun is what keeps me building. If something feels like homework, I put it off. If it's fun, I keep going.
 
 A friend sent me a post the other day about what a bizarre place LinkedIn is. Oh, totally. I post about a variety of topics, but it's mostly to build authority around a few of them so I can basically advertise me. I'm not selling anything. I give away free office hours and publish things I'm building in case they help other people.
@@ -113,6 +115,8 @@ What if we all just networked all the time? That's how networking is truly meant
 When you make things and share them, the right people find you.
 
 ### Go build something fun
+
+The alternative is for everything to be boring, silent, even uncomfortable or difficult. Why would we do that to ourselves? We're working together. If we can choose to make it fun, we should choose it as often as we can.
 
 Pick something you want to make. Make it for yourself first. Share it without worrying about the likes. Keep going, and have fun doing it.
 
