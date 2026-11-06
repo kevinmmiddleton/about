@@ -36,7 +36,7 @@ We DIY'd the entire event. A small committee of five or so of us planned, booked
 
 We got face painting. We got a bounce house. But there was something magical missing, and I was obsessing over it. Then it finally came to me: everyone loves an ice cream truck. Kids love it because it's ice cream, and adults love it because it reminds them of when they were a kid.
 
-I could not find an ice cream truck to save my life. So I opened the white pages and started calling anything close to an ice cream truck until someone knew of one. Meanwhile, the committee was getting frustrated with me. They thought I was obsessed with this ice cream truck, and they weren't wrong. I said "remember when you were a kid?" and they looked at me like I was crazy. I mean, I am, but I was right!
+The committee was getting frustrated with me. They thought I was obsessed with this ice cream truck, and they weren't wrong. I said "remember when you were a kid?" and they looked at me like I was crazy. I mean, I am, but I was right! And I could not find an ice cream truck to save my life. So I opened the white pages and started calling anything close to an ice cream truck until someone knew of one.
 
 The ice cream truck was the standout hit. The adults lined up. The kids lined up. Nobody had to pay for anything; they just got to enjoy ice cream. It was magical. ✨
 
