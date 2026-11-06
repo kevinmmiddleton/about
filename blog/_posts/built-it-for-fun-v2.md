@@ -26,7 +26,7 @@ My philosophy on life: if I have to do it anyway, I might as well have fun doing
 
 These ideas touch almost everything I do. I updated my website because it was fun _and_ practical (I even recreated my [portfolio as an operating system](https://middleton.io/kevinos/)). I spent several days exploring NYC's boroughs placing [70 QR stickers](https://www.linkedin.com/feed/update/urn:li:activity:7414305267422531585/) that sent people to my website so I could meet and network with people. I run [free office hours](https://middleton.io/officehours/) and [I've built and shared several web apps](https://middleton.io/#building). I really like making things, and I want to have fun doing it.
 
-The QR stickers pointed to four silly little mini sites, each one showing a different side of me: [/catdad](https://middleton.io/catdad/), [/nyc](https://middleton.io/nyc/), [/fixer](https://middleton.io/fixer/), and [/officehours](https://middleton.io/officehours/) (which later grew into its own thing). Every one of them led back to my main portfolio. There's also [/kevin](https://middleton.io/kevin/) which I made purely  for the fun of it.
+The QR stickers pointed to four silly little mini sites, each one showing a different side of me: [/catdad](https://middleton.io/catdad/), [/nyc](https://middleton.io/nyc/), [/fixer](https://middleton.io/fixer/), and [/officehours](https://middleton.io/officehours/) (which later grew into its own thing). Every one of them led back to my main portfolio. There's also [/kevin](https://middleton.io/kevin/) which I made purely for the fun of it.
 
 My site is also full of easter eggs. There's no reason for any of them except that I love making them.
 
@@ -34,7 +34,17 @@ Here's what I've learned from building the fun way.
 
 ### Fun is what keeps me going
 
-Fun is what keeps me building. If something feels like homework, I put it off. If it's fun, I keep going, and everything else in this post comes from that.
+A former colleague, a UX lead, is emphatic about this: "You can make a button fun!" Any button, in any app. If a button can be fun, so can pretty much anything you're building.
+
+Fun is what keeps me building. If something feels like homework, I put it off. If it's fun, I keep going.
+
+A friend sent me a post the other day about what a bizarre place LinkedIn is. Oh, totally. I post about a variety of topics, but it's mostly to build authority around a few of them so I can basically advertise me. I'm not selling anything. I give away free office hours and publish things I'm building in case they help other people.
+
+Some folks do video or podcasts, too. I wish I had the confidence to do that, but I often think nobody would care what I have to say. It's also a lot of work to regularly produce content and not run out of material. It's actually kinda bonkers.
+
+My friend's advice: don't go down the regular-content road. "The expectations become obligations."
+
+That's why fun matters to me. I try to have fun with whatever I do, and everything else in this post comes from that.
 
 ### Let your silly side guide what you build next
 
