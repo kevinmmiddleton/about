@@ -40,7 +40,7 @@ Fun is what keeps me building. If something feels like homework, I put it off. I
 
 A friend sent me a post the other day about what a bizarre place LinkedIn is. Oh, totally. I post about a variety of topics, but it's mostly to build authority around a few of them so I can basically advertise me. I'm not selling anything. I give away free office hours and publish things I'm building in case they help other people.
 
-Some folks do video or podcasts, too. I wish I had the confidence to do that, but I often think nobody would care what I have to say. It's also a lot of work to regularly produce content and not run out of material. It's actually kinda bonkers.
+We ended up talking about podcasts and content creation and whether that could ever be a viable path, but I'm far too reserved for that kind of activity, I think.
 
 My friend's advice: don't go down the regular-content road. "The expectations become obligations."
 
@@ -54,7 +54,7 @@ Build something because you find it useful. Write a post because you have someth
 
 When you make something for yourself first, the bar is whether it helped you, and you can clear that bar every time. Hopefully someone else finds it helpful too. Repeat this and keep going.
 
-### Learn something on purpose
+### Learn while playing
 
 Most of us have a gap somewhere: a skill a dream job asks for that we haven't been asked to use in our current or previous roles, or a subject we want to know better.
 
