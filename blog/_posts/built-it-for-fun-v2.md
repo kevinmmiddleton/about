@@ -28,8 +28,6 @@ These ideas touch almost everything I do. I spent several days exploring NYC's b
 
 I even recreated my [portfolio as an operating system](https://middleton.io/kevinos/), and my site is full of easter eggs. There's no reason for any of them except that I love making them.
 
-Here's what I've learned from building the fun way.
-
 ### Nobody believed in the ice cream truck (except me)
 
 My first job out of college was in rural Southwest Virginia, and I didn't have any friends there yet. Our office had only opened that January, the company's [first in rural America](https://www.cgi.com/en/cgi-dedicates-new-southwest-virginia-technology-center-excellence-governors-kaine-and-warner), and we were still working out of temporary space. I was part of the inaugural group, so when we put together a committee for the first annual company picnic, I volunteered, because I wanted to help.
@@ -52,13 +50,7 @@ A former colleague, a UX lead, is emphatic about this: "You can make a button fu
 
 I also have to give a shout-out to my favorite Spanish teacher. Her wanton kookiness inspired me. She'd tell us they didn't pay her extra for the sound effects, they were free. Sound effects really are free, and I can't believe we don't get paid extra for them!
 
-Fun is what keeps me building. If something feels like homework, I put it off. If it's fun, I keep going.
-
-A friend sent me a post the other day about what a bizarre place LinkedIn is. Oh, totally. I post about a variety of topics, but it's mostly to build authority around a few of them so I can basically advertise me. I'm not selling anything. I give away free office hours and publish things I'm building in case they help other people.
-
-We ended up talking about podcasts and content creation and whether that could ever be a viable path, but I'm far too reserved for that kind of activity, I think.
-
-My friend's advice: don't go down the regular-content road. "The expectations become obligations."
+A friend once warned me off becoming a regular content creator: "The expectations become obligations." I'm far too reserved for that anyway, I think.
 
 That's why fun matters to me. I try to have fun with whatever I do, and everything else in this post comes from that.
 
@@ -78,19 +70,15 @@ You don't have to accept the gap just because you haven't been formally asked to
 
 With AI tools it's never been easier. You don't need permission or even money. You need a little time and something you want to build.
 
-Learning this way also gives you something to do. If you're in a lull or between things, the days can blur together. Building something lets you set personal milestones. You can wake up with a next step. Think through a small problem during your walk. You're solving problems that you want to solve, and learning along the way. It's a win-win.
+Learning this way also gives you something to do. If you're in a lull or between things, the days can blur together. Building something lets you set personal milestones. You can wake up with a next step. Think through a small problem during your walk. You're solving problems that you want to solve, and learning along the way.
 
 And when it's fun, the learning sticks, because you actually want to come back to it.
-
-Even the "What I'm building" section of my site is a deck of cards you can drag around, flip over, and make a mess of. Making it was pure, silly fun.
-
-[![The "What I'm Building Now" section of middleton.io: a fanned stack of project cards for One Night Only, QuietFeed, Shortlist, Visionbort, KevinOS, Office Hours, Unpaid Intern, Recruiter BFF and more.](/blog/images/might-as-well-have-fun-building.jpg "You can have fun building and learn at the same time.")](https://middleton.io/#building)
 
 ### Make "what have you been working on?" fun to answer
 
 People ask me "what have you been working on?" all the time, at office hours and over coffee, and I love this question!
 
-I pull up my portfolio (which I also built, and had fun building) and show them a few things I've been building lately.
+I pull up my portfolio and show them a few things I've been building lately.
 
 ![A 2 by 2 grid of four of Kevin's sites on blueprint paper: Office Hours ("Bring a messy product or AI problem"), Unpaid Intern ("A second brain for work"), Recruiter BFF ("Find out if you're a match before you apply"), and KevinOS, his portfolio as a desktop operating system.](/blog/images/might-as-well-have-fun-four-things.jpg "A few things I pull up when someone asks.")
 
@@ -106,18 +94,16 @@ My [office hours](https://middleton.io/officehours/) started as something I made
 
 I get feedback on the things I'm building. I help people think through their problems, which keeps me sharp and current and teaches me new ways to dig into problems of my own. These are people I'll keep in touch with for years, people I can lean on and trade feedback with.
 
-This week a senior analyst who'd been searching for almost a year messaged me after one of my posts. He'd been using AI to tailor every resume, and he could tell the results read like fluff. I gave him some feedback he can use on his resume. Neither of us was selling anything. He found me because I'd shared something I made.
+Recently a senior analyst who'd been searching for almost a year messaged me after one of my posts. He'd been using AI to tailor every resume, and he could tell the results read like fluff. I gave him some feedback he can use on his resume. Neither of us was selling anything. He found me because I'd shared something I made.
 
 Most people only network when they're in danger. They reach out the week they need a job, and it feels transactional, because it is.
 
-What if we all just networked all the time? That's how networking is truly meant to be: a regular way to talk with people. Saving it for emergencies is what makes it feel awkward. Office hours turned networking into something I enjoy, so I actually do it. I found a way to make networking work for me, pun intended.
-
-When you make things and share them, the right people find you.
+Office hours turned networking into something I enjoy, so I actually do it.
 
 ### Go build something fun
 
 The alternative is for everything to be boring, silent, even uncomfortable or difficult. Why would we do that to ourselves? We're working together. If we can choose to make it fun, we should choose it as often as we can.
 
-Pick something you want to make. Make it for yourself first. Share it without worrying about the likes. Keep going, and have fun doing it.
+Pick something you want to make. Keep going, and have fun doing it.
 
 Someone will notice. Those are your people.
