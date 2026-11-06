@@ -82,7 +82,7 @@ I built these in my spare time, and I had so much fun doing it. Maybe they'll go
 
 It might take one minute to talk about these with someone, but in that minute they can see your enthusiasm, and that you're actively building something right now. That leaves a great impression, and it's a lot more fun to talk about than the weather.
 
-### People will notice, and those are your people
+### Your people will find you
 
 My [office hours](https://middleton.io/officehours/) started as something I made from nothing. GitHub Pages is free. Calendly is free. I put up a page and a booking link, and I've met dozens of people through it.
 
@@ -96,7 +96,7 @@ What if we all just networked all the time? That's how networking is truly meant
 
 When you make things and share them, the right people find you.
 
-### So build something
+### Go build something fun
 
 Pick something you want to make. Make it for yourself first. Share it without worrying about the likes. Keep going, and have fun doing it.
 
