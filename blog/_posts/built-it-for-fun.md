@@ -15,9 +15,9 @@ tags:
 featured: false
 sort_order: null
 excerpt: Here's why I build things just for fun, and why you should too.
-cover_image: /blog/images/have-fun-doing-it-cover.gif
-cover_alt: An animation on blueprint grid paper. Kevin's project cards deal out, QR stickers slap down, KevinOS boots, his 404 page glitches in, a cat paw swipes a card, a Cook Like a PM soup card slides in, the Unpaid Intern and Recruiter BFF mascots pop up, then confetti and the words Have fun doing it.
-og_image: /blog/images/have-fun-doing-it-og.jpg
+cover_image: /blog/images/have-fun-doing-it-cover-v2.gif
+cover_alt: An animation on blueprint grid paper. Kevin's project cards deal out, QR stickers slap down (SLAP!), KevinOS boots (BOOP), his 404 page glitches in (BZZT), a cat paw swipes a card, an ice cream truck putters in with music notes and parks (DING DING), the Unpaid Intern and Recruiter BFF mascots pop up, then a cat paw sneaks out from under the cards and smashes a big red button (KA-CHUNK!), setting off confetti and the words Have fun doing it.
+og_image: /blog/images/have-fun-doing-it-og-v2.jpg
 lede_align: left
 linkedin_url: ''
 ---
