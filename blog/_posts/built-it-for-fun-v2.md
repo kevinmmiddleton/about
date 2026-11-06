@@ -34,7 +34,7 @@ Here's what I've learned from building the fun way.
 
 My first job out of college was in rural Southwest Virginia, and I didn't have any friends there yet. Our office had only opened that January, the company's [first in rural America](https://www.cgi.com/en/cgi-dedicates-new-southwest-virginia-technology-center-excellence-governors-kaine-and-warner), and we were still working out of temporary space. I was part of the inaugural group, so when we put together a committee for the first annual company picnic, I volunteered, because I wanted to help.
 
-We didn't have proper catering. A coworker and I went to Walmart and filled two carts absolutely stuffed with hot dogs, hamburgers, chips, and snacks. We had something like a $500 budget, and we literally DIY'd the whole thing.
+We didn't have proper catering. A coworker and I went to Walmart and filled two carts absolutely stuffed with hot dogs, hamburgers, chips, and snacks. We had something like a $500 budget, and we DIY'd the entire event.
 
 We got face painting. We got a bounce house. But there was something magical missing, and I was obsessing over it. Then it finally came to me: everyone loves an ice cream truck. Kids love it because it's ice cream, and adults love it because it reminds them of when they were a kid.
 
