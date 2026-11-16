@@ -56,12 +56,12 @@
    would have been a real visual change, so it is left alone here. */
 :root{ --font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }
 html{
-  scroll-behavior:smooth; overflow-x:hidden;
+  scroll-behavior:smooth; overflow-x:clip;
   -webkit-text-size-adjust:none; -moz-text-size-adjust:none; text-size-adjust:none;
 }
 body{
   font-family:var(--font-family); line-height:1.6;
-  color:var(--text-primary); background:var(--bg); overflow-x:hidden;
+  color:var(--text-primary); background:var(--bg); overflow-x:clip;
   -webkit-text-size-adjust:100%; -moz-text-size-adjust:100%; text-size-adjust:100%;
 }
 h1,h2,h3,h4,h5,h6{font-family:var(--font-heading)}

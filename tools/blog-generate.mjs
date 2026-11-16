@@ -420,8 +420,9 @@ const PLAUSIBLE = `    <!-- Privacy-friendly analytics by Plausible -->
 const HEADER = `    <nav class="nav pad">
         <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
         <span class="nav-l">
-          <a href="/#building">Building</a>
           <a href="/#about">About</a>
+          <a href="/#building">Building</a>
+          <a href="/#values">Values</a>
           <a href="/#record">Experience</a>
           <a href="/#cases">Case Studies</a>
           <a href="/blog/">Blog</a>
@@ -600,7 +601,7 @@ ${HEADER}
         <div class="article-lede">
             <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)}${post.cover_full ? ' style="height:auto;aspect-ratio:16/9"' : ''} alt="${escAttr(post.cover_alt||'')}" fetchpriority="high" decoding="async">
             <div class="article-lede-in${post.lede_align === 'right' ? ' lede-right' : ''}">
-                <p class="article-eyebrow">${seriesKicker(post, all)}</p>
+                ${post.series ? `<p class="article-eyebrow">${seriesKicker(post, all)}</p>` : ''}
                 <h1 class="article-title">${esc(post.title)}</h1>
                 <!-- The dek. Already written for every post as the excerpt
                      field, already used on the index card and in
@@ -814,7 +815,6 @@ ${HEADER}
     <section class="blog-index">
         <div class="blog-index-header">
             <div class="blog-index-top">
-                <p class="eyebrow">Blog</p>
                 <a class="blog-sub plausible-event-name=Blog+RSS plausible-event-source=header" href="/blog/feed.xml"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>Subscribe via RSS</a>
             </div>
             <h1>Product, He Built</h1>

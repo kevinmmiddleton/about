@@ -792,7 +792,7 @@ body.p-case{
     padding: 6px 12px;
     border-radius: 16px;
     border: 1px solid var(--border);
-    transition: all 0.2s;
+    transition: color .2s, background-color .2s, border-color .2s;
     white-space: nowrap;
 }/* ---- TOC pill takes its section's hue ------------------------------------
    Was ten rules keyed by data-section, each hardcoding an rgba() tint, and
@@ -3196,6 +3196,9 @@ body.p-case .metric-value .arw{font-size:inherit;width:.9em;height:.9em;
    colour matters more. --marigold is theme-invariant, so this pins it. Scoped
    to this one element; --gold-on-invert is untouched for any other use. */
 .fv .connect h2 em{color:var(--marigold)}
+/* The connect band is --invert, which is --ink in the other mode, so the house
+   --ink focus ring disappears on it. The ring takes the band's own text colour. */
+.fv .connect :focus-visible{outline-color:var(--on-invert)}
 
 
 /* ==========================================================================
@@ -3449,20 +3452,13 @@ body.p-case .cs-end .back-link{display:inline-flex;align-items:center;min-height
    hue variant for the panel they sit on, which is the OPPOSITE of the page
    mode: dark-safe values in light mode, light-safe values in dark mode. The
    hairlines flip the same way. */
-.fv .vband{--vb-line:rgba(255,255,255,.14)}
-.fv .vb-blue{color:#6E93CC}.fv .vb-green{color:#3FA588}.fv .vb-mari{color:#E8A317}
+.fv .vband{--vb-line:rgba(255,255,255,.14);--vb-blue:#6E93CC;--vb-green:#3FA588;--vb-mari:#E8A317}
+.fv .vb-blue{color:var(--vb-blue)}.fv .vb-green{color:var(--vb-green)}.fv .vb-mari{color:var(--vb-mari)}
 @media(prefers-color-scheme:dark){
-  .fv .vband{--vb-line:rgba(0,0,0,.16)}
-  .fv .vb-blue{color:#1F4B8F}.fv .vb-green{color:#266B57}.fv .vb-mari{color:#8A6210}
+  .fv .vband{--vb-line:rgba(0,0,0,.16);--vb-blue:#1F4B8F;--vb-green:#266B57;--vb-mari:#8A6210}
 }
-:root[data-theme="dark"] .fv .vband{--vb-line:rgba(0,0,0,.16)}
-:root[data-theme="dark"] .fv .vb-blue{color:#1F4B8F}
-:root[data-theme="dark"] .fv .vb-green{color:#266B57}
-:root[data-theme="dark"] .fv .vb-mari{color:#8A6210}
-:root[data-theme="light"] .fv .vband{--vb-line:rgba(255,255,255,.14)}
-:root[data-theme="light"] .fv .vb-blue{color:#6E93CC}
-:root[data-theme="light"] .fv .vb-green{color:#3FA588}
-:root[data-theme="light"] .fv .vb-mari{color:#E8A317}
+:root[data-theme="dark"] .fv .vband{--vb-line:rgba(0,0,0,.16);--vb-blue:#1F4B8F;--vb-green:#266B57;--vb-mari:#8A6210}
+:root[data-theme="light"] .fv .vband{--vb-line:rgba(255,255,255,.14);--vb-blue:#6E93CC;--vb-green:#3FA588;--vb-mari:#E8A317}
 .fv .vband-cap{max-width:none}
 @media(max-width:760px){.fv .vband-grid{grid-template-columns:1fr}
   .fv .vb{border-left:0;border-top:1px solid var(--vb-line)}.fv .vb:first-child{border-top:0}}

@@ -103,7 +103,3 @@
   .fv .oh-tracks{grid-template-columns:minmax(0,1fr)}
 }
 @media(prefers-reduced-motion:reduce){.fv .oh-btn{transition:none}.fv .oh-btn:hover{transform:none}}
-
-/* The booking band is --invert, which is --ink in the other mode, so the
-   house --ink focus ring would vanish on it. Ring takes the band's text colour. */
-.fv.oh .connect :focus-visible{outline-color:var(--on-invert)}

@@ -1,7 +1,7 @@
 ---
 type: Profile
 title: Kevin Middleton
-description: Senior Product Manager and Full Stack PM with 12+ years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products. Ships working software with AI without being an engineer.
+description: Senior Product Manager and Full Stack PM with 13 years building platforms, internal tools, and AI-driven workflows for enterprise and consumer SaaS products. Ships working software with AI without being an engineer.
 resource: https://middleton.io
 tags: [profile, product-manager, building-with-ai, new-york]
 generated:
@@ -22,7 +22,7 @@ stale_after: 2027-02-17
 
 ## Summary
 
-Kevin Middleton is a hands-on product leader with 12+ years building platforms, internal tools, and AI-driven workflows across enterprise and consumer SaaS. He works across people, process, and product: running meetings, digging into data, building prototypes, and turning complex problems into maintainable systems teams can own.
+Kevin Middleton is a hands-on product leader with 13 years building platforms, internal tools, and AI-driven workflows across enterprise and consumer SaaS. He works across people, process, and product: running meetings, digging into data, building prototypes, and turning complex problems into maintainable systems teams can own.
 
 ## Builds with AI
 

@@ -6241,7 +6241,7 @@ window.addEventListener('pagehide', () => { try { audio.pause(); } catch (e) {} 
             '<span class="d">Tab completes. ↑ recalls history.</span>',
         whoami: () =>
             '<span class="a">Kevin Middleton</span>\nFull Stack Product Manager · New York\n' +
-            '12+ years across consumer, enterprise, and platform SaaS.\n' +
+            '13 years across consumer, enterprise, and platform SaaS.\n' +
             'I work across people, process, and product — hands-on at every level.',
         ls: () => {
             const n = FS[cwd];
