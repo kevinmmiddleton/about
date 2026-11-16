@@ -34,10 +34,11 @@
   <meta name="twitter:image" content="https://middleton.io/officehours/images/officehours-og.png" />
 
   <!-- Browser Chrome -->
-  <meta name="theme-color" content="#4A6A8C" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#3a5676" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
 
-  <link rel="stylesheet" href="officehours-new.css?v=002aaaa9">
+  <link rel="stylesheet" href="/fv.css?v=7b6f5410">
+  <link rel="stylesheet" href="officehours-new.css?v=81c2e6d7">
 
   <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-OjFchTSjmO38TDwmb0xU5.js"></script>
@@ -94,148 +95,91 @@
 </head>
 
 <body>
-  <a href="#cta" class="oh-skip-link">Skip to booking</a>
+<div class="fv oh">
+<a class="skip" href="#cta">Skip to booking</a>
 
-  <!-- HERO — Parallax -->
-  <section class="oh-hero">
-    <div class="oh-hero-bg" id="heroBg"></div>
-    <div class="oh-hero-overlay"></div>
-    <div class="oh-hero-content">
-      <div class="oh-badge">FREE & OPEN TO ALL</div>
-      <h1>Office Hours</h1>
-      <p class="subline">Bring a messy product or AI problem.<br>Leave with a clearer head.</p>
-      <div class="oh-hero-ctas">
-        <a href="#cta" class="oh-btn">
-          <span>Grab a slot</span>
-          <span class="oh-btn-arrow"><span class="arw" aria-hidden="true"></span></span>
-        </a>
-        <a href="#about" class="oh-hero-link">Who's on the other side? ↓</a>
-      </div>
-    </div>
-    <div class="oh-scroll-hint">
-      <span>Scroll</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-  </section>
+<nav class="nav pad" aria-label="Site">
+  <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+  <span class="nav-l">
+    <a href="/#about">About</a><a href="/#building">Building</a><a href="/#values">Values</a>
+    <a href="/#record">Experience</a><a href="/#cases">Case Studies</a><a href="/blog/">Blog</a>
+  </span>
+  <a class="cta" href="/officehours/" aria-current="page">Office Hours</a>
+</nav>
 
-  <!-- CONTENT -->
-  <div class="oh-content">
-
-    <!-- WHO'S ON THE OTHER SIDE -->
-    <section class="oh-section oh-intro" id="about">
-      <div class="oh-intro-card">
-        <img src="https://middleton.io/images/profile-picture.jpg" alt="Kevin Middleton" class="oh-intro-photo">
-        <div class="oh-intro-text">
-          <h2>Hi, I'm Kevin.</h2>
-          <p>I've spent 12+ years in product management, building platforms, shipping integrations, and leading teams across startups and enterprise. I started doing office hours because someone once showed up for me when I needed it, and I wanted to pay that forward.</p>
-          <p class="oh-intro-philosophy">My take: nobody really networks anymore, so I'm trying to be the change I want to see. You don't need a polished question. Just bring what's on your mind.</p>
-          <a href="https://middleton.io/" target="_blank" class="oh-intro-link">See my full background<span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="oh-section">
-      <h2>How it works</h2>
-      <div class="oh-steps">
-        <div class="oh-step">
-          <div class="oh-step-number">1</div>
-          <p>You talk through what's stuck</p>
-        </div>
-        <div class="oh-step">
-          <div class="oh-step-number">2</div>
-          <p>We think out loud together</p>
-        </div>
-        <div class="oh-step">
-          <div class="oh-step-number">3</div>
-          <p>You leave with a next step (or three)</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHO THIS IS FOR + NO STRINGS — Side by side -->
-    <section class="oh-section oh-two-col">
-      <div class="oh-col-card oh-col-problems">
-        <h2>Who this is for</h2>
-        <p class="oh-bridge">Two options, choose one or both.</p>
-
-        <h3 class="oh-track-header">Retooling your work with AI</h3>
-        <div class="oh-problem-item">
-          <span class="oh-problem-icon">🤖</span>
-          <span>Adding AI to how you actually work <span class="oh-problem-sub">(workflows, copilots, prompts)</span></span>
-        </div>
-        <div class="oh-problem-item">
-          <span class="oh-problem-icon">🛠</span>
-          <span>Building something with AI and stuck <span class="oh-problem-sub">(I have an idea but don't know where to start)</span></span>
-        </div>
-
-        <h3 class="oh-track-header">PMs who need a second brain to talk through it</h3>
-        <div class="oh-problem-item">
-          <span class="oh-problem-icon">🧭</span>
-          <span>Navigating a hard moment in your current role <span class="oh-problem-sub">(scope creep, stakeholder mess, decision paralysis)</span></span>
-        </div>
-        <div class="oh-problem-item">
-          <span class="oh-problem-icon">🔍</span>
-          <span>Sizing up your next role <span class="oh-problem-sub">(interview prep, narrative, what to look for, how to leave well)</span></span>
-        </div>
-      </div>
-      <div class="oh-col-card oh-col-expect">
-        <h2>Totally free, totally chill</h2>
-        <div class="oh-expect-item">
-          <span class="oh-expect-icon">✓</span>
-          <span>You don't need to prepare anything</span>
-        </div>
-        <div class="oh-expect-item">
-          <span class="oh-expect-icon">✓</span>
-          <span>I won't follow up unless you&nbsp;want&nbsp;me&nbsp;to</span>
-        </div>
-        <div class="oh-expect-item">
-          <span class="oh-expect-icon">✓</span>
-          <span>There's no "too small" problem</span>
-        </div>
-        <div class="oh-expect-item">
-          <span class="oh-expect-icon">✓</span>
-          <span>This is genuinely free</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="oh-cta" id="cta">
-      <p class="oh-cta-headline">Come as you are.</p>
-      <a href="https://calendly.com/kevin-middleton/let-s-talk" class="oh-btn plausible-event-name=Calendly+Click" target="_blank">
-        <span>Join Office Hours</span>
-        <span class="oh-btn-arrow"><span class="arw-ne" aria-hidden="true"></span><span class="vh">(opens in a new tab)</span></span>
-      </a>
-      <p class="oh-cta-note">30 minutes. No prep needed. Just show up.</p>
-    </section>
-
-    <!-- FOOTER -->
-    <section class="oh-footer">
-      <p>Questions? <a href="https://www.linkedin.com/in/kevinmiddleton/" target="_blank" rel="noopener noreferrer">DM me on LinkedIn</a>.</p>
-    </section>
-
+<main id="main">
+<header class="oh-hero">
+  <img class="oh-hero-img" src="images/hero.jpg" width="1280" height="765" alt="" fetchpriority="high">
+  <div class="oh-board-copy">
+    <h1>Office Hours</h1>
+    <p class="oh-sub">Bring a messy product or AI problem.<br>Leave with a clearer head.</p>
+    <a class="oh-btn" href="#cta">Grab a slot</a>
+    <a class="oh-link" href="#about">Who's on the other side?</a>
   </div>
+</header>
 
-  <!-- Parallax Script -->
-  <script>
-    const heroBg = document.getElementById('heroBg');
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const scrollY = window.scrollY;
-          const heroHeight = document.querySelector('.oh-hero').offsetHeight;
-          if (scrollY < heroHeight) {
-            heroBg.style.transform = `translateY(${scrollY * 0.4}px)`;
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    });
-  </script>
+<section class="sec pad" id="about">
+  <div class="oh-intro">
+    <img class="about-photo oh-intro-photo" src="/images/profile-picture.jpg" width="400" height="400" alt="Kevin Middleton" loading="lazy" decoding="async">
+    <h2>Hi, I'm Kevin.</h2>
+    <div class="oh-intro-text">
+      <p>I've spent 13 years in product management, building platforms, shipping integrations, and leading teams across startups and enterprise. I started doing office hours because someone once showed up for me when I needed it, and I wanted to pay that forward.</p>
+      <p class="oh-quiet">My take: nobody really networks anymore, so I'm trying to be the change I want to see. You don't need a polished question. Just bring what's on your mind.</p>
+      <a class="lk" href="/">See my full background</a>
+    </div>
+  </div>
+</section>
 
+<section class="sec pad" id="how">
+  <div class="sec-h"><h2>How it works</h2></div>
+  <ol class="oh-time">
+    <li><p>You talk through what's stuck</p></li>
+    <li><p>We think out loud together</p></li>
+    <li><p>You leave with a next step (or three)</p></li>
+  </ol>
+</section>
+
+<section class="sec pad">
+  <div class="sec-h"><h2>Who this is for</h2><span>Two options, choose one or both.</span></div>
+  <div class="oh-tracks">
+    <div>
+      <h3>Retooling your work with AI</h3>
+      <ul class="oh-list">
+        <li>Adding AI to how you actually work <span>(workflows, copilots, prompts)</span></li>
+        <li>Building something with AI and stuck <span>(I have an idea but don't know where to start)</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3>PMs who need a second brain to talk through it</h3>
+      <ul class="oh-list">
+        <li>Navigating a hard moment in your current role <span>(scope creep, stakeholder mess, decision paralysis)</span></li>
+        <li>Sizing up your next role <span>(interview prep, narrative, what to look for, how to leave well)</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec pad">
+  <div class="sec-h"><h2>Totally free, totally chill</h2></div>
+  <ul class="oh-list oh-list-short">
+    <li>I won't follow up unless you&nbsp;want&nbsp;me&nbsp;to</li>
+    <li>There's no "too small" problem</li>
+  </ul>
+</section>
+
+<section class="connect pad" id="cta">
+  <h2>Come as you are.</h2>
+  <div class="cbtns">
+    <a class="cb c-oh plausible-event-name=Calendly+Click" href="https://calendly.com/kevin-middleton/let-s-talk" target="_blank" rel="noopener noreferrer">Join Office Hours<span class="vh">(opens in a new tab)</span></a>
+  </div>
+  <p class="oh-note">30 minutes. No prep needed. Slots are limited.</p>
+</section>
+</main>
+
+<footer class="colophon pad">
+  <p class="oh-q">Questions? <a class="lk" href="https://www.linkedin.com/in/kevinmiddleton/" target="_blank" rel="noopener noreferrer">DM me on LinkedIn</a>.</p>
+</footer>
+</div>
 </body>
 
 </html>

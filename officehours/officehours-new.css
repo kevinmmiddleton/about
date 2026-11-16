@@ -1,573 +1,109 @@
-/* ================================
-   OFFICE HOURS — CALM STUDIO
-   Modern, editorial, parallax hero.
-   ================================ */
+/* Office Hours on the main system (fv.css). Only what fv.css does not already
+   cover lives here, all of it on tokens. Scoped to .fv.oh, this page only.
 
-html {
-  scroll-behavior: smooth;
+   The marker. This page keeps a blue where the rest of the site uses marigold:
+   it is the whiteboard's marker colour, so it lives on this page's tokens and
+   nowhere else. --marker is the cobalt fill (mode-stable, white text on it);
+   --marker-text is cobalt used as text on the page, which moves per mode.
+
+   The whiteboard is a photograph and stays white in both modes, so the ink
+   written on it is fixed rather than following the page (DESIGN.md rule 3). */
+.fv.oh{
+  --marker:var(--cobalt);
+  --marker-ink:var(--on-hue);
+  --marker-text:var(--c4-text);
+  --board:#FBFBFA;          /* fixed: whiteboard surface, both modes */
+  --board-ink:#16161A;      /* fixed: text written on the board */
+  --board-ink2:#4B4B55;     /* fixed: 8.3:1 on --board */
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .oh-hero { background-attachment: scroll; }
+/* ---------- Hero: the copy is written on the photo's whiteboard ----------
+   hero.jpg is 1280x765 and its board spans x 393-882, y 126-443. --B is the
+   board's rendered width; every other number is that board's geometry in the
+   photo, so the copy box always lands exactly on the board.
+   Desktop shows the whole photo edge to edge (B = 489/1280 of the width, board
+   centre --cx at 637.5/1280).
+   Under 900px the photo is cropped in so the board takes 92% of the width. */
+.fv .oh-hero{position:relative;overflow:hidden;container-type:inline-size;
+  height:min(59.76vw,820px);background:var(--board);
+  --B:38.2031cqw;--T:calc(var(--B) * .2577);--cx:49.8047cqw}
+.fv .oh-hero-img{position:absolute;max-width:none;height:auto;
+  width:calc(var(--B) * 2.6176);
+  left:calc(var(--cx) - var(--B) * 1.3037);
+  top:calc(var(--T) - var(--B) * .2577)}
+.fv .oh-board-copy{position:absolute;box-sizing:border-box;
+  left:calc(var(--cx) - var(--B) / 2);top:var(--T);
+  width:var(--B);height:calc(var(--B) * .6483);padding:0 6%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  color:var(--board-ink)}
+.fv .oh-board-copy h1{margin:0;font-weight:800;letter-spacing:-.045em;line-height:1;
+  font-size:min(calc(var(--B) * .11), 4.5rem);white-space:nowrap;min-width:0}
+.fv .oh-sub{margin:.6em 0 0;color:var(--board-ink2);line-height:1.4;
+  font-size:max(15px, min(calc(var(--B) * .036), 1.3rem))}
+.fv .oh-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 1.3rem;margin-top:1.1rem;
+  background:var(--marker);color:var(--marker-ink);font-weight:800;font-size:.95rem;
+  border-radius:var(--r);text-decoration:none;white-space:nowrap;transition:transform .18s}
+.fv .oh-btn:hover{transform:translateY(-2px)}
+.fv .oh-btn:active{transform:none}
+.fv .oh-link{margin-top:.7rem;color:var(--board-ink2);font-size:.9rem;font-weight:600;
+  text-decoration:underline;text-decoration-color:var(--marker);text-decoration-thickness:2px;text-underline-offset:.2em}
+.fv .oh-btn:focus-visible,.fv .oh-link:focus-visible{outline:3px solid var(--board-ink);outline-offset:2px}
+@media(max-width:900px){
+  .fv .oh-hero{height:calc(92vw * 1.02);--B:92cqw;--T:calc(var(--B) * .12);--cx:50cqw}
 }
 
-/* ===== Skip Link ===== */
-.oh-skip-link {
-  position: absolute;
-  top: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--oh-accent);
-  color: #fff;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0 0 8px 8px;
-  font-weight: 700;
-  text-decoration: none;
-  z-index: 1000;
-  transition: top 0.2s ease;
-}
-.oh-skip-link:focus { top: 0; }
+/* Links on this page take the marker underline. */
+.fv.oh .lk{text-decoration-color:var(--marker-text);border-bottom-color:var(--marker-text)}
+.fv.oh .lk:focus-visible{outline-color:var(--marker-text)}
+.fv.oh .cb.c-oh{background:var(--marker);color:var(--marker-ink)}
 
-/* ===== Variables ===== */
-:root {
-  --oh-bg: #F0EEE9;
-  --oh-surface: #ffffff;
-  --oh-text: #1a202c;
-  --oh-text-secondary: #4a5568;
-  --oh-text-muted: #5A6577;     /* was #718096: 3.46 on --oh-bg, 4.02 on white */
-  /* Kevin: keep the page, swap in our colours. --oh-accent drives the primary
-     buttons and moves to cobalt; the step numbers and check marks each take a
-     different hue so the page uses the palette rather than one flat colour. */
-  --oh-accent: #1F4B8F;          /* cobalt FILL: white text on it, 8.53 */
-  --oh-accent-ink: #1F4B8F;      /* cobalt as TEXT on the page background */
-  --oh-accent-2: #2C7A63;        /* viridian */
-  --oh-accent-3: #6D4AA8;        /* plum */
-  --oh-accent-4: #9E227D;        /* fuchsia */
-  --oh-accent-5: #C3384B;        /* madder */
-  --oh-accent-hover: #17386B;
-  --oh-warm: #C4A07A;
-  --oh-border: #e2e8f0;
-  /* Inter/Epilogue dropped: this was the last page pulling webfonts.
-     Same stack as fv.css so the page matches the rest of the site. */
-  --oh-font: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  --oh-heading: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  --oh-radius: 16px;
+/* ---------- Hi, I'm Kevin: photo beside the intro ---------- */
+.fv .oh-intro{display:grid;grid-template-columns:120px minmax(0,1fr);
+  grid-template-areas:"photo head" "photo body";column-gap:clamp(1.2rem,3vw,2.2rem);align-items:start}
+.fv .oh-intro-photo{grid-area:photo;width:120px;height:120px}
+.fv .oh-intro h2{grid-area:head;margin:.2rem 0 .9rem;font-size:clamp(1.3rem,3vw,2.05rem);font-weight:800;letter-spacing:-.033em}
+.fv .oh-intro-text{grid-area:body;max-width:62ch}
+.fv .oh-intro-text p{margin:0 0 1rem;font-size:1rem;line-height:1.65}
+.fv .oh-quiet{color:var(--ink2)}
+@media(max-width:760px){
+  .fv .oh-intro{grid-template-columns:64px minmax(0,1fr);grid-template-areas:"photo head" "body body";align-items:center}
+  .fv .oh-intro-photo{width:64px;height:64px}
+  .fv .oh-intro h2{margin:0}
+  .fv .oh-intro-text{margin-top:1rem}
 }
 
-body {
-  margin: 0;
-  font-family: var(--oh-font);
-  background: var(--oh-bg);
-  color: var(--oh-text);
-  -webkit-font-smoothing: antialiased;
+/* ---------- How it works: one line, three points ---------- */
+.fv .oh-time{list-style:none;margin:0;padding:0;position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem}
+.fv .oh-time::before{content:"";position:absolute;left:0;right:0;top:7px;height:3px;background:var(--marker-text);border-radius:2px}
+.fv .oh-time li{position:relative;padding-top:2rem}
+.fv .oh-time li::before{content:"";position:absolute;top:0;left:0;width:17px;height:17px;border-radius:50%;background:var(--bg);border:3px solid var(--marker-text);box-sizing:border-box}
+.fv .oh-time li:last-child{text-align:right}
+.fv .oh-time li:last-child::before{left:auto;right:0}
+.fv .oh-time li:nth-child(2){text-align:center}
+.fv .oh-time li:nth-child(2)::before{left:calc(50% - 8.5px)}
+.fv .oh-time p{margin:0;font-size:1.2rem;font-weight:700;line-height:1.4}
+@media(max-width:760px){
+  .fv .oh-time{grid-template-columns:minmax(0,1fr);gap:1.6rem;padding-left:1.8rem}
+  .fv .oh-time::before{left:7px;right:auto;top:4px;bottom:4px;width:3px;height:auto}
+  .fv .oh-time li,.fv .oh-time li:nth-child(2),.fv .oh-time li:last-child{text-align:left;padding-top:0}
+  .fv .oh-time li::before,.fv .oh-time li:nth-child(2)::before,.fv .oh-time li:last-child::before{left:-1.8rem;right:auto;top:.15rem}
+  .fv .oh-time p{font-size:1.05rem;margin-top:-.1rem}
 }
 
-/* ===== Hero — Parallax ===== */
-.oh-hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: calc(20vh + 100px);
-  text-align: center;
-  overflow: hidden;
+.fv .oh-tracks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem}
+.fv .oh-tracks h3{text-wrap:balance;margin:0 0 .6rem;font-size:1.2rem;font-weight:800;letter-spacing:-.02em}
+.fv .oh-list{margin:0;padding-left:1.2rem;display:grid;gap:.7rem;font-size:1rem;line-height:1.55;max-width:62ch}
+.fv .oh-list span{color:var(--ink2)}
+
+.fv .connect h2{max-width:none}
+.fv .oh-note{margin:1rem 0 0;font-size:.95rem;opacity:.8}
+.fv .oh-q{margin:0;color:var(--ink2)}
+
+@media(max-width:760px){
+  .fv .oh-tracks{grid-template-columns:minmax(0,1fr)}
 }
+@media(prefers-reduced-motion:reduce){.fv .oh-btn{transition:none}.fv .oh-btn:hover{transform:none}}
 
-.oh-hero-bg {
-  position: absolute;
-  inset: 0;
-  background: url('images/hero.jpg') center/cover no-repeat;
-  transform: translateZ(0);
-  will-change: transform;
-  z-index: 0;
-}
-
-.oh-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.15);
-  z-index: 1;
-}
-
-.oh-hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 700px;
-  padding: 0 24px;
-}
-
-.oh-badge {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--oh-accent);
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  padding: 8px 20px;
-  border-radius: 50px;
-  margin-bottom: 24px;
-}
-
-.oh-hero h1 {
-  font-family: var(--oh-heading);
-  font-size: 4.5rem;
-  font-weight: 800;
-  letter-spacing: -2px;
-  color: var(--oh-text);
-  line-height: 1;
-  margin: 0 0 16px;
-}
-
-.oh-hero .subline {
-  font-size: 1.25rem;
-  color: var(--oh-text-secondary);
-  line-height: 1.5;
-  margin: 0 0 36px;
-  font-weight: 400;
-}
-
-.oh-hero-ctas {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.oh-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--oh-accent);
-  color: white;
-  padding: 16px 36px;
-  border-radius: 12px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.25s;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-.oh-btn:hover {
-  background: var(--oh-accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.oh-btn-arrow {
-  transition: transform 0.2s;
-}
-.oh-btn:hover .oh-btn-arrow {
-  transform: translateX(4px);
-}
-
-.oh-hero-link {
-  font-size: 0.9rem;
-  color: var(--oh-text-muted);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.oh-hero-link:hover { color: var(--oh-accent-ink); }
-
-/* Scroll indicator */
-.oh-scroll-hint {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  color: var(--oh-text-muted);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  animation: gentleBounce 2s ease-in-out infinite;
-}
-
-@keyframes gentleBounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(6px); }
-}
-
-/* ===== Content Area ===== */
-.oh-content {
-  position: relative;
-  z-index: 3;
-  background: var(--oh-bg);
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 80px 24px 40px;
-}
-
-/* ===== Section Cards ===== */
-.oh-section {
-  margin-bottom: 48px;
-}
-
-.oh-section h2 {
-  font-family: var(--oh-heading);
-  font-size: 1.75rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  margin: 0 0 24px;
-  color: var(--oh-text);
-}
-
-/* ===== Steps — What Happens ===== */
-.oh-steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.oh-step {
-  background: var(--oh-surface);
-  border: 1px solid var(--oh-border);
-  border-radius: var(--oh-radius);
-  padding: 28px 24px;
-  text-align: center;
-  transition: all 0.2s;
-}
-.oh-step:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-}
-
-.oh-step-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--oh-accent);
-  color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 14px;
-}
-
-.oh-step p {
-  font-size: 0.95rem;
-  color: var(--oh-text-secondary);
-  line-height: 1.45;
-  margin: 0;
-}
-
-/* ===== Intro — Who's on the other side ===== */
-.oh-intro-card {
-  display: flex;
-  gap: 28px;
-  align-items: flex-start;
-  background: var(--oh-surface);
-  border: 1px solid var(--oh-border);
-  border-radius: var(--oh-radius);
-  padding: 32px;
-}
-
-.oh-intro-photo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.oh-intro-text h2 {
-  font-family: var(--oh-heading);
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin: 0 0 12px;
-}
-
-.oh-intro-text p {
-  font-size: 0.95rem;
-  color: var(--oh-text-secondary);
-  line-height: 1.6;
-  margin: 0 0 12px;
-}
-
-.oh-intro-philosophy {
-  font-style: italic;
-  color: var(--oh-text-muted) !important;
-}
-
-.oh-intro-link {
-  font-size: 0.85rem;
-  color: var(--oh-accent-ink);
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s;
-}
-.oh-intro-link:hover { text-decoration: underline; }
-
-/* ===== Stacked — Problems above Expect ===== */
-.oh-two-col {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-.oh-col-card {
-  background: var(--oh-surface);
-  border: 1px solid var(--oh-border);
-  border-radius: var(--oh-radius);
-  padding: 28px;
-}
-
-.oh-col-card h2 {
-  font-size: 1.25rem;
-  margin-bottom: 20px;
-}
-
-/* Problems */
-.oh-bridge {
-  font-size: 0.9rem;
-  color: var(--oh-text-muted);
-  margin: -8px 0 18px;
-}
-
-.oh-track-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-family: var(--oh-heading);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--oh-text);
-  margin: 24px 0 6px;
-  letter-spacing: -0.01em;
-}
-
-.oh-track-header:first-of-type {
-  margin-top: 0;
-}
-
-.oh-problem-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 10px 0;
-  font-size: 0.92rem;
-  color: var(--oh-text-secondary);
-  line-height: 1.45;
-}
-
-.oh-problem-item + .oh-problem-item {
-  border-top: 1px solid var(--oh-border);
-}
-
-.oh-problem-icon {
-  font-size: 1.2rem;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.oh-problem-sub {
-  color: var(--oh-text-muted);
-  font-style: italic;
-}
-
-/* Expect */
-.oh-expect-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 10px 0;
-  font-size: 0.92rem;
-  color: var(--oh-text-secondary);
-  line-height: 1.45;
-}
-
-.oh-expect-item + .oh-expect-item {
-  border-top: 1px solid var(--oh-border);
-}
-
-.oh-expect-icon {
-  flex-shrink: 0;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--oh-accent);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  font-weight: 700;
-  margin-top: 1px;
-}
-
-/* ===== CTA Section ===== */
-.oh-cta {
-  text-align: center;
-  padding: 60px 0 40px;
-  border-top: 1px solid var(--oh-border);
-  margin-top: 20px;
-}
-
-.oh-cta-headline {
-  font-family: var(--oh-heading);
-  font-size: 2rem;
-  font-weight: 800;
-  margin: 0 0 24px;
-  color: var(--oh-text);
-}
-
-.oh-cta-note {
-  margin-top: 16px;
-  font-size: 0.85rem;
-  color: var(--oh-text-muted);
-}
-
-/* ===== Footer ===== */
-.oh-footer {
-  text-align: center;
-  padding: 24px 0 48px;
-  font-size: 0.85rem;
-  color: var(--oh-text-muted);
-}
-
-.oh-footer a {
-  color: var(--oh-accent-ink);
-  text-decoration: none;
-}
-.oh-footer a:hover { text-decoration: underline; }
-
-/* ===== Mobile ===== */
-@media (max-width: 768px) {
-  .oh-hero h1 {
-    font-size: 2.8rem;
-    letter-spacing: -1px;
-  }
-
-  .oh-hero .subline {
-    font-size: 1.05rem;
-  }
-
-  .oh-steps {
-    grid-template-columns: 1fr;
-  }
-
-  .oh-content {
-    padding: 48px 20px 24px;
-  }
-
-  .oh-intro-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-}
-
-
-/* --- palette pass ---------------------------------------------------------
-   Step numbers cycle through the hue family instead of all being one colour,
-   and the check marks do the same. White sits on every one of these at 5.1:1
-   or better, so the fills carry their glyph safely. */
-.oh-step:nth-of-type(1) .oh-step-number{background:var(--oh-accent)}
-.oh-step:nth-of-type(2) .oh-step-number{background:var(--oh-accent-2)}
-.oh-step:nth-of-type(3) .oh-step-number{background:var(--oh-accent-3)}
-.oh-step:nth-of-type(4) .oh-step-number{background:var(--oh-accent-4)}
-.oh-step .oh-step-number{color:#fff}
-
-.oh-expect-item:nth-of-type(1) .oh-expect-icon{background:var(--oh-accent-2)}
-.oh-expect-item:nth-of-type(2) .oh-expect-icon{background:var(--oh-accent)}
-.oh-expect-item:nth-of-type(3) .oh-expect-icon{background:var(--oh-accent-3)}
-.oh-expect-item:nth-of-type(4) .oh-expect-icon{background:var(--oh-accent-4)}
-.oh-expect-icon{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:24px; height:24px; border-radius:50%;
-  color:#fff; font-size:.72rem; font-weight:700; flex:0 0 auto;
-}
-
-
-/* ==========================================================================
-   Dark mode. This page had none: it rendered its light palette against a dark
-   OS and was the only surface on the site that did. Every value here is a
-   token override, because the page never hardcodes a colour.
-   ========================================================================== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --oh-bg: #0F0F12;
-    --oh-surface: #17171B;
-    --oh-text: #F2F2F4;
-    --oh-text-secondary: #C3C3CC;
-    --oh-text-muted: #A2A2AC;      /* 7.4 on --oh-bg, 6.3 on --oh-surface */
-    /* Accent FILLS are unchanged in dark on purpose: they carry white text, so
-       lifting them drops white below 4.5. Only the ink inverts. */
-    --oh-accent-ink: #6E93CC;      /* cobalt lifted, for text on the dark page */
-    --oh-accent-hover: #6E93CC;
-    --oh-warm: #D9BE9E;
-    --oh-border: #2C2C33;
-  }
-}
-
-
-/* --- shared arrow + screen-reader helpers ---------------------------------
-   Duplicated from fv.css because this page does not load it yet. Same paths and
-   weights, so the arrows here are the same object as everywhere else on the
-   site. Delete this block once officehours moves onto fv.css. */
-.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.arw{display:inline-block;width:.78em;height:.78em;background:currentColor;
-  vertical-align:-.04em;margin-inline:.1em;
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h15M12.5 5.5 19 12l-6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
-  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h15M12.5 5.5 19 12l-6.5 6.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
-.arw-ne{display:inline-block;width:.72em;height:.72em;background:currentColor;
-  vertical-align:-.02em;margin-inline-start:.28em;
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
-  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
-
-
-/* --- manual theme override -------------------------------------------
-   Mirrors ONLY the token (:root) half of the dark blocks above. The
-   component rules in those blocks are deliberately NOT mirrored: scoping
-   them under :root[data-theme="dark"] raises their specificity above
-   fv.css's own [data-theme] rules, which flipped the nav CTA to an
-   unreadable 1.15:1 on the blog. Tokens carry the theme; components
-   should read them, not re-specify them. */
-:root[data-theme="dark"]{
---oh-bg: #0F0F12;
-    --oh-surface: #17171B;
-    --oh-text: #F2F2F4;
-    --oh-text-secondary: #C3C3CC;
-    --oh-text-muted: #A2A2AC;      /* 7.4 on --oh-bg, 6.3 on --oh-surface */
-    /* Accent FILLS are unchanged in dark on purpose: they carry white text, so
-       lifting them drops white below 4.5. Only the ink inverts. */
-    --oh-accent-ink: #6E93CC;      /* cobalt lifted, for text on the dark page */
-    --oh-accent-hover: #6E93CC;
-    --oh-warm: #D9BE9E;
-    --oh-border: #2C2C33;
-}
-
-
-/* --- the hero does not flip -----------------------------------------------
-   It sits on a photograph of a bright room, and that photo is the same in both
-   themes. Letting the text tokens invert turned the headline light-on-light and
-   it effectively vanished. Pinning the hero's tokens to their light values
-   keeps the hero identical in dark mode, which is the correct behaviour for a
-   fixed-lightness image. Scoped to .oh-hero, so the rest of the page still
-   inverts normally. */
-@media (prefers-color-scheme: dark){
-  .oh-hero{
-    --oh-text:#1a202c;
-    --oh-text-secondary:#4a5568;
-    --oh-text-muted:#5A6577;
-    --oh-accent-ink:#1F4B8F;
-  }
-}
-:root[data-theme="dark"] .oh-hero{
-  --oh-text:#1a202c;
-  --oh-text-secondary:#4a5568;
-  --oh-text-muted:#5A6577;
-  --oh-accent-ink:#1F4B8F;
-}
+/* The booking band is --invert, which is --ink in the other mode, so the
+   house --ink focus ring would vanish on it. Ring takes the band's text colour. */
+.fv.oh .connect :focus-visible{outline-color:var(--on-invert)}
