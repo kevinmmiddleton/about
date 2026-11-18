@@ -25,8 +25,6 @@ In 2005, the Scarlet Witch looked at a world crowded with superpowers and said t
 
 Some days I want to borrow her for a morning and swap one word.
 
-![The Scarlet Witch in profile with a tear on her cheek, a speech bubble reading "No more AI."](/blog/images/no-more-ai-wanda.jpg "Wanda, edited. The original bubble said 'No more mutants.'")
-
 ## Even I'm getting bored of it
 
 I know it's ironic. I put my notes together with AI, I build with AI, and I pay for premium AI every month (more than one service, if I'm keeping score). I love this stuff, because I love technology.
