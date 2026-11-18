@@ -63,6 +63,18 @@ There's already some talk of Gen Z going back to analog products, and of people 
 
 What I actually worry about is us. We're not doing enough analog things in our day, we're not seeing enough of our friends, and we're not even collaborating enough at work. I think that becomes a real problem for us as a society, especially as we pull more people into the AI psychosis of it all.
 
-Wanda's wish was a disaster, so I'm not asking for that, and I definitely don't want Tony's app. Some days I just wish we could sit down and talk.
+## What I actually want is less screen time
+
+Here's the funny part. Right now we're in the part of the timeline where working with technology is actually more difficult. I'm in front of a computer more often than ever.
+
+But earlier today I was sitting at Starbucks, taking a break, while my agent transferred my domain to a new registrar. That's kind of what you want. You don't want to slog through something as boring and tedious as that. You want to use technology to enjoy your life more.
+
+I've talked about what I call ambient computing, where there isn't much of a device at all, and about owning your context, with it physically located where you are so you don't have to worry about who has access to it. I think that's going to become a bigger and bigger thing. Look at the current complaints about who has access to our data and whether we trust them. Meta is the big example.
+
+If we can build up that trust layer, and people can affordably own their personal context at home on a physical device, then you could have an ambient computer that knows enough about you to be useful. It might even help you step away from all the technology.
+
+There was an initial backlash about AI art and AI writing, and there are people who create art and writing, so those people should keep working. But doing my taxes, especially if they're simple, or transferring my domain, or finding unclaimed money for me, is very much something I would like done. And I'd like to not be staring at a screen while it happens. I'd like to be enjoying life and seeing friends.
+
+So no, I'm not asking for Wanda's wish, and I definitely don't want Tony's app. Let people own their context, and let it happen mostly at home. Then they can go off and do things, because their agents are reading their email and handling their calendar, and they can focus on meeting their friends for dinner or planning Thanksgiving.
 
 When's the last time you did something with your friends that no app was part of?
