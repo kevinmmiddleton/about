@@ -35,7 +35,7 @@ But some days I wake up and wonder what would happen if AI simply didn't exist. 
 
 These days, I can't seem to get through a conversation, a meeting, or anything I read online without a mention of AI. We've hit a hyper-saturated point where it's all anyone talks about, and even I have to say I'm getting **_bored_**.
 
-### Marvel already tried this in San Francisco
+### It is our gift to you, San Francisco
 
 I lived in San Francisco for 10 years, and I still keep in touch with people there. Apparently the city is just inundated with AI ads right now.
 
