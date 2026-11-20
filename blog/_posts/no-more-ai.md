@@ -35,11 +35,11 @@ But some days I wake up and wonder what would happen if AI simply didn't exist. 
 
 These days, I can't seem to get through a conversation, a meeting, or anything I read online without a mention of AI. We've hit a hyper-saturated point where it's all anyone talks about, and even I have to say I'm getting **_bored_**.
 
-### It is our gift to you, San Francisco
+### _"It is our gift to you, San Francisco"_
 
 I lived in San Francisco for 10 years, and I still keep in touch with people there. Apparently the city is just inundated with AI ads right now.
 
-Like the ones that said **["Stop hiring humans."](https://www.instagram.com/p/DJ4PEDkxT8C/)** That was a real AI company's billboard campaign for two years. This summer they retired it, and the CEO [posted a cake](https://www.linkedin.com/posts/jaspar-carmichael-jack_we-made-a-cake-to-apologize-for-saying-stop-share-7503661720222183424-NX7g/) that said **"Sorry for saying stop hiring humans."** The new slogan? **"Be more human."** You still can't make this stuff up, but Marvel came close.
+Like the ones that said **["Stop hiring humans."](https://www.instagram.com/p/DJ4PEDkxT8C/)** That was a real AI company's billboard campaign for two years. This summer they retired it, and the CEO [posted a cake](https://www.linkedin.com/posts/jaspar-carmichael-jack_we-made-a-cake-to-apologize-for-saying-stop-share-7503661720222183424-NX7g/) that said **"Sorry for saying stop hiring humans."** The new slogan? **"Be more human."** You can't make this stuff up, but Marvel came close.
 
 ![An Artisan bus shelter ad: a woman's face over "STOP HIRING HUMANS*", with the fine print "*For Jobs They Don't Want to Do" and "The Era of AI Employees Is Here."](/blog/images/no-more-ai-artisan-billboard.jpg "The billboard.") ![A sheet cake with San Francisco and the Golden Gate Bridge behind it, iced with "Sorry for saying stop hiring humans" and the Artisan logo.](/blog/images/no-more-ai-artisan-cake.jpg "The apology.")
 
@@ -67,7 +67,7 @@ Swap Tony's armor for a leather jacket and a keynote stage, and you've pretty mu
 
 ### I'm looking forward to the pendulum swing
 
-There's already some talk of Gen Z going back to analog products, and of people stepping away from phones loaded with every feature. I'm kind of looking forward to that swing.
+There's already some talk of [Gen Z going back to simpler products](https://www.engadget.com/2196894/ipods-comeback-gen-z/), and of people stepping away from phones loaded with every feature. I'm kind of looking forward to that swing.
 
 I worry about us. We're not doing enough analog things in our day, we're not seeing enough of our friends, and we're not even collaborating enough at work. I think that becomes a real problem for us as a society, especially as we pull more people into the AI psychosis of it all.
 
@@ -79,7 +79,7 @@ The other day, I was sitting at Starbucks, taking a break, while my agent transf
 
 ### The computer I actually want
 
-I often think about ambient computing, where there isn't much of a device at all, so there's a computer around your home that you trust and that can help you get tasks done without you having to stare at a screen. I've talked about the concept of [owning your context,](https://middleton.io/blog/owning-your-context/) where you can physically locate data about you at your home so you don't have to worry about who might have access to it in the cloud. I think local AI and tasks are going to become a bigger and bigger thing as people reflect back on how companies like Meta betrayed their trust and profited from and/or leaked their personal data. Post-[Cambridge Analytica scandal](https://en.wikipedia.org/wiki/Facebook–Cambridge_Analytica_data_scandal), people still don't trust Meta, not with personal data and not with [AI "pervert" glasses](https://www.bbc.com/news/articles/cwp80l0my1x2o).
+I think about ambient computing, where there isn't much of a device at all, so there's a computer around your home that you trust and that can help you get tasks done without you having to stare at a screen. I've talked about the concept of [owning your context,](https://middleton.io/blog/owning-your-context/) where you can physically locate your personal data at your home so you don't have to worry about who might have access to it in the cloud. I think local AI and tasks are going to become a bigger and bigger thing as people reflect back on how companies like Meta betrayed their trust and profited from and/or leaked their personal data. Post-[Cambridge Analytica scandal](https://en.wikipedia.org/wiki/Facebook–Cambridge_Analytica_data_scandal), people still don't trust Meta, not with personal data and not with [AI "pervert" glasses](https://www.bbc.com/news/articles/cwp80l0my1x2o).
 
 If anyone, maybe a company like Apple, can build up that trust layer with consumers, and people can affordably own their personal context at home on a physical device, then you could have an ambient computer that knows enough about you to be useful. It might even help you step away from all the technology and enjoy some tech-free moments that I think a lot of us are craving right now. **Great technology gets out of the way.**
 
@@ -87,11 +87,11 @@ There was and still is a backlash about AI in art and AI writing, and thankfully
 
 > "I want AI to do my laundry and dishes so that I can do art and writing, not for AI to do my art and writing so that I can do my laundry and dishes."
 
-Where I think AI can shine is doing my taxes, or transferring a domain, or finding unclaimed money for me... these are very much things I would like done on my behalf without me having to stare at a screen while it happens. I'd rather be out to brunch with friends or playing with my cats.
+Where I think AI can shine is doing my taxes or finding unclaimed money for me... these are very much things I would like done on my behalf without me having to stare at a screen while it happens. I'd rather be out to brunch with friends or playing with my cats.
 
-I'm not asking for Wanda-level powers of "No more AI," and I definitely don't want Tony's Extremis 3.0 app. Let people own and control their personal data, and make it easy to host that data at home, outside of the cloud, where it's safer.
+I'm not asking for Wanda-level powers to destroy all AI and I definitely don't want Tony's Extremis 3.0 app. Let people own and control their personal data, and make it easy to host that data at home, outside of the cloud, where it's safer.
 
-Then create truly useful AI agents that people can personally own and control. Agents that check our email for the stuff we can skip and make sure we read the ones from our friends. Agents that keep our calendars organized so I don't miss movie night.
+Then create truly useful AI agents that people can personally own and control. Agents that check our email for the stuff we can skip and make sure we read the ones from our friends. Agents that handle the mundane tasks so I don't miss movie night.
 
 That way we can go outside and do things, like meeting our friends for dinner or planning Thanksgiving.
 
