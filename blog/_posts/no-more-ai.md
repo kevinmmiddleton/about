@@ -42,6 +42,7 @@ I lived in San Francisco for 10 years, and I still keep in touch with people the
 Like the ones that said **["Stop hiring humans."](https://www.instagram.com/p/DJ4PEDkxT8C/)** That was a real AI company's billboard campaign for two years. This summer they retired it, and the CEO [posted a cake](https://www.linkedin.com/posts/jaspar-carmichael-jack_we-made-a-cake-to-apologize-for-saying-stop-share-7503661720222183424-NX7g/) that said **"Sorry for saying stop hiring humans."** The new slogan? **"Be more human."** You still can't make this stuff up, but Marvel came close.
 
 ![An Artisan bus shelter ad: a woman's face over "STOP HIRING HUMANS*", with the fine print "*For Jobs They Don't Want to Do" and "The Era of AI Employees Is Here."](/blog/images/no-more-ai-artisan-billboard.jpg "The billboard.")
+
 ![A sheet cake with San Francisco and the Golden Gate Bridge behind it, iced with "Sorry for saying stop hiring humans" and the Artisan logo.](/blog/images/no-more-ai-artisan-cake.jpg "The apology.")
 
 Today's AI mania is funny for anyone who follows comics, because Marvel did this exact story in 2014. In _Superior Iron Man_ #1, Tony Stark picks San Francisco to beta-test his newest invention, the [Extremis 3.0 app](https://marvel.fandom.com/wiki/Extremis_3.0_App). The pitch is right on the poster: **"BE beautiful, intelligent, healthy, immortal."** And it's free to everyone in the city. **"It is our gift to you, San Francisco."**
@@ -86,7 +87,7 @@ There was and still is a backlash about AI in art and AI writing, and thankfully
 
 > "I want AI to do my laundry and dishes so that I can do art and writing, not for AI to do my art and writing so that I can do my laundry and dishes."
 
-Where I think AI can shine is doing my taxes, or transferring my domain, or finding unclaimed money for me... these are very much things I would like done on my behalf without me having to babysit a screen while it happens. I'd rather be out to brunch with friends or playing with my cats.
+Where I think AI can shine is doing my taxes, or transferring a domain, or finding unclaimed money for me... these are very much things I would like done on my behalf without me having to stare at a screen while it happens. I'd rather be out to brunch with friends or playing with my cats.
 
 I'm not asking for Wanda-level powers of "No more AI," and I definitely don't want Tony's Extremis 3.0 app. Let people own and control their personal data, and make it easy to host that data at home, outside of the cloud, where it's safer.
 
