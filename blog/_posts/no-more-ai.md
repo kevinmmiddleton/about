@@ -2,7 +2,7 @@
 title: Marvel warned us about AI
 slug: no-more-ai
 status: draft
-published_at: 2026-11-18
+published_at: 2026-11-19
 updated_at: ''
 topic: Tech & Society
 topic_new: ''
@@ -23,7 +23,7 @@ lede_align: left
 linkedin_url: ''
 ---
 
-In 2005, the Scarlet Witch looked at the Marvel Universe crowded with superpowers and said three words: **"No more mutants."** Nearly every mutant on Earth woke up powerless.
+In 2005, the Scarlet Witch looked at the crowed, super-powered Marvel Universe and said three words: **"No more mutants."** Nearly every mutant on Earth woke up powerless.
 
 Some days I want to borrow her powers for a day and say **"No more AI."**
 
