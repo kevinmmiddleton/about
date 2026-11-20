@@ -31,9 +31,9 @@ Some days I want to borrow her powers for a day and say **"No more AI."**
 
 I know it's ironic. I put my notes together with AI, I build with AI, and I pay for premium AI access monthly (more than one service, too!). I love this stuff, because I love technology.
 
-But some days I wake up and wonder what would happen if AI simply didn't exist. Wishful thinking, I know. That's not the world we live in. I don't think AI is "inevitable," but it's also not going anywhere. Still, some days I think about being Amish... okay maybe not Amish, but maybe taking us back to 1990s-era technology.
+But some days I wake up and wonder what would happen if AI simply didn't exist. Wishful thinking, I know. That's not the world we live in. I don't think AI is "inevitable," but it's also not going anywhere. Still, some days I think about being Amish... okay maybe not Amish, but maybe taking us back to [1990s-era technology](https://www.youtube.com/watch?v=6-v1b9waHWY).
 
-These days, I can't seem to get through a conversation, a meeting, or anything I read online without a mention of AI. We've hit a hyper-saturated point where it's all anyone talks about, and even I have to say I'm getting bored of it at times.
+These days, I can't seem to get through a conversation, a meeting, or anything I read online without a mention of AI. We've hit a hyper-saturated point where it's all anyone talks about, and even I have to say I'm getting **_bored_**.
 
 ### Marvel already tried this in San Francisco
 
