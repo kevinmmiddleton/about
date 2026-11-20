@@ -43,7 +43,7 @@ Like the ones that said **["Stop hiring humans."](https://www.instagram.com/p/DJ
 
 ![An Artisan bus shelter ad: a woman's face over "STOP HIRING HUMANS*", with the fine print "*For Jobs They Don't Want to Do" and "The Era of AI Employees Is Here."](/blog/images/no-more-ai-artisan-billboard.jpg "The billboard.") ![A sheet cake with San Francisco and the Golden Gate Bridge behind it, iced with "Sorry for saying stop hiring humans" and the Artisan logo.](/blog/images/no-more-ai-artisan-cake.jpg "The apology.")
 
-Today's AI mania is funny for anyone who follows comics, because Marvel did this exact story in 2014. In _Superior Iron Man_ #1, a morally inverted Tony Stark (thanks to a spell from, of all people, the Scarlet Witch) picks San Francisco to beta-test his newest invention, the [Extremis 3.0 app](https://marvel.fandom.com/wiki/Extremis_3.0_App). The pitch is right on the poster: **"BE beautiful, intelligent, healthy, immortal."** And it's free to everyone in the city. **"It is our gift to you, San Francisco."**
+If you follow comics, this all sounds familiar. Marvel did this exact story in 2014. In _Superior Iron Man_ #1, a morally inverted Tony Stark (thanks to a spell from, of all people, the Scarlet Witch) picks San Francisco to beta-test his newest invention, the [Extremis 3.0 app](https://marvel.fandom.com/wiki/Extremis_3.0_App). The pitch is right on the poster: **"BE beautiful, intelligent, healthy, immortal."** And it's free to everyone in the city. **"It is our gift to you, San Francisco."**
 
 ![The Extremis 3.0 poster: a pill-shaped app icon, "BE SUPERIOR," and a letter signed by Tony Stark.](/blog/images/no-more-ai-extremis-poster.jpg "The pitch.")
 
@@ -75,7 +75,9 @@ I worry about us. We're not doing enough analog things in our day, we're not see
 
 Here's the funny part. Right now we're in the part of the timeline where working with technology is actually **_more difficult_**. I'm in front of a computer or a screen more often than ever.
 
-The other day, I was sitting at Starbucks, taking a break, while my agent transferred my domain to a new registrar without me having to babysit it. We should be using AI to do the boring jobs we don't wanna do so we can take a break and stretch our legs. We don't want to slog through boring and tedious tasks. **We should use technology to enjoy our lives more.**
+The other day, I was sitting at Starbucks, taking a break, while my agent transferred my domain to a new registrar without me having to babysit it. We should be using AI to do the boring jobs we don't wanna do so we can take a break and stretch our legs. **We should use technology to enjoy our lives more.**
+
+### The computer I actually want
 
 I often think about ambient computing, where there isn't much of a device at all, so there's a computer around your home that you trust and that can help you get tasks done without you having to stare at a screen. I've talked about the concept of [owning your context,](https://middleton.io/blog/owning-your-context/) where you can physically locate data about you at your home so you don't have to worry about who might have access to it in the cloud. I think local AI and tasks are going to become a bigger and bigger thing as people reflect back on how companies like Meta betrayed their trust and profited from and/or leaked their personal data. Post-[Cambridge Analytica scandal](https://en.wikipedia.org/wiki/Facebook–Cambridge_Analytica_data_scandal), people still don't trust Meta, not with personal data and not with [AI "pervert" glasses](https://www.bbc.com/news/articles/cwp80l0my1x2o).
 
