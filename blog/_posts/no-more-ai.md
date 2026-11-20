@@ -89,9 +89,9 @@ There was and still is a backlash about AI in art and AI writing, and thankfully
 
 Where I think AI can shine is doing my taxes or finding unclaimed money for me... these are very much things I would like done on my behalf without me having to stare at a screen while it happens. I'd rather be out to brunch with friends or playing with my cats.
 
-I'm not asking for Wanda-level powers to destroy all AI and I definitely don't want Tony's Extremis 3.0 app. Let people own and control their personal data, and make it easy to host that data at home, outside of the cloud, where it's safer.
+I'm not asking for Wanda-level powers to destroy all AI, and I definitely don't want Tony's Extremis 3.0 app. Let people own and control their personal data, and make it easy to host that data at home, outside of the cloud, where it's safer.
 
-Then create truly useful AI agents that people can personally own and control. Agents that check our email for the stuff we can skip and make sure we read the ones from our friends. Agents that handle the mundane tasks so I don't miss movie night.
+Then create truly useful AI agents that people can personally own and control. Agents that check our email for the stuff we can skip and make sure we read the ones from our friends. Agents that keep track of the little stuff so I don't miss movie night.
 
 That way we can go outside and do things, like meeting our friends for dinner or planning Thanksgiving.
 
