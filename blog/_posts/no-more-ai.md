@@ -82,7 +82,11 @@ I often think about ambient computing, where there isn't much of a device at all
 
 If anyone, maybe a company like Apple, can build up that trust layer with consumers, and people can affordably own their personal context at home on a physical device, then you could have an ambient computer that knows enough about you to be useful. It might even help you step away from all the technology and enjoy some tech-free moments that I think a lot of us are craving right now. **Great technology gets out of the way.**
 
-There was and still is a backlash about AI in art and AI writing, and thankfully there are still people creating art and writing and they should keep working. Where I think AI can shine is doing my taxes, or transferring my domain, or finding unclaimed money for me... these are very much things I would like done on my behalf without me having to babysit a screen while it happens. I'd rather be out to brunch with friends or playing with my cats.
+There was and still is a backlash about AI in art and AI writing, and thankfully there are still people creating art and writing and they should keep working. Author Joanna Maciejewska said it best:
+
+> "I want AI to do my laundry and dishes so that I can do art and writing, not for AI to do my art and writing so that I can do my laundry and dishes."
+
+Where I think AI can shine is doing my taxes, or transferring my domain, or finding unclaimed money for me... these are very much things I would like done on my behalf without me having to babysit a screen while it happens. I'd rather be out to brunch with friends or playing with my cats.
 
 I'm not asking for Wanda-level powers of "No more AI," and I definitely don't want Tony's Extremis 3.0 app. Let people own and control their personal data, and make it easy to host that data at home, outside of the cloud, where it's safer.
 
