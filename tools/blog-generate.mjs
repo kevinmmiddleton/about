@@ -157,6 +157,22 @@ function pdfEmbed(src, p, slug) {
 </div>`;
 }
 
+// One image line -> its <figure>, or null. The linked form is checked first;
+// its pattern is a superset of the standalone image.
+function imageFigure(line) {
+  const iml = line.trim().match(IMG_LINK_LINE);
+  if (iml) {
+    const [, alt, src, cap, url] = iml;
+    return `<figure>\n  <a href="${escAttr(url)}" target="_blank" rel="noopener noreferrer"><img src="${escAttr(src)}"${dimAttrs(src)} alt="${escAttr(alt)}" loading="lazy"></a>${cap?`\n  <figcaption>${inline(cap)}</figcaption>`:''}\n</figure>`;
+  }
+  const im = line.trim().match(IMG_LINE);
+  if (im) {
+    const [, alt, src, cap] = im;
+    return `<figure>\n  <img src="${escAttr(src)}"${dimAttrs(src)} alt="${escAttr(alt)}" loading="lazy">${cap?`\n  <figcaption>${inline(cap)}</figcaption>`:''}\n</figure>`;
+  }
+  return null;
+}
+
 function renderMarkdown(md='', opts={}) {
   const lines = md.replace(/\r\n/g,'\n').split('\n');
   const out = [];
@@ -189,20 +205,16 @@ function renderMarkdown(md='', opts={}) {
         : pdfEmbed(src, params, opts.slug));
       i++; continue;
     }
-    // linked image -> figure with the image wrapped in a link (check first;
-    // its pattern is a superset of the standalone image)
-    const iml = line.trim().match(IMG_LINK_LINE);
-    if (iml) {
-      const [, alt, src, cap, url] = iml;
-      out.push(`<figure>\n  <a href="${escAttr(url)}" target="_blank" rel="noopener noreferrer"><img src="${escAttr(src)}"${dimAttrs(src)} alt="${escAttr(alt)}" loading="lazy"></a>${cap?`\n  <figcaption>${inline(cap)}</figcaption>`:''}\n</figure>`);
-      i++; continue;
-    }
-    // standalone image -> figure
-    const im = line.trim().match(IMG_LINE);
-    if (im) {
-      const [, alt, src, cap] = im;
-      out.push(`<figure>\n  <img src="${escAttr(src)}"${dimAttrs(src)} alt="${escAttr(alt)}" loading="lazy">${cap?`\n  <figcaption>${inline(cap)}</figcaption>`:''}\n</figure>`);
-      i++; continue;
+    // image(s) -> figure. Back-to-back image lines (no blank line between)
+    // render as one row of figures side by side, which is how a post gets a
+    // two-up in Sveltia without any new syntax. A lone image is unchanged.
+    if (imageFigure(line)) {
+      const figs = [];
+      while (i < lines.length && imageFigure(lines[i])) { figs.push(imageFigure(lines[i])); i++; }
+      out.push(figs.length > 1
+        ? `<div class="figure-row figure-row--${Math.min(figs.length, 3)}">\n${figs.join('\n')}\n</div>`
+        : figs[0]);
+      continue;
     }
     // heading
     // Posts author their top section level as ###, and none uses ##, so

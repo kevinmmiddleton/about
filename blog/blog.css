@@ -259,6 +259,26 @@ figcaption {
     text-align: left;
 }
 
+/* Two or three images on back-to-back lines sit in one row. Each keeps its
+   own caption; on phones the row stacks back to single figures. */
+.article-body > .figure-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 24px;
+}
+.article-body > .figure-row--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.figure-row figure img {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+}
+@media (max-width: 560px) {
+    .article-body > .figure-row,
+    .article-body > .figure-row--3 { grid-template-columns: 1fr; }
+    .figure-row figure img { aspect-ratio: auto; }
+}
+
 /* Copyable prompt / code block */
 .prompt-block {
     position: relative;
