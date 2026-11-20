@@ -45,7 +45,7 @@ Like the ones that said **["Stop hiring humans."](https://www.instagram.com/p/DJ
 
 ![A sheet cake with San Francisco and the Golden Gate Bridge behind it, iced with "Sorry for saying stop hiring humans" and the Artisan logo.](/blog/images/no-more-ai-artisan-cake.jpg "The apology.")
 
-Today's AI mania is funny for anyone who follows comics, because Marvel did this exact story in 2014. In _Superior Iron Man_ #1, Tony Stark picks San Francisco to beta-test his newest invention, the [Extremis 3.0 app](https://marvel.fandom.com/wiki/Extremis_3.0_App). The pitch is right on the poster: **"BE beautiful, intelligent, healthy, immortal."** And it's free to everyone in the city. **"It is our gift to you, San Francisco."**
+Today's AI mania is funny for anyone who follows comics, because Marvel did this exact story in 2014. In _Superior Iron Man_ #1, a morally inverted Tony Stark (thanks to a spell from, of all people, the Scarlet Witch) picks San Francisco to beta-test his newest invention, the [Extremis 3.0 app](https://marvel.fandom.com/wiki/Extremis_3.0_App). The pitch is right on the poster: **"BE beautiful, intelligent, healthy, immortal."** And it's free to everyone in the city. **"It is our gift to you, San Francisco."**
 
 ![The Extremis 3.0 poster: a pill-shaped app icon, "BE SUPERIOR," and a letter signed by Tony Stark.](/blog/images/no-more-ai-extremis-poster.jpg "The pitch.")
 
