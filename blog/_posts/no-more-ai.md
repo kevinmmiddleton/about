@@ -14,7 +14,7 @@ tags:
   - Tech
 featured: false
 sort_order: null
-excerpt: Some days I want to borrow the Scarlet Witch and say "No more AI." Marvel already showed us how that goes, and what happens when Tony Stark gives San Francisco a free app.
+excerpt: What a fictional San Francisco can teach us about AI.
 cover_image: /blog/images/no-more-ai-wanda.jpg
 cover_alt: Comic panel of the Scarlet Witch in profile, a tear on her cheek, against a pale blue sky, with a speech bubble that reads "No more AI."
 og_image: ''
