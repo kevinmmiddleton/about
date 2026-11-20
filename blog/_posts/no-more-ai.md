@@ -23,7 +23,7 @@ lede_align: left
 linkedin_url: ''
 ---
 
-In 2005, the Scarlet Witch looked at the crowed, super-powered Marvel Universe and said three words: **"No more mutants."** Nearly every mutant on Earth woke up powerless.
+In 2005, the Scarlet Witch looked at the crowded, super-powered Marvel Universe and said three words: **"No more mutants."** Nearly every mutant on Earth woke up powerless.
 
 Some days I want to borrow her powers for a day and say **"No more AI."**
 
@@ -58,6 +58,8 @@ Tony gets compared to real tech billionaires all the time, Elon Musk most of all
 The comic version is the one worth reading, though. Superior Iron Man is Tony with his conscience switched off, a genius who has decided he knows what's best for everyone.
 
 ![Tony Stark lowering red glasses: "I'm the most intelligent, capable person on the planet. I'm not playing God." Below, his eyes glow red: "All this time... I've been playing human."](/blog/images/no-more-ai-playing-god.jpg "Superior Iron Man, not playing God.")
+
+Swap Tony's armor for a leather jacket and a keynote stage, and you've pretty much got half the AI announcements I've seen this year.
 
 ### I'm looking forward to the pendulum swing
 
