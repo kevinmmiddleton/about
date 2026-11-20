@@ -77,6 +77,10 @@ If anyone, maybe a company like Apple, can build up that trust layer with consum
 
 There was and still is a backlash about AI in art and AI writing, and thankfully there are still people creating art and writing and they should keep working. Where I think AI can shine is doing my taxes, or transferring my domain, or finding unclaimed money for me... these are very much things I would like done on my behalf without me having to babysit a screen while it happens. I'd rather be out to brunch with friends or playing with my cats.
 
-I'm not asking for Wanda-level powers of "No more AI", and I definitely don't want Tony's Extremis 3.0 app. Let people own and control their personal data, and allow people to easily host their data at home outside of the cloud so it's safer. Then create truly useful AI agents that can be personally owned and controlled so we can go outside and do things, because our agents are checking our emails for the stuff we can skip and making sure we read the ones from our friends and helps us keep our calendars organized so I don't miss movie night, so we can focus on meeting our friends for dinner or planning Thanksgiving.
+I'm not asking for Wanda-level powers of "No more AI," and I definitely don't want Tony's Extremis 3.0 app. Let people own and control their personal data, and make it easy to host that data at home, outside of the cloud, where it's safer.
+
+Then create truly useful AI agents that people can personally own and control. Agents that check our email for the stuff we can skip and make sure we read the ones from our friends. Agents that keep our calendars organized so I don't miss movie night.
+
+That way we can go outside and do things, like meeting our friends for dinner or planning Thanksgiving.
 
 We have to intentionally build the world we want to live in, and while Wanda and Tony don't really exist in our universe, I think we can still learn a thing or two from them.
