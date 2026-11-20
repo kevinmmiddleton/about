@@ -173,6 +173,16 @@ function imageFigure(line) {
   return null;
 }
 
+// Two or three images on one line, separated only by whitespace -> their
+// figures, or null. Each image may be plain or linked.
+const ONE_IMG = /\[!\[[^\]]*\]\([^)\s]+(?:\s+"[^"]*")?\)\]\([^)\s]+\)|!\[[^\]]*\]\([^)\s]+(?:\s+"[^"]*")?\)/g;
+function imageRow(line) {
+  const t = line.trim();
+  const parts = t.match(ONE_IMG);
+  if (!parts || parts.length < 2 || t.replace(ONE_IMG, '').trim() !== '') return null;
+  return parts.map(imageFigure);
+}
+
 function renderMarkdown(md='', opts={}) {
   const lines = md.replace(/\r\n/g,'\n').split('\n');
   const out = [];
@@ -205,12 +215,18 @@ function renderMarkdown(md='', opts={}) {
         : pdfEmbed(src, params, opts.slug));
       i++; continue;
     }
-    // image(s) -> figure. Back-to-back image lines (no blank line between)
-    // render as one row of figures side by side, which is how a post gets a
-    // two-up in Sveltia without any new syntax. A lone image is unchanged.
-    if (imageFigure(line)) {
+    // image(s) -> figure. Several images in one row render side by side: either
+    // back-to-back image lines, or images on the SAME line separated by spaces.
+    // The same-line form is the one to use from Sveltia, whose editor puts a
+    // blank line between image paragraphs on save and would split the row.
+    // A lone image is unchanged.
+    if (imageFigure(line) || imageRow(line)) {
       const figs = [];
-      while (i < lines.length && imageFigure(lines[i])) { figs.push(imageFigure(lines[i])); i++; }
+      while (i < lines.length && (imageFigure(lines[i]) || imageRow(lines[i]))) {
+        const one = imageFigure(lines[i]);
+        figs.push(...(one ? [one] : imageRow(lines[i])));
+        i++;
+      }
       out.push(figs.length > 1
         ? `<div class="figure-row figure-row--${Math.min(figs.length, 3)}">\n${figs.join('\n')}\n</div>`
         : figs[0]);
