@@ -314,7 +314,7 @@ const TAKEAWAYS = [
    { src: '/unpaid-intern/images/mark.svg', cls: 'take-art--intern' }],
   ['Personal Site', 'A website from an interview. Answer the questions, get a site you own.',
    'https://github.com/kevinmmiddleton/personal-site', 'Building+PersonalSite',
-   { src: '/blog/images/personal-site-blog-cover.png' }],
+   { src: '/blog/images/personal-site-mark.svg', cls: 'take-art--site' }],
 ];
 
 const SHORT_MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
