@@ -312,7 +312,7 @@ const TAKEAWAYS = [
   ['Unpaid Intern', 'A free second brain for work. Hand it your transcripts, docs, and tickets; get back your briefing, meeting prep, and follow-ups.',
    'https://github.com/kevinmmiddleton/unpaid-intern', 'Building+UnpaidIntern',
    { src: '/unpaid-intern/images/mark.svg', cls: 'take-art--intern' }],
-  ['Personal Site', 'A website from an interview. Answer the questions, get a site you own.',
+  ['Personal Site', 'Get interviewed by AI and build your website. Answer the questions, get a site you own.',
    'https://github.com/kevinmmiddleton/personal-site', 'Building+PersonalSite',
    { src: '/blog/images/personal-site-mark.svg', cls: 'take-art--site' }],
 ];
