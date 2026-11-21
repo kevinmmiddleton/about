@@ -1001,6 +1001,9 @@ figcaption {
    being cropped to fill. */
 .take-art--bff { background: #FFE14D; display: flex; align-items: center; justify-content: center; }
 .take-art--bff img { width: auto; height: 82%; object-fit: contain; }
+/* Unpaid Intern's brain mark sits on its own pink, same treatment as the BFF cup. */
+.take-art--intern { background: #FF8FC1; display: flex; align-items: center; justify-content: center; }
+.take-art--intern img { width: auto; height: 72%; object-fit: contain; }
 .take-body { display: flex; flex-direction: column; flex: 1; padding: 1rem 1.15rem 1.1rem; }
 .take-t { display: block; font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: .3rem; }
 .take-x { display: block; font-size: .88rem; line-height: 1.5; color: var(--text-secondary); }

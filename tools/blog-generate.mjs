@@ -309,12 +309,12 @@ const TAKEAWAYS = [
   ['Recruiter BFF', 'A recruiter that works for you. It scores any posting, preps you for the interview, and keeps your pipeline in a file you own.',
    'https://github.com/kevinmmiddleton/recruiter-bff', 'Building+JobSearchAgent',
    { src: '/recruiter-bff/images/recruiter-bff-mark.svg', cls: 'take-art--bff' }],
+  ['Unpaid Intern', 'A free second brain for work. Hand it your transcripts, docs, and tickets; get back your briefing, meeting prep, and follow-ups.',
+   'https://github.com/kevinmmiddleton/unpaid-intern', 'Building+UnpaidIntern',
+   { src: '/unpaid-intern/images/mark.svg', cls: 'take-art--intern' }],
   ['Personal Site', 'A website from an interview. Answer the questions, get a site you own.',
    'https://github.com/kevinmmiddleton/personal-site', 'Building+PersonalSite',
    { src: '/blog/images/personal-site-blog-cover.png' }],
-  ['Build with Claude', 'Ship apps from your phone. No IDE, no laptop, just a message.',
-   'https://github.com/kevinmmiddleton/build-with-claude', 'Building+Claude',
-   { src: '/blog/images/build-with-claude-cover.png' }],
 ];
 
 const SHORT_MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
