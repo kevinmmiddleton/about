@@ -812,14 +812,14 @@ ${restPosts.map((p, i) => card(p, i + leadPosts.length)).join('\n\n')}
     <meta property="og:url" content="${SITE}/blog/">
     <meta property="og:title" content="Blog | Kevin Middleton">
     <meta property="og:description" content="Essays on building with AI, product, and the systems in between.">
-    <meta property="og:image" content="${SITE}/images/kevin-middleton-og.png">
+    <meta property="og:image" content="${SITE}/images/blog-og.png?v=20261121">
     <meta property="og:site_name" content="Kevin Middleton">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Blog | Kevin Middleton">
     <meta name="twitter:description" content="Essays on building with AI, product, and the systems in between.">
-    <meta name="twitter:image" content="${SITE}/images/kevin-middleton-og.png">
+    <meta name="twitter:image" content="${SITE}/images/blog-og.png?v=20261121">
 
 ${HEAD_LINKS}
 
