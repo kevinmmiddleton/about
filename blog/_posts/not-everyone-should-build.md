@@ -62,10 +62,16 @@ I synced with my tech lead daily, at times that worked for him, so he could stay
 
 I wrote on LinkedIn earlier this year that half the job is being a buffer, and I still believe it. The trio agrees on what we're building, and then my job is to keep everything else from interrupting the people building it.
 
+## So what do we call it?
+
+I asked an old teammate what to call this: the whole team on one call, building live with AI, instead of passing the work down the line. His first answer was "collaboration," which is fair. He also pointed out that this is what the Agile Manifesto meant all along by "individuals and interactions" and face-to-face conversation. Desks facing each other, talking about the work while you do it.
+
+But I wanted a name I could say out loud to other teams, so I'm calling it co-building, and the people on the call co-builders. PM, design, engineering, QA, and an agent, building the thing together, then handing it to engineering to harden.
+
 ## I was worried about being the PM with too many meetings
 
 That label was my big concern back then. But you can't argue with the results.
 
 What AI changes is how long the room takes. The Oracle war room can happen on a shared call now, and it can happen even faster. Since we can build with agents, those meetings take up less time, and if we're all engaged on those even shorter calls, we can take the gains, grab an iced beverage of choice, and celebrate our team wins.
 
-So no, I don't think the trio is dead. Everyone can build now, and I'm glad they can. But a solo builder loses the designer who says the flow is confusing, the engineer who's already thinking about how it gets built, and QA asking what happens when a field is blank. Get them on the call. It'll be shorter than you think.
+So no, I don't think the trio is dead. Everyone can build now, and I'm glad they can. But a solo builder loses the designer who says the flow is confusing, the engineer who's already thinking about how it gets built, and QA asking what happens when a field is blank. Get your co-builders on the call. It'll be shorter than you think.
