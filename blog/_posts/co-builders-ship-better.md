@@ -38,9 +38,9 @@ Atlassian actually ran a solo builder experiment. Sherif Mansour, Atlassian's he
 
 ### I'd just joined the team, and v1 had already failed
 
-![Wait your turn. Build slow, alone, in order. PM hands a spec to design, design hands mocks to eng, eng hands the build to QA, and bugs come back three weeks later.](/blog/images/co-building-1-wait-your-turn.png "The old way: each role waits for a handoff, and QA finds a problem weeks later.")
-
 At Rocket Lawyer, I moved from the Platform team to the Legal Docs team. We were building interactive experiences into our legal document forms, and my first problem was that v1 of that work had failed. It hadn't been thought through, the requirements were faulty or missing, and nobody had walked the full user experience. Since we needed a v2 right away, we were already "behind," which is not a great feeling when you're onboarding to a new team.
+
+![Wait your turn. Build slow, alone, in order. PM hands a spec to design, design hands mocks to eng, eng hands the build to QA, and bugs come back three weeks later.](/blog/images/co-building-1-wait-your-turn.png "The old way: each role waits for a handoff, and QA finds a problem weeks later.")
 
 A lot of product managers’ first instinct would be to hole up somewhere, heads down, and think it all through alone. I went the other way. I say this often: I don't own good ideas. I was new to this team, I was probably missing some critical pieces, and since the first version had already failed, I needed v2 to work.
 
