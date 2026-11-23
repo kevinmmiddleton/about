@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F4F4F5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
+    <!-- No " | Kevin Middleton" suffix: it cost 18 chars of a ~60 char budget and
+         pushed real titles past the truncation point. og:title, twitter:title, the
+         h1, the blog card and the RSS item all use post.title directly, so nothing
+         visible changes. -->
+    <title>Solo builders ship faster. Co-builders ship better.</title>
+    <meta name="description" content="AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.">
+
+    <link rel="canonical" href="https://middleton.io/blog/co-builders-ship-better/">
+    <link rel="alternate" type="application/rss+xml" title="Kevin Middleton" href="https://middleton.io/blog/feed.xml">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://middleton.io/blog/co-builders-ship-better/">
+    <meta property="og:title" content="Solo builders ship faster. Co-builders ship better.">
+    <meta property="og:description" content="AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.">
+    <meta property="og:image" content="https://middleton.io/blog/images/co-builders-ship-better-cover.png">
+    <meta property="og:site_name" content="Kevin Middleton">
+    <meta property="article:published_time" content="2026-11-23">
+    <meta property="article:author" content="Kevin Middleton">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Solo builders ship faster. Co-builders ship better.">
+    <meta name="twitter:description" content="AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.">
+    <meta name="twitter:image" content="https://middleton.io/blog/images/co-builders-ship-better-cover.png">
+
+    <!-- One stylesheet for the whole site. No webfont request: fv.css uses a
+         system stack, which is also why the old Inter/Epilogue links are gone. -->
+    <link rel="stylesheet" href="/fv.css?v=c2017925">
+    <link rel="stylesheet" href="/blog/blog.css?v=73a17721">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <!-- Identity verification. Same three profiles the homepage claims, so every
+         page resolves to one entity rather than a separate author blob.
+         Wikidata is the disambiguating anchor. -->
+    <link rel="me" href="https://www.linkedin.com/in/kevinmiddleton/">
+    <link rel="me" href="https://github.com/kevinmmiddleton">
+    <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
+
+    <!-- JSON-LD: Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Solo builders ship faster. Co-builders ship better.",
+        "description": "AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.",
+        "author": {
+            "@type": "Person",
+            "@id": "https://middleton.io/#kevin",
+            "name": "Kevin Middleton",
+            "url": "https://middleton.io",
+            "sameAs": [
+                "https://www.linkedin.com/in/kevinmiddleton/",
+                "https://github.com/kevinmmiddleton",
+                "https://www.wikidata.org/wiki/Q140389537"
+            ]
+        },
+        "publisher": {
+            "@type": "Person",
+            "@id": "https://middleton.io/#kevin",
+            "name": "Kevin Middleton",
+            "url": "https://middleton.io"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://middleton.io/blog/co-builders-ship-better/"
+        },
+        "url": "https://middleton.io/blog/co-builders-ship-better/",
+        "image": "https://middleton.io/blog/images/co-builders-ship-better-cover.png",
+        "articleSection": "Blog",
+        "keywords": [
+            "Product Management",
+            "AI",
+            "Leadership",
+            "Process"
+        ],
+        "wordCount": 1525,
+        "datePublished": "2026-11-23",
+        "dateModified": "2026-11-23"
+    }
+    </script>
+
+    <!-- JSON-LD: Breadcrumb -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://middleton.io/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://middleton.io/blog/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Solo builders ship faster. Co-builders ship better.",
+                "item": "https://middleton.io/blog/co-builders-ship-better/"
+            }
+        ]
+    }
+    </script>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-CycHtdoRKtjDMtDpjBTA4.js"></script>
+    <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+    </script>
+</head>
+<body class="p-post">
+    <a class="skip" href="#content">Skip to content</a>
+    <nav class="nav pad">
+        <a class="mk" href="/">Kevin Middleton<small>Full Stack Product Manager &middot; New York City</small></a>
+        <span class="nav-l">
+          <a href="/#about">About</a>
+          <a href="/#building">Building</a>
+          <a href="/#values">Values</a>
+          <a href="/#record">Experience</a>
+          <a href="/#cases">Case Studies</a>
+          <a href="/blog/">Blog</a>
+        </span>
+        <a class="cta plausible-event-name=Header+OfficeHours" href="/officehours/">Office Hours</a>
+      </nav>
+
+    <main id="content" tabindex="-1">
+    <article class="article hue-5">
+        <!-- The lede. The headline sits ON the art rather than after it: the
+             image used to arrive below the eyebrow, title, dek and byline, at
+             exactly the text column's width, so it read as an illustration
+             dropped into the queue instead of an opening.
+
+             The hero is the LCP element on every post, so it is never lazy and
+             always high priority. alt is empty because the headline beside it
+             carries the meaning; a descriptive alt here would be read out
+             immediately before the same words in the h1. -->
+        <div class="article-lede">
+            <img class="article-hero" src="/blog/images/co-builders-ship-better-cover.png" width="2400" height="1260" alt="The product trio isn't dead. High-performing teams co-build with AI. PM, design, eng and QA work around AI building, then engineering hardens it and it ships." fetchpriority="high" decoding="async">
+            <div class="article-lede-in">
+                
+                <h1 class="article-title">Solo builders ship faster. Co-builders ship better.</h1>
+                <!-- The dek. Already written for every post as the excerpt
+                     field, already used on the index card and in
+                     og:description, and previously thrown away on the page
+                     where it does the most work. -->
+                <p class="article-dek">AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.</p>
+                <!-- No byline. It is a single-author blog, the name is in the
+                     nav lockup and again in the bio at the foot, so a third
+                     printing of it only cost a line in the band. -->
+                <div class="article-meta">
+                    <time datetime="2026-11-23">November 23, 2026</time>
+                </div>
+            </div>
+        </div>
+
+
+        <nav class="toc" aria-label="Sections">
+            <p class="toc-lbl">In this piece</p>
+            <ol>
+                <li><a href="#i-d-just-joined-the-team-and-v1-had-already-failed">I'd just joined the team, and v1 had already failed</a></li>
+                <li><a href="#i-was-the-third-pm-on-a-failing-project">I was the third PM on a failing project</a></li>
+                <li><a href="#what-if-every-day-felt-like-a-hackathon-but-better">What if every day felt like a hackathon (but better)?</a></li>
+                <li><a href="#a-long-co-building-session-is-the-right-meeting">A long co-building session is the right meeting.</a></li>
+            </ol>
+        </nav>
+
+        <div class="article-body">
+<p>There have been several claims on LinkedIn recently declaring the product trio (product/design/tech lead) “dead”. The argument goes like this: AI lets PMs prototype, designers write SQL, and engineers make product calls, so why gate who can build when everyone can build now?</p>
+
+<p>Just because everyone <em>can</em> build doesn't mean everyone <em>should</em> build.</p>
+
+<p>What I'd do instead is <strong>build with AI as a team</strong>. I call it <strong>co-building</strong>: PM, design, engineering, and QA use AI to work the problem from PRD to design to fully working product concept together, live. AI builds in real time and then engineering hardens after the co-building session.</p>
+
+<p>I build with AI almost every day, so I'm a big fan. I wrote about <a target="_blank" rel="noopener" href="https://middleton.io/blog/everyone-can-build-now/">what it didn't change</a> back in June. But the best work I've shipped came from the trio plus QA and any stakeholders working through the problems <em>together</em>. That's a better way to ship than everyone going solo.</p>
+
+<p>Atlassian actually ran a solo builder experiment. Sherif Mansour, Atlassian's head of AI and product craft, told <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=hRtmV1mCBSE">Lenny Rachitsky</a> they moved product managers and designers onto a team where everyone was an AI builder, with no PM or designer roles. A few weeks in, one of the PMs said they'd never moved faster. About a month in, everyone had gone back to their old jobs. His explanation: "We realized throughput's not our problem. Direction's our problem."</p>
+
+<figure>
+  <img src="/blog/images/co-building-2-everyones-a-builder.png" width="2064" height="690" alt="Everyone's a builder. Build fast, alone, all at once. PM, design, eng and QA each ship their own PR with AI; the PRs collide with a bug, a failed build and warnings, and nobody coordinates or owns the overlap." loading="lazy">
+  <figcaption>Everyone's a builder: fast, alone, and nobody owns the overlap.</figcaption>
+</figure>
+
+<h2 id="i-d-just-joined-the-team-and-v1-had-already-failed" class="sec">I'd just joined the team, and v1 had already failed</h2>
+
+<figure>
+  <img src="/blog/images/co-building-1-wait-your-turn.png" width="2064" height="600" alt="Wait your turn. Build slow, alone, in order. PM hands a spec to design, design hands mocks to eng, eng hands the build to QA, and bugs come back three weeks later." loading="lazy">
+  <figcaption>The old way: each role waits for a handoff, and QA finds a problem weeks later.</figcaption>
+</figure>
+
+<p>At Rocket Lawyer, I moved from the Platform team to the Legal Docs team. We were building interactive experiences into our legal document forms, and my first problem was that v1 of that work had failed. It hadn't been thought through, the requirements were faulty or missing, and nobody had walked the full user experience. Since we needed a v2 right away, we were already "behind," which is not a great feeling when you're onboarding to a new team.</p>
+
+<p>A lot of product managers’ first instinct would be to hole up somewhere, heads down, and think it all through alone. I went the other way. I say this often: I don't own good ideas. I was new to this team, I was probably missing some critical pieces, and since the first version had already failed, I needed v2 to work.</p>
+
+<p>So I got the team into a conference room for an afternoon, and by team I mean engineering, design, and QA. We talked through the feature, why we were building it, and what went wrong with v1. Then we went through the user experience scenario by scenario and talked through the edge cases.</p>
+
+<p>Without getting into the details of the features here, we got pretty deep in the weeds, because skipping that for v1 was exactly why v1 failed. In our collaborative session, Design had input on the experience, Engineering could think through the solution while we walked the flows, and QA caught edge cases the rest of us would have missed.</p>
+
+<p>Pulling the team together is one of my favorite "hacks," but it's really just good common sense: shrink the feedback loop.</p>
+
+<p>V2 launched without a hitch with virtually no bugs, and we moved on to the next feature. We could have done it the old way, the same way as v1, but it would have certainly been buggier and taken longer.</p>
+
+<h2 id="i-was-the-third-pm-on-a-failing-project" class="sec">I was the third PM on a failing project</h2>
+
+<p>Years earlier, at Oracle, I was the third PM to take over a failing product. My read was the same: the real problem was the feedback loop, and we needed to bring the team together in one place to close it. I was in San Francisco, but we had team members in Atlanta, Austin, and Florida.</p>
+
+<p>So I set up a war room in Atlanta for a week since most of the team members were there. Since we were all together, Design and UX sat beside an engineer and me, with QA right there too, and we agreed on solutions to features and edge cases in real time. An engineer would show, to the pixel, how they were implementing something, and design could make micro adjustments on the spot.</p>
+
+<p>We shipped five epics in a week and demoed to stakeholders that Friday. It was a huge success, and we would not have been successful if we had stayed siloed.</p>
+
+<h2 id="what-if-every-day-felt-like-a-hackathon-but-better" class="sec">What if every day felt like a hackathon (but better)?</h2>
+
+<p>At many companies, hackathons happen once a year, maybe twice. And the takeaways are always about the same: teams generally enjoy them and talk about how much they enjoyed the collaboration and how impressed they were by what the participants got done. The name fits, too. It's usually a <em>hackathon</em> because you have to cobble something together very quickly.</p>
+
+<p>I was talking about this with a colleague: imagine if we took those same ideas for hackathons and made them our normal way of building, with AI. Collaborative by default, where the whole team builds with AI, together, in the session, end-to-end instead of how we have been traditionally building or, with recent AI changes, solo building.</p>
+
+<p><strong>Co-building solves this</strong>. The team sets up <strong>regular co-building sessions</strong>: the co-builders set aside an afternoon, get on a virtual call or in a room together, and someone drives. Every step happens in that session, with no stopping and starting or waiting for another day. The team commits to getting it done right there:</p>
+
+<ol>
+<li><strong>Someone brings a draft PRD</strong>. Product might own it, but now that everyone's a builder, anybody could bring that piece.</li>
+<li><strong>The co-building team stress tests and pokes holes</strong>. We find the edge cases and resolve them, so we refine our starting inputs together.</li>
+<li><strong>The co-building team gives these inputs to AI and builds the prototype live, together</strong>.</li>
+<li><strong>The co-building team refines the prototype, and maybe starts connecting the backend systems</strong>.</li>
+<li><strong>Engineering hardens what was built and prepares the feature to demo and ship</strong>. The tech lead or an engineer is in the co-building session. On a smaller team, every engineer may be part of the session. Engineering still gets time after the session to go through what was built and harden it before launch.</li>
+</ol>
+
+<p>It could take an hour, or it could take a couple of hours. But that's time well spent, because it's much faster than traditional product development.</p>
+
+<p>Co-building excites me because it feels like something we always wanted to do but didn't have the technical capability to actually pull off. Now we can. <strong>I am so curious why I don't hear about more teams working this way.</strong></p>
+
+<p>When I was brainstorming what to call this, my colleague's first word for it was "collaboration," which is spot-on, but it's also a word that's kind of lost its meaning. And it's what the Agile Manifesto meant all along by "individuals and interactions" and face-to-face conversation. But I wanted a phrase I could use with other teams, so I'm calling it <strong>co-building</strong>, and the people on the call <strong>co-builders</strong>. PM, design, engineering, QA, and an agent, building together, then handing it to engineering to harden.</p>
+
+<figure>
+  <img src="/blog/images/co-building-3-co-building.png" width="2064" height="724" alt="Co-building. Build better, faster, together. PM, design, eng and QA work the problem live around AI building in the middle, then engineering hardens it and it ships." loading="lazy">
+  <figcaption>Co-building: the whole team works the problem live while AI builds, then engineering hardens it.</figcaption>
+</figure>
+
+<h2 id="a-long-co-building-session-is-the-right-meeting" class="sec">A long co-building session is the right meeting.</h2>
+
+<p>Nobody wants to be labeled as a meeting lover, but hear me out and consider how this might actually save your team time and improve outcomes.</p>
+
+<p>AI has changed how long product building takes, but AI alone has not changed how we might need to reconfigure our teams to build the most effectively. Since we can build with agents now, some meetings take up less time, and if we're all engaged on a longer co-building call, we can take the time we wasted during traditional or solo building to focus on problems to solve. And hopefully with the time saved, grab an iced beverage of choice and celebrate some faster, less buggy, and a lot less frustrating team wins.</p>
+
+<p><strong>So no, the product trio isn't dead and it hasn't been replaced by solo builders.</strong> Everyone can build now, and I'm glad they can. But a solo builder loses the designer who says the flow is confusing, the engineer who's already thinking about how it gets built, and QA asking what happens when a field is blank. Get your co-builders into a session. It's time well spent and much better than solo building.</p>
+        </div>
+<nav class="readnext" aria-label="Read next">
+        <h2 class="rn-lbl">Read next</h2>
+        <div class="rn-grid">
+            <a class="rn hue-5" href="/blog/nobody-owns-the-journey/">
+                <span class="rn-k">More in Product</span>
+                <span class="rn-t">If everyone owns the customer journey, no one does</span>
+                <span class="rn-x">Is your customer journey smooth, or more like ka-chunk, ka-chunk, ka-chunk?</span>
+            </a>
+            <a class="rn hue-5" href="/blog/start-slow-to-move-fast/">
+                <span class="rn-k">More in Product</span>
+                <span class="rn-t">How we work matters more than ever</span>
+                <span class="rn-x">Building's never been easier. Which makes how we work matter even more. Wanna move fast and not break things? Take a beat first.</span>
+            </a>
+        </div>
+    </nav>
+        <p class="article-rail">More from Kevin: <a href="/casestudies/">Case studies</a> <span class="dot" aria-hidden="true">·</span> <a href="/#record">Experience</a> <span class="dot" aria-hidden="true">·</span> <a href="https://shortlist.middleton.io/" target="_blank" rel="noopener">Shortlist</a></p>
+        <div class="article-bio">
+  <p>Kevin Middleton is a Full Stack Product Manager in New York who builds systems that help teams not lose their minds. More at <a href="https://middleton.io">middleton.io</a> and <a href="https://middleton.io/officehours/">middleton.io/officehours</a>.</p>
+</div>
+        <a class="article-back article-back-bottom" href="/blog/"><span class="arw-back" aria-hidden="true"></span>Back to the Blog</a>
+    </article>
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="container footer-content">
+            <p class="footer-text">&copy;2026 Kevin Middleton. 👋</p>
+        </div>
+    </footer>
+
+    <script src="/blog/blog-nav.js?v=131ce6d0"></script>
+</body>
+</html>

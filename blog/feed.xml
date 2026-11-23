@@ -6,7 +6,93 @@
     <atom:link href="https://middleton.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Essays on building with AI, product, and the systems in between.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Nov 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 23 Nov 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Solo builders ship faster. Co-builders ship better.</title>
+      <link>https://middleton.io/blog/co-builders-ship-better/</link>
+      <guid isPermaLink="true">https://middleton.io/blog/co-builders-ship-better/</guid>
+      <pubDate>Mon, 23 Nov 2026 00:00:00 GMT</pubDate>
+      <description>AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.</description>
+      <enclosure url="https://middleton.io/blog/images/co-builders-ship-better-cover.png" type="image/png" length="140970"/>
+      <media:content url="https://middleton.io/blog/images/co-builders-ship-better-cover.png" medium="image" type="image/png"/>
+      <media:thumbnail url="https://middleton.io/blog/images/co-builders-ship-better-cover.png"/>
+      <content:encoded><![CDATA[<p>There have been several claims on LinkedIn recently declaring the product trio (product/design/tech lead) “dead”. The argument goes like this: AI lets PMs prototype, designers write SQL, and engineers make product calls, so why gate who can build when everyone can build now?</p>
+
+<p>Just because everyone <em>can</em> build doesn't mean everyone <em>should</em> build.</p>
+
+<p>What I'd do instead is <strong>build with AI as a team</strong>. I call it <strong>co-building</strong>: PM, design, engineering, and QA use AI to work the problem from PRD to design to fully working product concept together, live. AI builds in real time and then engineering hardens after the co-building session.</p>
+
+<p>I build with AI almost every day, so I'm a big fan. I wrote about <a href="https://middleton.io/blog/everyone-can-build-now/">what it didn't change</a> back in June. But the best work I've shipped came from the trio plus QA and any stakeholders working through the problems <em>together</em>. That's a better way to ship than everyone going solo.</p>
+
+<p>Atlassian actually ran a solo builder experiment. Sherif Mansour, Atlassian's head of AI and product craft, told <a href="https://www.youtube.com/watch?v=hRtmV1mCBSE">Lenny Rachitsky</a> they moved product managers and designers onto a team where everyone was an AI builder, with no PM or designer roles. A few weeks in, one of the PMs said they'd never moved faster. About a month in, everyone had gone back to their old jobs. His explanation: "We realized throughput's not our problem. Direction's our problem."</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/co-building-2-everyones-a-builder.png" width="2064" height="690" alt="Everyone's a builder. Build fast, alone, all at once. PM, design, eng and QA each ship their own PR with AI; the PRs collide with a bug, a failed build and warnings, and nobody coordinates or owns the overlap." loading="lazy">
+  <figcaption>Everyone's a builder: fast, alone, and nobody owns the overlap.</figcaption>
+</figure>
+
+<h2>I'd just joined the team, and v1 had already failed</h2>
+
+<figure>
+  <img src="https://middleton.io/blog/images/co-building-1-wait-your-turn.png" width="2064" height="600" alt="Wait your turn. Build slow, alone, in order. PM hands a spec to design, design hands mocks to eng, eng hands the build to QA, and bugs come back three weeks later." loading="lazy">
+  <figcaption>The old way: each role waits for a handoff, and QA finds a problem weeks later.</figcaption>
+</figure>
+
+<p>At Rocket Lawyer, I moved from the Platform team to the Legal Docs team. We were building interactive experiences into our legal document forms, and my first problem was that v1 of that work had failed. It hadn't been thought through, the requirements were faulty or missing, and nobody had walked the full user experience. Since we needed a v2 right away, we were already "behind," which is not a great feeling when you're onboarding to a new team.</p>
+
+<p>A lot of product managers’ first instinct would be to hole up somewhere, heads down, and think it all through alone. I went the other way. I say this often: I don't own good ideas. I was new to this team, I was probably missing some critical pieces, and since the first version had already failed, I needed v2 to work.</p>
+
+<p>So I got the team into a conference room for an afternoon, and by team I mean engineering, design, and QA. We talked through the feature, why we were building it, and what went wrong with v1. Then we went through the user experience scenario by scenario and talked through the edge cases.</p>
+
+<p>Without getting into the details of the features here, we got pretty deep in the weeds, because skipping that for v1 was exactly why v1 failed. In our collaborative session, Design had input on the experience, Engineering could think through the solution while we walked the flows, and QA caught edge cases the rest of us would have missed.</p>
+
+<p>Pulling the team together is one of my favorite "hacks," but it's really just good common sense: shrink the feedback loop.</p>
+
+<p>V2 launched without a hitch with virtually no bugs, and we moved on to the next feature. We could have done it the old way, the same way as v1, but it would have certainly been buggier and taken longer.</p>
+
+<h2>I was the third PM on a failing project</h2>
+
+<p>Years earlier, at Oracle, I was the third PM to take over a failing product. My read was the same: the real problem was the feedback loop, and we needed to bring the team together in one place to close it. I was in San Francisco, but we had team members in Atlanta, Austin, and Florida.</p>
+
+<p>So I set up a war room in Atlanta for a week since most of the team members were there. Since we were all together, Design and UX sat beside an engineer and me, with QA right there too, and we agreed on solutions to features and edge cases in real time. An engineer would show, to the pixel, how they were implementing something, and design could make micro adjustments on the spot.</p>
+
+<p>We shipped five epics in a week and demoed to stakeholders that Friday. It was a huge success, and we would not have been successful if we had stayed siloed.</p>
+
+<h2>What if every day felt like a hackathon (but better)?</h2>
+
+<p>At many companies, hackathons happen once a year, maybe twice. And the takeaways are always about the same: teams generally enjoy them and talk about how much they enjoyed the collaboration and how impressed they were by what the participants got done. The name fits, too. It's usually a <em>hackathon</em> because you have to cobble something together very quickly.</p>
+
+<p>I was talking about this with a colleague: imagine if we took those same ideas for hackathons and made them our normal way of building, with AI. Collaborative by default, where the whole team builds with AI, together, in the session, end-to-end instead of how we have been traditionally building or, with recent AI changes, solo building.</p>
+
+<p><strong>Co-building solves this</strong>. The team sets up <strong>regular co-building sessions</strong>: the co-builders set aside an afternoon, get on a virtual call or in a room together, and someone drives. Every step happens in that session, with no stopping and starting or waiting for another day. The team commits to getting it done right there:</p>
+
+<ol>
+<li><strong>Someone brings a draft PRD</strong>. Product might own it, but now that everyone's a builder, anybody could bring that piece.</li>
+<li><strong>The co-building team stress tests and pokes holes</strong>. We find the edge cases and resolve them, so we refine our starting inputs together.</li>
+<li><strong>The co-building team gives these inputs to AI and builds the prototype live, together</strong>.</li>
+<li><strong>The co-building team refines the prototype, and maybe starts connecting the backend systems</strong>.</li>
+<li><strong>Engineering hardens what was built and prepares the feature to demo and ship</strong>. The tech lead or an engineer is in the co-building session. On a smaller team, every engineer may be part of the session. Engineering still gets time after the session to go through what was built and harden it before launch.</li>
+</ol>
+
+<p>It could take an hour, or it could take a couple of hours. But that's time well spent, because it's much faster than traditional product development.</p>
+
+<p>Co-building excites me because it feels like something we always wanted to do but didn't have the technical capability to actually pull off. Now we can. <strong>I am so curious why I don't hear about more teams working this way.</strong></p>
+
+<p>When I was brainstorming what to call this, my colleague's first word for it was "collaboration," which is spot-on, but it's also a word that's kind of lost its meaning. And it's what the Agile Manifesto meant all along by "individuals and interactions" and face-to-face conversation. But I wanted a phrase I could use with other teams, so I'm calling it <strong>co-building</strong>, and the people on the call <strong>co-builders</strong>. PM, design, engineering, QA, and an agent, building together, then handing it to engineering to harden.</p>
+
+<figure>
+  <img src="https://middleton.io/blog/images/co-building-3-co-building.png" width="2064" height="724" alt="Co-building. Build better, faster, together. PM, design, eng and QA work the problem live around AI building in the middle, then engineering hardens it and it ships." loading="lazy">
+  <figcaption>Co-building: the whole team works the problem live while AI builds, then engineering hardens it.</figcaption>
+</figure>
+
+<h2>A long co-building session is the right meeting.</h2>
+
+<p>Nobody wants to be labeled as a meeting lover, but hear me out and consider how this might actually save your team time and improve outcomes.</p>
+
+<p>AI has changed how long product building takes, but AI alone has not changed how we might need to reconfigure our teams to build the most effectively. Since we can build with agents now, some meetings take up less time, and if we're all engaged on a longer co-building call, we can take the time we wasted during traditional or solo building to focus on problems to solve. And hopefully with the time saved, grab an iced beverage of choice and celebrate some faster, less buggy, and a lot less frustrating team wins.</p>
+
+<p><strong>So no, the product trio isn't dead and it hasn't been replaced by solo builders.</strong> Everyone can build now, and I'm glad they can. But a solo builder loses the designer who says the flow is confusing, the engineer who's already thinking about how it gets built, and QA asking what happens when a field is blank. Get your co-builders into a session. It's time well spent and much better than solo building.</p>]]></content:encoded>
+    </item>
     <item>
       <title>Marvel warned us about AI</title>
       <link>https://middleton.io/blog/no-more-ai/</link>
@@ -1427,64 +1513,6 @@ through it one step at a time. Use this open-source project as a starting point:
 <blockquote>
   <p><strong>If you want a smaller starting point, the open-source version of this assistant is</strong> <a href="https://middleton.io/blog/job-search-agent/"><strong>a Claude Code plugin</strong></a> <strong>you can install yourself.</strong></p>
 </blockquote>]]></content:encoded>
-    </item>
-    <item>
-      <title>Need an AI recruiter that works for you? Try this one.</title>
-      <link>https://middleton.io/blog/job-search-agent/</link>
-      <guid isPermaLink="true">https://middleton.io/blog/job-search-agent/</guid>
-      <pubDate>Sat, 06 Jun 2026 00:00:00 GMT</pubDate>
-      <description>Open-sourced a Claude Code plugin that turns Claude into your job search assistant. The accessible version of the system I built for myself, free on GitHub.</description>
-      <enclosure url="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png" type="image/png" length="59781"/>
-      <media:content url="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png" medium="image" type="image/png"/>
-      <media:thumbnail url="https://middleton.io/blog/images/1780711744499-job-search-agent-banner.png"/>
-      <content:encoded><![CDATA[<p><em>Update, Oct 16: Job Search Agent is now <a href="https://middleton.io/recruiter-bff/">Recruiter BFF</a>, and 1.0 is out. Same plugin, new name, and the download links below get you the latest version.</em></p>
-
-<p>I built an AI job-search system <a href="https://middleton.io/blog/ai-job-search-assistant/">for myself first</a>. A Mac Mini sitting in my office, scanning the boards twice a day, texting me only the roles worth a look, costing about a penny per run. I've written about how it works in the previous posts in this series.</p>
-
-<p>But the biggest thing that really bothered me was that most of the people who need automation like this either don't have the time or can't build it themselves.</p>
-
-<p>A setup like mine takes a spare always-on machine, API keys, some patience with the command line, and time to debug when things break. Anyone hunting for a job already has none of those things. They've got rejection emails to triage, applications to send, recruiter pings to chase, and a low-grade hum of stress that doesn't turn off.</p>
-
-<p>So I started porting the useful parts of my personal setup into something anyone with <strong>Claude Code</strong> can install. Today it's live on <a href="https://github.com/kevinmmiddleton/job-search-agent">GitHub</a>, but you can download it directly here: <a href="https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin">job-search-agent.plugin</a></p>
-
-<p>It's open source and does the things you actually want a job-search assistant to do: scan job boards for roles that fit your career profile and goals, track your applications in a plain CSV you own, build interview guides from job descriptions. No always-on machine, no servers, no $200-a-month SaaS. Runs on whatever laptop you already have.</p>
-
-<h2>Two paths if you want to try it</h2>
-
-<ol>
-<li>Download <a href="https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/job-search-agent.plugin"><code>job-search-agent.plugin</code></a> and open it with <strong>Cowork</strong>. That's the whole install.</li>
-<li>Or hand the <a href="https://github.com/kevinmmiddleton/job-search-agent">GitHub</a> link to <strong>Claude</strong> and ask it to help you get started. Building tools to install other tools is exactly what Claude is good at.</li>
-</ol>
-
-<p>If you fork it, improve it, or break it, tell me. Issues and PRs welcome.</p>
-
-<h2>How to use it</h2>
-
-<ul>
-<li>"Set up my job search" → onboarding + saved search</li>
-<li>"Scan for jobs" / "any new roles?" → on-demand scan against your saved search</li>
-<li>"I applied to X" / "what's in my pipeline?" → tracker</li>
-<li>"Prep me for my interview with [Company]" + paste the JD → interview guide</li>
-<li>"Can this run automatically?" → automation options</li>
-</ul>
-
-<h2>Why share it</h2>
-
-<p>A few things I keep coming back to from my own search:</p>
-
-<ul>
-<li>Whether you're qualified usually isn't the problem. You probably are.</li>
-<li>Applying early matters more than applying polished. In a crowded market, being one of the first 50 applicants beats being a perfectly tailored 200th.</li>
-<li>The constant LinkedIn-and-email roulette is its own tax. Every notification hijacks dopamine and cortisol, all day, every day. Most of what you find won't be relevant. Most of what's relevant won't respond.</li>
-</ul>
-
-<p>Automation doesn't fix the market. But it does pull the noise off your plate so the energy you have left can go to what actually moves the needle: writing better cover notes, prepping harder for interviews, talking to people who matter.</p>
-
-<h2>Why open</h2>
-
-<p>I've shared this with a handful of friends already. Putting it in public was the obvious next step. The alternative, keeping a useful tool in my own pocket, felt wrong. We should be sharing the things that make this part of life less brutal, not hoarding them.</p>
-
-<p>This is the first thing I've open-sourced from my personal job search system. Hopefully more will follow. It's the least I can do.</p>]]></content:encoded>
     </item>
   </channel>
 </rss>
