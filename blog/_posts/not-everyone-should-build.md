@@ -72,7 +72,9 @@ I wrote on LinkedIn earlier this year that half the job is being a buffer, and I
 
 ## What if every day felt like a hackathon?
 
-I was talking about this with a colleague, and here's where we landed: what if we could work like we were in a hackathon, but all the time? The team is more engaged and more in sync during a hackathon. What if we took that energy and applied it to building with AI?
+It seems to me that hackathons happen once a year, maybe twice. And the takeaways are always about the same: teams really enjoy them. We talk about how much we enjoyed the collaboration and how impressed we were by what we got done. The name fits, too. It's usually a hackathon because we had to cobble something together very quickly.
+
+I was talking about this with a colleague, and here's where we landed: imagine if we took those same ideas and made them our normal way of building, with AI. Collaborative by design, and afterward we take the step to properly build out and ship what we put together. Collaborative by default. The whole team builds with AI, together, in the session.
 
 Here's what I'm proposing: a co-building session. The team sets aside an afternoon, gets on a virtual call or in a room together, and someone drives. Every step happens in that one session. No stopping and starting, no waiting for a different day.
 
