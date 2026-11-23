@@ -17,7 +17,7 @@ featured: false
 sort_order: null
 excerpt: AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.
 cover_image: /blog/images/co-builders-ship-better-cover.png
-cover_alt: The product trio isn't dead. High-performing teams co-build with AI. PM, design, eng and QA work around AI building, then engineering hardens it and it ships.
+cover_alt: Solo builders ship faster. Co-builders ship better. PM, design, eng and QA work around AI building, then engineering hardens it and it ships.
 og_image: ''
 cover_full: false
 lede_align: left
