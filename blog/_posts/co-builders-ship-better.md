@@ -66,7 +66,7 @@ At many companies, hackathons happen once a year, maybe twice. And the takeaways
 
 I was talking about this with a colleague: imagine if we took those same ideas for hackathons and made them our normal way of building, with AI. Collaborative by default, where the whole team builds with AI, together, in the session, end-to-end instead of how we have been traditionally building or, with recent AI changes, solo building.
 
-Co-building solves this. The team sets up **regular co-building sessions**: the co-builders set aside an afternoon, get on a virtual call or in a room together, and someone drives. Every step happens in that session, with no stopping and starting or waiting for another day. The team commits to getting it done right there:
+**Co-building solves this**. The team sets up **regular co-building sessions**: the co-builders set aside an afternoon, get on a virtual call or in a room together, and someone drives. Every step happens in that session, with no stopping and starting or waiting for another day. The team commits to getting it done right there:
 
 1. **Someone brings a draft PRD**. Product might own it, but now that everyone's a builder, anybody could bring that piece.
 2. **The co-building team stress tests and pokes holes**. We find the edge cases and resolve them, so we refine our starting inputs together.
@@ -76,16 +76,16 @@ Co-building solves this. The team sets up **regular co-building sessions**: the 
 
 It could take an hour, or it could take a couple of hours. But that's time well spent, because it's much faster than traditional product development.
 
-Co-building excites me because it feels like something we always wanted to do but didn't have the technical capability to actually do. Now we can. **I am so curious why I don't hear about more teams working this way.**
+Co-building excites me because it feels like something we always wanted to do but didn't have the technical capability to actually pull off. Now we can. **I am so curious why I don't hear about more teams working this way.**
 
-My colleague's first word for it was "collaboration," which is spot-on, but it's also a word that's kind of lost its meaning. It's also what the Agile Manifesto meant all along by "individuals and interactions" and face-to-face conversation. But I wanted a phrase I could use with other teams, so I'm calling it **co-building**, and the people on the call **co-builders**. PM, design, engineering, QA, and an agent, building together, then handing it to engineering to harden.
+When I was brainstorming what to call this, my colleague's first word for this was "collaboration," which is spot-on, but it's also a word that's kind of lost its meaning. It's also what the Agile Manifesto meant all along by "individuals and interactions" and face-to-face conversation. But I wanted a phrase I could use with other teams, so I'm calling it **co-building**, and the people on the call **co-builders**. PM, design, engineering, QA, and an agent, building together, then handing it to engineering to harden.
 
 ![Co-building. Build better, faster, together. PM, design, eng and QA work the problem live around AI building in the middle, then engineering hardens it and it ships.](/blog/images/co-building-3-co-building.png "Co-building: the whole team works the problem live while AI builds, then engineering hardens it.")
 
 ### A long co-building session is the right meeting.
 
-Nobody wants to be labeled as a meeting lover. But you can't argue with the results.
+Nobody wants to be labeled as a meeting lover, but hear me out and consider how this might actually save your team time and improve outcomes.
 
-AI has changed how long the product building takes, but AI alone has not changed how we reconfigure our teams to build the most effectively. Since we can build with agents now, some meetings take up less time, and if we're all engaged on a longer co-building call, we can take the time we used to lose to traditional or solo building, and instead grab an iced beverage of choice, and maybe celebrate some faster, less buggy team wins.
+AI has changed how long product building takes, but AI alone has not changed how we might need to reconfigure our teams to build the most effectively. Since we can build with agents now, some meetings take up less time, and if we're all engaged on a longer co-building call, we can take the time we wasted during traditional or solo building to focus on problems to solve. And hopefully with the time saved, grab an iced beverage of choice and celebrate some faster, less buggy, and a lot less frustrating team wins.
 
-So no, the product trio isn't dead and it hasn't been replaced by solo builders. Everyone can build now, and I'm glad they can. But a solo builder loses the designer who says the flow is confusing, the engineer who's already thinking about how it gets built, and QA asking what happens when a field is blank. Get your co-builders into a session. It's time well spent and much better than solo building.
+**So no, the product trio isn't dead and it hasn't been replaced by solo builders.** Everyone can build now, and I'm glad they can. But a solo builder loses the designer who says the flow is confusing, the engineer who's already thinking about how it gets built, and QA asking what happens when a field is blank. Get your co-builders into a session. It's time well spent and much better than solo building.
