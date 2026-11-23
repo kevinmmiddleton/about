@@ -28,7 +28,7 @@ That's more personal than anything those data brokers had. And I'm not unusual. 
 
 If I care enough to pay Incogni to scrub my info from brokers, it follows that I'd want this even more personal context protected too. The question is where it lives.
 
-![A two-panel diagram. Today: your context lives in the cloud, exposed to ads, data brokers, and third parties. The future: your context lives at home, with the cloud fetching info only as needed.](/blog/images/context-today-vs-future.jpg "Your personal context today, and where it should live tomorrow.")
+![A two-panel diagram. Today: your context (taxes, fears, writing, career plans, medical history) lives in the cloud, flowing out to ads, data brokers, and third parties. The future: the same context lives on your home computer, locked, and you decide what to share; it sends only what a task needs to an AI model and your apps.](/blog/images/context-today-vs-future-v2.jpg "Your personal context today, and where it should live tomorrow.")
 
 ## Where I Think This Is Going
 
