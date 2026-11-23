@@ -78,7 +78,7 @@ It could take an hour, or it could take a couple of hours. But that's time well 
 
 Co-building excites me because it feels like something we always wanted to do but didn't have the technical capability to actually pull off. Now we can. **I am so curious why I don't hear about more teams working this way.**
 
-When I was brainstorming what to call this, my colleague's first word for this was "collaboration," which is spot-on, but it's also a word that's kind of lost its meaning. It's also what the Agile Manifesto meant all along by "individuals and interactions" and face-to-face conversation. But I wanted a phrase I could use with other teams, so I'm calling it **co-building**, and the people on the call **co-builders**. PM, design, engineering, QA, and an agent, building together, then handing it to engineering to harden.
+When I was brainstorming what to call this, my colleague's first word for it was "collaboration," which is spot-on, but it's also a word that's kind of lost its meaning. And it's what the Agile Manifesto meant all along by "individuals and interactions" and face-to-face conversation. But I wanted a phrase I could use with other teams, so I'm calling it **co-building**, and the people on the call **co-builders**. PM, design, engineering, QA, and an agent, building together, then handing it to engineering to harden.
 
 ![Co-building. Build better, faster, together. PM, design, eng and QA work the problem live around AI building in the middle, then engineering hardens it and it ships.](/blog/images/co-building-3-co-building.png "Co-building: the whole team works the problem live while AI builds, then engineering hardens it.")
 
