@@ -77,4 +77,5 @@ collections:
       - { name: og_image, label: Share image (optional), widget: image, required: false, hint: "Still image for link previews. Use it when the cover is an animated GIF." }
       - { name: cover_full, label: Show the whole cover, widget: boolean, default: false, required: false, hint: "Off crops the cover to a short letterbox. Turn on for a cover (like an animated GIF) whose top or bottom matters." }
       - { name: lede_align, label: Lede text side, widget: select, options: [left, right], default: left, required: false, hint: "Which side the kicker, headline and dek sit on inside the cover band. Desktop only. Phones always stack to the left, where the eye starts a line." }
+      - { name: title_break, label: Break title between sentences, widget: boolean, default: false, required: false, hint: "Puts each sentence of the headline on its own line on the post page (e.g. two short punchy sentences). The browser tab, cards and social previews keep one line." }
       - { name: linkedin_url, label: LinkedIn URL, widget: string, required: false }

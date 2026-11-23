@@ -630,7 +630,7 @@ ${HEADER}
             <img class="article-hero" src="${escAttr(post.cover_image||'')}"${dimAttrs(post.cover_image)}${post.cover_full ? ' style="height:auto;aspect-ratio:16/9"' : ''} alt="${escAttr(post.cover_alt||'')}" fetchpriority="high" decoding="async">
             <div class="article-lede-in${post.lede_align === 'right' ? ' lede-right' : ''}">
                 ${post.series ? `<p class="article-eyebrow">${seriesKicker(post, all)}</p>` : ''}
-                <h1 class="article-title">${esc(post.title)}</h1>
+                <h1 class="article-title">${post.title_break ? esc(post.title).replace(/([.!?]) (?=\S)/g, '$1<br>') : esc(post.title)}</h1>
                 <!-- The dek. Already written for every post as the excerpt
                      field, already used on the index card and in
                      og:description, and previously thrown away on the page

@@ -21,6 +21,7 @@ cover_alt: The product trio isn't dead. High-performing teams co-build with AI. 
 og_image: ''
 cover_full: false
 lede_align: left
+title_break: true
 linkedin_url: ''
 ---
 
