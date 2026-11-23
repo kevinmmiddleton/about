@@ -40,7 +40,7 @@ Atlassian actually ran a solo builder experiment. Sherif Mansour, Atlassian's he
 
 ![Wait your turn. Build slow, alone, in order. PM hands a spec to design, design hands mocks to eng, eng hands the build to QA, and bugs come back three weeks later.](/blog/images/co-building-1-wait-your-turn.png "The old way: each role waits for a handoff, and QA finds a problem weeks later.")
 
-At Rocket Lawyer, I wasn't new to the company, but I had just joined the Legal Docs team as its product manager. We were building interactive experiences into our legal document forms, and my first problem was that v1 of that work had failed. It hadn't been thought through, the requirements were faulty or missing, and nobody had walked the full user experience. We needed a v2 right away, so we were already "behind," which is not a great feeling when you're onboarding to a new team.
+At Rocket Lawyer, I moved from the Platform team to the Legal Docs team. We were building interactive experiences into our legal document forms, and my first problem was that v1 of that work had failed. It hadn't been thought through, the requirements were faulty or missing, and nobody had walked the full user experience. Since we needed a v2 right away, we were already "behind," which is not a great feeling when you're onboarding to a new team.
 
 A lot of product managers’ first instinct would be to hole up somewhere, heads down, and think it all through alone. I went the other way. I say this often: I don't own good ideas. I was new to this team, I was probably missing some critical pieces, and since the first version had already failed, I needed v2 to work.
 
@@ -50,13 +50,13 @@ Without getting into the details of the features here, we got pretty deep in the
 
 Pulling the team together is one of my favorite "hacks," but it's really just good common sense: shrink the feedback loop.
 
-V2 launched without a hitch with essentially no bugs, and we moved on to the next feature. We could have done it another way, the same way as v1, but it would have been worse, and it would have certainly taken longer.
+V2 launched without a hitch with virtually no bugs, and we moved on to the next feature. We could have done it the old way, the same way as v1, but it would have certainly been buggier and taken longer.
 
 ### I was the third PM on a failing project
 
 Years earlier, at Oracle, I was the third PM to take over a failing product. My read was the same: the real problem was the feedback loop, and we needed to bring the team together in one place to close it. I was in San Francisco, but we had team members in Atlanta, Austin, and Florida.
 
-So I set up a war room in Atlanta for a week since most of the team members were there. Since we were all together, Design and UX sat beside an engineer and me, with QA right there too, and we agreed on solutions to features and edge cases in real time. An engineer would show, to the pixel, how they were implementing something, and design could make micro adjustments on the spot by working with them.
+So I set up a war room in Atlanta for a week since most of the team members were there. Since we were all together, Design and UX sat beside an engineer and me, with QA right there too, and we agreed on solutions to features and edge cases in real time. An engineer would show, to the pixel, how they were implementing something, and design could make micro adjustments on the spot.
 
 We shipped five epics in a week and demoed to stakeholders that Friday. It was a huge success, and we would not have been successful if we had stayed siloed.
 
