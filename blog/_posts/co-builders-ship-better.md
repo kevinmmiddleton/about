@@ -1,8 +1,8 @@
 ---
 title: Solo builders ship faster. Co-builders ship better.
 slug: co-builders-ship-better
-status: draft
-published_at: 2026-11-22
+status: published
+published_at: 2026-11-23
 updated_at: ''
 topic: Product
 topic_new: ''
