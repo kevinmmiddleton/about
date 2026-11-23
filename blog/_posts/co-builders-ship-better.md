@@ -66,7 +66,7 @@ At many companies, hackathons happen once a year, maybe twice. And the takeaways
 
 I was talking about this with a colleague: imagine if we took those same ideas for hackathons and made them our normal way of building, with AI. Collaborative by default, where the whole team builds with AI, together, in the session, end-to-end instead of how we have been traditionally building or, with recent AI changes, solo building.
 
-**Here's what I'm proposing**: the team moves to **co-building sessions**. The team sets aside an afternoon, gets on a virtual call or in a room together, and someone drives. Every co-building step happens in that session. There's no stopping and starting, or waiting for a different day to move forward. The team commits to getting it done there in the session:
+Co-building solves this. The team sets up **regular co-building sessions**: the co-builders set aside an afternoon, get on a virtual call or in a room together, and someone drives. Every step happens in that session, with no stopping and starting or waiting for another day. The team commits to getting it done right there:
 
 1. **Someone brings a draft PRD**. Product might own it, but now that everyone's a builder, anybody could bring that piece.
 2. **The co-building team stress tests and pokes holes**. We find the edge cases and resolve them, so we refine our starting inputs together.
