@@ -1,6 +1,6 @@
 ---
-title: Everyone can build now. Not everyone should.
-slug: not-everyone-should-build
+title: Stop solo building with AI. Start co-building.
+slug: stop-solo-building-start-co-building
 status: draft
 published_at: 2026-11-22
 updated_at: ''
@@ -16,7 +16,7 @@ tags:
 featured: false
 sort_order: null
 excerpt: AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.
-cover_image: /blog/images/not-everyone-should-build-cover.png
+cover_image: /blog/images/stop-solo-building-start-co-building-cover.png
 cover_alt: The product trio isn't dead. High-performing teams co-build with AI. PM, design, eng and QA work around AI building, then engineering hardens it and it ships.
 og_image: ''
 cover_full: false
