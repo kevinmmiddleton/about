@@ -15,9 +15,9 @@ tags:
   - Process
 featured: false
 sort_order: null
-excerpt: AI lets everyone build. I still think the trio working through the problem together, then handing it to engineering to harden, beats a team of solo builders.
-cover_image: ''
-cover_alt: ''
+excerpt: AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.
+cover_image: /blog/images/not-everyone-should-build-cover.png
+cover_alt: "The product trio isn't dead. High-performing teams co-build with AI. PM, design, eng and QA work around AI building, then engineering hardens it and it ships."
 lede_align: left
 linkedin_url: ''
 ---
@@ -26,9 +26,17 @@ A post made the rounds on LinkedIn recently declaring the product trio dead. The
 
 I left a comment, and it got more traction than I expected: just because everyone *can* build doesn't mean everyone *should* build.
 
+What I'd do instead is build with AI as a team. I call it co-building: PM, design, engineering, and QA work the problem together, live, while AI builds, and then engineering hardens it.
+
 I build with AI almost every day, and I'm a fan. I wrote about [what it didn't change](https://middleton.io/blog/everyone-can-build-now/) back in June. But the best work I've shipped came from the trio (plus QA) working through the problems together, and then handing off to engineers to harden it. I still think that's a better way to ship than everyone going solo. AI just makes that time together shorter, which is great news for anyone who hates meetings.
 
+Atlassian actually ran the experiment. Sherif Mansour, Atlassian's head of AI and product craft, told [Lenny Rachitsky](https://www.youtube.com/watch?v=hRtmV1mCBSE) they moved product managers and designers onto a team where everyone was an AI builder, with no PM or designer roles. A few weeks in, one of the PMs said they'd never moved faster. About a month in, everyone had gone back to their old jobs. His explanation: "We realized throughput's not our problem. Direction's our problem."
+
+![Everyone's a builder. Build fast, alone, all at once. PM, design, eng and QA each ship their own PR with AI; the PRs collide with a bug, a failed build and warnings, and nobody coordinates or owns the overlap.](/blog/images/co-building-2-everyones-a-builder.png)
+
 ## I'd just joined the team, and v1 had already failed
+
+![Wait your turn. Build slow, alone, in order. PM hands a spec to design, design hands mocks to eng, eng hands the build to QA, and bugs come back three weeks later.](/blog/images/co-building-1-wait-your-turn.png)
 
 At Rocket Lawyer, I wasn't new to the company, but I had just joined the Legal Docs team as its product manager. We were building interactive experiences into our legal document forms, and my first problem was that v1 of that work had failed. It hadn't been thought through, the requirements were faulty or missing, and nobody had walked the full user experience. We needed a v2 right away, so we were already "behind," which is not a great feeling when you're onboarding to a new team.
 
@@ -62,11 +70,25 @@ I synced with my tech lead daily, at times that worked for him, so he could stay
 
 I wrote on LinkedIn earlier this year that half the job is being a buffer, and I still believe it. The trio agrees on what we're building, and then my job is to keep everything else from interrupting the people building it.
 
-## So what do we call it?
+## What if every day felt like a hackathon?
 
-I asked an old teammate what to call this: the whole team on one call, building live with AI, instead of passing the work down the line. His first answer was "collaboration," which is fair. He also pointed out that this is what the Agile Manifesto meant all along by "individuals and interactions" and face-to-face conversation. Desks facing each other, talking about the work while you do it.
+I was talking about this with a colleague, and here's where we landed: what if we could work like we were in a hackathon, but all the time? The team is more engaged and more in sync during a hackathon. What if we took that energy and applied it to building with AI?
 
-But I wanted a name I could say out loud to other teams, so I'm calling it co-building, and the people on the call co-builders. PM, design, engineering, QA, and an agent, building the thing together, then handing it to engineering to harden.
+Here's what I'm proposing: a co-building session. The team sets aside an afternoon, gets on a virtual call or in a room together, and someone drives. Every step happens in that one session. No stopping and starting, no waiting for a different day.
+
+1. Someone brings a draft PRD. Product might own it, but now that everyone's a builder, anybody could bring that piece.
+2. We stress test it and poke holes as a team. We find the edge cases and resolve them, so we refine our starting inputs together.
+3. We give that to AI and build the prototype live, together.
+4. We refine the prototype, and maybe start connecting the backend systems.
+5. Then engineering hardens it. The tech lead or an engineer is in the session the whole time, and on a small team it might be every engineer. Engineering still gets time afterward to go through what was built and harden it.
+
+It could take an hour, or it could take a couple of hours. That's time well spent, because it's much faster than product development of the past.
+
+That feels like something we always wanted to do but didn't have the technical capability for. Now we do. So why don't I see and hear more people working this way?
+
+My colleague's first word for it was "collaboration," which is fair. It's also what the Agile Manifesto meant all along by "individuals and interactions" and face-to-face conversation. But I wanted a name I could say out loud to other teams, so I'm calling it co-building, and the people on the call co-builders. PM, design, engineering, QA, and an agent, building the thing together, then handing it to engineering to harden.
+
+![Co-building. Build better, faster, together. PM, design, eng and QA work the problem live around AI building in the middle, then engineering hardens it and it ships.](/blog/images/co-building-3-co-building.png)
 
 ## I was worried about being the PM with too many meetings
 
