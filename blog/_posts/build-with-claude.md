@@ -15,7 +15,7 @@ featured: false
 sort_order: null
 excerpt: No code, no IDE, just a Telegram message. A Mac at home runs Claude Code, and a free guide gets you the same setup.
 cover_image: /blog/images/build-with-claude-cover.png
-cover_alt: 'Build With Claude banner: arcade-style pixel lettering with the flow Phone to Claude to Live App'
+cover_alt: 'Build With Claude: a smiling phone mascot on tangerine with the line Build apps from your phone. A free setup guide for non-coders.'
 linkedin_url: ''
 ---
 
