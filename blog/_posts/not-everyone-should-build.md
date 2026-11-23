@@ -17,34 +17,36 @@ featured: false
 sort_order: null
 excerpt: AI lets everyone build now. The best work comes from building with AI as a team. I call it co-building.
 cover_image: /blog/images/not-everyone-should-build-cover.png
-cover_alt: "The product trio isn't dead. High-performing teams co-build with AI. PM, design, eng and QA work around AI building, then engineering hardens it and it ships."
+cover_alt: The product trio isn't dead. High-performing teams co-build with AI. PM, design, eng and QA work around AI building, then engineering hardens it and it ships.
+og_image: ''
+cover_full: false
 lede_align: left
 linkedin_url: ''
 ---
 
-A post made the rounds on LinkedIn recently declaring the product trio dead. The argument goes like this: AI lets PMs prototype, designers write SQL, and engineers make product calls, so why keep three people in a room when one person with a good model can do it all?
+There have been several claims on LinkedIn recently declaring the product trio (product/design/tech lead) “dead”. The argument goes like this: AI lets PMs prototype, designers write SQL, and engineers make product calls, so why gate who can build when everyone can build now?
 
-I left a comment, and it got more traction than I expected: just because everyone *can* build doesn't mean everyone *should* build.
+My take: just because everyone _can_ build doesn't mean everyone _should_ build.
 
-What I'd do instead is build with AI as a team. I call it co-building: PM, design, engineering, and QA work the problem together, live, while AI builds, and then engineering hardens it.
+What I'd do instead is **build with AI as a team**. I call it **co-building**: PM, design, engineering, and QA use AI to work the problem from PRD to design to fully working product concept together, live. AI builds realtime and then engineering hardens after the co-building session.
 
-I build with AI almost every day, and I'm a fan. I wrote about [what it didn't change](https://middleton.io/blog/everyone-can-build-now/) back in June. But the best work I've shipped came from the trio (plus QA) working through the problems together, and then handing off to engineers to harden it. I still think that's a better way to ship than everyone going solo. AI just makes that time together shorter, which is great news for anyone who hates meetings.
+I build with AI almost every day, and I'm a fan. I wrote about [what it didn't change](https://middleton.io/blog/everyone-can-build-now/) back in June. But the best work I've shipped came from the trio plus QA and any stakeholders working through the problems together, and then handing off to engineers to harden it. That's a better way to ship than everyone going solo. AI makes that time together shorter, which is great news for anyone who hates meetings and rework.
 
 Atlassian actually ran the experiment. Sherif Mansour, Atlassian's head of AI and product craft, told [Lenny Rachitsky](https://www.youtube.com/watch?v=hRtmV1mCBSE) they moved product managers and designers onto a team where everyone was an AI builder, with no PM or designer roles. A few weeks in, one of the PMs said they'd never moved faster. About a month in, everyone had gone back to their old jobs. His explanation: "We realized throughput's not our problem. Direction's our problem."
 
 ![Everyone's a builder. Build fast, alone, all at once. PM, design, eng and QA each ship their own PR with AI; the PRs collide with a bug, a failed build and warnings, and nobody coordinates or owns the overlap.](/blog/images/co-building-2-everyones-a-builder.png)
 
-## I'd just joined the team, and v1 had already failed
+### I'd just joined the team, and v1 had already failed
 
 ![Wait your turn. Build slow, alone, in order. PM hands a spec to design, design hands mocks to eng, eng hands the build to QA, and bugs come back three weeks later.](/blog/images/co-building-1-wait-your-turn.png)
 
 At Rocket Lawyer, I wasn't new to the company, but I had just joined the Legal Docs team as its product manager. We were building interactive experiences into our legal document forms, and my first problem was that v1 of that work had failed. It hadn't been thought through, the requirements were faulty or missing, and nobody had walked the full user experience. We needed a v2 right away, so we were already "behind," which is not a great feeling when you're onboarding to a new team.
 
-A lot of people's first instinct would be to hole up somewhere, heads down, and think it all through alone. I went the other way. I say this often: I don't own good ideas. I was new, I was probably missing some critical pieces, and since the first version had already failed, I needed this one to work.
+A lot of product managers’ first instinct would be to hole up somewhere, heads down, and think it all through alone. I went the other way. I say this often: I don't own good ideas. I was new to this team, I was probably missing some critical pieces, and since the first version had already failed, I needed version two to work.
 
-So I got the team into a conference room for a big block of time, and by team I mean engineering, design, and QA. We talked through the feature, why we were building it, and what went wrong with v1. Then we went through the user experience scenario by scenario and talked through the edge cases.
+So I got the team into a conference room for an afternoon, and by team I mean engineering, design, and QA. We talked through the feature, why we were building it, and what went wrong with v1. Then we went through the user experience scenario by scenario and talked through the edge cases.
 
-One of the big pieces was real-time math inside the form. If you typed in what something costs and how many are included, you'd want to see the total. You would not want to see UNDEFINED while you were still filling things out. V1 seemed like it was built by an engineer, and the people using it were just trying to get a legal document done. So if two fields added together and one was still blank, the total kept updating anyway. If a division field was blank, we didn't throw an error. We counted the denominator as 1 (zero would have been a bad time) until the user typed something in.
+One of the big features was real-time math inside the form. If you typed in what something costs and how many are included, you'd want to see the total. You would not want to see UNDEFINED while you were still filling things out. V1 seemed like it was built by an engineer, and the people using it were just trying to get a legal document done. So if two fields added together and one was still blank, the total kept updating anyway. If a division field was blank, we didn't throw an error. We counted the denominator as 1 (zero would have been a bad time) until the user typed something in.
 
 That's deep in the weeds, and I still remember it, because it's exactly what the room is for. Design had input on the experience. Engineering could think through the solution while we walked the flows. And QA caught the exceptional cases the rest of us would have missed, which I'm still thankful for.
 
