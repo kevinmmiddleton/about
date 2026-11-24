@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Recruiter BFF: find out if you&rsquo;re a match before you apply | Kevin Middleton</title>
-<meta name="description" content="Find out if you're a match before you apply, then walk in prepared. A free plugin for Claude and Codex, plus a no-install kit for any AI chat, that builds your interview guides, scores any posting against your background, and finds fresh roles. Formerly Job Search Agent.">
+<title>Recruiter BFF: a free job search plugin for job seekers</title>
+<meta name="description" content="A free job search plugin for job seekers. Paste a posting, find out if you're a match before you apply, then walk in prepared. Works in Claude and ChatGPT.">
 <meta name="author" content="Kevin Middleton">
 <link rel="canonical" href="https://middleton.io/recruiter-bff/">
 <!-- Favicon: the kit's files sit next to this page (relative paths). -->
@@ -16,21 +16,21 @@
 <link rel="me" href="https://www.wikidata.org/wiki/Q140389537">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kevin Middleton">
-<meta property="og:title" content="Recruiter BFF: find out if you're a match before you apply">
-<meta property="og:description" content="Find out if you're a match before you apply, then walk in prepared. A free plugin, in plain files you own.">
+<meta property="og:title" content="Recruiter BFF: a free job search plugin for job seekers">
+<meta property="og:description" content="For job seekers: find out if you're a match before you apply, then walk in prepared. Free in Claude and ChatGPT, in plain files you own.">
 <meta property="og:url" content="https://middleton.io/recruiter-bff/">
-<meta property="og:image" content="https://middleton.io/recruiter-bff/images/og.png?v=2">
+<meta property="og:image" content="https://middleton.io/recruiter-bff/images/og-v2.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The Recruiter BFF logo: a giant iced tea in chunky glasses next to the words recruiter bff, above the line A recruiter that works for you.">
+<meta property="og:image:alt" content="The Recruiter BFF logo: a giant iced tea in chunky glasses next to the words recruiter bff, above the line Every job seeker needs a Recruiter BFF to help them land the right job.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Recruiter BFF: find out if you're a match before you apply">
-<meta name="twitter:description" content="Find out if you're a match before you apply, then walk in prepared. A free plugin, in plain files you own.">
-<meta name="twitter:image" content="https://middleton.io/recruiter-bff/images/og.png?v=2">
+<meta name="twitter:title" content="Recruiter BFF: a free job search plugin for job seekers">
+<meta name="twitter:description" content="For job seekers: find out if you're a match before you apply, then walk in prepared. Free in Claude and ChatGPT, in plain files you own.">
+<meta name="twitter:image" content="https://middleton.io/recruiter-bff/images/og-v2.png">
 <meta name="theme-color" content="#FFF8EF" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#16131F" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-<link rel="stylesheet" href="recruiter-bff.css?v=9aa40974">
+<link rel="stylesheet" href="recruiter-bff.css?v=7f5b76ca">
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-Z07TxuD0n4MH2KTPfPNF6.js"></script>
 <script>
@@ -38,7 +38,7 @@
   plausible.init()
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Recruiter BFF","alternateName":"Job Search Agent","url":"https://middleton.io/recruiter-bff/","applicationCategory":"BusinessApplication","operatingSystem":"macOS, Windows","softwareRequirements":"Claude desktop app with Cowork, on a paid Claude plan (Pro, Max, Team, or Enterprise); or Codex in the ChatGPT desktop app or the Codex CLI, best on a paid ChatGPT plan; or any AI chat with the no-install kit","description":"A recruiter that works for you: a free plugin for Claude and Codex, with a no-install kit for any AI chat, that writes interview guides from your background, scores any job posting against it, finds fresh roles, and tracks your applications, in plain files you own.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/license/mit","downloadUrl":"https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/recruiter-bff.plugin","sameAs":"https://github.com/kevinmmiddleton/recruiter-bff","isAccessibleForFree":true,"image":"https://middleton.io/recruiter-bff/images/og.png?v=2","author":{"@id":"https://middleton.io/#kevin"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Recruiter BFF","alternateName":"Job Search Agent","url":"https://middleton.io/recruiter-bff/","applicationCategory":"BusinessApplication","operatingSystem":"macOS, Windows","softwareRequirements":"Claude desktop app with Cowork, on a paid Claude plan (Pro, Max, Team, or Enterprise); or Codex in the ChatGPT desktop app or the Codex CLI, best on a paid ChatGPT plan; or any AI chat with the no-install kit","description":"A free job search plugin for job seekers, for Claude and Codex, with a no-install kit for any AI chat, that writes interview guides from your background, scores any job posting against it, finds fresh roles, and tracks your applications, in plain files you own.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://opensource.org/license/mit","downloadUrl":"https://github.com/kevinmmiddleton/recruiter-bff/releases/latest/download/recruiter-bff.plugin","sameAs":"https://github.com/kevinmmiddleton/recruiter-bff","isAccessibleForFree":true,"image":"https://middleton.io/recruiter-bff/images/og-v2.png","author":{"@id":"https://middleton.io/#kevin"}}
 </script>
 </head>
 <body class="p-bff">
@@ -63,7 +63,7 @@
 <section class="hero" id="top">
   <div class="wrap">
     <div>
-      <a class="k home plausible-event-name=RecruiterBFF+WhoMadeThis" href="#who-made-this">Who made this? <span class="arr down" aria-hidden="true"></span></a>
+      <p class="eyebrow k"><span class="for">For job seekers</span><span class="sep" aria-hidden="true"> &middot; </span><a class="home plausible-event-name=RecruiterBFF+WhoMadeThis" href="#who-made-this">Who made this? <span class="arr down" aria-hidden="true"></span></a></p>
       <h1>Find out if you&rsquo;re a <span class="hl">match</span> before you&nbsp;apply.</h1>
       <p class="sub">Then walk in prepared. <span class="br">Your recruiter will notice.</span></p>
       <p class="lede">Recruiter BFF is a free plugin for <strong>Claude</strong> and <strong>Codex</strong>, with a no-install kit for any AI chat. Paste a job posting and it tells you how you really stack up, gaps included, and whether to apply. When the interview comes, it hands you a guide built from your own background. It never applies or reaches out for you, and that&rsquo;s the point: fewer, better applications, sent sooner.</p>

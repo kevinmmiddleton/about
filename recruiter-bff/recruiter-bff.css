@@ -82,6 +82,9 @@ body.p-bff {
 .bar nav a:hover { background: var(--ui-bg2); }
 .home { text-decoration: none; color: var(--ui-ink2); }
 .home:hover { color: var(--ui-ink); }
+/* hero eyebrow (2026-11-24): who it's for, then the Who made this? link, on one line so the phone sticker math holds */
+.hero .eyebrow { margin: 0; line-height: 1.7rem; color: var(--ui-ink2); }
+.hero .eyebrow .for { color: var(--ui-ink); }
 
 /* ------------------------------------------------------------ buttons */
 .btn { display: inline-flex; align-items: center; gap: .5rem; min-height: 46px; padding: .7rem 1.2rem; border-radius: 99px;

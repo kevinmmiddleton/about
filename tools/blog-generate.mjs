@@ -306,7 +306,7 @@ const hueClass = (topic) => `hue-${TOPIC_HUE[topic] || 2}`;
 // lengthened slightly for this page. Event names deliberately match the
 // homepage so a repo's clicks aggregate across both surfaces.
 const TAKEAWAYS = [
-  ['Recruiter BFF', 'A recruiter that works for you. It scores any posting, preps you for the interview, and keeps your pipeline in a file you own.',
+  ['Recruiter BFF', 'A free job search plugin for job seekers. It scores any posting, preps you for the interview, and keeps your pipeline in a file you own.',
    'https://github.com/kevinmmiddleton/recruiter-bff', 'Building+JobSearchAgent',
    { src: '/recruiter-bff/images/recruiter-bff-mark.svg', cls: 'take-art--bff' }],
   ['Unpaid Intern', 'A free second brain for work. Hand it your transcripts, docs, and tickets; get back your briefing, meeting prep, and follow-ups.',
