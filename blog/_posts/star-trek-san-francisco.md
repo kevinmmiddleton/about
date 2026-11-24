@@ -14,7 +14,7 @@ tags:
   - Tech
 featured: false
 sort_order: null
-excerpt: Marvel showed us the AI future to avoid. Star Trek showed us the one worth building.
+excerpt: Marvel showed us an AI future to avoid. Star Trek shows us the one worth building.
 cover_image: ''
 cover_alt: ''
 og_image: ''
@@ -31,7 +31,7 @@ But there's another fictional San Francisco I keep thinking about. It's the one 
 
 One of my favorite scenes is from _Star Trek IV: The Voyage Home_. The crew travels back in time to 1986 San Francisco, and Scotty sits down at a Macintosh. He picks up the mouse and talks into it: "Hello, computer."
 
-(CLIP: Scotty's "Hello, computer" moment, from https://www.youtube.com/watch?v=LkqiDu1BQXY)
+![Scotty from Star Trek IV picks up a Macintosh mouse and speaks into it like a microphone, with the caption "Hello, computer."](/blog/images/star-trek-hello-computer.gif "Scotty, 1986 San Francisco: \"Hello, computer.\"")
 
 It's funny because Scotty is used to a computer that just listens. On the Enterprise, you say "Computer" out loud and it truly helps you. Nobody's tapping through menus or babysitting a chatbot. The crew asks for what they need, and the humans still make the calls.
 
