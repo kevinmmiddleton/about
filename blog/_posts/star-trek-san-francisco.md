@@ -15,7 +15,7 @@ tags:
 featured: false
 sort_order: null
 excerpt: Marvel showed us an AI future to avoid. Star Trek shows us the one worth building.
-cover_image: /blog/images/star-trek-sf-cover.png
+cover_image: /blog/images/star-trek-sf-cover.jpg
 cover_alt: "Two San Franciscos. Left, Marvel: Superior Iron Man flies over a Castro Street crowd (Superior Iron Man #2, 2014, Marvel Comics). Right, Star Trek: a future San Francisco beyond the Golden Gate Bridge (Star Trek: Discovery, \"People of Earth,\" 2020, Paramount)."
 og_image: ''
 cover_full: false
