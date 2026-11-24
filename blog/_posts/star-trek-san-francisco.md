@@ -71,6 +71,16 @@ Meanwhile, the everyday use cases aren't there yet. During Uber's busiest week o
 
 I think there's going to be a backlash. When you think about the response to data centers, I still think they're going to get built, but the public is getting exhausted, especially when we want our lives to be easier and the use cases aren't there yet. Gallup found that [71% of Americans oppose](https://news.gallup.com/poll/709772/americans-oppose-local-ai-data-centers.aspx) building an AI data center in their area.
 
+### What's holding us back
+
+So why aren't we there yet? I think three things are getting in the way right now.
+
+**Trust.** The lack of trust and privacy is holding back ambient computing. Your agent can't be helpful or do meaningful work if you don't share your personal data with it, and right now a lot of people don't trust where that data goes. (I wrote about [owning your context](https://middleton.io/blog/owning-your-context/) for exactly this reason.)
+
+**Us.** We haven't figured out how to get out of our own way with our tech usage, and I'm including myself.
+
+**The tech itself.** It hasn't gotten powerful enough to know when to be proactive and when to fade into the background.
+
 ### Be intentional
 
 Star Trek's San Francisco didn't happen by accident. Somebody decided food, healthcare, and a home were for everyone, and that technology should serve people.
