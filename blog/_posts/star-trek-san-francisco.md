@@ -55,7 +55,7 @@ In Star Trek, people do the jobs they want, and they use technology when it suit
 
 Food isn't scarce. There's universal healthcare. Homelessness has been solved.
 
-The show even knew where we were starting from. In the _Deep Space Nine_ episode "Past Tense," the crew lands in San Francisco in 2024, where unhoused people are walled off in "Sanctuary Districts." That episode aired in 1995. Star Trek imagined a rough San Francisco in our time, and then a future where people fixed it.
+The show even knew where we were starting from. In the _Deep Space Nine_ episode "Past Tense," the crew lands in San Francisco in 2024, where the poor and the sick are walled off in "Sanctuary Districts." That episode aired in 1995. Star Trek imagined a rough San Francisco in our time, and then a future where people fixed it.
 
 I think it goes without saying that profit motives didn't ruin that society. People did the right thing.
 
@@ -63,13 +63,13 @@ I think it goes without saying that profit motives didn't ruin that society. Peo
 
 So what's the opposite of the Star Trek future? _Wall-E_ might be a bit too cartoonish, but you get the idea: everyone glued to a screen while the machines run everything.
 
-(KEVIN: slot in from your notes)
-- Google X's "The Selfish Ledger," the internal video I can't get out of my head: https://www.theverge.com/2018/5/17/17344250/google-x-selfish-ledger-video-data-privacy
-- The researchers who picked smoking expecting AI to cure cancer, "what happens when people run amok with AI psychosis": https://www.cancerhealth.com/article/ai-researchers-picked-smoking-expecting-ai-cure-cancer
-- The four Uber rides booked by an agent, and DoorDash's recent statements on AI
-- Marissa Mayer and other leaders' quotes (from an earlier AI draft)
+The real-world version is creepier. Back in 2016, Google X made an internal video called ["The Selfish Ledger."](https://www.theverge.com/2018/5/17/17344250/google-x-selfish-ledger-video-data-privacy) It imagines Google collecting everything about you, nudging you toward goals it helps set, and even ordering devices to fill in what it doesn't know about you yet. When it leaked, Google called it a thought experiment and said, "We understand if this is disturbing -- it is designed to be." I can't get it out of my head.
 
-I think there's going to be a backlash. When you think about the response to data centers, I still think they're going to get built, but the public is getting exhausted, especially when we want our lives to be easier and the use cases aren't there yet.
+Then there's what happens when people run amok with AI psychosis. In October, Palantir's CTO said on _Face the Nation_ that some AI researchers have [picked up smoking](https://www.cancerhealth.com/article/ai-researchers-picked-smoking-expecting-ai-cure-cancer), because AI is "going to cure cancer" anyway. Smoking still causes about 30% of cancer deaths in the US.
+
+Meanwhile, the everyday use cases aren't there yet. During Uber's busiest week of October, [AI agents booked 4 rides](https://techcrunch.com/?p=3185205), out of roughly 320 million trips and orders. DoorDash's CEO [called agent orders](https://247wallst.com/investing/2026/10/30/out-of-993-million-doordash-orders-ai-agents-only-placed-a-few-hundred/) "a fairly low use case." Even Marissa Mayer, who's building an AI assistant, [said](https://fortune.com/2026/10/15/marissa-mayer-anyone-who-says-they-know-how-ai-will-play-out-is-either-lying-or-arrogant-or-both/) anyone who claims to know how AI plays out "is either lying or arrogant or both."
+
+I think there's going to be a backlash. When you think about the response to data centers, I still think they're going to get built, but the public is getting exhausted, especially when we want our lives to be easier and the use cases aren't there yet. Gallup found that [71% of Americans oppose](https://news.gallup.com/poll/709772/americans-oppose-local-ai-data-centers.aspx) building an AI data center in their area.
 
 ### Be intentional
 
