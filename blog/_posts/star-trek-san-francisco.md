@@ -43,6 +43,10 @@ AI today feels like hard work. We spend more time with it. We prompt, we check, 
 
 But sometimes I notice I spend **_less_** time with AI. My morning briefing goes through my email, so I don't have to. I get warned about things proactively, instead of finding out later. In those moments, AI feels like the Enterprise computer: it shows up when I need it, and then it gets out of the way.
 
+I can see my friends more now, because my agent helps me find activities, keeps me from overbooking myself, and helps me plan. It takes tedious tasks off my plate. The more proactive agents are getting better at helping us spend less time in front of a screen, so we can spend more face time.
+
+I'm still finding my balance. I do notice I'm on my phone less often, though part of that might be that I traded it for a bit of laptop time. Then again, I'm writing more, building more, and doing more of my hobbies, some of which do involve screens. In that way, I am happier. I think the next step is to take up a craft or trade that's decidedly not tech.
+
 That's a positive outcome. That's what people want.
 
 ### What Star Trek's San Francisco got right
