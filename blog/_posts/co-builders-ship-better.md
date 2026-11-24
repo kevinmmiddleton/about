@@ -35,13 +35,13 @@ I build with AI almost every day, so I'm a big fan. I wrote about [what it didn'
 
 Atlassian actually ran a solo builder experiment. Sherif Mansour, Atlassian's head of AI and product craft, told [Lenny Rachitsky](https://www.youtube.com/watch?v=hRtmV1mCBSE) they moved product managers and designers onto a team where everyone was an AI builder, with no PM or designer roles. A few weeks in, one of the PMs said they'd never moved faster. About a month in, everyone had gone back to their old jobs. His explanation: "We realized throughput's not our problem. Direction's our problem."
 
+![How we used to build: wait your turn. Build slow, alone, in order. PM hands a spec to design, design hands mocks to eng, eng hands the build to QA, and QA sends problems back to the start weeks later.](/blog/images/co-building-1-wait-your-turn-v28.png "How we used to build: bugs, rework and missed requirements pile up.")
+
 ![How we build now: solo builders. Build fast, alone, all at once. PM, design, eng and QA each ship their own feature with AI; the features collide with a bug, a failed build and warnings, and nobody coordinates or owns the overlap.](/blog/images/co-building-2-everyones-a-builder-v28.png "How we build now: no strategy, and someone has to clean up the mess.")
 
 ### I'd just joined the team, and v1 had already failed
 
 At Rocket Lawyer, I moved from the Platform team to the Legal Docs team. We were building interactive experiences into our legal document forms, and my first problem was that v1 of that work had failed. It hadn't been thought through, the requirements were faulty or missing, and nobody had walked the full user experience. Since we needed a v2 right away, we were already "behind," which is not a great feeling when you're onboarding to a new team.
-
-![How we used to build: wait your turn. Build slow, alone, in order. PM hands a spec to design, design hands mocks to eng, eng hands the build to QA, and QA sends problems back to the start weeks later.](/blog/images/co-building-1-wait-your-turn-v28.png "How we used to build: bugs, rework and missed requirements pile up.")
 
 A lot of product managers’ first instinct would be to hole up somewhere, heads down, and think it all through alone. I went the other way. I say this often: I don't own good ideas. I was new to this team, I was probably missing some critical pieces, and since the first version had already failed, I needed v2 to work.
 
@@ -59,7 +59,7 @@ Years earlier, at Oracle, I was the third PM to take over a failing product. My 
 
 So I set up a war room in Atlanta for a week since most of the team members were there. Since we were all together, Design and UX sat beside an engineer and me, with QA right there too, and we agreed on solutions to features and edge cases in real time. An engineer would show, to the pixel, how they were implementing something, and design could make micro adjustments on the spot.
 
-We shipped five epics in a week and demoed to stakeholders that Friday. It was a huge success, and we would not have been successful if we had stayed siloed.
+We shipped five features in a week and demoed to stakeholders that Friday. It was a huge success, and we would not have been successful if we had stayed siloed.
 
 ### What if every day felt like a hackathon (but better)?
 
