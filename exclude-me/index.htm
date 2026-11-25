@@ -47,6 +47,8 @@
     }
     document.getElementById("off").addEventListener("click", () => { try { localStorage.setItem("plausible_ignore", "true"); } catch {} render(); });
     document.getElementById("on").addEventListener("click", () => { try { localStorage.removeItem("plausible_ignore"); } catch {} render(); });
+    // A link ending in #off opts out on open, for setting up a device in one tap.
+    if (location.hash === "#off"){ try { localStorage.setItem("plausible_ignore", "true"); } catch {} }
     render();
   </script>
 </body>
