@@ -416,7 +416,7 @@ details p { padding-bottom: var(--space-lg); color: var(--color-ink-2); }
 .review .who b { font-size: var(--text-sm); }
 .review .who i { font-style: normal; font-size: var(--text-xs); color: var(--color-accent); font-weight: 500; }
 .review .check { width: 26px; height: 26px; border-radius: 50%; background: var(--color-accent); position: relative; }
-.review .check::after { content: ""; position: absolute; left: 9px; top: 6px; width: 6px; height: 11px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.review .check::after { content: ""; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 12.4l3.4 3.4L17 9.2' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
 .ex-decide { display: flex; align-items: center; gap: var(--space-xs); color: var(--color-ink); font-weight: 500; }
 .ex-lock { width: 14px; height: 11px; border: 1.5px solid var(--color-ink); border-radius: 3px; position: relative; margin-top: 4px; flex: none; }
 .ex-lock::before { content: ""; position: absolute; left: 2px; top: -7px; width: 6px; height: 7px; border: 1.5px solid var(--color-ink); border-bottom: 0; border-radius: 5px 5px 0 0; }
@@ -440,7 +440,7 @@ details p { padding-bottom: var(--space-lg); color: var(--color-ink-2); }
 .pb-person { display: inline-flex; align-items: center; gap: var(--space-xs); color: var(--color-ink); font-weight: 500; }
 .pb-sig { display: inline-flex; align-items: center; gap: var(--space-sm); color: var(--color-ink); }
 .pb-sig .check { width: 22px; height: 22px; border-radius: 50%; background: var(--color-accent); position: relative; flex: none; }
-.pb-sig .check::after { content: ""; position: absolute; left: 7.5px; top: 4.5px; width: 5px; height: 9px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.pb-sig .check::after { content: ""; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 12.4l3.4 3.4L17 9.2' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
 .pb-hint { color: var(--color-muted); }
 .av-role { position: relative; }
 .av-role::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; border-radius: 50%; background: var(--color-ink); transform: translate(-50%, -50%); }
