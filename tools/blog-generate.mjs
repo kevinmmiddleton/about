@@ -450,7 +450,7 @@ const HEADER = `    <nav class="nav pad">
         <span class="nav-l">
           <a href="/#about">About</a>
           <a href="/#building">Building</a>
-          <a href="/#values">Values</a>
+          <a href="/enablement/">AI Enablement</a>
           <a href="/#record">Experience</a>
           <a href="/#cases">Case Studies</a>
           <a href="/blog/">Blog</a>
