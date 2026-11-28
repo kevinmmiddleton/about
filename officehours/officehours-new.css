@@ -65,6 +65,14 @@
 .fv .oh-intro-text{grid-area:body;max-width:62ch}
 .fv .oh-intro-text p{margin:0 0 1rem;font-size:1rem;line-height:1.65}
 .fv .oh-quiet{color:var(--ink2)}
+/* For teams: arrivals from /enablement/ (#teams) */
+.fv .oh-teams-card{border:2px solid var(--ink);border-radius:var(--r);padding:clamp(1.2rem,3vw,2rem);display:grid;gap:.8rem;max-width:62rem}
+.fv .oh-teams-card h2{margin:0;font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.fv .oh-teams-card p{margin:0;max-width:60ch;font-size:1.02rem;line-height:1.55}
+.fv .oh-teams-k{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--ink2)}
+.fv .oh-teams .cbtns{align-items:center;gap:1rem 1.4rem;margin-top:.4rem}
+.fv #teams{scroll-margin-top:5rem}
+
 @media(max-width:760px){
   .fv .oh-intro{grid-template-columns:64px minmax(0,1fr);grid-template-areas:"photo head" "body body";align-items:center}
   .fv .oh-intro-photo{width:64px;height:64px}
