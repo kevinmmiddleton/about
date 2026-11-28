@@ -378,6 +378,8 @@ details p { padding-bottom: var(--space-lg); color: var(--color-ink-2); }
 .doors { padding-top: 0; }
 .door-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-columns); align-items: stretch; }
 .door { border-top: 2px solid var(--color-ink); padding-top: var(--space-lg); display: grid; gap: var(--space-lg); align-content: start; }
+/* Kicker, heading, lead, rules and buttons line up across both doors (Kevin, tg 17358) */
+@supports (grid-template-rows: subgrid) { .door { grid-row: span 5; grid-template-rows: subgrid; row-gap: var(--space-lg); } }
 .door-kicker { margin: 0; font-size: var(--text-sm); color: var(--color-muted); }
 .door-h { font-size: clamp(1.75rem, 1.6vw + 1rem, 2.5rem); max-width: 18ch; }
 .door-lead { color: var(--color-ink-2); max-width: 52ch; margin: 0; }
