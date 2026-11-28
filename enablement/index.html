@@ -247,12 +247,6 @@ section { padding-block: var(--section-gap-s); }
 /* dark band: three jobs */
 .on-dark { background: var(--color-ink); color: var(--color-on-dark); }
 .on-dark .sec-head p, .on-dark .muted { color: var(--color-on-dark-muted); }
-.jobs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-columns); }
-.job { border-top: 2px solid var(--color-rule-dark); padding-top: var(--space-lg); display: grid; gap: var(--space-md); align-content: start; }
-.job.signed { border-top-color: var(--color-accent); }
-.job ul { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-xs); color: var(--color-on-dark-muted); }
-.job li { padding-left: var(--space-md); position: relative; }
-.job li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 8px; height: 2px; background: currentColor; }
 
 /* how it works */
 .rail { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap-columns); position: relative; }
@@ -387,8 +381,7 @@ details p { padding-bottom: var(--space-lg); color: var(--color-ink-2); }
 .door-cols h4 { margin: 0 0 var(--space-xs); font-size: var(--text-sm); font-weight: 600; color: var(--color-ink); }
 .door-cols p, .door-cols li { margin: 0; font-size: 0.95rem; color: var(--color-ink-2); line-height: 1.5; }
 .door-cols ul, .door-cols ol { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-xs); }
-.door-cols ul li { padding-left: var(--space-md); position: relative; }
-.door-cols ul li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 8px; height: 2px; background: currentColor; }
+.door-cols ul { gap: var(--space-sm); }
 .door-steps li b { color: var(--color-ink); }
 .door-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md) var(--space-lg); margin-top: auto; }
 .door-note { font-size: var(--text-sm); color: var(--color-muted); display: inline-flex; gap: var(--space-lg); }
@@ -396,31 +389,7 @@ details p { padding-bottom: var(--space-lg); color: var(--color-ink-2); }
 @media (max-width: 60rem) { .door-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); } }
 @media (max-width: 40rem) { .door-cols { grid-template-columns: minmax(0, 1fr); } }
 /* v11 mock: evidence under the hero */
-.ex { margin: var(--space-md) 0 0; background: var(--color-paper); color: var(--color-ink); border-radius: 14px; padding: var(--space-md); display: grid; gap: var(--space-sm); font-size: var(--text-sm); box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 12px 32px -16px rgba(0,0,0,.5); }
-.ex-head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm); font-weight: 600; }
-.ex-tag { font-weight: 500; font-size: var(--text-xs); color: var(--color-muted); background: var(--color-paper-2); border-radius: var(--radius-pill); padding: 3px 9px; }
-.ex-tag.ex-people { color: var(--color-ink); background: var(--color-paper-3); }
-.ex-rows { list-style: none; margin: 0; padding: 0; display: grid; }
-.ex-rows li { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; align-items: center; gap: var(--space-xs); padding: var(--space-xs) 0; border-top: var(--rule-hair) solid var(--color-rule); color: var(--color-ink-2); }
-.ex-rows li:first-child { border-top: 0; }
-.ex-t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ex-ic { width: 14px; height: 10px; border: 1.5px solid var(--color-ink); border-radius: 2px; position: relative; }
-.ex-ic::after { content: ""; position: absolute; left: 1px; right: 1px; top: 0; height: 4px; border-left: 1.5px solid var(--color-ink); border-right: 1.5px solid var(--color-ink); transform: perspective(10px) rotateX(35deg); transform-origin: top; border-bottom: 0; }
-.ex-pill { font-size: var(--text-xs); font-weight: 600; color: var(--color-ink); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-pill); padding: 2px 8px; }
-.ex-body { margin: 0; color: var(--color-ink-2); line-height: 1.5; }
-.ex-body b { color: var(--color-ink); }
-.ex figcaption { color: var(--color-muted); font-size: var(--text-xs); padding-top: var(--space-2xs); border-top: var(--rule-hair) solid var(--color-rule); }
-.review { display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-sm); border: var(--rule-hair) solid var(--color-rule); border-radius: 12px; background: #fff; }
-.review .av, .pb-person .av { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--color-paper-3); font-weight: 600; font-size: var(--text-xs); color: var(--color-ink); }
-.review .who { display: grid; line-height: 1.2; flex: 1; }
-.review .who b { font-size: var(--text-sm); }
-.review .who i { font-style: normal; font-size: var(--text-xs); color: var(--color-accent); font-weight: 500; }
-.review .check { width: 26px; height: 26px; border-radius: 50%; background: var(--color-accent); position: relative; }
-.review .check::after { content: ""; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 12.4l3.4 3.4L17 9.2' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
-.ex-decide { display: flex; align-items: center; gap: var(--space-xs); color: var(--color-ink); font-weight: 500; }
-.ex-lock { width: 14px; height: 11px; border: 1.5px solid var(--color-ink); border-radius: 3px; position: relative; margin-top: 4px; flex: none; }
-.ex-lock::before { content: ""; position: absolute; left: 2px; top: -7px; width: 6px; height: 7px; border: 1.5px solid var(--color-ink); border-bottom: 0; border-radius: 5px 5px 0 0; }
-.on-dark .ex { background: var(--color-paper); }
+.pb-person .av { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--color-paper-3); font-weight: 600; font-size: var(--text-xs); color: var(--color-ink); }
 .handoff { margin-top: var(--space-2xl); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap-columns); align-items: start; }
 .handoff-copy { display: grid; gap: var(--space-md); align-content: start; }
 .handoff-copy p { color: var(--color-ink-2); max-width: 40ch; }
@@ -500,7 +469,6 @@ details p { padding-bottom: var(--space-lg); color: var(--color-ink-2); }
   .hero-stage { justify-self: center; max-width: 520px; }
   .hero .container, .sec-head, .proof-grid, .about .container, .faq .container, .close .container { grid-template-columns: minmax(0, 1fr); }
   .sec-head { align-items: start; gap: var(--space-md); margin-bottom: var(--space-xl); }
-  .jobs { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
   .rail { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-xl); }
   .rail::before { display: none; }
   .nav-links a:not(.btn) { display: none; }
@@ -523,13 +491,53 @@ details p { padding-bottom: var(--space-lg); color: var(--color-ink-2); }
   .hero { padding-top: 32px; }
   .nav .btn.sm { min-height: 40px; padding: 0 var(--space-md); }
 }
-.on-dark .jmark, .on-dark .job.signed { border-top-color: var(--color-accent-on-dark); }
+.on-dark .jmark { border-top-color: var(--color-accent-on-dark); }
 .on-dark .jmark { background: var(--color-accent-on-dark); }
 .on-dark .btn:hover { background: var(--color-on-dark); color: var(--color-ink); border-color: var(--color-on-dark); }
 .foot .sig-line, .sigbig .sig-line { fill: var(--color-accent); }
 .stage-card { display: none; }
 @media (prefers-reduced-motion: reduce) { #flock { display: none; } .draw .stroke { animation: none; } .btn:hover, .side a.item:hover { transform: none; } }
 
+
+/* loop section: lanes + sign-off sheet (Kevin, tg 17387) */
+.lic { width: 1.15em; height: 1.15em; flex: none; display: block; }
+.lane-t { display: flex; align-items: center; gap: 10px; }
+.lp .sec-head { align-items: start; }
+.lp .sec-head .purpose { font-family: var(--font-display); font-weight: 500; font-size: var(--text-xl); letter-spacing: -0.015em; color: var(--color-on-dark); margin-top: var(--space-md); max-width: 30ch; line-height: 1.2; }
+.lanes3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--gap-columns); margin-bottom: var(--space-2xl); }
+.lane3 { border-top: 2px solid var(--color-rule-dark); padding-top: var(--space-lg); display: grid; gap: var(--space-sm); align-content: start; }
+.lane3.ok { border-top-color: var(--color-accent-on-dark); }
+.lane3 .lic { color: var(--color-on-dark-muted); } .lane3.ok .lic { color: var(--color-accent-on-dark); }
+.lane3 p { margin: 0; color: var(--color-on-dark-muted); max-width: 34ch; }
+/* sheet */
+.so { background: var(--color-paper); color: var(--color-ink); border-radius: 16px; padding: clamp(16px, 2.4vw, 32px); }
+.so-cap { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-md); flex-wrap: wrap; padding-bottom: var(--space-md); }
+.so-cap b { font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; letter-spacing: -0.015em; }
+.so-cap span { font-size: var(--text-sm); color: var(--color-muted); }
+.so-h, .so-r { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr); gap: var(--space-lg); align-items: center; }
+.so-h { padding-bottom: var(--space-sm); border-bottom: 2px solid var(--color-ink); font-size: var(--text-sm); font-weight: 600; color: var(--color-muted); }
+.so-r { padding: var(--space-md) 0; border-bottom: var(--rule-hair) solid var(--color-rule); }
+.so-r:last-child { border-bottom: 0; padding-bottom: 0; }
+.so-task b { display: block; font-weight: 600; }
+.so-task span { font-size: var(--text-sm); color: var(--color-muted); }
+.so-who { display: inline-flex; align-items: center; gap: 8px; font-size: var(--text-sm); font-weight: 600; }
+.so-who .lic { color: var(--color-muted); }
+.so-sign { display: flex; align-items: center; gap: 10px; font-size: var(--text-sm); }
+.so-sign .mk { width: 24px; height: 24px; border-radius: 50%; flex: none; display: grid; place-items: center; }
+.so-sign.none .mk { border: 1.5px dashed var(--color-rule); }
+.so-sign.ok .mk { background: var(--color-accent); color: #fff; }
+.so-sign.decide .mk { background: var(--color-ink); color: #fff; }
+.so-sign .mk svg { width: 16px; height: 16px; }
+.so-sign b { display: block; font-weight: 600; }
+.so-sign i { display: block; font-style: normal; font-size: var(--text-xs); color: var(--color-muted); }
+.so-sign.ok i { color: var(--color-accent); font-weight: 500; }
+.so-sign.none b { color: var(--color-muted); font-weight: 500; }
+@media (max-width: 52rem) {
+  .lp .sec-head { grid-template-columns: minmax(0,1fr); gap: var(--space-md); }
+  .lanes3 { grid-template-columns: minmax(0,1fr); gap: var(--space-xl); }
+  .so-h { display: none; }
+  .so-r { grid-template-columns: minmax(0,1fr); gap: var(--space-sm); }
+}
 
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
@@ -596,37 +604,21 @@ details p { padding-bottom: var(--space-lg); color: var(--color-ink-2); }
   </div>
 </section>
 
-<section class="on-dark" aria-labelledby="jobs-h">
+<section class="on-dark lp" aria-labelledby="jobs-h">
   <div class="container">
     <div class="sec-head">
-      <h2 class="h2" id="jobs-h">Humans belong in the loop.</h2>
-      <p>Picking an AI tool is the easy part. The real work is deciding, task by task, what AI does on its own, what it drafts for someone to check, and what stays with your people.</p>
+      <div><h2 class="h2" id="jobs-h">Humans belong in the loop.</h2><p class="purpose">Every task gets one of three answers.</p></div>
+      <p>Before anything runs, we go through your team&#8217;s work together and agree who does each task and who signs off. You see the answer for every task, and you can change it.</p>
     </div>
-    <div class="jobs">
-      <div class="job"><h3 class="h3">AI does it</h3><ul><li>Sorting an inbox or a request queue</li><li>Pulling notes and numbers together</li></ul>
-        <figure class="ex" aria-label="Example: an inbox rule">
-          <div class="ex-head"><span>Inbox rule</span><span class="ex-tag">Runs on its own</span></div>
-          <ul class="ex-rows">
-            <li><span class="ex-ic ex-mail"></span><span class="ex-t">Invoice 2231 still showing unpaid</span><span class="ex-pill">Billing</span></li>
-            <li><span class="ex-ic ex-mail"></span><span class="ex-t">Can’t log in since the update</span><span class="ex-pill">Support</span></li>
-            <li><span class="ex-ic ex-mail"></span><span class="ex-t">Do you ship to Canada?</span><span class="ex-pill">Sales</span></li>
-          </ul>
-          <figcaption>Sorted and filed before anyone opens the inbox.</figcaption>
-        </figure></div>
-      <div class="job"><h3 class="h3">AI drafts, a person signs</h3><ul><li>Replies to customers</li><li>Status updates and first-pass briefs</li></ul>
-        <figure class="ex" aria-label="Example: a quote reply, approved">
-          <div class="ex-head"><span>Quote reply</span><span class="ex-tag">Draft</span></div>
-          <p class="ex-body">Hi there, thanks for the request. 40 mugs with a two-color print comes to <b>$412</b>, delivered in two weeks. Want me to hold the slot?</p>
-          <div class="review approved"><span class="av av-role" aria-hidden="true"></span><span class="who"><b>Sales lead</b><i>Approved</i></span><span class="check" aria-hidden="true"></span></div>
-          <figcaption>Your sales lead reads it, taps Approve, and it goes out under their name.</figcaption>
-        </figure></div>
-      <div class="job"><h3 class="h3">People only</h3><ul><li>Prices, promises and people decisions</li><li>Anything sent in your name</li></ul>
-        <figure class="ex" aria-label="Example: a discount decision, people only">
-          <div class="ex-head"><span>Discount request</span><span class="ex-tag ex-people">People only</span></div>
-          <p class="ex-body">Repeat customer asks for 15% off a $3,800 order. Margin at list is 31%; at 15% off it is 22%.</p>
-          <div class="ex-decide"><span class="ex-lock" aria-hidden="true"></span><span>AI lays out the numbers. The yes is the owner’s.</span></div>
-          <figcaption>No draft, no auto-send. A person decides, every time.</figcaption>
-        </figure></div>
+    <div class="lanes3">
+      <div class="lane3"><h3 class="h3 lane-t"><svg class="lic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 13.7-5.6"/><path d="M18 3v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6"/><path d="M6 21v-4h4"/></svg>AI handles it</h3><p>Repeat work with a clear right answer. It runs on its own and keeps a log you can check.</p></div>
+      <div class="lane3 ok"><h3 class="h3 lane-t"><svg class="lic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3"/><path d="M14 8l3 3"/></svg>AI drafts, you approve</h3><p>Anything a customer or client will read. AI writes it, a person approves it, and it goes out under their name.</p></div>
+      <div class="lane3"><h3 class="h3 lane-t"><svg class="lic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg>People decide</h3><p>Prices, promises and people decisions. AI can lay out the numbers. A person makes the call.</p></div>
+    </div>
+    <div class="so" role="table" aria-label="Example sign-off sheet">
+      <div class="so-cap"><b>Your sign-off sheet</b><span>An example from a small print shop</span></div>
+      <div class="so-h" role="row"><span role="columnheader">Task</span><span role="columnheader">Who does it</span><span role="columnheader">Who signs off</span></div>
+      <div class="so-r" role="row"><div class="so-task" role="cell"><b>Sort the shared inbox</b><span>Billing, support and sales, every morning</span></div><div class="so-who" role="cell"><svg class="lic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 13.7-5.6"/><path d="M18 3v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6"/><path d="M6 21v-4h4"/></svg>AI handles it</div><div class="so-sign none" role="cell"><span class="mk" aria-hidden="true"></span><span><b>No sign-off</b><i>You can check the log</i></span></div></div><div class="so-r" role="row"><div class="so-task" role="cell"><b>Match payments to invoices</b><span>38 this week</span></div><div class="so-who" role="cell"><svg class="lic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 13.7-5.6"/><path d="M18 3v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6"/><path d="M6 21v-4h4"/></svg>AI handles it</div><div class="so-sign none" role="cell"><span class="mk" aria-hidden="true"></span><span><b>No sign-off</b><i>You can check the log</i></span></div></div><div class="so-r" role="row"><div class="so-task" role="cell"><b>Reply to quote requests</b><span>40 mugs, two-color print, $412</span></div><div class="so-who" role="cell"><svg class="lic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3"/><path d="M14 8l3 3"/></svg>AI drafts, you approve</div><div class="so-sign ok" role="cell"><span class="mk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 12.4l3.4 3.4L17 9.2"/></svg></span><span><b>Sales lead</b><i>Approved, sent under their name</i></span></div></div><div class="so-r" role="row"><div class="so-task" role="cell"><b>Weekly client update</b><span>Status, dates and next steps</span></div><div class="so-who" role="cell"><svg class="lic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3"/><path d="M14 8l3 3"/></svg>AI drafts, you approve</div><div class="so-sign ok" role="cell"><span class="mk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 12.4l3.4 3.4L17 9.2"/></svg></span><span><b>Account manager</b><i>Approved</i></span></div></div><div class="so-r" role="row"><div class="so-task" role="cell"><b>15% off for a repeat customer</b><span>Margin drops from 31% to 22%</span></div><div class="so-who" role="cell"><svg class="lic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg>People decide</div><div class="so-sign decide" role="cell"><span class="mk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3"/><path d="M6.5 18.5c.7-2.8 2.9-4.3 5.5-4.3s4.8 1.5 5.5 4.3"/></svg></span><span><b>Owner</b><i>AI did the math</i></span></div></div>
     </div>
   </div>
 </section>
