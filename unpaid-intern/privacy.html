@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy | Unpaid Intern | Kevin Middleton</title>
+<meta name="description" content="What Unpaid Intern reads, where your notes live, and what goes online. Short version: no server, no tracking, plain files you own.">
+<meta name="author" content="Kevin Middleton">
+<link rel="canonical" href="https://middleton.io/unpaid-intern/privacy.html">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<meta name="theme-color" content="#FFF8EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16131F" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="unpaid-intern.css?v=c01ae70a">
+<!-- Privacy-friendly analytics by Plausible (its own site: middleton.io/unpaid-intern) -->
+<script async src="https://plausible.io/js/pa-tLGDryChx2FaXikGiznBN.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+<style>
+  .prose h3 { margin: 2rem 0 .5rem; font-size: 1.2rem; letter-spacing: -.01em; }
+  .prose ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+  .prose li { margin: 0 0 .4rem; }
+  .prose .eff { color: var(--ui-ink2); }
+</style>
+</head>
+<body class="p-intern">
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand plausible-event-name=UnpaidIntern+Privacy+Brand" href="./" aria-label="Unpaid Intern home"><img src="images/mark.svg" width="40" height="30" alt="">Unpaid Intern</a>
+    <a class="btn small gh plausible-event-name=UnpaidIntern+Privacy+GitHub" href="https://github.com/kevinmmiddleton/unpaid-intern" target="_blank" rel="noopener noreferrer">GitHub<span class="vh"> (opens in a new tab)</span></a>
+    <a class="btn small inst plausible-event-name=UnpaidIntern+Privacy+Install" href="./#install">Install</a>
+  </div>
+</header>
+
+<main id="main">
+<section class="blk" aria-labelledby="privacy-h">
+  <div class="wrap">
+    <div class="sec-h"><h1 id="privacy-h">Privacy</h1><span class="k">Unpaid Intern</span></div>
+    <div class="prose">
+      <p class="eff">Effective November 28, 2026.</p>
+
+      <p><strong>The short version.</strong> Unpaid Intern has no server and collects nothing. Your notes are plain files in a folder you pick. I never see them, and the plugin sends nothing to me or anyone else.</p>
+
+      <h3>What it reads</h3>
+      <ul>
+        <li>What you hand it: meeting transcripts, docs, notes, and anything you paste or drop in.</li>
+        <li>The files in your workspace folder.</li>
+        <li>Only if you connect them: your mail, calendar, chat, tracker, or wiki, through connectors you sign in to yourself. A connector signs in as you and sees only what you can already see.</li>
+      </ul>
+
+      <h3>Where your notes live</h3>
+      <p>In markdown files, in the folder you choose on your own computer. Your AI assistant (Claude or Codex) reads and writes them while it does what you asked. What that assistant processes is covered by its own privacy terms, the same as anything else you share with it.</p>
+      <p>Chats with no folder (Claude on the web, or the Claude app without Cowork) don't keep files between sessions. There, at the end of a session, your intern packs your folder into a zip for you to download and keep.</p>
+      <p>Before it files what you drop in, it checks for sensitive details like passwords, account numbers, and pay, and keeps them out of your notes.</p>
+
+      <h3>Connectors and the services behind them</h3>
+      <p>The Claude plugin lists five connectors: Gmail and Google Calendar (no fixed address; you use the ones your Claude account offers), Slack (<code>mcp.slack.com</code>), Atlassian (<code>mcp.atlassian.com</code>), and Notion (<code>mcp.notion.com</code>). Each is run by that company. Nothing goes to any of them until you sign in. After that, a connector receives the requests your assistant makes for you, like "find this week's emails from Dana," and returns what your account can see. That company's privacy policy applies.</p>
+      <p>Setup can also help you connect other tools from its catalog. Same rule: each one only when you choose it and sign in.</p>
+      <p>The Slack entry includes a public sign-in app ID. It is not a secret and carries no data about you.</p>
+
+      <h3>What its own code does</h3>
+      <ul>
+        <li><strong>The notes script</strong> (<code>brain.py</code>) handles dates, due lists, status tables, and the sensitive-detail check. It never touches the network.</li>
+        <li><strong>The connection helper</strong> (<code>connect.py</code>) plans connections and explains error messages, offline. One command, <code>check</code>, goes online, and only when you ask. It sends a standard hello request to each connector's public address to see whether your network can reach it. It does not sign in and sends no account data and nothing about you.</li>
+        <li><strong>The safety check</strong> (Claude Code and Cowork) runs on your computer and asks you before connector tools that send, share, change, or delete something. It sends nothing anywhere.</li>
+      </ul>
+
+      <h3>No tracking inside the plugin</h3>
+      <p>No analytics, no telemetry, no crash reports, no usage pings. I can't see who uses it or how.</p>
+
+      <h3>This website</h3>
+      <p>This page and the Unpaid Intern page use <a href="https://plausible.io/data-policy" target="_blank" rel="noopener noreferrer">Plausible Analytics</a> to count visits and button clicks, like which download people pick. Plausible uses no cookies and keeps no personal data. There are no ad trackers on this site.</p>
+
+      <h3>Changes</h3>
+      <p>If any of this changes, I'll update this page and the date at the top. Every past version is in this page's <a href="https://github.com/kevinmmiddleton/about/commits/main/unpaid-intern/privacy.html" target="_blank" rel="noopener noreferrer">GitHub history</a>.</p>
+
+      <h3>Questions</h3>
+      <p>Email <a class="plausible-event-name=UnpaidIntern+Privacy+Email" href="mailto:kevin@middleton.io">kevin@middleton.io</a>, or <a href="https://github.com/kevinmmiddleton/unpaid-intern/issues/new/choose" target="_blank" rel="noopener noreferrer">open an issue on GitHub</a>.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="big">The only intern who should be unpaid.</p>
+    <div class="cols">
+      <a class="btn plausible-event-name=UnpaidIntern+Privacy+Hire" href="./#install">Hire the intern <span class="arr" aria-hidden="true"></span></a>
+      <nav aria-label="More from Kevin">
+        <a class="k" href="./">Unpaid Intern</a>
+        <a class="k" href="https://github.com/kevinmmiddleton/unpaid-intern" target="_blank" rel="noopener noreferrer">GitHub<span class="vh"> (opens in a new tab)</span></a>
+        <a class="k" href="https://middleton.io/officehours/">Office Hours</a>
+        <a class="k" href="https://middleton.io/">middleton.io</a>
+      </nav>
+    </div>
+    <small>Made by Kevin Middleton. Free and open source under the MIT license.</small>
+  </div>
+</footer>
+</body>
+</html>
